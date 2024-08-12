@@ -1,0 +1,37 @@
+import React,{useState} from 'react';
+// import { Link } from 'react-router-dom'
+import '../Assets/css/sidebar.css'
+import rightArrow from '../Assets/img/right-arrow.png';
+import leftArrow from '../Assets/img/left-arrow.png';
+import Tab from './Tab';
+import MiniSidebar from './MiniSidebar';
+
+const Sidebar = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [isshow, setIsShow] = useState(true);
+
+  const openNav = () => {
+    setIsOpen(true);
+    setIsShow(false);
+  };
+
+  const closeNav = () => {
+    setIsOpen(false);
+    setIsShow(true);
+  };
+
+  return (
+    <div>
+      {/* Sidebar */}
+        <div id="mySidebar" className="sidebar" style={{ width: isOpen ? '300px' : '70px',  transition: '0.2s'}} >
+            {isshow ?
+                <div  className="openbtn" onClick={openNav} ><img src={rightArrow} alt='aaa'></img></div> :
+                <div  className="closebtn" onClick={closeNav} ><img src={leftArrow} alt='aaa'></img></div>
+                }
+             {isshow ? <MiniSidebar/>:<Tab/>}  
+        </div>
+    </div>
+  );
+};
+
+export default Sidebar;

@@ -1,0 +1,47 @@
+.sidebar {
+    height: 100%;
+    width: 300px;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #ebe6e0;
+    border-right: 1px solid #837d6d;
+    box-shadow: 5px 0 8px rgba(255, 246, 246, 0.5); /* Shadow effect */
+    overflow: hidden;
+    transition: 0.3s;
+    padding-top: 90px;
+  }
+  
+  .sidebar a:hover {
+    color: #f1f1f1;
+  }
+
+  .openbtn {
+    height: 20px;
+    position: absolute;
+    top: 95px;
+    right: 27px;
+    font-size: 52px;
+    margin-left: 56px;
+    width: 20px
+  }
+  .closebtn{
+    height: 20px;
+    width: 20px;
+    position: absolute;
+    top: 85px;
+    right: -5px;
+    font-size: 36px;
+    margin-left: 50px;
+  }
+  #main {
+    transition: margin-left .5s;
+    padding: 16px;
+  }
+  
+  /* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
+  @media screen and (max-height: 450px) {
+    .sidebar {padding-top: 15px;}
+    .sidebar a {font-size: 18px;}
+  }
