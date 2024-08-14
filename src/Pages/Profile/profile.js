@@ -128,7 +128,7 @@ const  Profile = () => {
                                         <input name="Date" type="Date" required className="w-full text-[#70685a] border border-[#70685a] px-4 py-2 outline-[#70685a]" />
                                     </div>
                                     <div style={{ width: '20%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                        <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">eight</label>
+                                        <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">999才</label>
                                     </div>
                                     <div style={{ width: '10%', flexDirection: 'column', }} className='flex text-right'>
                                         <label className="text-[#70685a] font-bold mb-2 block text-right py-1 !mb-0">性別</label>
