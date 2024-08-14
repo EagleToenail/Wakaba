@@ -21,14 +21,14 @@ export default function TabContent1() {
                 </ul>
 
                 <div className="mt-2">
-                    <h6 className="text-white font-bold bg-[#655b4a] px-4 py-1 text-[15px]">Whole</h6>
+                    <h6 className="text-white font-bold bg-[#655b4a] px-4 py-1 text-[15px]">全体</h6>
                     <ul className="mt-2 px-3">
                         <li className='flex py-1'>
                             <button type="button"
                                 className="rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none text-[15px]">qw</button>
                             <Link
-                                className="text-black  text-[15px] block rounded px-7 transition-all">
-                                generally
+                                className="text-black font-bold  text-[15px] block rounded px-7 transition-all">
+                                一般
                             </Link>
                         </li>
                         <li className='flex py-1'>
@@ -36,7 +36,7 @@ export default function TabContent1() {
                                 className="rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none text-[15px]">qw</button>
                             <Link
                                 className="text-black font-bold  text-[15px] block rounded px-7 transition-all">
-                                Known to all
+                                全体周知
                             </Link>
                         </li>
                         <hr className="my-3  mr-1 border-gray-400" />
@@ -45,7 +45,7 @@ export default function TabContent1() {
                                 className="rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none text-[15px]">qw</button>
                             <Link
                                 className="text-black font-semibold  text-[15px] block rounded px-7 transition-all">
-                                WAKABA Password
+                                WAKABA パスワード
                             </Link>
                         </li>
                         <li className='flex py-1'>
@@ -57,7 +57,7 @@ export default function TabContent1() {
                             </button>
                             <Link
                                 className="text-black font-bold  text-[15px] block rounded px-1 transition-all">
-                                Yahoo Actions
+                                ヤフオク
                             </Link>
                         </li>
                         <li className='flex py-1'>
@@ -65,7 +65,7 @@ export default function TabContent1() {
                                 className="rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none text-[15px]">qw</button>
                             <Link
                                 className="text-black font-bold  text-[15px] block rounded px-7 transition-all">
-                                Execute meeting
+                                幹部会議連絡
                             </Link>
                         </li>
                         <li className='flex py-1'>

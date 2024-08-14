@@ -11,7 +11,7 @@ export default function Navbar() {
 
   return (
     <>
-    <header className='flex shadow-md  sm:px-3 bg-[#524c3b] font-[sans-serif] max-h-[60px] tracking-wide relative z-50 justify-center'>
+    <header className='flex shadow-md  sm:px-3 bg-[#524c3b] font-[sans-serif] max-h-[60px] tracking-wide relative z-50 justify-end'>
       <div className='flex flex-wrap items-center justify-between gap-5 '>
         <div id="collapseMenu" style={{ display: isOpen ? 'block' : 'none' }}
           className='max-lg:hidden lg:!block max-lg:before:fixed max-lg:before:bg-black max-lg:before:opacity-50 max-lg:before:inset-0 max-lg:before:z-50'>
@@ -27,7 +27,7 @@ export default function Navbar() {
           </button>
 
           <ul
-            className='lg:flex py-2 gap-x-14 max-lg:space-y-3 max-lg:fixed max-lg:bg-white max-lg:w-1/2 max-lg:min-w-[300px] max-lg:top-0 max-lg:left-0 max-lg:p-6 max-lg:h-full max-lg:shadow-md max-lg:overflow-auto z-50'>
+            className='lg:flex py-2  max-lg:space-y-3 max-lg:fixed max-lg:bg-white max-lg:w-1/2 max-lg:min-w-[300px] max-lg:top-0 max-lg:left-0 max-lg:p-6 max-lg:h-full max-lg:shadow-md max-lg:overflow-auto z-50'>
             <li className='max-lg:border-b border-gray-300 max-lg:py-4 px-3'>
                 <Link className='text-[#655b4a] block font-semibold text-[15px]'>
                         <button type="button" className="px-5 text-[15px] font-semibold  text-[#655b4a] text-sm tracking-wider  outline-none bg-white hover:bg-[#222] active:bg-[#333]">検索</button>

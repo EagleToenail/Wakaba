@@ -1,6 +1,6 @@
 .sidebar {
     height: 100%;
-    width: 300px;
+    width: 250px;
     position: fixed;
     z-index: 1;
     top: 0;
@@ -8,7 +8,9 @@
     background-color: #ebe6e0;
     border-right: 1px solid #837d6d;
     box-shadow: 5px 0 8px rgba(255, 246, 246, 0.5); /* Shadow effect */
-    overflow: hidden;
+    /* overflow: auto; */
+    overflow-y: scroll;
+    overflow-x: hidden;
     transition: 0.3s;
     padding-top: 90px;
   }

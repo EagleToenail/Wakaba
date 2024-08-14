@@ -1,0 +1,54 @@
+import React from 'react';
+import { Link } from 'react-router-dom';
+import Titlebar from '../../../Components/Common/Titlebar';
+
+
+const ToMoveInputForm = () => {
+    const title = 'タイトルタイトル';
+    return (
+        <>
+            <Titlebar title={title} />
+            <h2 className="text-[#70685a] text-center font-bold text-[15px] flex justify-end mt-3" style={{ paddingRight: '1%' }}>2023/12/01(金)&nbsp;&nbsp;21:51</h2>
+            <div className="bg-[trasparent] font-[sans-serif] mt-10">
+                <div className=" flex flex-col items-center justify-center py-6 px-4">
+                    <div className="w-full pt-3" style={{ maxWidth: '50em' }}>
+                        <div className="p-8 rounded-2xl">
+                            <h2 className="text-[#70685a] text-center text-2xl font-bold flex justify-center">asfdadfs</h2>
+                            <h2 className="text-[#70685a] text-center text-2xl font-bold flex justify-center">(To Move Input Form)</h2>
+                            <form className="mt-8 space-y-6">
+                                <div className='flex'>
+                                    <div style={{ width: '20%', flexDirection: 'column', }} className='flex align-center justify-around'>
+                                        <label className="text-[#70685a] font-bold mb-2 block text-right mr-5 !mb-0">emailAddress</label>
+                                        <label className="text-[#70685a] font-bold mb-2 block text-right mr-5 !mb-0">Pass</label>
+                                    </div>
+
+                                    <div style={{ width: '80%', paddingRight: '20%'}} className='!mt-0'>
+                                        <div className="relative flex items-center">
+                                            <input name="username" type="text" required className="w-full text-gray-800 text-sm border border-gray-300 px-4 py-3 outline-blue-600" />
+                                        </div>
+                                        <div className="relative flex items-center mt-5">
+                                            <input name="password" type="password" required className="w-full text-gray-800 text-sm border border-gray-300 px-4 py-3 outline-blue-600" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className='flex justify-between !mt-5' >
+                                    
+                                    <div className="!mt-3 flex" style={{ marginBottom: '10px',width:'80%',paddingLeft: '20%' }}>
+                                        <div className='w-full flex justify-center'>
+                                        <button type="button" className="w-30 px-5 py-2 font-bold tracking-wide rounded-lg justify-center text-white bg-[#e87a00] hover:bg-blue-700 focus:outline-none">
+                                            <Link to='/editprofile' className='p-3  '>送信</Link>
+                                        </button>
+                                        </div>
+                                    </div>
+                                    <label className="text-[#70685a] font-bold mb-2 block text-left flex justify-end" style={{ flexDirection: 'column',width:'20%' }}><u> <Link to='/login'>キャンセル</Link></u></label>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </>
+    );
+};
+
+export default ToMoveInputForm;

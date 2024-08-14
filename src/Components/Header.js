@@ -31,7 +31,7 @@ export default function Header() {
           </button>
 
           <ul
-            className='lg:flex gap-x-14 max-lg:space-y-3 max-lg:fixed max-lg:bg-white max-lg:w-1/2 max-lg:min-w-[300px] max-lg:top-0 max-lg:left-0 max-lg:p-6 max-lg:h-full max-lg:shadow-md max-lg:overflow-auto z-50'>
+            className='lg:flex  max-lg:space-y-3 max-lg:fixed max-lg:bg-white max-lg:w-1/2 max-lg:min-w-[300px] max-lg:top-0 max-lg:left-0 max-lg:p-6 max-lg:h-full max-lg:shadow-md max-lg:overflow-auto z-50'>
             <li className='max-lg:border-b-0 border-gray-300 max-lg:py-3 px-3'>
               <Link
                 className='text-[#655b4a] block font-semibold text-[15px]'>2024/12/01(金)</Link>
@@ -45,16 +45,28 @@ export default function Header() {
               </Link>
             </li>
             <li className='max-lg:border-b border-gray-300 max-lg:py-3 px-3'><Link
-              className='text-[#655b4a] text-gray-500 block font-semibold text-[15px]'>R</Link>
+              className='text-[#655b4a] block font-semibold text-[15px]'>R</Link>
+            </li>
+            <li className='max-lg:border-b border-gray-300 flex align-center justify-center max-lg:py-3 px-3'><Link
+              className='text-[#655b4a] text-gray-500 block font-semibold text-[15px]'>
+                    <svg xmlns="http://www.w3.org/2000/svg" className="w-4 fill-[#655b4a]" viewBox="0 0 55.753 55.753">
+      <path
+        d="M12.745 23.915c.283-.282.59-.52.913-.727L35.266 1.581a5.4 5.4 0 0 1 7.637 7.638L24.294 27.828l18.705 18.706a5.4 5.4 0 0 1-7.636 7.637L13.658 32.464a5.367 5.367 0 0 1-.913-.727 5.367 5.367 0 0 1-1.572-3.911 5.369 5.369 0 0 1 1.572-3.911z"
+        data-original="#000000" />
+    </svg>
+              </Link>
+            </li>
+            <li className='max-lg:border-b border-gray-300 flex align-center justify-center max-lg:py-3 px-3'><Link
+              className='text-[#655b4a] text-gray-500 block font-semibold text-[15px]'>
+                    <svg xmlns="http://www.w3.org/2000/svg" className="w-4 fill-[#655b4a] rotate-180" viewBox="0 0 55.753 55.753">
+      <path
+        d="M12.745 23.915c.283-.282.59-.52.913-.727L35.266 1.581a5.4 5.4 0 0 1 7.637 7.638L24.294 27.828l18.705 18.706a5.4 5.4 0 0 1-7.636 7.637L13.658 32.464a5.367 5.367 0 0 1-.913-.727 5.367 5.367 0 0 1-1.572-3.911 5.369 5.369 0 0 1 1.572-3.911z"
+        data-original="#000000" />
+    </svg>
+              </Link>
             </li>
             <li className='max-lg:border-b border-gray-300 max-lg:py-3 px-3'><Link
-              className='text-[#655b4a] text-gray-500 block font-semibold text-[15px]'>P</Link>
-            </li>
-            <li className='max-lg:border-b border-gray-300 max-lg:py-3 px-3'><Link
-              className='text-[#655b4a] text-gray-500 block font-semibold text-[15px]'>N</Link>
-            </li>
-            <li className='max-lg:border-b border-gray-300 max-lg:py-3 px-3'><Link
-              className='text-[#655b4a] text-gray-500 block font-semibold text-[15px]'>At 99,000</Link>
+              className='text-[#655b4a] block font-semibold text-[15px]'>At 99,000</Link>
             </li>
             <li className='max-lg:border-b border-gray-300 max-lg:py-3 px-3'><Link
               className='text-[#655b4a] block font-semibold text-[15px]'>Au 99,000</Link>
@@ -76,7 +88,7 @@ export default function Header() {
 
         <div className='flex max-lg:ml-auto space-x-3'>
           <button
-            className='px-4 text-sm rounded-full font-bold text-white border-2 border-[#655b4a]  transition-all ease-in-out duration-300 hover:bg-transparent text-[#655b4a]'>ログアウト</button>
+            className='px-4 text-sm rounded-full font-bold border-2 border-[#655b4a]  transition-all ease-in-out duration-300 hover:bg-transparent text-[#655b4a]'><Link to="/logout">ログアウト</Link></button>
 
           <button id="toggleOpen" className='lg:hidden' onClick={handleClick}>
             <svg className="w-7 h-7" fill="#000" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
