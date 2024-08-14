@@ -28,7 +28,9 @@ const  Profile = () => {
                 <div className=" flex flex-col items-center justify-center px-4">
                     <div className="w-full pt-3" style={{ maxWidth: '50em' }}>
                         <div className=" rounded-2xl">
-                            <h2 className="text-[#70685a] text-center text-2xl font-bold flex justify-center">New staff rgisteration</h2>
+                            <h2 className="text-[#70685a] text-center text-2xl font-bold flex justify-center">規約スタッフ登録 </h2>
+                            <h2 className="text-[#70685a] text-center text-2xl font-bold flex justify-center">(本登録  入カフォーム) </h2>
+
                             <h2 className="text-[#70685a] text-center text-[10px] flex justify-end">
                                 <svg className="w-3 fill-yellow-600" viewBox="0 0 14 13" fill="yellow"
                                 xmlns="http://www.w3.org/2000/svg">
@@ -40,7 +42,7 @@ const  Profile = () => {
                                 {/* new */}
                                 <div className='flex'>
                                     <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                        <label className="text-[#70685a] font-bold mb-2 block text-left mr-10 py-1 !mb-0">新しいパスワード</label>
+                                        <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">メールアドレス</label>
                                     </div>
                                     <div style={{ width: '75%', flexDirection: 'column', }} className='flex align-center justify-around'>
                                         <label className="text-[#70685a] font-bold mb-2 block text-left mr-10 py-1 !mb-0">OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO</label>
@@ -49,7 +51,7 @@ const  Profile = () => {
                                 {/* new */}
                                 <div className='flex'>
                                     <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                        <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">新しいパスワード</label>
+                                        <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">パスワード</label>
                                     </div>
                                     <div style={{ width: '75%', flexDirection: 'column', }} className='flex align-center justify-around'>
                                         <label className="text-[#70685a] font-bold mb-2 block text-left mr-10 py-2 !mb-0">OOOOOOOOOOOOOOOOOOOOOO</label>
@@ -58,19 +60,19 @@ const  Profile = () => {
                                 {/* new */}
                                 <div className='flex'>
                                     <div style={{ width: '25%', flexDirection: 'column', }} className='!mb-0 flex align-center justify-around'>
-                                        <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">新しいパスワード</label>
+                                        <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">店舗名</label>
                                     </div>
                                     <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
                                         <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-2 !mb-0">OOOOOOOOOOOOO</label>
                                     </div>
                                     <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                        <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-3 !mb-0">Drop1</label>
+                                        <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-3 !mb-0">種別</label>
                                     </div>
                                     <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
                                         <div className="relative font-[sans-serif] w-max mx-auto">
                                             <button type="button" id="dropdownToggle1"
                                                 className="px-5 py-2 border border-gray-300 text-[#70685a] outline-none">
-                                                Dropdown menu
+                                                アルバイト
                                                 <svg xmlns="http://www.w3.org/2000/svg" className="w-3 fill-gray-500 inline ml-3" viewBox="0 0 24 24">
                                                     <path fillRule="evenodd"
                                                         d="M11.99997 18.1669a2.38 2.38 0 0 1-1.68266-.69733l-9.52-9.52a2.38 2.38 0 1 1 3.36532-3.36532l7.83734 7.83734 7.83734-7.83734a2.38 2.38 0 1 1 3.36532 3.36532l-9.52 9.52a2.38 2.38 0 0 1-1.68266.69734z"
@@ -90,7 +92,7 @@ const  Profile = () => {
                                 {/* new */}
                                 <div className='flex'>
                                     <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                        <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">Five</label>
+                                        <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">お名前</label>
                                     </div>
                                     <div style={{ width: '50%', flexDirection: 'column', }} className='flex align-center justify-around'>
                                         <input name="ads" type="text" required className="w-full text-[#70685a] border border-[#70685a] px-4 py-2 outline-[#70685a]" />
@@ -99,7 +101,7 @@ const  Profile = () => {
                                 {/* new */}
                                 <div className='flex'>
                                     <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                        <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">Six</label>
+                                        <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">カタカナ名</label>
                                     </div>
                                     <div style={{ width: '75%', flexDirection: 'column', }} className='flex align-center justify-around'>
                                         <input name="ads" type="text" required className="w-full text-[#70685a] border border-[#70685a] px-4 py-2 outline-[#70685a]" />
@@ -108,7 +110,7 @@ const  Profile = () => {
                                 {/* new */}
                                 <div className='flex'>
                                     <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                        <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">Seven</label>
+                                        <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">お電話番号</label>
                                     </div>
                                     <div style={{ width: '35%', flexDirection: 'column', }} className='flex align-center justify-around'>
                                         <InputComponent type='text' required/>
@@ -117,7 +119,7 @@ const  Profile = () => {
                                 {/* new */}
                                 <div className='flex'>
                                     <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                        <label className="text-[#70685a] font-bold mb-2 block text-right mr-11 py-1 !mb-0">eight</label>
+                                        <label className="text-[#70685a] font-bold mb-2 block text-right mr-11 py-1 !mb-0">生年月日</label>
                                     </div>
                                     <div style={{ width: '15%', flexDirection: 'column', }} className='flex align-center justify-around'>
                                         <input name="ads" type="text" required className="w-full text-[#70685a] border border-[#70685a] px-4 py-2 outline-[#70685a]" />
@@ -129,7 +131,7 @@ const  Profile = () => {
                                         <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">eight</label>
                                     </div>
                                     <div style={{ width: '10%', flexDirection: 'column', }} className='flex text-right'>
-                                        <label className="text-[#70685a] font-bold mb-2 block text-right py-1 !mb-0">Gender</label>
+                                        <label className="text-[#70685a] font-bold mb-2 block text-right py-1 !mb-0">性別</label>
                                     </div>
                                     <div style={{ width: '20%', flexDirection: 'column', }} className='flex align-center justify-around'>
                                         <div className="relative font-[sans-serif] w-max mx-auto">
@@ -144,9 +146,9 @@ const  Profile = () => {
                                             </button>
 
                                             <ul id="dropdownMenu" className='text-[#70685a] absolute hidden shadow-[0_8px_19px_-7px_rgba(6,81,237,0.2)] py-2 z-[1000] min-w-full w-max divide-y max-h-96 overflow-auto'>
-                                                <li className='py-3 px-5 text-[#70685a] cursor-pointer'>Man</li>
-                                                <li className='py-3 px-5 text-[#70685a] cursor-pointer'>Woman</li>
-                                                <li className='py-3 px-5 text-[#70685a] cursor-pointer'>other</li>
+                                                <li className='py-3 px-5 text-[#70685a] cursor-pointer'>男</li>
+                                                <li className='py-3 px-5 text-[#70685a] cursor-pointer'>女性</li>
+                                                <li className='py-3 px-5 text-[#70685a] cursor-pointer'>他の</li>
                                             </ul>
                                         </div>
                                     </div>
@@ -154,7 +156,7 @@ const  Profile = () => {
                                 {/* new */}
                                 <div className='flex'>
                                     <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                        <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">nine</label>
+                                        <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">本人確認書類</label>
                                     </div>
                                     <div style={{ width: '10%', flexDirection: 'column', }} className='flex align-center justify-around'>
                                         <button type="button"
@@ -170,7 +172,7 @@ const  Profile = () => {
                                         <div className="relative font-[sans-serif] w-full mx-auto">
                                             <button type="button" id="dropdownToggle3"
                                                 className="w-[280px] px-5 py-2 border border-[#70685a] text-[#70685a] outline-none">
-                                                Men
+                                                マイナンバーカード
                                                 <svg xmlns="http://www.w3.org/2000/svg" className="w-3 fill-gray-500 inline ml-3" viewBox="0 0 24 24">
                                                     <path fillRule="evenodd"
                                                         d="M11.99997 18.1669a2.38 2.38 0 0 1-1.68266-.69733l-9.52-9.52a2.38 2.38 0 1 1 3.36532-3.36532l7.83734 7.83734 7.83734-7.83734a2.38 2.38 0 1 1 3.36532 3.36532l-9.52 9.52a2.38 2.38 0 0 1-1.68266.69734z"
@@ -187,19 +189,19 @@ const  Profile = () => {
                                     </div>
                                     <div style={{ width: '20%', flexDirection: 'column', }} className='flex align-center justify-around'>
                                         <button type="button"
-                                            className= "py-2 min-w-[160px] text-[#70685a] rounded-full tracking-wider font-medium outline-none border border-[#70685a] ">Purple</button>
+                                            className= "py-2 min-w-[160px] text-[#70685a] rounded-full tracking-wider font-medium outline-none border border-[#70685a] ">画像と情報表示</button>
                                     </div>
                                 </div>
                                 {/* new */}
                                 <div className='flex'>
                                     <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                        <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">ten</label>
+                                        <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">都道府県</label>
                                     </div>
                                     <div style={{ width: '30%', flexDirection: 'column', }} className='flex align-center justify-around'>
                                         <div className="relative font-[sans-serif] w-full mx-auto">
                                             <button type="button" id="dropdownToggle3"
                                                 className="w-full px-5 py-2 border border-[#70685a] text-[#70685a] outline-none">
-                                                Men
+                                                神奈川県
                                                 <svg xmlns="http://www.w3.org/2000/svg" className="w-3 fill-gray-500 inline ml-3" viewBox="0 0 24 24">
                                                     <path fillRule="evenodd"
                                                         d="M11.99997 18.1669a2.38 2.38 0 0 1-1.68266-.69733l-9.52-9.52a2.38 2.38 0 1 1 3.36532-3.36532l7.83734 7.83734 7.83734-7.83734a2.38 2.38 0 1 1 3.36532 3.36532l-9.52 9.52a2.38 2.38 0 0 1-1.68266.69734z"
@@ -215,7 +217,7 @@ const  Profile = () => {
                                         </div>
                                     </div>
                                     <div style={{ width: '20%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                        <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">nine</label>
+                                        <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">市町村</label>
                                     </div>
                                     <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
                                         <input name="ads" type="text" required className="w-full text-[#70685a] border border-[#70685a] px-4 py-2 outline-[#70685a]" />
@@ -224,7 +226,7 @@ const  Profile = () => {
                                 {/* new */}
                                 <div className='flex'>
                                     <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                        <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">Eleven</label>
+                                        <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">住所詳細</label>
                                     </div>
                                     <div style={{ width: '75%', flexDirection: 'column', }} className='flex align-center justify-around'>
                                         <input name="ads" type="text" required className="w-full text-[#70685a] border border-[#70685a] px-4 py-2 outline-[#70685a]" />
@@ -233,27 +235,27 @@ const  Profile = () => {
                                 {/* new */}
                                 <div className='flex'>
                                     <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                        <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">Tweven</label>
+                                        <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">書類</label>
                                     </div>
                                     <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
                                         <button type="button"
-                                            className= " py-2 min-w-[160px] text-[#70685a] rounded-full tracking-wider font-medium outline-none border border-[#70685a] ">Purple</button>
+                                            className= " py-2 min-w-[160px] text-[#70685a] rounded-full tracking-wider font-medium outline-none border border-[#70685a] ">履歴書</button>
                                     </div>
                                     <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around px-5'>
                                         <button type="button"
-                                            className= " py-2 min-w-[160px] text-[#70685a] rounded-full tracking-wider font-medium outline-none border border-[#70685a] ">Purple</button>
+                                            className= " py-2 min-w-[160px] text-[#70685a] rounded-full tracking-wider font-medium outline-none border border-[#70685a] ">職務糸歴書</button>
                                     </div>
                                 </div>
                                 {/* new */}
                                 <div className='flex'>
                                     <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                        <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">Thirten</label>
+                                        <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">身分保証人</label>
                                     </div>
                                     <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
                                         <div className="relative font-[sans-serif] w-full mx-auto">
                                             <button type="button" id="dropdownToggle4" onClick={handleClick}
                                                 className="dropdown-menu w-full px-5 py-2 border border-[#70685a] text-[#70685a] text-sm">
-                                                Men
+                                                配偶者
                                                 <svg xmlns="http://www.w3.org/2000/svg" className="w-3 fill-gray-500 inline ml-3" viewBox="0 0 24 24">
                                                     <path fillRule="evenodd"
                                                         d="M11.99997 18.1669a2.38 2.38 0 0 1-1.68266-.69733l-9.52-9.52a2.38 2.38 0 1 1 3.36532-3.36532l7.83734 7.83734 7.83734-7.83734a2.38 2.38 0 1 1 3.36532 3.36532l-9.52 9.52a2.38 2.38 0 0 1-1.68266.69734z"
@@ -271,10 +273,10 @@ const  Profile = () => {
                                     </div>
                                     <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around px-5'>
                                         <button type="button"
-                                            className= "py-2 min-w-[160px] text-[#70685a] rounded-full text-sm tracking-wider font-medium outline-none border border-[#70685a] ">Purple</button>
+                                            className= "py-2 min-w-[160px] text-[#70685a] rounded-full text-sm tracking-wider font-medium outline-none border border-[#70685a] ">誓画像</button>
                                     </div>
                                 </div>
-                                <h2 className=" text-[#70685a] text-center text-2xl font-bold flex justify-center">resume</h2>
+                                <h2 className=" text-[#70685a] text-center text-2xl font-bold flex justify-center">スタッフ規約</h2>
                                 {/* <textarea placeholder='' rows="6"
                                     className="w-full px-4 text-[#70685a] boder border-[#70685a] focus:bg-transparent text-sm pt-3 outline-[#70685a] ">
                                     テキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキスト
@@ -304,7 +306,7 @@ const  Profile = () => {
                                 <div className="flex items-center justify-center !mt-10">
                                     <input id="checkbox1" type="checkbox"
                                         className="w-6 h-6 mr-3 focus:ring-1 focus:ring-offset-slate-200 focus:ring-offset-4 focus:ring-[#007bff]" />
-                                    <label htmlFor="checkbox1" className="text-black text-[20px]">Default checkbox</label>
+                                    <label htmlFor="checkbox1" className="text-black text-[20px]">規約に同意して </label>
                                 </div>
 
 
