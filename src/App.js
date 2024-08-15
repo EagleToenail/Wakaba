@@ -30,6 +30,7 @@ import PurchaseInvoiceForBroughtInItems from './Pages/PurchaseInvoiceForBroughtI
 import WholeSalerShippingList from './Pages/WholeSalerShippingList/wholeSalerShippingList';
 import PurchaseRequestFormForWholeSaler from './Pages/PurchaseRequestFormForWholeSaler/purchaseRequestFormForWholeSaler';
 import SalesSlip from './Pages/SalesSlip/salesSlip';
+import ContractorAssessmentSheet from './Pages/ContractorAssessmentSheet/contractorAssessmentSheet';
 
 function App() {
   return (
@@ -65,6 +66,7 @@ function App() {
             <Route path='/wholesalershippinglist' element={<WholeSalerShippingList/>}/>
             <Route path='/purchaserequestformforwholesaler' element={<PurchaseRequestFormForWholeSaler/>}/>
             <Route path='/salesslip' element={<SalesSlip/>}/>
+            <Route path='/contractorassessmentsheet' element={<ContractorAssessmentSheet/>}/>
           
        </Routes>
     </Router>

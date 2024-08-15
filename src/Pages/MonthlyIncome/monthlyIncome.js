@@ -1,7 +1,7 @@
 import React from 'react';
 // import { Link } from 'react-router-dom';
 import Titlebar from '../../Components/Common/Titlebar';
-import '../../Assets/css/table.css'
+import '../../Assets/css/showtable.css'
 
 
 const MonthlyIncome = () => {

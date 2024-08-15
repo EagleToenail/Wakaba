@@ -1,0 +1,58 @@
+/* .aaa {
+    border-collapse: collapse;
+    color:#70685a;
+    text-align: center;
+}
+
+td {
+    border: 1px solid #70685a;
+    border-collapse: collapse;
+    color:#70685a;
+    font-size: 15px;
+}
+thead{
+    padding-left: 20px !important;
+} */
+
+
+
+
+
+/* 
+
+const Table = {
+    borderCollapse: 'collapse',
+    color:'#70685a',
+    textAlign: 'center',
+    width:'100%',
+    alignItem:'center'
+  };
+
+const Th = {
+    border: '1px solid #70685a',
+    borderCollapse: 'collapse',
+    color:'#70685a',
+    fontSize: '15px'
+  };
+const Td = {
+    border: '1px solid #70685a',
+    borderCollapse: 'collapse',
+    color:'#70685a',
+    fontSize: '15px'
+  };
+
+  const myfirstTd = {
+    borderCollapse: 'collapse',
+    borderTop: '1px solid #fff',
+    borderLeft: '1px solid #fff',
+    borderBottom: '1px solid #fff'
+  };
+
+  const lastTd = {
+    borderCollapse: 'collapse',
+    borderTop: '1px solid #fff',
+    borderRight: '1px solid #fff',
+    borderBottom: '1px solid #fff'
+  }; 
+  
+  */

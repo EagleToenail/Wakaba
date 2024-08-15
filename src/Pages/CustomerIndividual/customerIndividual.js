@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import '../../Assets/css/table.css'
+import '../../Assets/css/showtable.css'
 import InputComponent from '../../Components/Common/InputComponent';
 import ButtonComponent from '../../Components/Common/ButtonComponent';
 // import LabelComponent from '../../Components/Common/LabelComponent';
