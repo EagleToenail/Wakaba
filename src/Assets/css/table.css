@@ -1,11 +1,10 @@
 table {
     border-collapse: collapse;
     color:#70685a;
+    text-align: center;
 }
 
 td {
-    text-align: right;
-    /* padding: 8px; */
     border: 1px solid #70685a;
     border-collapse: collapse;
     color:#70685a;

@@ -24,6 +24,10 @@ import WithdrawVariousPurchase from './Pages/WithdrawVariousPurchase/withdrawVar
 import WithdrawApply from './Pages/WithdrawApply/withdrawApply';
 import CustomerList from './Pages/CustomerList/customerList';
 import CustomerIndividual from './Pages/CustomerIndividual/customerIndividual';
+import PurchaseToRShop from './Pages/PurchaseToRShop/purchaseToRShop';
+import InvoiceForPurchaseOfBrought from './Pages/InvoiceForPurchaseOfBrought/invoiceforpurchaseofbrought';
+import PurchaseInvoiceForBroughtInItems from './Pages/PurchaseInvoiceForBroughtInItems/purchaseInvoiceForBroughtInItems';
+import WholeSalerShippingList from './Pages/WholeSalerShippingList/wholeSalerShippingList';
 
 function App() {
   return (
@@ -53,9 +57,12 @@ function App() {
             <Route path='/withdrawapply' element={<WithdrawApply/>}/>
             <Route path='/customerlist' element={<CustomerList/>}/>
             <Route path='/customerinvidual' element={<CustomerIndividual/>}/>
+            <Route path='/purchasetorshop' element={<PurchaseToRShop/>}/>
+            <Route path='/invoiceforpurchaseofbrought' element={<InvoiceForPurchaseOfBrought/>}/>
+            <Route path='/purchaseinvoiceforbroughtinitems' element={<PurchaseInvoiceForBroughtInItems/>}/>
+            <Route path='/wholesalershippinglist' element={<WholeSalerShippingList/>}/>
 
-            
-            
+          
        </Routes>
     </Router>
   );

@@ -1,13 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const Button = ({ onClick, children, type = 'button', className = '', disabled = false, style = {} }) => {
+const Button = ({ onClick, children, type = 'button', className, disabled = false, style = {} }) => {
   // Default style
   const defaultStyle = {
     // width: '100%',
     height:'40px',
     padding: '0.75rem',
-    backgroundColor:  '#f1ab27',
+    backgroundColor:  '#e87a00',
     color: '#fff',
     border: 'none',
     borderRadius: '10px',

@@ -42,7 +42,7 @@ const CustomerList = () => {
                     <label className="text-[#70685a] font-bold block text-center ">Search with </label>
                 </div>
                 <div className=' text-[#70685a] px-2 mr-2' style={{display:'flex',alignItems:'end'}}>
-                    < button type="button" style={{display:'flex',alignItem:'end'}} className="flex align-end w-20 px-3 py-1 font-bold tracking-wide justify-center text-white bg-[#a3a1c8] hover:bg-blue-700 focus:outline-none">
+                    < button type="button" style={{display:'flex',alignItem:'end'}} className="flex align-end w-20 px-3 py-1 font-bold rounded-md tracking-wide justify-center text-white bg-[#a3a1c8] hover:bg-blue-700 focus:outline-none">
                         LOGIN
                     </button>
                 </div>
