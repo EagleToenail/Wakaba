@@ -15,8 +15,8 @@ const  StartingWork = () => {
                 <div className=" flex flex-col items-center justify-center px-4">
                     <div className="w-full pt-3" style={{ maxWidth: '80em' }}>
                         <div className=" rounded-2xl">
-                            <h2 className="text-[#70685a] text-center text-2xl font-bold flex justify-center">New staff rgisteration</h2>
-                            <h2 className="text-[#ff0000] text-center text-2xl font-bold flex justify-center !mt-3">(New staff rgisteration)</h2>
+                            <h2 className="text-[#70685a] text-center text-2xl font-bold flex justify-center">始業作業</h2>
+                            <h2 className="text-[#ff0000] text-center text-2xl font-bold flex justify-center !mt-3">オープ時間の10:00までに，全て完了してください</h2>
                             <form className=" space-y-6 !mt-10">
                                 {/* new */}
                                 <div className='flex'>
@@ -28,7 +28,8 @@ const  StartingWork = () => {
                                         <label className="text-[#70685a] fold-semiblod mb-1 block text-center text-[20px] py-1 !mb-0">1.</label>
                                     </div>
                                     <div style={{ width: '85%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                        <label className="text-[#70685a] fold-semiblod mb-1 block text-left text-[20px] mr-10 py-1 !mb-0">OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO</label>
+                                        <label className="text-[#70685a] fold-semiblod mb-1 block text-left text-[20px] mr-10 py-1 !mb-0">
+                                        金庫金は、月次収支報告書とー致しましたか?</label>
                                     </div>
                                 </div>
                                 {/* new */}
@@ -41,7 +42,7 @@ const  StartingWork = () => {
                                         <label className="text-[#70685a] fold-semiblod mb-1 block text-center text-[20px] py-1 !mb-0">2.</label>
                                     </div>
                                     <div style={{ width: '85%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                        <label className="text-[#70685a] fold-semiblod mb-1 block text-left text-[20px] mr-10 py-1 !mb-0">OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO</label>
+                                        <label className="text-[#70685a] fold-semiblod mb-1 block text-left text-[20px] mr-10 py-1 !mb-0">掃除はしましたか？（受付カウンター、バシクヤード、床、掃除機、モフモフ,ウェットティッシュ）</label>
                                     </div>
                                 </div>
                                 {/* new */}
@@ -54,7 +55,7 @@ const  StartingWork = () => {
                                         <label className="text-[#70685a] fold-semiblod mb-1 block text-center text-[20px] py-1 !mb-0">3.</label>
                                     </div>
                                     <div style={{ width: '85%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                        <label className="text-[#70685a] fold-semiblod mb-1 block text-left text-[20px] mr-10 py-1 !mb-0">OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO</label>
+                                        <label className="text-[#70685a] fold-semiblod mb-1 block text-left text-[20px] mr-10 py-1 !mb-0">観葉植物に水やりしましたか？</label>
                                     </div>
                                 </div>
                                 {/* new */}
@@ -67,7 +68,7 @@ const  StartingWork = () => {
                                         <label className="text-[#70685a] fold-semiblod mb-1 block text-center text-[20px] py-1 !mb-0">4.</label>
                                     </div>
                                     <div style={{ width: '85%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                        <label className="text-[#70685a] fold-semiblod mb-1 block text-left text-[20px] mr-10 py-1 !mb-0">OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO</label>
+                                        <label className="text-[#70685a] fold-semiblod mb-1 block text-left text-[20px] mr-10 py-1 !mb-0">ヤフオクで発送しましたか？(ブルーアウト、送り状 、発送連絡)</label>
                                     </div>
                                 </div>
                                 {/* new */}
@@ -80,7 +81,7 @@ const  StartingWork = () => {
                                         <label className="text-[#70685a] fold-semiblod mb-1 block text-center text-[20px] py-1 !mb-0">5.</label>
                                     </div>
                                     <div style={{ width: '85%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                        <label className="text-[#70685a] fold-semiblod mb-1 block text-left text-[20px] mr-10 py-1 !mb-0">OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO</label>
+                                        <label className="text-[#70685a] fold-semiblod mb-1 block text-left text-[20px] mr-10 py-1 !mb-0">ヤフオク未入金の催促連絡はしましたか？</label>
                                     </div>
                                 </div>
                                 {/* new */}
@@ -93,7 +94,7 @@ const  StartingWork = () => {
                                         <label className="text-[#70685a] fold-semiblod mb-1 block text-center text-[20px] py-1 !mb-0">6.</label>
                                     </div>
                                     <div style={{ width: '85%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                        <label className="text-[#70685a] fold-semiblod mb-1 block text-left text-[20px] mr-10 py-1 !mb-0">OOOOOOOOOOOOOOOOOO</label>
+                                        <label className="text-[#70685a] fold-semiblod mb-1 block text-left text-[20px] mr-10 py-1 !mb-0">ヤフオク再出品しましたか？</label>
                                     </div>
                                 </div>
                                 {/* new */}
@@ -106,7 +107,7 @@ const  StartingWork = () => {
                                         <label className="text-[#70685a] fold-semiblod mb-1 block text-center text-[20px] py-1 !mb-0">7.</label>
                                     </div>
                                     <div style={{ width: '85%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                        <label className="text-[#70685a] fold-semiblod mb-1 block text-left text-[20px] mr-10 py-1 !mb-0">OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO</label>
+                                        <label className="text-[#70685a] fold-semiblod mb-1 block text-left text-[20px] mr-10 py-1 !mb-0">Outlookのメールは千エツクしましたか?</label>
                                     </div>
                                 </div>
                                 {/* new */}
@@ -119,7 +120,7 @@ const  StartingWork = () => {
                                         <label className="text-[#70685a] fold-semiblod mb-1 block text-center text-[20px] py-1 !mb-0">8.</label>
                                     </div>
                                     <div style={{ width: '85%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                        <label className="text-[#70685a] fold-semiblod mb-1 block text-left text-[20px] mr-10 py-1 !mb-0">OOOOOOOOOOOOOOOOOOOOOOOOOOOO</label>
+                                        <label className="text-[#70685a] fold-semiblod mb-1 block text-left text-[20px] mr-10 py-1 !mb-0">公式LINEはチェックしましたか？</label>
                                     </div>
                                 </div>
                                 {/* new */}
@@ -132,7 +133,7 @@ const  StartingWork = () => {
                                         <label className="text-[#70685a] fold-semiblod mb-1 block text-center text-[20px] py-1 !mb-0">9.</label>
                                     </div>
                                     <div style={{ width: '85%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                        <label className="text-[#70685a] fold-semiblod mb-1 block text-left text-[20px] mr-10 py-1 !mb-0">OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO</label>
+                                        <label className="text-[#70685a] fold-semiblod mb-1 block text-left text-[20px] mr-10 py-1 !mb-0">缶ウォーマー電源ONにしますた。</label>
                                     </div>
                                 </div>
                                 {/* new */}
@@ -145,7 +146,7 @@ const  StartingWork = () => {
                                         <label className="text-[#70685a] fold-semiblod mb-1 block text-center text-[20px] py-1 !mb-0">10.</label>
                                     </div>
                                     <div style={{ width: '85%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                        <label className="text-[#70685a] fold-semiblod mb-1 block text-left text-[20px] mr-10 py-1 !mb-0">OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO</label>
+                                        <label className="text-[#70685a] fold-semiblod mb-1 block text-left text-[20px] mr-10 py-1 !mb-0">【新人】ブラインドキータシチ練習 </label>
                                     </div>
                                 </div>
                                 {/* new */}
@@ -158,7 +159,7 @@ const  StartingWork = () => {
                                         <label className="text-[#70685a] fold-semiblod mb-1 block text-center text-[20px] py-1 !mb-0">11.</label>
                                     </div>
                                     <div style={{ width: '85%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                        <label className="text-[#70685a] fold-semiblod mb-1 block text-left text-[20px] mr-10 py-1 !mb-0">OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO</label>
+                                        <label className="text-[#70685a] fold-semiblod mb-1 block text-left text-[20px] mr-10 py-1 !mb-0">【新人】ロレックス脱着練習</label>
                                     </div>
                                 </div>
                                 {/* new */}
@@ -171,7 +172,7 @@ const  StartingWork = () => {
                                         <label className="text-[#70685a] fold-semiblod mb-1 block text-center text-[20px] py-1 !mb-0">12.</label>
                                     </div>
                                     <div style={{ width: '85%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                        <label className="text-[#70685a] fold-semiblod mb-1 block text-left text-[20px] mr-10 py-1 !mb-0">OOOOOOOOOOOOOOOOOOOOOOOO</label>
+                                        <label className="text-[#70685a] fold-semiblod mb-1 block text-left text-[20px] mr-10 py-1 !mb-0">【新人】ー人ロープレ</label>
                                     </div>
                                 </div>
 

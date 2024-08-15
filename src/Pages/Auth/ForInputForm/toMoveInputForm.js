@@ -13,7 +13,7 @@ const ToMoveInputForm = () => {
                 <div className=" flex flex-col items-center justify-center py-6 px-4">
                     <div className="w-full pt-3" style={{ maxWidth: '50em' }}>
                         <div className="p-8 rounded-2xl">
-                            <h2 className="text-[#70685a] text-center text-2xl font-bold flex justify-center">asfdadfs</h2>
+                            <h2 className="text-[#70685a] text-center text-2xl font-bold flex justify-center">新規会員登録</h2>
                             <h2 className="text-[#70685a] text-center text-2xl font-bold flex justify-center">(To Move Input Form)</h2>
                             <form className="mt-8 space-y-6">
                                 <div className='flex'>
