@@ -13,40 +13,42 @@ const CustomerList = () => {
         <>
             <Titlebar title={title} />
             <h2 className="text-[#70685a] text-center font-bold text-[15px] flex justify-end mt-3" style={{ paddingRight: '1%' }}>2023/12/01(金)&nbsp;&nbsp;21:51</h2>
+
+
             <div className='flex justify-around mt-10' >
-                    <ButtonComponent children={'asdfasfd'} style={{visibility:'hidden'}}/>
+                <ButtonComponent children={'asdfasfd'} style={{ visibility: 'hidden' }} />
                 <h2 className="text-[#70685a] text-center text-2xl font-bold flex justify-center">Customer List</h2>
                 <div className='flex justify-around'>
-                     <ButtonComponent children={'asdfasdfefwsfd'} className='bg-[250]'/>
+                    <ButtonComponent children={'asdfasdfefwsfd'} className='bg-[250]' />
                 </div>
             </div>
             {/*  */}
             <div className='flex mt-3 justify-center'>
                 <div className=' text-[#70685a] px-2 mr-2'>
-                    <LabelComponent value={'adf'}/>
-                    <InputComponent style={{height:'30px'}}/>
+                    <LabelComponent value={'adf'} />
+                    <InputComponent style={{ height: '30px' }} />
                 </div>
                 <div className=' text-[#70685a] px-2 mr-2'>
-                    <LabelComponent value={'adf'}/>
-                    <InputComponent style={{height:'30px'}}/>
+                    <LabelComponent value={'adf'} />
+                    <InputComponent style={{ height: '30px' }} />
                 </div>
                 <div className='text-[#70685a] px-2 mr-2'>
-                    <LabelComponent value={'adf'}/>
-                    <InputComponent style={{height:'30px'}}/>
+                    <LabelComponent value={'adf'} />
+                    <InputComponent style={{ height: '30px' }} />
                 </div>
                 <div className=' px-2 mr-2 text-center'>
-                    <LabelComponent value={'adf'}/>
-                    <div><input type="date"/></div>
+                    <LabelComponent value={'adf'} />
+                    <div><input type="date" /></div>
                 </div>
-                <div className=' text-[#70685a] px-2 mr-5' style={{display:'flex',alignItems:'end'}}>
+                <div className=' text-[#70685a] px-2 mr-5' style={{ display: 'flex', alignItems: 'end' }}>
                     <label className="text-[#70685a] font-bold block text-center ">Search with </label>
                 </div>
-                <div className=' text-[#70685a] px-2 mr-2' style={{display:'flex',alignItems:'end'}}>
-                    < button type="button" style={{display:'flex',alignItem:'end'}} className="flex align-end w-20 px-3 py-1 font-bold rounded-md tracking-wide justify-center text-white bg-[#a3a1c8] hover:bg-blue-700 focus:outline-none">
+                <div className=' text-[#70685a] px-2 mr-2' style={{ display: 'flex', alignItems: 'end' }}>
+                    < button type="button" style={{ display: 'flex', alignItem: 'end' }} className="flex align-end w-20 px-3 py-1 font-bold rounded-md tracking-wide justify-center text-white bg-[#a3a1c8] hover:bg-blue-700 focus:outline-none">
                         LOGIN
                     </button>
                 </div>
-                <div className=' text-[#70685a] px-2 mr-5' style={{display:'flex',alignItems:'end'}}>
+                <div className=' text-[#70685a] px-2 mr-5' style={{ display: 'flex', alignItems: 'end' }}>
                     <label className="text-[#70685a] mb-2 block text-center">and search</label>
                 </div>
             </div>

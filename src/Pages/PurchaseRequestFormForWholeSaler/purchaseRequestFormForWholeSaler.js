@@ -2,50 +2,31 @@ import React from 'react';
 // import { Link } from 'react-router-dom';
 import Titlebar from '../../Components/Common/Titlebar';
 import '../../Assets/css/table.css';
-import '../../Assets/css/firstTd.css';
-import '../../Assets/css/lastTd.css';
+// import '../../Assets/css/firstTd.css';
 import InputComponent from '../../Components/Common/InputComponent';
 // import ButtonComponent from '../../Components/Common/ButtonComponent';
 import LabelComponent from '../../Components/Common/LabelComponent';
 
 
-const WholeSalerShippingList = () => {
+const PurchaseRequestFormForWholeSaler = () => {
     const title = 'タイトルタイトル';
     return (
         <>
             <Titlebar title={title} />
-            <div className="bg-[trasparent] font-[sans-serif]">
-                <div className='flex justify-center'>
-                    <div className="w-full pt-3" style={{ maxWidth: '80em' }}>
-
 
                         <div className='flex justify-around mt-10' >
-                            <h2 className="text-[#70685a] text-center text-2xl font-bold flex justify-center">Whole Saler Shipping List</h2>
+                            <h2 className="text-[#70685a] text-center text-2xl font-bold flex justify-center">Purchase Request Form For Whole Saler</h2>
                         </div>
 
                         {/*  */}
                         <div className='flex mt-3 justify-center pr-40 pl-40'>
-                            <div className=' px-2 mr-2 text-center'>
-                                <LabelComponent value={'adf'} />
-                                <div><input type="date" /></div>
-                            </div>
-                            <div className=' text-[#70685a] px-2 mr-2'>
-                                <div className='text-center'>
+                            <div className=' text-[#70685a] px-2 mr-2 flex'>
+                                <div className='text-center mr-10 mt-1'>
                                     <LabelComponent value={'adf'} />
                                 </div>
-                                <InputComponent style={{ height: '30px',}} />
-                            </div>
-                            <div className=' text-[#70685a] px-2 mr-2'>
                                 <div className='text-center'>
-                                    <LabelComponent value={'adf'} />
+                                    <InputComponent style={{ height: '30px',}} />
                                 </div>
-                                <InputComponent style={{ height: '30px',}} />
-                            </div>
-                            <div className=' text-[#70685a] px-2 mr-2'>
-                                <div className='text-center'>
-                                    <LabelComponent value={'adf'} />
-                                </div>
-                                <InputComponent style={{ height: '30px',}} />
                             </div>
 
 
@@ -57,9 +38,6 @@ const WholeSalerShippingList = () => {
                                     LOGIN
                                 </button>
                             </div>
-                            <div className=' text-[#70685a] px-2 mr-5' style={{ display: 'flex', alignItems: 'end' }}>
-                                <label className="text-[#70685a] mb-2 block text-center">and search</label>
-                            </div>
                         </div>
 
                         {/*  Tabe*/}
@@ -68,7 +46,9 @@ const WholeSalerShippingList = () => {
                                 <thead>
                                     <tr>
                                         <th></th>
-                                        <th>Last Name</th>
+                                        <th width='10%'>Last Name</th>
+                                        <th width='10%'>Points</th>
+                                        <th width='10%'>Points</th>
                                         <th>Points</th>
                                         <th>Points</th>
                                         <th>Points</th>
@@ -77,13 +57,12 @@ const WholeSalerShippingList = () => {
                                         <th>Points</th>
                                         <th>Points</th>
                                         <th>Points</th>
+                                        <th width='10%'>Points</th>
+                                        <th>Points</th>
+                                        <th width='10%'>Points</th>
                                         <th>Points</th>
                                         <th>Points</th>
-                                        <th>Points</th>
-                                        <th>Points</th>
-                                        <th>Points</th>
-                                        <th>Points</th>
-                                        <th>Points</th>
+                                        <th width='10%'>Points</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -105,10 +84,12 @@ const WholeSalerShippingList = () => {
                                         <td>50</td>
                                         <td>50</td>
                                         <td>50</td>
+                                        <td>50</td>
                                     </tr>
                                     <tr>
                                         <td>2</td>
                                         <td>Jackson</td>
+                                        <td>94</td>
                                         <td>94</td>
                                         <td>94</td>
                                         <td>94</td>
@@ -718,11 +699,8 @@ const WholeSalerShippingList = () => {
 
                             </table>
                         </div>
-                    </div>
-                </div>
-            </div>
         </>
     );
 };
 
-export default WholeSalerShippingList;
+export default PurchaseRequestFormForWholeSaler;

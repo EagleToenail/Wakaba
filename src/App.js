@@ -28,6 +28,8 @@ import PurchaseToRShop from './Pages/PurchaseToRShop/purchaseToRShop';
 import InvoiceForPurchaseOfBrought from './Pages/InvoiceForPurchaseOfBrought/invoiceforpurchaseofbrought';
 import PurchaseInvoiceForBroughtInItems from './Pages/PurchaseInvoiceForBroughtInItems/purchaseInvoiceForBroughtInItems';
 import WholeSalerShippingList from './Pages/WholeSalerShippingList/wholeSalerShippingList';
+import PurchaseRequestFormForWholeSaler from './Pages/PurchaseRequestFormForWholeSaler/purchaseRequestFormForWholeSaler';
+import SalesSlip from './Pages/SalesSlip/salesSlip';
 
 function App() {
   return (
@@ -61,7 +63,8 @@ function App() {
             <Route path='/invoiceforpurchaseofbrought' element={<InvoiceForPurchaseOfBrought/>}/>
             <Route path='/purchaseinvoiceforbroughtinitems' element={<PurchaseInvoiceForBroughtInItems/>}/>
             <Route path='/wholesalershippinglist' element={<WholeSalerShippingList/>}/>
-
+            <Route path='/purchaserequestformforwholesaler' element={<PurchaseRequestFormForWholeSaler/>}/>
+            <Route path='/salesslip' element={<SalesSlip/>}/>
           
        </Routes>
     </Router>

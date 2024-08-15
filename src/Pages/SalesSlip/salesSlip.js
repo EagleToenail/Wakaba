@@ -2,63 +2,34 @@ import React from 'react';
 // import { Link } from 'react-router-dom';
 import Titlebar from '../../Components/Common/Titlebar';
 import '../../Assets/css/table.css';
-import '../../Assets/css/firstTd.css';
-import '../../Assets/css/lastTd.css';
 import InputComponent from '../../Components/Common/InputComponent';
-// import ButtonComponent from '../../Components/Common/ButtonComponent';
+import ButtonComponent from '../../Components/Common/ButtonComponent';
 import LabelComponent from '../../Components/Common/LabelComponent';
 
 
-const WholeSalerShippingList = () => {
+const SalesSlip = () => {
     const title = 'タイトルタイトル';
     return (
         <>
             <Titlebar title={title} />
-            <div className="bg-[trasparent] font-[sans-serif]">
-                <div className='flex justify-center'>
-                    <div className="w-full pt-3" style={{ maxWidth: '80em' }}>
-
-
-                        <div className='flex justify-around mt-10' >
-                            <h2 className="text-[#70685a] text-center text-2xl font-bold flex justify-center">Whole Saler Shipping List</h2>
+                        {/* first button line  */}
+                        <div className='flex justify-between' style={{width:'70%'}}>
+                            <div className='flex mt-10 w-1/2' >
+                                <ButtonComponent children={'Purchase request form for recycling shops'} style={{backgroundColor:'#9bd195',}}/>
+                                <ButtonComponent children={'request application'} style={{backgroundColor:'#9bd195',marginLeft:'30px'}} />
+                            </div>
+                            <div className='flex justify-end mt-10 w-1/2' >
+                                <ButtonComponent children={'sales table'} style={{backgroundColor:'#424242',}}/>
+                                <ButtonComponent children={'vendor assessment sheet'} style={{backgroundColor:'transparent',border:'1px solid #424242',color:'#424242',marginLeft:'30px'}} />
+                                <ButtonComponent children={'Yahoo Auction'} style={{backgroundColor:'transparent',border:'1px solid #424242',color:'#424242',marginLeft:'30px'}} />
+                            </div>
                         </div>
 
-                        {/*  */}
-                        <div className='flex mt-3 justify-center pr-40 pl-40'>
-                            <div className=' px-2 mr-2 text-center'>
-                                <LabelComponent value={'adf'} />
-                                <div><input type="date" /></div>
-                            </div>
-                            <div className=' text-[#70685a] px-2 mr-2'>
-                                <div className='text-center'>
-                                    <LabelComponent value={'adf'} />
-                                </div>
-                                <InputComponent style={{ height: '30px',}} />
-                            </div>
-                            <div className=' text-[#70685a] px-2 mr-2'>
-                                <div className='text-center'>
-                                    <LabelComponent value={'adf'} />
-                                </div>
-                                <InputComponent style={{ height: '30px',}} />
-                            </div>
-                            <div className=' text-[#70685a] px-2 mr-2'>
-                                <div className='text-center'>
-                                    <LabelComponent value={'adf'} />
-                                </div>
-                                <InputComponent style={{ height: '30px',}} />
-                            </div>
-
-
-                            <div className=' text-[#70685a] px-2 mr-5' style={{ display: 'flex', alignItems: 'end' }}>
-                                <label className="text-[#70685a] font-bold block text-center ">Search with </label>
-                            </div>
-                            <div className=' text-[#70685a] px-2 mr-2' style={{ display: 'flex', alignItems: 'end' }}>
-                                < button type="button" style={{ display: 'flex', alignItem: 'end' }} className="flex align-end w-20 px-3 py-1 font-bold rounded-md tracking-wide justify-center text-white bg-[#a3a1c8] hover:bg-blue-700 focus:outline-none">
-                                    LOGIN
-                                </button>
-                            </div>
-                            <div className=' text-[#70685a] px-2 mr-5' style={{ display: 'flex', alignItems: 'end' }}>
-                                <label className="text-[#70685a] mb-2 block text-center">and search</label>
+                        {/* second button line  */}
+                        <div className='flex' style={{width:'70%'}}>
+                            <div className='flex justify-end mt-10' >
+                                <ButtonComponent children={'Purchase request form for recycling shops'} style={{backgroundColor:'#9bd195',}}/>
+                                <ButtonComponent children={'request application'} style={{backgroundColor:'#9bd195',marginLeft:'30px'}} />
                             </div>
                         </div>
 
@@ -68,7 +39,9 @@ const WholeSalerShippingList = () => {
                                 <thead>
                                     <tr>
                                         <th></th>
-                                        <th>Last Name</th>
+                                        <th width='10%'>Last Name</th>
+                                        <th width='10%'>Points</th>
+                                        <th width='10%'>Points</th>
                                         <th>Points</th>
                                         <th>Points</th>
                                         <th>Points</th>
@@ -77,13 +50,12 @@ const WholeSalerShippingList = () => {
                                         <th>Points</th>
                                         <th>Points</th>
                                         <th>Points</th>
+                                        <th width='10%'>Points</th>
+                                        <th>Points</th>
+                                        <th width='10%'>Points</th>
                                         <th>Points</th>
                                         <th>Points</th>
-                                        <th>Points</th>
-                                        <th>Points</th>
-                                        <th>Points</th>
-                                        <th>Points</th>
-                                        <th>Points</th>
+                                        <th width='10%'>Points</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -105,10 +77,12 @@ const WholeSalerShippingList = () => {
                                         <td>50</td>
                                         <td>50</td>
                                         <td>50</td>
+                                        <td>50</td>
                                     </tr>
                                     <tr>
                                         <td>2</td>
                                         <td>Jackson</td>
+                                        <td>94</td>
                                         <td>94</td>
                                         <td>94</td>
                                         <td>94</td>
@@ -718,11 +692,8 @@ const WholeSalerShippingList = () => {
 
                             </table>
                         </div>
-                    </div>
-                </div>
-            </div>
         </>
     );
 };
 
-export default WholeSalerShippingList;
+export default SalesSlip;
