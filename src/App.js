@@ -31,6 +31,8 @@ import WholeSalerShippingList from './Pages/WholeSalerShippingList/wholeSalerShi
 import PurchaseRequestFormForWholeSaler from './Pages/PurchaseRequestFormForWholeSaler/purchaseRequestFormForWholeSaler';
 import SalesSlip from './Pages/SalesSlip/salesSlip';
 import ContractorAssessmentSheet from './Pages/ContractorAssessmentSheet/contractorAssessmentSheet';
+import YahooAuction from './Pages/YahooAuctions/yahooAuction';
+import SalesList from './Pages/SalesList/salesList';
 
 function App() {
   return (
@@ -67,6 +69,8 @@ function App() {
             <Route path='/purchaserequestformforwholesaler' element={<PurchaseRequestFormForWholeSaler/>}/>
             <Route path='/salesslip' element={<SalesSlip/>}/>
             <Route path='/contractorassessmentsheet' element={<ContractorAssessmentSheet/>}/>
+            <Route path='/yahooauction' element={<YahooAuction/>}/>
+            <Route path='/saleslist' element={<SalesList/>}/>
           
        </Routes>
     </Router>

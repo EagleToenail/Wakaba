@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useState} from 'react';
 // import { Link } from 'react-router-dom';
 import Titlebar from '../../Components/Common/Titlebar';
 // import InputComponent from '../../Components/Common/InputComponent';
@@ -31,6 +31,19 @@ const ContractorAssementSheet = () => {
         borderCollapse: 'collapse',
         color:'#70685a',
         fontSize: '15px'
+      };
+
+    //   const [isOpen, setIsOpen] = useState(false);
+      const [isshow, setIsShow] = useState(true);
+    
+      const openSubtable = () => {
+        // setIsOpen(true);
+        setIsShow(false);
+      };
+    
+      const closeSubtable = () => {
+        // setIsOpen(false);
+         setIsShow(true);
       };
 
 
@@ -109,29 +122,38 @@ const ContractorAssementSheet = () => {
                                         <th style={Th} rowSpan={2} >Points</th>
 
                                         <th  style={Th}  rowSpan={2}>Points</th>
-                                        <th width='10%' style={Th} rowSpan={2} ><button><img src='../../Assets/img/left-arrow.png' alt=''></img></button></th>
+                                        <th width='10%' style={Th} rowSpan={2} >
+                                            {isshow? <button><img src={rightArrow} style={{width:'30px'}} alt='' onClick={openSubtable} ></img></button> :<button><img src={leftArrow} style={{width:'30px'}} alt='' onClick={closeSubtable}></img></button>} 
+                                        </th>
                                         <th width='10%' style={Th} rowSpan={2} >Points33</th>
 
-                                        <th  style={Th} colSpan={4}>Points</th>
+                                        {isshow?<th  style={Th} colSpan={4}>Points</th>:<th colSpan={4}  style={{display:'none'}}>Points</th>}
 
+                                        {isshow?<th  style={Th} >Points</th>:<th  style={{display:'none'}}>Points</th>}
+                                        {isshow?<th  style={Th} >Points</th>:<th  style={{display:'none'}}>Points</th>}
+                                        {isshow?<th  style={Th} >Points</th>:<th  style={{display:'none'}}>Points</th>}
+                                        {isshow?<th  style={Th} >Points</th>:<th  style={{display:'none'}}>Points</th>}
+
+                                        <th  style={Th}>Points</th>
+                                        
+                                        {/* <th  style={Th} >Points</th>
                                         <th  style={Th} >Points</th>
                                         <th  style={Th} >Points</th>
-                                        <th  style={Th} >Points</th>
-                                        <th  style={Th} >Points</th>
-                                        <th  style={Th} >Points</th>
+                                        <th  style={Th} >Points</th> */}
 
                                     </tr>
                                     <tr>
-                                        <th width='10%' style={Th} >Points</th>
-                                        <th width='10%' style={Th} >Points</th>
-                                        <th  style={Th} >Points</th>
-                                        <th  style={Th} >Points</th>
+                                        {isshow?<th width='10%' style={Th} >Points</th>:<th  style={{display:'none'}}>Points</th>}
+                                        {isshow?<th width='10%' style={Th} >Points</th>:<th  style={{display:'none'}}>Points</th>}
+                                        {isshow?<th  style={Th} >Points</th>:<th  style={{display:'none'}}>Points</th>}
+                                        {isshow?<th  style={Th} >Points</th>:<th  style={{display:'none'}}>Points</th>}
 
-                                        <th  style={Th} >Points1</th>
-                                        <th  style={Th} >Points1</th>
-                                        <th  style={Th} >Points1</th>
-                                        <th  style={Th} >Points1</th>
-                                        <th width='10%' style={Th} rowSpan={2} >Points1</th>
+                                        {isshow?<th  style={Th} >Points1</th>:<th  style={{display:'none'}}>Points</th>}
+                                        {isshow?<th  style={Th} >Points1</th>:<th  style={{display:'none'}}>Points</th>}
+                                        {isshow?<th  style={Th} >Points1</th>:<th  style={{display:'none'}}>Points</th>}
+                                        {isshow?<th  style={Th} >Points1</th>:<th  style={{display:'none'}}>Points</th>}
+                                        
+                                        <th width='10%' style={Th} ></th>
                                     </tr>
                                 </thead>
                                 <tbody>
