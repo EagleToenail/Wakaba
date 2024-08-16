@@ -17,7 +17,7 @@ import Profile from './Pages/Profile/profile';
 import StartingWork from './Pages/StartingWork/startingWork';
 import ClosingWork from './Pages/ClosingWork/closingWork';
 import MonthlyIncome from './Pages/MonthlyIncome/monthlyIncome';
-import SafeMoney from './Pages/SafeMoney/safeMoney';
+import SafeMoney from './Pages/SafeMoney/safeMoney';//Treasury deposit and withdrawal history
 import WithdrawBankATM from './Pages/WithdrawBankATM/withdrawBankATM';
 import PurchaseRequest from './Pages/PurchaseRequest/purchaseRequest';
 import WithdrawVariousPurchase from './Pages/WithdrawVariousPurchase/withdrawVariousPurchase';
@@ -38,6 +38,7 @@ import OnSitePurchase from './Pages/OnSitePurchase/onSitePurchase';
 import ApplicationForDisposalPermission from './Pages/ApplicationForDisposalPermission/applicationForDisposalPermission';
 import EndOfWorkReportToOwner from './Pages/EndOfWorkReportToOwner/endOfWorkReportToOwner';
 import StampRelatedInventoryList from './Pages/StampRelatedInventoryList/stampRelatedInventoryList';
+import StampRelatedInventoryApplicationForm from './Pages/StampRelatedInventoryApplicationForm/stampRelatedInventoryApplicationForm';
 
 function App() {
   return (
@@ -81,6 +82,8 @@ function App() {
             <Route path='/applicationfordisposalpermission' element={<ApplicationForDisposalPermission/>}/>
             <Route path='/endofworkreporttoowner' element={<EndOfWorkReportToOwner/>}/>
             <Route path='/stamprelatedinventorylist' element={<StampRelatedInventoryList/>}/>
+            <Route path='/stamprelatedinventoryapplicationform' element={<StampRelatedInventoryApplicationForm/>}/>
+            
             
           
        </Routes>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useState} from 'react';
 // import { Link } from 'react-router-dom';
 import Titlebar from '../../Components/Common/Titlebar';
 import StampSheet from '../../Assets/img/stampsheet.png'
@@ -8,7 +8,7 @@ import PostCard from '../../Assets/img/postcard.png'
 import LabelComponent from '../../Components/Common/LabelComponent';
 
 
-const StampRelatedInventoryList = () => {
+const StampRelatedInventoryApplicationForm = () => {
     const title = 'タイトルタイトル';
 
     const Table = {
@@ -19,12 +19,12 @@ const StampRelatedInventoryList = () => {
         alignItem: 'center'
     };
 
-    // const Th = {
-    //     border: '1px solid #70685a',
-    //     borderCollapse: 'collapse',
-    //     color: '#70685a',
-    //     fontSize: '15px'
-    // };
+    const Th = {
+        border: '1px solid #70685a',
+        borderCollapse: 'collapse',
+        color: '#70685a',
+        fontSize: '15px'
+    };
     const Td = {
         border: '1px solid #70685a',
         borderCollapse: 'collapse',
@@ -32,40 +32,58 @@ const StampRelatedInventoryList = () => {
         fontSize: '15px'
     };
 
+    const [text, setText] = useState('');
+
+    // Function to handle changes in the text area
+    const handleChange = (event) => {
+        setText(event.target.value);}
+
     return (
         <>
             <Titlebar title={title} />
             <h2 className="text-[#70685a] text-center font-bold text-[15px] flex justify-end mt-3" style={{ paddingRight: '1%' }}>2023/12/01(金)&nbsp;&nbsp;21:51</h2>
             <div className=" flex flex-col items-center justify-center py-3 px-4">
                 <div className="w-full " style={{ maxWidth: '90em' }}>
-                    <h2 className="text-[#70685a] text-center text-2xl font-bold flex justify-center">Japanese stamps,postcards,and letter packs inventory list</h2>
+                    <h2 className="text-[#70685a] text-center text-2xl font-bold flex justify-center">Application for receiving Japanese stamps, postcards, and letter packs</h2>
                     <div className='flex justify-evenly mt-5 '>
+                        <div className='text-center text-[20px]'><u><LabelComponent value="zxcas" /></u></div>
                         <div>
-                            <div className='text-center'><LabelComponent value="zxcas" /></div>
-                            <button type="button"
-                                className="mr-10  py-1 min-w-[160px] text-[#70685a] text-[15px] rounded-full tracking-wider font-bold outline-none border border-[#70685a] ">
-                                Purple
-                            </button>
-                        </div>
-                        <div>
-                            <div className='text-center'><LabelComponent value="Of the selected item" /></div>
-                            < button type="button" className="w-max px-3 py-1 font-bold tracking-wide rounded-lg justify-center text-white bg-[#e87a00] hover:bg-blue-700 focus:outline-none">
+                            < button type="button" className="w-full px-3 py-3 font-bold tracking-wide rounded-lg justify-center text-white bg-[#e87a00] hover:bg-blue-700 focus:outline-none">
                                 Create a shipping operator
                             </button>
                         </div>
-                        <div>
-                            <div className='text-center'><LabelComponent value="of the selected item" /></div>
-                            <button type="button"
-                                className=" mr-3 py-1 min-w-[160px] text-[#70685a] text-[15px] rounded-full tracking-wider font-bold outline-none border border-[#70685a] ">
-                                purchase
-                            </button>
-                        </div>
+                        <div className='text-center text-[20px]'><u><LabelComponent value="of the selected item" /></u></div>
 
+                    </div>
+                    <div className='flex mt-5'>
+                        <div style={{width:'30%'}}>
+                            <div className='text-right'><LabelComponent value="stampsheet" className='pl-5 !text-[20px] font-bold' /></div>
+                            <div className='text-right mt-5'><LabelComponent value="stampsheet" className='pl-5 !text-[20px] font-bold' /></div>
+                        </div>
+                        <div style={{width:'40%'}}>
+                            <div className='flex flex-col justify-center'><LabelComponent value="stampsheet" className='pl-5 !text-[20px]' /></div>
+                            <div className="p-4">
+                                            {/* Text area */}
+                                            <textarea
+                                                value={text}
+                                                onChange={handleChange}
+                                                rows="4"
+                                                cols="50"
+                                                placeholder="Type something here..."
+                                                className="border border-[#70685a] rounded p-2 w-full"
+                                            />
+                                            {/* Display the current value of the text area */}
+                                            <div className="mt-2 display-none" style={{visibility:'hidden'}}>
+                                                <strong>Current Text:</strong>
+                                                <p>{text}</p>
+                                            </div>
+                                        </div>
+                        </div>
                     </div>
                     {/* mainpart */}
                     {/* fistline */}
                     <div className='flex'>
-                        <div className='mt-10' style={{ width: '25%' }}>
+                        <div className='' style={{ width: '25%' }}>
                             <div className='flex justify-center'>
                                 <div className='flex'>
                                     <div className='w-10'><img src={StampSheet} alt="aaa"></img></div>
@@ -73,7 +91,7 @@ const StampRelatedInventoryList = () => {
                                 </div>
                             </div>
                         </div>
-                        <div className='mt-10' style={{ width: '25%' }}>
+                        <div className='' style={{ width: '25%' }}>
                             <div className='flex justify-center'>
                                 <div className='flex'>
                                     <div className='w-10'><img src={StampSheet} alt="aaa"></img></div>
@@ -81,7 +99,7 @@ const StampRelatedInventoryList = () => {
                                 </div>
                             </div>
                         </div>
-                        <div className='mt-10' style={{ width: '25%' }}>
+                        <div className='' style={{ width: '25%' }}>
                             <div className='flex justify-center'>
                                 <div className='flex'>
                                     <div className='w-10'><img src={StampRose} alt="aaa"></img></div>
@@ -89,7 +107,7 @@ const StampRelatedInventoryList = () => {
                                 </div>
                             </div>
                         </div>
-                        <div className='mt-10' style={{ width: '25%' }}>
+                        <div className='' style={{ width: '25%' }}>
                             <div className='flex justify-center'>
                                 <div className='flex'>
                                     <div className='w-10'><img src={LetterPack} alt="aaa"></img></div>
@@ -445,4 +463,4 @@ const StampRelatedInventoryList = () => {
     );
 };
 
-export default StampRelatedInventoryList;
+export default StampRelatedInventoryApplicationForm;

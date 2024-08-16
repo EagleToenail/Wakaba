@@ -1,6 +1,6 @@
 import React from 'react';
 
-const InputComponent = ({value, onChange, placeholder, type = 'text', style = {}, ...props }) => {
+const InputComponent = ({value, onChange,className, placeholder, type = 'text', style = {}, ...props }) => {
     const defaultStyle = {
         width: '100%',
         height: '40px',
@@ -13,9 +13,11 @@ const InputComponent = ({value, onChange, placeholder, type = 'text', style = {}
         <input
             type={type}
             value={value}
+            className={`${className}`}
             onChange={onChange}
             placeholder={placeholder}
             style={{ ...defaultStyle, ...style }}
+            
             {...props}
         />
     );
