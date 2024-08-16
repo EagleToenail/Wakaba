@@ -45,24 +45,18 @@ export default function Header() {
               </Link>
             </li>
             <li className='max-lg:border-b border-gray-300 max-lg:py-3 px-3'><Link
-              className='text-[#655b4a] block font-semibold text-[15px]'>R</Link>
-            </li>
-            <li className='max-lg:border-b border-gray-300 flex align-center justify-center max-lg:py-3 px-3'><Link
-              className='text-[#655b4a] text-gray-500 block font-semibold text-[15px]'>
-                    <svg xmlns="http://www.w3.org/2000/svg" className="w-4 fill-[#655b4a]" viewBox="0 0 55.753 55.753">
-      <path
-        d="M12.745 23.915c.283-.282.59-.52.913-.727L35.266 1.581a5.4 5.4 0 0 1 7.637 7.638L24.294 27.828l18.705 18.706a5.4 5.4 0 0 1-7.636 7.637L13.658 32.464a5.367 5.367 0 0 1-.913-.727 5.367 5.367 0 0 1-1.572-3.911 5.369 5.369 0 0 1 1.572-3.911z"
-        data-original="#000000" />
-    </svg>
+              className='text-[#655b4a] block font-semibold text-[15px] w-5'>
+                <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-p79yt4" fill="#655b4a" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="ReplayIcon" title="Replay"><path d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8"></path></svg>
               </Link>
             </li>
             <li className='max-lg:border-b border-gray-300 flex align-center justify-center max-lg:py-3 px-3'><Link
-              className='text-[#655b4a] text-gray-500 block font-semibold text-[15px]'>
-                    <svg xmlns="http://www.w3.org/2000/svg" className="w-4 fill-[#655b4a] rotate-180" viewBox="0 0 55.753 55.753">
-      <path
-        d="M12.745 23.915c.283-.282.59-.52.913-.727L35.266 1.581a5.4 5.4 0 0 1 7.637 7.638L24.294 27.828l18.705 18.706a5.4 5.4 0 0 1-7.636 7.637L13.658 32.464a5.367 5.367 0 0 1-.913-.727 5.367 5.367 0 0 1-1.572-3.911 5.369 5.369 0 0 1 1.572-3.911z"
-        data-original="#000000" />
-    </svg>
+              className='text-[#655b4a] text-gray-500 block font-semibold text-[15px] w-5'>
+                    <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-p79yt4" fill="#655b4a" focusable="false"  aria-hidden="true" viewBox="0 0 24 24" data-testid="KeyboardArrowLeftIcon" title="KeyboardArrowLeft"><path d="M15.41 16.59 10.83 12l4.58-4.59L14 6l-6 6 6 6z"></path></svg>
+              </Link>
+            </li>
+            <li className='max-lg:border-b border-gray-300 flex align-center justify-center max-lg:py-3 px-3'><Link
+              className='text-[#655b4a] text-gray-500 block font-semibold text-[15px] w-5'>
+                  <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-p79yt4" fill="#655b4a" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="KeyboardArrowRightIcon"  title="KeyboardArrowRight"><path d="M8.59 16.59 13.17 12 8.59 7.41 10 6l6 6-6 6z"></path></svg>
               </Link>
             </li>
             <li className='max-lg:border-b border-gray-300 max-lg:py-3 px-3'><Link

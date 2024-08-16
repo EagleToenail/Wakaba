@@ -20,20 +20,20 @@
   }
 
   .openbtn {
-    height: 20px;
-    position: absolute;
-    top: 95px;
-    right: 27px;
-    font-size: 52px;
-    margin-left: 56px;
-    width: 20px
-  }
-  .closebtn{
-    height: 20px;
-    width: 20px;
+    height: 40px;
     position: absolute;
     top: 85px;
-    right: -5px;
+    right: 8px;
+    font-size: 52px;
+    margin-left: 56px;
+    width: 40px
+  }
+  .closebtn{
+    height: 40px;
+    width: 40px;
+    position: absolute;
+    top: 83px;
+    right: -15px;
     font-size: 36px;
     margin-left: 50px;
   }
