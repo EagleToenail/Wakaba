@@ -43,6 +43,10 @@ import StampRelatedReceiptAndIssueHistory from './Pages/StampRelatedReceiptAndIs
 import StampRelatedPurchaseStatement from './Pages/StampRelatedPurchaseStatement/stampRelatedPurchaseStatement'
 import StampPurchaseListCustomerConfirmation from './Pages/StampPurchaseListCustomerConfirmation/stampPurchaseListCustomerConfirmation';
 import StampPurchaseInterestRateChange from './Pages/StampPurchaseInterestRateChange/stampPurchaseInterestRateChange';
+import CommemorativeCoinHistoryList from './Pages/CommemorativeCoinHistoryList/commemorativeCoinHistoryList';
+import CommemorativeCoinExchange from './Pages/CommemorativeCoinExchange/commemorativeCoinExchange';
+import PreciousMetalsPrices from './Pages/PreciousMetalsPrices/preciousMetalsPrices'
+import CustomerReceipt from './Pages/CustomerReceipt/customerReceipt';
 
 function App() {
   return (
@@ -91,10 +95,12 @@ function App() {
             <Route path='/stamprelatedpurchasestatement' element={<StampRelatedPurchaseStatement/>}/>
             <Route path='/stamppurchaselistcustomerconfirmation' element={<StampPurchaseListCustomerConfirmation/>}/>
             <Route path='/stamppurchaseinterestratechange' element={<StampPurchaseInterestRateChange/>}/>
-            
-            
-                 
-          
+            <Route path='/commemorativecoinhistorylist' element={<CommemorativeCoinHistoryList/>}/>
+            <Route path='/commemorativecoinexchange' element={<CommemorativeCoinExchange/>}/>
+            <Route path='/preciousmetalsprices' element={<PreciousMetalsPrices/>}/>
+            <Route path='/customerreceipt' element={<CustomerReceipt/>}/>
+    
+                   
        </Routes>
     </Router>
   );
