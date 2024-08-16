@@ -1,7 +1,7 @@
 import React from 'react'
 import InputComponent from '../../Components/Common/InputComponent';
 
-export default function TODOList() {
+export default function OnSitePurchase() {
     return (
         <>
             <div className=" flex flex-col items-center justify-center py-3 px-4">
@@ -237,11 +237,16 @@ export default function TODOList() {
                             </div>
                         </div>
                     </div>
+                    <div className='mt-5'>
+                                < button type="button" className="w-20 px-3 py-0.5 font-semiblod rounded-lg justify-center text-[#70685a] text-[15px] bg-[#ebe6e0] hover:bg-blue-700 focus:outline-none">
+                                    edit
+                                </button>
+                            </div>
 
                     {/* <div className='flex justify-center !mt-0'>
                         <div className='h-[50px] bg-[#ebe6e0] mr-20' style={{ width: '50%', height: '130px' }}></div>
                     </div> */}
-                    <div className='mt-20'>
+                    <div className='mt-2'>
                         <hr className="my-1 border-[#70685a]" />
                     </div>
 
@@ -291,7 +296,9 @@ export default function TODOList() {
                             </div>
                             operation
                         </div>
+
                     </div>
+
                 </div>
             </div>
         </>

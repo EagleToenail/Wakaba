@@ -34,6 +34,10 @@ import ContractorAssessmentSheet from './Pages/ContractorAssessmentSheet/contrac
 import YahooAuction from './Pages/YahooAuctions/yahooAuction';
 import SalesList from './Pages/SalesList/salesList';
 import TODOList from './Pages/TODOList/todoList';
+import OnSitePurchase from './Pages/OnSitePurchase/onSitePurchase';
+import ApplicationForDisposalPermission from './Pages/ApplicationForDisposalPermission/applicationForDisposalPermission';
+import EndOfWorkReportToOwner from './Pages/EndOfWorkReportToOwner/endOfWorkReportToOwner';
+import StampRelatedInventoryList from './Pages/StampRelatedInventoryList/stampRelatedInventoryList';
 
 function App() {
   return (
@@ -73,6 +77,11 @@ function App() {
             <Route path='/yahooauction' element={<YahooAuction/>}/>
             <Route path='/saleslist' element={<SalesList/>}/>
             <Route path='/todolist' element={<TODOList/>}/>
+            <Route path='/onsitepurchase' element={<OnSitePurchase/>}/>
+            <Route path='/applicationfordisposalpermission' element={<ApplicationForDisposalPermission/>}/>
+            <Route path='/endofworkreporttoowner' element={<EndOfWorkReportToOwner/>}/>
+            <Route path='/stamprelatedinventorylist' element={<StampRelatedInventoryList/>}/>
+            
           
        </Routes>
     </Router>
