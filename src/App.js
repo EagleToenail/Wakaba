@@ -33,6 +33,7 @@ import SalesSlip from './Pages/SalesSlip/salesSlip';
 import ContractorAssessmentSheet from './Pages/ContractorAssessmentSheet/contractorAssessmentSheet';
 import YahooAuction from './Pages/YahooAuctions/yahooAuction';
 import SalesList from './Pages/SalesList/salesList';
+import TODOList from './Pages/TODOList/todoList';
 
 function App() {
   return (
@@ -71,6 +72,7 @@ function App() {
             <Route path='/contractorassessmentsheet' element={<ContractorAssessmentSheet/>}/>
             <Route path='/yahooauction' element={<YahooAuction/>}/>
             <Route path='/saleslist' element={<SalesList/>}/>
+            <Route path='/todolist' element={<TODOList/>}/>
           
        </Routes>
     </Router>

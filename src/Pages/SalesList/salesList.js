@@ -3,7 +3,7 @@ import React from 'react';
 import Titlebar from '../../Components/Common/Titlebar';
 // import InputComponent from '../../Components/Common/InputComponent';
 import ButtonComponent from '../../Components/Common/ButtonComponent';
-import LabelComponent from '../../Components/Common/LabelComponent';
+// import LabelComponent from '../../Components/Common/LabelComponent';
 import InputComponent from '../../Components/Common/InputComponent';
 
 
@@ -18,12 +18,12 @@ const SalesList = () => {
         alignItem: 'center'
     };
 
-    const Th = {
-        border: '1px solid #70685a',
-        borderCollapse: 'collapse',
-        color: '#70685a',
-        fontSize: '15px'
-    };
+    // const Th = {
+    //     border: '1px solid #70685a',
+    //     borderCollapse: 'collapse',
+    //     color: '#70685a',
+    //     fontSize: '15px'
+    // };
     const Td = {
         border: '1px solid #70685a',
         borderCollapse: 'collapse',
