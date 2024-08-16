@@ -41,6 +41,8 @@ import StampRelatedInventoryList from './Pages/StampRelatedInventoryList/stampRe
 import StampRelatedInventoryApplicationForm from './Pages/StampRelatedInventoryApplicationForm/stampRelatedInventoryApplicationForm';
 import StampRelatedReceiptAndIssueHistory from './Pages/StampRelatedReceiptAndIssueHistory/stampRelatedReceiptAndIssueHistory';
 import StampRelatedPurchaseStatement from './Pages/StampRelatedPurchaseStatement/stampRelatedPurchaseStatement'
+import StampPurchaseListCustomerConfirmation from './Pages/StampPurchaseListCustomerConfirmation/stampPurchaseListCustomerConfirmation';
+import StampPurchaseInterestRateChange from './Pages/StampPurchaseInterestRateChange/stampPurchaseInterestRateChange';
 
 function App() {
   return (
@@ -87,6 +89,9 @@ function App() {
             <Route path='/stamprelatedinventoryapplicationform' element={<StampRelatedInventoryApplicationForm/>}/>
             <Route path='/stamprelatedreceiptandissuehistory' element={<StampRelatedReceiptAndIssueHistory/>}/>
             <Route path='/stamprelatedpurchasestatement' element={<StampRelatedPurchaseStatement/>}/>
+            <Route path='/stamppurchaselistcustomerconfirmation' element={<StampPurchaseListCustomerConfirmation/>}/>
+            <Route path='/stamppurchaseinterestratechange' element={<StampPurchaseInterestRateChange/>}/>
+            
             
                  
           
