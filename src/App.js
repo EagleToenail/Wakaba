@@ -39,6 +39,8 @@ import ApplicationForDisposalPermission from './Pages/ApplicationForDisposalPerm
 import EndOfWorkReportToOwner from './Pages/EndOfWorkReportToOwner/endOfWorkReportToOwner';
 import StampRelatedInventoryList from './Pages/StampRelatedInventoryList/stampRelatedInventoryList';
 import StampRelatedInventoryApplicationForm from './Pages/StampRelatedInventoryApplicationForm/stampRelatedInventoryApplicationForm';
+import StampRelatedReceiptAndIssueHistory from './Pages/StampRelatedReceiptAndIssueHistory/stampRelatedReceiptAndIssueHistory';
+import StampRelatedPurchaseStatement from './Pages/StampRelatedPurchaseStatement/stampRelatedPurchaseStatement'
 
 function App() {
   return (
@@ -83,8 +85,10 @@ function App() {
             <Route path='/endofworkreporttoowner' element={<EndOfWorkReportToOwner/>}/>
             <Route path='/stamprelatedinventorylist' element={<StampRelatedInventoryList/>}/>
             <Route path='/stamprelatedinventoryapplicationform' element={<StampRelatedInventoryApplicationForm/>}/>
+            <Route path='/stamprelatedreceiptandissuehistory' element={<StampRelatedReceiptAndIssueHistory/>}/>
+            <Route path='/stamprelatedpurchasestatement' element={<StampRelatedPurchaseStatement/>}/>
             
-            
+                 
           
        </Routes>
     </Router>
