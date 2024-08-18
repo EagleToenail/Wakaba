@@ -124,7 +124,7 @@ const  Profile = () => {
                                     </div>
 
                                     <div style={{ width: '20%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                        <input name="ads" type="text" value={date} required className="w-full text-[#70685a] border border-[#70685a] px-4 py-2 outline-[#70685a]" />
+                                        <input name="ads" type="text" value={date} required className="w-full text-[#70685a] border border-[#70685a] px-4 py-1 text-[20px] outline-[#70685a]" readOnly/>
                                     </div>
                                     <div style={{ width: '5%', flexDirection: 'column', }} className='flex flex-col justify-center pl-3'>
                                         <div style={{width:'40px',height:'30px',cursor:'pointer'}}>
