@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Titlebar from '../../Components/Common/Titlebar';
-
+import DateAndTime from '../../Components/Common/PickData';
 
 
 const  StartingWork = () => {
@@ -10,7 +10,7 @@ const  StartingWork = () => {
     return (
         <>
             <Titlebar title={title} />
-            <h2 className="text-[#70685a] text-center font-bold text-[15px] flex justify-end mt-3" style={{ paddingRight: '1%' }}>2023/12/01(金)&nbsp;&nbsp;21:51</h2>
+            <DateAndTime/>
             <div className="bg-[trasparent] font-[sans-serif] mt-12">
                 <div className=" flex flex-col items-center justify-center px-4">
                     <div className="w-full pt-3" style={{ maxWidth: '80em' }}>
@@ -21,7 +21,7 @@ const  StartingWork = () => {
                                 {/* new */}
                                 <div className='flex'>
                                     <div style={{ width: '10%' }} className='flex align-center justify-end'>
-                                    <button type="button" className="w-20 px-1 py-2 font-bold tracking-wide rounded-lg justify-end text-[#d1cdca] border border-[#d1cdca] bg-[#e87a00] hover:bg-blue-700 focus:outline-none">送信
+                                    <button type="button" className="w-20 px-1 py-1 font-bold tracking-wide rounded-lg justify-end text-[#d1cdca] border border-[#d1cdca] bg-[#e87a00] hover:bg-blue-700 focus:outline-none">送信
                                             </button>
                                     </div>
                                     <div style={{ width: '5%' }} className=' px-5 flex align-center justify-center'>
@@ -35,7 +35,7 @@ const  StartingWork = () => {
                                 {/* new */}
                                 <div className='flex'>
                                     <div style={{ width: '10%' }} className='flex align-center justify-end'>
-                                    <button type="button" className="w-20 px-1 py-2 font-bold tracking-wide rounded-lg justify-end text-[#d1cdca] border border-[#d1cdca] bg-[#e87a00] hover:bg-blue-700 focus:outline-none">送信
+                                    <button type="button" className="w-20 px-1 py-1 font-bold tracking-wide rounded-lg justify-end text-[#d1cdca] border border-[#d1cdca] bg-[#e87a00] hover:bg-blue-700 focus:outline-none">送信
                                             </button>
                                     </div>
                                     <div style={{ width: '5%' }} className=' px-5 flex align-center justify-center'>
@@ -48,7 +48,7 @@ const  StartingWork = () => {
                                 {/* new */}
                                 <div className='flex'>
                                     <div style={{ width: '10%' }} className='flex align-center justify-end'>
-                                    <button type="button" className="w-20 px-1 py-2 font-bold tracking-wide rounded-lg justify-end text-[#d1cdca] border border-[#d1cdca] bg-[transparent] hover:bg-blue-700 focus:outline-none">送信
+                                    <button type="button" className="w-20 px-1 py-1 font-bold tracking-wide rounded-lg justify-end text-[#d1cdca] border border-[#d1cdca] bg-[transparent] hover:bg-blue-700 focus:outline-none">送信
                                             </button>
                                     </div>
                                     <div style={{ width: '5%' }} className=' px-5 flex align-center justify-center'>
@@ -61,7 +61,7 @@ const  StartingWork = () => {
                                 {/* new */}
                                 <div className='flex'>
                                     <div style={{ width: '10%' }} className='flex align-center justify-end'>
-                                    <button type="button" className="w-20 px-1 py-2 font-bold tracking-wide rounded-lg justify-end text-[#d1cdca] border border-[#d1cdca] bg-[#e87a00] hover:bg-blue-700 focus:outline-none">送信
+                                    <button type="button" className="w-20 px-1 py-1 font-bold tracking-wide rounded-lg justify-end text-[#d1cdca] border border-[#d1cdca] bg-[#e87a00] hover:bg-blue-700 focus:outline-none">送信
                                             </button>
                                     </div>
                                     <div style={{ width: '5%' }} className=' px-5 flex align-center justify-center'>
@@ -74,7 +74,7 @@ const  StartingWork = () => {
                                 {/* new */}
                                 <div className='flex'>
                                     <div style={{ width: '10%' }} className='flex align-center justify-end'>
-                                    <button type="button" className="w-20 px-1 py-2 font-bold tracking-wide rounded-lg justify-end text-[#d1cdca] border border-[#d1cdca] bg-[#e87a00] hover:bg-blue-700 focus:outline-none">送信
+                                    <button type="button" className="w-20 px-1 py-1 font-bold tracking-wide rounded-lg justify-end text-[#d1cdca] border border-[#d1cdca] bg-[#e87a00] hover:bg-blue-700 focus:outline-none">送信
                                             </button>
                                     </div>
                                     <div style={{ width: '5%' }} className=' px-5 flex align-center justify-center'>
@@ -87,7 +87,7 @@ const  StartingWork = () => {
                                 {/* new */}
                                 <div className='flex'>
                                     <div style={{ width: '10%' }} className='flex align-center justify-end'>
-                                    <button type="button" className="w-20 px-1 py-2 font-bold tracking-wide rounded-lg justify-end text-[#d1cdca] border border-[#d1cdca] bg-[#transparent] hover:bg-blue-700 focus:outline-none">送信
+                                    <button type="button" className="w-20 px-1 py-1 font-bold tracking-wide rounded-lg justify-end text-[#d1cdca] border border-[#d1cdca] bg-[#transparent] hover:bg-blue-700 focus:outline-none">送信
                                             </button>
                                     </div>
                                     <div style={{ width: '5%' }} className=' px-5 flex align-center justify-center'>
@@ -100,7 +100,7 @@ const  StartingWork = () => {
                                 {/* new */}
                                 <div className='flex'>
                                     <div style={{ width: '10%' }} className='flex align-center justify-end'>
-                                    <button type="button" className="w-20 px-1 py-2 font-bold tracking-wide rounded-lg justify-end text-[#d1cdca] border border-[#d1cdca] bg-[#e87a00] hover:bg-blue-700 focus:outline-none">送信
+                                    <button type="button" className="w-20 px-1 py-1 font-bold tracking-wide rounded-lg justify-end text-[#d1cdca] border border-[#d1cdca] bg-[#e87a00] hover:bg-blue-700 focus:outline-none">送信
                                             </button>
                                     </div>
                                     <div style={{ width: '5%' }} className=' px-5 flex align-center justify-center'>
@@ -113,7 +113,7 @@ const  StartingWork = () => {
                                 {/* new */}
                                 <div className='flex'>
                                     <div style={{ width: '10%' }} className='flex align-center justify-end'>
-                                    <button type="button" className="w-20 px-1 py-2 font-bold tracking-wide rounded-lg justify-end text-[#d1cdca] border border-[#d1cdca] bg-[#e87a00] hover:bg-blue-700 focus:outline-none">送信
+                                    <button type="button" className="w-20 px-1 py-1 font-bold tracking-wide rounded-lg justify-end text-[#d1cdca] border border-[#d1cdca] bg-[#e87a00] hover:bg-blue-700 focus:outline-none">送信
                                             </button>
                                     </div>
                                     <div style={{ width: '5%' }} className=' px-5 flex align-center justify-center'>
@@ -126,7 +126,7 @@ const  StartingWork = () => {
                                 {/* new */}
                                 <div className='flex'>
                                     <div style={{ width: '10%' }} className='flex align-center justify-end'>
-                                    <button type="button" className="w-20 px-1 py-2 font-bold tracking-wide rounded-lg justify-end text-[#d1cdca] border border-[#d1cdca] bg-[transparent] hover:bg-blue-700 focus:outline-none">送信
+                                    <button type="button" className="w-20 px-1 py-1 font-bold tracking-wide rounded-lg justify-end text-[#d1cdca] border border-[#d1cdca] bg-[transparent] hover:bg-blue-700 focus:outline-none">送信
                                             </button>
                                     </div>
                                     <div style={{ width: '5%' }} className=' px-5 flex align-center justify-center'>
@@ -139,7 +139,7 @@ const  StartingWork = () => {
                                 {/* new */}
                                 <div className='flex'>
                                     <div style={{ width: '10%' }} className='flex align-center justify-end'>
-                                    <button type="button" className="w-20 px-1 py-2 font-bold tracking-wide rounded-lg justify-end text-[#d1cdca] border border-[#d1cdca] bg-[#e87a00] hover:bg-blue-700 focus:outline-none">送信
+                                    <button type="button" className="w-20 px-1 py-1 font-bold tracking-wide rounded-lg justify-end text-[#d1cdca] border border-[#d1cdca] bg-[#e87a00] hover:bg-blue-700 focus:outline-none">送信
                                             </button>
                                     </div>
                                     <div style={{ width: '5%' }} className=' px-5 flex align-center justify-center'>
@@ -152,7 +152,7 @@ const  StartingWork = () => {
                                 {/* new */}
                                 <div className='flex'>
                                     <div style={{ width: '10%' }} className='flex align-center justify-end'>
-                                    <button type="button" className="w-20 px-1 py-2 font-bold tracking-wide rounded-lg justify-end text-[#d1cdca] border border-[#d1cdca] bg-[#e87a00] hover:bg-blue-700 focus:outline-none">送信
+                                    <button type="button" className="w-20 px-1 py-1 font-bold tracking-wide rounded-lg justify-end text-[#d1cdca] border border-[#d1cdca] bg-[#e87a00] hover:bg-blue-700 focus:outline-none">送信
                                             </button>
                                     </div>
                                     <div style={{ width: '5%' }} className=' px-5 flex align-center justify-center'>
@@ -165,7 +165,7 @@ const  StartingWork = () => {
                                 {/* new */}
                                 <div className='flex'>
                                     <div style={{ width: '10%' }} className='flex align-center justify-end'>
-                                    <button type="button" className="w-20 px-1 py-2 font-bold tracking-wide rounded-lg justify-end text-[#d1cdca] border border-[#d1cdca] bg-[#e87a00] hover:bg-blue-700 focus:outline-none">送信
+                                    <button type="button" className="w-20 px-1 py-1 font-bold tracking-wide rounded-lg justify-end text-[#d1cdca] border border-[#d1cdca] bg-[#e87a00] hover:bg-blue-700 focus:outline-none">送信
                                             </button>
                                     </div>
                                     <div style={{ width: '5%' }} className=' px-5 flex align-center justify-center'>
@@ -181,7 +181,7 @@ const  StartingWork = () => {
 
                                     <div className="!mt-5 flex" style={{ marginBottom: '10px', width: '70%', paddingLeft: '30%' }}>
                                         <div className='w-full flex justify-center'>
-                                            <button type="button" className="w-30 px-5 py-2 font-bold tracking-wide rounded-lg justify-center text-[#d1cdca] border border-[#d1cdca] bg-[#e87a00] hover:bg-blue-700 focus:outline-none">
+                                            <button type="button" className="w-30 px-10 py-1 font-bold tracking-wide rounded-sm justify-center text-[#d1cdca] border border-[#d1cdca] bg-[#e87a00] hover:bg-blue-700 focus:outline-none">
                                                 <Link to='/login' className='p-3  '>送信</Link>
                                             </button>
                                         </div>
