@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Titlebar from '../../../Components/Common/Titlebar';
+import DateAndTime from '../../../Components/Common/nowdateandtime';
 
 
 const Logout = () => {
@@ -8,7 +9,7 @@ const Logout = () => {
     return (
         <>
             <Titlebar title={title} />
-             <h2 className="text-[#70685a] text-center font-bold text-[15px] flex justify-end mt-3" style={{ paddingRight: '1%' }}>2023/12/01(金)&nbsp;&nbsp;21:51</h2>
+            <DateAndTime/>
             <div className="bg-[trasparent] font-[sans-serif] mt-10">
                 <div className=" flex flex-col items-center justify-center py-6 px-4">
                     <div className="w-full pt-3" style={{ maxWidth: '50em' }}>
@@ -21,7 +22,7 @@ const Logout = () => {
 
                                     <div style={{ width: '80%', paddingRight: '20%'}} className='!mt-0'>
                                         <div className="relative flex items-center">
-                                            <label className="w-full text-[#70685a] text-center font-bold px-4 py-3 outline-blue-600" >このまま口グアウトしてもよろしいですか?</label>
+                                            <label className="w-full text-[#70685a] text-[15px] text-center font-bold px-4 py-3 outline-blue-600" >このまま口グアウトしてもよろしいですか?</label>
                                         </div>
                                     </div>
                                 </div>
@@ -29,7 +30,7 @@ const Logout = () => {
                                     
                                     <div className="!mt-5 flex" style={{ marginBottom: '10px',width:'80%',paddingLeft: '20%' }}>
                                         <div className='w-full flex justify-center'>
-                                        <button type="button" className="w-30 px-5 py-2 font-bold tracking-wide rounded-lg justify-center text-white bg-[#e87a00] hover:bg-blue-700 focus:outline-none">
+                                        <button type="button" className="w-30 px-5 py-1 font-bold tracking-wide rounded-lg justify-center text-2xl text-white bg-[#e87a00] hover:bg-blue-700 focus:outline-none">
                                             <Link to='/login' className='p-3  '>LOGOUT</Link>
                                         </button>
                                         </div>

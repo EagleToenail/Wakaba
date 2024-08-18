@@ -5,7 +5,6 @@ import '../../Assets/css/showtable.css';
 import '../../Assets/css/firstTd.css';
 import '../../Assets/css/lastTd.css';
 import InputComponent from '../../Components/Common/InputComponent';
-import ButtonComponent from '../../Components/Common/ButtonComponent';
 import LabelComponent from '../../Components/Common/LabelComponent';
 
 
@@ -31,7 +30,7 @@ const WholeSalerShippingList = () => {
         color: '#70685a',
         fontSize: '15px'
     };
-
+  
     return (
         <>
             <Titlebar title={title} />
@@ -41,28 +40,28 @@ const WholeSalerShippingList = () => {
 
 
                         <div className='flex justify-around mt-10' >
-                            <h2 className="text-[#70685a] text-center text-2xl font-bold flex justify-center">Whole Saler Shipping List</h2>
+                            <h2 className="text-[#70685a] text-center text-2xl flex justify-center">Whole Saler Shipping List</h2>
                         </div>
 
                         {/*  */}
-                        <div className='flex mt-3 justify-center pr-40 pl-40'>
-                            <div className=' px-2 mr-2 text-center'>
+                        <div className='flex mt-3 justify-center  pr-40 pl-40'>
+                            <div className=' px-2 mr-2 text-center font-bold'>
                                 <LabelComponent value={'adf'} />
                                 <div><input type="date" /></div>
                             </div>
-                            <div className=' text-[#70685a] px-2 mr-2'>
+                            <div className=' text-[#70685a] px-2 mr-2 font-bold'>
                                 <div className='text-center'>
                                     <LabelComponent value={'adf'} />
                                 </div>
                                 <InputComponent style={{ height: '30px',}} />
                             </div>
-                            <div className=' text-[#70685a] px-2 mr-2'>
+                            <div className=' text-[#70685a] px-2 mr-2 font-bold'>
                                 <div className='text-center'>
                                     <LabelComponent value={'adf'} />
                                 </div>
                                 <InputComponent style={{ height: '30px',}} />
                             </div>
-                            <div className=' text-[#70685a] px-2 mr-2'>
+                            <div className=' text-[#70685a] px-2 mr-2 font-bold'>
                                 <div className='text-center'>
                                     <LabelComponent value={'adf'} />
                                 </div>
@@ -71,7 +70,7 @@ const WholeSalerShippingList = () => {
 
 
                             <div className=' text-[#70685a] px-2 mr-5' style={{ display: 'flex', alignItems: 'end' }}>
-                                <label className="text-[#70685a] font-bold block text-center ">Search with </label>
+                                <label className="text-[#70685a] block text-center ">Search with </label>
                             </div>
                             <div className=' text-[#70685a] px-2 mr-2' style={{ display: 'flex', alignItems: 'end' }}>
                                 < button type="button" style={{ display: 'flex', alignItem: 'end' }} className="flex align-end w-20 px-3 py-1 font-bold rounded-md tracking-wide justify-center text-white bg-[#a3a1c8] hover:bg-blue-700 focus:outline-none">
@@ -124,11 +123,13 @@ const WholeSalerShippingList = () => {
                                         <td style={Td} >50</td>
                                         <td style={Td} >50</td>
                                         <td style={Td} >50</td>
-                                        <td style={Td} ><ButtonComponent children={'asdf'}/></td>
-                                        <td>50
-
-
+                                        <td style={Td} >
+                                            <div className='bg-[#a6a6a6] w-20 h-5'>
+                                            <path d="M16.01 11H4v2h12.01v3L20 12l-3.99-4z"></path>
+                                                {/* <svg focusable="false" aria-hidden="true" data-testid="ArrowRightAltIcon" title="ArrowRightAlt"><path d="M16.01 11H4v2h12.01v3L20 12l-3.99-4z"></path></svg> */}
+                                            </div>
                                         </td>
+                                        <td>50</td>
                                     </tr>
                                    
                                 </tbody>

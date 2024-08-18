@@ -119,32 +119,7 @@ export default function MiniSidebar() {
                                    </li>
                               </ul>
                          </div>
-
-                         <div className="mt-4">
-                              <h6 className="text-white font-bold bg-[#655b4a] px-4 text-[15px]">Action</h6>
-                              <ul className="mt-2">
-                                   <li className='flex px-3'>
-                                        <button type="button"
-                                             className=" rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none active:bg-blue-700 text-[15px]">qw</button>
-                                   </li>
-                                   <li className='flex py-2 px-3'>
-                                        <button type="button"
-                                             className=" rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none active:bg-blue-700 text-[15px]">qw</button>
-                                   </li>
-                                   <li className='flex py-2 px-3'>
-                                        <button type="button"
-                                             className=" rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none active:bg-blue-700 text-[15px]">qw</button>
-                                   </li>
-                                   <li className='flex py-2 px-3'>
-                                        <button type="button"
-                                             className=" rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none active:bg-blue-700 text-[15px]">qw</button>
-                                   </li>
-                                   <li className='flex py-2 px-3'>
-                                        <button type="button"
-                                             className=" rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none active:bg-blue-700 text-[15px]">qw</button>
-                                   </li>
-                              </ul>
-                         </div>
+                         
                     </nav>
                </div>
           </>

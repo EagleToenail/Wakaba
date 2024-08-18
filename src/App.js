@@ -6,7 +6,7 @@ import Logout from './Pages/Auth/Logout/logout';
 import ForgetPassword from './Pages/Auth/ForgerPassword/forgetPassword';
 import PasswordSetting from './Pages/Auth/PasswordSetting/passwordSetting';
 import Register from './Pages/Auth/Register/register';
-import ToMoveInputForm from './Pages/Auth/ForInputForm/toMoveInputForm';
+import ToMoveInputForm from './Pages/Auth/ToInputForm/toMoveInputForm';
 import ConfirmProfile from './Pages/Auth/ConfirmProfile/confirmProfile';
 import LoginTimeCard from './Pages/Auth/LoginTimeCard/loginTimeCard';
 import LogoutTimeCard from './Pages/Auth/LogoutTimeCard/logoutTimecard';

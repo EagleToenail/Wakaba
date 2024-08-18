@@ -1,14 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Titlebar from '../../../Components/Common/Titlebar';
-
+import DateAndTime from '../../../Components/Common/nowdateandtime';
 
 const Register = () => {
     const title = 'タイトルタイトル';
     return (
         <>
             <Titlebar title={title} />
-            <h2 className="text-[#70685a] text-center font-bold text-[15px] flex justify-end mt-3" style={{ paddingRight: '1%' }}>2023/12/01(金)&nbsp;&nbsp;21:51</h2>
+            <DateAndTime/>
             <div className="bg-[trasparent] font-[sans-serif] mt-10">
                 <div className=" flex flex-col items-center justify-center py-6 px-4">
                     <div className="w-full pt-3" style={{ maxWidth: '50em' }}>
@@ -18,8 +18,8 @@ const Register = () => {
                             <form className="mt-8 space-y-6">
                                 <div className='flex'>
                                     <div style={{ width: '20%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                        <label className="text-[#70685a] font-bold mb-2 block text-right mr-5 !mb-0">ID</label>
-                                        <label className="text-[#70685a] font-bold mb-2 block text-right mr-5 !mb-0">pass</label>
+                                        <label className="text-[#70685a] font-bold mb-2 block text-right mr-5 !mb-0">メ一儿アドレス</label>
+                                        <label className="text-[#70685a] font-bold mb-2 block text-right mr-5 !mb-0">パスワード</label>
                                     </div>
 
                                     <div style={{ width: '80%', paddingRight: '20%'}} className='!mt-0'>
@@ -31,7 +31,7 @@ const Register = () => {
                                         </div>
                                     </div>
                                 </div>
-                                <h2 className="text-[#70685a] text-center text-[15px] font-semibold flex justify-center">LOGIN</h2>
+                                <h2 className="text-[#70685a] text-center text-[15px] font-semibold flex justify-center">このアドレスへ登録確認メールを</h2>
                                 <div className='flex justify-between !mt-1' >
                                     
                                     <div className="!mt-0 flex" style={{ marginBottom: '10px',width:'80%',paddingLeft: '20%' }}>

@@ -77,7 +77,7 @@ export default function TabContent1() {
                             </button>
                             <Link
                                 className="text-black font-bold  text-[15px] block rounded px-1 transition-all">
-                                Outside the standard
+                                基準外
                             </Link>
                         </li>
                         <li className='flex py-1'>
@@ -89,7 +89,7 @@ export default function TabContent1() {
                             </button>
                             <Link
                                 className="text-black font-bold  text-[15px] block rounded px-1 transition-all">
-                                Operator unloading report
+                                基者卸報告
                             </Link>
                         </li>
                         <li className='flex py-1'>
@@ -97,19 +97,19 @@ export default function TabContent1() {
                                 className="rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none text-[15px]">qw</button>
                             <Link
                                 className="text-black font-bold  text-[15px] block rounded px-7 transition-all">
-                                Training
+                                研修
                             </Link>
                         </li>
                         <li className='flex py-1'>
                             <button type="button"
                                 className="rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none text-[15px]">qw</button>
-                                                        <button type="button"
-                            className="w-6 h-6 inline-flex items-center justify-center text-[10px] text-bold rounded-full border-none outline-none bg-[#fff] hover:bg-purple-700 active:bg-purple-600">
-                            99
-                        </button>
+                            <button type="button"
+                                className="w-6 h-6 inline-flex items-center justify-center text-[10px] text-bold rounded-full border-none outline-none bg-[#fff] hover:bg-purple-700 active:bg-purple-600">
+                                99
+                            </button>
                             <Link
                                 className="text-black font-bold  text-[15px] block rounded px-1 transition-all">
-                                Inter-store
+                                店舗問連絡
                             </Link>
                         </li>
                         <li className='flex py-1'>
@@ -117,7 +117,7 @@ export default function TabContent1() {
                                 className="rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none text-[15px]">qw</button>
                             <Link
                                 className="text-black font-bold  text-[15px] block rounded px-7 transition-all">
-                                montyly-campain
+                                月每のキヤンパーン
                             </Link>
                         </li>
                         <li className='flex py-1'>
@@ -125,21 +125,21 @@ export default function TabContent1() {
                                 className="rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none text-[15px]">qw</button>
                             <Link
                                 className="text-black font-bold  text-[15px] block rounded px-7 transition-all">
-                                Purchase results blog
+                                買取っ実 績ブ口グ
                             </Link>
                         </li>
                     </ul>
                 </div>
 
                 <div className="mt-4">
-                    <h6 className="text-white font-bold bg-[#655b4a] px-4 py-1 text-[15px]">Income</h6>
+                    <h6 className="text-white font-bold bg-[#655b4a] px-4 py-1 text-[15px]">生駒 OOOOOO 店</h6>
                     <ul className="mt-2 px-3">
-                    <li className='flex py-1'>
+                        <li className='flex py-1'>
                             <button type="button"
                                 className="rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none text-[15px]">qw</button>
                             <Link
                                 className="text-black font-bold  text-[15px] block rounded px-7 transition-all">
-                                generally
+                                一般
                             </Link>
                         </li>
                         <li className='flex py-1'>
@@ -147,7 +147,7 @@ export default function TabContent1() {
                                 className="rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none text-[15px]">qw</button>
                             <Link
                                 className="text-black font-bold  text-[15px] block rounded px-7 transition-all">
-                                Business contact
+                                業務連絡
                             </Link>
                         </li>
                         <li className='flex py-1'>
@@ -155,60 +155,79 @@ export default function TabContent1() {
                                 className="rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none text-[15px]">qw</button>
                             <Link
                                 className="text-black font-bold  text-[15px] block rounded px-7 transition-all">
-                                1 day report
+                                一日の報告
                             </Link>
                         </li>
                         <hr className="my-3  mr-1 border-gray-400" />
                         <li className='flex py-1'>
                             <button type="button"
                                 className="rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none text-[15px]">qw</button>
-                                                        <button type="button"
+                            <button type="button"
                                 className="w-6 h-6 inline-flex items-center justify-center text-[10px] text-bold rounded-full border-none outline-none bg-[yellow] hover:bg-purple-700 active:bg-purple-600">
                                 99
                             </button>
                             <Link
                                 className="text-black font-bold  text-[15px] block rounded px-1 transition-all">
-                                99 Aproval
+                                決裁
                             </Link>
                         </li>                        <li className='flex py-1'>
                             <button type="button"
                                 className="rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none text-[15px]">qw</button>
-                                                        <button type="button"
+                            <button type="button"
                                 className="w-6 h-6 inline-flex items-center justify-center text-[10px] text-bold rounded-full border-none outline-none bg-[yellow] hover:bg-purple-700 active:bg-purple-600">
                                 99
                             </button>
                             <Link
                                 className="text-black font-bold  text-[15px] block rounded px-1 transition-all">
-                                Industury
+                                業者卸報告
                             </Link>
                         </li>                        <li className='flex py-1'>
                             <button type="button"
                                 className="rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none text-[15px]">qw</button>
                             <Link
                                 className="text-black font-bold  text-[15px] block rounded px-7 transition-all">
-                                1 day report
+                                入出金
                             </Link>
                         </li>                        <li className='flex py-1'>
                             <button type="button"
                                 className="rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none text-[15px]">qw</button>
-                                                        <button type="button"
+                            <button type="button"
                                 className="w-6 h-6 inline-flex items-center justify-center text-[10px] text-bold rounded-full border-none outline-none bg-[yellow] hover:bg-purple-700 active:bg-purple-600">
                                 99
                             </button>
                             <Link
                                 className="text-black font-bold  text-[15px] block rounded px-1 transition-all">
-                                99 Order Request
+                                発注依頼
                             </Link>
                         </li>
+                        <li className='flex py-1'>
+                            <button type="button"
+                                className="rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none text-[15px]">qw</button>
+                            <Link
+                                className="text-black font-bold  text-[15px] block rounded px-7 transition-all">
+                               購入依頼と送料支払報告
+                            </Link>
+                        </li>     
+                        <li className='flex py-1'>
+                            <button type="button"
+                                className="rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none text-[15px]">qw</button>
+                            <Link
+                                className="text-black font-bold  text-[15px] block rounded px-7 transition-all">
+                                出張買取
+                            </Link>
+                        </li>     
+                        <li className='flex py-1'>
+                            <button type="button"
+                                className="rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none text-[15px]">qw</button>
+                            <Link
+                                className="text-black font-bold  text-[15px] block rounded px-7 transition-all">
+                                業者来訪
+                            </Link>
+                        </li>     
                     </ul>
                 </div>
 
-                <div className="mt-4">
-                    <h6 className="text-white font-bold bg-[#655b4a] px-4 text-[15px]">Action</h6>
-                    <ul className="mt-2">
 
-                    </ul>
-                </div>
             </nav>
         </>
     )

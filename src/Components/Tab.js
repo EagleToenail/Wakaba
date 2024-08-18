@@ -12,21 +12,21 @@ const Tab = () => {
 
     return (
         <div className="w-full max-w-md mx-auto">
-            <div className="flex border-b border-[#655b4a] gap-1">
+            <div className="flex border-b border-[#655b4a] gap-1 mr-3">
                 <button
-                    className={`w-1/4 py-1 text-center  text-[#655b4a] font-semibold  rounded-tl-xl rounded-tr-xl focus:outline-none border border-[#655b4a] ${activeTab === 'tab1' ? 'bg-[#ebe6e0] border-b-[#ebe6e0]' : ' bg-gray-100'}`}
+                    className={`w-1/3  text-center  text-[#655b4a] text-[15px] font-bold  rounded-tl-xl rounded-tr-xl focus:outline-none border border-[#655b4a] ${activeTab === 'tab1' ? 'bg-[#ebe6e0] border-b-[#ebe6e0]' : ' bg-gray-100'}`}
                     onClick={() => handleTabClick('tab1')}
                 >
                     業務
                 </button>
                 <button
-                    className={`w-1/4 py-1 text-center  text-[#655b4a] font-semibold  rounded-tl-xl rounded-tr-xl focus:outline-none  border border-[#655b4a] ${activeTab === 'tab2' ? 'bg-[#ebe6e0] border-b-[#ebe6e0]' : ' bg-gray-100'}`}
+                    className={`w-1/3 text-center  text-[#655b4a] text-[15px] font-bold  rounded-tl-xl rounded-tr-xl focus:outline-none  border border-[#655b4a] ${activeTab === 'tab2' ? 'bg-[#ebe6e0] border-b-[#ebe6e0]' : ' bg-gray-100'}`}
                     onClick={() => handleTabClick('tab2')}
                 >
                     新着
                 </button>
                 <button
-                    className={`w-1/4 py-1 text-center font-semibold  text-[#655b4a]  rounded-tl-xl rounded-tr-xl focus:outline-none  border border-[#655b4a] ${activeTab === 'tab3' ? 'bg-[#ebe6e0] border-b-[#ebe6e0]' : ' bg-gray-100'}`}
+                    className={`w-1/3 text-center font-bold  text-[#655b4a] text-[15px]  rounded-tl-xl rounded-tr-xl focus:outline-none  border border-[#655b4a] ${activeTab === 'tab3' ? 'bg-[#ebe6e0] border-b-[#ebe6e0]' : ' bg-gray-100'}`}
                     onClick={() => handleTabClick('tab3')}
                 >
                     チャット

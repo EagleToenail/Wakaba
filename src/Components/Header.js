@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState ,useEffect} from 'react';
 import { Link } from 'react-router-dom'
 export default function Header() {
 
@@ -8,6 +8,28 @@ export default function Header() {
   const handleClick = () => {
     setIsOpen(!isOpen);
   };
+
+  const [date, setDate] = useState(new Date());
+
+  useEffect(() => {
+      // Update the date once on component mount
+      setDate(new Date());
+  }, []);
+
+  // Map of days of the week to Japanese kanji
+  const dayKanji = ['日', '月', '火', '水', '木', '金', '土'];
+
+  // Format the date as YYYY/MM/DD (Kanji)
+  const formatDate = (date) => {
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are 0-based
+      const day = String(date.getDate()).padStart(2, '0');
+      const dayOfWeek = date.getDay(); // Get day of week (0: Sunday, 1: Monday, ..., 6: Saturday)
+
+      return `${year}/${month}/${day} (${dayKanji[dayOfWeek]})`;
+  };
+  const formattedDate = formatDate(date);
+
 
   return (
     <>
@@ -34,7 +56,7 @@ export default function Header() {
             className='lg:flex  max-lg:space-y-3 max-lg:fixed max-lg:bg-white max-lg:w-1/2 max-lg:min-w-[300px] max-lg:top-0 max-lg:left-0 max-lg:p-6 max-lg:h-full max-lg:shadow-md max-lg:overflow-auto z-50'>
             <li className='max-lg:border-b-0 border-gray-300 max-lg:py-3 px-3'>
               <Link
-                className='text-[#655b4a] block font-semibold text-[15px]'>2024/12/01(金)</Link>
+                className='text-[#655b4a] block font-semibold text-[15px]'>{formattedDate}</Link>
             </li>
             <li className='max-lg:border-b border-gray-300 max-lg:py-3 px-3'>
               <Link
@@ -75,7 +97,7 @@ export default function Header() {
             </Link>
             </li>
             <li className='max-lg:border-b border-gray-300 max-lg:py-3 px-3'><Link
-              className='text-[#655b4a] block font-semibold text-[15px]'>User</Link>
+              className='text-[#655b4a] block font-semibold text-[15px]'>木戸武</Link>
             </li>
           </ul>
         </div>

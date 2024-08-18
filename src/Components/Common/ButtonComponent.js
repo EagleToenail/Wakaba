@@ -4,20 +4,7 @@ import PropTypes from 'prop-types';
 const Button = ({ onClick, children, type = 'button', className, disabled = false, style = {} }) => {
   // Default style
   const defaultStyle = {
-    // width: '100%',
-    height:'40px',
-    padding: '0.75rem',
-    backgroundColor:  '#e87a00',
-    color: '#fff',
-    border: 'none',
-    borderRadius: '10px',
-    fontSize: '1rem',
-    cursor: 'pointer',
-    fontWeight: 'bold',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    ...style, // Allow for custom styles to override default
+    
   };
 
 
@@ -25,12 +12,12 @@ const Button = ({ onClick, children, type = 'button', className, disabled = fals
   return (
     <button
       type={type}
-      className={`btn ${className}`}
+      className={`w-30 px-20 py-1 font-bold text-[white] tracking-wide rounded-lg justify-center t bg-[#e87a00] hover:bg-blue-700 focus:outline-none btn ${className}`}
       onClick={onClick}
       disabled={disabled}
-      style={defaultStyle}
+      style={{ ...defaultStyle, ...style }}
     >
-      {children}
+      sdfs
     </button>
   );
 };
