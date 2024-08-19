@@ -22,7 +22,7 @@ export default function WithdrawApply() {
                                             </div>
                                         </div>
                                         <div className='text-[15px] text-[black] ml-3'>
-                                            Reading withdrawal request form bank ATMS
+                                        OOOOの送料用出金の件
                                         </div>
                                     </div>
                                     <div className='flex mt-5'>
@@ -35,7 +35,7 @@ export default function WithdrawApply() {
                                             </div>
                                         </div>
                                         <div className='text-[15px] text-[black] ml-3'>
-                                            Reading withdrawal request form bank ATMS
+                                        OOOOの送料用出金の件
                                         </div>
                                     </div>
                                     <div className='flex mt-5'>
@@ -48,7 +48,7 @@ export default function WithdrawApply() {
                                             </div>
                                         </div>
                                         <div className='text-[15px] text-[black] ml-3'>
-                                            Reading withdrawal request form bank ATMS
+                                            OOOOOOOOの送料用出金の件
                                         </div>
                                     </div>
                                     <div className='flex mt-5'>
@@ -61,7 +61,7 @@ export default function WithdrawApply() {
                                             </div>
                                         </div>
                                         <div className='text-[15px] text-[black] ml-3'>
-                                            Reading withdrawal request form bank ATMS
+                                            OOOOOOOOOOOOOOの送料用出金の件
                                         </div>
                                     </div>
                                 </div>
@@ -70,25 +70,25 @@ export default function WithdrawApply() {
                                     <div className='flex mt-5'>
                                         <div className='w-7 h-7 rounded-full border border-[#70685a]'></div>
                                         <div>
-                                            <label className="text-[black] pl-3 text-[15px] block text-center">destination name</label>
+                                            <label className="text-[black] pl-3 text-[15px] block text-center">宛先の名前</label>
                                         </div>
                                     </div>
                                     <div className='flex mt-5'>
                                         <div className='w-7 h-7 rounded-full border border-[#70685a]'></div>
                                         <div>
-                                            <label className="text-[black] pl-3 text-[15px] block text-center">destination name</label>
+                                            <label className="text-[black] pl-3 text-[15px] block text-center">宛先の名前</label>
                                         </div>
                                     </div>
                                     <div className='flex mt-5'>
                                         <div className='w-7 h-7 rounded-full border border-[#70685a]'></div>
                                         <div>
-                                            <label className="text-[black] pl-3 text-[15px] block text-center">destination name</label>
+                                            <label className="text-[black] pl-3 text-[15px] block text-center">宛先の名前</label>
                                         </div>
                                     </div>
                                     <div className='flex mt-5'>
                                         <div className='w-7 h-7 rounded-full border border-[#70685a]'></div>
                                         <div>
-                                            <label className="text-[black] pl-3 text-[15px] block text-center">destination name</label>
+                                            <label className="text-[black] pl-3 text-[15px] block text-center">宛先の名前</label>
                                         </div>
                                     </div>
                                 </div>
@@ -96,12 +96,12 @@ export default function WithdrawApply() {
                             <div className='flex mt-5'>
                                 {/* rect btn */}
                                 <div>
-                                    < button type="button" className="w-20 px-3 py-0.5 font-semiblod rounded-lg justify-center text-[#70685a] text-[15px] bg-[#ebe6e0] hover:bg-blue-700 focus:outline-none">
-                                        edit
-                                    </button>
+                                        < button type="button" className="w-max px-10 py-1 font-semiblod rounded-lg justify-center text-[#70685a] text-[16px] bg-[#ebe6e0] hover:bg-blue-700 focus:outline-none">
+                                        編集
+                                        </button>
                                 </div>
                                 <div>
-                                    <label className="text-[black] pl-3 text-[20px] block text-center">destination name destination name destination name destination name</label>
+                                    <label className="text-[black] pl-3 text-[20px] block text-left">佐川急便着払い荷物を、切手で支払いました。9999円でした。<br/>ご確認ください。</label>
                                 </div>
                             </div>
                             {/* rect-btn-gurope 8 */}
@@ -124,9 +124,7 @@ export default function WithdrawApply() {
                                         <div className='w-5 h-5 border border-[#70685a] mt-1'></div>
                                     </div>
                                 </div>
-                                <div>
-                                    <label className="text-[black] pl-3 text-[20px] block text-center">destination name destination name destination name destination name</label>
-                                </div>
+
                             </div>
 
                         </div>
@@ -136,40 +134,40 @@ export default function WithdrawApply() {
                                 <div className='flex mt-5'>
                                     <div className='w-7 h-7 rounded-full border border-[#70685a] bg-[#70685a]'></div>
                                     <div>
-                                        <label className="text-[black] pl-3 text-[15px] block text-center">destination name</label>
+                                        <label className="text-[black] pl-3 text-[15px] block text-center">名前名前名前名前</label>
                                     </div>
                                 </div>
                                 <div className='flex mt-5'>
                                     <div className='w-7 h-7 rounded-full border border-[#70685a] bg-[#70685a]'></div>
                                     <div>
-                                        <label className="text-[black] pl-3 text-[15px] block text-center">destination name</label>
+                                        <label className="text-[black] pl-3 text-[15px] block text-center">名前名前名前名前</label>
                                     </div>
                                 </div>
                                 <div className='flex mt-5'>
                                     <div className='w-7 h-7 rounded-full border border-[#70685a] bg-[#70685a]'></div>
                                     <div>
-                                        <label className="text-[black] pl-3 text-[15px] block text-center">destination name</label>
+                                        <label className="text-[black] pl-3 text-[15px] block text-center">名前名前名前名前</label>
                                     </div>
                                 </div>
                                 <div className='flex mt-5'>
                                     <div className='w-7 h-7 rounded-full border border-[#70685a] bg-[#70685a]'></div>
                                     <div>
-                                        <label className="text-[black] pl-3 text-[15px] block text-center">destination name</label>
+                                        <label className="text-[black] pl-3 text-[15px] block text-center">名前名前名前名前</label>
                                     </div>
                                 </div>
                             </div>
 
                             {/* rect btn */}
                             <div className='mt-5 ml-10'>
-                                < button type="button" className="w-20 px-3 py-0.5 font-semiblod rounded-lg justify-center text-[#70685a] text-[15px] bg-[#9bd194] hover:bg-blue-700 focus:outline-none">
-                                    edit
-                                </button>
+                            < button type="button" className="w-max px-10 py-1 font-semiblod rounded-lg justify-center text-[#fbfcfb] text-[18px] bg-[#92c78b] hover:bg-blue-700 focus:outline-none">
+                            確認
+                            </button>
                             </div>
                             {/* rect btn */}
                             <div className='mt-5 ml-10'>
-                                < button type="button" className="w-20 px-3 py-0.5 font-semiblod rounded-lg justify-center text-[#70685a] text-[15px] bg-[#ebe6e0] hover:bg-blue-700 focus:outline-none">
-                                    edit
-                                </button>
+                            < button type="button" className="w-max px-10 py-1 font-semiblod rounded-lg justify-center text-[#70685a] text-[16px] bg-[#ebe6e0] hover:bg-blue-700 focus:outline-none">
+                                        編集
+                            </button>
                             </div>
                         </div>
                     </div>
@@ -182,100 +180,88 @@ export default function WithdrawApply() {
                     </div>
                     {/* operation */}
                     <div className='flex'>
-                        <div style={{ width: '10%',height:'50px' }} className='text-center mt-1 text-[15px]'>New post</div>
-                        <div style={{ width: '90%',height:'50px' }} className='text-center'>
-                            {/* firstline */}
-                            <div className='flex'>
-                                <div style={{ width: '30%' }}>
-                                    <InputComponent style={{ width: '100%',height:'30px' }}/>
+                    <LabelComponent value={'新規投稿'} style={{marginTop:'5px',width:'10%',marginRight:'15px'}}/>
+                    <div style={{ width: '90%',height:'50px' }} className='text-center'>
+                        {/* firstline */}
+                        <div className='flex' style={{height:'40px'}}>
+                            <div style={{ width: '25%' ,}}>
+                                    <select id="gender" name="gender" className="w-full text-[#70685a] font-bold border border-[#70685a] px-4 py-2 outline-[#70685a]">
+                                        <option value="1">宛先の名前</option>
+                                        <option value="2">Afghanistan</option>
+                                        <option value="3">Åland</option>
+                                        <option value="4">Albania</option>
+                                    </select>
+                            </div>
+                            <div style={{ width: '35%' }} className='flex justify-around mr-10 ml-10'>
+                                <div className='mr-10'>
+                                    <select id="gender" name="gender" className="w-full text-[#70685a] font-bold border border-[#70685a] px-4 py-2 outline-[#70685a]">
+                                        <option value="1">佐川急便</option>
+                                        <option value="2">Afghanistan</option>
+                                        <option value="3">Åland</option>
+                                        <option value="4">Albania</option>
+                                    </select>
                                 </div>
-                                <div style={{ width: '5%' }} className='flex'>
-                                    <LabelComponent value={'ABC'} style={{marginTop:'5px'}}/>
-                                </div>
-                                <div style={{ width: '40%' }} className='flex ml-10'>
-                                    <InputComponent style={{width: '40%',height:'30px' ,marginRight:'30px'}}/>
-                                    <InputComponent style={{width: '40%',height:'30px'}}/>
-                                </div>
-                                <div style={{ width: '30%' ,marginRight:'100px'}}>
-                                <LabelComponent value={'ABC'} style={{marginTop:'5px',marginRight:'15px'}}/>
-                                <InputComponent style={{ width: '30%' ,height:'30px'}}/>
-                                <LabelComponent value={'ABC'} style={{marginTop:'5px',marginLeft:'15px'}}/>
+                                <div>
+                                    <select id="gender" name="gender" className="w-full text-[#70685a] font-bold border border-[#70685a] px-4 py-2 outline-[#70685a]">
+                                        <option value="1">切手で支払い</option>
+                                        <option value="2">Afghanistan</option>
+                                        <option value="3">Åland</option>
+                                        <option value="4">Albania</option>
+                                    </select>
                                 </div>
 
                             </div>
-                            {/* secondline */}
-                            <div className='flex !mt-2'>
-                                <div style={{ width: '60%' }}>
-                                    <InputComponent style={{height:'30px'}}/>
+                            <div style={{ width: '25%', height:'40px'}} className='flex justify-end'>
+                                <LabelComponent value={'支払額'} style={{marginTop:'5px',marginLeft:'15px'}}/>
+                                <select id="gender" name="gender" className="w-40 text-[#70685a] font-bold border border-[#70685a] px-4 py-2 outline-[#70685a]">
+                                            <option value="1">50</option>
+                                            <option value="2">10</option>
+                                            <option value="3">5</option>
+                                            <option value="4">0</option>
+                                        </select>
+                                <LabelComponent value={'円'} style={{marginTop:'5px',marginLeft:'15px'}}/>
+                            </div>
+                        </div>
+                        {/* secondline */}
+                        <div className='flex !mt-2' style={{height:'40px'}}>
+                            <div style={{ width: '60%' }} className='flex justify-start'>
+                                <InputComponent style={{height:'40px'}} className='w-full mr-10'/>
+                            </div>
+                            <div style={{ width: '10%' }}>
+                            < button type="button" className="w-max px-5 mr-5 py-1 font-semiblod rounded-lg justify-center text-[#70685a] text-[16px] bg-[#ebe6e0] hover:bg-blue-700 focus:outline-none">
+                            フアイル
+                            </button>
+                            </div>
+                            <div  style={{ width: '40%' }} className='mt-0.5 flex flex-col justify-center ml-5'>
+                                <div className='flex gap-2.5'>
+                                    <div className='w-6 h-6 border border-[#70685a] '></div>
+                                    <div className='w-6 h-6 border border-[#70685a] '></div>
+                                    <div className='w-6 h-6 border border-[#70685a] '></div>
+                                    <div className='w-6 h-6 border border-[#70685a] '></div>
+                                    <div className='w-6 h-6 border border-[#70685a] '></div>
+                                    <div className='w-6 h-6 border border-[#70685a] '></div>
+                                    <div className='w-6 h-6 border border-[#70685a] '></div>
+                                    <div className='w-6 h-6 border border-[#70685a] '></div>
+                                    <div className='w-6 h-6 border border-[#70685a] '></div>
+                                    <div className='w-6 h-6 border border-[#70685a] '></div>
                                 </div>
-                                <div style={{ width: '10%' }}>
-                                < button type="button" className="w-20 px-3 py-0.5 font-semiblod rounded-lg justify-center text-[#70685a] text-[15px] bg-[#ebe6e0] hover:bg-blue-700 focus:outline-none">
-                                    edit
+                            </div>
+                        </div>
+                        {/* thirdline */}
+                        <div className='flex mt-2' style={{height:'40px'}}>
+                            <div style={{ width: '80%' }}>
+                                <InputComponent style={{height:'40px'}} className="w-full"/>
+                            </div>
+                            <div className='pl-5'>
+                                < button type="button" className="w-max px-10 py-1 font-semiblod rounded-lg justify-center text-[#70685a] text-[16px] bg-[#ebe6e0] hover:bg-blue-700 focus:outline-none">
+                                送信
                                 </button>
-                                </div>
-                                <div  style={{ width: '40%' }} className='mt-0.5 flex gap-2.5'>
-                                  <div className='w-6 h-6 border border-[#70685a] '></div>
-                                  <div className='w-6 h-6 border border-[#70685a] '></div>
-                                  <div className='w-6 h-6 border border-[#70685a] '></div>
-                                  <div className='w-6 h-6 border border-[#70685a] '></div>
-                                  <div className='w-6 h-6 border border-[#70685a] '></div>
-                                  <div className='w-6 h-6 border border-[#70685a] '></div>
-                                  <div className='w-6 h-6 border border-[#70685a] '></div>
-                                  <div className='w-6 h-6 border border-[#70685a] '></div>
-                                  <div className='w-6 h-6 border border-[#70685a] '></div>
-                                  <div className='w-6 h-6 border border-[#70685a] '></div>
-                                </div>
-                            </div>
-                            {/* thirdline */}
-                            <div className='flex mt-2'>
-                                <div style={{ width: '80%' }}>
-                                    <InputComponent style={{height:'30px'}}/>
-                                </div>
-                                <div className='pl-5'>
-                                    < button type="button" className="w-20 px-3 py-0.5 font-semiblod rounded-lg justify-center text-[#70685a] text-[15px] bg-[#ebe6e0] hover:bg-blue-700 focus:outline-none">
-                                        edit
-                                    </button>
-                                </div>
-                            </div>
-                            operation
-                        </div>
-
-
-                    </div>
-
-
-
-
-
-
-
-                    {/* asd full-circle
-                    <div>
-                        <div className='flex mt-5'>
-                            <div className='w-7 h-7 rounded-full border border-[#70685a] bg-[#70685a]'></div>
-                            <div>
-                                <label className="text-[black] pl-3 text-[15px] block text-center">destination name</label>
-                            </div>
-                        </div>
-                        <div className='flex mt-5'>
-                            <div className='w-7 h-7 rounded-full border border-[#70685a] bg-[#70685a]'></div>
-                            <div>
-                                <label className="text-[black] pl-3 text-[15px] block text-center">destination name</label>
-                            </div>
-                        </div>
-                        <div className='flex mt-5'>
-                            <div className='w-7 h-7 rounded-full border border-[#70685a] bg-[#70685a]'></div>
-                            <div>
-                                <label className="text-[black] pl-3 text-[15px] block text-center">destination name</label>
                             </div>
                         </div>
                     </div>
-                     rect btn 
-                    <div>
-                        < button type="button" className="w-20 px-3 py-0.5 font-semiblod rounded-lg justify-center text-[#70685a] text-[15px] bg-[#ebe6e0] hover:bg-blue-700 focus:outline-none">
-                            edit
-                        </button>
-                    </div> */}
+
+
+                </div>
 
 
                 </div>

@@ -79,7 +79,7 @@ const MonthlyIncome = () => {
                             <div style={{width:'40px',height:'30px',cursor:'pointer'}}>
                                 <div style={{position: 'relative'}}>
                                     <img src={dateimage} style={{width:'40px',height:'30px', position: 'absolute',cursor:'pointer'}} alt='calendar'></img>
-                                    <input type="date" id="startdate" name="startdate" value={''} onChange={handleStartDateChange} style={{position: 'absolute', width:'40px', height:'30px', background:'transparent', border:'none',opacity:'0',cursor:'pointer'}}/>
+                                    <input type="date" id="startdate" name="startdate" value={''} onChange={handleStartDateChange} style={{position: 'absolute',left:'0', width:'40px', height:'30px', background:'transparent', border:'none',opacity:'0',cursor:'pointer'}}/>
                                 </div>
                             </div>
                         </div>
@@ -95,7 +95,7 @@ const MonthlyIncome = () => {
                             <div style={{width:'40px',height:'30px',cursor:'pointer'}}>
                                 <div style={{position: 'relative'}}>
                                     <img src={dateimage} style={{width:'40px',height:'30px', position: 'absolute',cursor:'pointer'}} alt='calendar'></img>
-                                    <input type="date" id="enddate" name="enddate" value={''} onChange={handleEndDateChange} style={{position: 'absolute', width:'40px', height:'30px', background:'transparent', border:'none',opacity:'0',cursor:'pointer'}}/>
+                                    <input type="date" id="enddate" name="enddate" value={''} onChange={handleEndDateChange} style={{position: 'absolute',left:'0', width:'40px', height:'30px', background:'transparent', border:'none',opacity:'0',cursor:'pointer'}}/>
                                 </div>
                             </div>
                         </div>

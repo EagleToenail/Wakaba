@@ -130,7 +130,7 @@ const  Profile = () => {
                                         <div style={{width:'40px',height:'30px',cursor:'pointer'}}>
                                             <div style={{position: 'relative'}}>
                                                 <img src={dateimage} style={{width:'40px',height:'30px', position: 'absolute',cursor:'pointer'}} alt='calendar'></img>
-                                                <input type="date" id="birthday" name="birthday" onChange={handleDateChange} style={{position: 'absolute', width:'40px', height:'30px', background:'transparent', border:'none',opacity:'0',cursor:'pointer'}}/>
+                                                <input type="date" id="birthday" name="birthday" onChange={handleDateChange} style={{position: 'absolute',left:'0', width:'40px', height:'30px', background:'transparent', border:'none',opacity:'0',cursor:'pointer'}}/>
                                                 {/* <input type="date" id="birthday" name="birthday" style={{position: 'absolute', width:'30px', height:'30px', background:'transparent', border:'none', opacity:'0'}}/> */}
                                             </div>
                                         </div>

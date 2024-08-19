@@ -17,7 +17,7 @@ const Button = ({ onClick, children, type = 'button', className, disabled = fals
       disabled={disabled}
       style={{ ...defaultStyle, ...style }}
     >
-      sdfs
+    {children}
     </button>
   );
 };
