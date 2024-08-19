@@ -1,8 +1,10 @@
-import React from 'react'
+import React from 'react';
 import InputComponent from '../../Components/Common/InputComponent';
 import LabelComponent from '../../Components/Common/LabelComponent';
 
 export default function WithdrawVariousPurchase() {
+
+
     return (
         <>
         <div className=" flex flex-col items-center justify-center py-3 px-4">

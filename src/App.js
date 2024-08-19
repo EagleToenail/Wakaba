@@ -75,7 +75,7 @@ function App() {
             <Route path='/withdrawvariouspurchase' element={<WithdrawVariousPurchase/>}/>
             <Route path='/withdrawapply' element={<WithdrawApply/>}/>
             <Route path='/customerlist' element={<CustomerList/>}/>
-            <Route path='/customerinvidual' element={<CustomerIndividual/>}/>
+            <Route path='/customerindividual' element={<CustomerIndividual/>}/>
             <Route path='/purchasetorshop' element={<PurchaseToRShop/>}/>
             <Route path='/invoiceforpurchaseofbrought' element={<InvoiceForPurchaseOfBrought/>}/>
             <Route path='/purchaseinvoiceforbroughtinitems' element={<PurchaseInvoiceForBroughtInItems/>}/>
