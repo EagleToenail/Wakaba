@@ -18,6 +18,26 @@ const InvoicePurchaseOfBrought = () => {
         setEndDate(event.target.value); // Update the date state with the selected date
     };
 
+    const Table = {
+        borderCollapse: 'collapse',
+        color: '#70685a',
+        textAlign: 'center',
+        width: '100%',
+        alignItem: 'center'
+    };
+
+    // const Th = {
+    //     border: '1px solid #70685a',
+    //     borderCollapse: 'collapse',
+    //     color: '#70685a',
+    //     fontSize: '15px'
+    // };
+    const Td = {
+        border: '1px solid #6e6e7c',
+        borderCollapse: 'collapse',
+        color: '#6e6e7c',
+        fontSize: '15px',
+    };
 
     return (<>
         <Titlebar title={title} />
@@ -193,7 +213,7 @@ const InvoicePurchaseOfBrought = () => {
                         <div className=" h-full w-full ml-10">
                             {/* Text area */}
                             <div className="border border-[#70685a] rounded px-3 w-full" style={{ height: '300px', overflowX: 'scroll', overflowY: 'scroll' }}>
-                                <label className="text-[#70685a] text-[20px] font-bold mb-2 block text-left mr-10 py-1 !mb-0">Past vist history</label>
+                                <label className="text-[#70685a] text-[20px] font-bold mb-2 block text-left mr-10 py-1 !mb-0">過去の来店履歴</label>
                             </div>
                         </div>
                     </div>
@@ -202,10 +222,10 @@ const InvoicePurchaseOfBrought = () => {
                         <div className=" h-full w-full ml-10 mt-10">
                             {/* Text area */}
                             <div className="border border-[#70685a] rounded px-3 w-full" style={{ height: '305px', overflowX: 'scroll', overflowY: 'scroll' }}>
-                                <label className="text-[#70685a] text-[20px] font-bold mb-2 block text-left mr-10 py-1 !mb-0">Whole hearing</label>
+                                <label className="text-[#70685a] text-[20px] font-bold mb-2 block text-left mr-10 py-1 !mb-0">金体ヒアング</label>
                                 <div>
                                     <div className='flex'>
-                                        <label className="text-[#70685a] text-[20px] mb-2 block text-left mr-10 py-1">Eleven 1</label>
+                                        <label className="text-[#70685a] text-[20px] mb-2 block text-left mr-10 py-1">項目1</label>
                                         <label className="text-[#70685a] text-[20px] mb-2 block text-left mr-10 py-1 !mb-0">O O O O O O O O</label>
                                     </div>
                                     <div className='border border-[#70685a] ml-20'>
@@ -214,7 +234,7 @@ const InvoicePurchaseOfBrought = () => {
                                 </div>
                                 <div>
                                     <div className='flex'>
-                                        <label className="text-[#70685a] text-[20px] mb-2 block text-left mr-10 py-1">Eleven 2</label>
+                                        <label className="text-[#70685a] text-[20px] mb-2 block text-left mr-10 py-1">項目2</label>
                                         <label className="text-[#70685a] text-[20px] mb-2 block text-left mr-10 py-1 !mb-0">O O O O O O O O</label>
                                     </div>
                                     <div className='border border-[#70685a] ml-20'>
@@ -228,66 +248,85 @@ const InvoicePurchaseOfBrought = () => {
             </div>
             {/* table */}
             <div className="flex justify-center">
-                <div className='w-full pt-10' style={{ maxWidth: '80em' }}>
-                    <table className='text-center w-full'>
+                <div style={{width:'90%',overflow:'auto'}}>
+                    <table className='text-center w-full' style={Table}>
                         <thead>
                             <tr>
-                                <th width='1%'>section</th>
-                                <th width='2%'>PN</th>
-                                <th>SIG category</th>
-                                <th>Points1</th>
-                                <th>Points2</th>
-                                <th width='20%'>Points3</th>
-                                <th>Points4</th>
-                                <th width='20%'>Points5</th>
-                                <th>Points6</th>
-                                <th>Points7</th>
-                                <th>Points8</th>
-                                <th>Points9</th>
-                                <th>Points10</th>
-                                <th>Points</th>
-                                <th>Points</th>
-                                <th>Points</th>
+                                <th width='1%'>選</th>
+                                <th width='2%'>商品番号</th>
+                                <th>ヒアリング</th>
+                                <th>力テゴリ-1</th>
+                                <th>画像</th>
+                                <th width='10%'>商品名</th>
+                                <th>個数</th>
+                                <th width='10%'>申請の根拠</th>
+                                <th>利率</th>
+                                <th>申請額</th>
+                                <th>最高査定額</th>
+                                <th>業者</th>
+                                <th>承諾</th>
+                                <th>上司指示額</th>
+                                <th>結果</th>
+                                <th>買取額</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
                                 <td><input type='checkbox'/></td>
-                                <td>Smith</td>
-                                <td>50</td>
-                                <td>50</td>
-                                <td>50</td>
-                                <td>50</td>
-                                <td>50</td>
-                                <td>50</td>
-                                <td>50</td>
-                                <td>50</td>
-                                <td>50</td>
-                                <td>50</td>
-                                <td>50</td>
-                                <td>50</td>
-                                <td>50</td>
-                                <td>50</td>
-                                <td>50</td>
-                            </tr>
-                            <tr>
-                                <td><input type='checkbox'/></td>
-                                <td>Jackson</td>
-                                <td>94</td>
-                                <td>94</td>
-                                <td>94</td>
-                                <td>94</td>
-                                <td>94</td>
-                                <td>94</td>
-                                <td>94</td>
-                                <td>94</td>
-                                <td>94</td>
-                                <td>94</td>
-                                <td>94</td>
-                                <td>94</td>
-                                <td>94</td>
-                                <td>94</td>
-                                <td>94</td>
+                                <td style={Td}>99999</td>
+                                <td  style={Td}>
+                                    <select id="classificatin3" name="classificatin" className="w-full h-full text-[#70685a] font-bold py-2 outline-[#70685a]">
+                                        <option value="1">済</option>
+                                        <option value="2"></option>
+                                        <option value="3">Åland Islands</option>
+                                        <option value="4">Albania</option>
+                                    </select>
+                                </td>
+                                <td  style={Td}>
+                                <select id="classificatin3" name="classificatin" className="w-full h-full text-[#70685a] font-bold  py-2 outline-[#70685a]">
+                                        <option value="1">済</option>
+                                        <option value="2"></option>
+                                        <option value="3">Åland Islands</option>
+                                        <option value="4">Albania</option>
+                                    </select>
+                                </td>
+                                <td  style={Td}>
+                                <ButtonComponent children="1" className='w-max !px-5 rounded-lg' style={{  backgroundColor: '#ebe5e1', color: '#626373'}} />
+                                </td>
+                                <td  style={Td}>
+                                    <div className='flex'>
+                                        <div className='w-5 h-5 rounded-full bg-[] mr-3'></div>
+                                        <div>グシチOOOOOOO</div>
+                                    </div>
+                                </td>
+                                <td  style={Td}>1</td>
+                                <td  style={Td}>OOOOOOO</td>
+                                <td  style={Td}>100</td>
+                                <td  style={Td}>100</td>
+                                <td  style={Td}>1</td>
+                                <td  style={Td}>
+                                        1
+                                </td>
+                                <td  style={Td}>
+                                <select id="classificatin3" name="classificatin" className="w-full h-full text-[#70685a] font-bold  py-2 outline-[#70685a]">
+                                        <option value="1">済</option>
+                                        <option value="2"></option>
+                                        <option value="3">Åland Islands</option>
+                                        <option value="4">Albania</option>
+                                    </select>
+                                </td>
+                                <td  style={Td}>
+                                </td>
+                                <td  style={Td}>
+                                <select id="classificatin3" name="classificatin" className="w-full h-full text-[#70685a] font-bold  py-2 outline-[#70685a]">
+                                        <option value="1">済</option>
+                                        <option value="2"></option>
+                                        <option value="3">Åland Islands</option>
+                                        <option value="4">Albania</option>
+                                    </select>
+                                </td>
+                                <td  style={Td}>
+                                </td>
                             </tr>
                         </tbody>
 
@@ -299,14 +338,20 @@ const InvoicePurchaseOfBrought = () => {
                 <div className='w-full pt-3 pb-20' style={{ maxWidth: '80em' }}>
                     <div className='flex justify-between'>
                         <label className="text-[#70685a] font-bold mb-2 block text-left !mb-0" style={{visibility:'hidden'}}>Total purchase price 999,999,999 yen</label>
-                        <label className="text-[#70685a] font-bold mb-2 block text-left !mb-0">Purchase points: 999</label>
-                        <label className="text-[#70685a] font-bold mb-2 block text-left !mb-0">Total purchase price 999,999,999 yen</label>
+                        <label className="text-[#70685a] font-bold mb-2 block text-left !mb-0">買取点数&nbsp;999点</label>
+                        <label className="text-[#70685a] font-bold mb-2 block text-left !mb-0">買取合計&nbsp;&nbsp;999,999,999円</label>
                     </div>
-                    <div className='flex justify-center pt-3'>
-                        <input type='checkbox'/>
-                        <label className="text-[#70685a] font-bold mb-2 block text-left !mb-0 mr-10 pt-2" >Total purchase</label>
-                        <label className="text-[#70685a] font-bold mb-2 block text-left !mb-0 mr-5 pt-2" >Total purchase price</label>
-                        <InputComponent style={{ width: '15%' }} className='mr-5'/>
+                    <div className='flex flex-col justify-center pt-3'>
+                        <div className='flex justify-center pt-3'>
+                        <input type='checkbox' className='mr-3'/>
+                        <label className="text-[#70685a] font-bold mb-2 block text-left !mb-0 mr-10 pt-2" >LINQお成達登録したか？</label>
+                        <label className="text-[#70685a] font-bold mb-2 block text-left !mb-0 mr-5 pt-2" >ノパルテイ一を何を渡したか？</label>
+                        <select id="classificatin3" name="classificatin" className="w-40 h-11 mr-10 text-[#70685a] font-bold border border-[#70685a] px-4 py-2 outline-[#70685a]">
+                            <option value="1">テイシ工ボシクス</option>
+                            <option value="2">Afghanistan</option>
+                            <option value="3">Åland Islands</option>
+                            <option value="4">Albania</option>
+                        </select>
                         <InputComponent style={{ width: '10%' }} className='mr-5'/>
                         <label className="text-[#70685a] font-bold mb-2 block text-left !mb-0 pt-2 mr-10" >To</label>
                         <button type="button"
@@ -317,12 +362,18 @@ const InvoicePurchaseOfBrought = () => {
                                     data-original="#000000" />
                             </svg>
                         </button>
+                        </div>
                     </div>
                     <div className='flex justify-center pt-3'>
-                        <input type='checkbox'/>
-                        <label className="text-[#70685a] font-bold mb-2 block text-left !mb-0 mr-10 pt-2" >Total purchase</label>
-                        <label className="text-[#70685a] font-bold mb-2 block text-left !mb-0 mr-5 pt-2" >Total purchase price</label>
-                        <InputComponent style={{ width: '15%' }} className='mr-5'/>
+                        <input type='checkbox' className='mr-3'/>
+                        <label className="text-[#70685a] font-bold mb-2 block text-left !mb-0 mr-10 pt-2" >Google口コミしたか？</label>
+                        <label className="text-[#70685a] font-bold mb-2 block text-left !mb-0 mr-5 pt-2" >ク一ポンので利用はあつたか？</label>
+                        <select id="classificatin3" name="classificatin" className="w-40 h-11 mr-10 text-[#70685a] font-bold border border-[#70685a] px-4 py-2 outline-[#70685a]">
+                            <option value="1">配偶者</option>
+                            <option value="2">Afghanistan</option>
+                            <option value="3">Åland Islands</option>
+                            <option value="4">Albania</option>
+                        </select>
                         <InputComponent style={{ width: '10%' }} className='mr-5'/>
                         <label className="text-[#70685a] font-bold mb-2 block text-left !mb-0 pt-2 mr-10" >To</label>
                         <button style={{visibility:'hidden'}} type="button"
@@ -336,7 +387,7 @@ const InvoicePurchaseOfBrought = () => {
                     </div>
                     <div className='flex justify-center pt-10'>
                     <button type="button"
-                        className="mr-10  py-1 min-w-[160px] text-[#e87a00] text-[20px] rounded-full tracking-wider font-bold outline-none border border-[2px] border-[#e87a00] ">Purple</button>
+                        className="mr-10  py-1 min-w-[160px] text-[#e87a00] text-[20px] rounded-full tracking-wider font-bold outline-none border border-[2px] border-[#e87a00] ">お客様へ提示</button>
                     </div>
                 </div>
             </div>
