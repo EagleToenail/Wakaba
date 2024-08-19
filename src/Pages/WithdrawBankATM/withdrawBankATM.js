@@ -275,36 +275,39 @@ export default function withdrawBankATM() {
                             </div>
                             {/* secondline */}
                             <div className='flex !mt-2' style={{height:'40px'}}>
-                                <div style={{ width: '60%' }} className='flex justify-start'>
+                                <div style={{ width: '80%' }} className='flex justify-start'>
                                     <InputComponent style={{height:'40px'}} className='w-full mr-10'/>
                                 </div>
                                 <div style={{ width: '10%' }}>
-                                < button type="button" className="w-max px-5 mr-5 py-1 font-semiblod rounded-lg justify-center text-[#70685a] text-[16px] bg-[#ebe6e0] hover:bg-blue-700 focus:outline-none">
-                                フアイル
-                                </button>
+                                    < button type="button" className="w-max px-5 m1-10 py-1 font-semiblod rounded-lg justify-center text-[#70685a] text-[16px] bg-[#ebe6e0] hover:bg-blue-700 focus:outline-none">
+                                    フアイル
+                                    </button>
                                 </div>
-                                <div  style={{ width: '40%' }} className='mt-0.5 flex flex-col justify-center ml-5'>
-                                    <div className='flex gap-2.5'>
-                                        <div className='w-6 h-6 border border-[#70685a] '></div>
-                                        <div className='w-6 h-6 border border-[#70685a] '></div>
-                                        <div className='w-6 h-6 border border-[#70685a] '></div>
-                                        <div className='w-6 h-6 border border-[#70685a] '></div>
-                                        <div className='w-6 h-6 border border-[#70685a] '></div>
-                                        <div className='w-6 h-6 border border-[#70685a] '></div>
-                                        <div className='w-6 h-6 border border-[#70685a] '></div>
-                                        <div className='w-6 h-6 border border-[#70685a] '></div>
-                                        <div className='w-6 h-6 border border-[#70685a] '></div>
-                                        <div className='w-6 h-6 border border-[#70685a] '></div>
+                                <div  style={{ width: '40%' }} className='mt-0.5 flex justify-end ml-5'>
+                                    <div className='flex flex-col justify-center ml-5'>
+                                        <div className='flex gap-2.5'>
+                                            <div className='w-6 h-6 border border-[#70685a] '></div>
+                                            <div className='w-6 h-6 border border-[#70685a] '></div>
+                                            <div className='w-6 h-6 border border-[#70685a] '></div>
+                                            <div className='w-6 h-6 border border-[#70685a] '></div>
+                                            <div className='w-6 h-6 border border-[#70685a] '></div>
+                                            <div className='w-6 h-6 border border-[#70685a] '></div>
+                                            <div className='w-6 h-6 border border-[#70685a] '></div>
+                                            <div className='w-6 h-6 border border-[#70685a] '></div>
+                                            <div className='w-6 h-6 border border-[#70685a] '></div>
+                                            <div className='w-6 h-6 border border-[#70685a] '></div>
+                                        </div>
                                     </div>
+
                                 </div>
                             </div>
                             {/* thirdline */}
                             <div className='flex mt-2' style={{height:'40px'}}>
-                                <div style={{ width: '80%' }}>
+                                <div style={{ width: '85%' }}>
                                     <InputComponent style={{height:'40px'}} className="w-full"/>
                                 </div>
-                                <div className='pl-5'>
-                                    < button type="button" className="w-max px-10 py-1 font-semiblod rounded-lg justify-center text-[#70685a] text-[16px] bg-[#ebe6e0] hover:bg-blue-700 focus:outline-none">
+                                <div className='ml-10'>
+                                    < button type="button" className=" w-max px-10 py-1 font-semiblod rounded-lg justify-center text-[#70685a] text-[16px] bg-[#ebe6e0] hover:bg-blue-700 focus:outline-none">
                                     送信
                                     </button>
                                 </div>

@@ -51,10 +51,27 @@ const  ClosingWork = () => {
                                         <label className="text-[#70685a] fold-semiblod mb-1 block text-center text-[20px] py-1 !mb-0">3.</label>
                                     </div>
                                     <div style={{ width: '85%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                        <label className="text-[#70685a] fold-semiblod mb-1 block text-left text-[20px] mr-10 py-1 !mb-0">ヤフオク関係</label>
-                                        <label className="text-[#70685a] fold-semiblod mb-1 block text-left text-[20px] mr-10 py-1 !mb-0">- 入金催促完了しました。</label>
-                                        <label className="text-[#70685a] fold-semiblod mb-1 block text-left text-[20px] mr-10 py-1 !mb-0">- 再出品完了しました。</label>
-                                        <label className="text-[#70685a] fold-semiblod mb-1 block text-left text-[20px] mr-10 py-1 !mb-0">- ヤフオク出品 &nbsp;&nbsp;&nbsp;&nbsp;佐藤絵&nbsp; 999件&nbsp;&nbsp;&nbsp;&nbsp;高橋&nbsp;999件&nbsp;&nbsp;&nbsp;&nbsp;出品残&nbsp;999件</label>
+                                        <label className="flex text-[#70685a] fold-semiblod mb-1 block text-left text-[20px] mr-10 py-1 !mb-0">
+                                            <span className='w-1 flex flex-col justify-center mr-3'>
+                                                <svg  focusable="false" fill="#70685a" aria-hidden="true" viewBox="0 0 24 24" data-testid="CircleIcon" title="Circle"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2"></path></svg>
+                                            </span>
+                                            ヤフオク関係
+                                        </label>
+                                        <label className="flex text-[#70685a] fold-semiblod mb-1 block text-left text-[20px] mr-10 py-1 !mb-0">
+                                            <span className='w-1 flex flex-col justify-center mr-3'>
+                                                <svg  focusable="false" fill="#70685a" aria-hidden="true" viewBox="0 0 24 24" data-testid="CircleIcon" title="Circle"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2"></path></svg>
+                                            </span>
+                                             入金催促完了しました。</label>
+                                        <label className="flex text-[#70685a] fold-semiblod mb-1 block text-left text-[20px] mr-10 py-1 !mb-0">
+                                        <span className='w-1 flex flex-col justify-center mr-3'>
+                                                <svg  focusable="false" fill="#70685a" aria-hidden="true" viewBox="0 0 24 24" data-testid="CircleIcon" title="Circle"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2"></path></svg>
+                                            </span>
+                                             再出品完了しました。</label>
+                                        <label className="flex text-[#70685a] fold-semiblod mb-1 block text-left text-[20px] mr-10 py-1 !mb-0">
+                                        <span className='w-1 flex flex-col justify-center mr-3'>
+                                                <svg  focusable="false" fill="#70685a" aria-hidden="true" viewBox="0 0 24 24" data-testid="CircleIcon" title="Circle"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2"></path></svg>
+                                            </span>
+                                             ヤフオク出品 &nbsp;&nbsp;&nbsp;&nbsp;佐藤絵&nbsp; 999件&nbsp;&nbsp;&nbsp;&nbsp;高橋&nbsp;999件&nbsp;&nbsp;&nbsp;&nbsp;出品残&nbsp;999件</label>
                                     </div>
                                 </div>
                                 {/* new */}
@@ -130,138 +147,218 @@ const  ClosingWork = () => {
                                         </div>
                                         <div style={{ width: '60%' }} className='flex align-center'>
                                             <div style={{ width: '80%' }} className='flex justify-between'>
-                                                <div  className=' text-[20px] text-[#70685a] text-left pl-3'>単日買取額</div>
+                                                <div  className=' text-[20px] text-[#70685a] text-left pl-3 flex'>
+                                                <span className='w-1 flex flex-col justify-center mr-3'>
+                                                <svg  focusable="false" fill="#70685a" aria-hidden="true" viewBox="0 0 24 24" data-testid="CircleIcon" title="Circle"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2"></path></svg>
+                                            </span>
+                                                    単日買取額</div>
                                                 <div  className='text-[20px] text-[#70685a] text-right pr-3 font-bold'>99,999円</div>
                                             </div>
                                             <div style={{ width: '10%',}} className='text-[20px] text-[#70685a] text-left pr-3'></div>
                                         </div>
                                         <div style={{ width: '60%' }} className='flex align-center'>
                                             <div style={{ width: '80%' }} className='flex justify-between'>
-                                                <div  className=' text-[20px] text-[#70685a] text-left pl-3'>単日粗利額</div>
+                                                <div  className=' text-[20px] text-[#70685a] text-left pl-3 flex'>
+                                                <span className='w-1 flex flex-col justify-center mr-3'>
+                                                <svg  focusable="false" fill="#70685a" aria-hidden="true" viewBox="0 0 24 24" data-testid="CircleIcon" title="Circle"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2"></path></svg>
+                                            </span>
+                                                    単日粗利額</div>
                                                 <div  className='text-[20px] text-[#70685a] text-right pr-3 font-bold'>99,999円</div>
                                             </div>
                                             <div style={{ width: '10%',}} className='text-[20px] text-[#70685a] text-left pr-3'></div>
                                         </div>
                                         <div style={{ width: '60%' }} className='flex align-center'>
                                             <div style={{ width: '80%' }} className='flex justify-between'>
-                                                <div  className=' text-[20px] text-[#70685a] text-left pl-3'>当月粗利額</div>
+                                                <div  className=' text-[20px] text-[#70685a] text-left pl-3 flex'>
+                                                <span className='w-1 flex flex-col justify-center mr-3'>
+                                                <svg  focusable="false" fill="#70685a" aria-hidden="true" viewBox="0 0 24 24" data-testid="CircleIcon" title="Circle"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2"></path></svg>
+                                            </span>
+                                                    当月粗利額</div>
                                                 <div  className='text-[20px] text-[#70685a] text-right pr-3 font-bold'>99,999,999円</div>
                                             </div>
                                             <div style={{ width: '10%',}} className='text-[20px] text-[#70685a] text-left pr-3'></div>
                                         </div>
                                         <div style={{ width: '60%' }} className='flex align-center'>
                                             <div style={{ width: '80%' }} className='flex justify-between'>
-                                                <div  className=' text-[20px] text-[#70685a] text-left pl-3'>金庫追加金</div>
+                                                <div  className=' text-[20px] text-[#70685a] text-left pl-3 flex'>
+                                                <span className='w-1 flex flex-col justify-center mr-3'>
+                                                <svg  focusable="false" fill="#70685a" aria-hidden="true" viewBox="0 0 24 24" data-testid="CircleIcon" title="Circle"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2"></path></svg>
+                                            </span>
+                                                    金庫追加金</div>
                                                 <div  className='text-[20px] text-[#70685a] text-right pr-3 font-bold'>99,999,999円</div>
                                             </div>
                                             <div style={{ width: '10%',}} className='text-[20px] text-[#70685a] text-left pr-3'></div>
                                         </div>
                                         <div style={{ width: '60%' }} className='flex align-center'>
                                             <div style={{ width: '80%' }} className='flex justify-between'>
-                                                <div  className=' text-[20px] text-[#70685a] text-left pl-3'>着払い代金</div>
+                                                <div  className=' text-[20px] text-[#70685a] text-left pl-3 flex'>
+                                                <span className='w-1 flex flex-col justify-center mr-3'>
+                                                <svg  focusable="false" fill="#70685a" aria-hidden="true" viewBox="0 0 24 24" data-testid="CircleIcon" title="Circle"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2"></path></svg>
+                                            </span>
+                                                    着払い代金</div>
                                                 <div  className='text-[20px] text-[#70685a] text-right pr-3 font-bold'>99,999円</div>
                                             </div>
                                            
                                         </div>
                                         <div style={{ width: '60%' }} className='flex align-center'>
                                             <div style={{ width: '80%' }} className='flex justify-between'>
-                                                <div  className=' text-[20px] text-[#70685a] text-left pl-3'>残金</div>
+                                                <div  className=' text-[20px] text-[#70685a] text-left pl-3 flex'>
+                                                <span className='w-1 flex flex-col justify-center mr-3'>
+                                                <svg  focusable="false" fill="#70685a" aria-hidden="true" viewBox="0 0 24 24" data-testid="CircleIcon" title="Circle"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2"></path></svg>
+                                            </span>
+                                                    残金</div>
                                                 <div  className='text-[20px] text-[#70685a] text-right pr-3 font-bold'>99,999円</div>
                                             </div>  
                                         </div>
                                         <div style={{ width: '60%' }} className='flex align-center'>
                                             <div style={{ width: '80%' }} className='flex justify-between'>
-                                                <div  className=' text-[20px] text-[#70685a] text-left pl-3'>入電</div>
+                                                <div  className=' text-[20px] text-[#70685a] text-left pl-3 flex'>
+                                                <span className='w-1 flex flex-col justify-center mr-3'>
+                                                <svg  focusable="false" fill="#70685a" aria-hidden="true" viewBox="0 0 24 24" data-testid="CircleIcon" title="Circle"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2"></path></svg>
+                                            </span>
+                                                    入電</div>
                                                 <div  className='text-[20px] text-[#70685a] text-right pr-3 font-bold'>99,999入</div>
                                             </div>
                                             
                                         </div>
                                         <div style={{ width: '60%' }} className='flex align-center'>
                                             <div style={{ width: '80%' }} className='flex justify-between'>
-                                                <div  className=' text-[20px] text-[#70685a] text-left pl-3'>来店数</div>
+                                                <div  className=' text-[20px] text-[#70685a] text-left pl-3 flex'>
+                                                <span className='w-1 flex flex-col justify-center mr-3'>
+                                                <svg  focusable="false" fill="#70685a" aria-hidden="true" viewBox="0 0 24 24" data-testid="CircleIcon" title="Circle"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2"></path></svg>
+                                            </span>
+                                                    来店数</div>
                                                 <div  className='text-[20px] text-[#70685a] text-right pr-3 font-bold'>99,9999入</div>
                                             </div>
                                             
                                         </div>
                                         <div style={{ width: '60%' }} className='flex align-center'>
                                             <div style={{ width: '80%' }} className='flex justify-between'>
-                                                <div  className=' text-[20px] text-[#70685a] text-left pl-3'>成約数</div>
+                                                <div  className=' text-[20px] text-[#70685a] text-left pl-3 flex'>
+                                                <span className='w-1 flex flex-col justify-center mr-3'>
+                                                <svg  focusable="false" fill="#70685a" aria-hidden="true" viewBox="0 0 24 24" data-testid="CircleIcon" title="Circle"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2"></path></svg>
+                                            </span>
+                                                    成約数</div>
                                                 <div  className='text-[20px] text-[#70685a] text-right pr-3 font-bold'>99,9999入</div>
                                             </div>
                                             
                                         </div>
                                         <div style={{ width: '60%' }} className='flex align-center'>
                                             <div style={{ width: '80%' }} className='flex justify-between'>
-                                                <div  className=' text-[20px] text-[#70685a] text-left pl-3'>不成約数</div>
+                                                <div  className=' text-[20px] text-[#70685a] text-left pl-3 flex'>
+                                                <span className='w-1 flex flex-col justify-center mr-3'>
+                                                <svg  focusable="false" fill="#70685a" aria-hidden="true" viewBox="0 0 24 24" data-testid="CircleIcon" title="Circle"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2"></path></svg>
+                                            </span>
+                                                    不成約数</div>
                                                 <div  className='text-[20px] text-[#70685a] text-right pr-3 font-bold'>99,9999入</div>
                                             </div>
                                         </div>
                                         <div style={{ width: '60%' }} className='flex align-center'>
                                             <div style={{ width: '80%' }} className='flex justify-between'>
-                                                <div  className=' text-[20px] text-[#70685a] text-left pl-3'>預かOOOO</div>
+                                                <div  className=' text-[20px] text-[#70685a] text-left pl-3 flex'>
+                                                <span className='w-1 flex flex-col justify-center mr-3'>
+                                                <svg  focusable="false" fill="#70685a" aria-hidden="true" viewBox="0 0 24 24" data-testid="CircleIcon" title="Circle"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2"></path></svg>
+                                            </span>
+                                                    預かOOOO</div>
                                                 <div  className='text-[20px] text-[#70685a] text-right pr-3 font-bold'>99,9999入</div>
                                             </div>
                                             
                                         </div>
                                         <div style={{ width: '60%' }} className='flex align-center'>
                                             <div style={{ width: '80%' }} className='flex justify-between'>
-                                                <div  className=' text-[20px] text-[#70685a] text-left pl-3'>未店問合</div>
+                                                <div  className=' text-[20px] text-[#70685a] text-left pl-3 flex'>
+                                                <span className='w-1 flex flex-col justify-center mr-3'>
+                                                <svg  focusable="false" fill="#70685a" aria-hidden="true" viewBox="0 0 24 24" data-testid="CircleIcon" title="Circle"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2"></path></svg>
+                                            </span>
+                                                    未店問合</div>
                                                 <div  className='text-[20px] text-[#70685a] text-right pr-3 font-bold'>99,9999入</div>
                                             </div>
                                             
                                         </div>
                                         <div style={{ width: '60%' }} className='flex align-center'>
                                             <div style={{ width: '80%' }} className='flex justify-between'>
-                                                <div  className=' text-[20px] text-[#70685a] text-left pl-3'>買取実績、ブログアシプ</div>
+                                                <div  className=' text-[20px] text-[#70685a] text-left pl-3 flex'>
+                                                <span className='w-1 flex flex-col justify-center mr-3'>
+                                                <svg  focusable="false" fill="#70685a" aria-hidden="true" viewBox="0 0 24 24" data-testid="CircleIcon" title="Circle"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2"></path></svg>
+                                            </span>
+                                                    買取実績、ブログアシプ</div>
                                                 <div  className='text-[20px] text-[#70685a] text-right pr-3 font-bold'>99,9999件</div>
                                             </div>
                                             
                                         </div>
                                         <div style={{ width: '60%' }} className='flex align-center'>
                                             <div style={{ width: '80%' }} className='flex justify-between'>
-                                                <div  className=' text-[20px] text-[#70685a] text-left pl-3'>Instagramアシプ</div>
+                                                <div  className=' text-[20px] text-[#70685a] text-left pl-3 flex'>
+                                                <span className='w-1 flex flex-col justify-center mr-3'>
+                                                <svg  focusable="false" fill="#70685a" aria-hidden="true" viewBox="0 0 24 24" data-testid="CircleIcon" title="Circle"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2"></path></svg>
+                                            </span>
+                                                    Instagramアシプ</div>
                                                 <div  className='text-[20px] text-[#70685a] text-right pr-3 font-bold'>99,9999件</div>
                                             </div>
                                             
                                         </div>
                                         <div style={{ width: '60%' }} className='flex align-center'>
                                             <div style={{ width: '80%' }} className='flex justify-between'>
-                                                <div  className=' text-[20px] text-[#70685a] text-left pl-3'>チラシを見て来店されたお客様</div>
+                                                <div  className=' text-[20px] text-[#70685a] text-left pl-3 flex'>
+                                                <span className='w-1 flex flex-col justify-center mr-3'>
+                                                <svg  focusable="false" fill="#70685a" aria-hidden="true" viewBox="0 0 24 24" data-testid="CircleIcon" title="Circle"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2"></path></svg>
+                                            </span>
+                                                    チラシを見て来店されたお客様</div>
                                                 <div  className='text-[20px] text-[#70685a] text-right pr-3 font-bold'>99,9999件</div>
                                             </div>
                                             
                                         </div>
                                         <div style={{ width: '60%' }} className='flex align-center'>
                                             <div style={{ width: '80%' }} className='flex justify-between'>
-                                                <div  className=' text-[20px] text-[#70685a] text-left pl-3'>今月のチラシを見たお客様</div>
+                                                <div  className=' text-[20px] text-[#70685a] text-left pl-3 flex'>
+                                                <span className='w-1 flex flex-col justify-center mr-3'>
+                                                <svg  focusable="false" fill="#70685a" aria-hidden="true" viewBox="0 0 24 24" data-testid="CircleIcon" title="Circle"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2"></path></svg>
+                                            </span>
+                                                    今月のチラシを見たお客様</div>
                                                 <div  className='text-[20px] text-[#70685a] text-right pr-3 font-bold'>99,9999件</div>
                                             </div>
                                             
                                         </div>
                                         <div style={{ width: '60%' }} className='flex align-center'>
                                             <div style={{ width: '80%' }} className='flex justify-between'>
-                                                <div  className=' text-[20px] text-[#70685a] text-left pl-3'>本日の送料用切手使用金額</div>
+                                                <div  className=' text-[20px] text-[#70685a] text-left pl-3 flex'>
+                                                <span className='w-1 flex flex-col justify-center mr-3'>
+                                                <svg  focusable="false" fill="#70685a" aria-hidden="true" viewBox="0 0 24 24" data-testid="CircleIcon" title="Circle"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2"></path></svg>
+                                            </span>
+                                                    本日の送料用切手使用金額</div>
                                                 <div  className='text-[20px] text-[#70685a] text-right pr-3 font-bold'>99,9999999円</div>
                                             </div>
                                             
                                         </div>
                                         <div style={{ width: '60%' }} className='flex align-center'>
                                             <div style={{ width: '80%' }} className='flex justify-between'>
-                                                <div  className=' text-[20px] text-[#70685a] text-left pl-3'>切手台紙張っ追加額</div>
+                                                <div  className=' text-[20px] text-[#70685a] text-left pl-3 flex'>
+                                                <span className='w-1 flex flex-col justify-center mr-3'>
+                                                <svg  focusable="false" fill="#70685a" aria-hidden="true" viewBox="0 0 24 24" data-testid="CircleIcon" title="Circle"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2"></path></svg>
+                                            </span>
+                                                    切手台紙張っ追加額</div>
                                                 <div  className='text-[20px] text-[#70685a] text-right pr-3 font-bold'>99,9999円</div>
                                             </div>
                                             
                                         </div>
                                         <div style={{ width: '60%' }} className='flex align-center'>
                                             <div style={{ width: '80%' }} className='flex justify-between'>
-                                                <div  className=' text-[20px] text-[#70685a] text-left pl-3'>切手台紙張十バラ残額合計</div>
+                                                <div  className=' text-[20px] text-[#70685a] text-left pl-3 flex'>
+                                                <span className='w-1 flex flex-col justify-center mr-3'>
+                                                <svg  focusable="false" fill="#70685a" aria-hidden="true" viewBox="0 0 24 24" data-testid="CircleIcon" title="Circle"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2"></path></svg>
+                                            </span>
+                                                    切手台紙張十バラ残額合計</div>
                                                 <div  className='text-[20px] text-[#70685a] text-right pr-3 font-bold'>99,9999円</div>
                                             </div>
                                             
                                         </div>
                                         <div style={{ width: '60%' }} className='flex align-center'>
                                             <div style={{ width: '80%' }} className='flex justify-between'>
-                                                <div  className=' text-[20px] text-[#70685a] text-left pl-3'>本日のアナウンス回数</div>
+                                                <div  className=' text-[20px] text-[#70685a] text-left pl-3 flex'>
+                                                <span className='w-1 flex flex-col justify-center mr-3'>
+                                                <svg  focusable="false" fill="#70685a" aria-hidden="true" viewBox="0 0 24 24" data-testid="CircleIcon" title="Circle"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2"></path></svg>
+                                            </span>
+                                                    本日のアナウンス回数</div>
                                                 <div  className='text-[20px] text-[#70685a] text-right pr-3 font-bold'>99回</div>
                                             </div>
                                             <div style={{ width: '10%',}} className='text-center text-[20px] text-[#70685a] text-left pr-3!p-0'><u>[詳細]</u></div>
@@ -280,11 +377,27 @@ const  ClosingWork = () => {
                                         <label className="text-[#70685a] fold-semiblod mb-1 block text-center text-[20px] py-1 !mb-0">9.</label>
                                     </div>
                                     <div style={{ width: '85%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                        <label className="text-[#70685a] fold-semiblod mb-1 block text-left text-[20px] mr-10 py-1 !mb-0">次の「一括締め作 業亅を行います</label>
-                                        <label className="text-[#70685a] fold-semiblod mb-1 block text-left text-[20px] mr-10 py-1 !mb-0">-売上表の締め作業を行います</label>
-                                        <label className="text-[#70685a] fold-semiblod mb-1 block text-left text-[20px] mr-10 py-1 !mb-0">-売上表などのバシクアシプを行います</label>
-                                        <label className="text-[#70685a] fold-semiblod mb-1 block text-left text-[20px] mr-10 py-1 !mb-0">-本部(フオーナイシ)に着地報告のメールを送送信します</label>
-                                        <label className="text-[#70685a] fold-semiblod mb-1 block text-left text-[20px] mr-10 py-1 !mb-0">-「一日の報告」チヤネルに最終報告を送信します</label>
+                                        <label className="text-[#70685a] fold-semiblod mb-1 block text-left text-[20px] mr-10 py-1 !mb-0 ">次の「一括締め作 業亅を行います</label>
+                                        <label className="text-[#70685a] fold-semiblod mb-1 block text-left text-[20px] mr-10 py-1 !mb-0 flex">
+                                                                                        <span className='w-1 flex flex-col justify-center mr-3'>
+                                                <svg  focusable="false" fill="#70685a" aria-hidden="true" viewBox="0 0 24 24" data-testid="CircleIcon" title="Circle"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2"></path></svg>
+                                            </span>
+                                            売上表の締め作業を行います</label>
+                                        <label className="text-[#70685a] fold-semiblod mb-1 block text-left text-[20px] mr-10 py-1 !mb-0 flex">
+                                                                                        <span className='w-1 flex flex-col justify-center mr-3'>
+                                                <svg  focusable="false" fill="#70685a" aria-hidden="true" viewBox="0 0 24 24" data-testid="CircleIcon" title="Circle"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2"></path></svg>
+                                            </span>
+                                            売上表などのバシクアシプを行います</label>
+                                        <label className="text-[#70685a] fold-semiblod mb-1 block text-left text-[20px] mr-10 py-1 !mb-0 flex">
+                                                                                        <span className='w-1 flex flex-col justify-center mr-3'>
+                                                <svg  focusable="false" fill="#70685a" aria-hidden="true" viewBox="0 0 24 24" data-testid="CircleIcon" title="Circle"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2"></path></svg>
+                                            </span>
+                                            本部(フオーナイシ)に着地報告のメールを送送信します</label>
+                                        <label className="text-[#70685a] fold-semiblod mb-1 block text-left text-[20px] mr-10 py-1 !mb-0 flex">
+                                                                                        <span className='w-1 flex flex-col justify-center mr-3'>
+                                                <svg  focusable="false" fill="#70685a" aria-hidden="true" viewBox="0 0 24 24" data-testid="CircleIcon" title="Circle"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2"></path></svg>
+                                            </span>
+                                            「一日の報告」チヤネルに最終報告を送信します</label>
                                     </div>
                                 </div>
 

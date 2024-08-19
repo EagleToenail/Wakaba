@@ -1,27 +1,22 @@
-import React from 'react';
+import React,{useState} from 'react';
 // import { Link } from 'react-router-dom';
 import Titlebar from '../../Components/Common/Titlebar';
 import '../../Assets/css/showtable.css'
 import '../../Assets/css/firstTd.css'
 import InputComponent from '../../Components/Common/InputComponent';
 import ButtonComponent from '../../Components/Common/ButtonComponent';
-// import LabelComponent from '../../Components/Common/LabelComponent';
+import dateimage from '../../Assets/img/datepicker.png';
+import DateAndTime from '../../Components/Common/PickData';
 
 
 const InvoicePurchaseOfBrought = () => {
     const title = 'タイトルタイトル';
 
-    // const [isOpen, setIsOpen] = useState(false);
+    const [date, setEndDate] = useState('');
 
-    // const handleClick = () => {
-    //     setIsOpen(prevState => !prevState);
-    // };
-
-    // const [text, setText] = useState('');
-
-    // const handleChange = (event) => {
-    //     setText(event.target.value);
-    // }
+    const handleDateChange = (event) => {
+        setEndDate(event.target.value); // Update the date state with the selected date
+    };
 
 
     return (<>
@@ -29,45 +24,62 @@ const InvoicePurchaseOfBrought = () => {
         <div className="bg-[trasparent] font-[sans-serif]">
             <div className='flex justify-center'>
                 <div className="w-full pt-3" style={{ maxWidth: '80em' }}>
-                <h2 className="text-[#70685a] text-center font-bold text-[15px] flex justify-end mt-3" style={{ paddingRight: '1%' }}>2023/12/01(金)&nbsp;&nbsp;21:51</h2>
+                <DateAndTime/>
                     <div className="w-full pt-3 flex justify-between" style={{ maxWidth: '80em' }}>
                         {/* new */}
-                        <div style={{ width: '15%', }} className='flex align-center justify-center'>
-                            <label className="text-[#70685a] font-bold mb-2 block text-left mr-10 !mb-0">-TWO</label>
+                        <div style={{ width: '25%', }} className='flex align-center justify-center'>
+                            <div className='flex flex-col justify-center'>
+                                    <div className='w-3 h-3 bg-[#70685a]'></div>
+                            </div>
+                            <div className='flex flex-col justify-center ml-2'>
+                                <label className="text-[#70685a] font-bold mb-2 block text-left mr-10 !mb-0 flex">買取計算書No.000000</label>
+                            </div>
+                            
                         </div>
-                        <h2 className="text-[#70685a] text-center text-2xl font-bold flex justify-center !mt-0">Invoice for purchase of brought-in goods</h2>
+                        <h2 className="text-[#70685a] text-center text-2xl font-bold flex justify-center !mt-0">持ち込み商品 買取計算書 (承諾申請画面)</h2>
                         {/* new */}
 
                         <div style={{ width: '15%', visibility: 'hidden' }} className='flex align-center justify-center'>
-                            <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 !mb-0">-TWO</label>
+                            <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 !mb-0">asdTWO</label>
                         </div>
 
                     </div>
                         <div className='flex w-full'>
-                            <div className='w-full mt-10' style={{ width: '90%' }}>
+                            <div className='w-full mt-10'>
                                 <div className='flex justify-between'>
-                                    <div style={{ width: '30%' }}>
-                                        <label className="text-[#70685a] text-[15px] text-left mr-5">TWO</label>
-                                        <InputComponent style={{ width: '60%' }} />
-                                        <label className="text-[#70685a] font-bold text-left ml-5">TWO</label>
+                                    <div className='flex'>
+                                        <label className="text-[#70685a] text-[15px] text-left mr-5">期限</label>
+                                        <div className='flex'>
+                                            <div style={{  flexDirection: 'column', }} className='flex align-center justify-around'>
+                                                <input name="ads" type="text" value={date} required className="w-40 h-8 text-[#6e6e7c] border border-[#6e6e7c] text-[20px] px-4 py-1 outline-[#70685a]" readOnly/>
+                                            </div>
+                                            <div style={{ flexDirection: 'column', }} className='flex flex-col justify-center pl-3'>
+                                                <div style={{width:'40px',height:'30px',cursor:'pointer'}}>
+                                                    <div style={{position: 'relative'}}>
+                                                        <img src={dateimage} style={{width:'40px',height:'30px', position: 'absolute',cursor:'pointer'}} alt='calendar'></img>
+                                                        <input type="date" id="date" name="date" value={''} onChange={handleDateChange} style={{position: 'absolute',left:'0', width:'40px', height:'30px', background:'transparent', border:'none',opacity:'0',cursor:'pointer'}}/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <label className="text-[#70685a] font-bold text-left ml-5">で</label>
                                     </div>
-                                    {/* <InputComponent style={{width:'10%' }}/> */}
-                                    <ButtonComponent children="abc" style={{ border: '1px solid #e87a00', backgroundColor: 'transparent', color: '#e87a00', width: '100px' }} />
-                                    <ButtonComponent className='' children="abc" style={{ border: '1px solid #e87a00', backgroundColor: 'transparent', color: '#e87a00', width: '100px' }} />
-                                    <ButtonComponent children="abcdef" style={{ border: '1px solid #e87a00', backgroundColor: 'transparent', color: '#e87a00', width: '100px' }} />
-                                    <ButtonComponent children="abcdef" style={{color: 'white', width: '200px' }} />
-                                    <ButtonComponent children="abcdef" style={{ backgroundColor: '#9bd195', color: 'white', width: '200px' }} />
-                                    {/* <label className="text-[#70685a] font-bold mb-2 block text-left flex justify-end" style={{ flexDirection: 'column', width: '20%' }}><u> <Link to='/forgetpassword'>キャンセル</Link></u></label> */}
+                                    <ButtonComponent children="預ら証発行" className='w-max !px-5' style={{ border: '1px solid #e87a00', backgroundColor: 'transparent', color: '#e87a00'}} />
+                                    <ButtonComponent children="全体撮影" className='w-max !px-5' style={{ border: '1px solid #e87a00', backgroundColor: 'transparent', color: '#e87a00'}} />
+                                    <ButtonComponent children="紙書類撮影" className='w-max !px-5' style={{ border: '1px solid #e87a00', backgroundColor: 'transparent', color: '#e87a00'}} />
+                                    <ButtonComponent children="許可申請"  className='w-max !px-5'style={{color: 'white',}} />
+                                    <ButtonComponent children="全て決済を許可" className='w-max !px-5' style={{ backgroundColor: '#9bd195', color: 'white', }} />
+        
                                 </div>
                             </div>
                             <div className='w-full flex justify-end' style={{ width: '15%',paddingTop:'25px' }}>
                                 <div>
-                                    <label className="text-[#70685a] font-bold mb-2 block text-right  !mb-0">TWO akjsdhkahds</label>
-                                    <label className="text-[#70685a] font-bold mb-2 block text-right  !mb-0">TWO dhasdiodasd</label>
+                                    <label className="text-[#70685a] font-bold mb-2 block text-right  !mb-0">支払担当 OOOO</label>
+                                    <label className="text-[#70685a] font-bold mb-2 block text-right  !mb-0">接客担当 OOOO</label>
                                 </div>
                             </div>
                         </div>
-                </div>
+                    </div>
             </div>
             <div className=" flex  justify-center ">
                 <div className="w-full pt-3" style={{ maxWidth: '40em' }}>
@@ -76,7 +88,7 @@ const InvoicePurchaseOfBrought = () => {
                             {/* new */}
                             <div className='flex pt-2'>
                                 <div style={{ width: '25%', flexDirection: 'column', }} className='!mb-0 flex align-center justify-around'>
-                                    <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">新しいパスワード</label>
+                                    <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">雇客番号</label>
                                 </div>
                                 <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
                                     <label className="text-[#70685a] text-[20px] font-bold mb-2 block text-right mr-10 py-2 !mb-0">OOOOOOOOOOOOO</label>
@@ -90,19 +102,19 @@ const InvoicePurchaseOfBrought = () => {
                             {/* new */}
                             <div className='flex'>
                                 <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">TWO</label>
+                                    <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">お名前</label>
                                 </div>
                                 <div style={{ width: '50%', flexDirection: 'column', }} className='flex align-center justify-around'>
                                     <label className="w-full text-[#70685a] text-[20px]  px-4 py-2 outline-[#70685a]">O O O O O O O O O O O OO O </label>
                                 </div>
                                 <div style={{ width: '20%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-3 !mb-0">Man</label>
+                                    <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-3 !mb-0">男</label>
                                 </div>
                             </div>
                             {/* new */}
                             <div className='flex'>
                                 <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">THREE</label>
+                                    <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">力夕力ナ名</label>
                                 </div>
                                 <div style={{ width: '75%', flexDirection: 'column', }} className='flex align-center justify-around'>
                                 <label className="w-full text-[#70685a] text-[20px]  px-4 py-2 outline-[#70685a]">O O O O O O O O O O O OO O </label>
@@ -111,7 +123,7 @@ const InvoicePurchaseOfBrought = () => {
                             {/* new */}
                             <div className='flex'>
                                 <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">FOUR</label>
+                                    <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">お電話番号</label>
                                 </div>
                                 <div style={{ width: '75%', flexDirection: 'column', }} className='flex align-center justify-around'>
                                     <label className="w-full text-[#70685a] text-[20px]  px-4 py-2 outline-[#70685a]">O O O O O O O O O O O OO O </label>
@@ -120,7 +132,7 @@ const InvoicePurchaseOfBrought = () => {
                             {/* new */}
                             <div className='flex'>
                                 <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <label className="text-[#70685a] font-bold mb-2 block text-right mr-11 py-1 !mb-0">Five</label>
+                                    <label className="text-[#70685a] font-bold mb-2 block text-right mr-11 py-1 !mb-0">生年月日</label>
                                 </div>
                                 <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
                                 <label className="w-full text-[#70685a] text-[20px]  px-4 py-2 outline-[#70685a]">1999/12/31</label>
@@ -129,7 +141,7 @@ const InvoicePurchaseOfBrought = () => {
                             {/* new */}
                             <div className='flex'>
                                 <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">nine</label>
+                                    <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">ご住所</label>
                                 </div>
                                 <div style={{ width: '75%', }} className='flex justify-end'>
                                     <label className="w-full text-[#70685a] text-[20px]  px-4 py-2 outline-[#70685a]">O O O O O O O O O O O OO O O O O O </label>
@@ -138,7 +150,7 @@ const InvoicePurchaseOfBrought = () => {
                             {/* new */}
                             <div className='flex'>
                                 <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">ten</label>
+                                    <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">e-mail</label>
                                 </div>
                                 <div style={{ width: '75%', flexDirection: 'column', }} className='flex align-center justify-around'>
                                     <label className="w-full text-[#70685a] text-[20px]  px-4 py-2 outline-[#70685a]">O O O O O O O O </label>
@@ -147,7 +159,7 @@ const InvoicePurchaseOfBrought = () => {
                             {/* new */}
                             <div className='flex'>
                                 <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">Eleven</label>
+                                    <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">ご職業</label>
                                 </div>
                                 <div style={{ width: '75%', flexDirection: 'column', }} className='flex align-center justify-around'>
                                     <label className="w-full text-[#70685a] text-[20px]  px-4 py-2 outline-[#70685a]">O O O O O O O O </label>
@@ -156,19 +168,19 @@ const InvoicePurchaseOfBrought = () => {
                             {/* new */}
                             <div className='flex'>
                                 <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">Eleven1</label>
+                                    <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">本人確認書類</label>
                                 </div>
                                 <div style={{ width: '75%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <label className="w-full text-[#70685a] text-[20px]  px-4 py-2 outline-[#70685a]">ghjgdfjdfgjdhdrthrth</label>
+                                    <label className="w-full text-[#70685a] text-[20px]  px-4 py-2 outline-[#70685a]">マイナンバー力一ド</label>
                                 </div>
                             </div>
                             {/* new */}
                             <div className='flex'>
                                 <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">Eleven2</label>
+                                    <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">特記事項</label>
                                 </div>
                                 <div style={{ width: '75%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <label className="w-full text-[#70685a] text-[20px]  px-4 py-2 outline-[#70685a]">asfsdfsadfsadfasdf</label>
+                                    <label className="w-full text-[#70685a] text-[20px]  px-4 py-2 outline-[#70685a]">盗品持ち込みの可能性があるため要注意</label>
                                 </div>
                             </div>
                         </form>

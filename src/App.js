@@ -53,7 +53,7 @@ function App() {
     <Router>
        <Routes>
             <Route path='/home' element={<MainHome/>}/>
-            <Route path='/login' element={<Login/>}/>
+            <Route exact path='/' element={<Login/>}/>
             <Route path='/logout' element={<Logout/>}/>
             <Route path='/forgetpassword' element={<ForgetPassword/>}/>
             <Route path='/passwordsetting' element={<PasswordSetting/>}/>
