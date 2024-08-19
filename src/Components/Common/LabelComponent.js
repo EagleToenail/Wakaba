@@ -2,15 +2,11 @@ import React from 'react';
 
 const LabelComponent = ({value,className, style = {}, ...props }) => {
     const defaultStyle = {
-        width: '100%',
-        color:'#70685a',
-        fontSize:'15px',
-        backgroundColor: 'transparent'
     };
 
     return (
         <label
-            className={`${className}`}
+            className={`text-[#70685a] font-bold mb-2 block text-right py-1 !mb-0 mr-3 ${className}`}
             style={{ ...defaultStyle, ...style }}
             {...props}
         >{value}</label>

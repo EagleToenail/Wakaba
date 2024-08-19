@@ -185,7 +185,7 @@ const  Profile = () => {
                                         <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">都道府県</label>
                                     </div>
                                     <div style={{ width: '30%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                            <select id="classificatin1" name="classificatin" className="w-full h-full text-[#70685a] font-bold border border-[#70685a] px-4 py-2 outline-[#70685a]">
+                                            <select id="classificatin1" name="classificatin" className="w-full h-full text-[#70685a] font-bold border border-[#70685a] px-4 py-1 outline-[#70685a]">
                                                 <option value="1">神奈川県</option>
                                                 <option value="2">Afghanistan</option>
                                                 <option value="3">Åland Islands</option>

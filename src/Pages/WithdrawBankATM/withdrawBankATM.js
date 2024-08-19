@@ -18,11 +18,11 @@ export default function withdrawBankATM() {
                                                 <label className="text-[black] font-bold text-[10px] block text-center">2024/12/30 23:25</label>
                                             </div>
                                             <div className='border border-[#70685a] w-30'>
-                                                <label className="text-[#70685a] font-bold text-[10px] block text-center">Status Display</label>
+                                                <label className="text-[#70685a] font-bold text-[10px] block text-center">ステー夕ス表示</label>
                                             </div>
                                         </div>
                                         <div className='text-[15px] text-[black] ml-3'>
-                                            Reading withdrawal request form bank ATMS
+                                        銀行ATMからの出金申請の件
                                         </div>
                                     </div>
                                     <div className='flex mt-5'>
@@ -31,11 +31,11 @@ export default function withdrawBankATM() {
                                                 <label className="text-[black] font-bold text-[10px] block text-center">2024/12/30 23:25</label>
                                             </div>
                                             <div className='border border-[#70685a] w-30'>
-                                                <label className="text-[#70685a] font-bold text-[10px] block text-center">Status Display</label>
+                                                <label className="text-[#70685a] font-bold text-[10px] block text-center">ステー夕ス表示</label>
                                             </div>
                                         </div>
                                         <div className='text-[15px] text-[black] ml-3'>
-                                            Reading withdrawal request form bank ATMS
+                                        銀行ATMからの出金申請の件
                                         </div>
                                     </div>
                                     <div className='flex mt-5'>
@@ -44,11 +44,11 @@ export default function withdrawBankATM() {
                                                 <label className="text-[black] font-bold text-[10px] block text-center">2024/12/30 23:25</label>
                                             </div>
                                             <div className='border border-[#70685a] w-30'>
-                                                <label className="text-[#70685a] font-bold text-[10px] block text-center">Status Display</label>
+                                                <label className="text-[#70685a] font-bold text-[10px] block text-center">ステー夕ス表示</label>
                                             </div>
                                         </div>
                                         <div className='text-[15px] text-[black] ml-3'>
-                                            Reading withdrawal request form bank ATMS
+                                        銀行ATMからの出金申請の件
                                         </div>
                                     </div>
                                 </div>
@@ -57,19 +57,19 @@ export default function withdrawBankATM() {
                                     <div className='flex mt-5'>
                                         <div className='w-7 h-7 rounded-full border border-[#70685a]'></div>
                                         <div>
-                                            <label className="text-[black] pl-3 text-[15px] block text-center">destination name</label>
+                                            <label className="text-[black] pl-3 text-[15px] block text-center">宛先の名前</label>
                                         </div>
                                     </div>
                                     <div className='flex mt-5'>
                                         <div className='w-7 h-7 rounded-full border border-[#70685a]'></div>
                                         <div>
-                                            <label className="text-[black] pl-3 text-[15px] block text-center">destination name</label>
+                                            <label className="text-[black] pl-3 text-[15px] block text-center">宛先の名前</label>
                                         </div>
                                     </div>
                                     <div className='flex mt-5'>
                                         <div className='w-7 h-7 rounded-full border border-[#70685a]'></div>
                                         <div>
-                                            <label className="text-[black] pl-3 text-[15px] block text-center">destination name</label>
+                                            <label className="text-[black] pl-3 text-[15px] block text-center">宛先の名前</label>
                                         </div>
                                     </div>
                                 </div>
@@ -77,12 +77,12 @@ export default function withdrawBankATM() {
                             <div className='flex mt-5'>
                                 {/* rect btn */}
                                 <div>
-                                    < button type="button" className="w-20 px-3 py-0.5 font-semiblod rounded-lg justify-center text-[#70685a] text-[15px] bg-[#ebe6e0] hover:bg-blue-700 focus:outline-none">
-                                        edit
+                                    < button type="button" className="w-max px-10 py-1 font-semiblod rounded-lg justify-center text-[#70685a] text-[16px] bg-[#ebe6e0] hover:bg-blue-700 focus:outline-none">
+                                    編集
                                     </button>
                                 </div>
                                 <div>
-                                    <label className="text-[black] pl-3 text-[20px] block text-center" >destination name destination name destination name destination name</label>
+                                    <label className="text-[black] pl-3 text-[20px] block text-left" >金庫の残ら1万円札がOO析にならましたので、50万円を出金してきます。で許可をお願いします。</label>
                                 </div>
                             </div>
                             {/* rect-btn-gurope 8 */}
@@ -111,32 +111,32 @@ export default function withdrawBankATM() {
                                 <div className='flex mt-5'>
                                     <div className='w-7 h-7 rounded-full border border-[#70685a] bg-[#70685a]'></div>
                                     <div>
-                                        <label className="text-[black] pl-3 text-[15px] block text-center">destination name</label>
+                                        <label className="text-[black] pl-3 block text-center">名前名前名前名前</label>
                                     </div>
                                 </div>
                                 <div className='flex mt-5'>
                                     <div className='w-7 h-7 rounded-full border border-[#70685a] bg-[#70685a]'></div>
                                     <div>
-                                        <label className="text-[black] pl-3 text-[15px] block text-center">destination name</label>
+                                        <label className="text-[black] pl-3 block text-center">名前名前名前名前</label>
                                     </div>
                                 </div>
                                 <div className='flex mt-5'>
                                     <div className='w-7 h-7 rounded-full border border-[#70685a] bg-[#70685a]'></div>
                                     <div>
-                                        <label className="text-[black] pl-3 text-[15px] block text-center">destination name</label>
+                                        <label className="text-[black] pl-3 block text-center">名前名前名前名前</label>
                                     </div>
                                 </div>
                             </div>
                             {/* rect btn */}
                             <div className='mt-5 ml-10'>
-                                < button type="button" className="w-20 px-3 py-0.5 font-semiblod rounded-lg justify-center text-[#70685a] text-[15px] bg-[#9bd194] hover:bg-blue-700 focus:outline-none">
-                                    edit
+                                < button type="button" className="w-max px-10 py-1 font-semiblod rounded-lg justify-center text-[#fbfcfb] text-[18px] bg-[#92c78b] hover:bg-blue-700 focus:outline-none">
+                                許可
                                 </button>
                             </div>
                             {/* rect btn */}
                             <div className='mt-5 ml-10'>
-                                < button type="button" className="w-20 px-3 py-0.5 font-semiblod rounded-lg justify-center text-[#70685a] text-[15px] bg-[#ebe6e0] hover:bg-blue-700 focus:outline-none">
-                                    edit
+                                < button type="button" className="w-max px-10 py-1 font-semiblod rounded-lg justify-center text-[#70685a] text-[16px] bg-[#ebe6e0] hover:bg-blue-700 focus:outline-none">
+                                返信
                                 </button>
                             </div>
                         </div>
@@ -155,17 +155,17 @@ export default function withdrawBankATM() {
                                         </div>
 
                                         <div>
-                                            < button type="button" className="w-20 px-3 py-0.5 font-semiblod rounded-lg justify-center text-[#70685a] text-[15px] bg-[#ebe6e0] hover:bg-blue-700 focus:outline-none">
-                                                edit
+                                            < button type="button" className="w-max px-10 py-1 font-semiblod rounded-lg justify-center text-[#70685a] text-[16px] bg-[#ebe6e0] hover:bg-blue-700 focus:outline-none">
+                                            編集
                                             </button>
                                         </div>
                                     </div>
                                     <div>
                                         <div>
-                                            <label className="text-[black]  text-[15px] block text-left pl-5">[reply]</label>
+                                            <label className="text-[black]  text-[15px] block text-left pl-5">[返信]</label>
                                         </div>
                                         <div>
-                                            <label className="text-[black] text-[15px] block text-left pl-5">I withdraw money form the bank and deposited 999,999 yen in the safe </label>
+                                            <label className="text-[black] text-[15px] block text-left pl-5">銀行から出金してきました。999999円を金庫へ入れました。 </label>
                                         </div>
                                     </div>
 
@@ -173,7 +173,7 @@ export default function withdrawBankATM() {
                                 <div className='flex mr-10'>
                                     <div className='w-7 h-7 rounded-full border border-[#70685a]'></div>
                                     <div>
-                                        <label className="text-[black] pl-3 text-[15px] block text-center">destination name</label>
+                                        <label className="text-[black] pl-3 text-[15px] block text-center">宛先の名前</label>
                                     </div>
                                 </div>
                             </div>
@@ -201,7 +201,7 @@ export default function withdrawBankATM() {
                                 <div className='flex '>
                                     <div className='w-7 h-7 rounded-full border border-[#70685a] bg-[#70685a]'></div>
                                     <div>
-                                        <label className="text-[black] pl-3 text-[15px] block text-center">destination name</label>
+                                        <label className="text-[black] pl-3 block text-center">名前名前名前名前</label>
                                     </div>
                                 </div>
                         </div>
@@ -212,14 +212,14 @@ export default function withdrawBankATM() {
                         <div  style={{visibility:'hidden'}}>
                             {/* rect btn */}
                             <div className='mt-5 ml-20'>
-                                < button type="button" className="w-20 px-3 py-0.5 font-semiblod rounded-lg justify-center text-[#70685a] text-[15px] bg-[#9bd194] hover:bg-blue-700 focus:outline-none">
+                                < button type="button" className="w-max px-5 py-1 font-semiblod rounded-lg justify-center text-[#fbfcfb] text-[16px] bg-[#92c78b] hover:bg-blue-700 focus:outline-none">
                                     edit
                                 </button>
                             </div>
                             {/* rect btn */}
                             <div className='mt-5 ml-20'>
-                                < button type="button" className="w-20 px-3 py-0.5 font-semiblod rounded-lg justify-center text-[#70685a] text-[15px] bg-[#ebe6e0] hover:bg-blue-700 focus:outline-none">
-                                    edit
+                                < button type="button" className="w-max px-10 py-1 font-semiblod rounded-lg justify-center text-[#70685a] text-[16px] bg-[#ebe6e0] hover:bg-blue-700 focus:outline-none">
+                                返信
                                 </button>
                             </div>
                         </div>
@@ -228,14 +228,14 @@ export default function withdrawBankATM() {
                         <div >
                             {/* rect btn */}
                             <div className='mt-5'>
-                                < button type="button" className="w-20 px-3 py-0.5 font-semiblod rounded-lg justify-center text-[#70685a] text-[15px] bg-[#9bd194] hover:bg-blue-700 focus:outline-none">
-                                    edit
+                                < button type="button" className="w-max px-10 py-1 font-semiblod rounded-lg justify-center text-[#fbfcfb] text-[18px] bg-[#92c78b] hover:bg-blue-700 focus:outline-none">
+                                確認
                                 </button>
                             </div>
                             {/* rect btn */}
                             <div className='mt-5 '>
-                                < button type="button" className="w-20 px-3 py-0.5 font-semiblod rounded-lg justify-center text-[#70685a] text-[15px] bg-[#ebe6e0] hover:bg-blue-700 focus:outline-none">
-                                    edit
+                                < button type="button" className="w-max px-10 py-1 font-semiblod rounded-lg justify-center text-[#70685a] text-[16px] bg-[#ebe6e0] hover:bg-blue-700 focus:outline-none">
+                                返信
                                 </button>
                             </div>
                         </div>
@@ -246,98 +246,73 @@ export default function withdrawBankATM() {
                     </div>
                     {/* operation */}
                     <div className='flex'>
-                        <div style={{ width: '10%',height:'50px' }} className='text-center mt-1 text-[15px]'>New post</div>
+                        <LabelComponent value={'新規投稿'} style={{marginTop:'5px',width:'10%',marginRight:'15px'}}/>
                         <div style={{ width: '90%',height:'50px' }} className='text-center'>
                             {/* firstline */}
-                            <div className='flex'>
-                                <div style={{ width: '65%' }}>
-                                    <InputComponent style={{ width: '50%',height:'30px',marginRight:'50%' }}/>
+                            <div className='flex' style={{height:'40px'}}>
+                                <div style={{ width: '30%' ,marginRight:'10%'}}>
+                                        <select id="gender" name="gender" className="w-full text-[#70685a] font-bold border border-[#70685a] px-4 py-2 outline-[#70685a]">
+                                            <option value="1">宛先の名前</option>
+                                            <option value="2">Afghanistan</option>
+                                            <option value="3">Åland Islands</option>
+                                            <option value="4">Albania</option>
+                                        </select>
                                 </div>
-                                <div style={{ width: '15%' }} className='flex'>
-                                    <LabelComponent value={'ABC'} style={{marginTop:'5px',marginRight:'15px'}}/>
-                                    <InputComponent style={{height:'30px'}}/>
-                                    <LabelComponent value={'ABC'} style={{marginTop:'5px',marginLeft:'15px'}}/>
+                                <div style={{ width: '35%' }} className='flex justify-end mr-10'>
+                                    <LabelComponent value={'一万円札の残ら'} style={{marginTop:'5px',marginRight:'15px'}}/>
+                                    <InputComponent style={{height:'40px',width:'70px'}}/>
+                                    <LabelComponent value={'枚'} style={{marginTop:'5px',marginLeft:'15px'}}/>
                                 </div>
-                                <div style={{ width: '30%' }}>
-                                <InputComponent style={{ width: '30%' ,height:'30px'}}/>
-                                <LabelComponent value={'ABC'} style={{marginTop:'5px',marginLeft:'15px'}}/>
+                                <div style={{ width: '15%', height:'40px'}} className='flex justify-end'>
+                                <select id="gender" name="gender" className="w-20 text-[#70685a] font-bold border border-[#70685a] px-4 py-2 outline-[#70685a]">
+                                            <option value="1">50</option>
+                                            <option value="2">10</option>
+                                            <option value="3">5</option>
+                                            <option value="4">0</option>
+                                        </select>
+                                <LabelComponent value={'万円'} style={{marginTop:'5px',marginLeft:'15px'}}/>
                                 </div>
-
                             </div>
                             {/* secondline */}
-                            <div className='flex !mt-2'>
-                                <div style={{ width: '60%' }}>
-                                    <InputComponent style={{height:'30px'}}/>
+                            <div className='flex !mt-2' style={{height:'40px'}}>
+                                <div style={{ width: '60%' }} className='flex justify-start'>
+                                    <InputComponent style={{height:'40px'}} className='w-full mr-10'/>
                                 </div>
                                 <div style={{ width: '10%' }}>
-                                < button type="button" className="w-20 px-3 py-0.5 font-semiblod rounded-lg justify-center text-[#70685a] text-[15px] bg-[#ebe6e0] hover:bg-blue-700 focus:outline-none">
-                                    edit
+                                < button type="button" className="w-max px-5 mr-5 py-1 font-semiblod rounded-lg justify-center text-[#70685a] text-[16px] bg-[#ebe6e0] hover:bg-blue-700 focus:outline-none">
+                                フアイル
                                 </button>
                                 </div>
-                                <div  style={{ width: '40%' }} className='mt-0.5 flex gap-2.5'>
-                                  <div className='w-6 h-6 border border-[#70685a] '></div>
-                                  <div className='w-6 h-6 border border-[#70685a] '></div>
-                                  <div className='w-6 h-6 border border-[#70685a] '></div>
-                                  <div className='w-6 h-6 border border-[#70685a] '></div>
-                                  <div className='w-6 h-6 border border-[#70685a] '></div>
-                                  <div className='w-6 h-6 border border-[#70685a] '></div>
-                                  <div className='w-6 h-6 border border-[#70685a] '></div>
-                                  <div className='w-6 h-6 border border-[#70685a] '></div>
-                                  <div className='w-6 h-6 border border-[#70685a] '></div>
-                                  <div className='w-6 h-6 border border-[#70685a] '></div>
+                                <div  style={{ width: '40%' }} className='mt-0.5 flex flex-col justify-center ml-5'>
+                                    <div className='flex gap-2.5'>
+                                        <div className='w-6 h-6 border border-[#70685a] '></div>
+                                        <div className='w-6 h-6 border border-[#70685a] '></div>
+                                        <div className='w-6 h-6 border border-[#70685a] '></div>
+                                        <div className='w-6 h-6 border border-[#70685a] '></div>
+                                        <div className='w-6 h-6 border border-[#70685a] '></div>
+                                        <div className='w-6 h-6 border border-[#70685a] '></div>
+                                        <div className='w-6 h-6 border border-[#70685a] '></div>
+                                        <div className='w-6 h-6 border border-[#70685a] '></div>
+                                        <div className='w-6 h-6 border border-[#70685a] '></div>
+                                        <div className='w-6 h-6 border border-[#70685a] '></div>
+                                    </div>
                                 </div>
                             </div>
                             {/* thirdline */}
-                            <div className='flex mt-2'>
+                            <div className='flex mt-2' style={{height:'40px'}}>
                                 <div style={{ width: '80%' }}>
-                                    <InputComponent style={{height:'30px'}}/>
+                                    <InputComponent style={{height:'40px'}} className="w-full"/>
                                 </div>
                                 <div className='pl-5'>
-                                    < button type="button" className="w-20 px-3 py-0.5 font-semiblod rounded-lg justify-center text-[#70685a] text-[15px] bg-[#ebe6e0] hover:bg-blue-700 focus:outline-none">
-                                        edit
+                                    < button type="button" className="w-max px-10 py-1 font-semiblod rounded-lg justify-center text-[#70685a] text-[16px] bg-[#ebe6e0] hover:bg-blue-700 focus:outline-none">
+                                    送信
                                     </button>
                                 </div>
                             </div>
-                            operation
                         </div>
 
 
                     </div>
-
-
-
-
-
-
-
-                    {/* asd full-circle
-                    <div>
-                        <div className='flex mt-5'>
-                            <div className='w-7 h-7 rounded-full border border-[#70685a] bg-[#70685a]'></div>
-                            <div>
-                                <label className="text-[black] pl-3 text-[15px] block text-center">destination name</label>
-                            </div>
-                        </div>
-                        <div className='flex mt-5'>
-                            <div className='w-7 h-7 rounded-full border border-[#70685a] bg-[#70685a]'></div>
-                            <div>
-                                <label className="text-[black] pl-3 text-[15px] block text-center">destination name</label>
-                            </div>
-                        </div>
-                        <div className='flex mt-5'>
-                            <div className='w-7 h-7 rounded-full border border-[#70685a] bg-[#70685a]'></div>
-                            <div>
-                                <label className="text-[black] pl-3 text-[15px] block text-center">destination name</label>
-                            </div>
-                        </div>
-                    </div>
-                     rect btn 
-                    <div>
-                        < button type="button" className="w-20 px-3 py-0.5 font-semiblod rounded-lg justify-center text-[#70685a] text-[15px] bg-[#ebe6e0] hover:bg-blue-700 focus:outline-none">
-                            edit
-                        </button>
-                    </div> */}
-
 
                 </div>
             </div>

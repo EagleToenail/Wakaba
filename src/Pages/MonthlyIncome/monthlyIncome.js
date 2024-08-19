@@ -13,7 +13,7 @@ const MonthlyIncome = () => {
         borderCollapse: 'collapse',
         color: '#70685a',
         textAlign: 'center',
-        maxwidth: '100%',
+        width: '100%',
         alignItem: 'center'
     };
 
