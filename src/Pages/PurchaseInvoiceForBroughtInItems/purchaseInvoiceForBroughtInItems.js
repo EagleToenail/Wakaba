@@ -1,9 +1,9 @@
-import React from 'react';
+import React , {useState,useEffect} from 'react';
 // import { Link } from 'react-router-dom';
 import Titlebar from '../../Components/Common/Titlebar';
 import '../../Assets/css/showtable.css'
 import '../../Assets/css/firstTd.css'
-import InputComponent from '../../Components/Common/InputComponent';
+// import InputComponent from '../../Components/Common/InputComponent';
 import ButtonComponent from '../../Components/Common/ButtonComponent';
 // import LabelComponent from '../../Components/Common/LabelComponent';
 
@@ -32,13 +32,41 @@ const PurchaseInvoiceForBroughtInItems = () => {
         fontSize: '15px',
     };
 
+    const [dateTime, setDateTime] = useState(new Date());
+
+    useEffect(() => {
+        // Update the date and time every minute
+        const intervalId = setInterval(() => {
+            setDateTime(new Date());
+        }, 60000); // Update every 60,000 milliseconds (1 minute)
+ 
+        // Clear the interval on component unmount
+        return () => clearInterval(intervalId);
+    }, []);
+ 
+    // Map of days of the week to Japanese kanji
+    const dayKanji = ['日', '月', '火', '水', '木', '金', '土'];
+ 
+    // Format the date and time as YYYY/MM/DD (Kanji) HH:MM
+    const formatDateTime = (date) => {
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are 0-based
+        const day = String(date.getDate()).padStart(2, '0');
+        const dayOfWeek = date.getDay(); // Get day of week (0: Sunday, 1: Monday, ..., 6: Saturday)
+        const hours = String(date.getHours()).padStart(2, '0');
+        const minutes = String(date.getMinutes()).padStart(2, '0');
+ 
+        return `${year}/${month}/${day} (${dayKanji[dayOfWeek]}) ${hours}:${minutes}`;
+    };
+ 
+    const formattedDateTime = formatDateTime(dateTime);
 
     return (<>
         <Titlebar title={title} />
         <div className="bg-[trasparent] font-[sans-serif]">
             <div className='flex justify-center'>
                 <div className="w-full pt-3" style={{ maxWidth: '80em' }}>
-                    <h2 className="text-[#70685a] text-center font-bold text-[15px] flex justify-end mt-3" style={{ paddingRight: '1%' }}><span className='mr-5'>来店時間</span>&nbsp;2023/12/01(金)&nbsp;&nbsp;21:51</h2>
+                    <h2 className="text-[#70685a] text-center font-bold text-[15px] flex justify-end mt-3" style={{ paddingRight: '1%' }}><span className='mr-5'>来店時間</span>&nbsp;{formattedDateTime}</h2>
                     {/* header */}
                     <div className='flex justify-between'>
                         <div className='' style={{ width: '25%' }}>
