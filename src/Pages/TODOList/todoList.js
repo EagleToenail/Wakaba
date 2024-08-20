@@ -123,7 +123,12 @@ export default function TODOList() {
                                     </div>
                                 </div>
                                 <div>
-                                    <label className="text-[black] pl-3 text-[15px] block text-left" style={{ width: '70%', overflow: 'scroll' }}>destination nsssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssame dgreggrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrestination name destiddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddnation name destifgddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddnation name</label>
+                                    <label className="text-[black] pl-3 text-[15px] block text-left" style={{ width: '70%', overflow: 'scroll' }}>
+                                    テキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキスト
+                                    テキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキスト
+                                    テキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキスト
+                                    テキストテキストテキストテキストテキストテキスト
+                                    </label>
                                 </div>
                             </div>
 
