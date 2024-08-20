@@ -68,9 +68,9 @@ const PurchaseRequestFormForWholeSaler = () => {
                         <thead>
                             <tr>
                                 <th></th>
-                                <th width='10%'>Lステー夕ス</th>
-                                <th width='10%'>発送予定者</th>
-                                <th width='10%'>発送担当者</th>
+                                <th >Lステー夕ス</th>
+                                <th >発送予定者</th>
+                                <th >発送担当者</th>
                                 <th>わかはNo.</th>
                                 <th>カテゴリ一1</th>
                                 <th>カテゴリ一2</th>
@@ -79,12 +79,12 @@ const PurchaseRequestFormForWholeSaler = () => {
                                 <th>型番</th>
                                 <th>備考(金種／詳細仕様他)</th>
                                 <th>RANK</th>
-                                <th width='10%'>画像</th>
+                                <th >画像</th>
                                 <th>個数</th>
-                                <th width='10%'>Points</th>
-                                <th>仮査定日</th>
+                                <th >仮査定日</th>
+                                <th>仮査定額</th>
                                 <th>他社 最高査定額</th>
-                                <th width='10%'>最高査定額業者</th>
+                                <th >最高査定額業者</th>
                             </tr>
                         </thead>
                         <tbody>

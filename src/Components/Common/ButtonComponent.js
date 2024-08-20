@@ -30,6 +30,7 @@ Button.propTypes = {
   disabled: PropTypes.bool,
   style: PropTypes.object,
 };
-// {/* <ButtonComponent children="1" className='w-max !px-5 rounded-lg' style={{  backgroundColor: '#ebe5e1', color: '#626373'}} /> */}
+// <ButtonComponent children="1" className='w-max !px-5 rounded-lg' style={{  backgroundColor: '#ebe5e1', color: '#626373'}} /> 
+//<svg className='h-10'  focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="ArrowRightIcon" title="ArrowRight"><path d="m10 17 5-5-5-5z"></path></svg>(tirange)
 export default Button;
 

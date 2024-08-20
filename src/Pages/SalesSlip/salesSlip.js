@@ -30,100 +30,94 @@ const SalesSlip = () => {
         fontSize: '15px'
       };
 
-    //   const firstTd = {
-    //     borderCollapse: 'collapse',
-    //     borderTop: '1px solid #fff',
-    //     borderLeft: '1px solid #fff',
-    //     borderBottom: '1px solid #fff'
-    //   };
-
-    //   const lastTd = {
-    //     borderCollapse: 'collapse',
-    //     borderTop: '1px solid #fff',
-    //     borderRight: '1px solid #fff',
-    //     borderBottom: '1px solid #fff'
-    //   };
 
     return (
         <>
             <Titlebar title={title} />
                         {/* first button line  */}
-                        <div className='flex justify-between ml-10' style={{width:'70%'}}>
+                        <div className='flex justify-between ml-10' style={{width:'80%'}}>
                             <div className='flex mt-10 w-1/2' >
                                 <div>
-                                    <ButtonComponent children={'Purchase request form for recycling shops'} style={{backgroundColor:'#9bd195',}}/>
-                                    <div className='text-center'>
-                                        <LabelComponent value={'adf'} />
+                                    <ButtonComponent children={'ソサイクルシヨシプへの買取依頼書へ'} className='!px-5 text-2xl' style={{backgroundColor:'#9bd195',height:'40px'}}/>
+                                    <div className='flex justify-center'>
+                                        <LabelComponent value={'行を選択してください'} />
                                     </div>
                                 </div>
                                 <div>
-                                    <ButtonComponent children={'request application'} style={{backgroundColor:'#9bd195',marginLeft:'30px'}} />
-                                    <div className='text-center'>
-                                        <LabelComponent value={'adf'} />
+                                    <ButtonComponent children={'廃棄申請'} className='!px-5 text-2xl' style={{backgroundColor:'#9bd195',marginLeft:'30px',height:'40px'}} />
+                                    <div className='flex justify-center'>
+                                        <LabelComponent value={'行を選択してください'} />
                                     </div>
                                 </div>
                             </div>
                             <div className='flex justify-end mt-10 w-1/2' >
-                                <ButtonComponent children={'sales table'} style={{backgroundColor:'#424242',}}/>
-                                <ButtonComponent children={'vendor assessment sheet'} style={{backgroundColor:'transparent',border:'1px solid #424242',color:'#424242',marginLeft:'30px'}} />
-                                <ButtonComponent children={'Yahoo Auction'} style={{backgroundColor:'transparent',border:'1px solid #424242',color:'#424242',marginLeft:'30px'}} />
+                                <ButtonComponent children={'売上表'} className='!px-5 text-2xl' style={{backgroundColor:'#424242',height:'40px'}}/>
+                                <ButtonComponent children={'業者査定シート'} className='!px-5 text-2xl' style={{backgroundColor:'transparent',border:'1px solid #424242',color:'#424242',marginLeft:'30px',height:'40px'}} />
+                                <ButtonComponent children={'ヤフオク'} className='!px-5 text-2xl' style={{backgroundColor:'transparent',border:'1px solid #424242',color:'#424242',marginLeft:'30px',height:'40px'}} />
                             </div>
                         </div>
 
                         {/* second button line  */}
-                        <div className='flex ml-10' style={{width:'70%'}}>
-                            <div className='flex justify-end mt-5 w-full' style={{justifyContent:'end'}} >
-                                <ButtonComponent children={'all'} style={{backgroundColor:'transparent',border:'1px solid #424242',color:'#424242',height:'10px',borderRadius:'5px',}}/>
-                                <ButtonComponent children={'brand1'} style={{backgroundColor:'transparent',border:'1px solid #424242',color:'#424242',height:'10px',borderRadius:'5px',marginLeft:'30px'}} />
-                                <ButtonComponent children={'all'} style={{backgroundColor:'transparent',border:'1px solid #424242',color:'#424242',height:'10px',borderRadius:'5px',marginLeft:'30px'}}/>
-                                <ButtonComponent children={'brand1'} style={{backgroundColor:'transparent',border:'1px solid #424242',color:'#424242',height:'10px',borderRadius:'5px',marginLeft:'30px'}} />
-                                <ButtonComponent children={'all'} style={{backgroundColor:'transparent',border:'1px solid #424242',color:'#424242',height:'10px',borderRadius:'5px',marginLeft:'30px'}}/>
-                                <ButtonComponent children={'brand1'} style={{backgroundColor:'transparent',border:'1px solid #424242',color:'#424242',height:'10px',borderRadius:'5px',marginLeft:'30px'}} />
-                                <ButtonComponent children={'all'} style={{backgroundColor:'transparent',border:'1px solid #424242',color:'#424242',height:'10px',borderRadius:'5px',marginLeft:'30px'}}/>
-                                <ButtonComponent children={'brand1'} style={{backgroundColor:'transparent',border:'1px solid #424242',color:'#424242',height:'10px',borderRadius:'5px',marginLeft:'30px'}} />
-                                <ButtonComponent children={'all'} style={{backgroundColor:'transparent',border:'1px solid #424242',color:'#424242',height:'10px',borderRadius:'5px',marginLeft:'30px'}}/>
-                                <ButtonComponent children={'brand1'} style={{backgroundColor:'transparent',border:'1px solid #424242',color:'#424242',height:'10px',borderRadius:'5px',marginLeft:'30px'}} />
-                                <ButtonComponent children={'all'} style={{backgroundColor:'transparent',border:'1px solid #424242',color:'#424242',height:'10px',borderRadius:'5px',marginLeft:'30px'}}/>
-                                <ButtonComponent children={'brand1'} style={{backgroundColor:'transparent',border:'1px solid #424242',color:'#424242',height:'10px',borderRadius:'5px',marginLeft:'30px'}} />
+                        <div className='flex ml-10' style={{width:'80%'}}>
+                            <div className='flex justify-between  mt-5 w-full' >
+                                <ButtonComponent children={'全て'} className="!px-5  bg-[transparent] border border-[#424242] text-[#424242] h-8 rounded-lg !w-max" />
+                                <ButtonComponent children={'貴金属'}  className="!px-5 bg-[transparent] border border-[#424242] text-[#424242] h-8 rounded-lg !w-max" />
+                                <ButtonComponent children={'ブランド'} className="!px-5 bg-[transparent] border border-[#424242] text-[#424242] h-8 rounded-lg !w-max" />
+                                <ButtonComponent children={'バシグ'} className="!px-5 bg-[transparent] border border-[#424242] text-[#424242] h-8 rounded-lg !w-max"  />
+                                <ButtonComponent children={'時計'} className="!px-5 bg-[transparent] border border-[#424242] text-[#424242] h-8 rounded-lg !w-max" />
+                                <ButtonComponent children={'財布'} className="!px-5 bg-[transparent] border border-[#424242] text-[#424242] h-8 rounded-lg !w-max"  />
+                                <ButtonComponent children={'アクセサリ'} className="!px-5 bg-[transparent] border border-[#424242] text-[#424242] h-8 rounded-lg !w-max" />
+                                <ButtonComponent children={'骨董品'} className="!px-5 bg-[transparent] border border-[#424242] text-[#424242] h-8 rounded-lg !w-max"  />
+                                <ButtonComponent children={'洋酒'}  className="!px-5 bg-[transparent] border border-[#424242] text-[#424242] h-8 rounded-lg !w-max"/>
+                                <ButtonComponent children={'カメラ'} className="!px-5 bg-[transparent] border border-[#424242] text-[#424242] h-8 rounded-lg !w-max"  />
+                                <ButtonComponent children={'楽器'} className="!px-5 bg-[transparent] border border-[#424242] text-[#424242] h-8 rounded-lg !w-max" />
+                                <ButtonComponent children={'スマホノ夕ブレット'} className="!px-5 bg-[transparent] border border-[#424242] text-[#424242] h-8 rounded-lg !w-max"  />
+                                <select id="classificatin" name="classificatin" className="!w-max h-8 rounded-lg text-[#70685a] text-[15px] font-bold border border-[#70685a] px-4 py-1 outline-[#70685a]">
+                                            <option value="1">その他</option>
+                                            <option value="2">Afghanistan</option>
+                                            <option value="3">Åland Islands</option>
+                                            <option value="4">Albania</option>
+                                </select>
                             </div>
                         </div>
 
                         {/*  Tabe*/}
                         <div className='mt-10 pl-10 pr-10 pb-20 w-full flex'>
-                            <table style={Table}>
+                            <div style={{width:'100%',overflow:'auto'}} >
+                                <table style={Table}>
                                 <thead>
                                     <tr> 
-                                        <th rowSpan={2}>select</th>
-                                        <th width='5%' style={Th} rowSpan={2}>Last Name</th>
-                                        <th width='5%' style={Th} rowSpan={2}>Points</th>
-                                        <th width='5%' style={Th} rowSpan={2}><div style={{border:'1px solid black',borderRadius:'5px',margin:'5%'}}>aaa</div></th>
-                                        <th width='5%' style={Th} rowSpan={2}><div style={{border:'1px solid black',borderRadius:'5px',margin:'5%'}}>aaa</div></th>
-                                        <th width='5%' style={Th} rowSpan={2}><div style={{border:'1px solid black',borderRadius:'5px',margin:'5%'}}>aaa</div></th>
-                                        <th width='5%' style={Th} rowSpan={2}><div style={{border:'1px solid black',borderRadius:'5px',margin:'5%'}}>aaa</div></th>
-                                        <th width='5%' style={Th} rowSpan={2}><div style={{border:'1px solid black',borderRadius:'5px',margin:'5%'}}>aaa</div></th>
+                                        <th rowSpan={2}>選択</th>
+                                        <th width='5%' style={Th} rowSpan={2}>商品番号</th>
+                                        <th width='5%' style={Th} rowSpan={2}>わかはNo.</th>
+                                        <th width='5%' style={Th} rowSpan={2}><div style={{border:'1px solid black',borderRadius:'5px',margin:'5%'}}>ステー夕ス</div></th>
+                                        <th width='5%' style={Th} rowSpan={2}><div style={{border:'1px solid black',borderRadius:'5px',margin:'5%'}}>入金日</div></th>
+                                        <th width='5%' style={Th} rowSpan={2}><div style={{border:'1px solid black',borderRadius:'5px',margin:'5%'}}>卸日</div></th>
+                                        <th width='5%' style={Th} rowSpan={2}><div style={{border:'1px solid black',borderRadius:'5px',margin:'5%'}}>買取日</div></th>
+                                        <th width='5%' style={Th} rowSpan={2}><div style={{border:'1px solid black',borderRadius:'5px',margin:'5%'}}>買取担当</div></th>
 
-                                        <th style={Th} colSpan={6}>Points</th>
+                                        <th style={Th} colSpan={6}>個人情報</th>
 
-                                        <th  style={Th}  rowSpan={2}>Points</th>
-                                        <th width='10%' style={Th} rowSpan={2} >Points</th>
-                                        <th width='10%' style={Th} rowSpan={2} >Points</th>
-                                        <th width='10%' style={Th} rowSpan={2} >Points</th>
-                                        <th width='10%' style={Th} rowSpan={2} >Points</th>
-                                        <th  style={Th} rowSpan={2} >Points</th>
-                                        <th  style={Th} rowSpan={2} >Points</th>
-                                        <th  style={Th} rowSpan={2} >Points</th>
-                                        <th  style={Th} rowSpan={2} >Points</th>
-                                        <th width='10%' style={Th} rowSpan={2} >Points</th>
-                                        <th  style={Th} rowSpan={2} >Points</th>
-                                        <th  style={Th} rowSpan={2} >Points</th>
+                                        <th  style={Th}  rowSpan={2}>カテゴリ-1</th>
+                                        <th width='10%' style={Th} rowSpan={2} >カテゴリ-2</th>
+                                        <th width='10%' style={Th} rowSpan={2} >カテゴリ-3</th>
+                                        <th width='10%' style={Th} rowSpan={2} >カテゴリ-4</th>
+                                        <th width='10%' style={Th} rowSpan={2} >画像</th>
+                                        <th  style={Th} rowSpan={2} >商品 名</th>
+                                        <th  style={Th} rowSpan={2} >個数</th>
+                                        <th  style={Th} rowSpan={2} >粗利益</th>
+                                        <th  style={Th} rowSpan={2} >買取額</th>
+                                        <th width='10%' style={Th} rowSpan={2} >最高査定額</th>
+                                        <th  style={Th} rowSpan={2} ><svg className='h-10'  focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="ArrowRightIcon" title="ArrowRight"><path d="m10 17 5-5-5-5z"></path></svg></th>
+                                        <th  style={Th} rowSpan={2} >真贋</th>
                                     </tr>
                                     <tr>
-                                        <th style={Th}>Points</th>
-                                        <th style={Th} >Points</th>
-                                        <th style={Th} >Points</th>
-                                        <th style={Th} >Points</th>
-                                        <th width='20%' style={Th} >Points</th>
-                                        <th style={Th} >Points</th>
+                                        <th style={Th}>お名前</th>
+                                        <th style={Th} >カナ</th>
+                                        <th style={Th} >TEL</th>
+                                        <th width='10%' style={Th} >任所</th>
+                                        <th  style={Th} >来店種別-1</th>
+                                        <th style={Th} >来店種別-2</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -158,7 +152,8 @@ const SalesSlip = () => {
                                    
                                 </tbody>
 
-                            </table>
+                                </table>
+                            </div>
                         </div>
         </>
     );
