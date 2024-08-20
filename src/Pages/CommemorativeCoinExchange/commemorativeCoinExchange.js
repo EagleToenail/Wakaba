@@ -8,6 +8,7 @@ import Titlebar from '../../Components/Common/Titlebar';
 import LabelComponent from '../../Components/Common/LabelComponent';
 import ButtonComponent from '../../Components/Common/ButtonComponent';
 import InputComponent from '../../Components/Common/InputComponent';
+import DateAndTime from '../../Components/Common/PickData';
 
 
 const CommemorativeCoinExchange = () => {
@@ -37,15 +38,15 @@ const CommemorativeCoinExchange = () => {
     return (
         <>
             <Titlebar title={title} />
-            <h2 className="text-[#70685a] text-center font-bold text-[15px] flex justify-end mt-3" style={{ paddingRight: '1%' }}>2023/12/01(金)&nbsp;&nbsp;21:51</h2>
+            <DateAndTime/>
             <div className=" flex flex-col items-center justify-center py-3 px-4">
                 <div className="w-full " style={{ maxWidth: '90em' }}>
-                    <h2 className="text-[#70685a] text-center text-[20px] font-bold flex justify-center">Commemorative coin/bank note exchange</h2>
+                    <h2 className="text-[#70685a] text-center text-[20px] font-bold flex justify-center">記念硬貨/お札   両替依頼書   新規作成</h2>
                     <div className=' ml-10'>
                         <div style={{width:'30%'}}>
                             <div className='flex ml-12' style={{width:'30%'}}>
                                 <div className='text-right font-bold text-[#70685a]'>
-                                    <div>Person</div>
+                                    <div>担当</div>
                                 </div>
                                 <div className='ml-5 text-left text-[#70685a]' >
                                     <div>OOOO</div>
@@ -58,8 +59,8 @@ const CommemorativeCoinExchange = () => {
                             <div className='flex ml-10'>
                                 <div className='text-right font-bold text-[#70685a]'>
                                     <div className='mt-1'>TEL</div>
-                                    <div className='mt-1'>Shedule Date</div>
-                                    <div className='mt-1'>BankName</div>
+                                    <div className='mt-1'>実行予定日</div>
+                                    <div className='mt-1'>銀行名</div>
                                 </div>
                                 <div className='ml-5 text-left text-[#70685a]'>
                                     <div className='mt-1'>OOOO</div>
@@ -68,13 +69,13 @@ const CommemorativeCoinExchange = () => {
                                 </div>
                             </div>
                         </div>
-                        <div className='flex justify-center mt-5' style={{width:'40%'}}><ButtonComponent children={'Print'} style={{width:'200px'}}/></div>
+                        <div className='flex justify-center mt-5' style={{width:'40%'}}><ButtonComponent children={'Print'} className='h-11'/></div>
                         <div style={{width:'30%'}}></div>
                     </div>
                     <div className='flex justify-center'>
                         <div>
                             <div className='flex w-full'>
-                                <LabelComponent value="Totalsdfsadfasdfasdfasdfasfd number" style={{ fontWeight: 'bold' }} />
+                                <LabelComponent value="~~~日に、~~~銀行に、~~円 を両替に持っていきます。" style={{ fontWeight: 'bold' }} />
                             </div>
                         </div>
                     </div>
@@ -82,7 +83,7 @@ const CommemorativeCoinExchange = () => {
                     <div className='flex justify-center mt-2a'>
                         <div className='flex'>
                             <div className='text-right font-bold text-[#70685a]'>
-                                <div>Person</div>
+                                <div>合計枚数 </div>
                             </div>
                             <div className='ml-5 text-left text-[#70685a]' >
                                 <div>OOOO</div>
@@ -90,7 +91,7 @@ const CommemorativeCoinExchange = () => {
                         </div>
                         <div className='flex ml-12'>
                             <div className='text-right font-bold text-[#70685a]'>
-                                <div>Person</div>
+                                <div>合計金額</div>
                             </div>
                             <div className='ml-5 text-left text-[#70685a]' >
                                 <div>OOOO</div>
@@ -106,7 +107,7 @@ const CommemorativeCoinExchange = () => {
                                 <div className='flex justify-center w-full'>
                                     <div className='flex'>
                                         <div className='w-10 flex flex-col justify-center'><div className='w-10 h-10 rounded-full bg-[#70685a]'></div></div>
-                                        <div className='flex flex-col justify-center'><LabelComponent value="stampsheet" className='pl-5 !text-[20px] font-bold' /></div>
+                                        <div className='flex flex-col justify-center'><LabelComponent value="硬貸" className='pl-5 !text-[20px] font-bold' /></div>
                                     </div>
                                 </div>
                             </div>
@@ -116,7 +117,7 @@ const CommemorativeCoinExchange = () => {
                                 <div className='flex justify-center w-full'>
                                     <div className='flex'>
                                         <div className='w-10 flex flex-col justify-center'><div className='w-10 h-7 bg-[#70685a]'></div></div>
-                                        <div className='flex flex-col justify-center'><LabelComponent value="stampsheet" className='pl-5 !text-[20px] font-bold' /></div>
+                                        <div className='flex flex-col justify-center'><LabelComponent value="お札" className='pl-5 !text-[20px] font-bold' /></div>
                                     </div>
                                 </div>
                             </div>
@@ -132,26 +133,21 @@ const CommemorativeCoinExchange = () => {
                                 <table className=' text-center w-full' style={Table}>
                                     <thead>
                                     <tr>
-                                            <th >NO</th>
-                                            <th >total</th>
-                                            <th >Points</th>
+                                            <th >小計3</th>
+                                            <th >100,000</th>
+                                            <th >¥100,000,000</th>
                                         </tr>
                                         <tr>
-                                            <th >NO</th>
-                                            <th >100,000</th>
-                                            <th >Y100,000,000</th>
+                                            <th >額面 </th>
+                                            <th >数</th>
+                                            <th >小計1</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td style={Td}>99999</td>
-                                            <td style={Td}>Smith</td>
-                                            <td style={Td}>50</td>
-                                        </tr>
-                                        <tr>
-                                            <td style={Td}>99999</td>
-                                            <td style={Td}>Smith</td>
-                                            <td style={Td}>50</td>
+                                            <td style={Td}>10,000円</td>
+                                            <td style={Td}>100,000</td>
+                                            <td style={Td}>¥100,000,000</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -169,29 +165,24 @@ const CommemorativeCoinExchange = () => {
                         </div>
                         <div className='flex justify-center w-1/2 ml-10  mr-10' >
                             <div className='mt-5' style={{ width: '70%' }}>
-                                <table className=' text-center w-full' style={Table}>
+                            <table className=' text-center w-full' style={Table}>
                                     <thead>
-                                        <tr>
-                                            <th >NO</th>
-                                            <th >total</th>
-                                            <th >Points</th>
+                                    <tr>
+                                            <th >小計3</th>
+                                            <th >100,000</th>
+                                            <th >¥100,000,000</th>
                                         </tr>
                                         <tr>
-                                            <th >NO</th>
-                                            <th >total</th>
-                                            <th >Points</th>
+                                            <th >額面 </th>
+                                            <th >数</th>
+                                            <th >小計1</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td style={Td}>99999</td>
-                                            <td style={Td}>Smith</td>
-                                            <td style={Td}>50</td>
-                                        </tr>
-                                        <tr>
-                                            <td style={Td}>99999</td>
-                                            <td style={Td}>Smith</td>
-                                            <td style={Td}>50</td>
+                                            <td style={Td}>10,000円</td>
+                                            <td style={Td}>100,000</td>
+                                            <td style={Td}>¥100,000,000</td>
                                         </tr>
                                     </tbody>
                                 </table>

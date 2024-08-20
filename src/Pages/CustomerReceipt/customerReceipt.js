@@ -3,6 +3,7 @@ import React from 'react';
 import Titlebar from '../../Components/Common/Titlebar';
 import '../../Assets/css/showtable.css';
 import ButtonComponent from '../../Components/Common/ButtonComponent';
+import DateAndTime from '../../Components/Common/PickData';
 
 
 const CustomerReceipt = () => {
@@ -38,23 +39,23 @@ const CustomerReceipt = () => {
                             <button type="button"
                                 className="mr-10  py-1 min-w-[160px] text-[#70685a] rounded-full tracking-wider font-bold outline-none border border-[#70685a] ">Purple</button>
                         </div>
-                        <h2 className="text-[#70685a] text-center text-2xl font-bold flex justify-center">Customer Receipt printing confirmation</h2>
+                        <h2 className="text-[#70685a] text-center text-2xl font-bold flex justify-center">お客様   預かり証   印 刷確認画面</h2>
                         <div className='flex j'>
-                            <ButtonComponent children={'Printing'} style={{ width: '200px' }} />
+                            <ButtonComponent children={'印刷'} className='h-11 py-2'/>
                         </div>
                     </div>
                     {/*  */}
-                    <div className='flex mt-5 justify-around' >
+                    <div className='flex mt-5 justify-around w-full' >
                         <div className=' text-[#70685a] text-[20px] px-2 mr-2'>
                             <div className='flex font-bold'>
-                                    <div>Purchase Invoice</div>
+                                    <div>買取計算書No.000000</div>
                             </div>
 
                         </div>
                         <div className=' text-[#70685a] px-2 mr-2'>
                             <div className='flex'>
                                 <div className='text-right font-bold'>
-                                    <div>Store name</div>
+                                    <div>お名前</div>
                                 </div>
                                 <div className='ml-5 text-left'>
                                     <div>OOOO</div>
@@ -64,17 +65,15 @@ const CustomerReceipt = () => {
                         <div className=' text-[#70685a] px-2 mr-2'>
                             <div className='flex'>
                                 <div className='text-right font-bold'>
-                                    <div>Store name</div>
+                                    <div>お電話番号</div>
                                 </div>
                                 <div className='ml-5 text-left'>
                                     <div>OOOO</div>
                                 </div>
                             </div>
                         </div>
-                        <div className=' text-[#70685a] px-2 mr-2'>
-                            <div className='flex'>
-                                <div>2023/12/01(金)</div>
-                            </div>
+                        <div className=' text-[#70685a] px-2 mr-2 w-40'>
+                                <DateAndTime/>
                         </div>
                     </div>
                     {/*  */}
@@ -83,7 +82,7 @@ const CustomerReceipt = () => {
                             <div className='flex justify-center text-[#70685a]'>
                                 <div className='flex jsutify-center'>
                                     <div className='text-right font-bold'>
-                                        <div>Store name</div>
+                                        <div>店舗名</div>
                                     </div>
                                     <div className='ml-5 text-left'>
                                         <div>OOOO</div>
@@ -93,7 +92,7 @@ const CustomerReceipt = () => {
                             <div className='flex justify-center text-[#70685a] '>
                                 <div className='flex jsutify-center'>
                                     <div className='text-right font-bold'>
-                                        <div>Store name</div>
+                                        <div>担当</div>
                                     </div>
                                     <div className='ml-5 text-left'>
                                         <div>OOOO</div>
@@ -103,7 +102,7 @@ const CustomerReceipt = () => {
                         </div>
                         <div style={{ width: '50%' }}>
                             <div className='flex justify-center pt-3 text-[#70685a] text-[20px] font-bold' >
-                                <div className='text-[#70685a]'>sdfasdfasfdasfdasfsdf</div>
+                                <div className='text-[#70685a]'>下記商品を、令和99年12月30日までお 預か り致します</div>
                             </div>
                         </div>
                         <div style={{ width: '25%' }}></div>
@@ -115,21 +114,81 @@ const CustomerReceipt = () => {
                                 <thead>
                                     <tr>
                                         <th ></th>
-                                        <th width='70%'>Points</th>
-                                        <th>Points</th>
+                                        <th width='70%'>商品名</th>
+                                        <th>個数</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
                                         <td>1.</td>
-                                        <td style={Td}>Smith</td>
-                                        <td style={Td}>50</td>
+                                        <td style={Td}>グッチOOOOOOO</td>
+                                        <td style={Td}>1</td>
+                                    </tr>
+                                    <tr>
+                                        <td>2.</td>
+                                        <td style={Td}>グッチOOOOOOO</td>
+                                        <td style={Td}>1</td>
+                                    </tr>
+                                    <tr>
+                                        <td>3.</td>
+                                        <td style={Td}>グッチOOOOOOO</td>
+                                        <td style={Td}>1</td>
+                                    </tr>
+                                    <tr>
+                                        <td>4.</td>
+                                        <td style={Td}>グッチOOOOOOO</td>
+                                        <td style={Td}>1</td>
+                                    </tr>
+                                    <tr>
+                                        <td>5.</td>
+                                        <td style={Td}>グッチOOOOOOO</td>
+                                        <td style={Td}>1</td>
+                                    </tr>
+                                    <tr>
+                                        <td>6.</td>
+                                        <td style={Td}>グッチOOOOOOO</td>
+                                        <td style={Td}>1</td>
+                                    </tr>
+                                    <tr>
+                                        <td>6.</td>
+                                        <td style={Td}>グッチOOOOOOO</td>
+                                        <td style={Td}>1</td>
+                                    </tr>
+                                    <tr>
+                                        <td>7.</td>
+                                        <td style={Td}>記念切手OOO</td>
+                                        <td style={Td}>120</td>
+                                    </tr>
+                                    <tr>
+                                        <td>8.</td>
+                                        <td style={Td}>テイフアニ一OOOOOOO</td>
+                                        <td style={Td}>1</td>
+                                    </tr>
+                                    <tr>
+                                        <td>9.</td>
+                                        <td style={Td}>グッチOOOOOOO</td>
+                                        <td style={Td}>1</td>
+                                    </tr>
+                                    <tr>
+                                        <td>10.</td>
+                                        <td style={Td}>YSL xxxxxxxxxxxxxxx</td>
+                                        <td style={Td}>1</td>
+                                    </tr>
+                                    <tr>
+                                        <td>11.</td>
+                                        <td style={Td}>YSL xxxxxxxxxxxxxxx</td>
+                                        <td style={Td}>1</td>
+                                    </tr>
+                                    <tr>
+                                        <td>12.</td>
+                                        <td style={Td}>日本刀 OOOO</td>
+                                        <td style={Td}>1</td>
                                     </tr>
                                 </tbody>
 
                             </table>
-                            <div className='flex justify-end'>
-                                    999a
+                            <div className='flex justify-end font-bold text-[#70685a]'>
+                                    999点
                             </div>
                             </div>
 
