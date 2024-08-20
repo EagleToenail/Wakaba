@@ -14,7 +14,7 @@ export default function TabContent1() {
                             99
                         </button>
                         <Link
-                            className="text-[black] font-bold hover:text-[#655b4a] text-[15px] block rounded px-1 transition-all">
+                            className="text-[black] font-bold hover:text-[#655b4a] text-[15px] block rounded px-1 transition-all" to='/todolist'>
                             99 TODO
                         </Link>
                     </li>

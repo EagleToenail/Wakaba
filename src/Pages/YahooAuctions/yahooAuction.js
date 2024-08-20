@@ -30,19 +30,6 @@ const YahooAuction = () => {
         fontSize: '15px'
       };
 
-    //   const firstTd = {
-    //     borderCollapse: 'collapse',
-    //     borderTop: '1px solid #fff',
-    //     borderLeft: '1px solid #fff',
-    //     borderBottom: '1px solid #fff'
-    //   };
-
-    //   const lastTd = {
-    //     borderCollapse: 'collapse',
-    //     borderTop: '1px solid #fff',
-    //     borderRight: '1px solid #fff',
-    //     borderBottom: '1px solid #fff'
-    //   };
 
     return (
         <>
@@ -50,9 +37,9 @@ const YahooAuction = () => {
                         {/* first button line  */}
                         <div className='flex justify-between ml-10'>
                             <div className='flex justify-center mt-10 w-full' >
-                                <ButtonComponent children={'sales table'} style={{backgroundColor:'#424242',}}/>
-                                <ButtonComponent children={'vendor assessment sheet'} style={{backgroundColor:'transparent',border:'1px solid #424242',color:'#424242',marginLeft:'30px'}} />
-                                <ButtonComponent children={'Yahoo Auction'} style={{backgroundColor:'transparent',border:'1px solid #424242',color:'#424242',marginLeft:'30px'}} />
+                                <ButtonComponent children={'売上表'} className='bg-[#424242] h-11 !text-2xl'/>
+                                <ButtonComponent children={'業者査定シート'} className='h-11 bg-[transparent] border border-[#424242] text-[#424242] !text-2xl !px-10' style={{marginLeft:'30px'}} />
+                                <ButtonComponent children={'ヤフオク'} className='h-11 bg-[transparent] border border-[#424242] text-[#424242] !text-2xl !px-10' style={{marginLeft:'30px'}} />
                             </div>
                         </div>
 
@@ -65,69 +52,102 @@ const YahooAuction = () => {
                             <table style={Table}>
                                 <thead>
                                     <tr> 
-                                        <th  style={Th} rowSpan={2}>select</th>
-                                        <th width='5%' style={Th} rowSpan={2}>Last Name</th>
-                                        <th width='5%' style={Th} rowSpan={2}>Points</th>
-                                        <th width='5%' style={Th} rowSpan={2}>point</th>
-                                        <th width='5%' style={Th} rowSpan={2}>point</th>
-                                        <th width='5%' style={Th} rowSpan={2}>point</th>
-                                        <th width='5%' style={Th} rowSpan={2}>point</th>
-                                        <th width='5%' style={Th} rowSpan={2}>point</th>
+                                        <th  style={Th} rowSpan={2}>ヤフオク商品工D</th>
+                                        <th width='5%' style={Th} rowSpan={2}>わかはNo.</th>
+                                        <th width='5%' style={Th} rowSpan={2}>カテゴリ-1</th>
+                                        <th width='5%' style={Th} rowSpan={2}>カテゴリ-2</th>
+                                        <th width='5%' style={Th} rowSpan={2}>カテゴリ-3</th>
+                                        <th width='5%' style={Th} rowSpan={2}>カテゴリ-4</th>
+                                        <th width='5%' style={Th} rowSpan={2}>画像</th>
+                                        <th width='5%' style={Th} rowSpan={2}>商品名</th>
 
-                                        <th style={Th} rowSpan={2}>Points</th>
-                                        <th style={Th} rowSpan={2}>Points</th>
-                                        <th style={Th} rowSpan={2}>Points</th>
-                                        <th style={Th} rowSpan={2}>Points</th>
-                                        <th width='20%' style={Th} rowSpan={2}>Points</th>
-                                        <th style={Th} rowSpan={2}>Points</th>
+                                        <th style={Th} rowSpan={2}>買取額</th>
+                                        <th style={Th} rowSpan={2}>オークフアン買取額</th>
+                                        <th style={Th} rowSpan={2}>落札額</th>
+                                        <th style={Th} rowSpan={2}>租利額</th>
 
-                                        <th  style={Th}  rowSpan={2}>Points</th>
-                                        <th width='10%' style={Th} rowSpan={2} >Points</th>
-                                        <th width='10%' style={Th} rowSpan={2} >Points</th>
-                                        <th width='10%' style={Th} rowSpan={2} ><div style={{border:'1px solid black',borderRadius:'5px',margin:'5%'}}>aaa</div></th>
-                                        <th width='10%' style={Th} rowSpan={2} ><div style={{border:'1px solid black',borderRadius:'5px',margin:'5%'}}>aaa</div></th>
-                                        <th width='10%'  style={Th} rowSpan={2} ><div style={{border:'1px solid black',borderRadius:'5px',margin:'5%'}}>aaa</div></th>
+                                        <th width='10%' style={Th} rowSpan={2} ><div style={{border:'1px solid black',borderRadius:'5px',margin:'5%'}}>ステー夕ス</div></th>
+                                        <th width='10%' style={Th} rowSpan={2} ><div style={{border:'1px solid black',borderRadius:'5px',margin:'5%'}}>入金日</div></th>
+                                        <th width='10%'  style={Th} rowSpan={2} ><div style={{border:'1px solid black',borderRadius:'5px',margin:'5%'}}>発送日</div></th>
 
-                                        <th style={Th} colSpan={6}>Points</th>
+                                        <th style={Th} colSpan={6}>落札者情報</th>
 
                                     </tr>
 
                                     <tr>
-                                        <th  style={Th} >Points</th>
-                                        <th  style={Th}>Points</th>
-                                        <th  style={Th} >Points</th>
-                                        <th  style={Th}>Points</th>
-                                        <th  style={Th} >Points</th>
-                                        <th width='10%'  style={Th} >Points</th>
+                                        <th  style={Th} >ヤフオクID</th>
+                                        <th  style={Th}>お名前</th>
+                                        <th  style={Th} >カナ</th>
+                                        <th  style={Th}>TEL</th>
+                                        <th  style={Th} >住所</th>
+                                        <th width='10%'  style={Th} >評価</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td style={Td}><input type="checkbox"></input></td>
-                                        <td style={Td}>as</td>
-                                        <td style={Td}>Smith</td>
-                                        <td style={Td}>50</td>
-                                        <td style={Td}>50</td>
-                                        <td style={Td}>50</td>
-                                        <td style={Td}>50</td>
-                                        <td style={Td}>50</td>
-                                        <td style={Td}>50</td>
-                                        <td style={Td}>50</td>
-                                        <td style={Td}>50</td>
-                                        <td style={Td}>50</td>
-                                        <td style={Td}>50</td>
-                                        <td style={Td}>50</td>
-                                        <td style={Td}>50</td>
-                                        <td style={Td}>50</td>
-                                        <td style={Td}>50</td>
-                                        <td style={Td}>50</td>
-                                        <td style={Td}>50</td>
-                                        <td style={Td}>50</td>
-                                        <td style={Td}>50</td>
-                                        <td style={Td}>50</td>
-                                        <td style={Td}>50</td>
-                                        <td style={Td}>50</td>
-                                        <td style={Td}>50</td>
+                                    <td style={Td}>9999</td>
+                                        <td style={Td}>9999</td>
+                                        <td style={Td}>
+                                        <select id="gender" name="gender" className="w-full text-[#70685a] font-bold  px-4 py-2 outline-[#70685a]">
+                                            <option value="1">宛先の名前</option>
+                                            <option value="2">Afghanistan</option>
+                                            <option value="3">Åland Islands</option>
+                                            <option value="4">Albania</option>
+                                        </select>
+                                        </td>
+                                        <td style={Td}>
+                                        <select id="gender" name="gender" className="w-full text-[#70685a] font-bold  px-4 py-2 outline-[#70685a]">
+                                            <option value="1">宛先の名前</option>
+                                            <option value="2">Afghanistan</option>
+                                            <option value="3">Åland Islands</option>
+                                            <option value="4">Albania</option>
+                                        </select>
+                                        </td>
+                                        <td style={Td}>
+                                        <select id="gender" name="gender" className="w-full text-[#70685a] font-bold  px-4 py-2 outline-[#70685a]">
+                                            <option value="1">宛先の名前</option>
+                                            <option value="2">Afghanistan</option>
+                                            <option value="3">Åland Islands</option>
+                                            <option value="4">Albania</option>
+                                        </select>
+                                        </td>
+                                        <td style={Td}>
+                                        <select id="gender" name="gender" className="w-full text-[#70685a] font-bold  px-4 py-2 outline-[#70685a]">
+                                            <option value="1">宛先の名前</option>
+                                            <option value="2">Afghanistan</option>
+                                            <option value="3">Åland Islands</option>
+                                            <option value="4">Albania</option>
+                                        </select>
+                                        </td>
+                                        <td style={Td}><ButtonComponent children="1" className='w-max !px-5 rounded-lg' style={{  backgroundColor: '#ebe5e1', color: '#626373'}} /></td>
+                                        <td style={Td}>グシチOOOO</td>
+                                        <td style={Td}>100</td>
+                                        <td style={Td}>90,000</td>
+                                        <td style={Td}>100</td>
+
+                                        <td style={Td}>
+                                        <select id="gender" name="gender" className="w-full text-[#70685a] font-bold  px-4 py-2 outline-[#70685a]">
+                                            <option value="1">宛先の名前</option>
+                                            <option value="2">Afghanistan</option>
+                                            <option value="3">Åland Islands</option>
+                                            <option value="4">Albania</option>
+                                        </select>
+                                        </td>
+                                        <td style={Td}>
+                                        <select id="gender" name="gender" className="w-full text-[#70685a] font-bold  px-4 py-2 outline-[#70685a]">
+                                            <option value="1">宛先の名前</option>
+                                            <option value="2">Afghanistan</option>
+                                            <option value="3">Åland Islands</option>
+                                            <option value="4">Albania</option>
+                                        </select>
+                                        </td>
+                                        <td style={Td}>2024/12/30</td>
+                                        <td style={Td}>2024/12/30</td>
+                                        <td style={Td}>0000</td>
+                                        <td style={Td}>伊集院純一郎</td>
+                                        <td style={Td}>OOOOOOOOO</td>
+                                        <td style={Td}>090-0000-0000</td>
+                                        <td style={Td}>OOOOOOOOO</td>
                                         <td style={Td}>50</td>
                                     </tr>
                                    

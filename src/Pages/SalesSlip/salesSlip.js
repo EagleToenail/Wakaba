@@ -103,7 +103,7 @@ const SalesSlip = () => {
                                         <th width='10%' style={Th} rowSpan={2} >カテゴリ-3</th>
                                         <th width='10%' style={Th} rowSpan={2} >カテゴリ-4</th>
                                         <th width='10%' style={Th} rowSpan={2} >画像</th>
-                                        <th  style={Th} rowSpan={2} >商品 名</th>
+                                        <th  style={Th} rowSpan={2} >商品名</th>
                                         <th  style={Th} rowSpan={2} >個数</th>
                                         <th  style={Th} rowSpan={2} >粗利益</th>
                                         <th  style={Th} rowSpan={2} >買取額</th>
