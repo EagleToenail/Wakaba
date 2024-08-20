@@ -1,4 +1,4 @@
-import React,{useState ,} from 'react';
+import React, { useState, } from 'react';
 // import { Link } from 'react-router-dom';
 import Titlebar from '../../Components/Common/Titlebar';
 import '../../Assets/css/showtable.css';
@@ -37,7 +37,7 @@ const WholeSalerShippingList = () => {
     const handleDateChange = (event) => {
         setDate(event.target.value); // Update the date state with the selected date
     };
-  
+
     return (
         <>
             <Titlebar title={title} />
@@ -53,21 +53,21 @@ const WholeSalerShippingList = () => {
                         {/*  */}
                         <div className='flex mt-3 justify-center  pr-40 pl-40'>
                             <div className=' px-2 mr-2 text-center font-bold'>
-                                <LabelComponent value={'発送日'} className='flex justify-center'/>
+                                <LabelComponent value={'発送日'} className='flex justify-center' />
                                 <div>
-                                <div className='flex'>
-                        <div style={{  flexDirection: 'column', }} className='flex align-center justify-around'>
-                            <input name="ads" type="text" value={date} required className="w-40 h-11 text-[#6e6e7c] border border-[#6e6e7c] text-[20px] px-4 py-1 outline-[#70685a]"readOnly/>
-                        </div>
-                        <div style={{ flexDirection: 'column', }} className='flex flex-col justify-center pl-3'>
-                            <div style={{width:'40px',height:'30px',cursor:'pointer'}}>
-                                <div style={{position: 'relative'}}>
-                                    <img src={dateimage} style={{width:'40px',height:'30px', position: 'absolute',cursor:'pointer'}} alt='calendar'></img>
-                                    <input type="date" id="date" name="date" value={''} onChange={handleDateChange} style={{position: 'absolute',left:'0', width:'40px', height:'30px', background:'transparent', border:'none',opacity:'0',cursor:'pointer'}}/>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                                    <div className='flex'>
+                                        <div style={{ flexDirection: 'column', }} className='flex align-center justify-around'>
+                                            <input name="ads" type="text" value={date} required className="w-40 h-11 text-[#6e6e7c] border border-[#6e6e7c] text-[20px] px-4 py-1 outline-[#70685a]" readOnly />
+                                        </div>
+                                        <div style={{ flexDirection: 'column', }} className='flex flex-col justify-center pl-3'>
+                                            <div style={{ width: '40px', height: '30px', cursor: 'pointer' }}>
+                                                <div style={{ position: 'relative' }}>
+                                                    <img src={dateimage} style={{ width: '40px', height: '30px', position: 'absolute', cursor: 'pointer' }} alt='calendar'></img>
+                                                    <input type="date" id="date" name="date" value={''} onChange={handleDateChange} style={{ position: 'absolute', left: '0', width: '40px', height: '30px', background: 'transparent', border: 'none', opacity: '0', cursor: 'pointer' }} />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <div className=' text-[#70685a] px-2 mr-2 font-bold'>
@@ -75,35 +75,35 @@ const WholeSalerShippingList = () => {
                                     <LabelComponent value={'卸業者'} />
                                 </div>
                                 <select id="classificatin" name="classificatin" className="w-full h-11 text-[#70685a] text-[15px] font-bold border border-[#70685a] px-4 py-1 outline-[#70685a]">
-                                            <option value="1">アルバイト</option>
-                                            <option value="2">Afghanistan</option>
-                                            <option value="3">Åland Islands</option>
-                                            <option value="4">Albania</option>
-                                        </select>
+                                    <option value="1">アルバイト</option>
+                                    <option value="2">Afghanistan</option>
+                                    <option value="3">Åland Islands</option>
+                                    <option value="4">Albania</option>
+                                </select>
                             </div>
                             <div className=' text-[#70685a] px-2 mr-2 font-bold'>
                                 <div className='text-center'>
                                     <LabelComponent value={'adf'} />
                                 </div>
                                 <select id="classificatin" name="classificatin" className="w-full h-11 text-[#70685a] text-[15px] font-bold border border-[#70685a] px-4 py-1 outline-[#70685a]">
-                                            <option value="1">アルバイト</option>
-                                            <option value="2">Afghanistan</option>
-                                            <option value="3">Åland Islands</option>
-                                            <option value="4">Albania</option>
-                                        </select>
+                                    <option value="1">アルバイト</option>
+                                    <option value="2">Afghanistan</option>
+                                    <option value="3">Åland Islands</option>
+                                    <option value="4">Albania</option>
+                                </select>
                             </div>
 
                             <div className=' text-[#70685a] px-2 mr-5 flex flex-col justify-end'>
-                    <label className="text-[#70685a] text-[20px] block text-center pb-2">この条件で</label>
-                </div>
-                <div className=' text-[#70685a] px-2 mr-2 flex flex-col justify-end'>
-                    < button type="button" style={{ display: 'flex', alignItem: 'end' }} className="flex align-end w-20 px-3 py-2 font-bold rounded-md tracking-wide text-[#665b4c] justify-center text-white bg-[#ebe6e0] hover:bg-blue-700 focus:outline-none">
-                    検索
-                    </button>
-                </div>
-                <div className=' text-[#70685a] px-2 mr-5 flex flex-col justify-end'>
-                    <label className="text-[#70685a] mb-2 block text-center pb-13">(and検索)</label>
-                </div>
+                                <label className="text-[#70685a] text-[20px] block text-center pb-2">この条件で</label>
+                            </div>
+                            <div className=' text-[#70685a] px-2 mr-2 flex flex-col justify-end'>
+                                < button type="button" style={{ display: 'flex', alignItem: 'end' }} className="flex align-end w-20 px-3 py-2 font-bold rounded-md tracking-wide text-[#665b4c] justify-center text-white bg-[#ebe6e0] hover:bg-blue-700 focus:outline-none">
+                                    検索
+                                </button>
+                            </div>
+                            <div className=' text-[#70685a] px-2 mr-5 flex flex-col justify-end'>
+                                <label className="text-[#70685a] mb-2 block text-center pb-13">(and検索)</label>
+                            </div>
                         </div>
 
                         {/*  Tabe*/}
@@ -129,7 +129,14 @@ const WholeSalerShippingList = () => {
                                     <tr>
                                         <td>1</td>
                                         <td style={Td}>OOOO</td>
-                                        <td style={Td} >50</td>
+                                        <td style={Td} >
+                                            <select id="classificatin" name="classificatin" className="w-full h-full text-[#70685a] text-[15px] font-bold px-4 py-2 outline-[#70685a]">
+                                                <option value="1">アルバ</option>
+                                                <option value="2">Afgha</option>
+                                                <option value="3">Ål</option>
+                                                <option value="4">Albani</option>
+                                            </select>
+                                        </td>
                                         <td style={Td} >50</td>
                                         <td style={Td} >50</td>
                                         <td style={Td} >50</td>
@@ -144,12 +151,12 @@ const WholeSalerShippingList = () => {
                                         </td>
                                         <td>
                                             <div className='w-5 h-3 ml-3 mb-1'>
-                                                <svg className="" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="ContentCopyIcon" title="ContentCopy"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2m0 16H8V7h11z"></path></svg>
+                                                <svg className=" " fill='#70685a' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="ContentCopyIcon" title="ContentCopy"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2m0 16H8V7h11z"></path></svg>
                                             </div>
-                                            
+
                                         </td>
                                     </tr>
-                                   
+
                                 </tbody>
 
                             </table>

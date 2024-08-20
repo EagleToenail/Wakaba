@@ -30,5 +30,6 @@ Button.propTypes = {
   disabled: PropTypes.bool,
   style: PropTypes.object,
 };
-
+// {/* <ButtonComponent children="1" className='w-max !px-5 rounded-lg' style={{  backgroundColor: '#ebe5e1', color: '#626373'}} /> */}
 export default Button;
+
