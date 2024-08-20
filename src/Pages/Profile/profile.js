@@ -82,11 +82,12 @@ const  Profile = () => {
                                         <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-3 !mb-0">種別</label>
                                     </div>
                                     <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                        <select id="classificatin" name="classificatin" className="w-full text-[#70685a] font-bold border border-[#70685a] px-4 py-2 outline-[#70685a]">
-                                            <option value="1">アルバイト</option>
-                                            <option value="2">Afghanistan</option>
-                                            <option value="3">Åland Islands</option>
-                                            <option value="4">Albania</option>
+                                        <select id="classification" name="classification" className="w-full text-[#70685a] font-bold border border-[#70685a] px-4 py-2 outline-[#70685a]">
+                                            <option value="執行役員">執行役員</option>
+                                            <option value="社員">社員</option>
+                                            <option value="契約社員">契約社員</option>
+                                            <option value="アルバイト">アルバイト
+                                            </option>
                                         </select>
                                     </div>
                                 </div>
@@ -167,11 +168,12 @@ const  Profile = () => {
                                         </button>
                                     </div>
                                     <div style={{ width: '40%', flexDirection: 'column',height:'40px',marginRight:'5%' }} className='flex align-center justify-around'>
-                                        <select id="classificatin" name="classificatin" className="w-full h-full text-[#70685a] text-[15px] font-bold border border-[#70685a] px-4 py-2 outline-[#70685a]">
-                                            <option value="1">アルバイト</option>
-                                            <option value="2">Afghanistan</option>
-                                            <option value="3">Åland Islands</option>
-                                            <option value="4">Albania</option>
+                                        <select id="document" name="document" className="w-full h-full text-[#70685a] text-[15px] font-bold border border-[#70685a] px-4 py-2 outline-[#70685a]">
+                                            <option value="運転免許証">運転免許証</option>
+                                            <option value="運転経歴証明書">運転経歴証明書</option>
+                                            <option value="旅券（パスポート)">旅券（パスポート)</option>
+                                            <option value="個人番号カード（マイナンバーカード）在留カード・特別永住者証明書">個人番号カード（マイナンバーカード）在留カード・特別永住者証明書</option>
+                                            <option value="各種福祉手帳（身体障害者手帳等）">各種福祉手帳（身体障害者手帳等）</option>
                                         </select>
                                     </div>
                                     <div style={{ width: '20%', flexDirection: 'column', }} className='flex align-center justify-around'>
@@ -228,11 +230,12 @@ const  Profile = () => {
                                         <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">身分保証人</label>
                                     </div>
                                     <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                            <select id="classificatin3" name="classificatin" className="w-full h-full text-[#70685a] font-bold border border-[#70685a] px-4 py-2 outline-[#70685a]">
-                                                <option value="1">配偶者</option>
-                                                <option value="2">Afghanistan</option>
-                                                <option value="3">Åland Islands</option>
-                                                <option value="4">Albania</option>
+                                            <select id="guarantor" name="guarantor" className="w-full h-full text-[#70685a] font-bold border border-[#70685a] px-4 py-2 outline-[#70685a]">
+                                                <option value="配偶者">配偶者</option>
+                                                <option value="子供">子供</option>
+                                                <option value="親">親</option>
+                                                <option value="親戚">親戚</option>
+                                                <option value="友人">友人</option>
                                             </select>
                                     </div>
                                     <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around px-5'>
