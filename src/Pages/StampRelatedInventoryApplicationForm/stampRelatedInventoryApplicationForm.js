@@ -6,6 +6,7 @@ import LetterPack from '../../Assets/img/letterpack.png'
 import StampRose from '../../Assets/img/stamprose.png'
 import PostCard from '../../Assets/img/postcard.png'
 import LabelComponent from '../../Components/Common/LabelComponent';
+import DateAndTime from '../../Components/Common/PickData';
 
 
 const StampRelatedInventoryApplicationForm = () => {
@@ -41,27 +42,27 @@ const StampRelatedInventoryApplicationForm = () => {
     return (
         <>
             <Titlebar title={title} />
-            <h2 className="text-[#70685a] text-center font-bold text-[15px] flex justify-end mt-3" style={{ paddingRight: '1%' }}>2023/12/01(金)&nbsp;&nbsp;21:51</h2>
+            <DateAndTime/>
             <div className=" flex flex-col items-center justify-center py-3 px-4">
                 <div className="w-full " style={{ maxWidth: '90em' }}>
-                    <h2 className="text-[#70685a] text-center text-2xl font-bold flex justify-center">Application for receiving Japanese stamps, postcards, and letter packs</h2>
+                    <h2 className="text-[#70685a] text-center text-2xl font-bold flex justify-center">日本の切手・八ガキ・レターパシク 出庫申請</h2>
                     <div className='flex justify-evenly mt-5 '>
-                        <div className='text-center text-[20px]'><u><LabelComponent value="zxcas" /></u></div>
+                        <div className='text-center text-[20px]'><u><LabelComponent value="在庫一覽へ戻る" /></u></div>
                         <div>
                             < button type="button" className="w-full px-3 py-3 font-bold tracking-wide rounded-lg justify-center text-white bg-[#e87a00] hover:bg-blue-700 focus:outline-none">
-                                Create a shipping operator
+                            出庫を申請
                             </button>
                         </div>
-                        <div className='text-center text-[20px]'><u><LabelComponent value="of the selected item" /></u></div>
+                        <div className='text-center text-[20px]'><u><LabelComponent value="キャンセル" /></u></div>
 
                     </div>
                     <div className='flex mt-5'>
                         <div style={{width:'30%'}}>
-                            <div className='text-right'><LabelComponent value="stampsheet" className='pl-5 !text-[20px] font-bold' /></div>
-                            <div className='text-right mt-5'><LabelComponent value="stampsheet" className='pl-5 !text-[20px] font-bold' /></div>
+                            <div className='text-right'><LabelComponent value="定型文" className='pl-5 !text-[20px] font-bold' /></div>
+                            <div className='text-right mt-5'><LabelComponent value="用途/理由他" className='pl-5 !text-[20px] font-bold' /></div>
                         </div>
                         <div style={{width:'40%'}}>
-                            <div className='flex flex-col justify-center'><LabelComponent value="stampsheet" className='pl-5 !text-[20px]' /></div>
+                            <div className='flex flex-col justify-center'><LabelComponent value="OOOOOOOOOOOOOOOO" className='pl-5 !text-[20px]' /></div>
                             <div className="p-4">
                                             {/* Text area */}
                                             <textarea
@@ -69,7 +70,7 @@ const StampRelatedInventoryApplicationForm = () => {
                                                 onChange={handleChange}
                                                 rows="4"
                                                 cols="50"
-                                                placeholder="Type something here..."
+                                                placeholder=""
                                                 className="border border-[#70685a] rounded p-2 w-full"
                                             />
                                             {/* Display the current value of the text area */}
@@ -81,37 +82,38 @@ const StampRelatedInventoryApplicationForm = () => {
                         </div>
                     </div>
                     {/* mainpart */}
+                    {/* mainpart */}
                     {/* fistline */}
                     <div className='flex'>
-                        <div className='' style={{ width: '25%' }}>
+                        <div className='mt-10' style={{ width: '25%' }}>
                             <div className='flex justify-center'>
                                 <div className='flex'>
                                     <div className='w-10'><img src={StampSheet} alt="aaa"></img></div>
-                                    <div className='flex flex-col justify-center'><LabelComponent value="stampsheet" className='pl-5 !text-[20px] font-bold' /></div>
+                                    <div className='flex flex-col justify-center'><LabelComponent value="切手シート" className='pl-5 !text-[20px] font-bold' /></div>
                                 </div>
                             </div>
                         </div>
-                        <div className='' style={{ width: '25%' }}>
+                        <div className='mt-10' style={{ width: '25%' }}>
                             <div className='flex justify-center'>
                                 <div className='flex'>
                                     <div className='w-10'><img src={StampSheet} alt="aaa"></img></div>
-                                    <div className='flex flex-col justify-center'><LabelComponent value="stampsheet" className='pl-5 !text-[20px] font-bold' /></div>
+                                    <div className='flex flex-col justify-center'><LabelComponent value="切手台紙貼ら" className='pl-5 !text-[20px] font-bold' /></div>
                                 </div>
                             </div>
                         </div>
-                        <div className='' style={{ width: '25%' }}>
+                        <div className='mt-10' style={{ width: '25%' }}>
                             <div className='flex justify-center'>
                                 <div className='flex'>
                                     <div className='w-10'><img src={StampRose} alt="aaa"></img></div>
-                                    <div className='flex flex-col justify-center'><LabelComponent value="stampsheet" className='pl-5 !text-[20px] font-bold' /></div>
+                                    <div className='flex flex-col justify-center'><LabelComponent value="切手バラ" className='pl-5 !text-[20px] font-bold' /></div>
                                 </div>
                             </div>
                         </div>
-                        <div className='' style={{ width: '25%' }}>
+                        <div className='mt-10' style={{ width: '25%' }}>
                             <div className='flex justify-center'>
                                 <div className='flex'>
                                     <div className='w-10'><img src={LetterPack} alt="aaa"></img></div>
-                                    <div className='flex flex-col justify-center'><LabelComponent value="stampsheet" className='pl-5 !text-[20px] font-bold' /></div>
+                                    <div className='flex flex-col justify-center'><LabelComponent value="レ夕一パツク" className='pl-5 !text-[20px] font-bold' /></div>
                                 </div>
                             </div>
                         </div>
@@ -126,21 +128,26 @@ const StampRelatedInventoryApplicationForm = () => {
                                 <table className=' text-center w-full' style={Table}>
                                     <thead>
                                         <tr>
-                                            <th >NO</th>
-                                            <th>total</th>
-                                            <th>Points</th>
+                                            <th ></th>
+                                            <th>台紙数合計</th>
+                                            <th>額面総額合計</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td>99999</td>
-                                            <td style={Td}>Smith</td>
-                                            <td style={Td}>50</td>
+                                            <td>下記合計</td>
+                                            <td style={Td}>1000</td>
+                                            <td style={Td}>¥1,000,000</td>
                                         </tr>
                                         <tr>
-                                            <td>99999</td>
-                                            <td style={Td}>Smith</td>
-                                            <td style={Td}>50</td>
+                                            <td>50円以上</td>
+                                            <td style={Td}>1000</td>
+                                            <td style={Td}>¥1,000,000</td>
+                                        </tr>
+                                        <tr>
+                                            <td>50円未満</td>
+                                            <td style={Td}>1000</td>
+                                            <td style={Td}>¥1,000,000</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -148,24 +155,29 @@ const StampRelatedInventoryApplicationForm = () => {
                         </div>
                         <div className='flex justify-end' style={{ width: '25%' }}>
                             <div className='mt-5 flex flex-col justify-end' style={{ width: '70%' }}>
-                                <table className=' text-center w-full' style={Table}>
+                            <table className=' text-center w-full' style={Table}>
                                     <thead>
                                         <tr>
-                                            <th >NO</th>
-                                            <th>total</th>
-                                            <th>Points</th>
+                                            <th ></th>
+                                            <th>台紙数合計</th>
+                                            <th>額面総額合計</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td>99999</td>
-                                            <td style={Td}>Smith</td>
-                                            <td style={Td}>50</td>
+                                            <td>下記合計</td>
+                                            <td style={Td}>1000</td>
+                                            <td style={Td}>¥1,000,000</td>
                                         </tr>
                                         <tr>
-                                            <td>99999</td>
-                                            <td style={Td}>Smith</td>
-                                            <td style={Td}>50</td>
+                                            <td>50円以上</td>
+                                            <td style={Td}>1000</td>
+                                            <td style={Td}>¥1,000,000</td>
+                                        </tr>
+                                        <tr>
+                                            <td>50円未満</td>
+                                            <td style={Td}>1000</td>
+                                            <td style={Td}>¥1,000,000</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -173,24 +185,29 @@ const StampRelatedInventoryApplicationForm = () => {
                         </div>
                         <div className='flex justify-end' style={{ width: '25%' }}>
                             <div className='mt-5 flex flex-col justify-end' style={{ width: '70%' }}>
-                                <table className=' text-center w-full' style={Table}>
+                            <table className=' text-center w-full' style={Table}>
                                     <thead>
                                         <tr>
-                                            <th >NO</th>
-                                            <th>total</th>
-                                            <th>Points</th>
+                                            <th ></th>
+                                            <th>台紙数合計</th>
+                                            <th>額面総額合計</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td>99999</td>
-                                            <td style={Td}>Smith</td>
-                                            <td style={Td}>50</td>
+                                            <td>下記合計</td>
+                                            <td style={Td}>1000</td>
+                                            <td style={Td}>¥1,000,000</td>
                                         </tr>
                                         <tr>
-                                            <td>99999</td>
-                                            <td style={Td}>Smith</td>
-                                            <td style={Td}>50</td>
+                                            <td>50円以上</td>
+                                            <td style={Td}>1000</td>
+                                            <td style={Td}>¥1,000,000</td>
+                                        </tr>
+                                        <tr>
+                                            <td>50円未満</td>
+                                            <td style={Td}>1000</td>
+                                            <td style={Td}>¥1,000,000</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -198,19 +215,29 @@ const StampRelatedInventoryApplicationForm = () => {
                         </div>
                         <div className='flex justify-end' style={{ width: '25%' }}>
                             <div className='mt-5 flex flex-col justify-end' style={{ width: '70%' }}>
-                                <table className=' text-center w-full' style={Table}>
+                            <table className=' text-center w-full' style={Table}>
                                     <thead>
                                         <tr>
-                                            <th >NO</th>
-                                            <th>total</th>
-                                            <th>Points</th>
+                                            <th ></th>
+                                            <th>台紙数合計</th>
+                                            <th>額面総額合計</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td>99999</td>
-                                            <td style={Td}>Smith</td>
-                                            <td style={Td}>50</td>
+                                            <td>下記合計</td>
+                                            <td style={Td}>1000</td>
+                                            <td style={Td}>¥1,000,000</td>
+                                        </tr>
+                                        <tr>
+                                            <td>50円以上</td>
+                                            <td style={Td}>1000</td>
+                                            <td style={Td}>¥1,000,000</td>
+                                        </tr>
+                                        <tr>
+                                            <td>50円未満</td>
+                                            <td style={Td}>1000</td>
+                                            <td style={Td}>¥1,000,000</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -221,28 +248,28 @@ const StampRelatedInventoryApplicationForm = () => {
                     <div className='flex'>
                         {/* first table */}
                         <div className='mt-5  ml-5' style={{ width: '25%' }}>
-                            <h2 className="text-[#70685a] text-sm font-bold ml-10">1.stamp</h2>
+                            <h2 className="text-[#70685a] text-sm font-bold ml-10">切手1枚</h2>
                             <div>
                                 <div>
                                     <table className=' text-center w-full' style={Table}>
                                         <thead>
                                             <tr>
-                                                <th >select</th>
-                                                <th>total</th>
-                                                <th>Points</th>
-                                                <th >NO</th>
-                                                <th>total</th>
-                                                <th>Points</th>
+                                                <th >選択</th>
+                                                <th>の額面</th>
+                                                <th>面数</th>
+                                                <th >シート額面</th>
+                                                <th>シート数</th>
+                                                <th>額面総額</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <tr>
                                                 <td><input type='checkbox' /></td>
-                                                <td style={Td}>Smith</td>
-                                                <td style={Td}>50</td>
-                                                <td style={Td}>Smith</td>
-                                                <td style={Td}>50</td>
-                                                <td style={Td}>50</td>
+                                                <td style={Td}>¥7</td>
+                                                <td style={Td}>20</td>
+                                                <td style={Td}>¥100,000</td>
+                                                <td style={Td}>1,000</td>
+                                                <td style={Td}>¥1,000,000</td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -261,28 +288,28 @@ const StampRelatedInventoryApplicationForm = () => {
                         </div>
                         {/* secondtable */}
                         <div className='mt-5  ml-5' style={{ width: '25%' }}>
-                            <h2 className="text-[#70685a] text-sm font-bold ml-10">1.stamp</h2>
+                            <h2 className="text-[#70685a] text-sm font-bold ml-10">切手1枚</h2>
                             <div>
                                 <div>
-                                    <table className=' text-center w-full' style={Table}>
+                                <table className=' text-center w-full' style={Table}>
                                         <thead>
                                             <tr>
-                                                <th >select</th>
-                                                <th>total</th>
-                                                <th>Points</th>
-                                                <th >NO</th>
-                                                <th>total</th>
-                                                <th>Points</th>
+                                                <th >選択</th>
+                                                <th>の額面</th>
+                                                <th>面数</th>
+                                                <th >シート額面</th>
+                                                <th>シート数</th>
+                                                <th>額面総額</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <tr>
                                                 <td><input type='checkbox' /></td>
-                                                <td style={Td}>Smith</td>
-                                                <td style={Td}>50</td>
-                                                <td style={Td}>Smith</td>
-                                                <td style={Td}>50</td>
-                                                <td style={Td}>50</td>
+                                                <td style={Td}>¥7</td>
+                                                <td style={Td}>20</td>
+                                                <td style={Td}>¥100,000</td>
+                                                <td style={Td}>1,000</td>
+                                                <td style={Td}>¥1,000,000</td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -301,28 +328,28 @@ const StampRelatedInventoryApplicationForm = () => {
                         </div>
                         {/* thirdtable */}
                         <div className='mt-5 ml-5' style={{ width: '25%' }}>
-                            <h2 className="text-[#70685a] text-sm font-bold ml-10">1.stamp</h2>
+                            <h2 className="text-[#70685a] text-sm font-bold ml-10">切手1枚</h2>
                             <div>
                                 <div>
-                                    <table className=' text-center w-full' style={Table}>
+                                <table className=' text-center w-full' style={Table}>
                                         <thead>
                                             <tr>
-                                                <th >select</th>
-                                                <th>total</th>
-                                                <th>Points</th>
-                                                <th >NO</th>
-                                                <th>total</th>
-                                                <th>Points</th>
+                                                <th >選択</th>
+                                                <th>の額面</th>
+                                                <th>面数</th>
+                                                <th >シート額面</th>
+                                                <th>シート数</th>
+                                                <th>額面総額</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <tr>
                                                 <td><input type='checkbox' /></td>
-                                                <td style={Td}>Smith</td>
-                                                <td style={Td}>50</td>
-                                                <td style={Td}>Smith</td>
-                                                <td style={Td}>50</td>
-                                                <td style={Td}>50</td>
+                                                <td style={Td}>¥7</td>
+                                                <td style={Td}>20</td>
+                                                <td style={Td}>¥100,000</td>
+                                                <td style={Td}>1,000</td>
+                                                <td style={Td}>¥1,000,000</td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -341,28 +368,28 @@ const StampRelatedInventoryApplicationForm = () => {
                         </div>
                         {/* forthtable */}
                         <div className='mt-5 ml-5' style={{ width: '25%' }}>
-                            <h2 className="text-[#70685a] text-sm font-bold ml-10">1.stamp</h2>
+                            <h2 className="text-[#70685a] text-sm font-bold ml-10">切手1枚</h2>
                             <div>
                                 <div>
-                                    <table className=' text-center w-full' style={Table}>
+                                <table className=' text-center w-full' style={Table}>
                                         <thead>
                                             <tr>
-                                                <th >select</th>
-                                                <th>total</th>
-                                                <th>Points</th>
-                                                <th >NO</th>
-                                                <th>total</th>
-                                                <th>Points</th>
+                                                <th >選択</th>
+                                                <th>の額面</th>
+                                                <th>面数</th>
+                                                <th >シート額面</th>
+                                                <th>シート数</th>
+                                                <th>額面総額</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <tr>
                                                 <td><input type='checkbox' /></td>
-                                                <td style={Td}>Smith</td>
-                                                <td style={Td}>50</td>
-                                                <td style={Td}>Smith</td>
-                                                <td style={Td}>50</td>
-                                                <td style={Td}>50</td>
+                                                <td style={Td}>¥7</td>
+                                                <td style={Td}>20</td>
+                                                <td style={Td}>¥100,000</td>
+                                                <td style={Td}>1,000</td>
+                                                <td style={Td}>¥1,000,000</td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -384,61 +411,66 @@ const StampRelatedInventoryApplicationForm = () => {
                                     <div className='flex justify-center'>
                                         <div className='flex'>
                                             <div className='w-10'><img src={PostCard} alt="aaa"></img></div>
-                                            <div className='flex flex-col justify-center'><LabelComponent value="PostCard" className='pl-5 !text-[20px] font-bold' /></div>
+                                            <div className='flex flex-col justify-center'><LabelComponent value="ハガキ" className='pl-5 !text-[20px] font-bold' /></div>
                                         </div>
                                     </div>
                                 </div>
                                 <div className='flex justify-end'>
                                     <div className='mt-5 flex flex-col justify-end' style={{ width: '70%' }}>
-                                        <table className=' text-center w-full' style={Table}>
-                                            <thead>
-                                                <tr>
-                                                    <th >NO</th>
-                                                    <th>total</th>
-                                                    <th>Points</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td>99999</td>
-                                                    <td style={Td}>Smith</td>
-                                                    <td style={Td}>50</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>99999</td>
-                                                    <td style={Td}>Smith</td>
-                                                    <td style={Td}>50</td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
+                                    <table className=' text-center w-full' style={Table}>
+                                    <thead>
+                                        <tr>
+                                            <th ></th>
+                                            <th>台紙数合計</th>
+                                            <th>額面総額合計</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>下記合計</td>
+                                            <td style={Td}>1000</td>
+                                            <td style={Td}>¥1,000,000</td>
+                                        </tr>
+                                        <tr>
+                                            <td>50円以上</td>
+                                            <td style={Td}>1000</td>
+                                            <td style={Td}>¥1,000,000</td>
+                                        </tr>
+                                        <tr>
+                                            <td>50円未満</td>
+                                            <td style={Td}>1000</td>
+                                            <td style={Td}>¥1,000,000</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                                     </div>
                                 </div>
                                 <div className='mt-5 ml-5'>
-                                    <h2 className="text-[#70685a] text-sm font-bold ml-10">1.stamp</h2>
+                                    <h2 className="text-[#70685a] text-sm font-bold ml-10">切手1枚</h2>
                                     <div>
                                         <div>
-                                            <table className=' text-center w-full' style={Table}>
-                                                <thead>
-                                                    <tr>
-                                                        <th >select</th>
-                                                        <th>total</th>
-                                                        <th>Points</th>
-                                                        <th >NO</th>
-                                                        <th>total</th>
-                                                        <th>Points</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr>
-                                                        <td><input type='checkbox' /></td>
-                                                        <td style={Td}>Smith</td>
-                                                        <td style={Td}>50</td>
-                                                        <td style={Td}>Smith</td>
-                                                        <td style={Td}>50</td>
-                                                        <td style={Td}>50</td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
+                                        <table className=' text-center w-full' style={Table}>
+                                        <thead>
+                                            <tr>
+                                                <th >選択</th>
+                                                <th>の額面</th>
+                                                <th>面数</th>
+                                                <th >シート額面</th>
+                                                <th>シート数</th>
+                                                <th>額面総額</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td><input type='checkbox' /></td>
+                                                <td style={Td}>¥7</td>
+                                                <td style={Td}>20</td>
+                                                <td style={Td}>¥100,000</td>
+                                                <td style={Td}>1,000</td>
+                                                <td style={Td}>¥1,000,000</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
                                         </div>
                                     </div>
                                     <div className='flex justify-center mt-2'>

@@ -8,6 +8,7 @@ import StampRose from '../../Assets/img/stamprose.png'
 import LabelComponent from '../../Components/Common/LabelComponent';
 // import ButtonComponent from '../../Components/Common/ButtonComponent';
 import InputComponent from '../../Components/Common/InputComponent';
+import DateAndTime from '../../Components/Common/PickData';
 
 
 const StampPurchaseListCustomerConfirmation = () => {
@@ -37,17 +38,17 @@ const StampPurchaseListCustomerConfirmation = () => {
     return (
         <>
             <Titlebar title={title} />
-            <h2 className="text-[#70685a] text-center font-bold text-[15px] flex justify-end mt-3" style={{ paddingRight: '1%' }}>2023/12/01(金)&nbsp;&nbsp;21:51</h2>
+            <DateAndTime />
             <div className=" flex flex-col items-center justify-center py-3 px-4">
                 <div className="w-full " style={{ maxWidth: '90em' }}>
-                    <h2 className="text-[#70685a] text-center text-[20px] font-bold flex justify-center">Japanese stamps,purchae print confirmaion screen</h2>
+                    <h2 className="text-[#70685a] text-center text-2xl font-bold flex justify-center">日本の切手 買取 印刷確確認画面</h2>
                     <div className=' mt-3 ml-10'>
                         <div>
-                            <div><LabelComponent value="Purchase invoice No.000000" className='font-bold'/></div>
+                            <div><LabelComponent value="買取計算書No. 000000" className='font-bold' /></div>
                             <div className='flex'>
                                 <div className='text-right'>
-                                    <div>Store name</div>
-                                    <div>in charge</div>
+                                    <div>店舗名</div>
+                                    <div>担当</div>
                                 </div>
                                 <div className='ml-5 text-left'>
                                     <div>OOOO</div>
@@ -59,11 +60,11 @@ const StampPurchaseListCustomerConfirmation = () => {
                     {/* totoal data */}
                     <div className='flex justify-around mt-10 ml-10  mr-10'>
                         <div className='flex'>
-                            <LabelComponent value="Total number" style={{ width: '130px', fontWeight: 'bold' }} />
+                            <LabelComponent value="枚数合計" style={{ width: '130px', fontWeight: 'bold' }} />
                             <InputComponent style={{ width: '200px', height: '30px' }} />
                         </div>
                         <div className='flex'>
-                            <LabelComponent value="Total face value" style={{ width: '130px', fontWeight: 'bold' }} />
+                            <LabelComponent value="買取 額合計" style={{ width: '130px', fontWeight: 'bold' }} />
                             <InputComponent style={{ width: '200px', height: '30px' }} />
                         </div>
 
@@ -71,23 +72,19 @@ const StampPurchaseListCustomerConfirmation = () => {
                     {/* mainpart */}
                     {/* fistline */}
                     <div className='flex'>
-                        <div className='mt-10 w-1/2'>
-                            <div className='flex'>
-                                <div className='flex justify-center w-full'>
-                                    <div className='flex'>
-                                        <div className='w-10 flex flex-col justify-center'><img src={StampSheet} alt="aaa"></img></div>
-                                        <div className='flex flex-col justify-center'><LabelComponent value="stampsheet" className='pl-5 !text-[20px] font-bold' /></div>
-                                    </div>
+                        <div className='mt-10 w-1/2 mr-10'>
+                        <div className='flex justify-center'>
+                                <div className='flex'>
+                                    <div className='w-10'><img src={StampSheet} alt="aaa"></img></div>
+                                    <div className='flex flex-col justify-center'><LabelComponent value="切手シート" className='pl-5 !text-[20px] font-bold' /></div>
                                 </div>
                             </div>
                         </div>
                         <div className='mt-10 w-1/2 ml-10'>
-                            <div className='flex'>
-                                <div className='flex justify-center w-full'>
-                                    <div className='flex'>
-                                        <div className='w-10 flex flex-col justify-center'><img src={StampRose} alt="aaa"></img></div>
-                                        <div className='flex flex-col justify-center'><LabelComponent value="stampsheet" className='pl-5 !text-[20px] font-bold' /></div>
-                                    </div>
+                            <div className='flex justify-center'>
+                                <div className='flex'>
+                                    <div className='w-10'><img src={StampRose} alt="aaa"></img></div>
+                                    <div className='flex flex-col justify-center'><LabelComponent value="切手バラ" className='pl-5 !text-[20px] font-bold' /></div>
                                 </div>
                             </div>
                         </div>
@@ -97,51 +94,61 @@ const StampPurchaseListCustomerConfirmation = () => {
                     </div>
                     {/* Secondline */}
                     <div className='flex'>
-                        <div className='flex justify-end w-1/2 ml-10'>
+                    <div className='flex justify-end w-1/2'>
                             <div className='mt-5 flex flex-col justify-end' style={{ width: '70%' }}>
                                 <table className=' text-center w-full' style={Table}>
                                     <thead>
                                         <tr>
-                                            <th >NO</th>
-                                            <th>total</th>
-                                            <th>Points</th>
+                                            <th ></th>
+                                            <th>台紙数合計</th>
+                                            <th>額面総額合計</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td>99999</td>
-                                            <td style={Td}>Smith</td>
-                                            <td style={Td}>50</td>
+                                            <td>下記合計</td>
+                                            <td style={Td}>1000</td>
+                                            <td style={Td}>¥1,000,000</td>
                                         </tr>
                                         <tr>
-                                            <td>99999</td>
-                                            <td style={Td}>Smith</td>
-                                            <td style={Td}>50</td>
+                                            <td>50円以上</td>
+                                            <td style={Td}>1000</td>
+                                            <td style={Td}>¥1,000,000</td>
+                                        </tr>
+                                        <tr>
+                                            <td>50円未満</td>
+                                            <td style={Td}>1000</td>
+                                            <td style={Td}>¥1,000,000</td>
                                         </tr>
                                     </tbody>
                                 </table>
                             </div>
                         </div>
-                        <div className='flex justify-end w-1/2 ml-10  mr-10' >
+                        <div className='flex justify-end w-1/2' >
                             <div className='mt-5 flex flex-col justify-end' style={{ width: '70%' }}>
-                                <table className=' text-center w-full' style={Table}>
+                            <table className=' text-center w-full' style={Table}>
                                     <thead>
                                         <tr>
-                                            <th >NO</th>
-                                            <th>total</th>
-                                            <th>Points</th>
+                                            <th ></th>
+                                            <th>台紙数合計</th>
+                                            <th>額面総額合計</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td>99999</td>
-                                            <td style={Td}>Smith</td>
-                                            <td style={Td}>50</td>
+                                            <td>下記合計</td>
+                                            <td style={Td}>1000</td>
+                                            <td style={Td}>¥1,000,000</td>
                                         </tr>
                                         <tr>
-                                            <td>99999</td>
-                                            <td style={Td}>Smith</td>
-                                            <td style={Td}>50</td>
+                                            <td>50円以上</td>
+                                            <td style={Td}>1000</td>
+                                            <td style={Td}>¥1,000,000</td>
+                                        </tr>
+                                        <tr>
+                                            <td>50円未満</td>
+                                            <td style={Td}>1000</td>
+                                            <td style={Td}>¥1,000,000</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -151,28 +158,29 @@ const StampPurchaseListCustomerConfirmation = () => {
                     {/* ThirdLine */}
                     <div className='flex'>
                         {/* first table */}
-                        <div className='mt-5  ml-10 w-1/2'>
+                        <div className='mt-5  ml-5 w-1/2'>
+                            <h2 className="text-[#70685a] text-sm font-bold ml-10">切手1枚</h2>
                             <div>
                                 <div>
                                     <table className=' text-center w-full' style={Table}>
                                         <thead>
                                             <tr>
-                                                <th >select</th>
-                                                <th>total</th>
-                                                <th>Points</th>
-                                                <th >NO</th>
-                                                <th>total</th>
-                                                <th>Points</th>
+                                                <th >選択</th>
+                                                <th>の額面</th>
+                                                <th>面数</th>
+                                                <th >シート額面</th>
+                                                <th>シート数</th>
+                                                <th>額面総額</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <tr>
                                                 <td><input type='checkbox' /></td>
-                                                <td style={Td}>Smith</td>
-                                                <td style={Td}>50</td>
-                                                <td style={Td}>Smith</td>
-                                                <td style={Td}>50</td>
-                                                <td style={Td}>50</td>
+                                                <td style={Td}>¥7</td>
+                                                <td style={Td}>20</td>
+                                                <td style={Td}>¥100,000</td>
+                                                <td style={Td}>1,000</td>
+                                                <td style={Td}>¥1,000,000</td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -190,42 +198,43 @@ const StampPurchaseListCustomerConfirmation = () => {
                             </div>
                         </div>
                         {/* secondtable */}
-                        <div className='mt-5 ml-10  mr-10 w-1/2'>
+                        <div className='mt-5  ml-5 w-1/2'>
+                            <h2 className="text-[#70685a] text-sm font-bold ml-10">切手1枚</h2>
                             <div>
                                 <div>
                                     <table className=' text-center w-full' style={Table}>
                                         <thead>
                                             <tr>
-                                                <th >select</th>
-                                                <th>total</th>
-                                                <th>Points</th>
-                                                <th >NO</th>
-                                                <th>total</th>
-                                                <th>Points</th>
+                                                <th >選択</th>
+                                                <th>の額面</th>
+                                                <th>面数</th>
+                                                <th >シート額面</th>
+                                                <th>シート数</th>
+                                                <th>額面総額</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <tr>
                                                 <td><input type='checkbox' /></td>
-                                                <td style={Td}>Smith</td>
-                                                <td style={Td}>50</td>
-                                                <td style={Td}>Smith</td>
-                                                <td style={Td}>50</td>
-                                                <td style={Td}>50</td>
+                                                <td style={Td}>¥7</td>
+                                                <td style={Td}>20</td>
+                                                <td style={Td}>¥100,000</td>
+                                                <td style={Td}>1,000</td>
+                                                <td style={Td}>¥1,000,000</td>
                                             </tr>
                                         </tbody>
                                     </table>
                                 </div>
-                            </div>
-                            <div className='flex justify-center mt-2'>
-                                <button type="button"
-                                    className="w-5 h-5 inline-flex items-center justify-center text-[#70685a] border border-[#70685a] outline-none hover:bg-purple-700 active:bg-purple-600">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="14px" fill="#70685a" className="inline" viewBox="0 0 512 512">
-                                        <path
-                                            d="M467 211H301V45c0-24.853-20.147-45-45-45s-45 20.147-45 45v166H45c-24.853 0-45 20.147-45 45s20.147 45 45 45h166v166c0 24.853 20.147 45 45 45s45-20.147 45-45V301h166c24.853 0 45-20.147 45-45s-20.147-45-45-45z"
-                                            data-original="#000000" />
-                                    </svg>
-                                </button>
+                                <div className='flex justify-center mt-2'>
+                                    <button type="button"
+                                        className="w-5 h-5 inline-flex items-center justify-center text-[#70685a] border border-[#70685a] outline-none hover:bg-purple-700 active:bg-purple-600">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="14px" fill="#70685a" className="inline" viewBox="0 0 512 512">
+                                            <path
+                                                d="M467 211H301V45c0-24.853-20.147-45-45-45s-45 20.147-45 45v166H45c-24.853 0-45 20.147-45 45s20.147 45 45 45h166v166c0 24.853 20.147 45 45 45s45-20.147 45-45V301h166c24.853 0 45-20.147 45-45s-20.147-45-45-45z"
+                                                data-original="#000000" />
+                                        </svg>
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>

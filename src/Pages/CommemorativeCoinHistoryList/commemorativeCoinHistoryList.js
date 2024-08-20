@@ -1,7 +1,8 @@
-import React from 'react';
+import React,{useState}from 'react';
 // import { Link } from 'react-router-dom';
 import Titlebar from '../../Components/Common/Titlebar';
-import '../../Assets/css/showtable.css'
+import '../../Assets/css/showtable.css';
+import dateimage from '../../Assets/img/datepicker.png';
 
 
 const CommemorativeCoinHistoryList = () => {
@@ -27,130 +28,157 @@ const CommemorativeCoinHistoryList = () => {
         fontSize: '15px',
     };
 
+
+    const [startdate, setStartDate] = useState('');
+
+    const handleStartDateChange = (event) => {
+        setStartDate(event.target.value); // Update the date state with the selected date
+    };
+
+    const [enddate, setEndDate] = useState('');
+
+    const handleEndDateChange = (event) => {
+        setEndDate(event.target.value); // Update the date state with the selected date
+    };
+
+
     return (
         <>
-            <Titlebar title={title} />
-            <div className=" flex flex-col items-center justify-center py-3 px-4">
-                <div className="w-full " style={{ maxWidth: '90em' }}>
-                    <div className='flex justify-around mt-10 '>
-                        <div className='flex '  style={{ visibility: 'hidden' }}>
-                            <button type="button"
-                                className="mr-10  py-1 min-w-[160px] text-[#70685a] rounded-full tracking-wider font-bold outline-none border border-[#70685a] ">Purple</button>
-                        </div>
-                        <h2 className="text-[#70685a] text-center text-2xl font-bold flex justify-center">Commemorative coin/banknote exchange history list</h2>
-                        <div className='flex justify-around'>
-                            <button type="button"
-                                className="py-1 min-w-[160px] text-[#70685a] rounded-full tracking-wider font-bold outline-none border border-[#70685a] ">Purple</button>
-                        </div>
-                    </div>
-                    {/*  */}
-                    <div className='flex mt-5 justify-center' >
-                        <div className='border border-[#70685a] text-[#70685a] px-2 mr-2'>this year</div>
-                        <div className='border border-[#70685a] text-[#70685a] px-2 mr-2'>this monthy</div>
-                        <div className='border border-[#70685a] text-[#70685a] px-2 mr-2'>last monthy</div>
-                        <div className='border border-[#70685a] text-[#70685a] px-2 mr-2'>today</div>
-                    </div>
-                    {/*  */}
-                    <div className='flex mt-3 justify-center'>
-                        <div className='mr-5'>
-                            <div className="relative font-[sans-serif] w-full mx-auto">
-                                <button type="button" id="dropdownToggle1"
-                                    className="dropdown-menu w-full px-5 py-1 border border-[#70685a] text-[#70685a] text-sm bg-white hover:bg-gray-50">
-                                    Men
-                                    <svg xmlns="http://www.w3.org/2000/svg" className="w-3 fill-gray-500 inline ml-3" viewBox="0 0 24 24">
-                                        <path fillRule="evenodd"
-                                            d="M11.99997 18.1669a2.38 2.38 0 0 1-1.68266-.69733l-9.52-9.52a2.38 2.38 0 1 1 3.36532-3.36532l7.83734 7.83734 7.83734-7.83734a2.38 2.38 0 1 1 3.36532 3.36532l-9.52 9.52a2.38 2.38 0 0 1-1.68266.69734z"
-                                            clipRule="evenodd" data-original="#000000" />
-                                    </svg>
-                                </button>
-                                <ul id="dropdownMenu" className='absolute hidden shadow-[0_8px_19px_-7px_rgba(6,81,237,0.2)] bg-white py-2 z-[1000] min-w-full w-max divide-y max-h-96 overflow-auto'>
-                                    <li className='py-3 px-5 hover:bg-gray-50 text-[#70685a] text-sm cursor-pointer'>Man</li>
-                                    <li className='py-3 px-5 hover:bg-gray-50 text-[#70685a] text-sm cursor-pointer'>Woman</li>
-                                    <li className='py-3 px-5 hover:bg-gray-50 text-[#70685a] text-sm cursor-pointer'>other</li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div className='mr-5'>
-                            <div className="relative font-[sans-serif] w-full mx-auto">
-                                <button type="button" id="dropdownToggle2"
-                                    className="dropdown-menu w-full px-5 py-1 border border-[#70685a] text-[#70685a] text-sm bg-white hover:bg-gray-50">
-                                    Men
-                                    <svg xmlns="http://www.w3.org/2000/svg" className="w-3 fill-gray-500 inline ml-3" viewBox="0 0 24 24">
-                                        <path fillRule="evenodd"
-                                            d="M11.99997 18.1669a2.38 2.38 0 0 1-1.68266-.69733l-9.52-9.52a2.38 2.38 0 1 1 3.36532-3.36532l7.83734 7.83734 7.83734-7.83734a2.38 2.38 0 1 1 3.36532 3.36532l-9.52 9.52a2.38 2.38 0 0 1-1.68266.69734z"
-                                            clipRule="evenodd" data-original="#000000" />
-                                    </svg>
-                                </button>
-                                <ul id="dropdownMenu" className='absolute hidden shadow-[0_8px_19px_-7px_rgba(6,81,237,0.2)] bg-white py-2 z-[1000] min-w-full w-max divide-y max-h-96 overflow-auto'>
-                                    <li className='py-3 px-5 hover:bg-gray-50 text-[#70685a] text-sm cursor-pointer'>Man</li>
-                                    <li className='py-3 px-5 hover:bg-gray-50 text-[#70685a] text-sm cursor-pointer'>Woman</li>
-                                    <li className='py-3 px-5 hover:bg-gray-50 text-[#70685a] text-sm cursor-pointer'>other</li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div className='border border-[#70685a] text-[#70685a] px-2 mr-2'>
-                            <input type="date" />
-                        </div>
-                        <div className=' text-[#70685a] px-2 mr-2'>
-                            <label className="text-[#70685a] font-bold mb-2 block text-center !mb-0">~</label>
-                        </div>
-                        <div className='border border-[#70685a] text-[#70685a] px-2 mr-2'>
-                            <input type="date" />
-                        </div>
-                        <div className=' text-[#70685a] px-2 mr-5'>
-                            <label className="text-[#70685a] font-bold mb-2 block text-center !mb-0">filter</label>
-                        </div>
-                        <div className=' text-[#70685a] px-2 mr-2'>
-                            < button type="button" className="w-20 px-3 py-1 font-bold tracking-wide rounded-lg justify-center text-white bg-[#a3a1c8] hover:bg-blue-700 focus:outline-none">
-                                search
-                            </button>
-                        </div>
-                        <div className=' text-[#70685a] px-2 mr-5'>
-                            <label className="text-[#70685a] mb-2 block text-center !mb-0">and search</label>
-                        </div>
-                    </div>
-                    {/*  Tabe*/}
-                    <div className='pl-20 pr-20 pb-20 flex justify-center mt-10' >
-                        <div style={{ width: '80%' }}>
-                            <table className=' text-center w-full' style={Table}>
-                                <thead>
-                                    <tr>
-                                        <th>NO</th>
-                                        <th>Last Name</th>
-                                        <th>Points</th>
-                                        <th>Points</th>
-                                        <th>Points</th>
-                                        <th>Points</th>
-                                        <th>Points</th>
-                                        <th>Points</th>
-                                        <th width='20%'>Points</th>
-                                        <th>Points</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td style={Td}>99999</td>
-                                        <td style={Td}>Smith</td>
-                                        <td style={Td}>50</td>
-                                        <td style={Td}>50</td>
-                                        <td style={Td}>2024.12.31</td>
-                                        <td style={Td}>2024.12.31</td>
-                                        <td style={Td}>2024.12.31</td>
-                                        <td style={Td}>2024.12.31</td>
-                                        <td style={Td}>2024.12.31</td>
-                                        <td><div  className='ml-5 w-5'>
-                                            <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-vubbuv" fill="#70685a" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="ContentCopyRoundedIcon"><path d="M15 20H5V7c0-.55-.45-1-1-1s-1 .45-1 1v13c0 1.1.9 2 2 2h10c.55 0 1-.45 1-1s-.45-1-1-1m5-4V4c0-1.1-.9-2-2-2H9c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h9c1.1 0 2-.9 2-2m-2 0H9V4h9z"></path></svg>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </tbody>
+        <Titlebar title={title} />
+        <div className=" flex flex-col items-center justify-center py-3 px-4">
+            <div className="w-full " style={{ maxWidth: '90em' }}>
+                <div className='flex justify-around mt-10 '>
+                    <div className='flex '>
+                        <div className='flex'  style={{ visibility: 'hidden' }}>
 
-                            </table></div>
-
+                            <button type="button"
+                                className=" mr-3 py-1 min-w-[160px] text-[#70685a] rounded-full tracking-wider font-bold outline-none border border-[#70685a] ">入出金申請</button>
+                        </div>
+                    </div>
+                    <h2 className="text-[#70685a] text-center text-2xl font-bold flex justify-center">記念硬貨/お札   両替履歴一覧</h2>
+                    <div className=''>
+                        <div className='flex justify-center'>
+                            <label>両替依頼書</label>
+                        </div>
+                        <button type="button"
+                            className=" py-1 min-w-[160px] text-[#70685a] rounded-full tracking-wider font-bold outline-none border border-[#70685a] ">新規作成</button>
                     </div>
                 </div>
+                {/*  */}
+                <div className='flex justify-center mt-5' >
+                    <button className='border border-[#6e6e7c] text-[#6e6e7c] px-2 mr-3 h-8 text-[18px]'>今年</button>
+                    <button className='border border-[#6e6e7c] text-[#6e6e7c] px-2 mr-3 text-[18px]'>今月</button>
+                    <button className='border border-[#6e6e7c] text-[#6e6e7c] px-2 mr-3 text-[18px]'>前月</button>
+                    <button className='border border-[#6e6e7c] text-[#6e6e7c] px-2 mr-3 text-[18px]'>今日まで</button>
+                </div>
+                {/*  */}
+                <div className='flex mt-3 justify-center'>
+                    <div className='mr-5'>
+                        <select id="gender" name="gender" className="w-40 text-[#70685a] font-bold border border-[#70685a] px-4 py-1 outline-[#70685a]">
+                            <option value="1">ステータス</option>
+                            <option value="2">Afghanistan</option>
+                            <option value="3">Åland Islands</option>
+                            <option value="4">Albania</option>
+                        </select>
+                    </div>
+                    <div className='mr-5'>
+                        <select id="gender" name="gender" className="w-40 text-[#70685a] font-bold border border-[#70685a] px-4 py-1 outline-[#70685a]">
+                            <option value="1">種別</option>
+                            <option value="2">Afghanistan</option>
+                            <option value="3">Åland Islands</option>
+                            <option value="4">Albania</option>
+                        </select>
+                    </div>
+                    <div className='mr-5'>
+                        <label className="text-[#70685a] font-bold mb-2 block text-center !mb-0">申請日</label>
+                    </div>
+                    <div className='flex'>
+                        <div style={{ flexDirection: 'column', }} className='flex align-center justify-around'>
+                            <input name="ads" type="text" value={startdate} required className="w-40 h-8 text-[#6e6e7c] border border-[#6e6e7c] text-[20px] px-4 py-1 outline-[#70685a]" readOnly />
+                        </div>
+                        <div style={{ flexDirection: 'column', }} className='flex flex-col justify-center pl-3'>
+                            <div style={{ width: '40px', height: '30px', cursor: 'pointer' }}>
+                                <div style={{ position: 'relative' }}>
+                                    <img src={dateimage} style={{ width: '40px', height: '30px', position: 'absolute', cursor: 'pointer' }} alt='calendar'></img>
+                                    <input type="date" id="startdate" name="startdate" value={''} onChange={handleStartDateChange} style={{ position: 'absolute', width: '40px', height: '30px', background: 'transparent', border: 'none', opacity: '0', cursor: 'pointer' }} />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className=' text-[#70685a] px-2 mr-2 flex flex-col justify-center'>
+                        <label className="text-[#656565] font-bold mb-2 block text-center text-[20px] !mb-0">~</label>
+                    </div>
+                    <div className='flex'>
+                        <div style={{ flexDirection: 'column', }} className='flex align-center justify-around'>
+                            <input name="ads" type="text" value={enddate} required className="w-40 h-8 text-[#6e6e7c] border border-[#6e6e7c] text-[20px] px-4 py-1 outline-[#70685a]" readOnly />
+                        </div>
+                        <div style={{ flexDirection: 'column', }} className='flex flex-col justify-center pl-3'>
+                            <div style={{ width: '40px', height: '30px', cursor: 'pointer' }}>
+                                <div style={{ position: 'relative' }}>
+                                    <img src={dateimage} style={{ width: '40px', height: '30px', position: 'absolute', cursor: 'pointer' }} alt='calendar'></img>
+                                    <input type="date" id="enddate" name="enddate" value={''} onChange={handleEndDateChange} style={{ position: 'absolute', width: '40px', height: '30px', background: 'transparent', border: 'none', opacity: '0', cursor: 'pointer' }} />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className=' text-[#70685a] px-2 mr-5'>
+                        <label className="text-[#656565] text-[20px] mb-2 block text-center !mb-0">この条件で</label>
+                    </div>
+                    <div className=' text-[#656565] px-2 mr-2'>
+                        < button type="button" className="w-20 h-8 px-3 py-1 font-bold tracking-wide rounded-lg justify-center text-white text-[15px] bg-[#a3a1c8] hover:bg-blue-700 focus:outline-none">
+                            検索
+                        </button>
+                    </div>
+                    <div className=' text-[#656565] px-2 mr-5'>
+                        <label className="text-[#656565] mb-2 block text-center !mb-0">(and検索)</label>
+                    </div>
+                </div>
+                {/*  Tabe*/}
+                <div className='pl-20 pr-20 pb-20 flex justify-center mt-10' >
+                    <div style={{ width: '80%' ,overflow:'auto'}}>
+                        <table className=' text-center w-full' style={Table}>
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>ステータス </th>
+                                    <th width='10%'>両替担当</th>
+                                    <th>持ち込み先銀行名</th>
+                                    <th>申請日</th>
+                                    <th>両替日</th>
+                                    <th>総額</th>
+                                    <th>札合計</th>
+                                    <th>硬化合計</th>
+                                    <th>両替依頼書</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td  style={Td}>99999</td>
+                                    <td style={Td}>
+                                        <select id="classificatin" name="classificatin" className="w-full text-[#70685a] font-bold  px-4 py-2 outline-[#70685a]">
+                                            <option value="1">申請中</option>
+                                            <option value="2">Afghanistan</option>
+                                            <option value="3">Åland Islands</option>
+                                            <option value="4">Albania</option>
+                                        </select>
+                                    </td>
+                                    <td style={Td}>金行ATM出金</td>
+                                    <td style={Td}>OOOO</td>
+                                    <td style={Td}>OOOO</td>
+                                    <td style={Td}>2024.12.31</td>
+                                    <td style={Td}>2024.12.31</td>
+                                    <td style={Td}>￥9,999,999</td>
+                                    <td style={Td}>￥9,999,999</td>
+                                    <td ><svg className="w-5 h-5 ml-5" fill='#70685a' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="ContentCopyIcon" title="ContentCopy"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2m0 16H8V7h11z"></path></svg></td>
+                                </tr>
+                            </tbody>
+
+                        </table></div>
+
+                </div>
             </div>
-        </>
+        </div>
+    </>
     );
 };
 
