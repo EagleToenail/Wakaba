@@ -8,9 +8,10 @@
 
 .top-pane, .bottom-pane {
   width: 100%;
-  padding: 20px;
+  padding: 20px 20px 20px 20px;
   overflow: auto;
   transition: height 0.2s; /* Smooth transition for height changes */
+  margin-bottom: 20px;
 }
 
 .top-pane {
@@ -22,8 +23,8 @@
 }
 
 .splitter {
-  height: 10px;
-  background: #ddd;
+  height: 3px;
+  background: #c2b4a2;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -31,13 +32,33 @@
   position: relative;
   z-index: 1;
 }
+.btn-back{
+  width: 100px;
+  height: 14px;
+  background-color: #c2b4a2;
+  margin-top: 13px;
+  border-radius: 3px;
+}
 
-.arrow-button1, .arrow-button2 {
-  background: none;
+.arrow-button1{
+  width: 30px;
+  background: transparent;
   border: none;
   font-size: 18px;
   cursor: pointer;
-  margin: 0 10px;
+  position: absolute;
+  margin-left: 45px;
+  top: -7px;
+}
+.arrow-button2{
+  width: 30px;
+  background: transparent;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  position: absolute;
+  margin-left: 24px;
+  top: -8px;
 }
 
 .arrow-button:focus {

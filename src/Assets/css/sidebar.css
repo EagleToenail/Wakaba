@@ -47,3 +47,11 @@
     .sidebar {padding-top: 15px;}
     .sidebar a {font-size: 18px;}
   }
+  @media screen and (max-width: 1245px) {
+    .sidebar {top: 30px !important;}
+    
+  }
+  @media screen and (max-width: 1023px) {
+    .sidebar {top: 0px !important;}
+    
+  }

@@ -57,9 +57,17 @@ const MainContainer = ({children}) => {
         className="splitter"
         onMouseDown={handleMouseDown}
         style={{ cursor: isDragging ? 'row-resize' : 'default' }}
-      >
-        <button className="arrow-button1" onClick={(e) => { e.stopPropagation(); moveToTop(); }}>▲</button>
-        <button className="arrow-button2" onClick={(e) => { e.stopPropagation(); moveToMiddle(); }}>▼</button>
+      > 
+      <div className='btn-back'>
+        <button className="arrow-button1" onClick={(e) => { e.stopPropagation(); moveToTop(); }}>
+            <svg  focusable="false" aria-hidden="true" fill="white" viewBox="0 0 24 24" data-testid="ArrowDropUpIcon" title="ArrowDropUp"><path d="m7 14 5-5 5 5z"></path></svg>
+          </button>
+      <button className="arrow-button2" onClick={(e) => { e.stopPropagation(); moveToMiddle(); }}>
+           <svg  focusable="false" aria-hidden="true" fill="white" viewBox="0 0 24 24" data-testid="ArrowDropDownIcon" title="ArrowDropDown"><path d="m7 10 5 5 5-5z"></path></svg>
+        </button>
+      </div>
+
+
       </div>
       <div className="bottom-pane" style={{ height: `${100 - position}%` }}>
         Bottom
