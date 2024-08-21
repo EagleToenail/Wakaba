@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 import LayoutWithMainContainer from './Layout/LayoutWithMainContainer';
 
-import MainHome from './Pages/Dashboard/MainHome';
 import Login from './Pages/Auth/Login/login';
 import Logout from './Pages/Auth/Logout/logout';
 import ForgetPassword from './Pages/Auth/ForgerPassword/forgetPassword';
@@ -54,6 +53,10 @@ import CustomerReceipt from './Pages/CustomerReceipt/customerReceipt';//Customer
 import OwnersTop from './Pages/Admin/OwnersTop/ownersTop';
 import OwnersStaffList from './Pages/Admin/OwnersStaffList/ownersStaffList';
 import OwnerStaffIndividual from './Pages/Admin/OwnerStaffIndividual/ownerStaffIndividual';
+import StoreListForOwners from './Pages/Admin/StoreListForOwners/storeListForOwners';
+
+
+
 function App() {
   return (
     <Router>
@@ -70,7 +73,6 @@ function App() {
           </Route>
 
 
-            {/* <Route path='/home' element={<MainHome/>}/> */}
             <Route exact path='/' element={<Login/>}/>
             <Route path='/logout' element={<Logout/>}/>
             <Route path='/forgetpassword' element={<ForgetPassword/>}/>
@@ -115,6 +117,7 @@ function App() {
             <Route path='/admin/ownerstop' element={<OwnersTop/>}/>
             <Route path='/admin/ownersstafflist' element={<OwnersStaffList/>}/>
             <Route path='/admin/ownerstaffindividual' element={<OwnerStaffIndividual/>}/>
+            <Route path='/admin/storelistforowners' element={<StoreListForOwners/>}/>
 
       </Routes>
     </Router>
