@@ -16,48 +16,59 @@ import LogoutTimeCard from './Pages/Auth/LogoutTimeCard/logoutTimecard';
 import ClockedOut from './Pages/Auth/ClockedOut/clockedOut';
 import Terms from './Pages/Terms/terms';
 import Pledge from './Pages/Pledge/pledge';
-import Profile from './Pages/Profile/profile';
-import StartingWork from './Pages/StartingWork/startingWork';
-import ClosingWork from './Pages/ClosingWork/closingWork';
-import MonthlyIncome from './Pages/MonthlyIncome/monthlyIncome';
+import Profile from './Pages/Profile/profile';//
+import StartingWork from './Pages/StartingWork/startingWork';//Start of work
+import ClosingWork from './Pages/ClosingWork/closingWork';//CLosing work
+import MonthlyIncome from './Pages/MonthlyIncome/monthlyIncome';//Monthly income and expenditure report
 import SafeMoney from './Pages/SafeMoney/safeMoney';//Treasury deposit and withdrawal history
-import WithdrawBankATM from './Pages/WithdrawBankATM/withdrawBankATM';
-import PurchaseRequest from './Pages/PurchaseRequest/purchaseRequest';
-import WithdrawVariousPurchase from './Pages/WithdrawVariousPurchase/withdrawVariousPurchase';
-import WithdrawApply from './Pages/WithdrawApply/withdrawApply';
-import CustomerList from './Pages/CustomerList/customerList';
-import CustomerIndividual from './Pages/CustomerIndividual/customerIndividual';
-import PurchaseToRShop from './Pages/PurchaseToRShop/purchaseToRShop';
-import InvoiceForPurchaseOfBrought from './Pages/InvoiceForPurchaseOfBrought/invoiceforpurchaseofbrought';
-import PurchaseInvoiceForBroughtInItems from './Pages/PurchaseInvoiceForBroughtInItems/purchaseInvoiceForBroughtInItems';
-import WholeSalerShippingList from './Pages/WholeSalerShippingList/wholeSalerShippingList';
-import PurchaseRequestFormForWholeSaler from './Pages/PurchaseRequestFormForWholeSaler/purchaseRequestFormForWholeSaler';
-import SalesSlip from './Pages/SalesSlip/salesSlip';
-import ContractorAssessmentSheet from './Pages/ContractorAssessmentSheet/contractorAssessmentSheet';
-import YahooAuction from './Pages/YahooAuctions/yahooAuction';
-import SalesList from './Pages/SalesList/salesList';
-import TODOList from './Pages/TODOList/todoList';
-import OnSitePurchase from './Pages/OnSitePurchase/onSitePurchase';
-import ApplicationForDisposalPermission from './Pages/ApplicationForDisposalPermission/applicationForDisposalPermission';
-import EndOfWorkReportToOwner from './Pages/EndOfWorkReportToOwner/endOfWorkReportToOwner';
-import StampRelatedInventoryList from './Pages/StampRelatedInventoryList/stampRelatedInventoryList';
+import WithdrawBankATM from './Pages/WithdrawBankATM/withdrawBankATM';//withdrawal from bank ATM
+import PurchaseRequest from './Pages/PurchaseRequest/purchaseRequest';//R shop Purchase Request List confirmation screen
+import WithdrawVariousPurchase from './Pages/WithdrawVariousPurchase/withdrawVariousPurchase';//withdrawl puchase for various purchases
+import WithdrawApply from './Pages/WithdrawApply/withdrawApply';//WIthdrawal requestfor shipping fees
+import CustomerList from './Pages/CustomerList/customerList';//customer List
+import CustomerIndividual from './Pages/CustomerIndividual/customerIndividual';//Customer Specific
+import PurchaseToRShop from './Pages/PurchaseToRShop/purchaseToRShop';//Purchase application to R shop
+import InvoiceForPurchaseOfBrought from './Pages/InvoiceForPurchaseOfBrought/invoiceforpurchaseofbrought';//Application for invoice for purchase of brought-in goods
+import PurchaseInvoiceForBroughtInItems from './Pages/PurchaseInvoiceForBroughtInItems/purchaseInvoiceForBroughtInItems';//Purchase invoice for brought-in items(for customer presentaion)
+import WholeSalerShippingList from './Pages/WholeSalerShippingList/wholeSalerShippingList';//Wholesaler Shipping List
+import PurchaseRequestFormForWholeSaler from './Pages/PurchaseRequestFormForWholeSaler/purchaseRequestFormForWholeSaler';//Purchase requesr form
+import SalesSlip from './Pages/SalesSlip/salesSlip';//Sales slip
+import ContractorAssessmentSheet from './Pages/ContractorAssessmentSheet/contractorAssessmentSheet';//Contractor assessment sheet
+import YahooAuction from './Pages/YahooAuctions/yahooAuction';//Yahoo Auctions
+import SalesList from './Pages/SalesList/salesList';//Sales List
+import TODOList from './Pages/TODOList/todoList';//ToDo List
+import OnSitePurchase from './Pages/OnSitePurchase/onSitePurchase';//On-site purchase
+import ApplicationForDisposalPermission from './Pages/ApplicationForDisposalPermission/applicationForDisposalPermission';//Application ofr disposal permisssion
+import EndOfWorkReportToOwner from './Pages/EndOfWorkReportToOwner/endOfWorkReportToOwner';//End of workd report to onwer etc./headquarters
+import StampRelatedInventoryList from './Pages/StampRelatedInventoryList/stampRelatedInventoryList';//stamp-related inventory application form
 import StampRelatedInventoryApplicationForm from './Pages/StampRelatedInventoryApplicationForm/stampRelatedInventoryApplicationForm';
-import StampRelatedReceiptAndIssueHistory from './Pages/StampRelatedReceiptAndIssueHistory/stampRelatedReceiptAndIssueHistory';
-import StampRelatedPurchaseStatement from './Pages/StampRelatedPurchaseStatement/stampRelatedPurchaseStatement'
-import StampPurchaseListCustomerConfirmation from './Pages/StampPurchaseListCustomerConfirmation/stampPurchaseListCustomerConfirmation';
-import StampPurchaseInterestRateChange from './Pages/StampPurchaseInterestRateChange/stampPurchaseInterestRateChange';
-import CommemorativeCoinHistoryList from './Pages/CommemorativeCoinHistoryList/commemorativeCoinHistoryList';
-import CommemorativeCoinExchange from './Pages/CommemorativeCoinExchange/commemorativeCoinExchange';
-import PreciousMetalsPrices from './Pages/PreciousMetalsPrices/preciousMetalsPrices'
-import CustomerReceipt from './Pages/CustomerReceipt/customerReceipt';
+import StampRelatedReceiptAndIssueHistory from './Pages/StampRelatedReceiptAndIssueHistory/stampRelatedReceiptAndIssueHistory';//stamp related receipt and issue history
+import StampRelatedPurchaseStatement from './Pages/StampRelatedPurchaseStatement/stampRelatedPurchaseStatement'//stamp related purcase statement
+import StampPurchaseListCustomerConfirmation from './Pages/StampPurchaseListCustomerConfirmation/stampPurchaseListCustomerConfirmation';//stamp purchase list customer cnfirmation screen
+import StampPurchaseInterestRateChange from './Pages/StampPurchaseInterestRateChange/stampPurchaseInterestRateChange';//stamp purchase interest rate change application screen
+import CommemorativeCoinHistoryList from './Pages/CommemorativeCoinHistoryList/commemorativeCoinHistoryList';// commermorative coin history list
+import CommemorativeCoinExchange from './Pages/CommemorativeCoinExchange/commemorativeCoinExchange';// Commermorative coin exchange application
+import PreciousMetalsPrices from './Pages/PreciousMetalsPrices/preciousMetalsPrices';//precious Metals Prices
+import CustomerReceipt from './Pages/CustomerReceipt/customerReceipt';//Customer receipt
+
+import OwnersTop from './Pages/Admin/OwnersTop/ownersTop';
 
 function App() {
   return (
     <Router>
       <Routes>
           <Route element={<LayoutWithMainContainer/>}>
+            <Route path='/withdrawbankatm' element={<WithdrawBankATM/>}/>
+            <Route path='/withdrawvariouspurchase' element={<WithdrawVariousPurchase/>}/>
+            <Route path='/withdrawapply' element={<WithdrawApply/>}/>
+            <Route path='/purchasetorshop' element={<PurchaseToRShop/>}/>
             <Route element={<TODOList/>} path='/todolist'/>
+            <Route path='/onsitepurchase' element={<OnSitePurchase/>}/>
+            <Route path='/applicationfordisposalpermission' element={<ApplicationForDisposalPermission/>}/>
+            <Route path='/endofworkreporttoowner' element={<EndOfWorkReportToOwner/>}/>
           </Route>
+
+
             <Route path='/home' element={<MainHome/>}/>
             <Route exact path='/' element={<Login/>}/>
             <Route path='/logout' element={<Logout/>}/>
@@ -76,13 +87,9 @@ function App() {
             <Route path='/closingwork' element={<ClosingWork/>}/>
             <Route path='/monthlyincome' element={<MonthlyIncome/>}/>
             <Route path='/safemoney' element={<SafeMoney/>}/>
-            <Route path='/withdrawbankatm' element={<WithdrawBankATM/>}/>
             <Route path='/purchaserequest' element={<PurchaseRequest/>}/>
-            <Route path='/withdrawvariouspurchase' element={<WithdrawVariousPurchase/>}/>
-            <Route path='/withdrawapply' element={<WithdrawApply/>}/>
             <Route path='/customerlist' element={<CustomerList/>}/>
-            <Route path='/customerindividual' element={<CustomerIndividual/>}/>
-            <Route path='/purchasetorshop' element={<PurchaseToRShop/>}/>
+            <Route path='/customerindividual' element={<CustomerIndividual/>}/>     
             <Route path='/invoiceforpurchaseofbrought' element={<InvoiceForPurchaseOfBrought/>}/>
             <Route path='/purchaseinvoiceforbroughtinitems' element={<PurchaseInvoiceForBroughtInItems/>}/>
             <Route path='/wholesalershippinglist' element={<WholeSalerShippingList/>}/>
@@ -91,10 +98,6 @@ function App() {
             <Route path='/contractorassessmentsheet' element={<ContractorAssessmentSheet/>}/>
             <Route path='/yahooauction' element={<YahooAuction/>}/>
             <Route path='/saleslist' element={<SalesList/>}/>
-            
-            <Route path='/onsitepurchase' element={<OnSitePurchase/>}/>
-            <Route path='/applicationfordisposalpermission' element={<ApplicationForDisposalPermission/>}/>
-            <Route path='/endofworkreporttoowner' element={<EndOfWorkReportToOwner/>}/>
             <Route path='/stamprelatedinventorylist' element={<StampRelatedInventoryList/>}/>
             <Route path='/stamprelatedinventoryapplicationform' element={<StampRelatedInventoryApplicationForm/>}/>
             <Route path='/stamprelatedreceiptandissuehistory' element={<StampRelatedReceiptAndIssueHistory/>}/>
@@ -105,7 +108,11 @@ function App() {
             <Route path='/commemorativecoinexchange' element={<CommemorativeCoinExchange/>}/>
             <Route path='/preciousmetalsprices' element={<PreciousMetalsPrices/>}/>
             <Route path='/customerreceipt' element={<CustomerReceipt/>}/>
-   
+
+            
+            
+            <Route path='/admin/ownerstop' element={<OwnersTop/>}/>
+
       </Routes>
     </Router>
   );
