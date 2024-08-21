@@ -36,7 +36,7 @@ const ToMoveInputForm = () => {
                                     <div className="!mt-3 flex" style={{ marginBottom: '10px',width:'80%',paddingLeft: '20%' }}>
                                         <div className='w-full flex justify-center'>
                                         <button type="button" className="w-30 px-5 py-2 font-bold tracking-wide rounded-lg justify-center text-white bg-[#e87a00] hover:bg-blue-700 focus:outline-none">
-                                            <Link to='/editprofile' className='p-3  '>次へ</Link>
+                                            <Link to='/profile' className='p-3  '>次へ</Link>
                                         </button>
                                         </div>
                                     </div>
