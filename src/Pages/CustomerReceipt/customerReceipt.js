@@ -102,7 +102,7 @@ const CustomerReceipt = () => {
                         </div>
                         <div style={{ width: '50%' }}>
                             <div className='flex justify-center pt-3 text-[#70685a] text-[20px] font-bold' >
-                                <div className='text-[#70685a]'>下記商品を、令和99年12月30日までお 預か り致します</div>
+                                <div className='text-[#70685a]'>下記商品を、令和99年12月30日までお預かり致します</div>
                             </div>
                         </div>
                         <div style={{ width: '25%' }}></div>
@@ -161,7 +161,7 @@ const CustomerReceipt = () => {
                                     </tr>
                                     <tr>
                                         <td>8.</td>
-                                        <td style={Td}>テイフアニ一OOOOOOO</td>
+                                        <td style={Td}>ティファニーOOOOOOO</td>
                                         <td style={Td}>1</td>
                                     </tr>
                                     <tr>

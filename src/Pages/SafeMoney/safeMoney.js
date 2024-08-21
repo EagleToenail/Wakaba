@@ -153,12 +153,12 @@ const SafeMoney = () => {
                                     <tr>
                                         <td  style={Td}>99999</td>
                                         <td style={Td}>申請中</td>
-                                        <td style={Td}>金行ATM出金</td>
+                                        <td style={Td}>銀行ATM出金</td>
                                         <td style={Td}>OOOO</td>
                                         <td style={Td}>OOOO</td>
                                         <td style={Td}>2024.12.31</td>
                                         <td style={Td}>2024.12.31</td>
-                                        <td style={Td}>十￥9,999,999</td>
+                                        <td style={Td}>+¥9,999,999</td>
                                     </tr>
                                 </tbody>
 

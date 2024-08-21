@@ -40,7 +40,7 @@ const  ClosingWork = () => {
                                         <label className="text-[#70685a] fold-semiblod mb-1 block text-center text-[20px] py-1 !mb-0">2.</label>
                                     </div>
                                     <div style={{ width: '85%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                        <label className="text-[#70685a] fold-semiblod mb-1 block text-left text-[20px] mr-10 py-1 !mb-0">アウトルシク受信メールチエシク完了しました。</label>
+                                        <label className="text-[#70685a] fold-semiblod mb-1 block text-left text-[20px] mr-10 py-1 !mb-0">アウトルック受信メールチェック完了しました。</label>
                                     </div>
                                 </div>
                                 {/* new */}
@@ -84,7 +84,7 @@ const  ClosingWork = () => {
                                         <label className="text-[#70685a] fold-semiblod mb-1 block text-center text-[20px] py-1 !mb-0">4.</label>
                                     </div>
                                     <div style={{ width: '85%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                        <label className="text-[#70685a] fold-semiblod mb-1 block text-left text-[20px] mr-10 py-1 !mb-0">LINE公式アカウントチ工シク&nbsp;&nbsp;朝[済]、&nbsp;朝[済]、&nbsp;夕[済] &nbsp;合計回チ工シクしました。</label>
+                                        <label className="text-[#70685a] fold-semiblod mb-1 block text-left text-[20px] mr-10 py-1 !mb-0">LINE公式アカウントチェック&nbsp;&nbsp;朝[済]、&nbsp;朝[済]、&nbsp;夕[済] &nbsp;合計回チェックしました。</label>
                                     </div>
                                 </div>
                                 {/* new */}
@@ -97,7 +97,7 @@ const  ClosingWork = () => {
                                         <label className="text-[#70685a] fold-semiblod mb-1 block text-center text-[20px] py-1 !mb-0">5.</label>
                                     </div>
                                     <div style={{ width: '85%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                        <label className="text-[#70685a] fold-semiblod mb-1 block text-left text-[20px] mr-10 py-1 !mb-0">工アコンoff確認しました。</label>
+                                        <label className="text-[#70685a] fold-semiblod mb-1 block text-left text-[20px] mr-10 py-1 !mb-0">エアコンoff確認しました。</label>
                                     </div>
                                 </div>
                                 {/* new */}
@@ -123,7 +123,7 @@ const  ClosingWork = () => {
                                         <label className="text-[#70685a] fold-semiblod mb-1 block text-center text-[20px] py-1 !mb-0">7.</label>
                                     </div>
                                     <div style={{ width: '85%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                        <label className="text-[#70685a] fold-semiblod mb-1 block text-left text-[20px] mr-10 py-1 !mb-0">缶ウーマ一電源OFF&nbsp;確認しました。</label>
+                                        <label className="text-[#70685a] fold-semiblod mb-1 block text-left text-[20px] mr-10 py-1 !mb-0">缶ウォーマー電源OFF&nbsp;確認しました。</label>
                                     </div>
                                 </div>
                                 {/* new */}
@@ -259,7 +259,7 @@ const  ClosingWork = () => {
                                                 <span className='w-1 flex flex-col justify-center mr-3'>
                                                 <svg  focusable="false" fill="#70685a" aria-hidden="true" viewBox="0 0 24 24" data-testid="CircleIcon" title="Circle"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2"></path></svg>
                                             </span>
-                                                    預かOOOO</div>
+                                                    預かりOOOO</div>
                                                 <div  className='text-[20px] text-[#70685a] text-right pr-3 font-bold'>99,9999入</div>
                                             </div>
                                             
@@ -270,7 +270,7 @@ const  ClosingWork = () => {
                                                 <span className='w-1 flex flex-col justify-center mr-3'>
                                                 <svg  focusable="false" fill="#70685a" aria-hidden="true" viewBox="0 0 24 24" data-testid="CircleIcon" title="Circle"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2"></path></svg>
                                             </span>
-                                                    未店問合</div>
+                                                    来店問合</div>
                                                 <div  className='text-[20px] text-[#70685a] text-right pr-3 font-bold'>99,9999入</div>
                                             </div>
                                             
@@ -281,7 +281,7 @@ const  ClosingWork = () => {
                                                 <span className='w-1 flex flex-col justify-center mr-3'>
                                                 <svg  focusable="false" fill="#70685a" aria-hidden="true" viewBox="0 0 24 24" data-testid="CircleIcon" title="Circle"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2"></path></svg>
                                             </span>
-                                                    買取実績、ブログアシプ</div>
+                                                    買取実績ブログアップ</div>
                                                 <div  className='text-[20px] text-[#70685a] text-right pr-3 font-bold'>99,9999件</div>
                                             </div>
                                             
@@ -292,7 +292,7 @@ const  ClosingWork = () => {
                                                 <span className='w-1 flex flex-col justify-center mr-3'>
                                                 <svg  focusable="false" fill="#70685a" aria-hidden="true" viewBox="0 0 24 24" data-testid="CircleIcon" title="Circle"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2"></path></svg>
                                             </span>
-                                                    Instagramアシプ</div>
+                                                    Instagramアップ</div>
                                                 <div  className='text-[20px] text-[#70685a] text-right pr-3 font-bold'>99,9999件</div>
                                             </div>
                                             
@@ -336,7 +336,7 @@ const  ClosingWork = () => {
                                                 <span className='w-1 flex flex-col justify-center mr-3'>
                                                 <svg  focusable="false" fill="#70685a" aria-hidden="true" viewBox="0 0 24 24" data-testid="CircleIcon" title="Circle"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2"></path></svg>
                                             </span>
-                                                    切手台紙張っ追加額</div>
+                                                    切手台紙張り追加額</div>
                                                 <div  className='text-[20px] text-[#70685a] text-right pr-3 font-bold'>99,9999円</div>
                                             </div>
                                             
@@ -347,7 +347,7 @@ const  ClosingWork = () => {
                                                 <span className='w-1 flex flex-col justify-center mr-3'>
                                                 <svg  focusable="false" fill="#70685a" aria-hidden="true" viewBox="0 0 24 24" data-testid="CircleIcon" title="Circle"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2"></path></svg>
                                             </span>
-                                                    切手台紙張十バラ残額合計</div>
+                                                    切手台紙張り＋バラ 残額合計</div>
                                                 <div  className='text-[20px] text-[#70685a] text-right pr-3 font-bold'>99,9999円</div>
                                             </div>
                                             
@@ -377,7 +377,7 @@ const  ClosingWork = () => {
                                         <label className="text-[#70685a] fold-semiblod mb-1 block text-center text-[20px] py-1 !mb-0">9.</label>
                                     </div>
                                     <div style={{ width: '85%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                        <label className="text-[#70685a] fold-semiblod mb-1 block text-left text-[20px] mr-10 py-1 !mb-0 ">次の「一括締め作 業亅を行います</label>
+                                        <label className="text-[#70685a] fold-semiblod mb-1 block text-left text-[20px] mr-10 py-1 !mb-0 ">次の「一括締め作業」を行います</label>
                                         <label className="text-[#70685a] fold-semiblod mb-1 block text-left text-[20px] mr-10 py-1 !mb-0 flex">
                                                                                         <span className='w-1 flex flex-col justify-center mr-3'>
                                                 <svg  focusable="false" fill="#70685a" aria-hidden="true" viewBox="0 0 24 24" data-testid="CircleIcon" title="Circle"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2"></path></svg>
@@ -387,17 +387,17 @@ const  ClosingWork = () => {
                                                                                         <span className='w-1 flex flex-col justify-center mr-3'>
                                                 <svg  focusable="false" fill="#70685a" aria-hidden="true" viewBox="0 0 24 24" data-testid="CircleIcon" title="Circle"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2"></path></svg>
                                             </span>
-                                            売上表などのバシクアシプを行います</label>
+                                            売上表などのバックアップを行います</label>
                                         <label className="text-[#70685a] fold-semiblod mb-1 block text-left text-[20px] mr-10 py-1 !mb-0 flex">
                                                                                         <span className='w-1 flex flex-col justify-center mr-3'>
                                                 <svg  focusable="false" fill="#70685a" aria-hidden="true" viewBox="0 0 24 24" data-testid="CircleIcon" title="Circle"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2"></path></svg>
                                             </span>
-                                            本部(フオーナイシ)に着地報告のメールを送送信します</label>
+                                            本部(フォーナイン)に着地報告のメールを送信します</label>
                                         <label className="text-[#70685a] fold-semiblod mb-1 block text-left text-[20px] mr-10 py-1 !mb-0 flex">
                                                                                         <span className='w-1 flex flex-col justify-center mr-3'>
                                                 <svg  focusable="false" fill="#70685a" aria-hidden="true" viewBox="0 0 24 24" data-testid="CircleIcon" title="Circle"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2"></path></svg>
                                             </span>
-                                            「一日の報告」チヤネルに最終報告を送信します</label>
+                                            「一日の報告」チャネルに最終報告を送信します</label>
                                     </div>
                                 </div>
 
@@ -414,7 +414,7 @@ const  ClosingWork = () => {
                                     </div>
                                 </div>
                                 <div className='flex justify-center '>
-                                    <label className="text-[#70685a] fold-semiblod mb-1 block text-left text-[20px] mr-10 py-1 !mb-0">(1を完了しないとこのボタンは抻せません(不一致でモ可))</label>
+                                    <label className="text-[#70685a] fold-semiblod mb-1 block text-left text-[20px] mr-10 py-1 !mb-0">(1を完了しないとこのボタンは押せません(不一致でも可))</label>
                                 </div>
                             </form>
                         </div>

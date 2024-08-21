@@ -69,7 +69,7 @@ const OwnersTop = () => {
                                 <thead>
                                     <tr>
                                         <th></th>
-                                        <th>わかはNO.</th>
+                                        <th>わかばNO.</th>
                                         <th>力テゴリ一1</th>
                                         <th width='30%'>商品各</th>
                                         <th>個数</th>

@@ -36,12 +36,12 @@ const PurchaseRequest = () => {
             <div className=" flex flex-col items-center justify-center py-3 px-4">
                 <div className="w-full " style={{ maxWidth: '90em' }}>
                     <div className='flex justify-around mt-10 '>
-                        <h2 className="text-[#70685a] text-center text-2xl font-bold flex justify-center">りサイクルシヨシプへの買取ら依頼書 (各シヨシプ用紙作成元シート)</h2>
+                        <h2 className="text-[#70685a] text-center text-2xl font-bold flex justify-center">リサイクルショップへの買取り依頼書 (各ショップ用紙作成元シート)</h2>
                     </div>
                     {/*  */}
                     <div className='flex mt-3 justify-center'>
                         <div className='mr-5 flex flex-col justify-center'>
-                            <label className="text-[#70685a] font-bold mb-2 block text-center !mb-0">リサイクルシヨシプ</label>
+                            <label className="text-[#70685a] font-bold mb-2 block text-center !mb-0">リサイクルショップ</label>
                         </div>
                         <div className=' text-[#70685a] px-2 ml-10'>
                             <select id="classificatin" name="classificatin" className="w-full text-[#70685a] font-bold border border-[#70685a] px-4 py-1 outline-[#70685a]">
@@ -68,7 +68,7 @@ const PurchaseRequest = () => {
                                 <thead>
                                     <tr>
                                         <th></th>
-                                        <th>わかはNO.</th>
+                                        <th>わかばNO.</th>
                                         <th>力テゴリ一1</th>
                                         <th width='30%'>商品各</th>
                                         <th>個数</th>

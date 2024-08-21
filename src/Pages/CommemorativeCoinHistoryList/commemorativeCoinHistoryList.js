@@ -162,7 +162,7 @@ const CommemorativeCoinHistoryList = () => {
                                             <option value="4">Albania</option>
                                         </select>
                                     </td>
-                                    <td style={Td}>金行ATM出金</td>
+                                    <td style={Td}>銀行ATM出金</td>
                                     <td style={Td}>OOOO</td>
                                     <td style={Td}>OOOO</td>
                                     <td style={Td}>2024.12.31</td>
