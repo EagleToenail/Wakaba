@@ -234,7 +234,7 @@ const PurchaseInvoiceForBroughtInItems = () => {
                                          <span className='w-1 flex flex-col justify-center mr-3'>
                                                 <svg  focusable="false" fill="#70685a" aria-hidden="true" viewBox="0 0 24 24" data-testid="CircleIcon" title="Circle"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2"></path></svg>
                                             </span>
-                                            売却後は、商品仁対して一切に返却を申しを行いません。</label>
+                                            売却後は、商品に対して一切の返却申し立てを行いません。</label>
                                     <label className="text-[#70685a] font-bold mb-2 block text-left mr-3 pt-1 !mb-0 flex">
                                          <span className='w-1 flex flex-col justify-center mr-3'>
                                                 <svg  focusable="false" fill="#70685a" aria-hidden="true" viewBox="0 0 24 24" data-testid="CircleIcon" title="Circle"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2"></path></svg>
@@ -249,7 +249,7 @@ const PurchaseInvoiceForBroughtInItems = () => {
                                          <span className='w-1 flex flex-col justify-center mr-3'>
                                                 <svg  focusable="false" fill="#70685a" aria-hidden="true" viewBox="0 0 24 24" data-testid="CircleIcon" title="Circle"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2"></path></svg>
                                             </span>
-                                            私は反社会性力ではないことを表明し、確約いたします。</label>
+                                            私は反社会勢力ではないことを表明し、確約いたします。</label>
                                 </div>
 
                             </div>
@@ -262,7 +262,7 @@ const PurchaseInvoiceForBroughtInItems = () => {
                             <div style={{ width: '55%',paddingLeft:'6.3%' }} className='flex'>
                                 <div className='flex'>
                                     <input type='checkbox' style={{ marginTop: '5px' }}/>
-                                    <label className="text-[#70685a] font-bold mb-2 block text-left mr-3 pt-1 mr-30 ml-2 !mb-0"> 私は適格請求書業者ではすら.ません。</label>
+                                    <label className="text-[#70685a] font-bold mb-2 block text-left mr-3 pt-1 mr-30 ml-2 !mb-0"> 私は適格請求書業者ではありません。</label>
                                 </div>
 
                             </div>

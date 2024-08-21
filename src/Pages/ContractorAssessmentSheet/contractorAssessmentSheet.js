@@ -73,7 +73,7 @@ const ContractorAssementSheet = () => {
                                 <ButtonComponent children={'全て'} className="!px-5  bg-[transparent] border border-[#424242] text-[#424242] h-8 rounded-lg !w-max" />
                                 <ButtonComponent children={'貴金属'}  className="!px-5 bg-[transparent] border border-[#424242] text-[#424242] h-8 rounded-lg !w-max" />
                                 <ButtonComponent children={'ブランド'} className="!px-5 bg-[transparent] border border-[#424242] text-[#424242] h-8 rounded-lg !w-max" />
-                                <ButtonComponent children={'バシグ'} className="!px-5 bg-[transparent] border border-[#424242] text-[#424242] h-8 rounded-lg !w-max"  />
+                                <ButtonComponent children={'バッグ'} className="!px-5 bg-[transparent] border border-[#424242] text-[#424242] h-8 rounded-lg !w-max"  />
                                 <ButtonComponent children={'時計'} className="!px-5 bg-[transparent] border border-[#424242] text-[#424242] h-8 rounded-lg !w-max" />
                                 <ButtonComponent children={'財布'} className="!px-5 bg-[transparent] border border-[#424242] text-[#424242] h-8 rounded-lg !w-max"  />
                                 <ButtonComponent children={'アクセサリ'} className="!px-5 bg-[transparent] border border-[#424242] text-[#424242] h-8 rounded-lg !w-max" />
@@ -81,7 +81,7 @@ const ContractorAssementSheet = () => {
                                 <ButtonComponent children={'洋酒'}  className="!px-5 bg-[transparent] border border-[#424242] text-[#424242] h-8 rounded-lg !w-max"/>
                                 <ButtonComponent children={'カメラ'} className="!px-5 bg-[transparent] border border-[#424242] text-[#424242] h-8 rounded-lg !w-max"  />
                                 <ButtonComponent children={'楽器'} className="!px-5 bg-[transparent] border border-[#424242] text-[#424242] h-8 rounded-lg !w-max" />
-                                <ButtonComponent children={'スマホノ夕ブレット'} className="!px-5 bg-[transparent] border border-[#424242] text-[#424242] h-8 rounded-lg !w-max"  />
+                                <ButtonComponent children={'スマホ/タブレット'} className="!px-5 bg-[transparent] border border-[#424242] text-[#424242] h-8 rounded-lg !w-max"  />
                                 <select id="classificatin" name="classificatin" className="!w-max h-8 rounded-lg text-[#70685a] text-[15px] font-bold border border-[#70685a] px-4 py-1 outline-[#70685a]">
                                             <option value="1">その他</option>
                                             <option value="2">Afghanistan</option>
@@ -99,7 +99,7 @@ const ContractorAssementSheet = () => {
                                     <tr> 
                                         <th rowSpan={2}>選択</th>
                                         <th width='5%' style={Th} rowSpan={2}>商品番号</th>
-                                        <th width='5%' style={Th} rowSpan={2}>わかはNo.</th>
+                                        <th width='5%' style={Th} rowSpan={2}>わかばNo.</th>
                                         <th width='5%' style={Th} rowSpan={2}><div style={{border:'1px solid black',borderRadius:'5px',margin:'5%'}}>ステー夕ス</div></th>
                                         <th width='5%' style={Th} rowSpan={2}><div style={{border:'1px solid black',borderRadius:'5px',margin:'5%'}}>卸し先</div></th>
                                         <th width='5%' style={Th} rowSpan={2}><div style={{border:'1px solid black',borderRadius:'5px',margin:'5%'}}>発送日</div></th>
@@ -205,7 +205,7 @@ const ContractorAssementSheet = () => {
                                             <option value="4">Albania</option>
                                         </select>
                                         </td>
-                                        <td style={Td}>グシチOOOO</td>
+                                        <td style={Td}>グッチOOOO</td>
                                         <td style={Td}><ButtonComponent children="1" className='w-max !px-5 rounded-lg' style={{  backgroundColor: '#ebe5e1', color: '#626373'}} /></td>
                                         <td style={Td}>1</td>
                                         <td style={Td}>100</td>

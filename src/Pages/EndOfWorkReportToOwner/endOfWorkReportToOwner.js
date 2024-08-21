@@ -43,7 +43,7 @@ export default function EndOfWorkReportToOwner() {
                                 </div>
 
                                 <div>
-                                    <label className="text-[black] pl-3 text-[15px] block text-left" style={{ width: '70%' }}>お疲れ様です。12月01日の着地報告にならます。</label>
+                                    <label className="text-[black] pl-3 text-[15px] block text-left" style={{ width: '70%' }}>お疲れ様です。12月01日の着地報告になります。</label>
                                 </div>
                                 <div className='ml-40'>
                                     <label className="text-[black] pl-3 text-[15px] block text-left">OOOOOOOOOOOOOOOOOOO店</label>
@@ -98,7 +98,7 @@ export default function EndOfWorkReportToOwner() {
                                     <LabelComponent value={"成約数"}/>
                                 </div>
                                 <div className='text-left'>
-                                    <LabelComponent value={"預から数"}/>
+                                    <LabelComponent value={"預かり数"}/>
                                 </div>
                                 <div className='text-left'>
                                     <LabelComponent value={"単日買取金額"}/>

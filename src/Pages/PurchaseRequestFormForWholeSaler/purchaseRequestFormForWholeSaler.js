@@ -35,7 +35,7 @@ const PurchaseRequestFormForWholeSaler = () => {
             <Titlebar title={title} />
 
             <div className='flex justify-around mt-10' >
-                <h2 className="text-[#70685a] text-center text-2xl font-bold flex justify-center">卸への買取ら依頼書(名業者用紙作成元シート)</h2>
+                <h2 className="text-[#70685a] text-center text-2xl font-bold flex justify-center">卸への買取り依頼書(各業者用紙作成元シート)</h2>
             </div>
 
             {/*  */}
@@ -45,7 +45,7 @@ const PurchaseRequestFormForWholeSaler = () => {
                         <LabelComponent value={'卸業者'} className='w-max' />
                     </div>
                     <select id="classificatin" name="classificatin" className="w-full h-11 text-[#70685a] text-[15px] font-bold border border-[#70685a] px-4 py-1 outline-[#70685a]">
-                        <option value="1">アルバイト</option>
+                        <option value="1">〇〇貴金属卸 株式会社</option>
                         <option value="2">Afghanistan</option>
                         <option value="3">Åland Islands</option>
                         <option value="4">Albania</option>
@@ -68,10 +68,10 @@ const PurchaseRequestFormForWholeSaler = () => {
                         <thead>
                             <tr>
                                 <th></th>
-                                <th >Lステー夕ス</th>
+                                <th >ステー夕ス</th>
                                 <th >発送予定者</th>
                                 <th >発送担当者</th>
-                                <th>わかはNo.</th>
+                                <th>わかばNo.</th>
                                 <th>カテゴリ一1</th>
                                 <th>カテゴリ一2</th>
                                 <th>ブランド名</th>
@@ -110,7 +110,7 @@ const PurchaseRequestFormForWholeSaler = () => {
                                 <td style={Td}>9999</td>
                                 <td style={Td}>
                                 <select id="classificatin" name="classificatin" className="w-full h-11 text-[#70685a] text-[15px] font-bold  px-4 py-1 outline-[#70685a]">
-                                        <option value="1">ジユ工リ</option>
+                                        <option value="1">ジュエリー</option>
                                         <option value="2">Afghanistan</option>
                                         <option value="3">Åland Islands</option>
                                         <option value="4">Albania</option>
@@ -126,7 +126,7 @@ const PurchaseRequestFormForWholeSaler = () => {
                                 </td>
                                 <td style={Td}>OOOO</td>
                                 <td style={Td}>
-                                グシチOOOOOOOO
+                                グッチOOOOOOOO
                                 </td>
                                 <td style={Td}>OOO</td>
                                 <td style={Td}></td>

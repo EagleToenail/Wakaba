@@ -122,7 +122,7 @@ const MonthlyIncome = () => {
                         <label>(asd)</label>
                     </div>
                     <div className='w-max mr-10'>
-                        <div className='text-center text-[#656565] text-[15px] font-bold'>当月未庫残</div>
+                        <div className='text-center text-[#656565] text-[15px] font-bold'>当月末金庫残</div>
                         <div className='border border-[#6e6e7c] text-[#6e6e7c] px-2 text-center'>¥9,999,999</div>
                     </div>
                     <div className='w-max'>
@@ -134,10 +134,10 @@ const MonthlyIncome = () => {
                 <div className='pl-10 pr-10 pb-20 flex' >
                     <div className='mt-5 w-20 mr-5'>
                         < button type="button" className="w-20 text-[15px] font-bold tracking-wide rounded-md justify-center text-white bg-[#fe5d5c] hover:bg-blue-700 focus:outline-none">
-                        不一歡
+                        不一致
                         </button>
                         < button type="button" className="w-20 mt-3 text-[15px] font-bold tracking-wide rounded-md justify-center text-white bg-[#76cc90] hover:bg-blue-700 focus:outline-none">
-                        一歡
+                        一致
                         </button>
                     </div>
                     <div style={{width:'100%',overflow:'auto'}} >

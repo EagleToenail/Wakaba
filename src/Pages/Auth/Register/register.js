@@ -18,7 +18,7 @@ const Register = () => {
                             <form className="mt-8 space-y-6">
                                 <div className='flex'>
                                     <div style={{ width: '20%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                        <label className="text-[#70685a] font-bold mb-2 block text-right mr-5 !mb-0">メ一儿アドレス</label>
+                                        <label className="text-[#70685a] font-bold mb-2 block text-right mr-5 !mb-0">メ一ルアドレス</label>
                                         <label className="text-[#70685a] font-bold mb-2 block text-right mr-5 !mb-0">パスワード</label>
                                     </div>
 

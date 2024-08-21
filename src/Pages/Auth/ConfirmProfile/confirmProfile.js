@@ -13,7 +13,7 @@ const ConfirmProfile = () => {
                 <div className=" flex flex-col items-center justify-center py-6 px-4">
                     <div className="w-full pt-3" style={{ maxWidth: '50em' }}>
                         <div className="p-8 rounded-2xl">
-                            <h2 className="text-[#70685a] text-center text-2xl font-bold flex justify-center">ユーザーアカウントの削除の確 認</h2>
+                            <h2 className="text-[#70685a] text-center text-2xl font-bold flex justify-center">ユーザーアカウントの削除の確認</h2>
                             <h2 className="text-[#70685a] text-center text-2xl font-bold flex justify-center mt-10">ユーザーアカウントを削除してもよろしいですか?</h2>
                             <form className="mt-10 space-y-6">
                                 <div className='flex justify-between !mt-5' >

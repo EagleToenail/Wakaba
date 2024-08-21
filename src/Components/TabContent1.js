@@ -109,7 +109,7 @@ export default function TabContent1() {
                             </button>
                             <Link
                                 className="text-black font-bold  text-[15px] block rounded px-1 transition-all">
-                                店舗問連絡
+                                店舗間連絡
                             </Link>
                         </li>
                         <li className='flex py-1'>
@@ -117,7 +117,7 @@ export default function TabContent1() {
                                 className="rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none text-[15px]">qw</button>
                             <Link
                                 className="text-black font-bold  text-[15px] block rounded px-7 transition-all">
-                                月每のキヤンパーン
+                                月毎のキャンペーン
                             </Link>
                         </li>
                         <li className='flex py-1'>
@@ -125,7 +125,7 @@ export default function TabContent1() {
                                 className="rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none text-[15px]">qw</button>
                             <Link
                                 className="text-black font-bold  text-[15px] block rounded px-7 transition-all">
-                                買取っ実 績ブ口グ
+                                買取実績ブ口グ
                             </Link>
                         </li>
                     </ul>

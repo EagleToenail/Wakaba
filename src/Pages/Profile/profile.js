@@ -6,6 +6,8 @@ import dateimage from '../../Assets/img/datepicker.png';
 import DateAndTime from '../../Components/Common/PickData';
 
 
+// THIS PAGE SHOULD HAVE VERTICAL SCROLL BAR : Onishi Comment Aug-22 2024
+
 const  Profile = () => {
     const title = 'タイトルタイトル';
 
@@ -48,7 +50,7 @@ const  Profile = () => {
                             <h2 className="text-[#70685a] text-center text-2xl font-bold flex justify-center">(本登録  入カフォーム) </h2>
                             <div className='flex flex justify-end'>
                                 <h2 className='text-[red] flex text-[15px] flex-col justify-center'>*</h2>
-                                <h2 className="text-[#70685a] text-center text-[10px] flex flex-col justify-center">&nbsp;important!</h2>
+                                <h2 className="text-[#70685a] text-center text-[10px] flex flex-col justify-center">&nbsp;必須入力</h2>
                             </div>
                             
                             <form className=" space-y-6">
@@ -281,7 +283,7 @@ const  Profile = () => {
                                     </div>
                                     <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around px-5'>
                                         <button type="button"
-                                            className= "py-2 min-w-[160px] text-[#70685a] rounded-full text-sm tracking-wider font-medium outline-none border border-[#70685a] ">誓画像</button>
+                                            className= "py-2 min-w-[160px] text-[#70685a] rounded-full text-sm tracking-wider font-medium outline-none border border-[#70685a] ">誓約書画像</button>
                                     </div>
                                 </div>
                                 <h2 className=" text-[#70685a] text-center text-2xl font-bold flex justify-center">スタッフ規約</h2>

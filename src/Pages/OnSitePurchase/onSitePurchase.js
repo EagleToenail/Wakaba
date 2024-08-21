@@ -123,7 +123,7 @@ export default function OnSitePurchase() {
                                 <div>
                                     <label className="text-[black] pl-3 text-[15px] block text-left" style={{ width: '70%', overflow: 'scroll' }}>
                                         住所/TEL/名前/物/行く日付をここに記載。
-                                        預から証の写メは、現地からアシプする。
+                                        預かり証の写メは、現地からアップする。
                                         これは、スマホで表示、投稿されるように。
                                     </label>
                                 </div>
