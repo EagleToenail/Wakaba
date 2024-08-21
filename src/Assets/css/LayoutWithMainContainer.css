@@ -1,0 +1,21 @@
+/* LayoutWithMainContainer.module.css or your preferred CSS file */
+.container {
+    display: grid;
+    grid-template-columns: auto 1fr; /* Sidebar takes up auto width, MainContainer takes up the remaining space */
+    gap: 1rem; /* Adjust gap as needed */
+    height: 100vh; /* Full viewport height */
+  }
+  
+  .sidebar {
+    background-color: #f0f0f0; /* Example background color */
+    width: 80px; /* Initial width */
+    min-width: 80px; /* Minimum width */
+    max-width: 250px; /* Maximum width */
+    transition: width 0.3s ease; /* Smooth width transition */
+  }
+  
+  .main-container1 {
+    background-color: #ffffff; /* Example background color */
+    padding: 1rem; /* Example padding */
+  }
+  

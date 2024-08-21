@@ -44,13 +44,6 @@ export default function Toolbar() {
             <li className='max-lg:border-b border-gray-300 max-lg:py-4 '>
                 <Link className='text-[#655b4a] block font-semibold text-[15px]'>
                 <button type="button"
-                        className="text-[#655b4a] px-3 py-1 rounded-lg text-sm tracking-wider font-bold border border-[#655b4a] outline-none bg-transparent hover:text-black transition-all duration-300">A</button>
-                        <span>&nbsp;99</span>
-                </Link>
-            </li>
-            <li className='max-lg:border-b border-gray-300 max-lg:py-4 '>
-                <Link className='text-[#655b4a] block font-semibold text-[15px]'>
-                <button type="button"
                         className="text-[#655b4a] px-3 py-1 rounded-lg text-sm tracking-wider font-bold border border-[#655b4a] outline-none bg-transparent hover:text-black transition-all duration-300">B</button>
                         <span>&nbsp;99</span>
                 </Link>

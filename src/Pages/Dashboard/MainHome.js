@@ -3,6 +3,7 @@ import Header from '../../Components/Header';
 import Navbar from '../../Components/Navbar';
 import Toolbar from '../../Components/Toolbar';
 import Sidebar from '../../Components/Sidebar';
+import MainContainer from '../../Components/MainContainer';
 
 const MainHome = () => {   
 
@@ -11,7 +12,11 @@ const MainHome = () => {
             <Header/>
             <Navbar/>
             <Toolbar/>
-            <Sidebar/>
+            <div className='h-full'>
+                <Sidebar/>
+                <MainContainer/>
+            </div>
+
         </>
     );
 };

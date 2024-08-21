@@ -1,5 +1,8 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+
+import LayoutWithMainContainer from './Layout/LayoutWithMainContainer';
+
 import MainHome from './Pages/Dashboard/MainHome';
 import Login from './Pages/Auth/Login/login';
 import Logout from './Pages/Auth/Logout/logout';
@@ -51,7 +54,10 @@ import CustomerReceipt from './Pages/CustomerReceipt/customerReceipt';
 function App() {
   return (
     <Router>
-       <Routes>
+      <Routes>
+          <Route element={<LayoutWithMainContainer/>}>
+            <Route element={<TODOList/>} path='/todolist'/>
+          </Route>
             <Route path='/home' element={<MainHome/>}/>
             <Route exact path='/' element={<Login/>}/>
             <Route path='/logout' element={<Logout/>}/>
@@ -85,7 +91,7 @@ function App() {
             <Route path='/contractorassessmentsheet' element={<ContractorAssessmentSheet/>}/>
             <Route path='/yahooauction' element={<YahooAuction/>}/>
             <Route path='/saleslist' element={<SalesList/>}/>
-            <Route path='/todolist' element={<TODOList/>}/>
+            
             <Route path='/onsitepurchase' element={<OnSitePurchase/>}/>
             <Route path='/applicationfordisposalpermission' element={<ApplicationForDisposalPermission/>}/>
             <Route path='/endofworkreporttoowner' element={<EndOfWorkReportToOwner/>}/>
@@ -99,9 +105,8 @@ function App() {
             <Route path='/commemorativecoinexchange' element={<CommemorativeCoinExchange/>}/>
             <Route path='/preciousmetalsprices' element={<PreciousMetalsPrices/>}/>
             <Route path='/customerreceipt' element={<CustomerReceipt/>}/>
-    
-                   
-       </Routes>
+   
+      </Routes>
     </Router>
   );
 }
