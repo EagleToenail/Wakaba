@@ -12,7 +12,8 @@ const OwnersTop = () => {
         color: '#70685a',
         textAlign: 'center',
         width: '100%',
-        alignItem: 'center'
+        alignItem: 'center',
+        fontSize:'15px'
     };
 
     // const Th = {
@@ -34,7 +35,7 @@ const OwnersTop = () => {
             <DateAndTime/>
             <div className=" flex flex-col items-center justify-center py-3 px-4">
                 <div className="w-full " style={{ maxWidth: '90em' }}>
-                    <div className='flex justify-center mt-10 '>
+                    <div className='flex justify-center'>
                         <h2 className="text-[#70685a] text-center text-2xl font-bold flex justify-center">管理画面TOP</h2>
                     </div>
                     {/*  */}
@@ -54,8 +55,8 @@ const OwnersTop = () => {
                         </div>
                     </div>
                     {/*  Tabe*/}
-                    <div className='pl-20 pr-20 pb-20 flex justify-center mt-10 w-full' >
-                        <div className='flex' style={{ width: '6%' }}>
+                    <div className='flex justify-center mt-10 w-full' >
+                        <div className='flex pt-3' style={{ width: '5%' ,overflow:'auto'}}>
                             <div className='flex flex-col justify-center'>
                                 <div  className='w-3 h-3 bg-[#70685a] '></div>
                             </div>
@@ -63,42 +64,217 @@ const OwnersTop = () => {
                                 <div className='text-[#70685a] font-bold ml-3'>現況表示</div>
                             </div>
                         </div>
-                        <div style={{ width: '90%' }} className='flex'>
-
+                        <div style={{ width: '95%' }} className='flex'>
                             <table className=' text-center w-full' style={Table}>
                                 <thead>
                                     <tr>
-                                        <th></th>
-                                        <th>わかばNO.</th>
-                                        <th>力テゴリ一1</th>
-                                        <th width='30%'>商品各</th>
-                                        <th>個数</th>
-                                        <th width='20%'>買取金額</th>
+                                        <th>店舗名</th>
+                                        <th>来店数</th>
+                                        <th>成約数 </th>
+                                        <th>不成約数</th>
+                                        <th>成約率</th>
+                                        <th>お預から数</th>
+                                        <th>買取率 </th>
+                                        <th>買取金額合計</th>
+                                        <th> 粗利単価</th>
+                                        <th>粗利合計</th>
+                                        <th>合計率</th>
+                                        <th>売上合計</th>
+                                        <th>入電数</th>
+                                        <th>来店問い合わせ数</th>
+
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td >1</td>
-                                        <td style={Td}>999999</td>
-                                        <td style={Td}>
-                                            <select id="classificatin" name="classificatin" className="w-full text-[#70685a] font-bold px-4 py-2 outline-[#70685a]">
-                                                <option value=""></option>
-                                                <option value="2">Afghanistan</option>
-                                                <option value="3">Åland Islands</option>
-                                                <option value="4">Albania</option>
-                                            </select>
-                                        </td>
-                                        <td style={Td}>50</td>
-                                        <td style={Td}>9999</td>
-                                        <td style={Td}>9</td>
+                                        <td style={Td}>OOOOOOOOOOOO</td>
+                                        <td style={Td}>9,999,999</td>
+                                        <td style={Td}>9,999,999</td>
+                                        <td style={Td}>9,999,999</td>
+                                        <td style={Td}>9,999,999</td>
+                                        <td style={Td}>99,9</td>
+                                        <td style={Td}>9,999,999</td>
+                                        <td style={Td}>99,9</td>
+                                        <td style={Td}>9,999,999</td>
+                                        <td style={Td}>9,999,999</td>
+                                        <td style={Td}>99,9</td>
+                                        <td style={Td}>9,999,999</td>
+                                        <td style={Td}>9,999,999</td>
+                                        <td style={Td}>9,999,999</td>
+                                    </tr>
+                                    <tr>
+                                        <td>全店舗合計</td>
+                                        <td>9,999,999</td>
+                                        <td>9,999,999</td>
+                                        <td>9,999,999</td>
+                                        <td></td>
+                                        <td>9,999,999</td>
+                                        <td></td>
+                                        <td>9,999,999</td>
+                                        <td>9,999,999</td>
+                                        <td>9,999,999</td>
+                                        <td></td>
+                                        <td>9,999,999</td>
+                                        <td>9,999,999</td>
+                                        <td>9,999,999</td>
+                                    </tr>
+                                    <tr>
+                                        <td>全店舗平均</td>
+                                        <td>9,999,999</td>
+                                        <td>9,999,999</td>
+                                        <td>9,999,999</td>
+                                        <td>99,9</td>
+                                        <td>9,999,999</td>
+                                        <td>99,9</td>
+                                        <td>9,999,999</td>
+                                        <td>9,999,999</td>
+                                        <td>9,999,999</td>
+                                        <td>99,9</td>
+                                        <td>9,999,999</td>
+                                        <td>9,999,999</td>
+                                        <td>9,999,999</td>
                                     </tr>
 
                                 </tbody>
 
-                            </table></div>
+                            </table>
+                        </div>
                     </div>
+
+                    <div className='flex'>
+                        <div className='w-1/2'>
+                            <div className='flex mt-10'>
+                                <div className='flex h-11' style={{width:'10%'}}>
+                                    <div className='flex flex-col justify-center'>
+                                        <div  className='w-3 h-3 bg-[#70685a] '></div>
+                                    </div>
+                                    <div className='flex flex-col justify-center'>
+                                        <div className='text-[#70685a] font-bold ml-3'>人員</div>
+                                    </div>
+                                </div>
+                                <div style={{width:'90%'}}>
+                                    <div className=' text-[#70685a]'>
+                                        < button type="button" style={{width:'40%'}} className=" px-10 py-1 text-[#70685a] font-bold tracking-wide border border-[#70685a] justify-center  hover:bg-blue-700 focus:outline-none">
+                                        スタシフ一覧 
+                                        </button>
+                                        < button type="button" style={{width:'40%'}} className=" px-10 py-1 text-[#70685a] font-bold tracking-wide border border-[#70685a] justify-center  hover:bg-blue-700 focus:outline-none ml-10">
+                                        給与計算表
+                                        </button>
+                                    </div>
+                                    <div className=' text-[#70685a] pt-5'>
+                                        < button type="button" style={{width:'40%'}} className=" px-10 py-1 text-[#70685a] font-bold tracking-wide border border-[#70685a] justify-center  hover:bg-blue-700 focus:outline-none">
+                                        シフト表 
+                                        </button>
+                                        < button type="button" style={{width:'40%'}} className=" px-10 py-1 text-[#70685a] font-bold tracking-wide border border-[#70685a] justify-center  hover:bg-blue-700 focus:outline-none ml-10">
+                                        個人給与明細
+                                        </button>
+                                    </div>
+                                    <div className=' text-[#70685a] pt-5'>
+                                        < button type="button" style={{width:'40%'}} className=" px-10 py-1 text-[#70685a] font-bold tracking-wide border border-[#70685a] justify-center  hover:bg-blue-700 focus:outline-none">
+                                        出退勤一覧  
+                                        </button>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div className='flex mt-10'>
+                                <div className='flex h-11' style={{width:'10%'}}>
+                                    <div className='flex flex-col justify-center'>
+                                        <div  className='w-3 h-3 bg-[#70685a] '></div>
+                                    </div>
+                                    <div className='flex flex-col justify-center'>
+                                        <div className='text-[#70685a] font-bold ml-3'>経理</div>
+                                    </div>
+                                </div>
+                                <div style={{width:'90%'}}>
+                                    <div className=' text-[#70685a]'>
+                                        < button type="button" style={{width:'55%'}} className=" px-10 py-1 text-[#70685a] font-bold tracking-wide border border-[#70685a] justify-center  hover:bg-blue-700 focus:outline-none">
+                                        店舗每の経理情報推移 
+                                        </button>
+                                    </div>
+                                    <div className=' text-[#70685a] pt-5'>
+                                        < button type="button" style={{width:'55%'}} className=" px-10 py-1 text-[#70685a] font-bold tracking-wide border border-[#70685a] justify-center  hover:bg-blue-700 focus:outline-none">
+                                        店舗每の経理情報参考デ夕 
+                                        </button>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div className='w-1/2'>
+                            <div className='flex mt-10'>
+                                <div className='flex h-11' style={{width:'10%'}}>
+                                    <div className='flex flex-col justify-center'>
+                                        <div  className='w-3 h-3 bg-[#70685a] '></div>
+                                    </div>
+                                    <div className='flex flex-col justify-center'>
+                                        <div className='text-[#70685a] font-bold ml-3'>分析</div>
+                                    </div>
+                                </div>
+                                <div style={{width:'90%'}}>
+                                    <div className=' text-[#70685a]'>
+                                        < button type="button" style={{width:'40%'}} className=" px-10 py-1 text-[#70685a] font-bold tracking-wide border border-[#70685a] justify-center  hover:bg-blue-700 focus:outline-none">
+                                        顧客未店率推移
+                                        </button>
+                                        < button type="button" style={{width:'40%'}} className=" px-10 py-1 text-[#70685a] font-bold tracking-wide border border-[#70685a] justify-center  hover:bg-blue-700 focus:outline-none ml-10">
+                                        総合分析
+                                        </button>
+                                    </div>
+                                    <div className=' text-[#70685a] pt-5'>
+                                        < button type="button" style={{width:'40%'}} className=" px-10 py-1 text-[#70685a] font-bold tracking-wide border border-[#70685a] justify-center  hover:bg-blue-700 focus:outline-none">
+                                        ランキング機能 
+                                        </button>
+                                        < button type="button" style={{width:'40%'}} className=" px-10 py-1 text-[#70685a] font-bold tracking-wide border border-[#70685a] justify-center  hover:bg-blue-700 focus:outline-none ml-10">
+                                        ス夕シフ個人成績 
+                                        </button>
+                                    </div>
+                                    <div className=' text-[#70685a] pt-5'>
+                                        < button type="button" style={{width:'40%'}} className=" px-10 py-1 text-[#70685a] font-bold tracking-wide border border-[#70685a] justify-center  hover:bg-blue-700 focus:outline-none">
+                                        スコア集計
+                                        </button>
+                                        < button type="button" style={{width:'40%'}} className=" px-10 py-1 text-[#70685a] font-bold tracking-wide border border-[#70685a] justify-center  hover:bg-blue-700 focus:outline-none ml-10">
+                                        エリア分析
+                                        </button>
+                                    </div>
+                                    <div className=' text-[#70685a] pt-5'>
+                                        < button type="button" style={{width:'40%'}} className=" px-10 py-1 text-[#70685a] font-bold tracking-wide border border-[#70685a] justify-center  hover:bg-blue-700 focus:outline-none">
+                                        買取商品集計 
+                                        </button>
+                                    </div>
+                                    <div className=' text-[#70685a] pt-5'>
+                                        < button type="button" style={{width:'40%'}} className=" px-10 py-1 text-[#70685a] font-bold tracking-wide border border-[#70685a] justify-center  hover:bg-blue-700 focus:outline-none">
+                                        リピ一夕一分析 
+                                        </button>
+                                    </div>
+                                    <div className=' text-[#70685a] pt-5 flex'>
+                                        <div className='flex h-11 justify-end' style={{width:'40%'}}>
+                                            <div className='flex flex-col justify-center'>
+                                                <div  className='w-3 h-3 bg-[#70685a] '></div>
+                                            </div>
+                                            <div className='flex flex-col justify-center'>
+                                                <div className='text-[#70685a] font-bold ml-3'>分析</div>
+                                            </div>
+                                        </div>
+                                        < button type="button" style={{width:'40%'}} className=" px-10 py-1 text-[#70685a] font-bold tracking-wide border border-[#70685a] justify-center  hover:bg-blue-700 focus:outline-none ml-10">
+                                        各種設定
+                                        </button>
+                                    </div>
+                                    <div className=' text-[#70685a] pt-5 ml'style={{marginLeft:'20%'}}>
+                                        < button type="button" style={{width:'84%'}} className=" px-10 py-2 text-[#70685a] text-[20px] font-bold tracking-wide border border-[#70685a] justify-center  hover:bg-blue-700 focus:outline-none">
+                                        システム使用料契約設定
+                                        </button>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
                     </div>
+
+
+
+
                 </div>
+            </div>
         </>
     );
 };

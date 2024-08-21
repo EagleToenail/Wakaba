@@ -52,7 +52,8 @@ import PreciousMetalsPrices from './Pages/PreciousMetalsPrices/preciousMetalsPri
 import CustomerReceipt from './Pages/CustomerReceipt/customerReceipt';//Customer receipt
 
 import OwnersTop from './Pages/Admin/OwnersTop/ownersTop';
-
+import OwnersStaffList from './Pages/Admin/OwnersStaffList/ownersStaffList';
+import OwnerStaffIndividual from './Pages/Admin/OwnerStaffIndividual/ownerStaffIndividual';
 function App() {
   return (
     <Router>
@@ -112,6 +113,8 @@ function App() {
             
             
             <Route path='/admin/ownerstop' element={<OwnersTop/>}/>
+            <Route path='/admin/ownersstafflist' element={<OwnersStaffList/>}/>
+            <Route path='/admin/ownerstaffindividual' element={<OwnerStaffIndividual/>}/>
 
       </Routes>
     </Router>
