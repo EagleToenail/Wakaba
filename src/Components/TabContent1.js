@@ -212,7 +212,7 @@ export default function TabContent1() {
                             <button type="button"
                                 className="rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none text-[15px]">qw</button>
                             <Link
-                                className="text-black font-bold  text-[15px] block rounded px-7 transition-all">
+                                className="text-black font-bold  text-[15px] block rounded px-7 transition-all" to="/onsitepurchase">
                                 出張買取
                             </Link>
                         </li>     

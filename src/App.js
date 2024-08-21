@@ -69,7 +69,7 @@ function App() {
           </Route>
 
 
-            <Route path='/home' element={<MainHome/>}/>
+            {/* <Route path='/home' element={<MainHome/>}/> */}
             <Route exact path='/' element={<Login/>}/>
             <Route path='/logout' element={<Logout/>}/>
             <Route path='/forgetpassword' element={<ForgetPassword/>}/>

@@ -39,7 +39,7 @@ const Login = () => {
                                     <div className="!mt-4 flex" style={{ marginBottom: '10px',width:'80%',paddingRight: '20%' }}>
                                         <div className='w-full flex justify-center'>
                                         <button type="button" className="w-30 px-5 py-1 font-bold tracking-wide rounded-lg justify-center text-2xl text-white bg-[#e87a00] hover:bg-blue-700 focus:outline-none">
-                                            <Link to='/home' className='p-3  '>LOGIN</Link>
+                                            <Link to='/todoList' className='p-3  '>LOGIN</Link>
                                         </button>
                                         {/* <Button style={{height:'20px'}}/> */}
                                         </div>
