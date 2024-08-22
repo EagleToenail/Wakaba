@@ -40,137 +40,136 @@ const ManagementSettingsSuperAdministratorPaymentList = () => {
             <div className='flex justify-around mt-5' >
                 <div className='flex justify-center'>
                     <select id="classification" name="classification" className="w-full h-11 text-[#70685a] font-bold border border-[#70685a] px-4 py-1 outline-[#70685a]">
-                        <option value="執行役員">執行役員</option>
+                        <option value="オーナ名">オーナ名</option>
                         <option value="社員">社員</option>
                         <option value="契約社員">契約社員</option>
                         <option value="アルバイト">アルバイト
                         </option>
                     </select>
-                    < button type="button" className=" w-40 h-11 px-10 rounded-md py-1 font-bold tracking-wide text-[#665b4c] justify-center text-white bg-[#a3a1c9] hover:bg-blue-700 focus:outline-none">
+                    < button type="button" className=" w-40 h-11 px-10 ml-20 rounded-md py-1 font-bold tracking-wide text-[#665b4c] justify-center text-white bg-[#a3a1c9] hover:bg-blue-700 focus:outline-none">
                     表示 
                     </button>
                 </div>
                 <h2 className="text-[#70685a] text-center text-2xl font-bold flex justify-center">システム使用 料支払状況</h2>
-                <div style={{visibility:'hidden'}}>aaa</div>
-            </div>
-            {/*  */}
-            <div className='flex mt-3 justify-center text-left'>
-                <div className=''>
-                    < button type="button" className="flex align-end w-40 px-3 py-1 font-bold tracking-wide text-[#665b4c] justify-center text-white bg-[#665b4c] hover:bg-blue-700 focus:outline-none">
-                    オーナー管理
+                {/* hidden part */}
+                <div className='flex justify-center' style={{visibility:'hidden'}}>
+                    <select id="" name="" className="w-full h-11 text-[#70685a] font-bold border border-[#70685a] px-4 py-1 outline-[#70685a]">
+                        <option value="">オーナ名</option>
+                        <option value=""></option>
+                        <option value=""></option>
+                        <option value="">
+                        </option>
+                    </select>
+                    < button type="button" className=" w-40 h-11 px-10 ml-20 rounded-md py-1 font-bold tracking-wide text-[#665b4c] justify-center text-white bg-[#a3a1c9] hover:bg-blue-700 focus:outline-none">
+                    表示 
                     </button>
                 </div>
-                <div className=' ml-10 '>
-                    < button type="button" className="flex align-end w-40 px-3 py-1 font-bold tracking-wide text-[#656666] justify-center text-white bg-[#ebe6e0] hover:bg-blue-700 focus:outline-none">
-                    システム基本設定
-                    </button>
-                </div>
             </div>
-            <div className='flex justify-center mt-5'  >
-                <h2 className="text-[#70685a] text-center text-2xl font-bold flex justify-center">オーナー一覧</h2>
-            </div>
-            <div className='flex justify-center' style={{width:'10%'}} >
-                <ButtonComponent children={'保存'} className='py-1 text-[15px] text-[white] h-8 !px-3 w-max !bg-[#838383]' />
-            </div>
+
             {/*  Table*/}
-            <div className='mt-3 pl-10 pr-10 w-full flex'>
+            <div className='mt-10 pl-10 pr-10 w-full flex'>
                 <div style={{ width: '100%' ,overflow:'auto'}}>
                     <table className='text-center w-full' style={Table}>
                     <thead>
                         <tr>
-                            <th>削除</th>
                             <th>ID</th>
-                            <th> 権限種別</th>
-                            <th>オーナー名</th>
-                            <th>法人名</th>
-                            <th>店舖名</th>
-                            <th>経理DATA</th>
-                            <th>TEL</th>
-                            <th>住所</th>
-                            <th>備考</th>
+                            <th>
+                                <ButtonComponent children={'ステータス'} className="!px-3 text-[#333333] bg-[transparent] border border-[#333333] mb-1"/>
+                            </th>
+                            <th>
+                                <ButtonComponent children={'店舗名'} className="!px-3 text-[#333333] bg-[transparent] border border-[#333333] mb-1"/>
+                            </th>
+                            <th>
+                                <ButtonComponent children={'名目'} className="!px-3 text-[#333333] bg-[transparent] border border-[#333333] mb-1"/>
+                            </th>
+                            <th>
+                                <ButtonComponent children={'請求日'} className="!px-3 text-[#333333] bg-[transparent] border border-[#333333] mb-1"/>
+                            </th>
+                            <th>
+                                <ButtonComponent children={'支払予定日'} className="!px-3 text-[#333333] bg-[transparent] border border-[#333333] mb-1"/>
+                            </th>
+                            <th>支払日</th>
+                            <th> 延滞日数</th>
+                            <th>
+                                <ButtonComponent children={'プラン'} className="!px-3 text-[#333333] bg-[transparent] border border-[#333333] mb-1"/>
+                            </th>
+                            <th>請求額 </th>
+                            <th>支払額</th>
+                            <th>差額</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td ><input type='checkbox' /></td>
+                        <tr className='bg-[#d0eaff]'>
+                            <td style={Td} >9999</td>
+                            <td style={Td} >支払済み</td>
+                            <td style={Td}>高崎店</td>
+                            <td style={Td}>2024/10分請求</td>
+                            <td style={Td}>2024/10/01</td>
+                            <td style={Td}>2024/11/01</td>
+                            <td style={Td}>2024/10/02</td>
+                            <td style={Td}>0</td>
+                            <td style={Td}> 他店舖A</td>
+                            <td style={Td}>￥999,999</td>
+                            <td style={Td}>￥999,999</td>
+                            <td style={Td}>￥0</td>
+                        </tr>
+                        <tr className='bg-[#ffeedc]'>
                             <td style={Td}>9999</td>
-                            <td style={Td}>1店鋪オーナー</td>
-                            <td style={Td}>OOOO OO</td>
-                            <td style={Td}>OOOOOOOO</td>
-                            <td style={Td}>宮崎店/OO店/</td>
-                            <td style={Td}>
-                                <div className='flex justify-center'>
-                                    <div className='bg-[#a6a6a6] w-10 h-5 flex justify-center ml-3 rounded-md'>
-                                        <svg focusable="false" aria-hidden="true" data-testid="ArrowRightAltIcon" fill="#fefefe" className='ml-2' title="ArrowRightAlt"><path d="M16.01 11H4v2h12.01v3L20 12l-3.99-4z"></path></svg>
-                                    </div>
-                                </div>
-                            </td>
-                            <td style={Td}>999-9999-9999</td>
-                            <td style={Td}>OOOOOOOO</td>
-                            <td style={Td}>OOOOOOOO</td>
+                            <td style={Td}>支払い</td>
+                            <td style={Td}> 宮崎イオン店</td>
+                            <td style={Td}>2024/10分請求</td>
+                            <td style={Td}>2024/10/01</td>
+                            <td style={Td}>2024/11/01</td>
+                            <td style={Td}></td>
+                            <td style={Td}>12</td>
+                            <td style={Td}> 他店舖A</td>
+                            <td style={Td}>￥999,999</td>
+                            <td style={Td}>￥0</td>
+                            <td style={Td}>-￥999,999</td>
+                        </tr>
+                        <tr className='bg-[#ffb8ba]'>
+                            <td style={Td}>9999</td>
+                            <td style={Td}>支払い(長期)</td>
+                            <td style={Td}>宮崎イオン店</td>
+                            <td style={Td}>2024/08分請求</td>
+                            <td style={Td}>2024/08/01</td>
+                            <td style={Td}>2024/08/31</td>
+                            <td style={Td}></td>
+                            <td style={Td}>72</td>
+                            <td style={Td}> 他店舖A</td>
+                            <td style={Td}>￥999,999</td>
+                            <td style={Td}>￥0</td>
+                            <td style={Td}>￥999,999</td>
                         </tr>
                         <tr>
-                            <td ><input type='checkbox' /></td>
                             <td style={Td}>9999</td>
-                            <td style={Td}>多店鋪オーナー</td>
+                            <td style={Td}>請求中</td>
+                            <td style={Td}>空港店</td>
+                            <td style={Td}>2024/11分請求</td>
+                            <td style={Td}>2024/11/01</td>
+                            <td style={Td}>2024/11/30</td>
                             <td style={Td}></td>
-                            <td style={Td}></td>
-                            <td style={Td}></td>
-                            <td style={Td}></td>
-                            <td style={Td}></td>
-                            <td style={Td}></td>
-                            <td style={Td}></td>
-                        </tr>
-                        <tr>
-                            <td ><input type='checkbox' /></td>
-                            <td style={Td}>9999</td>
-                            <td style={Td}>本部</td>
-                            <td style={Td}></td>
-                            <td style={Td}></td>
-                            <td style={Td}></td>
-                            <td style={Td}></td>
-                            <td style={Td}></td>
-                            <td style={Td}></td>
-                            <td style={Td}></td>
-                        </tr>
-                        <tr>
-                            <td ><input type='checkbox' /></td>
-                            <td style={Td}>9999</td>
-                            <td style={Td}>SV</td>
-                            <td style={Td}></td>
-                            <td style={Td}></td>
-                            <td style={Td}></td>
-                            <td style={Td}></td>
-                            <td style={Td}></td>
-                            <td style={Td}></td>
-                            <td style={Td}></td>
-                        </tr>
-                        <tr>
-                            <td ><input type='checkbox' /></td>
-                            <td style={Td}>9999</td>
-                            <td style={Td}>スーパー管理者</td>
-                            <td style={Td}></td>
-                            <td style={Td}></td>
-                            <td style={Td}></td>
-                            <td style={Td}></td>
-                            <td style={Td}></td>
+                            <td style={Td}>0</td>
+                            <td style={Td}> 他店舖A</td>
+                            <td style={Td}>￥999,999</td>
                             <td style={Td}></td>
                             <td style={Td}></td>
                         </tr>
-                        <tr>
-                            <td ><input type='checkbox' /></td>
+                        <tr className='bg-[#e4dcff]'>
                             <td style={Td}>9999</td>
+                            <td style={Td}>過払い</td>
+                            <td style={Td}>県庁内店</td>
+                            <td style={Td}>2024/06分請求</td>
+                            <td style={Td}>2024/06/01</td>
+                            <td style={Td}>2024/06/30</td>
                             <td style={Td}></td>
                             <td style={Td}></td>
+                            <td style={Td}> 他店舖A</td>
+                            <td style={Td}>￥999,999</td>
                             <td style={Td}></td>
-                            <td style={Td}></td>
-                            <td style={Td}></td>
-                            <td style={Td}></td>
-                            <td style={Td}></td>
-                            <td style={Td}></td>
+                            <td style={Td}>￥1</td>
                         </tr>
                         <tr>
-                            <td ><input type='checkbox' /></td>
                             <td style={Td}>9999</td>
                             <td style={Td}></td>
                             <td style={Td}></td>
@@ -179,44 +178,12 @@ const ManagementSettingsSuperAdministratorPaymentList = () => {
                             <td style={Td}></td>
                             <td style={Td}></td>
                             <td style={Td}></td>
-                            <td style={Td}></td>
-                        </tr>
-                        <tr>
-                            <td ><input type='checkbox' /></td>
-                            <td style={Td}>9999</td>
-                            <td style={Td}></td>
-                            <td style={Td}></td>
-                            <td style={Td}></td>
-                            <td style={Td}></td>
-                            <td style={Td}></td>
+                            <td style={Td}> </td>
                             <td style={Td}></td>
                             <td style={Td}></td>
                             <td style={Td}></td>
                         </tr>
-                        <tr>
-                            <td ><input type='checkbox' /></td>
-                            <td style={Td}>9999</td>
-                            <td style={Td}></td>
-                            <td style={Td}></td>
-                            <td style={Td}></td>
-                            <td style={Td}></td>
-                            <td style={Td}></td>
-                            <td style={Td}></td>
-                            <td style={Td}></td>
-                            <td style={Td}></td>
-                        </tr>
-                        <tr>
-                            <td ><input type='checkbox' /></td>
-                            <td style={Td}>9999</td>
-                            <td style={Td}></td>
-                            <td style={Td}></td>
-                            <td style={Td}></td>
-                            <td style={Td}></td>
-                            <td style={Td}></td>
-                            <td style={Td}></td>
-                            <td style={Td}></td>
-                            <td style={Td}></td>
-                        </tr>
+        
                     </tbody>
 
                     </table>

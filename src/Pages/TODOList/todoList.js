@@ -5,10 +5,7 @@ import LabelComponent from '../../Components/Common/LabelComponent';
 export default function TODOList() {
     
     useEffect(() => {
-        // Set overflow to hidden when the component mounts
         document.body.style.overflow = 'hidden';
-    
-        // Cleanup function to reset overflow when component unmounts
         return () => {
           document.body.style.overflow = 'auto';
         };
