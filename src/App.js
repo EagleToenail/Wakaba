@@ -54,6 +54,9 @@ import OwnersTop from './Pages/Admin/OwnersTop/ownersTop';
 import OwnersStaffList from './Pages/Admin/OwnersStaffList/ownersStaffList';
 import OwnerStaffIndividual from './Pages/Admin/OwnerStaffIndividual/ownerStaffIndividual';
 import StoreListForOwners from './Pages/Admin/StoreListForOwners/storeListForOwners';
+import ManagementMasterTOP from './Pages/Admin/ManagementMasterTOP/managementMasterTOP';
+import ManagementVariousMasterproductCategory1 from './Pages/Admin/ManagementVariousMasterProductCategory1/managementVariousMasterProductCategory1';
+import ManagementVariousMasterproductCategory2 from './Pages/Admin/ManagementVariousMasterProductCategory2/managementVariousMasterProductCategory2';
 
 
 
@@ -118,6 +121,10 @@ function App() {
             <Route path='/admin/ownersstafflist' element={<OwnersStaffList/>}/>
             <Route path='/admin/ownerstaffindividual' element={<OwnerStaffIndividual/>}/>
             <Route path='/admin/storelistforowners' element={<StoreListForOwners/>}/>
+            <Route path='/admin/managementmastertop' element={<ManagementMasterTOP/>}/>
+            <Route path='/admin/managementvariousmasterproductcategory1' element={<ManagementVariousMasterproductCategory1/>}/>
+            <Route path='/admin/managementvariousmasterproductcategory2' element={<ManagementVariousMasterproductCategory2/>}/>
+
 
       </Routes>
     </Router>

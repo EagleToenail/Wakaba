@@ -61,11 +61,12 @@ const OwnersTop = () => {
                                 <div  className='w-3 h-3 bg-[#70685a] '></div>
                             </div>
                             <div className='flex flex-col justify-center'>
-                                <div className='text-[#70685a] font-bold ml-3'>現況表示</div>
+                                <div className='text-[#70685a] font-bold ml-3'>現況 表示</div>
                             </div>
                         </div>
                         <div style={{ width: '95%' }} className='flex'>
-                            <table className=' text-center w-full' style={Table}>
+                            <div style={{ width: '100%' ,overflow:'auto'}}>
+                                <table className=' text-center w-full' style={Table}>
                                 <thead>
                                     <tr>
                                         <th>店舗名</th>
@@ -137,7 +138,8 @@ const OwnersTop = () => {
 
                                 </tbody>
 
-                            </table>
+                                </table>
+                            </div>
                         </div>
                     </div>
 

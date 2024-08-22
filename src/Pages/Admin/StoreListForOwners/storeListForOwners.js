@@ -34,7 +34,7 @@ const StoreListForOwners = () => {
     return (
         <>
             <Titlebar title={title} />
-            <DateAndTime/>
+            <DateAndTime />
 
 
             <div className='flex justify-center mt-5' >
@@ -43,8 +43,8 @@ const StoreListForOwners = () => {
             {/*  */}
             <div className='flex mt-3 justify-center text-left'>
                 <div className=' text-[#70685a] px-2 mr-2 text-left'>
-                    <LabelComponent value={'店舗名'} className='text-left'/>
-                    <InputComponent className='w-40 h-8'/>
+                    <LabelComponent value={'店舗名'} className='text-left' />
+                    <InputComponent className='w-40 h-8' />
                 </div>
                 <div className=' text-[#70685a] px-2 mr-2'>
                     <LabelComponent value={'TEL'} />
@@ -52,11 +52,11 @@ const StoreListForOwners = () => {
                 </div>
                 <div className='text-[#70685a] px-2 mr-2'>
                     <LabelComponent value={'FAX'} />
-                    <InputComponent className='w-40 h-8'/>
+                    <InputComponent className='w-40 h-8' />
                 </div>
                 <div className='text-[#70685a] px-2 mr-2'>
                     <LabelComponent value={'住所'} />
-                    <InputComponent className='w-80 h-8'/>
+                    <InputComponent className='w-80 h-8' />
                 </div>
 
                 <div className=' text-[#70685a] px-2 mr-5 flex flex-col justify-end'>
@@ -64,19 +64,20 @@ const StoreListForOwners = () => {
                 </div>
                 <div className=' text-[#70685a] px-2 mr-2 flex flex-col justify-end'>
                     < button type="button" style={{ display: 'flex', alignItem: 'end' }} className="flex align-end w-20 px-3 py-1 font-bold rounded-md tracking-wide text-[#665b4c] justify-center text-white bg-[#a3a1c8] hover:bg-blue-700 focus:outline-none">
-                    検索
+                        検索
                     </button>
                 </div>
                 <div className=' text-[#70685a] px-2 mr-5 flex flex-col justify-end'>
                     <label className="text-[#70685a] mb-2 block text-center pb-13">(and条件)</label>
                 </div>
             </div>
-            <div className='flex mt-5 ml-10'>
-                <ButtonComponent children={'保存'} className='py-1 text-[15px] text-[white] h-8 !px-3 w-max'/>
+            <div className='flex mt-5 ml-10 pl-5'>
+                <ButtonComponent children={'保存'} className='py-1 text-[15px] text-[white] h-8 !px-3 w-max' />
             </div>
-            {/*  Tabe*/}
-            <div className='mt-5 pl-10 pr-10 pb-20 w-full flex'>
-                <table className='text-center w-full' style={Table}>
+            {/*  Table*/}
+            <div className='mt-3 pl-10 pr-10 w-full flex'>
+                <div style={{ width: '100%' ,overflow:'auto'}}>
+                    <table className='text-center w-full' style={Table}>
                     <thead>
                         <tr>
                             <th>削除</th>
@@ -92,7 +93,7 @@ const StoreListForOwners = () => {
                     </thead>
                     <tbody>
                         <tr>
-                            <td ><input  type='checkbox'/></td>
+                            <td ><input type='checkbox' /></td>
                             <td style={Td}>9999</td>
                             <td style={Td}>宮崎店</td>
                             <td style={Td}>店長</td>
@@ -110,7 +111,18 @@ const StoreListForOwners = () => {
                         </tr>
                     </tbody>
 
-                </table>
+                    </table>
+                </div>
+            </div>
+            <div className='flex justify-center mt-5'>
+                <button type="button"
+                    className="w-5 h-5 inline-flex items-center justify-center text-[#70685a] border border-[#70685a] outline-none hover:bg-purple-700 active:bg-purple-600">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14px" fill="#70685a" className="inline" viewBox="0 0 512 512">
+                        <path
+                            d="M467 211H301V45c0-24.853-20.147-45-45-45s-45 20.147-45 45v166H45c-24.853 0-45 20.147-45 45s20.147 45 45 45h166v166c0 24.853 20.147 45 45 45s45-20.147 45-45V301h166c24.853 0 45-20.147 45-45s-20.147-45-45-45z"
+                            data-original="#000000" />
+                    </svg>
+                </button>
             </div>
         </>
     );
