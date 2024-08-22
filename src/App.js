@@ -59,8 +59,8 @@ import ManagementVariousMasterproductCategory1 from './Pages/Admin/ManagementVar
 import ManagementVariousMasterproductCategory2 from './Pages/Admin/ManagementVariousMasterProductCategory2/managementVariousMasterProductCategory2';
 import ManagementSettingsSuperAdministratorTOP from './Pages/Admin/ManagementSettingsSuperAdministratorTOP/managementSettingsSuperAdministratorTOP';
 import ManagementSettingsSuperAdministratorPaymentList from './Pages/Admin/ManagementSettingsSuperAdministratorPaymentList/managementSettingsSuperAdministratorPaymentList';
-
-
+import ADminSettingsSuperAdministratorSystemBasicSettings from './Pages/Admin/AdminSettingsSuperAdministratorSystemBasicSettings/adminSettingsSuperAdministratorSystemBasicSettigs';
+import ManagementSettingsForOwners from './Pages/Admin/ManagementSettingsForOwners/managementSettingsForOwners';
 
 function App() {
   return (
@@ -128,6 +128,8 @@ function App() {
             <Route path='/admin/managementvariousmasterproductcategory2' element={<ManagementVariousMasterproductCategory2/>}/>
             <Route path='/admin/managementSettingSuperAdministratorTOP' element={<ManagementSettingsSuperAdministratorTOP/>}/>
             <Route path='/admin/managementSettingSuperAdministratorpaymentlist' element={<ManagementSettingsSuperAdministratorPaymentList/>}/>
+            <Route path='/admin/adminsettingssuperadministratorsystembasicsettings' element={<ADminSettingsSuperAdministratorSystemBasicSettings/>}/>
+            <Route path='/admin/managementsettingsforowners' element={<ManagementSettingsForOwners/>}/>
 
 
       </Routes>

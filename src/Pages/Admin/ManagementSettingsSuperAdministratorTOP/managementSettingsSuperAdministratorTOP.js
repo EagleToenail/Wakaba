@@ -40,12 +40,12 @@ const ManagementSettingsSuperAdministratorTOP = () => {
             {/*  */}
             <div className='flex mt-3 justify-center text-left'>
                 <div className=' text-[#70685a] px-2 mr-2 flex flex-col justify-end'>
-                    < button type="button" className="flex align-end w-40 px-3 py-1 font-bold tracking-wide text-[#665b4c] justify-center text-white bg-[#665b4c] hover:bg-blue-700 focus:outline-none">
+                    < button type="button" className="flex align-end w-40 px-3 py-1 font-bold tracking-wide justify-center text-white bg-[#665b4c] hover:bg-blue-700 focus:outline-none">
                     オーナー管理
                     </button>
                 </div>
                 <div className=' text-[#70685a] px-2 ml-10 flex flex-col justify-end'>
-                    < button type="button" className="flex align-end w-40 px-3 py-1 font-bold tracking-wide text-[#656666] justify-center text-white bg-[#ebe6e0] hover:bg-blue-700 focus:outline-none">
+                    < button type="button" className="flex align-end w-40 px-3 py-1 font-bold tracking-wide text-[#696b6a] justify-center text-white bg-[#ebe6e0] hover:bg-blue-700 focus:outline-none">
                     システム基本設定
                     </button>
                 </div>
