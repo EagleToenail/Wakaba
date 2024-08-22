@@ -62,6 +62,9 @@ import ManagementSettingsSuperAdministratorPaymentList from './Pages/Admin/Manag
 import ADminSettingsSuperAdministratorSystemBasicSettings from './Pages/Admin/AdminSettingsSuperAdministratorSystemBasicSettings/adminSettingsSuperAdministratorSystemBasicSettigs';
 import ManagementSettingsForOwners from './Pages/Admin/ManagementSettingsForOwners/managementSettingsForOwners';
 
+import OwnerAttendanceList from './Pages/Admin/OwnerAttendanceList/ownerAttendanceList';
+import OwnersShiptSchedule from './Pages/Admin/OwnersShiftSchedule/ownersShiftSchedule';
+
 function App() {
   return (
     <Router>
@@ -130,6 +133,10 @@ function App() {
             <Route path='/admin/managementSettingSuperAdministratorpaymentlist' element={<ManagementSettingsSuperAdministratorPaymentList/>}/>
             <Route path='/admin/adminsettingssuperadministratorsystembasicsettings' element={<ADminSettingsSuperAdministratorSystemBasicSettings/>}/>
             <Route path='/admin/managementsettingsforowners' element={<ManagementSettingsForOwners/>}/>
+
+
+            <Route path='/admin/ownerattendancelist' element={<OwnerAttendanceList/>}/>
+            <Route path='/admin/ownersshiptschedule' element={<OwnersShiptSchedule/>}/>
 
 
       </Routes>
