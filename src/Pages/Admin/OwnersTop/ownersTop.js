@@ -145,7 +145,7 @@ const OwnersTop = () => {
 
                     <div className='flex'>
                         <div className='w-1/2'>
-                            <div className='flex mt-10'>
+                            <div className='flex mt-10 pt-8'>
                                 <div className='flex h-11' style={{width:'10%'}}>
                                     <div className='flex flex-col justify-center'>
                                         <div  className='w-3 h-3 bg-[#70685a] '></div>
@@ -205,7 +205,7 @@ const OwnersTop = () => {
                         </div>
                         <div className='w-1/2'>
                             <div className='flex mt-10'>
-                                <div className='flex h-11' style={{width:'10%'}}>
+                                <div className='flex h-11 pt-8' style={{width:'10%'}}>
                                     <div className='flex flex-col justify-center'>
                                         <div  className='w-3 h-3 bg-[#70685a] '></div>
                                     </div>
@@ -214,13 +214,21 @@ const OwnersTop = () => {
                                     </div>
                                 </div>
                                 <div style={{width:'90%'}}>
-                                    <div className=' text-[#70685a]'>
-                                        < button type="button" style={{width:'40%'}} className=" px-10 py-1 text-[#70685a] font-bold tracking-wide border border-[#70685a] justify-center  hover:bg-blue-700 focus:outline-none">
-                                        顧客未店率推移
-                                        </button>
-                                        < button type="button" style={{width:'40%'}} className=" px-10 py-1 text-[#70685a] font-bold tracking-wide border border-[#70685a] justify-center  hover:bg-blue-700 focus:outline-none ml-10">
-                                        総合分析
-                                        </button>
+                                    <div className=' text-[#70685a] flex'>
+                                        <div style={{width:'40%'}} className='pt-8'>
+                                            < button type="button" className="w-full px-10 py-1 text-[#70685a] font-bold tracking-wide border border-[#70685a] justify-center  hover:bg-blue-700 focus:outline-none">
+                                            顧客未店率推移
+                                            </button>
+                                        </div>
+
+                                        <div style={{width:'40%'}}>
+                                            <div className='flex justify-center ml-10 w-full h-8 text-[#70685a]'>
+                                                <label >(オーナーと共有画面)</label>
+                                            </div>
+                                            < button type="button"  className="w-full px-10 py-1 text-[#70685a] font-bold tracking-wide border border-[#70685a] justify-center  hover:bg-blue-700 focus:outline-none ml-10">
+                                            総合分析
+                                            </button>
+                                        </div>
                                     </div>
                                     <div className=' text-[#70685a] pt-5'>
                                         < button type="button" style={{width:'40%'}} className=" px-10 py-1 text-[#70685a] font-bold tracking-wide border border-[#70685a] justify-center  hover:bg-blue-700 focus:outline-none">
@@ -254,7 +262,7 @@ const OwnersTop = () => {
                                                 <div  className='w-3 h-3 bg-[#70685a] '></div>
                                             </div>
                                             <div className='flex flex-col justify-center'>
-                                                <div className='text-[#70685a] font-bold ml-3'>分析</div>
+                                                <div className='text-[#70685a] font-bold ml-3'>名種設定</div>
                                             </div>
                                         </div>
                                         < button type="button" style={{width:'40%'}} className=" px-10 py-1 text-[#70685a] font-bold tracking-wide border border-[#70685a] justify-center  hover:bg-blue-700 focus:outline-none ml-10">
