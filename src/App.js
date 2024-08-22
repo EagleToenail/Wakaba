@@ -64,6 +64,8 @@ import ManagementSettingsForOwners from './Pages/Admin/ManagementSettingsForOwne
 
 import OwnerAttendanceList from './Pages/Admin/OwnerAttendanceList/ownerAttendanceList';
 import OwnersShiptSchedule from './Pages/Admin/OwnersShiftSchedule/ownersShiftSchedule';
+import OwnersPayrollCalculationSheet from './Pages/Admin/OwnersPayrollCalculationSheet/ownersPayrollCalculationSheet';
+import OwnersPersonalPaySlipPDF from './Pages/Admin/OwnersPersonalPaySlipPDF/ownersPersonalPaySlipPDF';
 
 function App() {
   return (
@@ -137,6 +139,8 @@ function App() {
 
             <Route path='/admin/ownerattendancelist' element={<OwnerAttendanceList/>}/>
             <Route path='/admin/ownersshiptschedule' element={<OwnersShiptSchedule/>}/>
+            <Route path='/admin/ownerspayrollcalculationsheet' element={<OwnersPayrollCalculationSheet/>}/>
+            <Route path='/admin/ownerspersonalpayslippdf' element={<OwnersPersonalPaySlipPDF/>}/>
 
 
       </Routes>

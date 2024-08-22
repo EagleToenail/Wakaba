@@ -177,8 +177,7 @@ const  Profile = () => {
                                         </select>
                                     </div>
                                     <div style={{ width: '20%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                        <button type="button"
-                                            className= "py-2 min-w-[160px] text-[#70685a] rounded-full tracking-wider font-medium outline-none border border-[#70685a] ">画像と情報表示</button>
+                                        <button type="file" className= "py-2 min-w-[160px] text-[#70685a] rounded-full tracking-wider font-medium outline-none border border-[#70685a] ">画像と情報表示</button>
                                     </div>
                                 </div>
                                 {/* new */}
