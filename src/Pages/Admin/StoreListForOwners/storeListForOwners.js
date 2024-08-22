@@ -71,7 +71,7 @@ const StoreListForOwners = () => {
                     <label className="text-[#70685a] mb-2 block text-center pb-13">(and条件)</label>
                 </div>
             </div>
-            <div className='flex mt-5 ml-10 pl-5'>
+            <div className='flex justify-center' style={{width:'10%'}}>
                 <ButtonComponent children={'保存'} className='py-1 text-[15px] text-[white] h-8 !px-3 w-max' />
             </div>
             {/*  Table*/}

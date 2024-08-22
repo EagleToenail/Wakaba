@@ -57,6 +57,7 @@ import StoreListForOwners from './Pages/Admin/StoreListForOwners/storeListForOwn
 import ManagementMasterTOP from './Pages/Admin/ManagementMasterTOP/managementMasterTOP';
 import ManagementVariousMasterproductCategory1 from './Pages/Admin/ManagementVariousMasterProductCategory1/managementVariousMasterProductCategory1';
 import ManagementVariousMasterproductCategory2 from './Pages/Admin/ManagementVariousMasterProductCategory2/managementVariousMasterProductCategory2';
+import ManagementSettingsSuperAdministratorTOP from './Pages/Admin/ManagementSettingsSuperAdministratorTOP/managementSettingsSuperAdministratorTOP';
 
 
 
@@ -124,6 +125,7 @@ function App() {
             <Route path='/admin/managementmastertop' element={<ManagementMasterTOP/>}/>
             <Route path='/admin/managementvariousmasterproductcategory1' element={<ManagementVariousMasterproductCategory1/>}/>
             <Route path='/admin/managementvariousmasterproductcategory2' element={<ManagementVariousMasterproductCategory2/>}/>
+            <Route path='/admin/managementSettingSuperAdministratorTOP' element={<ManagementSettingsSuperAdministratorTOP/>}/>
 
 
       </Routes>
