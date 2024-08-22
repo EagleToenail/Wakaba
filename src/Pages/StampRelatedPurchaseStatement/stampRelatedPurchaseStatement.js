@@ -40,7 +40,7 @@ const StampRelatedPurchaseStatement = () => {
             <h2 className="text-[#70685a] text-center font-bold text-[15px] flex justify-end mt-3" style={{ paddingRight: '1%' }}>2023/12/01(金)&nbsp;&nbsp;21:51</h2>
             <div className=" flex flex-col items-center justify-center py-3 px-4">
                 <div className="w-full " style={{ maxWidth: '90em' }}>
-                    <h2 className="text-[#70685a] text-center text-2xl font-bold flex justify-center">日本の切手・ハガキ・レ夕一パツク 買取計算書</h2>
+                    <h2 className="text-[#70685a] text-center text-2xl font-bold flex justify-center">日本の切手・ハガキ・レ夕一パック 買取計算書</h2>
                     <div className='flex justify-evenly mt-10 '>
                         <div>
                             <button type="button"
@@ -120,7 +120,7 @@ const StampRelatedPurchaseStatement = () => {
                                 <div className='flex justify-end w-1/2'>
                                     <div className='flex'>
                                         <div className='w-10 flex flex-col justify-center'><img src={LetterPack} alt="aaa"></img></div>
-                                        <div className='flex flex-col justify-center'><LabelComponent value="レ夕一パツク" className='pl-5 !text-[20px] font-bold' /></div>
+                                        <div className='flex flex-col justify-center'><LabelComponent value="レ夕一パック" className='pl-5 !text-[20px] font-bold' /></div>
                                     </div>
                                 </div>
                                 <div className='flex justify-end w-1/2'>
@@ -234,14 +234,13 @@ const StampRelatedPurchaseStatement = () => {
                     <div className='flex'>
                         {/* secondtable */}
                         <div className='mt-5  ml-5 w-1/3'>
-                            <h2 className="text-[#70685a] text-sm font-bold ml-10">切手1枚</h2>
                             <div>
                                 <div>
                                     <table className=' text-center w-full' style={Table}>
                                         <thead>
                                             <tr>
                                                 <th >選択</th>
-                                                <th>の額面</th>
+                                                <th>切手1枚の額面</th>
                                                 <th>面数</th>
                                                 <th >シート額面</th>
                                                 <th>シート数</th>
@@ -274,14 +273,14 @@ const StampRelatedPurchaseStatement = () => {
                         </div>
                         {/* thirdtable */}
                         <div className='mt-5 ml-5 w-1/3' >
-                            <h2 className="text-[#70685a] text-sm font-bold ml-10">切手1枚</h2>
+                            
                             <div>
                                 <div>
                                     <table className=' text-center w-full' style={Table}>
                                         <thead>
                                             <tr>
                                                 <th >選択</th>
-                                                <th>の額面</th>
+                                                <th>切手1枚の額面</th>
                                                 <th>面数</th>
                                                 <th >シート額面</th>
                                                 <th>シート数</th>
@@ -314,14 +313,14 @@ const StampRelatedPurchaseStatement = () => {
                         </div>
                         {/* forthtable */}
                         <div className='mt-5 ml-5 w-1/3'>
-                            <h2 className="text-[#70685a] text-sm font-bold ml-10">切手1枚</h2>
+                            
                             <div>
                                 <div>
                                     <table className=' text-center w-full' style={Table}>
                                         <thead>
                                             <tr>
                                                 <th >選択</th>
-                                                <th>の額面</th>
+                                                <th>切手1枚の額面</th>
                                                 <th>面数</th>
                                                 <th >シート額面</th>
                                                 <th>シート数</th>
@@ -403,14 +402,14 @@ const StampRelatedPurchaseStatement = () => {
                                     </div>
                                 </div>
                                 <div className='mt-5 ml-5'>
-                                    <h2 className="text-[#70685a] text-sm font-bold ml-10">切手1枚</h2>
+                                    
                                     <div>
                                         <div>
                                             <table className=' text-center w-full' style={Table}>
                                                 <thead>
                                                     <tr>
                                                         <th >選択</th>
-                                                        <th>の額面</th>
+                                                        <th>切手1枚の額面</th>
                                                         <th>面数</th>
                                                         <th >シート額面</th>
                                                         <th>シート数</th>

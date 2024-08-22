@@ -52,8 +52,8 @@ const YahooAuction = () => {
                             <table style={Table}>
                                 <thead>
                                     <tr> 
-                                        <th  style={Th} rowSpan={2}>ヤフオク商品工D</th>
-                                        <th width='5%' style={Th} rowSpan={2}>わかはNo.</th>
+                                        <th  style={Th} rowSpan={2}>ヤフオク商品ID</th>
+                                        <th width='5%' style={Th} rowSpan={2}>わかばNo.</th>
                                         <th width='5%' style={Th} rowSpan={2}>カテゴリ-1</th>
                                         <th width='5%' style={Th} rowSpan={2}>カテゴリ-2</th>
                                         <th width='5%' style={Th} rowSpan={2}>カテゴリ-3</th>
@@ -62,7 +62,7 @@ const YahooAuction = () => {
                                         <th width='5%' style={Th} rowSpan={2}>商品名</th>
 
                                         <th style={Th} rowSpan={2}>買取額</th>
-                                        <th style={Th} rowSpan={2}>オークフアン買取額</th>
+                                        <th style={Th} rowSpan={2}>オークション買取額</th>
                                         <th style={Th} rowSpan={2}>落札額</th>
                                         <th style={Th} rowSpan={2}>租利額</th>
 
@@ -120,7 +120,7 @@ const YahooAuction = () => {
                                         </select>
                                         </td>
                                         <td style={Td}><ButtonComponent children="1" className='w-max !px-5 rounded-lg' style={{  backgroundColor: '#ebe5e1', color: '#626373'}} /></td>
-                                        <td style={Td}>グシチOOOO</td>
+                                        <td style={Td}>グッチOOOO</td>
                                         <td style={Td}>100</td>
                                         <td style={Td}>90,000</td>
                                         <td style={Td}>100</td>

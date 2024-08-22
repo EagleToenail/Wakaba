@@ -41,7 +41,7 @@ const StampPurchaseListCustomerConfirmation = () => {
             <DateAndTime />
             <div className=" flex flex-col items-center justify-center py-3 px-4">
                 <div className="w-full " style={{ maxWidth: '90em' }}>
-                    <h2 className="text-[#70685a] text-center text-2xl font-bold flex justify-center">日本の切手 買取 印刷確確認画面</h2>
+                    <h2 className="text-[#70685a] text-center text-2xl font-bold flex justify-center">日本の切手 買取 印刷確認画面</h2>
                     <div className=' mt-3 ml-10'>
                         <div>
                             <div><LabelComponent value="買取計算書No. 000000" className='font-bold' /></div>
@@ -100,7 +100,7 @@ const StampPurchaseListCustomerConfirmation = () => {
                                     <thead>
                                         <tr>
                                             <th ></th>
-                                            <th>台紙数合計</th>
+                                            <th>シート数<br />合計</th>
                                             <th>額面総額合計</th>
                                         </tr>
                                     </thead>
@@ -158,82 +158,54 @@ const StampPurchaseListCustomerConfirmation = () => {
                     {/* ThirdLine */}
                     <div className='flex'>
                         {/* first table */}
+                        {/* Table componets are not correct. Onishi modified. */}
                         <div className='mt-5  ml-5 w-1/2'>
-                            <h2 className="text-[#70685a] text-sm font-bold ml-10">切手1枚</h2>
                             <div>
                                 <div>
                                     <table className=' text-center w-full' style={Table}>
                                         <thead>
                                             <tr>
-                                                <th >選択</th>
-                                                <th>の額面</th>
+                                                <th>切手1枚の額面</th>
                                                 <th>面数</th>
                                                 <th >シート額面</th>
                                                 <th>シート数</th>
-                                                <th>額面総額</th>
+                                                <th>買取額</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <td><input type='checkbox' /></td>
-                                                <td style={Td}>¥7</td>
+                                                <td style={Td}>¥100</td>
+                                                <td style={Td}>999</td>
                                                 <td style={Td}>20</td>
+                                                <td style={Td}>100,000</td>
                                                 <td style={Td}>¥100,000</td>
-                                                <td style={Td}>1,000</td>
-                                                <td style={Td}>¥1,000,000</td>
                                             </tr>
                                         </tbody>
                                     </table>
-                                </div>
-                                <div className='flex justify-center mt-2'>
-                                    <button type="button"
-                                        className="w-5 h-5 inline-flex items-center justify-center text-[#70685a] border border-[#70685a] outline-none hover:bg-purple-700 active:bg-purple-600">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="14px" fill="#70685a" className="inline" viewBox="0 0 512 512">
-                                            <path
-                                                d="M467 211H301V45c0-24.853-20.147-45-45-45s-45 20.147-45 45v166H45c-24.853 0-45 20.147-45 45s20.147 45 45 45h166v166c0 24.853 20.147 45 45 45s45-20.147 45-45V301h166c24.853 0 45-20.147 45-45s-20.147-45-45-45z"
-                                                data-original="#000000" />
-                                        </svg>
-                                    </button>
                                 </div>
                             </div>
                         </div>
                         {/* secondtable */}
+                        {/* Second table should not have h2 切手1枚, and  */}
                         <div className='mt-5  ml-5 w-1/2'>
-                            <h2 className="text-[#70685a] text-sm font-bold ml-10">切手1枚</h2>
                             <div>
                                 <div>
                                     <table className=' text-center w-full' style={Table}>
                                         <thead>
                                             <tr>
-                                                <th >選択</th>
-                                                <th>の額面</th>
-                                                <th>面数</th>
-                                                <th >シート額面</th>
-                                                <th>シート数</th>
-                                                <th>額面総額</th>
+                                                <th>額面</th>
+                                                <th>枚数</th>
+                                                <th >買取額</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <td><input type='checkbox' /></td>
-                                                <td style={Td}>¥7</td>
-                                                <td style={Td}>20</td>
+                                                <td style={Td}>¥100</td>
+                                                <td style={Td}>100,000</td>
                                                 <td style={Td}>¥100,000</td>
-                                                <td style={Td}>1,000</td>
-                                                <td style={Td}>¥1,000,000</td>
                                             </tr>
                                         </tbody>
                                     </table>
-                                </div>
-                                <div className='flex justify-center mt-2'>
-                                    <button type="button"
-                                        className="w-5 h-5 inline-flex items-center justify-center text-[#70685a] border border-[#70685a] outline-none hover:bg-purple-700 active:bg-purple-600">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="14px" fill="#70685a" className="inline" viewBox="0 0 512 512">
-                                            <path
-                                                d="M467 211H301V45c0-24.853-20.147-45-45-45s-45 20.147-45 45v166H45c-24.853 0-45 20.147-45 45s20.147 45 45 45h166v166c0 24.853 20.147 45 45 45s45-20.147 45-45V301h166c24.853 0 45-20.147 45-45s-20.147-45-45-45z"
-                                                data-original="#000000" />
-                                        </svg>
-                                    </button>
                                 </div>
                             </div>
                         </div>

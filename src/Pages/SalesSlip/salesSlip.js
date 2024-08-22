@@ -38,7 +38,7 @@ const SalesSlip = () => {
                         <div className='flex justify-between ml-10' style={{width:'80%'}}>
                             <div className='flex mt-10 w-1/2' >
                                 <div>
-                                    <ButtonComponent children={'ソサイクルシヨシプへの買取依頼書へ'} className='!px-5 text-2xl' style={{backgroundColor:'#9bd195',height:'40px'}}/>
+                                    <ButtonComponent children={'リサイクルショップへの買取依頼書へ'} className='!px-5 text-2xl' style={{backgroundColor:'#9bd195',height:'40px'}}/>
                                     <div className='flex justify-center'>
                                         <LabelComponent value={'行を選択してください'} />
                                     </div>
@@ -58,12 +58,13 @@ const SalesSlip = () => {
                         </div>
 
                         {/* second button line  */}
+                        {/* This buttons doesn't have borders and background-color */}
                         <div className='flex ml-10' style={{width:'80%'}}>
                             <div className='flex justify-between  mt-5 w-full' >
                                 <ButtonComponent children={'全て'} className="!px-5  bg-[transparent] border border-[#424242] text-[#424242] h-8 rounded-lg !w-max" />
                                 <ButtonComponent children={'貴金属'}  className="!px-5 bg-[transparent] border border-[#424242] text-[#424242] h-8 rounded-lg !w-max" />
                                 <ButtonComponent children={'ブランド'} className="!px-5 bg-[transparent] border border-[#424242] text-[#424242] h-8 rounded-lg !w-max" />
-                                <ButtonComponent children={'バシグ'} className="!px-5 bg-[transparent] border border-[#424242] text-[#424242] h-8 rounded-lg !w-max"  />
+                                <ButtonComponent children={'バッグ'} className="!px-5 bg-[transparent] border border-[#424242] text-[#424242] h-8 rounded-lg !w-max"  />
                                 <ButtonComponent children={'時計'} className="!px-5 bg-[transparent] border border-[#424242] text-[#424242] h-8 rounded-lg !w-max" />
                                 <ButtonComponent children={'財布'} className="!px-5 bg-[transparent] border border-[#424242] text-[#424242] h-8 rounded-lg !w-max"  />
                                 <ButtonComponent children={'アクセサリ'} className="!px-5 bg-[transparent] border border-[#424242] text-[#424242] h-8 rounded-lg !w-max" />
@@ -71,7 +72,7 @@ const SalesSlip = () => {
                                 <ButtonComponent children={'洋酒'}  className="!px-5 bg-[transparent] border border-[#424242] text-[#424242] h-8 rounded-lg !w-max"/>
                                 <ButtonComponent children={'カメラ'} className="!px-5 bg-[transparent] border border-[#424242] text-[#424242] h-8 rounded-lg !w-max"  />
                                 <ButtonComponent children={'楽器'} className="!px-5 bg-[transparent] border border-[#424242] text-[#424242] h-8 rounded-lg !w-max" />
-                                <ButtonComponent children={'スマホノ夕ブレット'} className="!px-5 bg-[transparent] border border-[#424242] text-[#424242] h-8 rounded-lg !w-max"  />
+                                <ButtonComponent children={'スマホ/夕ブレット'} className="!px-5 bg-[transparent] border border-[#424242] text-[#424242] h-8 rounded-lg !w-max"  />
                                 <select id="classificatin" name="classificatin" className="!w-max h-8 rounded-lg text-[#70685a] text-[15px] font-bold border border-[#70685a] px-4 py-1 outline-[#70685a]">
                                             <option value="1">その他</option>
                                             <option value="2">Afghanistan</option>
@@ -89,7 +90,7 @@ const SalesSlip = () => {
                                     <tr> 
                                         <th rowSpan={2}>選択</th>
                                         <th width='5%' style={Th} rowSpan={2}>商品番号</th>
-                                        <th width='5%' style={Th} rowSpan={2}>わかはNo.</th>
+                                        <th width='5%' style={Th} rowSpan={2}>わかばNo.</th>
                                         <th width='5%' style={Th} rowSpan={2}><div style={{border:'1px solid black',borderRadius:'5px',margin:'5%'}}>ステー夕ス</div></th>
                                         <th width='5%' style={Th} rowSpan={2}><div style={{border:'1px solid black',borderRadius:'5px',margin:'5%'}}>入金日</div></th>
                                         <th width='5%' style={Th} rowSpan={2}><div style={{border:'1px solid black',borderRadius:'5px',margin:'5%'}}>卸日</div></th>
@@ -115,7 +116,7 @@ const SalesSlip = () => {
                                         <th style={Th}>お名前</th>
                                         <th style={Th} >カナ</th>
                                         <th style={Th} >TEL</th>
-                                        <th width='10%' style={Th} >任所</th>
+                                        <th width='10%' style={Th} >住所</th>
                                         <th  style={Th} >来店種別-1</th>
                                         <th style={Th} >来店種別-2</th>
                                     </tr>

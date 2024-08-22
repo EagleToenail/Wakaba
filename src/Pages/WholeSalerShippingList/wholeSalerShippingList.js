@@ -83,7 +83,7 @@ const WholeSalerShippingList = () => {
                             </div>
                             <div className=' text-[#70685a] px-2 mr-2 font-bold'>
                                 <div className='text-center'>
-                                    <LabelComponent value={'adf'} />
+                                    <LabelComponent value={'ステータス'} />
                                 </div>
                                 <select id="classificatin" name="classificatin" className="w-full h-11 text-[#70685a] text-[15px] font-bold border border-[#70685a] px-4 py-1 outline-[#70685a]">
                                     <option value="1">アルバイト</option>
@@ -115,14 +115,14 @@ const WholeSalerShippingList = () => {
                                         <th>ステー夕ス</th>
                                         <th>卸し先</th>
                                         <th>発送日</th>
-                                        <th>わかはNo.(範囲)</th>
+                                        <th>わかばNo.(範囲)</th>
                                         <th>仮査定合計額</th>
                                         <th>発送者</th>
                                         <th>入金予定日</th>
                                         <th>入金日</th>
                                         <th>本査定合計額</th>
-                                        <th>送ら状</th>
-                                        <th>依買取依頼書</th>
+                                        <th>送り状</th>
+                                        <th>買取依頼書</th>
                                     </tr>
                                 </thead>
                                 <tbody>

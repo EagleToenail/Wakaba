@@ -39,23 +39,23 @@ const StampRelatedInventoryList = () => {
             <DateAndTime/>
             <div className=" flex flex-col items-center justify-center py-3 px-4">
                 <div className="w-full " style={{ maxWidth: '90em' }}>
-                    <h2 className="text-[#70685a] text-center text-2xl font-bold flex justify-center">日本の切手・八ガキ・レ 夕一パシク 在庫リスト</h2>
+                    <h2 className="text-[#70685a] text-center text-2xl font-bold flex justify-center">日本の切手・ハガキ・レターパック 在庫リスト</h2>
                     <div className='flex justify-evenly mt-5 '>
                         <div>
-                            <div className='text-center'><LabelComponent value="zxcas" /></div>
+                            <div className='text-center'><LabelComponent value="" /></div>
                             <button type="button"
                                 className="mr-10  py-1 min-w-[160px] text-[#70685a] text-[15px] rounded-full tracking-wider font-bold outline-none border border-[#70685a] ">
-                                入 庫申請書を作成
+                                入庫申請書を作成
                             </button>
                         </div>
                         <div>
-                            <div className='text-center'><LabelComponent value="選択した項月の" /></div>
+                            <div className='text-center'><LabelComponent value="選択した項目の" /></div>
                             < button type="button" className="w-max px-3 py-1 font-bold tracking-wide rounded-lg justify-center text-white bg-[#e87a00] hover:bg-blue-700 focus:outline-none">
                             出庫申請書を作成
                             </button>
                         </div>
                         <div>
-                            <div className='text-center'><LabelComponent value="選択した項月の" /></div>
+                            <div className='text-center'><LabelComponent value="選択した項目の" /></div>
                             <button type="button"
                                 className=" mr-3 py-1 min-w-[160px] text-[#70685a] text-[15px] rounded-full tracking-wider font-bold outline-none border border-[#70685a] ">
                                 買取利率変更申請
@@ -78,7 +78,7 @@ const StampRelatedInventoryList = () => {
                             <div className='flex justify-center'>
                                 <div className='flex'>
                                     <div className='w-10'><img src={StampSheet} alt="aaa"></img></div>
-                                    <div className='flex flex-col justify-center'><LabelComponent value="切手台紙貼ら" className='pl-5 !text-[20px] font-bold' /></div>
+                                    <div className='flex flex-col justify-center'><LabelComponent value="切手台紙貼り" className='pl-5 !text-[20px] font-bold' /></div>
                                 </div>
                             </div>
                         </div>
@@ -94,7 +94,7 @@ const StampRelatedInventoryList = () => {
                             <div className='flex justify-center'>
                                 <div className='flex'>
                                     <div className='w-10'><img src={LetterPack} alt="aaa"></img></div>
-                                    <div className='flex flex-col justify-center'><LabelComponent value="レ夕一パツク" className='pl-5 !text-[20px] font-bold' /></div>
+                                    <div className='flex flex-col justify-center'><LabelComponent value="レ夕一パック" className='pl-5 !text-[20px] font-bold' /></div>
                                 </div>
                             </div>
                         </div>
@@ -229,14 +229,14 @@ const StampRelatedInventoryList = () => {
                     <div className='flex'>
                         {/* first table */}
                         <div className='mt-5  ml-5' style={{ width: '25%' }}>
-                            <h2 className="text-[#70685a] text-sm font-bold ml-10">切手1枚</h2>
+                            
                             <div>
                                 <div>
                                     <table className=' text-center w-full' style={Table}>
                                         <thead>
                                             <tr>
                                                 <th >選択</th>
-                                                <th>の額面</th>
+                                                <th>切手1枚の額面</th>
                                                 <th>面数</th>
                                                 <th >シート額面</th>
                                                 <th>シート数</th>
@@ -269,14 +269,14 @@ const StampRelatedInventoryList = () => {
                         </div>
                         {/* secondtable */}
                         <div className='mt-5  ml-5' style={{ width: '25%' }}>
-                            <h2 className="text-[#70685a] text-sm font-bold ml-10">切手1枚</h2>
+                            
                             <div>
                                 <div>
                                 <table className=' text-center w-full' style={Table}>
                                         <thead>
                                             <tr>
                                                 <th >選択</th>
-                                                <th>の額面</th>
+                                                <th>切手1枚の額面</th>
                                                 <th>面数</th>
                                                 <th >シート額面</th>
                                                 <th>シート数</th>
@@ -309,14 +309,14 @@ const StampRelatedInventoryList = () => {
                         </div>
                         {/* thirdtable */}
                         <div className='mt-5 ml-5' style={{ width: '25%' }}>
-                            <h2 className="text-[#70685a] text-sm font-bold ml-10">切手1枚</h2>
+                            
                             <div>
                                 <div>
                                 <table className=' text-center w-full' style={Table}>
                                         <thead>
                                             <tr>
                                                 <th >選択</th>
-                                                <th>の額面</th>
+                                                <th>切手1枚の額面</th>
                                                 <th>面数</th>
                                                 <th >シート額面</th>
                                                 <th>シート数</th>
@@ -349,14 +349,14 @@ const StampRelatedInventoryList = () => {
                         </div>
                         {/* forthtable */}
                         <div className='mt-5 ml-5' style={{ width: '25%' }}>
-                            <h2 className="text-[#70685a] text-sm font-bold ml-10">切手1枚</h2>
+                            
                             <div>
                                 <div>
                                 <table className=' text-center w-full' style={Table}>
                                         <thead>
                                             <tr>
                                                 <th >選択</th>
-                                                <th>の額面</th>
+                                                <th>切手1枚の額面</th>
                                                 <th>面数</th>
                                                 <th >シート額面</th>
                                                 <th>シート数</th>
@@ -427,14 +427,14 @@ const StampRelatedInventoryList = () => {
                                     </div>
                                 </div>
                                 <div className='mt-5 ml-5'>
-                                    <h2 className="text-[#70685a] text-sm font-bold ml-10">切手1枚</h2>
+                                    
                                     <div>
                                         <div>
                                         <table className=' text-center w-full' style={Table}>
                                         <thead>
                                             <tr>
                                                 <th >選択</th>
-                                                <th>の額面</th>
+                                                <th>切手1枚の額面</th>
                                                 <th>面数</th>
                                                 <th >シート額面</th>
                                                 <th>シート数</th>

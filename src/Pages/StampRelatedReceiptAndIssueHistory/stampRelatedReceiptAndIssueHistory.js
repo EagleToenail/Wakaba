@@ -56,10 +56,10 @@ const StampRelatedReceiptAndIssueHistory = () => {
                                     className=" mr-3 py-1 min-w-[160px] text-[#70685a] rounded-full tracking-wider font-bold outline-none border border-[#70685a] ">入出金申請</button>
                             </div>
                         </div>
-                        <h2 className="text-[#70685a] text-center text-2xl font-bold flex justify-center">日本の切手 ハガキ レターパシク  入出庫履歴</h2>
+                        <h2 className="text-[#70685a] text-center text-2xl font-bold flex justify-center">日本の切手 ハガキ レターパック  入出庫履歴</h2>
                         <div className='flex justify-around'>
                             <button type="button"
-                                className="py-1 min-w-[160px] text-[#70685a] rounded-full tracking-wider font-bold outline-none border border-[#70685a] ">入出金申請</button>
+                                className="py-1 min-w-[160px] text-[#70685a] rounded-full tracking-wider font-bold outline-none border border-[#70685a] ">入庫申請</button>
                             <button type="button"
                                 className="ml-10 py-1 min-w-[160px] text-[#70685a] rounded-full tracking-wider font-bold outline-none border border-[#70685a] ">出庫申請</button>
                         </div>
@@ -75,15 +75,15 @@ const StampRelatedReceiptAndIssueHistory = () => {
                     <div className='flex mt-3 justify-center'>
                         <div className='mr-5'>
                             <select id="gender" name="gender" className="w-40 text-[#70685a] font-bold border border-[#70685a] px-4 py-1 outline-[#70685a]">
-                                <option value="1">ステータス</option>
-                                <option value="2">Afghanistan</option>
+                                <option value="1">入庫</option>
+                                <option value="2">出庫</option>
                                 <option value="3">Åland Islands</option>
                                 <option value="4">Albania</option>
                             </select>
                         </div>
                         <div className='mr-5'>
                             <select id="gender" name="gender" className="w-60 text-[#70685a] font-bold border border-[#70685a] px-4 py-1 outline-[#70685a]">
-                                <option value="1">種別</option>
+                                <option value="1">レターパックプラス</option>
                                 <option value="2">Afghanistan</option>
                                 <option value="3">Åland Islands</option>
                                 <option value="4">Albania</option>
@@ -122,8 +122,8 @@ const StampRelatedReceiptAndIssueHistory = () => {
                             <label className="text-[#656565] text-[20px] mb-2 block text-center !mb-0">この条件で</label>
                         </div>
                         <div className=' text-[#656565] px-2 mr-2'>
-                            < button type="button" className="w-20 h-8 px-3 py-1 font-bold tracking-wide rounded-lg justify-center text-white text-[15px] bg-[#a3a1c8] hover:bg-blue-700 focus:outline-none">
-                                検索
+                            < button type="button" className="w-40 h-8 px-3 py-1 font-bold tracking-wide rounded-lg justify-center text-white text-[15px] bg-[#a3a1c8] hover:bg-blue-700 focus:outline-none">
+                                フィルタリング
                             </button>
                         </div>
                         <div className=' text-[#656565] px-2 mr-5'>
