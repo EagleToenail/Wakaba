@@ -51,14 +51,14 @@ const OwnersStaffList = () => {
                 <ButtonComponent children={'asdfasfd'} style={{ visibility: 'hidden' }} />
                 <h2 className="text-[#70685a] text-center text-2xl font-bold flex justify-center">ス夕シフ一賢</h2>
                 <div className='flex justify-around'>
-                    <ButtonComponent children={'新規顧客登銀'} className='py-2 text-2xl text-[#675b4c] bg-[#ebe6e0]'/>
+                    <ButtonComponent children={'新規顧客登銀'} className='py-2 text-2xl !text-[#665c4e] bg-[#ebe6e0]'/>
                 </div>
             </div>
             {/*  */}
             <div className='flex mt-3 justify-center text-left'>
                 <div className=' text-[#70685a] px-2 mr-2 text-left'>
                     <LabelComponent value={'所属店舗  '} className='text-left'/>
-                    <select id="classification" name="classification" className="w-full text-[#70685a] font-bold border border-[#70685a] px-4 py-2 outline-[#70685a]">
+                    <select id="classification" name="classification" className="w-full text-[#70685a] font-bold border border-[#70685a] px-4 py-1 outline-[#70685a]">
                                             <option value="執行役員">執行役員</option>
                                             <option value="社員">社員</option>
                                             <option value="契約社員">契約社員</option>
@@ -68,7 +68,7 @@ const OwnersStaffList = () => {
                 </div>
                 <div className=' text-[#70685a] px-2 mr-2'>
                     <LabelComponent value={' 役職'} />
-                    <select id="classification" name="classification" className="w-full text-[#70685a] font-bold border border-[#70685a] px-4 py-2 outline-[#70685a]">
+                    <select id="classification" name="classification" className="w-full text-[#70685a] font-bold border border-[#70685a] px-4 py-1 outline-[#70685a]">
                                             <option value="執行役員">執行役員</option>
                                             <option value="社員">社員</option>
                                             <option value="契約社員">契約社員</option>
@@ -78,21 +78,21 @@ const OwnersStaffList = () => {
                 </div>
                 <div className=' text-[#70685a] px-2 mr-2 text-left'>
                     <LabelComponent value={'氏名'} className='text-left'/>
-                    <InputComponent className='w-40 h-11'/>
+                    <InputComponent className='w-40 h-8'/>
                 </div>
                 <div className=' text-[#70685a] px-2 mr-2'>
                     <LabelComponent value={'TEL'} />
-                    <InputComponent className='w-40 h-11' />
+                    <InputComponent className='w-40 h-8' />
                 </div>
                 <div className='text-[#70685a] px-2 mr-2'>
                     <LabelComponent value={'住所'} />
-                    <InputComponent className='w-40 h-11'/>
+                    <InputComponent className='w-40 h-8'/>
                 </div>
                 <div className=' px-2 mr-2 !text-center'>
                     <LabelComponent value={'生年月日'} />
                     <div className='flex'>
                         <div style={{  flexDirection: 'column', }} className='flex align-center justify-around'>
-                            <input name="ads" type="text" value={date} required className="w-40 h-11 text-[#6e6e7c] border border-[#6e6e7c] text-[20px] px-4 py-1 outline-[#70685a]" readOnly/>
+                            <input name="ads" type="text" value={date} required className="w-40 h-8 text-[#6e6e7c] border border-[#6e6e7c] text-[20px] px-4 py-1 outline-[#70685a]" readOnly/>
                         </div>
                         <div style={{ flexDirection: 'column', }} className='flex flex-col justify-center pl-3'>
                             <div style={{width:'40px',height:'30px',cursor:'pointer'}}>
@@ -108,7 +108,7 @@ const OwnersStaffList = () => {
                     <label className="text-[#70685a] text-[20px] block text-center pb-2">この条件で</label>
                 </div>
                 <div className=' text-[#70685a] px-2 mr-2 flex flex-col justify-end'>
-                    < button type="button" style={{ display: 'flex', alignItem: 'end' }} className="flex align-end w-20 px-3 py-2 font-bold rounded-md tracking-wide text-[#665b4c] justify-center text-white bg-[#ebe6e0] hover:bg-blue-700 focus:outline-none">
+                    < button type="button" style={{ display: 'flex', alignItem: 'end' }} className="flex align-end w-20 px-3 py-1 font-bold rounded-md tracking-wide text-[#665b4c] justify-center text-white !bg-[#a3a1c8] hover:bg-blue-700 focus:outline-none">
                     検索
                     </button>
                 </div>
@@ -117,7 +117,7 @@ const OwnersStaffList = () => {
                 </div>
             </div>
             <div className='flex justify-center mt-5'>
-                <ButtonComponent children={'保存'} className='py-2 text-2xl text-[white]'/>
+                <ButtonComponent children={'保存'} className='py-1 text-2xl text-[white]'/>
             </div>
             {/*  Tabe*/}
             <div className='mt-10 pl-10 pr-10 pb-20 w-full flex'>

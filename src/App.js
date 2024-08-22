@@ -66,6 +66,8 @@ import OwnerAttendanceList from './Pages/Admin/OwnerAttendanceList/ownerAttendan
 import OwnersShiptSchedule from './Pages/Admin/OwnersShiftSchedule/ownersShiftSchedule';
 import OwnersPayrollCalculationSheet from './Pages/Admin/OwnersPayrollCalculationSheet/ownersPayrollCalculationSheet';
 import OwnersPersonalPaySlipPDF from './Pages/Admin/OwnersPersonalPaySlipPDF/ownersPersonalPaySlipPDF';
+import OwnerAnalysisComprehensiveAnalysis from './Pages/Admin/OwnerAnalysisComprehensiveAnalysis/ownerAnalysisComprehensiveAnalysis';
+import OwnerAnalysisStaffIndividualResults from './Pages/Admin/OwnerAnalysisStaffIndividualResults/ownerAnalysisStaffIndividualResults';
 
 function App() {
   return (
@@ -141,6 +143,8 @@ function App() {
             <Route path='/admin/ownersshiptschedule' element={<OwnersShiptSchedule/>}/>
             <Route path='/admin/ownerspayrollcalculationsheet' element={<OwnersPayrollCalculationSheet/>}/>
             <Route path='/admin/ownerspersonalpayslippdf' element={<OwnersPersonalPaySlipPDF/>}/>
+            <Route path='/admin/owneranalysiscomprehensiveanalysis' element={<OwnerAnalysisComprehensiveAnalysis/>}/>
+            <Route path='/admin/owneranalysisstaffindividualresults' element={<OwnerAnalysisStaffIndividualResults/>}/>
 
 
       </Routes>
