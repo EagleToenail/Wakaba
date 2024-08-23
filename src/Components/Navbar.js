@@ -39,27 +39,27 @@ export default function Navbar() {
                 </Link>
             </li>
             <li className='max-lg:border-b border-gray-300 max-lg:py-4 px-3'>
-                <Link className='text-[#655b4a] block font-semibold text-[15px]'>
+                <Link className='text-[#655b4a] block font-semibold text-[15px]' to='/saleslist'>
                         <button type="button" className="px-5 text-[15px] font-semibold  text-[#655b4a] text-sm tracking-wider  outline-none bg-white hover:bg-[#222] active:bg-[#333]">売上表</button>
                 </Link>
             </li>
             <li className='max-lg:border-b border-gray-300 max-lg:py-4 px-3'>
-                <Link className='text-[#655b4a] block font-semibold text-[15px]'>
+                <Link className='text-[#655b4a] block font-semibold text-[15px]' to='/contractorassessmentsheet'>
                         <button type="button" className="px-5 text-[15px] font-semibold  text-[#655b4a] text-sm tracking-wider  outline-none bg-white hover:bg-[#222] active:bg-[#333]">業者査定シート</button>
                 </Link>
             </li>
             <li className='max-lg:border-b border-gray-300 max-lg:py-4 px-3'>
-                <Link className='text-[#655b4a] block font-semibold text-[15px]'>
+                <Link className='text-[#655b4a] block font-semibold text-[15px]' to='/wholesalershippinglist'>
                         <button type="button" className="px-5 text-[15px] font-semibold  text-[#655b4a] text-sm tracking-wider  outline-none bg-white hover:bg-[#222] active:bg-[#333]">業者卸発送一覧</button>
                 </Link>
             </li>
             <li className='max-lg:border-b border-gray-300 max-lg:py-4 px-3'>
-                <Link className='text-[#655b4a] block font-semibold text-[15px]'>
+                <Link className='text-[#655b4a] block font-semibold text-[15px]' to='/monthlyincome'>
                         <button type="button" className="px-5 text-[15px] font-semibold  text-[#655b4a] text-sm tracking-wider  outline-none bg-white hover:bg-[#222] active:bg-[#333]">月次収支報告書</button>
                 </Link>
             </li>
             <li className='max-lg:border-b border-gray-300 max-lg:py-4 px-3'>
-                <Link className='text-[#655b4a] block font-semibold text-[15px]'>
+                <Link className='text-[#655b4a] block font-semibold text-[15px]' to='/safemoney'>
                         <button type="button" className="px-5 text-[15px] font-semibold  text-[#655b4a] text-sm tracking-wider  outline-none bg-white hover:bg-[#222] active:bg-[#333]">金入庫出金履歴</button>
                 </Link>
             </li>
@@ -69,7 +69,7 @@ export default function Navbar() {
                 </Link>
             </li>
             <li className='max-lg:border-b border-gray-300 max-lg:py-4 px-3'>
-                <Link className='text-[#655b4a] block font-semibold text-[15px]'>
+                <Link className='text-[#655b4a] block font-semibold text-[15px]' to='/logouttimecard'>
                         <button type="button" className="px-5 text-[15px] font-bold  text-[#655b4a] text-sm tracking-wider  outline-none bg-white hover:bg-[#222] active:bg-[#333]">終業</button>
                 </Link>
             </li>

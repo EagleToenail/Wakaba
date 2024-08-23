@@ -8,7 +8,7 @@ export default function TabContent1() {
                 <ul>
                     <li className='flex px-3 py-2'>
                         <button type="button"
-                            className=" rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none text-[15px]">qw</button>&nbsp;
+                            className="w-6 h-6 rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none text-[15px]"></button>&nbsp;
                         <button type="button"
                             className="w-6 h-6 inline-flex items-center justify-center text-[10px] text-bold rounded-full border-none outline-none bg-[yellow] hover:bg-purple-700 active:bg-purple-600">
                             99
@@ -25,7 +25,7 @@ export default function TabContent1() {
                     <ul className="mt-2 px-3">
                         <li className='flex py-1'>
                             <button type="button"
-                                className="rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none text-[15px]">qw</button>
+                                className="w-6 h-6 rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none text-[15px]"></button>
                             <Link
                                 className="text-black font-bold  text-[15px] block rounded px-7 transition-all">
                                 一般
@@ -33,7 +33,7 @@ export default function TabContent1() {
                         </li>
                         <li className='flex py-1'>
                             <button type="button"
-                                className="rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none text-[15px]">qw</button>
+                                className="w-6 h-6 rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none text-[15px]"></button>
                             <Link
                                 className="text-black font-bold  text-[15px] block rounded px-7 transition-all">
                                 全体周知
@@ -42,7 +42,7 @@ export default function TabContent1() {
                         <hr className="my-3  mr-1 border-gray-400" />
                         <li className='flex py-1'>
                             <button type="button"
-                                className="rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none text-[15px]">qw</button>
+                                className=" w-6 h-6 rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none text-[15px]"></button>
                             <Link
                                 className="text-black font-semibold  text-[15px] block rounded px-7 transition-all">
                                 WAKABA パスワード
@@ -50,19 +50,19 @@ export default function TabContent1() {
                         </li>
                         <li className='flex py-1'>
                             <button type="button"
-                                className="rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none text-[15px]">qw</button>
+                                className="w-6 h-6 rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none text-[15px]"></button>
                             <button type="button"
                                 className="w-6 h-6 inline-flex items-center justify-center text-[10px] text-bold rounded-full border-none outline-none bg-[yellow] hover:bg-purple-700 active:bg-purple-600">
                                 99
                             </button>
                             <Link
-                                className="text-black font-bold  text-[15px] block rounded px-1 transition-all">
+                                className="text-black font-bold  text-[15px] block rounded px-1 transition-all" to='/yahooauction'>
                                 ヤフオク
                             </Link>
                         </li>
                         <li className='flex py-1'>
                             <button type="button"
-                                className="rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none text-[15px]">qw</button>
+                                className="w-6 h-6 rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none text-[15px]"></button>
                             <Link
                                 className="text-black font-bold  text-[15px] block rounded px-7 transition-all">
                                 幹部会議連絡
@@ -70,7 +70,7 @@ export default function TabContent1() {
                         </li>
                         <li className='flex py-1'>
                             <button type="button"
-                                className="rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none text-[15px]">qw</button>
+                                className="w-6 h-6 rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none text-[15px]"></button>
                             <button type="button"
                                 className="w-6 h-6 inline-flex items-center justify-center text-[10px] text-bold rounded-full border-none outline-none bg-[yellow] hover:bg-purple-700 active:bg-purple-600">
                                 99
@@ -82,7 +82,7 @@ export default function TabContent1() {
                         </li>
                         <li className='flex py-1'>
                             <button type="button"
-                                className="rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none text-[15px]">qw</button>
+                                className="w-6 h-6 rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none text-[15px]"></button>
                             <button type="button"
                                 className="w-6 h-6 inline-flex items-center justify-center text-[10px] text-bold rounded-full border-none outline-none bg-[yellow] hover:bg-purple-700 active:bg-purple-600">
                                 99
@@ -94,7 +94,7 @@ export default function TabContent1() {
                         </li>
                         <li className='flex py-1'>
                             <button type="button"
-                                className="rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none text-[15px]">qw</button>
+                                className="w-6 h-6 rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none text-[15px]"></button>
                             <Link
                                 className="text-black font-bold  text-[15px] block rounded px-7 transition-all">
                                 研修
@@ -102,7 +102,7 @@ export default function TabContent1() {
                         </li>
                         <li className='flex py-1'>
                             <button type="button"
-                                className="rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none text-[15px]">qw</button>
+                                className="w-6 h-6 rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none text-[15px]"></button>
                             <button type="button"
                                 className="w-6 h-6 inline-flex items-center justify-center text-[10px] text-bold rounded-full border-none outline-none bg-[#fff] hover:bg-purple-700 active:bg-purple-600">
                                 99
@@ -114,7 +114,7 @@ export default function TabContent1() {
                         </li>
                         <li className='flex py-1'>
                             <button type="button"
-                                className="rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none text-[15px]">qw</button>
+                                className="w-6 h-6 rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none text-[15px]"></button>
                             <Link
                                 className="text-black font-bold  text-[15px] block rounded px-7 transition-all">
                                 月毎のキャンペーン
@@ -122,7 +122,7 @@ export default function TabContent1() {
                         </li>
                         <li className='flex py-1'>
                             <button type="button"
-                                className="rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none text-[15px]">qw</button>
+                                className="w-6 h-6 rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none text-[15px]"></button>
                             <Link
                                 className="text-black font-bold  text-[15px] block rounded px-7 transition-all">
                                 買取実績ブ口グ
@@ -136,7 +136,7 @@ export default function TabContent1() {
                     <ul className="mt-2 px-3">
                         <li className='flex py-1'>
                             <button type="button"
-                                className="rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none text-[15px]">qw</button>
+                                className="w-6 h-6 rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none text-[15px]"></button>
                             <Link
                                 className="text-black font-bold  text-[15px] block rounded px-7 transition-all">
                                 一般
@@ -144,7 +144,7 @@ export default function TabContent1() {
                         </li>
                         <li className='flex py-1'>
                             <button type="button"
-                                className="rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none text-[15px]">qw</button>
+                                className="w-6 h-6 rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none text-[15px]"></button>
                             <Link
                                 className="text-black font-bold  text-[15px] block rounded px-7 transition-all">
                                 業務連絡
@@ -152,7 +152,7 @@ export default function TabContent1() {
                         </li>
                         <li className='flex py-1'>
                             <button type="button"
-                                className="rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none text-[15px]">qw</button>
+                                className="w-6 h-6 rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none text-[15px]"></button>
                             <Link
                                 className="text-black font-bold  text-[15px] block rounded px-7 transition-all">
                                 一日の報告
@@ -161,7 +161,7 @@ export default function TabContent1() {
                         <hr className="my-3  mr-1 border-gray-400" />
                         <li className='flex py-1'>
                             <button type="button"
-                                className="rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none text-[15px]">qw</button>
+                                className="w-6 h-6 rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none text-[15px]"></button>
                             <button type="button"
                                 className="w-6 h-6 inline-flex items-center justify-center text-[10px] text-bold rounded-full border-none outline-none bg-[yellow] hover:bg-purple-700 active:bg-purple-600">
                                 99
@@ -172,7 +172,7 @@ export default function TabContent1() {
                             </Link>
                         </li>                        <li className='flex py-1'>
                             <button type="button"
-                                className="rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none text-[15px]">qw</button>
+                                className="w-6 h-6 rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none text-[15px]"></button>
                             <button type="button"
                                 className="w-6 h-6 inline-flex items-center justify-center text-[10px] text-bold rounded-full border-none outline-none bg-[yellow] hover:bg-purple-700 active:bg-purple-600">
                                 99
@@ -183,14 +183,14 @@ export default function TabContent1() {
                             </Link>
                         </li>                        <li className='flex py-1'>
                             <button type="button"
-                                className="rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none text-[15px]">qw</button>
+                                className="w-6 h-6 rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none text-[15px]"></button>
                             <Link
                                 className="text-black font-bold  text-[15px] block rounded px-7 transition-all">
                                 入出金
                             </Link>
                         </li>                        <li className='flex py-1'>
                             <button type="button"
-                                className="rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none text-[15px]">qw</button>
+                                className="w-6 h-6 rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none text-[15px]"></button>
                             <button type="button"
                                 className="w-6 h-6 inline-flex items-center justify-center text-[10px] text-bold rounded-full border-none outline-none bg-[yellow] hover:bg-purple-700 active:bg-purple-600">
                                 99
@@ -202,7 +202,7 @@ export default function TabContent1() {
                         </li>
                         <li className='flex py-1'>
                             <button type="button"
-                                className="rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none text-[15px]">qw</button>
+                                className="w-6 h-6 rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none text-[15px]"></button>
                             <Link
                                 className="text-black font-bold  text-[15px] block rounded px-7 transition-all">
                                購入依頼と送料支払報告
@@ -210,7 +210,7 @@ export default function TabContent1() {
                         </li>     
                         <li className='flex py-1'>
                             <button type="button"
-                                className="rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none text-[15px]">qw</button>
+                                className="w-6 h-6 rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none text-[15px]"></button>
                             <Link
                                 className="text-black font-bold  text-[15px] block rounded px-7 transition-all" to="/onsitepurchase">
                                 出張買取
@@ -218,7 +218,7 @@ export default function TabContent1() {
                         </li>     
                         <li className='flex py-1'>
                             <button type="button"
-                                className="rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none text-[15px]">qw</button>
+                                className=" w-6 h-6 rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none text-[15px]"></button>
                             <Link
                                 className="text-black font-bold  text-[15px] block rounded px-7 transition-all">
                                 業者来訪

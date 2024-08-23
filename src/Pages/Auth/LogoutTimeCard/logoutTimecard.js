@@ -25,11 +25,11 @@ const LoginTimeCard = () => {
                                             <Link to='/login' className='p-3  '>打刻してログイン</Link>
                                         </button>
                                         <button type="button" className="w-[280px] px-5 py-2 font-bold tracking-wide rounded-lg justify-center border border-[#70685a] text-[#70685a] bg-[white] hover:bg-blue-700 focus:outline-none">
-                                            <Link to='/login' className='p-3  '>打刻せずにしてログイン</Link>
+                                            <Link to='/' className='p-3  '>打刻せずにしてログイン</Link>
                                         </button>
                                         </div>
                                     </div>
-                                    <label className="text-[#70685a] font-bold mb-2 block text-left flex justify-end align-end" style={{ flexDirection: 'column',width:'20%' }}><u className='flex justify-center'> <Link to='/login'>キャンセル</Link></u></label>
+                                    <label className="text-[#70685a] font-bold mb-2 block text-left flex justify-end align-end" style={{ flexDirection: 'column',width:'20%' }}><u className='flex justify-center'> <Link to='/todolist'>キャンセル</Link></u></label>
                                 </div>
                             </form>
                         </div>

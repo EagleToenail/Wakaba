@@ -372,11 +372,11 @@ return (
                                 <div className="!mt-5 flex" style={{ marginBottom: '10px', width: '80%', paddingLeft: '20%' }}>
                                     <div className='w-full flex justify-center'>
                                         <button name='register' type="submit" className="w-30 px-20 py-1 font-bold text-[white] tracking-wide rounded-lg justify-center t bg-[#e87a00] hover:bg-blue-700 focus:outline-none">
-                                            <Link to='/login'>登録する</Link>
+                                            <Link to='/logintimecard'>登録する</Link>
                                         </button>
                                     </div>
                                 </div>
-                                <label className="text-[#70685a] font-bold mb-2 block text-left flex justify-end" style={{ flexDirection: 'column', width: '20%' }}><u> <Link to='/forgetpassword'>キャンセル</Link></u></label>
+                                <label className="text-[#70685a] font-bold mb-2 block text-left flex justify-end" style={{ flexDirection: 'column', width: '20%' }}><u> <Link to='/tomoveinputform'>キャンセル</Link></u></label>
                             </div>
                         </form>
                     </div>
