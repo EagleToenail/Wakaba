@@ -1,12 +1,16 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 import Titlebar from '../../Components/Common/Titlebar';
 import DateAndTime from '../../Components/Common/PickData';
 
 
 const  StartingWork = () => {
     const title = 'タイトルタイトル';
-    
+
+    const handleNavigate = () => {
+        window.location.href = '/todolist'; // Navigate and reload the page
+      };
+
     return (
         <>
             <Titlebar title={title} />
@@ -181,8 +185,8 @@ const  StartingWork = () => {
 
                                     <div className="!mt-5 flex" style={{ marginBottom: '10px', width: '70%', paddingLeft: '30%' }}>
                                         <div className='w-full flex justify-center'>
-                                            <button type="button" className="w-30 px-10 py-1 font-bold tracking-wide rounded-sm justify-center text-[#d1cdca] border border-[#d1cdca] bg-[#e87a00] hover:bg-blue-700 focus:outline-none">
-                                                <Link to='/login' className='p-3  '>報告</Link>
+                                            <button type="button" onClick={handleNavigate} className="w-30 px-10 py-1 font-bold tracking-wide rounded-sm justify-center text-[#d1cdca] border border-[#d1cdca] bg-[#e87a00] hover:bg-blue-700 focus:outline-none">
+                                                報告
                                             </button>
                                         </div>
                                     </div>

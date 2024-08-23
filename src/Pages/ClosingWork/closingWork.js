@@ -407,7 +407,7 @@ const  ClosingWork = () => {
                                     <div className="!mt-5" style={{ marginBottom: '10px', width: '70%', paddingLeft: '30%' }}>
                                         <div className='w-full flex justify-center'>
                                             <button type="button" className="w-30 px-10 py-1 font-bold tracking-wide rounded-lg justify-center text-[#d1cdc9] border border-[#d1cdca] bg-[#e87a00] hover:bg-blue-700 focus:outline-none">
-                                                <Link to='/login' className='p-3  '>一括締めボタン</Link>
+                                                <Link to='/logouttimecard' className='p-3  '>一括締めボタン</Link>
                                             </button>
                                         </div>
                                         

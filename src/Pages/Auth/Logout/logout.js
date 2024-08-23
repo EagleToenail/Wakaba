@@ -35,7 +35,7 @@ const Logout = () => {
                                         </button>
                                         </div>
                                     </div>
-                                    <label className="text-[#70685a] font-bold mb-2 block text-left flex justify-end" style={{ flexDirection: 'column',width:'20%' }}><u> <Link to='/forgetpassword'>キャンセル</Link></u></label>
+                                    <label className="text-[#70685a] font-bold mb-2 block text-left flex justify-end" style={{ flexDirection: 'column',width:'20%' }}><u> <Link to='/todolist'>キャンセル</Link></u></label>
                                 </div>
                             </form>
                         </div>
