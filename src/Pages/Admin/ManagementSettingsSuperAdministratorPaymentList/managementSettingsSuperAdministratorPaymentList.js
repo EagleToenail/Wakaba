@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useState} from 'react';
 // import { Link } from 'react-router-dom';
 import Titlebar from '../../../Components/Common/Titlebar';
 import ButtonComponent from '../../../Components/Common/ButtonComponent';
@@ -29,6 +29,13 @@ const ManagementSettingsSuperAdministratorPaymentList = () => {
         fontSize: '15px',
     };
 
+    //Owner name selected
+    const [ownernameselValue, setSelectedOwnernameValue] = useState('');
+
+    const handleOwnerNameSelChange =(event) => {
+        setSelectedOwnernameValue(event.target.value);
+    }
+
     return (
         <>
             <Titlebar title={title} />
@@ -39,14 +46,14 @@ const ManagementSettingsSuperAdministratorPaymentList = () => {
             </div>
             <div className='flex justify-around mt-5' >
                 <div className='flex justify-center'>
-                    <select id="classification" name="classification" className="w-full h-11 text-[#70685a] font-bold border border-[#70685a] px-4 py-1 outline-[#70685a]">
+                    <select id="ownernamesel" name="ownernamesel"  value={ownernameselValue} onChange={handleOwnerNameSelChange} className="w-full h-8 text-[#70685a] font-bold border border-[#70685a] px-4 py-1 outline-[#70685a]">
                         {/* this select element is for selecting owner name */}
-                        <option value="オーナー名" selected disabled>オーナー名</option>
+                        <option value="オーナー名" disabled>オーナー名</option>
                         <option value="オーナー1">オーナー1</option>
                         <option value="オーナー2">オーナー2</option>
                         <option value="オーナー3">オーナー3</option>
                     </select>
-                    < button type="button" className=" w-40 h-11 px-10 ml-20 rounded-md py-1 font-bold tracking-wide text-[#665b4c] justify-center text-white bg-[#a3a1c9] hover:bg-blue-700 focus:outline-none">
+                    < button type="button" className=" w-40 h-8 px-10 ml-20 rounded-md py-1 font-bold tracking-wide text-[#665b4c] justify-center text-white bg-[#a3a1c9] hover:bg-blue-700 focus:outline-none">
                     表示 
                     </button>
                 </div>
@@ -72,30 +79,30 @@ const ManagementSettingsSuperAdministratorPaymentList = () => {
                     <table className='text-center w-full' style={Table}>
                     <thead>
                         <tr>
-                            <th>ID</th>
+                            <th className='!text-[#333333]'>ID</th>
                             <th>
-                                <ButtonComponent children={'ステータス'} className="!px-3 text-[#333333] bg-[transparent] border border-[#333333] mb-1"/>
+                                <ButtonComponent children={'ステータス'} className="!px-3 !py-0 !text-[#333333] bg-[transparent] border border-[#333333] mb-1"/>
                             </th>
                             <th>
-                                <ButtonComponent children={'店舗名'} className="!px-3 text-[#333333] bg-[transparent] border border-[#333333] mb-1"/>
+                                <ButtonComponent children={'店舗名'} className="!px-3 !py-0 !text-[#333333] bg-[transparent] border border-[#333333] mb-1"/>
                             </th>
                             <th>
-                                <ButtonComponent children={'名目'} className="!px-3 text-[#333333] bg-[transparent] border border-[#333333] mb-1"/>
+                                <ButtonComponent children={'名目'} className="!px-3 !py-0 !text-[#333333] bg-[transparent] border border-[#333333] mb-1"/>
                             </th>
                             <th>
-                                <ButtonComponent children={'請求日'} className="!px-3 text-[#333333] bg-[transparent] border border-[#333333] mb-1"/>
+                                <ButtonComponent children={'請求日'} className="!px-3 !py-0 !text-[#333333] bg-[transparent] border border-[#333333] mb-1"/>
                             </th>
                             <th>
-                                <ButtonComponent children={'支払予定日'} className="!px-3 text-[#333333] bg-[transparent] border border-[#333333] mb-1"/>
+                                <ButtonComponent children={'支払予定日'} className="!px-3 !py-0 !text-[#333333] bg-[transparent] border border-[#333333] mb-1"/>
                             </th>
-                            <th>支払日</th>
-                            <th> 延滞日数</th>
-                            <th>
-                                <ButtonComponent children={'プラン'} className="!px-3 text-[#333333] bg-[transparent] border border-[#333333] mb-1"/>
+                            <th className='!text-[#333333]'>支払日</th>
+                            <th className='!text-[#333333]'> 延滞日数</th>
+                            <th className='!text-[#333333]'>
+                                <ButtonComponent children={'プラン'} className="!px-3 !py-0 !text-[#333333] bg-[transparent] border border-[#333333] mb-1"/>
                             </th>
-                            <th>請求額 </th>
-                            <th>支払額</th>
-                            <th>差額</th>
+                            <th className='!text-[#333333]'>請求額 </th>
+                            <th className='!text-[#333333]'>支払額</th>
+                            <th className='!text-[#333333]'>差額</th>
                         </tr>
                     </thead>
                     <tbody>

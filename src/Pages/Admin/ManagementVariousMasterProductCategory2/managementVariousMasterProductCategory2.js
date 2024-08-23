@@ -46,17 +46,17 @@ const ManagementVariousMasterProductCategory2 = () => {
                         </div>
                     </div>
                     <div className='flex justify-around pl-20 pr-20'>
-                        <ButtonComponent children={'貴金属'} className='py-1 text-[15px] text-[#a0a0a0] border  border-[#a0a0a0] h-8 !px-3 w-max bg-[transparent]' />
-                        <ButtonComponent children={'ブランド'} className='py-1 text-[15px] text-[#a0a0a0] border  border-[#a0a0a0] h-8 !px-3 w-max bg-[transparent]' />
-                        <ButtonComponent children={'バッグ'} className='py-1 text-[15px] text-[#a0a0a0] border  border-[#a0a0a0] h-8 !px-3 w-max !bg-[#424242]' />
-                        <ButtonComponent children={'時計'} className='py-1 text-[15px] text-[#a0a0a0] border  border-[#a0a0a0] h-8 !px-3 w-max bg-[transparent]' />
-                        <ButtonComponent children={'財布'} className='py-1 text-[15px] text-[#a0a0a0] border  border-[#a0a0a0] h-8 !px-3 w-max bg-[transparent]' />
-                        <ButtonComponent children={'その他アクセサリ'} className='py-1 text-[15px] text-[#a0a0a0] border  border-[#a0a0a0] h-8 !px-3 w-max bg-[transparent]' />
-                        <ButtonComponent children={'骨董品'} className='py-1 text-[15px] text-[#a0a0a0] border  border-[#a0a0a0] h-8 !px-3 w-max bg-[transparent]' />
-                        <ButtonComponent children={'洋酒'} className='py-1 text-[15px] text-[#a0a0a0] border  border-[#a0a0a0] h-8 !px-3 w-max bg-[transparent]' />
-                        <ButtonComponent children={'カメラ'} className='py-1 text-[15px] text-[#a0a0a0] border  border-[#a0a0a0] h-8 !px-3 w-max bg-[transparent]' />
-                        <ButtonComponent children={'楽器'} className='py-1 text-[15px] text-[#a0a0a0] border  border-[#a0a0a0] h-8 !px-3 w-max bg-[transparent]' />
-                        <ButtonComponent children={'スマホ/タブレット'} className='py-1 text-[15px] text-[#a0a0a0] border  border-[#a0a0a0] h-8 !px-3 w-max bg-[transparent]' />
+                        <ButtonComponent children={'貴金属'} className='py-1 text-[15px] !text-[#a0a0a0] border  border-[#a0a0a0] h-8 !px-3 w-max bg-[transparent]' />
+                        <ButtonComponent children={'ブランド'} className='py-1 text-[15px] !text-[#a0a0a0] border  border-[#a0a0a0] h-8 !px-3 w-max bg-[transparent]' />
+                        <ButtonComponent children={'バッグ'} className='py-1 text-[15px] !text-[#a0a0a0] border  border-[#a0a0a0] h-8 !px-3 w-max !bg-[#424242]' />
+                        <ButtonComponent children={'時計'} className='py-1 text-[15px] !text-[#a0a0a0] border  border-[#a0a0a0] h-8 !px-3 w-max bg-[transparent]' />
+                        <ButtonComponent children={'財布'} className='py-1 text-[15px] !text-[#a0a0a0] border  border-[#a0a0a0] h-8 !px-3 w-max bg-[transparent]' />
+                        <ButtonComponent children={'その他アクセサリ'} className='py-1 !text-[15px] !text-[#a0a0a0] border  border-[#a0a0a0] h-8 !px-3 w-max bg-[transparent]' />
+                        <ButtonComponent children={'骨董品'} className='py-1 text-[15px] !text-[#a0a0a0] border  border-[#a0a0a0] h-8 !px-3 w-max bg-[transparent]' />
+                        <ButtonComponent children={'洋酒'} className='py-1 text-[15px] !text-[#a0a0a0] border  border-[#a0a0a0] h-8 !px-3 w-max bg-[transparent]' />
+                        <ButtonComponent children={'カメラ'} className='py-1 text-[15px] !text-[#a0a0a0] border  border-[#a0a0a0] h-8 !px-3 w-max bg-[transparent]' />
+                        <ButtonComponent children={'楽器'} className='py-1 text-[15px] !text-[#a0a0a0] border  border-[#a0a0a0] h-8 !px-3 w-max bg-[transparent]' />
+                        <ButtonComponent children={'スマホ/タブレット'} className='py-1 !text-[15px] !text-[#a0a0a0] border  border-[#a0a0a0] h-8 !px-3 w-max bg-[transparent]' />
                     </div>
 
                     {/*  Tabe*/}
