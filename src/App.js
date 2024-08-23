@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 import LayoutWithMainContainer from './Layout/LayoutWithMainContainer';
 
-import MainHome from './Pages/Dashboard/MainHome';
 import Login from './Pages/Auth/Login/login';
 import Logout from './Pages/Auth/Logout/logout';
 import ForgetPassword from './Pages/Auth/ForgerPassword/forgetPassword';
@@ -52,6 +51,31 @@ import PreciousMetalsPrices from './Pages/PreciousMetalsPrices/preciousMetalsPri
 import CustomerReceipt from './Pages/CustomerReceipt/customerReceipt';//Customer receipt
 
 import OwnersTop from './Pages/Admin/OwnersTop/ownersTop';
+import OwnersStaffList from './Pages/Admin/OwnersStaffList/ownersStaffList';
+import OwnerStaffIndividual from './Pages/Admin/OwnerStaffIndividual/ownerStaffIndividual';
+import StoreListForOwners from './Pages/Admin/StoreListForOwners/storeListForOwners';
+import ManagementMasterTOP from './Pages/Admin/ManagementMasterTOP/managementMasterTOP';
+import ManagementVariousMasterproductCategory1 from './Pages/Admin/ManagementVariousMasterProductCategory1/managementVariousMasterProductCategory1';
+import ManagementVariousMasterproductCategory2 from './Pages/Admin/ManagementVariousMasterProductCategory2/managementVariousMasterProductCategory2';
+import ManagementSettingsSuperAdministratorTOP from './Pages/Admin/ManagementSettingsSuperAdministratorTOP/managementSettingsSuperAdministratorTOP';
+import ManagementSettingsSuperAdministratorPaymentList from './Pages/Admin/ManagementSettingsSuperAdministratorPaymentList/managementSettingsSuperAdministratorPaymentList';
+import ADminSettingsSuperAdministratorSystemBasicSettings from './Pages/Admin/AdminSettingsSuperAdministratorSystemBasicSettings/adminSettingsSuperAdministratorSystemBasicSettigs';
+import ManagementSettingsForOwners from './Pages/Admin/ManagementSettingsForOwners/managementSettingsForOwners';
+
+import OwnerAttendanceList from './Pages/Admin/OwnerAttendanceList/ownerAttendanceList';
+import OwnersShiptSchedule from './Pages/Admin/OwnersShiftSchedule/ownersShiftSchedule';
+import OwnersPayrollCalculationSheet from './Pages/Admin/OwnersPayrollCalculationSheet/ownersPayrollCalculationSheet';
+import OwnersPersonalPaySlipPDF from './Pages/Admin/OwnersPersonalPaySlipPDF/ownersPersonalPaySlipPDF';
+import OwnerAnalysisComprehensiveAnalysis from './Pages/Admin/OwnerAnalysisComprehensiveAnalysis/ownerAnalysisComprehensiveAnalysis';
+import OwnerAnalysisStaffIndividualResults from './Pages/Admin/OwnerAnalysisStaffIndividualResults/ownerAnalysisStaffIndividualResults';
+import OwnerAnalysisAreaAnalysis from './Pages/Admin/OwnerAnalysisAreaAnalysis/ownerAnalysisAreaAnalysis';
+import ManagementHeadquatersTOP from './Pages/Admin/ManagementHeadquatersTOP/managementHeadquatersTOP';
+import ManagementHeadquartersOwnerList from './Pages/Admin/ManagementHeadquartersOwnerList/managementHeadquartersOwnerList';
+import ManagementHeadquartersContractPlanSetting from './Pages/Admin/ManagementHeadquartersContractPlanSetting/managementHeadquartersContractPlanSetting';
+import ManagementHQRankingFunction from './Pages/Admin/ManagementHQRankingFunction/managementHQRankingFunction';
+import ManagementHQScoreCount from './Pages/Admin/ManagementHQScoreCount/managementHQScoreCount';
+import ManagementHeadquartersPurchaseItemCount from './Pages/Admin/ManagementHeadquartersPurchaseItemCount/managementHeadquartersPurchaseItemCount';
+import ManagementHeadquartersRepeaterAnalysis from './Pages/Admin/ManagementHeadquartersRepeaterAnalysis/managementHeadquartersRepeaterAnalysis';
 
 function App() {
   return (
@@ -69,7 +93,6 @@ function App() {
           </Route>
 
 
-            {/* <Route path='/home' element={<MainHome/>}/> */}
             <Route exact path='/' element={<Login/>}/>
             <Route path='/logout' element={<Logout/>}/>
             <Route path='/forgetpassword' element={<ForgetPassword/>}/>
@@ -112,6 +135,33 @@ function App() {
             
             
             <Route path='/admin/ownerstop' element={<OwnersTop/>}/>
+            <Route path='/admin/ownersstafflist' element={<OwnersStaffList/>}/>
+            <Route path='/admin/ownerstaffindividual' element={<OwnerStaffIndividual/>}/>
+            <Route path='/admin/storelistforowners' element={<StoreListForOwners/>}/>
+            <Route path='/admin/managementmastertop' element={<ManagementMasterTOP/>}/>
+            <Route path='/admin/managementvariousmasterproductcategory1' element={<ManagementVariousMasterproductCategory1/>}/>
+            <Route path='/admin/managementvariousmasterproductcategory2' element={<ManagementVariousMasterproductCategory2/>}/>
+            <Route path='/admin/managementSettingSuperAdministratorTOP' element={<ManagementSettingsSuperAdministratorTOP/>}/>
+            <Route path='/admin/managementSettingSuperAdministratorpaymentlist' element={<ManagementSettingsSuperAdministratorPaymentList/>}/>
+            <Route path='/admin/adminsettingssuperadministratorsystembasicsettings' element={<ADminSettingsSuperAdministratorSystemBasicSettings/>}/>
+            <Route path='/admin/managementsettingsforowners' element={<ManagementSettingsForOwners/>}/>
+
+
+            <Route path='/admin/ownerattendancelist' element={<OwnerAttendanceList/>}/>
+            <Route path='/admin/ownersshiptschedule' element={<OwnersShiptSchedule/>}/>
+            <Route path='/admin/ownerspayrollcalculationsheet' element={<OwnersPayrollCalculationSheet/>}/>
+            <Route path='/admin/ownerspersonalpayslippdf' element={<OwnersPersonalPaySlipPDF/>}/>
+            <Route path='/admin/owneranalysiscomprehensiveanalysis' element={<OwnerAnalysisComprehensiveAnalysis/>}/>
+            <Route path='/admin/owneranalysisstaffindividualresults' element={<OwnerAnalysisStaffIndividualResults/>}/>
+            <Route path='/admin/owneranalysis' element={<OwnerAnalysisAreaAnalysis/>}/>
+            <Route path='/admin/managementheadquaterstop' element={<ManagementHeadquatersTOP/>}/>
+            <Route path='/admin/managementheadquartersownerlist' element={<ManagementHeadquartersOwnerList/>}/>
+            <Route path='/admin/managementheadquarterscontractplansetting' element={<ManagementHeadquartersContractPlanSetting/>}/>
+            <Route path='/admin/managementhqrankingfunction' element={<ManagementHQRankingFunction/>}/>
+            <Route path='/admin/managementhqscorecount' element={<ManagementHQScoreCount/>}/>
+            <Route path='/admin/managementheadquarterspurchaseitemcount' element={<ManagementHeadquartersPurchaseItemCount/>}/>
+            <Route path='/admin/managementheadquartersrepeateranalysis' element={<ManagementHeadquartersRepeaterAnalysis/>}/>
+
 
       </Routes>
     </Router>

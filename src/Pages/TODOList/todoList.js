@@ -1,8 +1,16 @@
-import React from 'react'
+import React,{useEffect} from 'react'
 import InputComponent from '../../Components/Common/InputComponent';
 import LabelComponent from '../../Components/Common/LabelComponent';
 
 export default function TODOList() {
+    
+    useEffect(() => {
+        document.body.style.overflow = 'hidden';
+        return () => {
+          document.body.style.overflow = 'auto';
+        };
+      }, []);
+
     return (
         <>
             <div className=" flex flex-col items-center justify-center py-3 px-4">

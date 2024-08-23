@@ -40,7 +40,7 @@ const ToMoveInputForm = () => {
                                         </button>
                                         </div>
                                     </div>
-                                    <label className="text-[#70685a] font-bold mb-2 block text-left flex justify-end" style={{ flexDirection: 'column',width:'20%' }}><u> <Link to='/login'>キャンセル</Link></u></label>
+                                    <label className="text-[#70685a] font-bold mb-2 block text-left flex justify-end" style={{ flexDirection: 'column',width:'20%' }}><u> <Link to='/register'>キャンセル</Link></u></label>
                                 </div>
                             </form>
                         </div>

@@ -1,6 +1,17 @@
-import React from 'react'
+import React,{useEffect} from 'react'
 
 export default function OnSitePurchase() {
+
+    useEffect(() => {
+        // Set overflow to hidden when the component mounts
+        document.body.style.overflow = 'hidden';
+    
+        // Cleanup function to reset overflow when component unmounts
+        return () => {
+          document.body.style.overflow = 'auto';
+        };
+      }, []);
+
     return (
         <>
             <div className=" flex flex-col items-center justify-center py-3 px-4">

@@ -97,7 +97,7 @@ const WholeSalerShippingList = () => {
                                 <label className="text-[#70685a] text-[20px] block text-center pb-2">この条件で</label>
                             </div>
                             <div className=' text-[#70685a] px-2 mr-2 flex flex-col justify-end'>
-                                < button type="button" style={{ display: 'flex', alignItem: 'end' }} className="flex align-end w-20 px-3 py-2 font-bold rounded-md tracking-wide text-[#665b4c] justify-center text-white bg-[#ebe6e0] hover:bg-blue-700 focus:outline-none">
+                                < button type="button" style={{ display: 'flex', alignItem: 'end' }} className="flex align-end w-20 px-3 py-2 font-bold rounded-md tracking-wide text-[#665b4c] justify-center text-white bg-[#a3a1c8] hover:bg-blue-700 focus:outline-none">
                                     検索
                                 </button>
                             </div>
@@ -127,7 +127,7 @@ const WholeSalerShippingList = () => {
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td>1</td>
+                                        <td >1.</td>
                                         <td style={Td}>OOOO</td>
                                         <td style={Td} >
                                             <select id="classificatin" name="classificatin" className="w-full h-full text-[#70685a] text-[15px] font-bold px-4 py-2 outline-[#70685a]">
@@ -145,15 +145,18 @@ const WholeSalerShippingList = () => {
                                         <td style={Td} >50</td>
                                         <td style={Td} >50</td>
                                         <td style={Td} >
-                                            <div className='bg-[#a6a6a6] w-10 h-5 flex justify-center ml-3'>
-                                                <svg focusable="false" aria-hidden="true" data-testid="ArrowRightAltIcon" fill="#fefefe" className='ml-2' title="ArrowRightAlt"><path d="M16.01 11H4v2h12.01v3L20 12l-3.99-4z"></path></svg>
-                                            </div>
+                                        <div className='flex justify-center'>
+                                    <div className='bg-[#a6a6a6] w-10 h-5 flex justify-center ml-3 rounded-md'>
+                                        <svg focusable="false" aria-hidden="true" data-testid="ArrowRightAltIcon" fill="#fefefe" className='ml-2' title="ArrowRightAlt"><path d="M16.01 11H4v2h12.01v3L20 12l-3.99-4z"></path></svg>
+                                    </div>
+                                </div>
                                         </td>
                                         <td>
+                                        <div className='flex justify-center'>
                                             <div className='w-5 h-3 ml-3 mb-1'>
                                                 <svg className=" " fill='#70685a' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="ContentCopyIcon" title="ContentCopy"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2m0 16H8V7h11z"></path></svg>
                                             </div>
-
+                                            </div>
                                         </td>
                                     </tr>
 

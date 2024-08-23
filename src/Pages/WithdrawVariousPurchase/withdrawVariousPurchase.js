@@ -1,9 +1,18 @@
-import React from 'react';
+import React,{useEffect}from 'react';
 import InputComponent from '../../Components/Common/InputComponent';
 import LabelComponent from '../../Components/Common/LabelComponent';
 
 export default function WithdrawVariousPurchase() {
 
+    useEffect(() => {
+        // Set overflow to hidden when the component mounts
+        document.body.style.overflow = 'hidden';
+    
+        // Cleanup function to reset overflow when component unmounts
+        return () => {
+          document.body.style.overflow = 'auto';
+        };
+      }, []);
 
     return (
         <>
