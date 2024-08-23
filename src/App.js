@@ -70,6 +70,8 @@ import OwnerAnalysisComprehensiveAnalysis from './Pages/Admin/OwnerAnalysisCompr
 import OwnerAnalysisStaffIndividualResults from './Pages/Admin/OwnerAnalysisStaffIndividualResults/ownerAnalysisStaffIndividualResults';
 import OwnerAnalysisAreaAnalysis from './Pages/Admin/OwnerAnalysisAreaAnalysis/ownerAnalysisAreaAnalysis';
 import ManagementHeadquatersTOP from './Pages/Admin/ManagementHeadquatersTOP/managementHeadquatersTOP';
+import ManagementHeadquartersOwnerList from './Pages/Admin/ManagementHeadquartersOwnerList/managementHeadquartersOwnerList';
+import ManagementHeadquartersContractPlanSetting from './Pages/Admin/ManagementHeadquartersContractPlanSetting/managementHeadquartersContractPlanSetting';
 
 function App() {
   return (
@@ -149,6 +151,8 @@ function App() {
             <Route path='/admin/owneranalysisstaffindividualresults' element={<OwnerAnalysisStaffIndividualResults/>}/>
             <Route path='/admin/owneranalysis' element={<OwnerAnalysisAreaAnalysis/>}/>
             <Route path='/admin/managementheadquaterstop' element={<ManagementHeadquatersTOP/>}/>
+            <Route path='/admin/managementheadquartersownerlist' element={<ManagementHeadquartersOwnerList/>}/>
+            <Route path='/admin/managementheadquarterscontractplansetting' element={<ManagementHeadquartersContractPlanSetting/>}/>
 
 
       </Routes>
