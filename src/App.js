@@ -74,6 +74,7 @@ import ManagementHeadquartersOwnerList from './Pages/Admin/ManagementHeadquarter
 import ManagementHeadquartersContractPlanSetting from './Pages/Admin/ManagementHeadquartersContractPlanSetting/managementHeadquartersContractPlanSetting';
 import ManagementHQRankingFunction from './Pages/Admin/ManagementHQRankingFunction/managementHQRankingFunction';
 import ManagementHQScoreCount from './Pages/Admin/ManagementHQScoreCount/managementHQScoreCount';
+import ManagementHeadquartersPurchaseItemCount from './Pages/Admin/ManagementHeadquartersPurchaseItemCount/managementHeadquartersPurchaseItemCount';
 
 function App() {
   return (
@@ -157,6 +158,7 @@ function App() {
             <Route path='/admin/managementheadquarterscontractplansetting' element={<ManagementHeadquartersContractPlanSetting/>}/>
             <Route path='/admin/managementhqrankingfunction' element={<ManagementHQRankingFunction/>}/>
             <Route path='/admin/managementhqscorecount' element={<ManagementHQScoreCount/>}/>
+            <Route path='/admin/managementheadquarterspurchaseitemcount' element={<ManagementHeadquartersPurchaseItemCount/>}/>
 
 
       </Routes>
