@@ -48,7 +48,7 @@ const ManagementVariousMasterProductCategory2 = () => {
                     <div className='flex justify-around pl-20 pr-20'>
                         <ButtonComponent children={'貴金属'} className='py-1 text-[15px] text-[#a0a0a0] border  border-[#a0a0a0] h-8 !px-3 w-max bg-[transparent]' />
                         <ButtonComponent children={'ブランド'} className='py-1 text-[15px] text-[#a0a0a0] border  border-[#a0a0a0] h-8 !px-3 w-max bg-[transparent]' />
-                        <ButtonComponent children={'バツグ'} className='py-1 text-[15px] text-[#a0a0a0] border  border-[#a0a0a0] h-8 !px-3 w-max !bg-[#424242]' />
+                        <ButtonComponent children={'バッグ'} className='py-1 text-[15px] text-[#a0a0a0] border  border-[#a0a0a0] h-8 !px-3 w-max !bg-[#424242]' />
                         <ButtonComponent children={'時計'} className='py-1 text-[15px] text-[#a0a0a0] border  border-[#a0a0a0] h-8 !px-3 w-max bg-[transparent]' />
                         <ButtonComponent children={'財布'} className='py-1 text-[15px] text-[#a0a0a0] border  border-[#a0a0a0] h-8 !px-3 w-max bg-[transparent]' />
                         <ButtonComponent children={'その他アクセサリ'} className='py-1 text-[15px] text-[#a0a0a0] border  border-[#a0a0a0] h-8 !px-3 w-max bg-[transparent]' />
@@ -56,13 +56,13 @@ const ManagementVariousMasterProductCategory2 = () => {
                         <ButtonComponent children={'洋酒'} className='py-1 text-[15px] text-[#a0a0a0] border  border-[#a0a0a0] h-8 !px-3 w-max bg-[transparent]' />
                         <ButtonComponent children={'カメラ'} className='py-1 text-[15px] text-[#a0a0a0] border  border-[#a0a0a0] h-8 !px-3 w-max bg-[transparent]' />
                         <ButtonComponent children={'楽器'} className='py-1 text-[15px] text-[#a0a0a0] border  border-[#a0a0a0] h-8 !px-3 w-max bg-[transparent]' />
-                        <ButtonComponent children={'スマホノ夕ブしシト'} className='py-1 text-[15px] text-[#a0a0a0] border  border-[#a0a0a0] h-8 !px-3 w-max bg-[transparent]' />
+                        <ButtonComponent children={'スマホ/タブレット'} className='py-1 text-[15px] text-[#a0a0a0] border  border-[#a0a0a0] h-8 !px-3 w-max bg-[transparent]' />
                     </div>
 
                     {/*  Tabe*/}
                     <div className='mt-3 pl-10 pr-10 w-full flex justify-center'>
                         <div style={{ width: '60%', overflow: 'auto' }}>
-                            <ButtonComponent children={'保存'} className='py-1 text-[15px] text-[white] h-8 !px-3 w-max !bg-[#838383]' />
+                            <ButtonComponent children={'削除'} className='py-1 text-[15px] text-[white] h-8 !px-3 w-max !bg-[#838383]' />
                             <table className='text-center w-full' style={Table}>
                                 <thead>
                                     <tr>
@@ -76,67 +76,67 @@ const ManagementVariousMasterProductCategory2 = () => {
                                     <tr>
                                         <td width={'5%'}><input type='checkbox' /></td>
                                         <td width={'10%'} style={Td}>9999</td>
-                                        <td style={Td}>貴金属</td>
+                                        <td style={Td}>グッチOOOOOOOO</td>
                                         <td style={Td}></td>
                                     </tr>
                                     <tr>
                                         <td width={'5%'}><input type='checkbox' /></td>
                                         <td width={'10%'} style={Td}>9999</td>
-                                        <td style={Td}>ブランド</td>
+                                        <td style={Td}>ティファニーOOOOOO</td>
                                         <td style={Td}></td>
                                     </tr>
                                     <tr>
                                         <td width={'5%'}><input type='checkbox' /></td>
                                         <td width={'10%'} style={Td}>9999</td>
-                                        <td style={Td}>バツグ</td>
+                                        <td style={Td}>YSLOOOOOOOO</td>
                                         <td style={Td}></td>
                                     </tr>
                                     <tr>
                                         <td width={'5%'}><input type='checkbox' /></td>
                                         <td width={'10%'} style={Td}>9999</td>
-                                        <td style={Td}>時計</td>
+                                        <td style={Td}></td>
                                         <td style={Td}></td>
                                     </tr>
                                     <tr>
                                         <td width={'5%'}><input type='checkbox' /></td>
                                         <td width={'10%'} style={Td}>9999</td>
-                                        <td style={Td}>財布</td>
+                                        <td style={Td}></td>
                                         <td style={Td}></td>
                                     </tr>
                                     <tr>
                                         <td width={'5%'}><input type='checkbox' /></td>
                                         <td width={'10%'} style={Td}>9999</td>
-                                        <td style={Td}>その他アクセサリ</td>
+                                        <td style={Td}></td>
                                         <td style={Td}></td>
                                     </tr>
                                     <tr>
                                         <td width={'5%'}><input type='checkbox' /></td>
                                         <td width={'10%'} style={Td}>9999</td>
-                                        <td style={Td}>骨董品</td>
+                                        <td style={Td}></td>
                                         <td style={Td}></td>
                                     </tr>
                                     <tr>
                                         <td width={'5%'}><input type='checkbox' /></td>
                                         <td width={'10%'} style={Td}>9999</td>
-                                        <td style={Td}>洋酒</td>
+                                        <td style={Td}></td>
                                         <td style={Td}></td>
                                     </tr>
                                     <tr>
                                         <td width={'5%'}><input type='checkbox' /></td>
                                         <td width={'10%'} style={Td}>9999</td>
-                                        <td style={Td}>カメラ</td>
+                                        <td style={Td}></td>
                                         <td style={Td}></td>
                                     </tr>
                                     <tr>
                                         <td width={'5%'}><input type='checkbox' /></td>
                                         <td width={'10%'} style={Td}>9999</td>
-                                        <td style={Td}>楽器</td>
+                                        <td style={Td}></td>
                                         <td style={Td}></td>
                                     </tr>
                                     <tr>
                                         <td width={'5%'}><input type='checkbox' /></td>
                                         <td width={'10%'} style={Td}>9999</td>
-                                        <td style={Td}> スマホノ夕ブしシト</td>
+                                        <td style={Td}></td>
                                         <td style={Td}></td>
                                     </tr>
                                     <tr>

@@ -63,6 +63,8 @@ import ADminSettingsSuperAdministratorSystemBasicSettings from './Pages/Admin/Ad
 import ManagementSettingsForOwners from './Pages/Admin/ManagementSettingsForOwners/managementSettingsForOwners';
 
 import OwnerAttendanceList from './Pages/Admin/OwnerAttendanceList/ownerAttendanceList';
+//  TYPO. App is working well but this importing code has typo.
+//  OwnersShi_p_tSchedule, to be OwnersShi_f_tSchedule to match the file name. ONISHI
 import OwnersShiptSchedule from './Pages/Admin/OwnersShiftSchedule/ownersShiftSchedule';
 import OwnersPayrollCalculationSheet from './Pages/Admin/OwnersPayrollCalculationSheet/ownersPayrollCalculationSheet';
 import OwnersPersonalPaySlipPDF from './Pages/Admin/OwnersPersonalPaySlipPDF/ownersPersonalPaySlipPDF';
@@ -148,6 +150,10 @@ function App() {
 
 
             <Route path='/admin/ownerattendancelist' element={<OwnerAttendanceList/>}/>
+            {/* typo? should be "ownersShi_f_tSchedule" for this routing.
+                Path itself is working because import code has also typo.
+                priolity is low, but someday please fix those typos.
+            */}
             <Route path='/admin/ownersshiptschedule' element={<OwnersShiptSchedule/>}/>
             <Route path='/admin/ownerspayrollcalculationsheet' element={<OwnersPayrollCalculationSheet/>}/>
             <Route path='/admin/ownerspersonalpayslippdf' element={<OwnersPersonalPaySlipPDF/>}/>

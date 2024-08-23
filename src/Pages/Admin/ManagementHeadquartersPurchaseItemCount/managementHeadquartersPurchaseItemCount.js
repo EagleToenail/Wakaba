@@ -184,18 +184,18 @@ const ManagementHeadquartersPurchaseItemCount = () => {
                                     </tr>
                                     <tr>
                                         <td width='10%' className='text-left'>貴金属</td>
-                                        <td width='10%' className='text-left'>ネシクレス</td>
+                                        <td width='10%' className='text-left'>ネックレス</td>
                                         <td width='10%' className='text-left'></td>
-                                        <td width='40%' className='text-left'>貴金属/ネシクレス/K18</td>
+                                        <td width='40%' className='text-left'>貴金属/ネックレス/K18</td>
                                         <td width='10%' className='text-right'>340</td>
                                         <td width='10%' className='text-right'>￥10,153,151</td>
                                         <td width='10%' className='text-right'>￥29,862</td>
                                     </tr>
-                                    <tr>
+                                    <tr className='bg-[#fff2cc]'>
                                         <td width='10%' className='text-left'>金券</td>
-                                        <td width='10%' className='text-left'>百貨店の商品券</td>
-                                        <td width='10%' className='text-left'>ギ全国百貨店共通券 1000円</td>
-                                        <td width='40%' className='text-left'>金券/百貨店の商品券/ギ全国百貨店共通券 1000円</td>
+                                        <td width='10%' className='text-left'>百貨店の商品券/ギフト券</td>
+                                        <td width='10%' className='text-left'>全国百貨店共通券 1000円</td>
+                                        <td width='40%' className='text-left'>金券/百貨店の商品券/ギフト券/全国百貨店共通券 1000円</td>
                                         <td width='10%' className='text-right'>242</td>
                                         <td width='10%' className='text-right'>￥192,278</td>
                                         <td width='10%' className='text-right'>￥795</td>
@@ -209,7 +209,7 @@ const ManagementHeadquartersPurchaseItemCount = () => {
                                         <td width='10%' className='text-right'>￥370,790</td>
                                         <td width='10%' className='text-right'>￥1,626</td>
                                     </tr>
-                                    <tr>
+                                    <tr className='bg-[#fff2cc]'>
                                         <td width='10%' className='text-left'>古銭</td>
                                         <td width='10%' className='text-left'>古銭一式</td>
                                         <td width='10%' className='text-left'>その他</td>
@@ -218,7 +218,7 @@ const ManagementHeadquartersPurchaseItemCount = () => {
                                         <td width='10%' className='text-right'>￥361,518</td>
                                         <td width='10%' className='text-right'>￥1,883</td>
                                     </tr>
-                                    <tr className='bg-[#fff2cc]'>
+                                    <tr>
                                         <td width='10%' className='text-left'>古銭</td>
                                         <td width='10%' className='text-left'>古銭一式</td>
                                         <td width='10%' className='text-left'>外国コイン</td>

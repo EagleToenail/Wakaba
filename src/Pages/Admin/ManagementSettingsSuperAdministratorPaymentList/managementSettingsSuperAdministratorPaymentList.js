@@ -40,17 +40,17 @@ const ManagementSettingsSuperAdministratorPaymentList = () => {
             <div className='flex justify-around mt-5' >
                 <div className='flex justify-center'>
                     <select id="classification" name="classification" className="w-full h-11 text-[#70685a] font-bold border border-[#70685a] px-4 py-1 outline-[#70685a]">
-                        <option value="オーナ名">オーナ名</option>
-                        <option value="社員">社員</option>
-                        <option value="契約社員">契約社員</option>
-                        <option value="アルバイト">アルバイト
-                        </option>
+                        {/* this select element is for selecting owner name */}
+                        <option value="オーナー名" selected disabled>オーナー名</option>
+                        <option value="オーナー1">オーナー1</option>
+                        <option value="オーナー2">オーナー2</option>
+                        <option value="オーナー3">オーナー3</option>
                     </select>
                     < button type="button" className=" w-40 h-11 px-10 ml-20 rounded-md py-1 font-bold tracking-wide text-[#665b4c] justify-center text-white bg-[#a3a1c9] hover:bg-blue-700 focus:outline-none">
                     表示 
                     </button>
                 </div>
-                <h2 className="text-[#70685a] text-center text-2xl font-bold flex justify-center">システム使用 料支払状況</h2>
+                <h2 className="text-[#70685a] text-center text-2xl font-bold flex justify-center">システム使用料 支払状況</h2>
                 {/* hidden part */}
                 <div className='flex justify-center' style={{visibility:'hidden'}}>
                     <select id="" name="" className="w-full h-11 text-[#70685a] font-bold border border-[#70685a] px-4 py-1 outline-[#70685a]">

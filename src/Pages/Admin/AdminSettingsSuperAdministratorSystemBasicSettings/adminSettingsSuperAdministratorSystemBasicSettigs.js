@@ -53,7 +53,7 @@ const AdminSettingsSuperAdministratorSystemBasicSettings = () => {
                                         <input type='checkbox'></input> 
                                     </div>
                                     <div className='flex flex-col justify-center'>
-                                        <label className='ml-5'>[新人] ブラインドキー夕ツチ練習</label>
+                                        <label className='ml-5'>[新人] ブラインドキータッチ練習</label>
                                     </div>
                                 </div>
                                 {/* second line */}
@@ -62,7 +62,7 @@ const AdminSettingsSuperAdministratorSystemBasicSettings = () => {
                                         <input type='checkbox'></input> 
                                     </div>
                                     <div className='flex flex-col justify-center'>
-                                        <label className='ml-5'>[新人] 口レシクス脱着練習</label>
+                                        <label className='ml-5'>[新人] ロレックス脱着練習</label>
                                     </div>
                                 </div>
                                 {/* third line */}
@@ -71,7 +71,7 @@ const AdminSettingsSuperAdministratorSystemBasicSettings = () => {
                                         <input type='checkbox'></input> 
                                     </div>
                                     <div className='flex flex-col justify-center'>
-                                        <label className='ml-5'>[新人] 一人口一プし</label>
+                                        <label className='ml-5'>[新人] 一人ロープレ</label>
                                     </div>
                                 </div>
                             </div>
@@ -90,7 +90,7 @@ const AdminSettingsSuperAdministratorSystemBasicSettings = () => {
                                         <input type='checkbox'></input> 
                                     </div>
                                     <div className='flex flex-col justify-center'>
-                                        <label className='ml-5'>缶ウオーマ一電源OFF 確認しました。</label>
+                                        <label className='ml-5'>缶ウォーマー電源OFF 確認しました。</label>
                                     </div>
                                 </div>
                                 <div className=' flex pl-10 text-[#70685a] mt-3'>
@@ -158,7 +158,7 @@ const AdminSettingsSuperAdministratorSystemBasicSettings = () => {
                             {/* second line */}
                             <div className='flex text-[#70685a] font-bold mt-5'>
                                 <div className='flex flex-col justify-end pb-2'>
-                                    <label className='ml-5'>プランA</label>
+                                    <label className='ml-5'>プランB</label>
                                 </div>
                                 <div className='ml-5' style={{width:'30%'}}>
                                     <div>
@@ -177,7 +177,7 @@ const AdminSettingsSuperAdministratorSystemBasicSettings = () => {
                             {/* third line */}
                             <div className='flex text-[#70685a] font-bold mt-5'>
                                 <div className='flex flex-col justify-end pb-2'>
-                                    <label className='ml-5'>プランA</label>
+                                    <label className='ml-5'>プランC</label>
                                 </div>
                                 <div className='ml-5' style={{width:'30%'}}>
                                     <div>

@@ -46,7 +46,7 @@ const ManagementVariousMasterProductCategory1 = () => {
                         </div>
                     </div>
                     <div className='flex ml-7'>
-                        <ButtonComponent children={'保存'} className='py-1 text-[15px] text-[white] h-8 !px-5 w-max !bg-[#838383]' />
+                        <ButtonComponent children={'削除'} className='py-1 text-[15px] text-[white] h-8 !px-5 w-max !bg-[#838383]' />
                     </div>
                     {/*  Tabe*/}
                     <div className='mt-3 pl-10 pr-10 w-full flex'>
@@ -76,7 +76,7 @@ const ManagementVariousMasterProductCategory1 = () => {
                                 <tr>
                                     <td width={'5%'}><input type='checkbox' /></td>
                                     <td width={'10%'} style={Td}>9999</td>
-                                    <td style={Td}>バツグ</td>
+                                    <td style={Td}>バッグ</td>
                                     <td style={Td}></td>
                                 </tr>
                                 <tr>
@@ -124,7 +124,7 @@ const ManagementVariousMasterProductCategory1 = () => {
                                 <tr>
                                     <td width={'5%'}><input type='checkbox' /></td>
                                     <td width={'10%'} style={Td}>9999</td>
-                                    <td style={Td}> スマホノ夕ブしシト</td>
+                                    <td style={Td}>スマホ/タブレット</td>
                                     <td style={Td}></td>
                                 </tr>
                                 <tr>

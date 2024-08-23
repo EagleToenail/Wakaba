@@ -47,7 +47,7 @@ const OwnerAnalysisStaffIndividualResults = () => {
                         <option value=""></option>
                     </select>
                 </div>
-                <h2 className="text-[#70685a] text-center text-2xl font-bold flex justify-center">オーナー管理画面&nbsp;&nbsp;    ス夕ツフ個人成績</h2>
+                <h2 className="text-[#70685a] text-center text-2xl font-bold flex justify-center">オーナー管理画面&nbsp;&nbsp;    スタッフ個人成績</h2>
                 <div className=' text-[#70685a] px-2 mr-2 text-left' style={{visibility:'hidden'}}>
                     <select id="classification" name="classification" className="w-60 text-[#70685a] font-bold border border-[#70685a] px-4 py-1 outline-[#70685a]">
                         <option value="">OOOOOOOOO生駒店</option>
@@ -68,13 +68,13 @@ const OwnerAnalysisStaffIndividualResults = () => {
                 </div>
 
                 <div className=' text-[#70685a] px-2 mr-2 text-left'> 
-                    <ButtonComponent children={'先生'} className='w-20 !px-5 !rounded-sm !bg-[transparent] !text-[#70685a] border !border-[#70685a]' />                
+                    <ButtonComponent children={'先月'} className='w-20 !px-5 !rounded-sm !bg-[transparent] !text-[#70685a] border !border-[#70685a]' />                
                 </div>
                 <div className=' text-[#70685a] px-2 mr-2 text-left'> 
                     <ButtonComponent children={'今年'} className='w-20 !px-5 !rounded-sm !bg-[transparent] !text-[#70685a] border !border-[#70685a]' />                
                 </div>
                 <div className=' text-[#70685a] px-2 mr-2 text-left'> 
-                    <ButtonComponent children={'当月'} className='w-20 !px-5 !rounded-sm !bg-[transparent] !text-[#70685a] border !border-[#70685a]' />                
+                    <ButtonComponent children={'去年'} className='w-20 !px-5 !rounded-sm !bg-[transparent] !text-[#70685a] border !border-[#70685a]' />                
                 </div>
                 <div className=' text-[#70685a] px-2 mr-2 text-left'>
                     <select id="classification" name="classification" className="w-full text-[#70685a] font-bold border border-[#70685a] px-4 py-1 outline-[#70685a]">
@@ -92,6 +92,7 @@ const OwnerAnalysisStaffIndividualResults = () => {
                         <option value=""></option>
                     </select>
                 </div>
+                <h1> ~ </h1>
                 <div className=' text-[#70685a] px-2 mr-2 text-left'>
                     <select id="classification" name="classification" className="w-full text-[#70685a] font-bold border border-[#70685a] px-4 py-1 outline-[#70685a]">
                         <option value="2024年">2024年</option>
@@ -116,19 +117,19 @@ const OwnerAnalysisStaffIndividualResults = () => {
                     <thead>
                         <tr>
                             <th>店鋪名</th>
-                            <th>ス夕シフ名</th>
+                            <th>スタッフ名</th>
                             <th>来店数</th>
                             <th>成約数</th>
                             <th>不成約数 </th>
                             <th>成約率</th>
-                            <th> 買取率</th>
+                            <th>買取率</th>
                             <th>買取金額合計</th>
                             <th>租利単価 </th>
-                            <th> 租利合計</th>
-                            <th> 租利率</th>
+                            <th>租利合計</th>
+                            <th>租利率</th>
                             <th>入電数</th>
-                            <th>来店問い合わ せ数</th>
-                            <th>お預から数</th>
+                            <th>来店問い合わせ数</th>
+                            <th>お預かり数</th>
                         </tr>
                     </thead>
                     <tbody>

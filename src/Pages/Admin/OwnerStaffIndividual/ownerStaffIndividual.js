@@ -45,12 +45,12 @@ const  OwnerStaffIndividual = () => {
                         <div className=" rounded-2xl">
                             <div className='flex justify-around'>
                                 <div className='flex font-bold'>
-                                        <label className='text-[#70685a] font-bold'>ス夕シフ番号</label>
+                                        <label className='text-[#70685a] font-bold'>スタッフ番号</label>
                                         <label className='text-[#70685a] font-bold ml-5'>OOOOOOOO</label>
                                 </div>
-                                <h2 className="text-[#70685a] text-center text-2xl font-bold flex justify-center">ス夕シフ個別情報 </h2>
+                                <h2 className="text-[#70685a] text-center text-2xl font-bold flex justify-center">スタッフ個別情報 </h2>
                                 <div style={{visibility:'hidden'}}>
-                                    <label className='text-[#70685a] font-bold'>ス夕シフ番号</label>
+                                    <label className='text-[#70685a] font-bold'>スタッフ番号</label>
                                     <label className='text-[#70685a] font-bold ml-5'>OOOOOOOO</label>
                                 </div>
                             </div>
@@ -62,7 +62,7 @@ const  OwnerStaffIndividual = () => {
                                 保存
                                 </button>
                                 <button name='register' type="button" className="w-max px-10 py-1 font-bold text-[#665b4b] tracking-wide text-2xl rounded-lg justify-center t bg-[#ebe6e0] hover:bg-blue-700 focus:outline-none">
-                                新規顧客登銀
+                                新規スタッフ登銀
                                 </button>
                             </div>
                             <form className=" space-y-6 mt-5" style={{ maxWidth: '50em' }}>
@@ -100,7 +100,7 @@ const  OwnerStaffIndividual = () => {
                                             <option value="執行役員">執行役員</option>
                                             <option value="社員">社員</option>
                                             <option value="契約社員">契約社員</option>
-                                            <option value="アルバイト">アルバイト
+                                            <option value="アルバイト" selected>アルバイト
                                             </option>
                                         </select>
                                     </div>
@@ -276,7 +276,7 @@ const  OwnerStaffIndividual = () => {
                                     </div>
                                     <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around px-5'>
                                         <button type="button"
-                                            className= " py-2 min-w-[160px] text-[#70685a] rounded-full tracking-wider font-medium outline-none border border-[#70685a] ">職務糸歴書</button>
+                                            className= " py-2 min-w-[160px] text-[#70685a] rounded-full tracking-wider font-medium outline-none border border-[#70685a] ">職務経歴書</button>
                                     </div>
                                 </div>
                                 {/* new */}
@@ -295,7 +295,7 @@ const  OwnerStaffIndividual = () => {
                                     </div>
                                     <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around px-5'>
                                         <button type="button"
-                                            className= "py-2 min-w-[160px] text-[#70685a] rounded-full text-sm tracking-wider font-medium outline-none border border-[#70685a] ">誓画像</button>
+                                            className= "py-2 min-w-[160px] text-[#70685a] rounded-full text-sm tracking-wider font-medium outline-none border border-[#70685a] ">誓約書画像</button>
                                     </div>
                                 </div>
                                 <div className='flex'>

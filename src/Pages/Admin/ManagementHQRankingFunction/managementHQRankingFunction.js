@@ -116,11 +116,11 @@ const ManagementHQRankingFunction = () => {
                             <th></th>
                             <th style={Th} colSpan={2}>粗利</th>
                             <th style={Th} colSpan={2}>来店数</th>
-                            <th style={Th} colSpan={2}> 成約数 </th>
+                            <th style={Th} colSpan={2}>成約数 </th>
                             <th style={Th} colSpan={2}>成約率</th>
-                            <th style={Th} colSpan={2}> 貴金属 粗 利合計</th>
-                            <th style={Th} colSpan={2}> ブランド粗利合計</th>
-                            <th style={Th} colSpan={2}>腕時 計粗利合計</th>
+                            <th style={Th} colSpan={2}>貴金属粗利合計</th>
+                            <th style={Th} colSpan={2}>ブランド粗利合計</th>
+                            <th style={Th} colSpan={2}>腕時計粗利合計</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -129,11 +129,11 @@ const ManagementHQRankingFunction = () => {
                             <td width='7%'  style={Td}>OOOOO店</td>
                             <td width='7%' style={Td}>￥9,999,999</td>
                             <td width='7%' style={Td}>OOOOO店</td>
-                            <td width='7%' style={Td}>￥9,999,999</td>
+                            <td width='7%' style={Td}>9,999,999</td>
+                            <td width='7%' style={Td}>OOOOO店</td>
+                            <td width='7%' style={Td}>9,999,999</td>
                             <td width='7%' style={Td}>OOOOO店</td>
                             <td width='7%' style={Td}>99.9%</td>
-                            <td width='7%' style={Td}>OOOOO店</td>
-                            <td width='7%' style={Td}>￥9,999,999</td>
                             <td width='7%' style={Td}>OOOOO店</td>
                             <td width='7%' style={Td}>￥9,999,999</td>
                             <td width='7%' style={Td}>OOOOO店</td>

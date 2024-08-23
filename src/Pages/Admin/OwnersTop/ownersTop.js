@@ -74,7 +74,7 @@ const OwnersTop = () => {
                                         <th>成約数 </th>
                                         <th>不成約数</th>
                                         <th>成約率</th>
-                                        <th>お預から数</th>
+                                        <th>お預かり数</th>
                                         <th>買取率 </th>
                                         <th>買取金額合計</th>
                                         <th> 粗利単価</th>
@@ -157,7 +157,7 @@ const OwnersTop = () => {
                                 <div style={{width:'90%'}}>
                                     <div className=' text-[#70685a]'>
                                         < button type="button" style={{width:'40%'}} className=" px-10 py-1 text-[#70685a] font-bold tracking-wide border border-[#70685a] justify-center  hover:bg-blue-700 focus:outline-none">
-                                        スタシフ一覧 
+                                        スタッフ一覧 
                                         </button>
                                         < button type="button" style={{width:'40%'}} className=" px-10 py-1 text-[#70685a] font-bold tracking-wide border border-[#70685a] justify-center  hover:bg-blue-700 focus:outline-none ml-10">
                                         給与計算表
@@ -191,12 +191,12 @@ const OwnersTop = () => {
                                 <div style={{width:'90%'}}>
                                     <div className=' text-[#70685a]'>
                                         < button type="button" style={{width:'55%'}} className=" px-10 py-1 text-[#70685a] font-bold tracking-wide border border-[#70685a] justify-center  hover:bg-blue-700 focus:outline-none">
-                                        店舗每の経理情報推移 
+                                        店舗毎の経理情報推移 
                                         </button>
                                     </div>
                                     <div className=' text-[#70685a] pt-5'>
                                         < button type="button" style={{width:'55%'}} className=" px-10 py-1 text-[#70685a] font-bold tracking-wide border border-[#70685a] justify-center  hover:bg-blue-700 focus:outline-none">
-                                        店舗每の経理情報参考デ夕 
+                                        店舗毎の経理情報参考デ夕 
                                         </button>
                                     </div>
 
@@ -217,7 +217,7 @@ const OwnersTop = () => {
                                     <div className=' text-[#70685a] flex'>
                                         <div style={{width:'40%'}} className='pt-8'>
                                             < button type="button" className="w-full px-10 py-1 text-[#70685a] font-bold tracking-wide border border-[#70685a] justify-center  hover:bg-blue-700 focus:outline-none">
-                                            顧客未店率推移
+                                            顧客来店率推移
                                             </button>
                                         </div>
 
@@ -235,7 +235,7 @@ const OwnersTop = () => {
                                         ランキング機能 
                                         </button>
                                         < button type="button" style={{width:'40%'}} className=" px-10 py-1 text-[#70685a] font-bold tracking-wide border border-[#70685a] justify-center  hover:bg-blue-700 focus:outline-none ml-10">
-                                        ス夕シフ個人成績 
+                                        スタッフ個人成績 
                                         </button>
                                     </div>
                                     <div className=' text-[#70685a] pt-5'>

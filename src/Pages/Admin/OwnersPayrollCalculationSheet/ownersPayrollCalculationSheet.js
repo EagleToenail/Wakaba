@@ -37,13 +37,14 @@ const OwnersPayrollCalculationSheet = () => {
 
 
             <div className='flex justify-center mt-5' >
-                <h2 className="text-[#70685a] text-center text-2xl font-bold flex justify-center">店舖一覧</h2>
+                {/* This page should be "オーナー管理画面  給与計算表" */}
+                <h2 className="text-[#70685a] text-center text-2xl font-bold flex justify-center">オーナー管理画面  給与計算表</h2>
             </div>
             {/*  */}
             <div className='flex justify-between'>
                 <div className='ml-5 w-60'>
                     <div className='text-center'>
-                        <label className='ml-5'>チェシクされた行だけ</label>
+                        <label className='ml-5'>チェックされた行だけを</label>
                     </div>
                     <div className='flex justify-center'>
                         <ButtonComponent children={'オーナーに確認申請'} className='py-1 text-[18px] text-[white] h-8 !px-5 w-max bg-[#9ad196]' />
@@ -51,7 +52,7 @@ const OwnersPayrollCalculationSheet = () => {
                 </div>
                 <div className='ml-5 w-60'>
                     <div className='text-center'>
-                        <label className='ml-5'>チェシクされた行だけを</label>
+                        <label className='ml-5'>チェックされた行だけを</label>
                     </div>
                     <div className='flex justify-center'>
                         <ButtonComponent children={'確認'} className='py-1 text-[18px] text-[white] h-8 !px-5 w-max bg-[#9ad196]' />
@@ -66,12 +67,13 @@ const OwnersPayrollCalculationSheet = () => {
                         <thead>
                             <tr>
                                 <th width='5%'>選択</th>
-                                <th width='10%'>ス夕シフコード </th>
-                                <th width='10%'> 店舗名</th>
-                                <th width='10%'>店長名  </th>
-                                <th width='10%'>姓</th>
+                                <th width='10%'>スタッフコード </th>
+                                <th width='10%'>店舗名</th>
+                                <th width='10%'>性</th>
                                 <th width='10%'>名</th>
-                                <th width='100%'>基本給</th>
+                                <th width='10%'>基本給</th>
+                                {/* this table should have more columns. refer Wire Frame:page44, M06 */}
+                                <th width='100%'>他の項目は実装中</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -136,12 +138,13 @@ const OwnersPayrollCalculationSheet = () => {
                         <thead>
                             <tr>
                                 <th width='5%'>選択</th>
-                                <th width='10%'>ス夕シフコード </th>
-                                <th width='10%'> 店舗名</th>
-                                <th width='10%'>店長名  </th>
-                                <th width='10%'>姓</th>
+                                <th width='10%'>スタッフコード </th>
+                                <th width='10%'>店舗名</th>
+                                <th width='10%'>性</th>
                                 <th width='10%'>名</th>
-                                <th width='100%'>基本給</th>
+                                <th width='10%'>基本給</th>
+                                {/* this table should have more columns. refer Wire Frame:page44, M06 */}
+                                <th width='100%'>他の項目は実装中</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -206,12 +209,13 @@ const OwnersPayrollCalculationSheet = () => {
                         <thead>
                             <tr>
                                 <th width='5%'>選択</th>
-                                <th width='10%'>ス夕シフコード </th>
-                                <th width='10%'> 店舗名</th>
-                                <th width='10%'>店長名  </th>
-                                <th width='10%'>姓</th>
+                                <th width='10%'>スタッフコード </th>
+                                <th width='10%'>店舗名</th>
+                                <th width='10%'>性</th>
                                 <th width='10%'>名</th>
-                                <th width='100%'>基本給</th>
+                                <th width='10%'>基本給</th>
+                                {/* this table should have more columns. refer Wire Frame:page44, M06 */}
+                                <th width='100%'>他の項目は実装中</th>
                                 <th></th>
                             </tr>
                         </thead>

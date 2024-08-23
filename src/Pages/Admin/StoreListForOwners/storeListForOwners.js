@@ -72,7 +72,7 @@ const StoreListForOwners = () => {
                 </div>
             </div>
             <div className='flex justify-center' style={{width:'10%'}}>
-                <ButtonComponent children={'保存'} className='py-1 text-[15px] text-[white] h-8 !px-3 w-max' />
+                <ButtonComponent children={'削除'} className='py-1 text-[15px] text-[white] h-8 !px-3 w-max' />
             </div>
             {/*  Table*/}
             <div className='mt-3 pl-10 pr-10 w-full flex'>

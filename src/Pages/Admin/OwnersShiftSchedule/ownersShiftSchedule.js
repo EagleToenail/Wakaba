@@ -74,16 +74,16 @@ const OwnersShiftSchedule = () => {
                             </tr>
                             <tr>
                                 <td ></td>
-                                <td >休目</td>
+                                <td >休日</td>
                                 <td style={Td}>土日</td>
-                                <td style={Td}>小</td>
+                                <td style={Td}>火</td>
                                 <td style={Td}></td>
                             </tr>
                             <tr>
                                 <td ></td>
                                 <td >氏名</td>
                                 <td style={Td} > 小泉純一郎</td>
-                                <td style={Td}>ス夕シフ02</td>
+                                <td style={Td}>スタッフ02</td>
                                 <td style={Td}></td>
                             </tr>
                         </tbody>
@@ -106,8 +106,15 @@ const OwnersShiftSchedule = () => {
                             <tr>
                                 <td style={Td}>2024/12/01</td>
                                 <td style={Td}>月</td>
-                                <td style={Td}>07:05</td>
-                                <td style={Td}>09:17</td>
+                                <td style={Td}>07-19</td>
+                                <td style={Td}>09-17</td>
+                                <td style={Td}></td>
+                            </tr>
+                            <tr>
+                                <td style={Td}>2024/12/02</td>
+                                <td style={Td}>火</td>
+                                <td style={Td}>07-19</td>
+                                <td style={Td}>休日</td>
                                 <td style={Td}></td>
                             </tr>
                         </tbody>
