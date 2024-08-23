@@ -1,9 +1,7 @@
 import React,{useState} from 'react';
 // import { Link } from 'react-router-dom';
 import Titlebar from '../../../Components/Common/Titlebar';
-import InputComponent from '../../../Components/Common/InputComponent';
 import ButtonComponent from '../../../Components/Common/ButtonComponent';
-import LabelComponent from '../../../Components/Common/LabelComponent';
 import dateimage from '../../../Assets/img/datepicker.png';
 import DateAndTime from '../../../Components/Common/PickData';
 
