@@ -45,9 +45,9 @@ const StampRelatedInventoryApplicationForm = () => {
             <DateAndTime/>
             <div className=" flex flex-col items-center justify-center py-3 px-4">
                 <div className="w-full " style={{ maxWidth: '90em' }}>
-                    <h2 className="text-[#70685a] text-center text-2xl font-bold flex justify-center">日本の切手・八ガキ・レターパシク 出庫申請</h2>
+                    <h2 className="text-[#70685a] text-center text-2xl font-bold flex justify-center">日本の切手・ハガキ・レターパック 出庫申請</h2>
                     <div className='flex justify-evenly mt-5 '>
-                        <div className='text-center text-[20px]'><u><LabelComponent value="在庫一覽へ戻る" /></u></div>
+                        <div className='text-center text-[20px]'><u><LabelComponent value="在庫一覧へ戻る" /></u></div>
                         <div>
                             < button type="button" className="w-full px-3 py-3 font-bold tracking-wide rounded-lg justify-center text-white bg-[#e87a00] hover:bg-blue-700 focus:outline-none">
                             出庫を申請
@@ -97,7 +97,7 @@ const StampRelatedInventoryApplicationForm = () => {
                             <div className='flex justify-center'>
                                 <div className='flex'>
                                     <div className='w-10'><img src={StampSheet} alt="aaa"></img></div>
-                                    <div className='flex flex-col justify-center'><LabelComponent value="切手台紙貼ら" className='pl-5 !text-[20px] font-bold' /></div>
+                                    <div className='flex flex-col justify-center'><LabelComponent value="切手台紙貼り" className='pl-5 !text-[20px] font-bold' /></div>
                                 </div>
                             </div>
                         </div>
@@ -113,7 +113,7 @@ const StampRelatedInventoryApplicationForm = () => {
                             <div className='flex justify-center'>
                                 <div className='flex'>
                                     <div className='w-10'><img src={LetterPack} alt="aaa"></img></div>
-                                    <div className='flex flex-col justify-center'><LabelComponent value="レ夕一パツク" className='pl-5 !text-[20px] font-bold' /></div>
+                                    <div className='flex flex-col justify-center'><LabelComponent value="レ夕一パック" className='pl-5 !text-[20px] font-bold' /></div>
                                 </div>
                             </div>
                         </div>
@@ -248,13 +248,14 @@ const StampRelatedInventoryApplicationForm = () => {
                     <div className='flex'>
                         {/* first table */}
                         <div className='mt-5  ml-5' style={{ width: '25%' }}>
-                            <h2 className="text-[#70685a] text-sm font-bold ml-10">切手1枚</h2>
                             <div>
                                 <div>
                                     <table className=' text-center w-full' style={Table}>
                                         <thead>
-                                            <tr>
-                                                <th>の額面</th>
+                                            <tr>                                              
+                                                <th >選択</th>
+                                                <th>切手1枚の額面</th>
+                                                <th>の額面</th>                                                   
                                                 <th>面数</th>
                                                 <th >シート額面</th>
                                                 <th>シート数</th>
@@ -286,13 +287,17 @@ const StampRelatedInventoryApplicationForm = () => {
                         </div>
                         {/* secondtable */}
                         <div className='mt-5  ml-5' style={{ width: '25%' }}>
-                            <h2 className="text-[#70685a] text-sm font-bold ml-10">切手1枚</h2>
                             <div>
                                 <div>
                                 <table className=' text-center w-full' style={Table}>
                                         <thead>
                                             <tr>
+
+                                                <th >選択</th>
+                                                <th>切手1枚の額面</th>
+
                                                 <th>の額面</th>
+
                                                 <th>面数</th>
                                                 <th >シート額面</th>
                                                 <th>シート数</th>
@@ -324,13 +329,15 @@ const StampRelatedInventoryApplicationForm = () => {
                         </div>
                         {/* thirdtable */}
                         <div className='mt-5 ml-5' style={{ width: '25%' }}>
-                            <h2 className="text-[#70685a] text-sm font-bold ml-10">切手1枚</h2>
                             <div>
                                 <div>
                                 <table className=' text-center w-full' style={Table}>
                                         <thead>
                                             <tr>
-                                                <th>の額面</th>
+
+                                                <th >選択</th>
+                                                <th>切手1枚の額面</th>
+                                                <th>の額面</th> 
                                                 <th>面数</th>
                                                 <th >シート額面</th>
                                                 <th>シート数</th>
@@ -362,12 +369,13 @@ const StampRelatedInventoryApplicationForm = () => {
                         </div>
                         {/* forthtable */}
                         <div className='mt-5 ml-5' style={{ width: '25%' }}>
-                            <h2 className="text-[#70685a] text-sm font-bold ml-10">切手1枚</h2>
                             <div>
                                 <div>
                                 <table className=' text-center w-full' style={Table}>
                                         <thead>
                                             <tr>
+                                                <th >選択</th>
+                                                <th>切手1枚の額面</th>
                                                 <th>の額面</th>
                                                 <th>面数</th>
                                                 <th >シート額面</th>
@@ -438,12 +446,14 @@ const StampRelatedInventoryApplicationForm = () => {
                                     </div>
                                 </div>
                                 <div className='mt-5 ml-5'>
-                                    <h2 className="text-[#70685a] text-sm font-bold ml-10">切手1枚</h2>
+                                    
                                     <div>
                                         <div>
                                         <table className=' text-center w-full' style={Table}>
                                         <thead>
                                             <tr>
+                                                <th >選択</th>
+                                                <th>切手1枚の額面</th>
                                                 <th>の額面</th>
                                                 <th>面数</th>
                                                 <th >シート額面</th>

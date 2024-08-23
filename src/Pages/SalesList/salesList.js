@@ -5,6 +5,8 @@ import ButtonComponent from '../../Components/Common/ButtonComponent';
 import DateAndTime from '../../Components/Common/PickData';
 import dateimage from '../../Assets/img/datepicker.png';
 
+// THIS PAGE SHOULD HAVE A VERTICAL SCROLL BAR
+
 
 const SalesList = () => {
     const title = 'タイトルタイトル';
@@ -43,7 +45,7 @@ const SalesList = () => {
             <Titlebar title={title} />
             <DateAndTime />
             {/* title */}
-            <h2 className="text-[#70685a] text-center text-2xl font-bold flex justify-center mt-10">売上一覧表(ス夕シフ単位)</h2>
+            <h2 className="text-[#70685a] text-center text-2xl font-bold flex justify-center mt-10">売上一覧表(スタッフ単位)</h2>
             {/* first letters line  */}
             <div className='flex justify-center'>
                 <div className='flex justify-center' style={{ width: '40%' }}>
@@ -212,19 +214,19 @@ const SalesList = () => {
                     <thead>
                         <tr>
                             <th>選択</th>
-                            <th width='5%'>わかはNo.</th>
+                            <th width='5%'>わかばNo.</th>
                             <th width='5%' >買取日<svg className='h-10'  focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="ArrowRightIcon" title="ArrowRight"><path d="m10 17 5-5-5-5z"></path></svg></th>
                             <th width='5%'>買取担当</th>
                             <th width='5%'>お客様</th>
                             <th width='5%'>カナ<svg className='h-10'  focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="ArrowRightIcon" title="ArrowRight"><path d="m10 17 5-5-5-5z"></path></svg></th>
                             <th width='5%'>TEL<svg className='h-10'  focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="ArrowRightIcon" title="ArrowRight"><path d="m10 17 5-5-5-5z"></path></svg></th>
                             <th width='5%'>住所<svg className='h-10'  focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="ArrowRightIcon" title="ArrowRight"><path d="m10 17 5-5-5-5z"></path></svg></th>
-                            <th width='5%'>来店糧別-1</th>
+                            <th width='5%'>来店種別-1</th>
                             <th width='5%'>2</th>
 
                             <th width='5%'>力テゴリ-1</th>
                             <th width='5%'>2</th>
-                            <th width='5%'>商品 名<svg className='h-10'  focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="ArrowRightIcon" title="ArrowRight"><path d="m10 17 5-5-5-5z"></path></svg></th>
+                            <th width='5%'>商品名<svg className='h-10'  focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="ArrowRightIcon" title="ArrowRight"><path d="m10 17 5-5-5-5z"></path></svg></th>
                             <th width='5%'>画像</th>
                             <th width='5%'>個数</th>
                             <th width='10%' >金種</th>
@@ -246,15 +248,15 @@ const SalesList = () => {
                             <td style={Td}>99999</td>
                             <td style={Td}>12/31</td>
                             <td style={Td}>木戸</td>
-                            <td style={Td}>伊集院純一 郎</td>
-                            <td style={Td}>イジユ</td>
+                            <td style={Td}>伊集院純一郎</td>
+                            <td style={Td}>イジュウインジュンイチロウ</td>
                             <td style={Td}>090</td>
                             <td style={Td}>神奈川</td>
                             <td style={Td}>OOOOO</td>
                             <td style={Td}>OOO</td>
-                            <td style={Td}>ジユ工リー</td>
+                            <td style={Td}>ジュエリー</td>
                             <td style={Td}>OOOO</td>
-                            <td style={Td}>グシチOOO</td>
+                            <td style={Td}>グッチOOO</td>
                             <td style={Td}><ButtonComponent children="1" className='w-max !px-5 rounded-lg' style={{  backgroundColor: '#ebe5e1', color: '#626373'}} /></td>
                             <td style={Td}>1</td>
                             <td style={Td}></td>

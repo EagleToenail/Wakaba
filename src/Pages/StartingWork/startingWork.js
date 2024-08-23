@@ -16,12 +16,12 @@ const  StartingWork = () => {
                     <div className="w-full pt-3" style={{ maxWidth: '80em' }}>
                         <div className=" rounded-2xl">
                             <h2 className="text-[#70685a] text-center text-2xl font-bold flex justify-center">始業作業</h2>
-                            <h2 className="text-[#ff0000] text-center text-2xl font-bold flex justify-center !mt-3">オープ時間の10:00までに，全て完了してください</h2>
+                            <h2 className="text-[#ff0000] text-center text-2xl font-bold flex justify-center !mt-3">オープン時間の10:00までに、全て完了してください</h2>
                             <form className=" space-y-6 !mt-10">
                                 {/* new */}
                                 <div className='flex'>
                                     <div style={{ width: '10%' }} className='flex align-center justify-end'>
-                                    <button type="button" className="w-20 px-1 py-1 font-bold tracking-wide rounded-lg justify-end text-[#d1cdca] border border-[#d1cdca] bg-[#e87a00] hover:bg-blue-700 focus:outline-none">送信
+                                    <button type="button" className="w-20 px-1 py-1 font-bold tracking-wide rounded-lg justify-end text-[#d1cdca] border border-[#d1cdca] bg-[#e87a00] hover:bg-blue-700 focus:outline-none">一致
                                             </button>
                                     </div>
                                     <div style={{ width: '5%' }} className=' px-5 flex align-center justify-center'>
@@ -42,7 +42,7 @@ const  StartingWork = () => {
                                         <label className="text-[#70685a] fold-semiblod mb-1 block text-center text-[20px] py-1 !mb-0">2.</label>
                                     </div>
                                     <div style={{ width: '85%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                        <label className="text-[#70685a] fold-semiblod mb-1 block text-left text-[20px] mr-10 py-1 !mb-0">掃除はしましたか？（受付カウンター、バシクヤード、床、掃除機、モフモフ,ウェットティッシュ）</label>
+                                        <label className="text-[#70685a] fold-semiblod mb-1 block text-left text-[20px] mr-10 py-1 !mb-0">掃除はしましたか？（受付カウンター、バックヤード、床、掃除機、モフモフ、ウェットティッシュ）</label>
                                     </div>
                                 </div>
                                 {/* new */}
@@ -107,7 +107,7 @@ const  StartingWork = () => {
                                         <label className="text-[#70685a] fold-semiblod mb-1 block text-center text-[20px] py-1 !mb-0">7.</label>
                                     </div>
                                     <div style={{ width: '85%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                        <label className="text-[#70685a] fold-semiblod mb-1 block text-left text-[20px] mr-10 py-1 !mb-0">Outlookのメールは千エツクしましたか?</label>
+                                        <label className="text-[#70685a] fold-semiblod mb-1 block text-left text-[20px] mr-10 py-1 !mb-0">Outlookのメールはチェックしましたか?</label>
                                     </div>
                                 </div>
                                 {/* new */}
@@ -133,7 +133,7 @@ const  StartingWork = () => {
                                         <label className="text-[#70685a] fold-semiblod mb-1 block text-center text-[20px] py-1 !mb-0">9.</label>
                                     </div>
                                     <div style={{ width: '85%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                        <label className="text-[#70685a] fold-semiblod mb-1 block text-left text-[20px] mr-10 py-1 !mb-0">缶ウォーマー電源ONにしますた。</label>
+                                        <label className="text-[#70685a] fold-semiblod mb-1 block text-left text-[20px] mr-10 py-1 !mb-0">缶ウォーマー電源ONにしました</label>
                                     </div>
                                 </div>
                                 {/* new */}
@@ -146,7 +146,7 @@ const  StartingWork = () => {
                                         <label className="text-[#70685a] fold-semiblod mb-1 block text-center text-[20px] py-1 !mb-0">10.</label>
                                     </div>
                                     <div style={{ width: '85%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                        <label className="text-[#70685a] fold-semiblod mb-1 block text-left text-[20px] mr-10 py-1 !mb-0">【新人】ブラインドキータシチ練習 </label>
+                                        <label className="text-[#70685a] fold-semiblod mb-1 block text-left text-[20px] mr-10 py-1 !mb-0">【新人】ブラインドキータッチ練習 </label>
                                     </div>
                                 </div>
                                 {/* new */}
@@ -182,7 +182,7 @@ const  StartingWork = () => {
                                     <div className="!mt-5 flex" style={{ marginBottom: '10px', width: '70%', paddingLeft: '30%' }}>
                                         <div className='w-full flex justify-center'>
                                             <button type="button" className="w-30 px-10 py-1 font-bold tracking-wide rounded-sm justify-center text-[#d1cdca] border border-[#d1cdca] bg-[#e87a00] hover:bg-blue-700 focus:outline-none">
-                                                <Link to='/login' className='p-3  '>送信</Link>
+                                                <Link to='/login' className='p-3  '>報告</Link>
                                             </button>
                                         </div>
                                     </div>

@@ -93,7 +93,7 @@ export default function WithdrawVariousPurchase() {
                                 </button>
                             </div>
                             <div>
-                                <label className="text-[black] pl-3 text-[20px] block text-left" >XXXXXを購人してきました。単価 99999円X999個=9999999円でした。</label>
+                                <label className="text-[black] pl-3 text-[20px] block text-left" >XXXXXを購入してきました。単価 99999円X999個=9999999円でした。</label>
                             </div>
                         </div>
                         {/* rect-btn-gurope 8 */}
@@ -291,7 +291,7 @@ export default function WithdrawVariousPurchase() {
                             </div>
                             <div style={{ width: '10%' }}>
                             < button type="button" className="w-max px-5 mr-5 py-1 font-semiblod rounded-lg justify-center text-[#70685a] text-[16px] bg-[#ebe6e0] hover:bg-blue-700 focus:outline-none">
-                            フアイル
+                            ファイル
                             </button>
                             </div>
                             <div  style={{ width: '40%' }} className='mt-0.5 flex flex-col justify-center ml-5'>
