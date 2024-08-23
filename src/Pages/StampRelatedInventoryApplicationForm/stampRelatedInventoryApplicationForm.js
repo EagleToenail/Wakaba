@@ -254,7 +254,6 @@ const StampRelatedInventoryApplicationForm = () => {
                                     <table className=' text-center w-full' style={Table}>
                                         <thead>
                                             <tr>
-                                                <th >選択</th>
                                                 <th>の額面</th>
                                                 <th>面数</th>
                                                 <th >シート額面</th>
@@ -264,7 +263,6 @@ const StampRelatedInventoryApplicationForm = () => {
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <td><input type='checkbox' /></td>
                                                 <td style={Td}>¥7</td>
                                                 <td style={Td}>20</td>
                                                 <td style={Td}>¥100,000</td>
@@ -294,7 +292,6 @@ const StampRelatedInventoryApplicationForm = () => {
                                 <table className=' text-center w-full' style={Table}>
                                         <thead>
                                             <tr>
-                                                <th >選択</th>
                                                 <th>の額面</th>
                                                 <th>面数</th>
                                                 <th >シート額面</th>
@@ -304,7 +301,6 @@ const StampRelatedInventoryApplicationForm = () => {
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <td><input type='checkbox' /></td>
                                                 <td style={Td}>¥7</td>
                                                 <td style={Td}>20</td>
                                                 <td style={Td}>¥100,000</td>
@@ -334,7 +330,6 @@ const StampRelatedInventoryApplicationForm = () => {
                                 <table className=' text-center w-full' style={Table}>
                                         <thead>
                                             <tr>
-                                                <th >選択</th>
                                                 <th>の額面</th>
                                                 <th>面数</th>
                                                 <th >シート額面</th>
@@ -344,7 +339,6 @@ const StampRelatedInventoryApplicationForm = () => {
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <td><input type='checkbox' /></td>
                                                 <td style={Td}>¥7</td>
                                                 <td style={Td}>20</td>
                                                 <td style={Td}>¥100,000</td>
@@ -374,7 +368,6 @@ const StampRelatedInventoryApplicationForm = () => {
                                 <table className=' text-center w-full' style={Table}>
                                         <thead>
                                             <tr>
-                                                <th >選択</th>
                                                 <th>の額面</th>
                                                 <th>面数</th>
                                                 <th >シート額面</th>
@@ -384,7 +377,6 @@ const StampRelatedInventoryApplicationForm = () => {
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <td><input type='checkbox' /></td>
                                                 <td style={Td}>¥7</td>
                                                 <td style={Td}>20</td>
                                                 <td style={Td}>¥100,000</td>
@@ -452,7 +444,6 @@ const StampRelatedInventoryApplicationForm = () => {
                                         <table className=' text-center w-full' style={Table}>
                                         <thead>
                                             <tr>
-                                                <th >選択</th>
                                                 <th>の額面</th>
                                                 <th>面数</th>
                                                 <th >シート額面</th>
@@ -462,7 +453,6 @@ const StampRelatedInventoryApplicationForm = () => {
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <td><input type='checkbox' /></td>
                                                 <td style={Td}>¥7</td>
                                                 <td style={Td}>20</td>
                                                 <td style={Td}>¥100,000</td>
