@@ -17,7 +17,7 @@ const ManagementSettingsForOwners = () => {
             <div className=" flex flex-col items-center justify-center py-3 px-4">
                 <div className="w-full " style={{ maxWidth: '70em' }}>
                     <div className='flex justify-center mt-5' >
-                        <h2 className="text-[#70685a] text-center text-2xl font-bold flex justify-center">ス一パー用 管理画面 各種設定</h2>
+                        <h2 className="text-[#70685a] text-center text-2xl font-bold flex justify-center">オーナー用 管理画面 各種設定</h2>
                     </div>
                     <div className='flex justify-center'  >
                         <ButtonComponent children={'保存'} className='py-1 mt-10 text-[white] text-2xl h-11 !px-20 w-max ' />
@@ -40,7 +40,7 @@ const ManagementSettingsForOwners = () => {
                                         <input type='checkbox'></input>
                                     </div>
                                     <div className='flex flex-col justify-center'>
-                                        <label className='ml-5'>[新人] ブラインドキー夕ツチ練習</label>
+                                        <label className='ml-5'>[新人] ブラインドキータッチ練習</label>
                                     </div>
                                 </div>
                                 {/* second line */}
@@ -49,7 +49,7 @@ const ManagementSettingsForOwners = () => {
                                         <input type='checkbox'></input>
                                     </div>
                                     <div className='flex flex-col justify-center'>
-                                        <label className='ml-5'>[新人] 口レシクス脱着練習</label>
+                                        <label className='ml-5'>[新人] ロレックス脱着練習</label>
                                     </div>
                                 </div>
                                 {/* third line */}
@@ -58,7 +58,7 @@ const ManagementSettingsForOwners = () => {
                                         <input type='checkbox'></input>
                                     </div>
                                     <div className='flex flex-col justify-center'>
-                                        <label className='ml-5'>[新人] 一人口一プし</label>
+                                        <label className='ml-5'>[新人] 一人ロープレ</label>
                                     </div>
                                 </div>
                             </div>
@@ -77,7 +77,7 @@ const ManagementSettingsForOwners = () => {
                                         <input type='checkbox'></input>
                                     </div>
                                     <div className='flex flex-col justify-center'>
-                                        <label className='ml-5'>缶ウオーマ一電源OFF 確認しました。</label>
+                                        <label className='ml-5'>缶ウォーマー電源OFF 確認しました。</label>
                                     </div>
                                 </div>
                                 <div className=' flex pl-10 text-[#70685a] mt-3'>
@@ -124,14 +124,14 @@ const ManagementSettingsForOwners = () => {
                                         <div className='w-3 h-3 bg-[#70685a] '></div>
                                     </div>
                                     <div className='flex flex-col justify-center'>
-                                        <div className='text-[#70685a] font-bold ml-3 w-max'>リサイクルシプ登録</div>
+                                        <div className='text-[#70685a] font-bold ml-3 w-max'>リサイクルショップ登録</div>
                                     </div>
                                 </div>
 
                                 {/* first line */}
                                 <div className='flex text-[#70685a] font-bold'>
                                     <div className='flex flex-col justify-end pb-2'>
-                                        <label className='ml-5'>01 リサイクルシプ</label>
+                                        <label className='ml-5'>01 リサイクルショップ</label>
                                     </div>
                                     <div className='ml-5' style={{ width: '50%' }}>
                                         <div>
@@ -142,7 +142,7 @@ const ManagementSettingsForOwners = () => {
                                 {/* second line */}
                                 <div className='flex text-[#70685a] font-bold mt-2'>
                                     <div className='flex flex-col justify-end pb-2'>
-                                        <label className='ml-5'>02 リサイクルシプ</label>
+                                        <label className='ml-5'>02 リサイクルショップ</label>
                                     </div>
                                     <div className='ml-5' style={{ width: '50%' }}>
                                         <div>
@@ -153,7 +153,7 @@ const ManagementSettingsForOwners = () => {
                                 {/* third line */}
                                 <div className='flex text-[#70685a] font-bold mt-2'>
                                     <div className='flex flex-col justify-end pb-2'>
-                                        <label className='ml-5'>03 リサイクルシプ</label>
+                                        <label className='ml-5'>03 リサイクルショップ</label>
                                     </div>
                                     <div className='ml-5' style={{ width: '50%' }}>
                                         <div>

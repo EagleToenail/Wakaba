@@ -36,7 +36,7 @@ const ManagementHeadquartersOwnerList = () => {
 
 
             <div className='flex justify-center mt-5' >
-                <h2 className="text-[#70685a] text-center text-2xl font-bold flex justify-center">オーナー一覧</h2>
+                <h2 className="text-[#70685a] text-center text-2xl font-bold flex justify-center">オーナー 一覧</h2>
             </div>
             {/*  */}
             <div className='flex justify-center' style={{width:'10%'}}>

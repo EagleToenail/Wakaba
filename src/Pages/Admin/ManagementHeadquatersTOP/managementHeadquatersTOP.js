@@ -47,7 +47,7 @@ const ManagementHeadqueatersTOP = () => {
                                 <div style={{ width: '90%' }}>
                                     <div className=' text-[#70685a]'>
                                         < button type="button" style={{ width: '40%' }} className=" px-10 py-1 text-[#70685a] font-bold tracking-wide border border-[#70685a] justify-center  hover:bg-blue-700 focus:outline-none">
-                                            オーナー一覧
+                                            オーナー 一覧
                                         </button>
                                     </div>
                                 </div>
@@ -64,12 +64,12 @@ const ManagementHeadqueatersTOP = () => {
                                 <div style={{ width: '90%' }}>
                                     <div className=' text-[#70685a]'>
                                         < button type="button" style={{ width: '60%' }} className=" px-10 py-1 text-[#70685a] font-bold tracking-wide border border-[#70685a] justify-center  hover:bg-blue-700 focus:outline-none">
-                                            店舗每の経理情報推移
+                                            店舗毎の経理情報推移
                                         </button>
                                     </div>
                                     <div className=' text-[#70685a] pt-5'>
                                         < button type="button" style={{ width: '60%' }} className=" px-10 py-1 text-[#70685a] font-bold tracking-wide border border-[#70685a] justify-center  hover:bg-blue-700 focus:outline-none">
-                                            店舗每の経理情報参考デ夕
+                                            店舗毎の経理情報参考データ
                                         </button>
                                     </div>
 
@@ -88,7 +88,7 @@ const ManagementHeadqueatersTOP = () => {
                                 <div style={{ width: '90%' }}>
                                     <div className=' text-[#70685a]'>
                                         < button type="button" style={{ width: '45%' }} className=" px-10 py-1 text-[#70685a] font-bold tracking-wide border border-[#70685a] justify-center  hover:bg-blue-700 focus:outline-none">
-                                            顧客未店率推移
+                                            顧客来店率推移
                                         </button>
                                         < button type="button" style={{ width: '45%' }} className=" px-10 py-1 text-[#70685a] font-bold tracking-wide border border-[#70685a] justify-center  hover:bg-blue-700 focus:outline-none ml-5">
                                             総合分析
@@ -99,7 +99,7 @@ const ManagementHeadqueatersTOP = () => {
                                             ランキング機能
                                         </button>
                                         < button type="button" style={{ width: '45%' }} className=" px-10 py-1 text-[#70685a] font-bold tracking-wide border border-[#70685a] justify-center  hover:bg-blue-700 focus:outline-none ml-5">
-                                            ス夕シフ個人成績
+                                            スタッフ個人成績
                                         </button>
                                     </div>
                                     <div className=' text-[#70685a] pt-5'>
@@ -141,7 +141,7 @@ const ManagementHeadqueatersTOP = () => {
                                                 各種設定
                                             </button>
                                             < button type="button" className="w-full mt-5 px-10 py-1 text-[#70685a] font-bold tracking-wide border border-[#70685a] justify-center  hover:bg-blue-700 focus:outline-none ml-10">
-                                                各種設定
+                                                各種マスター一覧
                                             </button>
                                         </div>
                                     </div>

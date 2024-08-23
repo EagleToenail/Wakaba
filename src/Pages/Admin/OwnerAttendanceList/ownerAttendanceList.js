@@ -35,7 +35,7 @@ const OwnerAttendanceList = () => {
 
 
             <div className='flex justify-center mt-5' >
-                <h2 className="text-[#70685a] text-center text-2xl font-bold flex justify-center">出退勤一覧(月次) = 夕イムカード金員分</h2>
+                <h2 className="text-[#70685a] text-center text-2xl font-bold flex justify-center">出退勤一覧(月次) = 夕イムカード全員分</h2>
             </div>
             {/*  Table*/}
             <div className='mt-10 pl-10 pr-10 w-full'>
@@ -61,16 +61,16 @@ const OwnerAttendanceList = () => {
                         </tr>
                         <tr>
                             <td ></td>
-                            <td >休目</td>
+                            <td >休日</td>
                             <td style={Td}>土日</td>
-                            <td style={Td}>小</td>
+                            <td style={Td}>火</td>
                             <td style={Td}></td>
                         </tr>
                         <tr>
                             <td ></td>
                             <td >氏名</td>
-                            <td style={Td} > 小泉純一郎</td>
-                            <td style={Td}>ス夕シフ02</td>
+                            <td style={Td} >小泉純一郎</td>
+                            <td style={Td}>スタッフ02</td>
                             <td style={Td}></td>
                         </tr>
                     </tbody>

@@ -49,9 +49,9 @@ const OwnersStaffList = () => {
 
             <div className='flex justify-around mt-5' >
                 <ButtonComponent children={'asdfasfd'} style={{ visibility: 'hidden' }} />
-                <h2 className="text-[#70685a] text-center text-2xl font-bold flex justify-center">ス夕シフ一賢</h2>
+                <h2 className="text-[#70685a] text-center text-2xl font-bold flex justify-center">スタッフ一覧</h2>
                 <div className='flex justify-around'>
-                    <ButtonComponent children={'新規顧客登銀'} className='py-2 text-2xl !text-[#665c4e] bg-[#ebe6e0]'/>
+                    <ButtonComponent children={'新規スタッフ登銀'} className='py-2 text-2xl !text-[#665c4e] bg-[#ebe6e0]'/>
                 </div>
             </div>
             {/*  */}
@@ -59,11 +59,10 @@ const OwnersStaffList = () => {
                 <div className=' text-[#70685a] px-2 mr-2 text-left'>
                     <LabelComponent value={'所属店舗  '} className='text-left'/>
                     <select id="classification" name="classification" className="w-full text-[#70685a] font-bold border border-[#70685a] px-4 py-1 outline-[#70685a]">
-                                            <option value="執行役員">執行役員</option>
-                                            <option value="社員">社員</option>
-                                            <option value="契約社員">契約社員</option>
-                                            <option value="アルバイト">アルバイト
-                                            </option>
+                                            <option value="本部">本部</option>
+                                            <option value="生駒店">生駒店</option>
+                                            <option value="宮崎店">宮崎店</option>
+                                            <option value="XX店">XX店</option>
                                         </select>
                 </div>
                 <div className=' text-[#70685a] px-2 mr-2'>
@@ -136,8 +135,8 @@ const OwnersStaffList = () => {
                             <th>住所</th>
                             <th>e-mail</th>
                             <th>入社日</th>
-                            <th> 退社日</th>
-                            <th>連帝保証人</th>
+                            <th>退社日</th>
+                            <th>連帯保証人</th>
                             <th>誓約書</th>
                             <th></th>
                             <th></th>
