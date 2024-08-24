@@ -94,7 +94,6 @@ function App() {
             <Route path='/endofworkreporttoowner' element={<EndOfWorkReportToOwner/>}/>
           </Route>
 
-
             <Route exact path='/' element={<Login/>}/>
             <Route path='/logout' element={<Logout/>}/>
             <Route path='/forgetpassword' element={<ForgetPassword/>}/>
@@ -132,10 +131,8 @@ function App() {
             <Route path='/commemorativecoinhistorylist' element={<CommemorativeCoinHistoryList/>}/>
             <Route path='/commemorativecoinexchange' element={<CommemorativeCoinExchange/>}/>
             <Route path='/preciousmetalsprices' element={<PreciousMetalsPrices/>}/>
-            <Route path='/customerreceipt' element={<CustomerReceipt/>}/>
-
-            
-            
+            <Route path='/customerreceipt' element={<CustomerReceipt/>}/>  
+            {/* admin */}
             <Route path='/admin/ownerstop' element={<OwnersTop/>}/>
             <Route path='/admin/ownersstafflist' element={<OwnersStaffList/>}/>
             <Route path='/admin/ownerstaffindividual' element={<OwnerStaffIndividual/>}/>

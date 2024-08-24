@@ -1,20 +1,37 @@
-import React from 'react';
+import React,{useState} from 'react';
 // import { Link } from 'react-router-dom';
 import Titlebar from '../../Components/Common/Titlebar';
 import DateAndTime from '../../Components/Common/PickData';
 
 
-const  StartingWork = () => {
+const StartingWork = () => {
     const title = 'タイトルタイトル';
 
     const handleNavigate = () => {
         window.location.href = '/todolist'; // Navigate and reload the page
+    };
+    //Button color change
+    const [button1Active, setButton1Active] = useState(true);
+    const [button2Active, setButton2Active] = useState(true);
+    const [button3Active, setButton3Active] = useState(false);
+    const [button4Active, setButton4Active] = useState(true);
+    const [button5Active, setButton5Active] = useState(true);
+    const [button6Active, setButton6Active] = useState(false);
+    const [button7Active, setButton7Active] = useState(true);
+    const [button8Active, setButton8Active] = useState(true);
+    const [button9Active, setButton9Active] = useState(false);
+    const [button10Active, setButton10Active] = useState(true);
+    const [button11Active, setButton11Active] = useState(true);
+    const [button12Active, setButton12Active] = useState(true);
+
+    const handleClick = (setButtonActive, isActive) => {
+        setButtonActive(!isActive);
       };
 
     return (
         <>
             <Titlebar title={title} />
-            <DateAndTime/>
+            <DateAndTime />
             <div className="bg-[trasparent] font-[sans-serif] mt-12">
                 <div className=" flex flex-col items-center justify-center px-4">
                     <div className="w-full pt-3" style={{ maxWidth: '80em' }}>
@@ -25,22 +42,22 @@ const  StartingWork = () => {
                                 {/* new */}
                                 <div className='flex'>
                                     <div style={{ width: '10%' }} className='flex align-center justify-end'>
-                                    <button type="button" className="w-20 px-1 py-1 font-bold tracking-wide rounded-lg justify-end text-[#d1cdca] border border-[#d1cdca] bg-[#e87a00] hover:bg-blue-700 focus:outline-none">一致
-                                            </button>
+                                        <button type="button" onClick={() => handleClick(setButton1Active, button1Active)} className={`w-20 px-1 py-1 font-bold tracking-wide rounded-lg justify-end text-[#d1cdca] border border-[#d1cdca] ${button1Active ? 'bg-[#e87a00]' : 'transparent'}    hover:bg-blue-700 focus:outline-none`}>一致
+                                        </button>
                                     </div>
                                     <div style={{ width: '5%' }} className=' px-5 flex align-center justify-center'>
                                         <label className="text-[#70685a] fold-semiblod mb-1 block text-center text-[20px] py-1 !mb-0">1.</label>
                                     </div>
                                     <div style={{ width: '85%', flexDirection: 'column', }} className='flex align-center justify-around'>
                                         <label className="text-[#70685a] fold-semiblod mb-1 block text-left text-[20px] mr-10 py-1 !mb-0">
-                                        金庫金は、月次収支報告書とー致しましたか?</label>
+                                            金庫金は、月次収支報告書とー致しましたか?</label>
                                     </div>
                                 </div>
                                 {/* new */}
                                 <div className='flex'>
                                     <div style={{ width: '10%' }} className='flex align-center justify-end'>
-                                    <button type="button" className="w-20 px-1 py-1 font-bold tracking-wide rounded-lg justify-end text-[#d1cdca] border border-[#d1cdca] bg-[#e87a00] hover:bg-blue-700 focus:outline-none">送信
-                                            </button>
+                                        <button type="button" onClick={() => handleClick(setButton2Active, button2Active)} className={`w-20 px-1 py-1 font-bold tracking-wide rounded-lg justify-end text-[#d1cdca] border border-[#d1cdca] ${button2Active ? 'bg-[#e87a00]' : 'transparent'} hover:bg-blue-700 focus:outline-none`}>送信
+                                        </button>
                                     </div>
                                     <div style={{ width: '5%' }} className=' px-5 flex align-center justify-center'>
                                         <label className="text-[#70685a] fold-semiblod mb-1 block text-center text-[20px] py-1 !mb-0">2.</label>
@@ -52,8 +69,8 @@ const  StartingWork = () => {
                                 {/* new */}
                                 <div className='flex'>
                                     <div style={{ width: '10%' }} className='flex align-center justify-end'>
-                                    <button type="button" className="w-20 px-1 py-1 font-bold tracking-wide rounded-lg justify-end text-[#d1cdca] border border-[#d1cdca] bg-[transparent] hover:bg-blue-700 focus:outline-none">送信
-                                            </button>
+                                        <button type="button" onClick={() => handleClick(setButton3Active, button3Active)} className={`w-20 px-1 py-1 font-bold tracking-wide rounded-lg justify-end text-[#d1cdca] border border-[#d1cdca] ${button3Active ? 'bg-[#e87a00]' : 'transparent'} hover:bg-blue-700 focus:outline-none`}>送信
+                                        </button>
                                     </div>
                                     <div style={{ width: '5%' }} className=' px-5 flex align-center justify-center'>
                                         <label className="text-[#70685a] fold-semiblod mb-1 block text-center text-[20px] py-1 !mb-0">3.</label>
@@ -65,8 +82,8 @@ const  StartingWork = () => {
                                 {/* new */}
                                 <div className='flex'>
                                     <div style={{ width: '10%' }} className='flex align-center justify-end'>
-                                    <button type="button" className="w-20 px-1 py-1 font-bold tracking-wide rounded-lg justify-end text-[#d1cdca] border border-[#d1cdca] bg-[#e87a00] hover:bg-blue-700 focus:outline-none">送信
-                                            </button>
+                                        <button type="button" onClick={() => handleClick(setButton4Active, button4Active)} className={`w-20 px-1 py-1 font-bold tracking-wide rounded-lg justify-end text-[#d1cdca] border border-[#d1cdca] ${button4Active ? 'bg-[#e87a00]' : 'transparent'} hover:bg-blue-700 focus:outline-none`}>送信
+                                        </button>
                                     </div>
                                     <div style={{ width: '5%' }} className=' px-5 flex align-center justify-center'>
                                         <label className="text-[#70685a] fold-semiblod mb-1 block text-center text-[20px] py-1 !mb-0">4.</label>
@@ -78,8 +95,8 @@ const  StartingWork = () => {
                                 {/* new */}
                                 <div className='flex'>
                                     <div style={{ width: '10%' }} className='flex align-center justify-end'>
-                                    <button type="button" className="w-20 px-1 py-1 font-bold tracking-wide rounded-lg justify-end text-[#d1cdca] border border-[#d1cdca] bg-[#e87a00] hover:bg-blue-700 focus:outline-none">送信
-                                            </button>
+                                        <button type="button" onClick={() => handleClick(setButton5Active, button5Active)} className={`w-20 px-1 py-1 font-bold tracking-wide rounded-lg justify-end text-[#d1cdca] border border-[#d1cdca] ${button5Active ? 'bg-[#e87a00]' : 'transparent'} hover:bg-blue-700 focus:outline-none`}>送信
+                                        </button>
                                     </div>
                                     <div style={{ width: '5%' }} className=' px-5 flex align-center justify-center'>
                                         <label className="text-[#70685a] fold-semiblod mb-1 block text-center text-[20px] py-1 !mb-0">5.</label>
@@ -91,8 +108,8 @@ const  StartingWork = () => {
                                 {/* new */}
                                 <div className='flex'>
                                     <div style={{ width: '10%' }} className='flex align-center justify-end'>
-                                    <button type="button" className="w-20 px-1 py-1 font-bold tracking-wide rounded-lg justify-end text-[#d1cdca] border border-[#d1cdca] bg-[#transparent] hover:bg-blue-700 focus:outline-none">送信
-                                            </button>
+                                        <button type="button" onClick={() => handleClick(setButton6Active, button6Active)} className={`w-20 px-1 py-1 font-bold tracking-wide rounded-lg justify-end text-[#d1cdca] border border-[#d1cdca] ${button6Active ? 'bg-[#e87a00]' : 'transparent'} hover:bg-blue-700 focus:outline-none`}>送信
+                                        </button>
                                     </div>
                                     <div style={{ width: '5%' }} className=' px-5 flex align-center justify-center'>
                                         <label className="text-[#70685a] fold-semiblod mb-1 block text-center text-[20px] py-1 !mb-0">6.</label>
@@ -104,8 +121,8 @@ const  StartingWork = () => {
                                 {/* new */}
                                 <div className='flex'>
                                     <div style={{ width: '10%' }} className='flex align-center justify-end'>
-                                    <button type="button" className="w-20 px-1 py-1 font-bold tracking-wide rounded-lg justify-end text-[#d1cdca] border border-[#d1cdca] bg-[#e87a00] hover:bg-blue-700 focus:outline-none">送信
-                                            </button>
+                                        <button type="button" onClick={() => handleClick(setButton7Active, button7Active)} className={`w-20 px-1 py-1 font-bold tracking-wide rounded-lg justify-end text-[#d1cdca] border border-[#d1cdca] ${button7Active ? 'bg-[#e87a00]' : 'transparent'} hover:bg-blue-700 focus:outline-none`}>送信
+                                        </button>
                                     </div>
                                     <div style={{ width: '5%' }} className=' px-5 flex align-center justify-center'>
                                         <label className="text-[#70685a] fold-semiblod mb-1 block text-center text-[20px] py-1 !mb-0">7.</label>
@@ -117,8 +134,8 @@ const  StartingWork = () => {
                                 {/* new */}
                                 <div className='flex'>
                                     <div style={{ width: '10%' }} className='flex align-center justify-end'>
-                                    <button type="button" className="w-20 px-1 py-1 font-bold tracking-wide rounded-lg justify-end text-[#d1cdca] border border-[#d1cdca] bg-[#e87a00] hover:bg-blue-700 focus:outline-none">送信
-                                            </button>
+                                        <button type="button" onClick={() => handleClick(setButton8Active, button8Active)} className={`w-20 px-1 py-1 font-bold tracking-wide rounded-lg justify-end text-[#d1cdca] border border-[#d1cdca] ${button8Active ? 'bg-[#e87a00]' : 'transparent'} hover:bg-blue-700 focus:outline-none`}>送信
+                                        </button>
                                     </div>
                                     <div style={{ width: '5%' }} className=' px-5 flex align-center justify-center'>
                                         <label className="text-[#70685a] fold-semiblod mb-1 block text-center text-[20px] py-1 !mb-0">8.</label>
@@ -130,8 +147,8 @@ const  StartingWork = () => {
                                 {/* new */}
                                 <div className='flex'>
                                     <div style={{ width: '10%' }} className='flex align-center justify-end'>
-                                    <button type="button" className="w-20 px-1 py-1 font-bold tracking-wide rounded-lg justify-end text-[#d1cdca] border border-[#d1cdca] bg-[transparent] hover:bg-blue-700 focus:outline-none">送信
-                                            </button>
+                                        <button type="button" onClick={() => handleClick(setButton9Active, button9Active)} className={`w-20 px-1 py-1 font-bold tracking-wide rounded-lg justify-end text-[#d1cdca] border border-[#d1cdca] ${button9Active ? 'bg-[#e87a00]' : 'transparent'} hover:bg-blue-700 focus:outline-none1`}>送信
+                                        </button>
                                     </div>
                                     <div style={{ width: '5%' }} className=' px-5 flex align-center justify-center'>
                                         <label className="text-[#70685a] fold-semiblod mb-1 block text-center text-[20px] py-1 !mb-0">9.</label>
@@ -143,8 +160,8 @@ const  StartingWork = () => {
                                 {/* new */}
                                 <div className='flex'>
                                     <div style={{ width: '10%' }} className='flex align-center justify-end'>
-                                    <button type="button" className="w-20 px-1 py-1 font-bold tracking-wide rounded-lg justify-end text-[#d1cdca] border border-[#d1cdca] bg-[#e87a00] hover:bg-blue-700 focus:outline-none">送信
-                                            </button>
+                                        <button type="button" onClick={() => handleClick(setButton10Active, button10Active)} className={`w-20 px-1 py-1 font-bold tracking-wide rounded-lg justify-end text-[#d1cdca] border border-[#d1cdca] ${button10Active ? 'bg-[#e87a00]' : 'transparent'} hover:bg-blue-700 focus:outline-none`}>送信
+                                        </button>
                                     </div>
                                     <div style={{ width: '5%' }} className=' px-5 flex align-center justify-center'>
                                         <label className="text-[#70685a] fold-semiblod mb-1 block text-center text-[20px] py-1 !mb-0">10.</label>
@@ -156,8 +173,8 @@ const  StartingWork = () => {
                                 {/* new */}
                                 <div className='flex'>
                                     <div style={{ width: '10%' }} className='flex align-center justify-end'>
-                                    <button type="button" className="w-20 px-1 py-1 font-bold tracking-wide rounded-lg justify-end text-[#d1cdca] border border-[#d1cdca] bg-[#e87a00] hover:bg-blue-700 focus:outline-none">送信
-                                            </button>
+                                        <button type="button" onClick={() => handleClick(setButton11Active, button11Active)} className={`w-20 px-1 py-1 font-bold tracking-wide rounded-lg justify-end text-[#d1cdca] border border-[#d1cdca] ${button11Active ? 'bg-[#e87a00]' : 'transparent'} hover:bg-blue-700 focus:outline-none`}>送信
+                                        </button>
                                     </div>
                                     <div style={{ width: '5%' }} className=' px-5 flex align-center justify-center'>
                                         <label className="text-[#70685a] fold-semiblod mb-1 block text-center text-[20px] py-1 !mb-0">11.</label>
@@ -169,8 +186,8 @@ const  StartingWork = () => {
                                 {/* new */}
                                 <div className='flex'>
                                     <div style={{ width: '10%' }} className='flex align-center justify-end'>
-                                    <button type="button" className="w-20 px-1 py-1 font-bold tracking-wide rounded-lg justify-end text-[#d1cdca] border border-[#d1cdca] bg-[#e87a00] hover:bg-blue-700 focus:outline-none">送信
-                                            </button>
+                                        <button type="button" onClick={() => handleClick(setButton12Active, button12Active)} className={`w-20 px-1 py-1 font-bold tracking-wide rounded-lg justify-end text-[#d1cdca] border border-[#d1cdca] ${button12Active ? 'bg-[#e87a00]' : 'transparent'} hover:bg-blue-700 focus:outline-none`}>送信
+                                        </button>
                                     </div>
                                     <div style={{ width: '5%' }} className=' px-5 flex align-center justify-center'>
                                         <label className="text-[#70685a] fold-semiblod mb-1 block text-center text-[20px] py-1 !mb-0">12.</label>

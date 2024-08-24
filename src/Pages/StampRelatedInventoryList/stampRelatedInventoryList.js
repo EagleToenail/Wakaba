@@ -36,7 +36,7 @@ const StampRelatedInventoryList = () => {
     return (
         <>
             <Titlebar title={title} />
-            <DateAndTime/>
+            <DateAndTime />
             <div className=" flex flex-col items-center justify-center py-3 px-4">
                 <div className="w-full " style={{ maxWidth: '90em' }}>
                     <h2 className="text-[#70685a] text-center text-2xl font-bold flex justify-center">日本の切手・ハガキ・レターパック 在庫リスト</h2>
@@ -51,7 +51,7 @@ const StampRelatedInventoryList = () => {
                         <div>
                             <div className='text-center'><LabelComponent value="選択した項目の" /></div>
                             < button type="button" className="w-max px-3 py-1 font-bold tracking-wide rounded-lg justify-center text-white bg-[#e87a00] hover:bg-blue-700 focus:outline-none">
-                            出庫申請書を作成
+                                出庫申請書を作成
                             </button>
                         </div>
                         <div>
@@ -136,7 +136,7 @@ const StampRelatedInventoryList = () => {
                         </div>
                         <div className='flex justify-end' style={{ width: '25%' }}>
                             <div className='mt-5 flex flex-col justify-end' style={{ width: '70%' }}>
-                            <table className=' text-center w-full' style={Table}>
+                                <table className=' text-center w-full' style={Table}>
                                     <thead>
                                         <tr>
                                             <th ></th>
@@ -166,7 +166,7 @@ const StampRelatedInventoryList = () => {
                         </div>
                         <div className='flex justify-end' style={{ width: '25%' }}>
                             <div className='mt-5 flex flex-col justify-end' style={{ width: '70%' }}>
-                            <table className=' text-center w-full' style={Table}>
+                                <table className=' text-center w-full' style={Table}>
                                     <thead>
                                         <tr>
                                             <th ></th>
@@ -196,7 +196,7 @@ const StampRelatedInventoryList = () => {
                         </div>
                         <div className='flex justify-end' style={{ width: '25%' }}>
                             <div className='mt-5 flex flex-col justify-end' style={{ width: '70%' }}>
-                            <table className=' text-center w-full' style={Table}>
+                                <table className=' text-center w-full' style={Table}>
                                     <thead>
                                         <tr>
                                             <th ></th>
@@ -229,7 +229,7 @@ const StampRelatedInventoryList = () => {
                     <div className='flex'>
                         {/* first table */}
                         <div className='mt-5  ml-5' style={{ width: '25%' }}>
-                            
+
                             <div>
                                 <div>
                                     <table className=' text-center w-full' style={Table}>
@@ -269,10 +269,10 @@ const StampRelatedInventoryList = () => {
                         </div>
                         {/* secondtable */}
                         <div className='mt-5  ml-5' style={{ width: '25%' }}>
-                            
+
                             <div>
                                 <div>
-                                <table className=' text-center w-full' style={Table}>
+                                    <table className=' text-center w-full' style={Table}>
                                         <thead>
                                             <tr>
                                                 <th >選択</th>
@@ -309,10 +309,10 @@ const StampRelatedInventoryList = () => {
                         </div>
                         {/* thirdtable */}
                         <div className='mt-5 ml-5' style={{ width: '25%' }}>
-                            
+
                             <div>
                                 <div>
-                                <table className=' text-center w-full' style={Table}>
+                                    <table className=' text-center w-full' style={Table}>
                                         <thead>
                                             <tr>
                                                 <th >選択</th>
@@ -349,10 +349,10 @@ const StampRelatedInventoryList = () => {
                         </div>
                         {/* forthtable */}
                         <div className='mt-5 ml-5' style={{ width: '25%' }}>
-                            
+
                             <div>
                                 <div>
-                                <table className=' text-center w-full' style={Table}>
+                                    <table className=' text-center w-full' style={Table}>
                                         <thead>
                                             <tr>
                                                 <th >選択</th>
@@ -398,60 +398,60 @@ const StampRelatedInventoryList = () => {
                                 </div>
                                 <div className='flex justify-end'>
                                     <div className='mt-5 flex flex-col justify-end' style={{ width: '70%' }}>
-                                    <table className=' text-center w-full' style={Table}>
-                                    <thead>
-                                        <tr>
-                                            <th ></th>
-                                            <th>台紙数合計</th>
-                                            <th>額面総額合計</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>下記合計</td>
-                                            <td style={Td}>1000</td>
-                                            <td style={Td}>¥1,000,000</td>
-                                        </tr>
-                                        <tr>
-                                            <td>50円以上</td>
-                                            <td style={Td}>1000</td>
-                                            <td style={Td}>¥1,000,000</td>
-                                        </tr>
-                                        <tr>
-                                            <td>50円未満</td>
-                                            <td style={Td}>1000</td>
-                                            <td style={Td}>¥1,000,000</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                                        <table className=' text-center w-full' style={Table}>
+                                            <thead>
+                                                <tr>
+                                                    <th ></th>
+                                                    <th>台紙数合計</th>
+                                                    <th>額面総額合計</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>下記合計</td>
+                                                    <td style={Td}>1000</td>
+                                                    <td style={Td}>¥1,000,000</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>50円以上</td>
+                                                    <td style={Td}>1000</td>
+                                                    <td style={Td}>¥1,000,000</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>50円未満</td>
+                                                    <td style={Td}>1000</td>
+                                                    <td style={Td}>¥1,000,000</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
                                     </div>
                                 </div>
                                 <div className='mt-5 ml-5'>
-                                    
+
                                     <div>
                                         <div>
-                                        <table className=' text-center w-full' style={Table}>
-                                        <thead>
-                                            <tr>
-                                                <th >選択</th>
-                                                <th>切手1枚の額面</th>
-                                                <th>面数</th>
-                                                <th >シート額面</th>
-                                                <th>シート数</th>
-                                                <th>額面総額</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td><input type='checkbox' /></td>
-                                                <td style={Td}>¥7</td>
-                                                <td style={Td}>20</td>
-                                                <td style={Td}>¥100,000</td>
-                                                <td style={Td}>1,000</td>
-                                                <td style={Td}>¥1,000,000</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
+                                            <table className=' text-center w-full' style={Table}>
+                                                <thead>
+                                                    <tr>
+                                                        <th >選択</th>
+                                                        <th>切手1枚の額面</th>
+                                                        <th>面数</th>
+                                                        <th >シート額面</th>
+                                                        <th>シート数</th>
+                                                        <th>額面総額</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td><input type='checkbox' /></td>
+                                                        <td style={Td}>¥7</td>
+                                                        <td style={Td}>20</td>
+                                                        <td style={Td}>¥100,000</td>
+                                                        <td style={Td}>1,000</td>
+                                                        <td style={Td}>¥1,000,000</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
                                         </div>
                                     </div>
                                     <div className='flex justify-center mt-2'>

@@ -107,7 +107,7 @@ export default function OnSitePurchase() {
                                 {/* rect btn */}
                                 <div>
                                     <div>
-                                        < button type="button" className="w-20 px-3 py-0.5 font-semiblod rounded-lg justify-center text-[#70685a] text-[15px] bg-[#ebe6e0] hover:bg-blue-700 focus:outline-none">
+                                        < button type="button" className="w-max px-8 py-0.5 font-semiblod rounded-lg justify-center text-[#70685a] text-[15px] bg-[#ebe6e0] hover:bg-blue-700 focus:outline-none">
                                             編集
                                         </button>
                                     </div>
@@ -253,7 +253,7 @@ export default function OnSitePurchase() {
                         </div>
                     </div>
                     <div className='mt-5'>
-                        < button type="button" className="w-20 px-3 py-0.5 font-semiblod rounded-lg justify-center text-[#70685a] text-[15px] bg-[#ebe6e0] hover:bg-blue-700 focus:outline-none">
+                        < button type="button" className="w-max px-4 py-0.5 font-semiblod rounded-lg justify-center text-[#70685a] text-[15px] bg-[#ebe6e0] hover:bg-blue-700 focus:outline-none">
                             新規投稿
                         </button>
                     </div>
