@@ -37,13 +37,9 @@ const Tab = () => {
             </div>
             <div id="tab2" className={`tabcontent ${activeTab === 'tab2' ? '' : 'hidden'}`}>
                 <h2 className="text-lg font-bold text-gray-800">Tab 2 Content</h2>
-                <p className="mt-2 text-gray-700">Duis lobortis velit tellus, eget luctus tellus facilisis eget. Maecenas non massa
-                    varius, molestie lorem eget, molestie nisi. Suspendisse potenti.</p>
             </div>
             <div id="tab3" className={`tabcontent ${activeTab === 'tab3' ? '' : 'hidden'}`}>
                 <h2 className="text-lg font-bold text-gray-800">Tab 3 Content</h2>
-                <p className="mt-2 text-gray-700">Duis lobortis velit tellus, eget luctus tellus facilisis eget. Maecenas non massa
-                    varius, molestie lorem eget, molestie nisi. Suspendisse potenti.</p>
             </div>
         </div>
     );

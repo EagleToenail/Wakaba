@@ -5,7 +5,7 @@ import '../Assets/css/MainContainer.css';
 
 
 const MainContainer = ({children}) => {
-  const [position, setPosition] = useState(50); // percentage for the height of the top pane
+  const [position, setPosition] = useState(40); // percentage for the height of the top pane
   const [isDragging, setIsDragging] = useState(false);
   const containerRef = useRef(null);
   const startY = useRef(0); // Ref to store the initial click position
@@ -44,8 +44,21 @@ const MainContainer = ({children}) => {
 //     setPosition(Math.max(10, Math.min(newPosition, 90))); // constrain between 10% and 90%
 //   };
 
-  const moveToTop = () => setPosition(10); // Move the line to the top
-  const moveToMiddle = () => setPosition(50); // Move the line to the middle
+  const moveToTop = () =>{
+    if(position<50) {
+      setPosition(5); // Move the line to the top
+    }else{
+      setPosition(40); // Move the line to the top
+    }
+   
+  } 
+  const moveToBottom = () => {
+    if(position<30) {
+      setPosition(40); // Move the line to the top
+    }else{
+      setPosition(80); // Move the line to the top
+    }
+  }
 
   return (
     // <div className="main-container" ref={containerRef} onClick={handleClick}>
@@ -62,7 +75,7 @@ const MainContainer = ({children}) => {
         <button className="arrow-button1" onClick={(e) => { e.stopPropagation(); moveToTop(); }}>
             <svg  focusable="false" aria-hidden="true" fill="white" viewBox="0 0 24 24" data-testid="ArrowDropUpIcon" title="ArrowDropUp"><path d="m7 14 5-5 5 5z"></path></svg>
           </button>
-      <button className="arrow-button2" onClick={(e) => { e.stopPropagation(); moveToMiddle(); }}>
+      <button className="arrow-button2" onClick={(e) => { e.stopPropagation(); moveToBottom(); }}>
            <svg  focusable="false" aria-hidden="true" fill="white" viewBox="0 0 24 24" data-testid="ArrowDropDownIcon" title="ArrowDropDown"><path d="m7 10 5 5 5-5z"></path></svg>
         </button>
       </div>

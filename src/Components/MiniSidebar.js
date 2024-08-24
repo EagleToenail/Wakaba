@@ -12,21 +12,21 @@ export default function MiniSidebar() {
                               <ul className="mt-2" >
                                    <li className='flex px-3'>
                                         <button type="button"
-                                             className=" rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none active:bg-blue-700 text-[15px]">qw</button>
+                                             className="w-6 h-6 rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none active:bg-blue-700 text-[15px]"></button>
                                    </li>
                                    <li className='flex py-2 px-3'>
                                         <button type="button"
-                                             className=" rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none active:bg-blue-700 text-[15px]">qw</button>
+                                             className="w-6 h-6 rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none active:bg-blue-700 text-[15px]"></button>
                                    </li>
                                    <li className='flex px-3'>
                                         <button type="button"
-                                             className=" rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none active:bg-blue-700 text-[15px]">qw</button>
+                                             className="w-6 h-6 rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none active:bg-blue-700 text-[15px]"></button>
                                    </li>
 
                                    <hr className="my-3  mr-5 border-gray-400" />
                                    <li className='flex py-2 px-3' style={{ position: 'relative' }}>
                                         <button type="button"
-                                             className=" rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none active:bg-blue-700 text-[15px]" >qw</button>
+                                             className="w-6 h-6 rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none active:bg-blue-700 text-[15px]" ></button>
                                         <button type="button" style={{ position: 'absolute', top: '18px', left: '20px' }}
                                              className="w-4 h-4 inline-flex items-center justify-center text-[10px] text-bold rounded-full border-none outline-none bg-[yellow] hover:bg-purple-700 active:bg-purple-600">
                                              99
@@ -34,11 +34,11 @@ export default function MiniSidebar() {
                                    </li>
                                    <li className='flex px-3'>
                                         <button type="button"
-                                             className=" rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none active:bg-blue-700 text-[15px]">qw</button>
+                                             className="w-6 h-6 rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none active:bg-blue-700 text-[15px]"></button>
                                    </li>
                                    <li className='flex py-2 px-3' style={{ position: 'relative' }}>
                                         <button type="button"
-                                             className=" rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none active:bg-blue-700 text-[15px]">qw</button>
+                                             className="w-6 h-6 rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none active:bg-blue-700 text-[15px]"></button>
                                         <button type="button" style={{ position: 'absolute', top: '18px', left: '20px' }}
                                              className="w-4 h-4 inline-flex items-center justify-center text-[10px] text-bold rounded-full border-none outline-none bg-[yellow] hover:bg-purple-700 active:bg-purple-600">
                                              99
@@ -46,7 +46,7 @@ export default function MiniSidebar() {
                                    </li>
                                    <li className='flex px-3' style={{ position: 'relative' }}>
                                         <button type="button"
-                                             className=" rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none active:bg-blue-700 text-[15px]">qw</button>
+                                             className="w-6 h-6 rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none active:bg-blue-700 text-[15px]"></button>
                                         <button type="button" style={{ position: 'absolute', top: '11px', left: '20px' }}
                                              className="w-4 h-4 inline-flex items-center justify-center text-[10px] text-bold rounded-full border-none outline-none bg-[yellow] hover:bg-purple-700 active:bg-purple-600">
                                              99
@@ -54,46 +54,46 @@ export default function MiniSidebar() {
                                    </li>
                                    <li className='flex py-2 px-3'>
                                         <button type="button"
-                                             className=" rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none active:bg-blue-700 text-[15px]">qw</button>
+                                             className="w-6 h-6 rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none active:bg-blue-700 text-[15px]"></button>
                                    </li>
                                    <li className='flex px-3'>
                                         <button type="button"
-                                             className=" rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none active:bg-blue-700 text-[15px]">qw</button>
+                                             className="w-6 h-6 rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none active:bg-blue-700 text-[15px]"></button>
                                    </li>
                                    <li className='flex py-2 px-3'>
                                         <button type="button"
-                                             className=" rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none active:bg-blue-700 text-[15px]">qw</button>
+                                             className="w-6 h-6 rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none active:bg-blue-700 text-[15px]"></button>
                                    </li>
 
                                    <hr className="my-3  mr-5 border-gray-400" />
                                    <li className='flex px-3'>
                                         <button type="button"
-                                             className=" rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none active:bg-blue-700 text-[15px]">qw</button>
+                                             className="w-6 h-6 rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none active:bg-blue-700 text-[15px]"></button>
                                    </li>
                                    <li className='flex py-2 px-3'>
                                         <button type="button"
-                                             className=" rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none active:bg-blue-700 text-[15px]">qw</button>
+                                             className="w-6 h-6 rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none active:bg-blue-700 text-[15px]"></button>
                                    </li>
                                    <li className='flex px-3'>
                                         <button type="button"
-                                             className=" rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none active:bg-blue-700 text-[15px]">qw</button>
+                                             className="w-6 h-6 rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none active:bg-blue-700 text-[15px]"></button>
                                    </li>
                                    <hr className="my-3  mr-5 border-gray-400" />
                                    <li className='flex px-3'>
                                         <button type="button"
-                                             className=" rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none active:bg-blue-700 text-[15px]">qw</button>
+                                             className="w-6 h-6 rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none active:bg-blue-700 text-[15px]"></button>
                                    </li>
                                    <li className='flex py-2 px-3'>
                                         <button type="button"
-                                             className=" rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none active:bg-blue-700 text-[15px]">qw</button>
+                                             className="w-6 h-6 rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none active:bg-blue-700 text-[15px]"></button>
                                    </li>
                                    <li className='flex px-3'>
                                         <button type="button"
-                                             className=" rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none active:bg-blue-700 text-[15px]">qw</button>
+                                             className="w-6 h-6 rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none active:bg-blue-700 text-[15px]"></button>
                                    </li>
                                    <li className='flex py-2 px-3'>
                                         <button type="button"
-                                             className=" rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none active:bg-blue-700 text-[15px]">qw</button>
+                                             className="w-6 h-6 rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none active:bg-blue-700 text-[15px]"></button>
                                    </li>
                               </ul>
                          </div>
@@ -103,19 +103,19 @@ export default function MiniSidebar() {
                               <ul className="mt-2">
                                    <li className='flex py-2 px-3'>
                                         <button type="button"
-                                             className=" rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none active:bg-blue-700 text-[15px]">qw</button>
+                                             className="w-6 h-6 rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none active:bg-blue-700 text-[15px]"></button>
                                    </li>
                                    <li className='flex  px-3'>
                                         <button type="button"
-                                             className=" rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none active:bg-blue-700 text-[15px]">qw</button>
+                                             className="w-6 h-6 rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none active:bg-blue-700 text-[15px]"></button>
                                    </li>
                                    <li className='flex py-2 px-3'>
                                         <button type="button"
-                                             className=" rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none active:bg-blue-700 text-[15px]">qw</button>
+                                             className="w-6 h-6 rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none active:bg-blue-700 text-[15px]"></button>
                                    </li>
                                    <li className='flex px-3'>
                                         <button type="button"
-                                             className=" rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none active:bg-blue-700 text-[15px]">qw</button>
+                                             className="w-6 h-6 rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none active:bg-blue-700 text-[15px]"></button>
                                    </li>
                               </ul>
                          </div>
