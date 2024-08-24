@@ -1,13 +1,13 @@
 import React from 'react';
 // import { Link } from 'react-router-dom';
-import Titlebar from '../../Components/Common/Titlebar';
+// import Titlebar from '../../Components/Common/Titlebar';
 import '../../Assets/css/showtable.css';
 import ButtonComponent from '../../Components/Common/ButtonComponent';
 import DateAndTime from '../../Components/Common/PickData';
 
 
 const CustomerReceipt = () => {
-    const title = 'タイトルタイトル';
+    // const title = 'タイトルタイトル';
     const Table = {
         borderCollapse: 'collapse',
         color: '#70685a',
@@ -31,7 +31,7 @@ const CustomerReceipt = () => {
 
     return (
         <>
-            <Titlebar title={title} />
+            {/* <Titlebar title={title} /> */}
             <div className=" flex flex-col items-center justify-center py-3 px-4">
                 <div className="w-full " style={{ maxWidth: '90em' }}>
                     <div className='flex justify-around mt-10 '>

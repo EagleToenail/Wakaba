@@ -1,13 +1,13 @@
 import React,{useState} from 'react';
 // import { Link } from 'react-router-dom';
-import Titlebar from '../../Components/Common/Titlebar';
+// import Titlebar from '../../Components/Common/Titlebar';
 import '../../Assets/css/showtable.css';
 import dateimage from '../../Assets/img/datepicker.png';
 
 
 
 const MonthlyIncome = () => {
-    const title = 'タイトルタイトル';
+    // const title = 'タイトルタイトル';
 
     const Table = {
         borderCollapse: 'collapse',
@@ -46,7 +46,7 @@ const MonthlyIncome = () => {
 
     return (
         <>
-            <Titlebar title={title} />
+            {/* <Titlebar title={title} /> */}
                 <div className='flex justify-around mt-10'>
                     <div className='flex'>
                         <button type="button"

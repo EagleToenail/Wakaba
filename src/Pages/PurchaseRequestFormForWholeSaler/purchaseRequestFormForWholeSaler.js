@@ -1,13 +1,13 @@
 import React from 'react';
 // import { Link } from 'react-router-dom';
-import Titlebar from '../../Components/Common/Titlebar';
+// import Titlebar from '../../Components/Common/Titlebar';
 import '../../Assets/css/showtable.css';
 import ButtonComponent from '../../Components/Common/ButtonComponent';
 import LabelComponent from '../../Components/Common/LabelComponent';
 
 
 const PurchaseRequestFormForWholeSaler = () => {
-    const title = 'タイトルタイトル';
+    // const title = 'タイトルタイトル';
 
     const Table = {
         borderCollapse: 'collapse',
@@ -32,7 +32,7 @@ const PurchaseRequestFormForWholeSaler = () => {
 
     return (
         <>
-            <Titlebar title={title} />
+            {/* <Titlebar title={title} /> */}
 
             <div className='flex justify-around mt-10' >
                 <h2 className="text-[#70685a] text-center text-2xl font-bold flex justify-center">卸への買取り依頼書(各業者用紙作成元シート)</h2>
@@ -55,7 +55,7 @@ const PurchaseRequestFormForWholeSaler = () => {
                     <label className="text-[#70685a] text-[20px] block text-center pb-2">用伝表を</label>
                 </div>
                 <div className=' text-[#70685a] px-2 mr-2 flex flex-col justify-end'>
-                    < button type="button" style={{ display: 'flex', alignItem: 'end' }} className="flex align-end w-20 px-3 py-2 font-bold rounded-md tracking-wide text-[#665b4c] justify-center text-white bg-[#ebe6e0] hover:bg-blue-700 focus:outline-none">
+                    < button type="button" style={{ display: 'flex', alignItem: 'end' }} className="flex align-end w-20 px-3 py-2 font-bold rounded-md tracking-wide text-[#665b4c] justify-center text-white bg-[#a3a1c8] hover:bg-blue-700 focus:outline-none">
                         作成
                     </button>
                 </div>

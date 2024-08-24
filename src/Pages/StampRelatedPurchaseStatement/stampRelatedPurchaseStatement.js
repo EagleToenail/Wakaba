@@ -1,6 +1,6 @@
 import React from 'react';
 // import { Link } from 'react-router-dom';
-import Titlebar from '../../Components/Common/Titlebar';
+// import Titlebar from '../../Components/Common/Titlebar';
 import StampSheet from '../../Assets/img/stampsheet.png'
 import LetterPack from '../../Assets/img/letterpack.png'
 import StampRose from '../../Assets/img/stamprose.png'
@@ -11,7 +11,7 @@ import InputComponent from '../../Components/Common/InputComponent';
 
 
 const StampRelatedPurchaseStatement = () => {
-    const title = 'タイトルタイトル';
+    // const title = 'タイトルタイトル';
 
     const Table = {
         borderCollapse: 'collapse',
@@ -36,7 +36,7 @@ const StampRelatedPurchaseStatement = () => {
 
     return (
         <>
-            <Titlebar title={title} />
+            {/* <Titlebar title={title} /> */}
             <h2 className="text-[#70685a] text-center font-bold text-[15px] flex justify-end mt-3" style={{ paddingRight: '1%' }}>2023/12/01(金)&nbsp;&nbsp;21:51</h2>
             <div className=" flex flex-col items-center justify-center py-3 px-4">
                 <div className="w-full " style={{ maxWidth: '90em' }}>

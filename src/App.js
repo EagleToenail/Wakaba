@@ -84,6 +84,7 @@ function App() {
     <Router>
       <Routes>
           <Route element={<LayoutWithMainContainer/>}>
+          {/* message */}
             <Route path='/withdrawbankatm' element={<WithdrawBankATM/>}/>
             <Route path='/withdrawvariouspurchase' element={<WithdrawVariousPurchase/>}/>
             <Route path='/withdrawapply' element={<WithdrawApply/>}/>
@@ -92,30 +93,15 @@ function App() {
             <Route path='/onsitepurchase' element={<OnSitePurchase/>}/>
             <Route path='/applicationfordisposalpermission' element={<ApplicationForDisposalPermission/>}/>
             <Route path='/endofworkreporttoowner' element={<EndOfWorkReportToOwner/>}/>
-          </Route>
-
-            <Route exact path='/' element={<Login/>}/>
-            <Route path='/logout' element={<Logout/>}/>
-            <Route path='/forgetpassword' element={<ForgetPassword/>}/>
-            <Route path='/passwordsetting' element={<PasswordSetting/>}/>
-            <Route path='/register' element={<Register/>}/>
-            <Route path='/tomoveinputform' element={<ToMoveInputForm/>}/>
-            <Route path='/confirmprofile' element={<ConfirmProfile/>}/>
-            <Route path='/logintimecard' element={<LoginTimeCard/>}/>
-            <Route path='/logouttimecard' element={<LogoutTimeCard/>}/>
-            <Route path='/clockedout' element={<ClockedOut/>}/>
-            <Route path='/terms' element={<Terms/>}/>
-            <Route path='/pledge' element={<Pledge/>}/>
-            <Route path='/profile' element={<Profile/>}/>
+          {/*  */}
             <Route path='/startingwork' element={<StartingWork/>}/>
             <Route path='/closingwork' element={<ClosingWork/>}/>
             <Route path='/monthlyincome' element={<MonthlyIncome/>}/>
             <Route path='/safemoney' element={<SafeMoney/>}/>
             <Route path='/purchaserequest' element={<PurchaseRequest/>}/>
             <Route path='/customerlist' element={<CustomerList/>}/>
-            <Route path='/customerindividual' element={<CustomerIndividual/>}/>     
+            <Route path='/customerindividual' element={<CustomerIndividual/>}/> 
             <Route path='/invoiceforpurchaseofbrought' element={<InvoiceForPurchaseOfBrought/>}/>
-            <Route path='/purchaseinvoiceforbroughtinitems' element={<PurchaseInvoiceForBroughtInItems/>}/>
             <Route path='/wholesalershippinglist' element={<WholeSalerShippingList/>}/>
             <Route path='/purchaserequestformforwholesaler' element={<PurchaseRequestFormForWholeSaler/>}/>
             <Route path='/salesslip' element={<SalesSlip/>}/>
@@ -132,6 +118,24 @@ function App() {
             <Route path='/commemorativecoinexchange' element={<CommemorativeCoinExchange/>}/>
             <Route path='/preciousmetalsprices' element={<PreciousMetalsPrices/>}/>
             <Route path='/customerreceipt' element={<CustomerReceipt/>}/>  
+          
+          </Route>
+
+            <Route exact path='/' element={<Login/>}/>
+            <Route path='/logout' element={<Logout/>}/>
+            <Route path='/forgetpassword' element={<ForgetPassword/>}/>
+            <Route path='/passwordsetting' element={<PasswordSetting/>}/>
+            <Route path='/register' element={<Register/>}/>
+            <Route path='/tomoveinputform' element={<ToMoveInputForm/>}/>
+            <Route path='/confirmprofile' element={<ConfirmProfile/>}/>
+            <Route path='/logintimecard' element={<LoginTimeCard/>}/>
+            <Route path='/logouttimecard' element={<LogoutTimeCard/>}/>
+            <Route path='/clockedout' element={<ClockedOut/>}/>
+            <Route path='/terms' element={<Terms/>}/>
+            <Route path='/pledge' element={<Pledge/>}/>
+            <Route path='/profile' element={<Profile/>}/>
+            <Route path='/purchaseinvoiceforbroughtinitems' element={<PurchaseInvoiceForBroughtInItems/>}/>
+            
             {/* admin */}
             <Route path='/admin/ownerstop' element={<OwnersTop/>}/>
             <Route path='/admin/ownersstafflist' element={<OwnersStaffList/>}/>

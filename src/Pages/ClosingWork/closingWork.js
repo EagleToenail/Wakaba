@@ -1,11 +1,11 @@
 import React,{useState} from 'react';
 import { Link } from 'react-router-dom';
-import Titlebar from '../../Components/Common/Titlebar';
+// import Titlebar from '../../Components/Common/Titlebar';
 import DateAndTime from '../../Components/Common/PickData';
 
 
 const ClosingWork = () => {
-    const title = 'タイトルタイトル';
+    // const title = 'タイトルタイトル';
 
 
     //Button color change
@@ -22,7 +22,7 @@ const ClosingWork = () => {
 
     return (
         <>
-            <Titlebar title={title} />
+            {/* <Titlebar title={title} /> */}
             <DateAndTime />
             <div className="bg-[trasparent] font-[sans-serif] mt-12">
                 <div className=" flex flex-col items-center justify-center px-4">

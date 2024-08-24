@@ -5,7 +5,7 @@ import '../Assets/css/MainContainer.css';
 
 
 const MainContainer = ({children}) => {
-  const [position, setPosition] = useState(40); // percentage for the height of the top pane
+  const [position, setPosition] = useState(80); // percentage for the height of the top pane
   const [isDragging, setIsDragging] = useState(false);
   const containerRef = useRef(null);
   const startY = useRef(0); // Ref to store the initial click position

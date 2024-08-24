@@ -1,15 +1,15 @@
 import React,{useState} from 'react';
-// import { Link } from 'react-router-dom';
-import Titlebar from '../../Components/Common/Titlebar';
+import { Link } from 'react-router-dom';
+// import Titlebar from '../../Components/Common/Titlebar';
 import DateAndTime from '../../Components/Common/PickData';
 
 
 const StartingWork = () => {
-    const title = 'タイトルタイトル';
+    // const title = 'タイトルタイトル';
 
-    const handleNavigate = () => {
-        window.location.href = '/todolist'; // Navigate and reload the page
-    };
+    // const handleNavigate = () => {
+    //     window.location.href = '/todolist'; // Navigate and reload the page
+    // };
     //Button color change
     const [button1Active, setButton1Active] = useState(true);
     const [button2Active, setButton2Active] = useState(true);
@@ -30,7 +30,7 @@ const StartingWork = () => {
 
     return (
         <>
-            <Titlebar title={title} />
+            {/* <Titlebar title={title} /> */}
             <DateAndTime />
             <div className="bg-[trasparent] font-[sans-serif] mt-12">
                 <div className=" flex flex-col items-center justify-center px-4">
@@ -202,8 +202,8 @@ const StartingWork = () => {
 
                                     <div className="!mt-5 flex" style={{ marginBottom: '10px', width: '70%', paddingLeft: '30%' }}>
                                         <div className='w-full flex justify-center'>
-                                            <button type="button" onClick={handleNavigate} className="w-30 px-10 py-1 font-bold tracking-wide rounded-sm justify-center text-[#d1cdca] border border-[#d1cdca] bg-[#e87a00] hover:bg-blue-700 focus:outline-none">
-                                                報告
+                                            <button type="button"  className="w-30 px-10 py-1 font-bold tracking-wide rounded-sm justify-center text-[#d1cdca] border border-[#d1cdca] bg-[#e87a00] hover:bg-blue-700 focus:outline-none">
+                                               <Link>報告</Link> 
                                             </button>
                                         </div>
                                     </div>

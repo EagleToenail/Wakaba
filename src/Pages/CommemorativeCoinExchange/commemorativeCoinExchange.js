@@ -1,6 +1,6 @@
 import React from 'react';
 // import { Link } from 'react-router-dom';
-import Titlebar from '../../Components/Common/Titlebar';
+// import Titlebar from '../../Components/Common/Titlebar';
 // import StampSheet from '../../Assets/img/stampsheet.png'
 // import LetterPack from '../../Assets/img/letterpack.png'
 // import StampRose from '../../Assets/img/stamprose.png'
@@ -12,7 +12,7 @@ import DateAndTime from '../../Components/Common/PickData';
 
 
 const CommemorativeCoinExchange = () => {
-    const title = 'タイトルタイトル';
+    // const title = 'タイトルタイトル';
 
     const Table = {
         borderCollapse: 'collapse',
@@ -37,7 +37,7 @@ const CommemorativeCoinExchange = () => {
 
     return (
         <>
-            <Titlebar title={title} />
+            {/* <Titlebar title={title} /> */}
             <DateAndTime/>
             <div className=" flex flex-col items-center justify-center py-3 px-4">
                 <div className="w-full " style={{ maxWidth: '90em' }}>

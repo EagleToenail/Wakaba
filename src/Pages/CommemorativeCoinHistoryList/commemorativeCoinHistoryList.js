@@ -1,12 +1,12 @@
 import React,{useState}from 'react';
 // import { Link } from 'react-router-dom';
-import Titlebar from '../../Components/Common/Titlebar';
+// import Titlebar from '../../Components/Common/Titlebar';
 import '../../Assets/css/showtable.css';
 import dateimage from '../../Assets/img/datepicker.png';
 
 
 const CommemorativeCoinHistoryList = () => {
-    const title = 'タイトルタイトル';
+    // const title = 'タイトルタイトル';
     const Table = {
         borderCollapse: 'collapse',
         color: '#70685a',
@@ -44,7 +44,7 @@ const CommemorativeCoinHistoryList = () => {
 
     return (
         <>
-        <Titlebar title={title} />
+        {/* <Titlebar title={title} /> */}
         <div className=" flex flex-col items-center justify-center py-3 px-4">
             <div className="w-full " style={{ maxWidth: '90em' }}>
                 <div className='flex justify-around mt-10 '>
@@ -57,7 +57,7 @@ const CommemorativeCoinHistoryList = () => {
                     </div>
                     <h2 className="text-[#70685a] text-center text-2xl font-bold flex justify-center">記念硬貨/お札   両替履歴一覧</h2>
                     <div className=''>
-                        <div className='flex justify-center'>
+                        <div className='flex justify-center text-[#70685a]'>
                             <label>両替依頼書</label>
                         </div>
                         <button type="button"

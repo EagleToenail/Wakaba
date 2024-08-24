@@ -185,7 +185,7 @@ const CustomerIndividual = () => {
                                         <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
                                             <input name="ads" type="text" value={date} required className="w-full text-[#70685a] border border-[#70685a] px-4 py-1 text-[20px] outline-[#70685a]" readOnly/>
                                         </div>
-                                        <div style={{ width: '5%', flexDirection: 'column', }} className='flex flex-col justify-center mr-5'>
+                                        <div style={{ width: '5%', flexDirection: 'column', }} className='flex flex-col justify-center ml-3 mr-5'>
                                             <div style={{width:'40px',height:'30px',cursor:'pointer'}}>
                                                 <div style={{position: 'relative'}}>
                                                     <img src={dateimage} style={{width:'40px',height:'30px', position: 'absolute',cursor:'pointer'}} alt='calendar'></img>
@@ -195,11 +195,11 @@ const CustomerIndividual = () => {
                                             </div>
                                         </div>
 
-                                        <div style={{  flexDirection: 'column', }} className='flex align-center justify-around w-max mr-5'>
+                                        <div style={{  flexDirection: 'column', }} className='flex align-center justify-around w-max mr-3'>
                                             <label className="text-[#70685a] font-bold mb-2 block text-right py-1 !mb-0">999才</label>
                                         </div>
                                         <div style={{ flexDirection: 'column', }} className='flex flex-col justify-center text-right w-max'>
-                                            <label className="text-[#70685a] font-bold mb-2 block text-right py-1 !mb-0 mr-3">性別</label>
+                                            <label className="text-[#70685a] font-bold mb-2 block text-right py-1 !mb-0 mr-2">性別</label>
                                         </div>
                                         <div style={{ flexDirection: 'column', }} className='flex flex-col justify-center w-max'>
                                             <select id="gender" name="gender" className="w-40 text-[#70685a] font-bold border border-[#70685a] px-4 py-2 outline-[#70685a]">

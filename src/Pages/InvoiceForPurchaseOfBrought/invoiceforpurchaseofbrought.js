@@ -1,6 +1,6 @@
 import React,{useState} from 'react';
 // import { Link } from 'react-router-dom';
-import Titlebar from '../../Components/Common/Titlebar';
+// import Titlebar from '../../Components/Common/Titlebar';
 import '../../Assets/css/showtable.css'
 import '../../Assets/css/firstTd.css'
 import InputComponent from '../../Components/Common/InputComponent';
@@ -10,7 +10,7 @@ import DateAndTime from '../../Components/Common/PickData';
 
 
 const InvoicePurchaseOfBrought = () => {
-    const title = 'タイトルタイトル';
+    // const title = 'タイトルタイトル';
 
     const [date, setEndDate] = useState('');
 
@@ -40,12 +40,12 @@ const InvoicePurchaseOfBrought = () => {
     };
 
     return (<>
-        <Titlebar title={title} />
+        {/* <Titlebar title={title} /> */}
         <div className="bg-[trasparent] font-[sans-serif]">
             <div className='flex justify-center'>
-                <div className="w-full pt-3" style={{ maxWidth: '80em' }}>
+                <div className="w-full pt-3" style={{ maxWidth: '90em' }}>
                 <DateAndTime/>
-                    <div className="w-full pt-3 flex justify-between" style={{ maxWidth: '80em' }}>
+                    <div className="w-full pt-3 flex justify-between" style={{ maxWidth: '90em' }}>
                         {/* new */}
                         <div style={{ width: '25%', }} className='flex align-center justify-center'>
                             <div className='flex flex-col justify-center'>

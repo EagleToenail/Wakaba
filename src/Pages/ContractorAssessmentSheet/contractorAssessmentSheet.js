@@ -1,6 +1,6 @@
 import React,{useState} from 'react';
 // import { Link } from 'react-router-dom';
-import Titlebar from '../../Components/Common/Titlebar';
+// import Titlebar from '../../Components/Common/Titlebar';
 // import InputComponent from '../../Components/Common/InputComponent';
 import ButtonComponent from '../../Components/Common/ButtonComponent';
 import LabelComponent from '../../Components/Common/LabelComponent';
@@ -10,7 +10,7 @@ import rightArrow from '../../Assets/img/left-arrow.png';
 
 
 const ContractorAssementSheet = () => {
-    const title = 'タイトルタイトル';
+    // const title = 'タイトルタイトル';
 
     const Table = {
         borderCollapse: 'collapse',
@@ -49,7 +49,7 @@ const ContractorAssementSheet = () => {
 
     return (
         <>
-            <Titlebar title={title} />
+            {/* <Titlebar title={title} /> */}
                         {/* first button line  */}
                         <div className='flex justify-center ml-10 ' >
                             <div className='flex mt-10 mr-40' >

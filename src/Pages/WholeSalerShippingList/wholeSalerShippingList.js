@@ -1,6 +1,6 @@
 import React, { useState, } from 'react';
 // import { Link } from 'react-router-dom';
-import Titlebar from '../../Components/Common/Titlebar';
+// import Titlebar from '../../Components/Common/Titlebar';
 import '../../Assets/css/showtable.css';
 import '../../Assets/css/firstTd.css';
 import '../../Assets/css/lastTd.css';
@@ -10,7 +10,7 @@ import dateimage from '../../Assets/img/datepicker.png';
 
 
 const WholeSalerShippingList = () => {
-    const title = 'タイトルタイトル';
+    // const title = 'タイトルタイトル';
     const Table = {
         borderCollapse: 'collapse',
         color: '#70685a',
@@ -40,10 +40,10 @@ const WholeSalerShippingList = () => {
 
     return (
         <>
-            <Titlebar title={title} />
+            {/* <Titlebar title={title} /> */}
             <div className="bg-[trasparent] font-[sans-serif]">
                 <div className='flex justify-center'>
-                    <div className="w-full pt-3" style={{ maxWidth: '80em' }}>
+                    <div className="w-full pt-3" style={{ maxWidth: '90em' }}>
 
 
                         <div className='flex justify-around mt-10' >
@@ -108,61 +108,63 @@ const WholeSalerShippingList = () => {
 
                         {/*  Tabe*/}
                         <div className='mt-10 pl-10 pr-10 pb-20 w-full flex'>
-                            <table className='text-center w-full' style={Table}>
-                                <thead>
-                                    <tr>
-                                        <th></th>
-                                        <th>ステー夕ス</th>
-                                        <th>卸し先</th>
-                                        <th>発送日</th>
-                                        <th>わかばNo.(範囲)</th>
-                                        <th>仮査定合計額</th>
-                                        <th>発送者</th>
-                                        <th>入金予定日</th>
-                                        <th>入金日</th>
-                                        <th>本査定合計額</th>
-                                        <th>送り状</th>
-                                        <th>買取依頼書</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td >1.</td>
-                                        <td style={Td}>OOOO</td>
-                                        <td style={Td} >
-                                            <select id="classificatin" name="classificatin" className="w-full h-full text-[#70685a] text-[15px] font-bold px-4 py-2 outline-[#70685a]">
-                                                <option value="1">アルバ</option>
-                                                <option value="2">Afgha</option>
-                                                <option value="3">Ål</option>
-                                                <option value="4">Albani</option>
-                                            </select>
-                                        </td>
-                                        <td style={Td} >50</td>
-                                        <td style={Td} >50</td>
-                                        <td style={Td} >50</td>
-                                        <td style={Td} >50</td>
-                                        <td style={Td} >50</td>
-                                        <td style={Td} >50</td>
-                                        <td style={Td} >50</td>
-                                        <td style={Td} >
-                                        <div className='flex justify-center'>
-                                    <div className='bg-[#a6a6a6] w-10 h-5 flex justify-center ml-3 rounded-md'>
-                                        <svg focusable="false" aria-hidden="true" data-testid="ArrowRightAltIcon" fill="#fefefe" className='ml-2' title="ArrowRightAlt"><path d="M16.01 11H4v2h12.01v3L20 12l-3.99-4z"></path></svg>
-                                    </div>
-                                </div>
-                                        </td>
-                                        <td>
-                                        <div className='flex justify-center'>
-                                            <div className='w-5 h-3 ml-3 mb-1'>
-                                                <svg className=" " fill='#70685a' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="ContentCopyIcon" title="ContentCopy"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2m0 16H8V7h11z"></path></svg>
-                                            </div>
-                                            </div>
-                                        </td>
-                                    </tr>
+                            <div style={{ width: '100%', overflow: 'auto' }} >
+                                <table className='text-center w-full' style={Table}>
+                                    <thead>
+                                        <tr>
+                                            <th></th>
+                                            <th>ステー夕ス</th>
+                                            <th>卸し先</th>
+                                            <th>発送日</th>
+                                            <th>わかばNo.(範囲)</th>
+                                            <th>仮査定合計額</th>
+                                            <th>発送者</th>
+                                            <th>入金予定日</th>
+                                            <th>入金日</th>
+                                            <th>本査定合計額</th>
+                                            <th>送り状</th>
+                                            <th>買取依頼書</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td >1.</td>
+                                            <td style={Td}>OOOO</td>
+                                            <td style={Td} >
+                                                <select id="classificatin" name="classificatin" className="w-full h-full text-[#70685a] text-[15px] font-bold px-4 py-2 outline-[#70685a]">
+                                                    <option value="1">アルバ</option>
+                                                    <option value="2">Afgha</option>
+                                                    <option value="3">Ål</option>
+                                                    <option value="4">Albani</option>
+                                                </select>
+                                            </td>
+                                            <td style={Td} >50</td>
+                                            <td style={Td} >50</td>
+                                            <td style={Td} >50</td>
+                                            <td style={Td} >50</td>
+                                            <td style={Td} >50</td>
+                                            <td style={Td} >50</td>
+                                            <td style={Td} >50</td>
+                                            <td style={Td} >
+                                                <div className='flex justify-center'>
+                                                    <div className='bg-[#a6a6a6] w-10 h-5 flex justify-center ml-3 rounded-md'>
+                                                        <svg focusable="false" aria-hidden="true" data-testid="ArrowRightAltIcon" fill="#fefefe" className='ml-2' title="ArrowRightAlt"><path d="M16.01 11H4v2h12.01v3L20 12l-3.99-4z"></path></svg>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div className='flex justify-center'>
+                                                    <div className='w-5 h-3 ml-3 mb-1'>
+                                                        <svg className=" " fill='#70685a' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="ContentCopyIcon" title="ContentCopy"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2m0 16H8V7h11z"></path></svg>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
 
-                                </tbody>
+                                    </tbody>
 
-                            </table>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>

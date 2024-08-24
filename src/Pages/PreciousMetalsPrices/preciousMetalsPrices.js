@@ -1,11 +1,11 @@
 import React from 'react';
 // import { Link } from 'react-router-dom';
-import Titlebar from '../../Components/Common/Titlebar';
+// import Titlebar from '../../Components/Common/Titlebar';
 import DateAndTime from '../../Components/Common/PickData';
 
 
 const PreciousMetalsPrices = () => {
-    const title = 'タイトルタイトル';
+    // const title = 'タイトルタイトル';
     const Table = {
         borderCollapse: 'collapse',
         color: '#70685a',
@@ -29,7 +29,7 @@ const PreciousMetalsPrices = () => {
 
     return (
         <>
-            <Titlebar title={title} />
+            {/* <Titlebar title={title} /> */}
             <DateAndTime/>
             <div className=" flex flex-col items-center justify-center py-3 px-4">
                 <div className="w-full " style={{ maxWidth: '90em' }}>

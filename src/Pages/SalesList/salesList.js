@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 // import { Link } from 'react-router-dom';
-import Titlebar from '../../Components/Common/Titlebar';
+// import Titlebar from '../../Components/Common/Titlebar';
 import ButtonComponent from '../../Components/Common/ButtonComponent';
 import DateAndTime from '../../Components/Common/PickData';
 import dateimage from '../../Assets/img/datepicker.png';
@@ -9,7 +9,7 @@ import dateimage from '../../Assets/img/datepicker.png';
 
 
 const SalesList = () => {
-    const title = 'タイトルタイトル';
+    // const title = 'タイトルタイトル';
 
     const Table = {
         borderCollapse: 'collapse',
@@ -42,7 +42,7 @@ const SalesList = () => {
 
     return (
         <>
-            <Titlebar title={title} />
+            {/* <Titlebar title={title} /> */}
             <DateAndTime />
             {/* title */}
             <h2 className="text-[#70685a] text-center text-2xl font-bold flex justify-center mt-10">売上一覧表(スタッフ単位)</h2>
