@@ -1,6 +1,6 @@
 import React,{useState} from 'react';
 // import { Link } from 'react-router-dom';
-import Titlebar from '../../../Components/Common/Titlebar';
+// import Titlebar from '../../../Components/Common/Titlebar';
 import InputComponent from '../../../Components/Common/InputComponent';
 import ButtonComponent from '../../../Components/Common/ButtonComponent';
 import LabelComponent from '../../../Components/Common/LabelComponent';
@@ -9,7 +9,7 @@ import DateAndTime from '../../../Components/Common/PickData';
 
 
 const OwnersStaffList = () => {
-    const title = 'タイトルタイトル';
+    // const title = 'タイトルタイトル';
 
     const Table = {
         borderCollapse: 'collapse',
@@ -43,7 +43,7 @@ const OwnersStaffList = () => {
 
     return (
         <>
-            <Titlebar title={title} />
+            {/* <Titlebar title={title} /> */}
             <DateAndTime/>
 
 

@@ -1,16 +1,16 @@
 import React from 'react';
 // import { Link } from 'react-router-dom';
-import Titlebar from '../../../Components/Common/Titlebar';
+// import Titlebar from '../../../Components/Common/Titlebar';
 import DateAndTime from '../../../Components/Common/PickData';
 
 
 const ManagementHeadqueatersTOP = () => {
-    const title = 'タイトルタイトル';
+    // const title = 'タイトルタイトル';
 
 
     return (
         <>
-            <Titlebar title={title} />
+            {/* <Titlebar title={title} /> */}
             <DateAndTime />
 
             <div className=" flex flex-col items-center justify-center py-3 px-4">

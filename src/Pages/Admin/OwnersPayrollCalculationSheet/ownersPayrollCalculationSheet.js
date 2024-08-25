@@ -1,13 +1,13 @@
 import React from 'react';
 // import { Link } from 'react-router-dom';
-import Titlebar from '../../../Components/Common/Titlebar';
+// import Titlebar from '../../../Components/Common/Titlebar';
 import ButtonComponent from '../../../Components/Common/ButtonComponent';
 // import LabelComponent from '../../../Components/Common/LabelComponent';
 import DateAndTime from '../../../Components/Common/PickData';
 
 
 const OwnersPayrollCalculationSheet = () => {
-    const title = 'タイトルタイトル';
+    // const title = 'タイトルタイトル';
 
     const Table = {
         borderCollapse: 'collapse',
@@ -32,7 +32,7 @@ const OwnersPayrollCalculationSheet = () => {
 
     return (
         <>
-            <Titlebar title={title} />
+            {/* <Titlebar title={title} /> */}
             <DateAndTime />
 
 

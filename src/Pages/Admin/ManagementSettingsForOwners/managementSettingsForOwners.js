@@ -1,18 +1,18 @@
 import React from 'react';
 // import { Link } from 'react-router-dom';
-import Titlebar from '../../../Components/Common/Titlebar';
+// import Titlebar from '../../../Components/Common/Titlebar';
 import ButtonComponent from '../../../Components/Common/ButtonComponent';
 import DateAndTime from '../../../Components/Common/PickData';
 import InputComponent from '../../../Components/Common/InputComponent';
 
 
 const ManagementSettingsForOwners = () => {
-    const title = 'タイトルタイトル';
+    // const title = 'タイトルタイトル';
 
 
     return (
         <>
-            <Titlebar title={title} />
+            {/* <Titlebar title={title} /> */}
             <DateAndTime />
             <div className=" flex flex-col items-center justify-center py-3 px-4">
                 <div className="w-full " style={{ maxWidth: '70em' }}>

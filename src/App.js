@@ -65,7 +65,7 @@ import ManagementSettingsForOwners from './Pages/Admin/ManagementSettingsForOwne
 import OwnerAttendanceList from './Pages/Admin/OwnerAttendanceList/ownerAttendanceList';
 //  TYPO. App is working well but this importing code has typo.
 //  OwnersShi_p_tSchedule, to be OwnersShi_f_tSchedule to match the file name. ONISHI
-import OwnersShiptSchedule from './Pages/Admin/OwnersShiftSchedule/ownersShiftSchedule';
+import OwnersShiftSchedule from './Pages/Admin/OwnersShiftSchedule/ownersShiftSchedule';
 import OwnersPayrollCalculationSheet from './Pages/Admin/OwnersPayrollCalculationSheet/ownersPayrollCalculationSheet';
 import OwnersPersonalPaySlipPDF from './Pages/Admin/OwnersPersonalPaySlipPDF/ownersPersonalPaySlipPDF';
 import OwnerAnalysisComprehensiveAnalysis from './Pages/Admin/OwnerAnalysisComprehensiveAnalysis/ownerAnalysisComprehensiveAnalysis';
@@ -118,7 +118,38 @@ function App() {
             <Route path='/commemorativecoinexchange' element={<CommemorativeCoinExchange/>}/>
             <Route path='/preciousmetalsprices' element={<PreciousMetalsPrices/>}/>
             <Route path='/customerreceipt' element={<CustomerReceipt/>}/>  
-          
+            {/* admin */}
+            <Route path='/admin/ownerstop' element={<OwnersTop/>}/>
+            <Route path='/admin/ownersstafflist' element={<OwnersStaffList/>}/>
+            <Route path='/admin/ownerstaffindividual' element={<OwnerStaffIndividual/>}/>
+            <Route path='/admin/storelistforowners' element={<StoreListForOwners/>}/>
+            <Route path='/admin/managementmastertop' element={<ManagementMasterTOP/>}/>
+            <Route path='/admin/managementvariousmasterproductcategory1' element={<ManagementVariousMasterproductCategory1/>}/>
+            <Route path='/admin/managementvariousmasterproductcategory2' element={<ManagementVariousMasterproductCategory2/>}/>
+            <Route path='/admin/managementSettingSuperAdministratorTOP' element={<ManagementSettingsSuperAdministratorTOP/>}/>
+            <Route path='/admin/managementSettingSuperAdministratorpaymentlist' element={<ManagementSettingsSuperAdministratorPaymentList/>}/>
+            <Route path='/admin/adminsettingssuperadministratorsystembasicsettings' element={<ADminSettingsSuperAdministratorSystemBasicSettings/>}/>
+            <Route path='/admin/managementsettingsforowners' element={<ManagementSettingsForOwners/>}/>
+            {/* second milestone */}
+            <Route path='/admin/ownerattendancelist' element={<OwnerAttendanceList/>}/>
+            {/* typo? should be "ownersShi_f_tSchedule" for this routing.
+                Path itself is working because import code has also typo.
+                priolity is low, but someday please fix those typos.
+            */}
+            <Route path='/admin/ownersshiftschedule' element={<OwnersShiftSchedule/>}/>
+            <Route path='/admin/ownerspayrollcalculationsheet' element={<OwnersPayrollCalculationSheet/>}/>
+            <Route path='/admin/ownerspersonalpayslippdf' element={<OwnersPersonalPaySlipPDF/>}/>
+            <Route path='/admin/owneranalysiscomprehensiveanalysis' element={<OwnerAnalysisComprehensiveAnalysis/>}/>
+            <Route path='/admin/owneranalysisstaffindividualresults' element={<OwnerAnalysisStaffIndividualResults/>}/>
+            <Route path='/admin/owneranalysisareaanalysis' element={<OwnerAnalysisAreaAnalysis/>}/>
+            <Route path='/admin/managementheadquaterstop' element={<ManagementHeadquatersTOP/>}/>
+            <Route path='/admin/managementheadquartersownerlist' element={<ManagementHeadquartersOwnerList/>}/>
+            <Route path='/admin/managementheadquarterscontractplansetting' element={<ManagementHeadquartersContractPlanSetting/>}/>
+            <Route path='/admin/managementhqrankingfunction' element={<ManagementHQRankingFunction/>}/>
+            <Route path='/admin/managementhqscorecount' element={<ManagementHQScoreCount/>}/>
+            <Route path='/admin/managementheadquarterspurchaseitemcount' element={<ManagementHeadquartersPurchaseItemCount/>}/>
+            <Route path='/admin/managementheadquartersrepeateranalysis' element={<ManagementHeadquartersRepeaterAnalysis/>}/>
+
           </Route>
 
             <Route exact path='/' element={<Login/>}/>
@@ -136,40 +167,6 @@ function App() {
             <Route path='/profile' element={<Profile/>}/>
             <Route path='/purchaseinvoiceforbroughtinitems' element={<PurchaseInvoiceForBroughtInItems/>}/>
             
-            {/* admin */}
-            <Route path='/admin/ownerstop' element={<OwnersTop/>}/>
-            <Route path='/admin/ownersstafflist' element={<OwnersStaffList/>}/>
-            <Route path='/admin/ownerstaffindividual' element={<OwnerStaffIndividual/>}/>
-            <Route path='/admin/storelistforowners' element={<StoreListForOwners/>}/>
-            <Route path='/admin/managementmastertop' element={<ManagementMasterTOP/>}/>
-            <Route path='/admin/managementvariousmasterproductcategory1' element={<ManagementVariousMasterproductCategory1/>}/>
-            <Route path='/admin/managementvariousmasterproductcategory2' element={<ManagementVariousMasterproductCategory2/>}/>
-            <Route path='/admin/managementSettingSuperAdministratorTOP' element={<ManagementSettingsSuperAdministratorTOP/>}/>
-            <Route path='/admin/managementSettingSuperAdministratorpaymentlist' element={<ManagementSettingsSuperAdministratorPaymentList/>}/>
-            <Route path='/admin/adminsettingssuperadministratorsystembasicsettings' element={<ADminSettingsSuperAdministratorSystemBasicSettings/>}/>
-            <Route path='/admin/managementsettingsforowners' element={<ManagementSettingsForOwners/>}/>
-
-
-            <Route path='/admin/ownerattendancelist' element={<OwnerAttendanceList/>}/>
-            {/* typo? should be "ownersShi_f_tSchedule" for this routing.
-                Path itself is working because import code has also typo.
-                priolity is low, but someday please fix those typos.
-            */}
-            <Route path='/admin/ownersshiptschedule' element={<OwnersShiptSchedule/>}/>
-            <Route path='/admin/ownerspayrollcalculationsheet' element={<OwnersPayrollCalculationSheet/>}/>
-            <Route path='/admin/ownerspersonalpayslippdf' element={<OwnersPersonalPaySlipPDF/>}/>
-            <Route path='/admin/owneranalysiscomprehensiveanalysis' element={<OwnerAnalysisComprehensiveAnalysis/>}/>
-            <Route path='/admin/owneranalysisstaffindividualresults' element={<OwnerAnalysisStaffIndividualResults/>}/>
-            <Route path='/admin/owneranalysis' element={<OwnerAnalysisAreaAnalysis/>}/>
-            <Route path='/admin/managementheadquaterstop' element={<ManagementHeadquatersTOP/>}/>
-            <Route path='/admin/managementheadquartersownerlist' element={<ManagementHeadquartersOwnerList/>}/>
-            <Route path='/admin/managementheadquarterscontractplansetting' element={<ManagementHeadquartersContractPlanSetting/>}/>
-            <Route path='/admin/managementhqrankingfunction' element={<ManagementHQRankingFunction/>}/>
-            <Route path='/admin/managementhqscorecount' element={<ManagementHQScoreCount/>}/>
-            <Route path='/admin/managementheadquarterspurchaseitemcount' element={<ManagementHeadquartersPurchaseItemCount/>}/>
-            <Route path='/admin/managementheadquartersrepeateranalysis' element={<ManagementHeadquartersRepeaterAnalysis/>}/>
-
-
       </Routes>
     </Router>
   );

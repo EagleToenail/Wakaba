@@ -1,15 +1,15 @@
 import React from 'react';
 // import { Link } from 'react-router-dom';
-import Titlebar from '../../../Components/Common/Titlebar';
+// import Titlebar from '../../../Components/Common/Titlebar';
 import DateAndTime from '../../../Components/Common/PickData';
 
 
 const OwnersPersonalPaySlipPDF = () => {
-    const title = 'タイトルタイトル';
+    // const title = 'タイトルタイトル';
 
     return (
         <>
-            <Titlebar title={title} />
+            {/* <Titlebar title={title} /> */}
             <DateAndTime />
 
             {/* This page should have table. Refer Wire Frame:page45 M07

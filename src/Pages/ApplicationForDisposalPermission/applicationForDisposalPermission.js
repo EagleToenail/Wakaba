@@ -1,16 +1,16 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 
 export default function ApplicationForDisposalPermission() {
 
-    useEffect(() => {
-        // Set overflow to hidden when the component mounts
-        document.body.style.overflow = 'hidden';
+    // useEffect(() => {
+    //     // Set overflow to hidden when the component mounts
+    //     document.body.style.overflow = 'hidden';
 
-        // Cleanup function to reset overflow when component unmounts
-        return () => {
-            document.body.style.overflow = 'auto';
-        };
-    }, []);
+    //     // Cleanup function to reset overflow when component unmounts
+    //     return () => {
+    //         document.body.style.overflow = 'auto';
+    //     };
+    // }, []);
 
     return (
         <>

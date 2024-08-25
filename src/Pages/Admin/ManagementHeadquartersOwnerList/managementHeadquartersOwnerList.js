@@ -1,12 +1,12 @@
 import React from 'react';
 // import { Link } from 'react-router-dom';
-import Titlebar from '../../../Components/Common/Titlebar';
+// import Titlebar from '../../../Components/Common/Titlebar';
 import ButtonComponent from '../../../Components/Common/ButtonComponent';
 import DateAndTime from '../../../Components/Common/PickData';
 
 
 const ManagementHeadquartersOwnerList = () => {
-    const title = 'タイトルタイトル';
+    // const title = 'タイトルタイトル';
 
     const Table = {
         borderCollapse: 'collapse',
@@ -31,7 +31,7 @@ const ManagementHeadquartersOwnerList = () => {
 
     return (
         <>
-            <Titlebar title={title} />
+            {/* <Titlebar title={title} /> */}
             <DateAndTime />
 
 

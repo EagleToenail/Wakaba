@@ -1,12 +1,12 @@
 import React,{useState} from 'react';
-import Titlebar from '../../../Components/Common/Titlebar';
+// import Titlebar from '../../../Components/Common/Titlebar';
 import InputComponent from '../../../Components/Common/InputComponent';
 import dateimage from '../../../Assets/img/datepicker.png';
 import DateAndTime from '../../../Components/Common/PickData';
 
 
 const  OwnerStaffIndividual = () => {
-    const title = 'タイトルタイトル';
+    // const title = 'タイトルタイトル';
 
     const [text, setText] = useState(
         `テキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキスト
@@ -37,7 +37,7 @@ const  OwnerStaffIndividual = () => {
     
     return (
         <>
-            <Titlebar title={title} />
+            {/* <Titlebar title={title} /> */}
             <DateAndTime/>
             <div className="bg-[trasparent] font-[sans-serif] mt-5">
                 <div className=" flex flex-col items-center justify-center px-4">

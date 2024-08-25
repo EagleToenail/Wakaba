@@ -1,13 +1,13 @@
 import React from 'react';
 // import { Link } from 'react-router-dom';
-import Titlebar from '../../../Components/Common/Titlebar';
+// import Titlebar from '../../../Components/Common/Titlebar';
 // import ButtonComponent from '../../../Components/Common/ButtonComponent';
 // import dateimage from '../../../Assets/img/datepicker.png';
 import DateAndTime from '../../../Components/Common/PickData';
 
 
 const ManagementHeadquartersRepeaterAnalysis = () => {
-    const title = 'タイトルタイトル';
+    // const title = 'タイトルタイトル';
 
     const Table = {
         borderCollapse: 'collapse',
@@ -33,7 +33,7 @@ const ManagementHeadquartersRepeaterAnalysis = () => {
 
     return (
         <>
-            <Titlebar title={title} />
+            {/* <Titlebar title={title} /> */}
             <DateAndTime />
             <div className=" flex flex-col items-center justify-center py-3 px-4">
                 <div className="w-full " style={{ maxWidth: '80em' }}>

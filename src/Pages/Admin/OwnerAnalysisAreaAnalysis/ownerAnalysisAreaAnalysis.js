@@ -1,13 +1,13 @@
 import React from 'react';
 // import { Link } from 'react-router-dom';
-import Titlebar from '../../../Components/Common/Titlebar';
+// import Titlebar from '../../../Components/Common/Titlebar';
 import LabelComponent from '../../../Components/Common/LabelComponent';
 import ButtonComponent from '../../../Components/Common/ButtonComponent';
 import DateAndTime from '../../../Components/Common/PickData';
 
 
 const OwnerAnalysisAreaAnalysis = () => {
-    const title = 'タイトルタイトル';
+    // const title = 'タイトルタイトル';
 
     const Table = {
         borderCollapse: 'collapse',
@@ -34,7 +34,7 @@ const OwnerAnalysisAreaAnalysis = () => {
 
     return (
         <>
-            <Titlebar title={title} />
+            {/* <Titlebar title={title} /> */}
             <DateAndTime />
 
 

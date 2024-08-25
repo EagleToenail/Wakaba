@@ -1,12 +1,12 @@
 import React from 'react';
 // import { Link } from 'react-router-dom';
-import Titlebar from '../../../Components/Common/Titlebar';
+// import Titlebar from '../../../Components/Common/Titlebar';
 import ButtonComponent from '../../../Components/Common/ButtonComponent';
 import DateAndTime from '../../../Components/Common/PickData';
 
 
 const ManagementSettingsSuperAdministratorTOP = () => {
-    const title = 'タイトルタイトル';
+    // const title = 'タイトルタイトル';
 
     const Table = {
         borderCollapse: 'collapse',
@@ -31,7 +31,7 @@ const ManagementSettingsSuperAdministratorTOP = () => {
 
     return (
         <>
-            <Titlebar title={title} />
+            {/* <Titlebar title={title} /> */}
             <DateAndTime />
 
             <div className='flex justify-center mt-5' >
@@ -45,7 +45,7 @@ const ManagementSettingsSuperAdministratorTOP = () => {
                     </button>
                 </div>
                 <div className=' text-[#70685a] px-2 ml-10 flex flex-col justify-end'>
-                    < button type="button" className="flex align-end w-40 px-3 py-1 font-bold tracking-wide text-[#696b6a] justify-center text-white bg-[#ebe6e0] hover:bg-blue-700 focus:outline-none">
+                    < button type="button" className="flex align-end w-40 px-3 py-1 font-bold tracking-wide text-[#656464] justify-center text-white bg-[#ebe6e0] hover:bg-blue-700 focus:outline-none">
                     システム基本設定
                     </button>
                 </div>
