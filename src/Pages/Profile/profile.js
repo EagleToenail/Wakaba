@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef ,useEffect} from 'react';
 import { Link } from 'react-router-dom';
 import Titlebar from '../../Components/Common/Titlebar';
 import InputComponent from '../../Components/Common/InputComponent';
@@ -10,6 +10,16 @@ import DateAndTime from '../../Components/Common/PickData';
 
 const Profile = () => {
     const title = 'タイトルタイトル';
+
+    useEffect(() => {
+        // Set overflow to hidden when the component mounts
+        document.body.style.overflow = 'auto';
+
+        // Cleanup function to reset overflow when component unmounts
+        return () => {
+            document.body.style.overflow = 'hidden';
+        };
+    }, []);
 
     const [text, setText] = useState(
         `テキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキスト

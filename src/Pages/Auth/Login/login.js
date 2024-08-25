@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Titlebar from '../../../Components/Common/Titlebar';
 import DateAndTime from '../../../Components/Common/nowdateandtime';
+//import axios from 'axios';
 
 const Login = () => {
     const title = 'タイトルタイトル';
@@ -12,11 +13,29 @@ const Login = () => {
     const [password, setPassword] = useState('');
 
     // Form submission handler
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        // const formData = new FormData();
-        // console.log(formData);
-        navigate('/logintimecard');
+        
+        try {
+            // Create the request payload
+            const payload = {
+                ID: userID,
+                password: password,
+            };
+
+            // Send the POST request
+            console.log('payload',payload)
+            // const response = await axios.post('/your-login-endpoint', payload);
+            
+            // // Handle successful response
+            // console.log(response.data);
+            navigate('/logintimecard'); // Redirect to another page upon success
+
+        } catch (error) {
+            // Handle error
+            console.error('There was an error!', error);
+            // Optionally, display an error message to the user
+        }
     };
 
     return (
