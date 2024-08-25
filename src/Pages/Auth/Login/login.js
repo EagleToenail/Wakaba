@@ -14,8 +14,8 @@ const Login = () => {
     // Form submission handler
     const handleSubmit = (event) => {
         event.preventDefault();
-        // Add your form submission logic here
-        // For now, we'll just navigate to the next page
+        // const formData = new FormData();
+        // console.log(formData);
         navigate('/logintimecard');
     };
 

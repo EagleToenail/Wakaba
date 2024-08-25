@@ -178,7 +178,7 @@ export default function TabContent1() {
                                 99
                             </button>
                             <Link
-                                className="text-black font-bold  text-[15px] block rounded px-1 transition-all">
+                                className="text-black font-bold  text-[15px] block rounded px-1 transition-all" to='/wholesalershippinglist'>
                                 業者卸報告
                             </Link>
                         </li>                        <li className='flex py-1'>
