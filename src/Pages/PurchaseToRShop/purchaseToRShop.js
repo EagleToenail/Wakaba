@@ -34,7 +34,7 @@ export default function PurchaseToRShop() {
                                             </div>
                                         </div>
                                         <div className='text-[15px] text-[black] ml-3'>
-                                        銀行ATMからの出金申請の件
+                                        リサイクルショップへの買い取ら依頼許可申請の件
                                         </div>
                                     </div>
                                     <div className='flex mt-5'>
@@ -66,7 +66,7 @@ export default function PurchaseToRShop() {
                                             </div>
                                         </div>
                                         <div className='text-[15px] text-[black] ml-3'>
-                                        銀行ATMからの出金申請の件
+                                        リサイクルショップへの買い取ら依頼許可申請の件
                                         </div>
                                     </div>
                                     <div className='flex mt-5'>
@@ -98,39 +98,7 @@ export default function PurchaseToRShop() {
                                             </div>
                                         </div>
                                         <div className='text-[15px] text-[black] ml-3'>
-                                        銀行ATMからの出金申請の件
-                                        </div>
-                                    </div>
-                                    <div className='flex mt-5'>
-                                        <div className='w-7 h-7 rounded-full border border-[#70685a]'></div>
-                                        <div>
-                                            <label className="text-[black] pl-3 text-[15px] block text-center">宛先の名前</label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className='flex justify-end' style={{ width: '20%' }}>
-                                    <div className='flex mt-5'>
-                                        <div className='w-7 h-7 rounded-full border border-[#70685a] bg-[#70685a]'></div>
-                                        <div>
-                                            <label className="text-[black] pl-3 text-[15px] block text-center">名前名前名前名前</label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            {/* fouth */}
-                            <div className='w-full flex'>
-                                <div className='flex justify-between' style={{ width: '80%' }}>
-                                    <div className='flex mt-5'>
-                                        <div>
-                                            <div className='w-30'>
-                                                <label className="text-[black] font-bold text-[10px] block text-center">2024/12/30 23:25</label>
-                                            </div>
-                                            <div className='border border-[#70685a] w-30'>
-                                                <label className="text-[#70685a] font-bold text-[10px] block text-center">ステー夕ス表示</label>
-                                            </div>
-                                        </div>
-                                        <div className='text-[15px] text-[black] ml-3'>
-                                        銀行ATMからの出金申請の件
+                                        リサイクルショップへの買い取ら依頼許可申請の件
                                         </div>
                                     </div>
                                     <div className='flex mt-5'>
@@ -185,7 +153,7 @@ export default function PurchaseToRShop() {
                                         </div>
                                         <div>
                                             <label className="text-[black] pl-3 text-[15px] block text-left" style={{ width: '100%', overflow: 'scroll' }}>
-                                                金庫の残ら1万円札がOO析にならましたので、50万円を出金してきます。で許可をお願いします。
+                                            下記を買い取ら依頼仁出します。ご許可をお願いします。
                                             </label>
                                         </div>
                                     </div>
@@ -268,7 +236,7 @@ export default function PurchaseToRShop() {
                                         </div>
                                         <div>
                                             <label className="text-[black] pl-3 text-[15px] block text-left" style={{ width: '100%', overflow: 'scroll' }}>
-                                                銀行から出金してきました。999999円を金庫へ入れました。
+                                            売却してきました。999999円でした。
                                             </label>
                                         </div>
                                     </div>
