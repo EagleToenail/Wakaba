@@ -152,7 +152,7 @@ return (
                                     <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-3 !mb-0">種別</label>
                                 </div>
                                 <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <select id="classification" name="classification" className="w-full text-[#70685a] font-bold border border-[#70685a] px-4 py-2 outline-[#70685a]">
+                                    <select id="storeType" name="storeType" className="w-full text-[#70685a] font-bold border border-[#70685a] px-4 py-2 outline-[#70685a]">
                                         <option value="執行役員">執行役員</option>
                                         <option value="社員">社員</option>
                                         <option value="契約社員">契約社員</option>
@@ -167,7 +167,7 @@ return (
                                     <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">お名前</label>
                                 </div>
                                 <div style={{ width: '50%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <input name="ads" type="text" required className="w-full text-[#70685a] border border-[#70685a] px-4 py-2 outline-[#70685a]" />
+                                    <input name="name" type="text" required className="w-full text-[#70685a] border border-[#70685a] px-4 py-2 outline-[#70685a]" />
                                 </div>
                             </div>
                             {/* new */}
@@ -176,7 +176,7 @@ return (
                                     <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">カタカナ名</label>
                                 </div>
                                 <div style={{ width: '75%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <input name="ads" type="text" required className="w-full text-[#70685a] border border-[#70685a] px-4 py-2 outline-[#70685a]" />
+                                    <input name="katakanaName" type="text" required className="w-full text-[#70685a] border border-[#70685a] px-4 py-2 outline-[#70685a]" />
                                 </div>
                             </div>
                             {/* new */}
@@ -185,7 +185,7 @@ return (
                                     <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">お電話番号</label>
                                 </div>
                                 <div style={{ width: '35%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <InputComponent type='text' required />
+                                    <InputComponent name="phoneNumber" type='text' required />
                                 </div>
                             </div>
                             {/* new */}
@@ -195,7 +195,7 @@ return (
                                 </div>
 
                                 <div style={{ width: '20%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <input name="ads" type="text" value={date} required className="w-full text-[#70685a] border border-[#70685a] px-4 py-1 text-[20px] outline-[#70685a]" readOnly />
+                                    <input name="birthdayValue" type="text" value={date} required className="w-full text-[#70685a] border border-[#70685a] px-4 py-1 text-[20px] outline-[#70685a]" readOnly />
                                 </div>
                                 <div style={{ width: '5%', flexDirection: 'column', }} className='flex flex-col justify-center pl-3'>
                                     <div style={{ width: '40px', height: '30px', cursor: 'pointer' }}>
@@ -238,7 +238,7 @@ return (
                                     {idcardFile && <p>{idcardFile.name}</p>}
                                 </div>
                                 <div style={{ width: '40%', flexDirection: 'column', height: '40px', marginRight: '5%' }} className='flex align-center justify-around'>
-                                    <select id="document" name="document" className="w-full h-full text-[#70685a] text-[15px] font-bold border border-[#70685a] px-4 py-2 outline-[#70685a]">
+                                    <select id="cardType" name="cardType" className="w-full h-full text-[#70685a] text-[15px] font-bold border border-[#70685a] px-4 py-2 outline-[#70685a]">
                                         <option value="運転免許証">運転免許証</option>
                                         <option value="運転経歴証明書">運転経歴証明書</option>
                                         <option value="旅券（パスポート)">旅券（パスポート)</option>
@@ -258,7 +258,7 @@ return (
                                     <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">都道府県</label>
                                 </div>
                                 <div style={{ width: '30%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <select id="address" name="address" className="w-full h-full text-[#70685a] font-bold border border-[#70685a] px-4 py-1 outline-[#70685a]">
+                                    <select id="prefeature" name="prefeature" className="w-full h-full text-[#70685a] font-bold border border-[#70685a] px-4 py-1 outline-[#70685a]">
                                         <option value="Hokkaido">北海道</option>
                                         <option value="Aomori">青森県</option>
                                         <option value="Iwate">岩手県</option>
@@ -365,13 +365,14 @@ return (
                                 <textarea
                                     rows="6"
                                     cols="50"
+                                    name="staffTerms"
                                     value={text} // Set the value from state
                                     onChange={handleChange} // Handle changes
                                     className='w-full text-[#70685a] border border-[#70685a] px-4 py-2 outline-[#70685a]'
                                 />
                             </div>
                             <div className="flex items-center justify-center !mt-10">
-                                <input id="checkbox1" type="checkbox"
+                                <input id="checkbox1" type="checkbox" name='agreeSel'
                                     className="w-6 h-6 mr-3 focus:ring-1 focus:ring-offset-slate-200 focus:ring-offset-4 focus:ring-[#007bff]" />
                                 <label htmlFor="checkbox1" className="text-black text-[20px]">規約に同意して </label>
                             </div>

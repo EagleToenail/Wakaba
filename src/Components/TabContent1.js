@@ -4,7 +4,7 @@ export default function TabContent1() {
 
     return (
         <>
-            <nav className=" shadow-lg   top-25 left-0 w-[290px] py-1 font-[sans-serif] overflow-auto">
+            <nav className=" top-25 left-0 w-[290px] py-1 font-[sans-serif] overflow-auto">
                 <ul>
                     <li className='flex px-3 py-2'>
                         <button type="button"
@@ -14,7 +14,7 @@ export default function TabContent1() {
                             99
                         </button>
                         <Link
-                            className="text-[black] font-bold hover:text-[#655b4a] text-[15px] block rounded px-1 transition-all" to='/todolist'>
+                            className="text-[black] font-bold hover:text-red text-[15px] block rounded px-1 transition-all" to='/todolist'>
                             99 TODO
                         </Link>
                     </li>

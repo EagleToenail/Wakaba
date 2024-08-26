@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect} from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Titlebar from '../../../Components/Common/Titlebar';
 import DateAndTime from '../../../Components/Common/nowdateandtime';
@@ -8,28 +8,39 @@ const Login = () => {
     const title = 'タイトルタイトル';
     const navigate = useNavigate();
 
-    // Local state to handle form inputs
+    useEffect(() => {
+        document.body.style.overflow = 'auto';
+        return () => {
+            document.body.style.overflow = 'hidden';
+        };
+    }, []);
+
     const [userID, setUserID] = useState('');
     const [password, setPassword] = useState('');
 
-    // Form submission handler
     const handleSubmit = async (event) => {
         event.preventDefault();
         
         try {
-            // Create the request payload
             const payload = {
                 ID: userID,
                 password: password,
             };
 
-            // Send the POST request
-            console.log('payload',payload)
-            // const response = await axios.post('/your-login-endpoint', payload);
+            console.log('payload',payload);
+
+            // API URL should be stored in your environment variables
+            const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+
+            if (!wakabaBaseUrl) {
+                throw new Error('API base URL is not defined');
+            }
             
-            // // Handle successful response
+            console.log(wakabaBaseUrl);
+            //const response = await axios.post(`${wakabaBaseUrl}/login`, payload);
+            
             // console.log(response.data);
-            navigate('/logintimecard'); // Redirect to another page upon success
+            navigate('/logintimecard'); 
 
         } catch (error) {
             // Handle error

@@ -52,7 +52,7 @@ const CustomerList = () => {
                 <ButtonComponent children={'asdfasfd'} style={{ visibility: 'hidden' }} />
                 <h2 className="text-[#70685a] text-center text-2xl font-bold flex justify-center">顧客一覧</h2>
                 <div className='flex justify-around'>
-                    <ButtonComponent children={'新規顧客登銀'} className='py-2 text-2xl text-[#655b4d] bg-[#ebe6e0]' />
+                    <ButtonComponent children={'新規顧客登銀'} className='py-2 text-2xl !text-[#695d50] bg-[#ebe6e0]' />
                 </div>
             </div>
             {/*  */}
@@ -73,7 +73,7 @@ const CustomerList = () => {
                     <LabelComponent value={'生年月日'} />
                     <div className='flex'>
                         <div style={{ flexDirection: 'column', }} className='flex align-center justify-around'>
-                            <input name="ads" type="text" value={date} required className="w-40 h-8 text-[#6e6e7c] border border-[#6e6e7c] text-[20px] px-4 py-1 outline-[#70685a]" readOnly />
+                            <input name="ads" type="text" value={date} required className="w-40 h-10 text-[#6e6e7c] border border-[#6e6e7c] text-[20px] px-4 py-1 outline-[#70685a]" readOnly />
                         </div>
                         <div style={{ flexDirection: 'column', }} className='flex flex-col justify-center pl-3'>
                             <div style={{ width: '40px', height: '30px', cursor: 'pointer' }}>

@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+import React,{useState,useEffect} from 'react';
 import { Link,useNavigate } from 'react-router-dom';
 import Titlebar from '../../../Components/Common/Titlebar';
 import DateAndTime from '../../../Components/Common/nowdateandtime';
@@ -8,6 +8,13 @@ import DateAndTime from '../../../Components/Common/nowdateandtime';
 const Logout = () => {
     const title = 'タイトルタイトル';
 
+    useEffect(() => {
+        document.body.style.overflow = 'auto';
+        return () => {
+            document.body.style.overflow = 'hidden';
+        };
+    }, []);
+
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const navigate = useNavigate();
@@ -16,10 +23,17 @@ const Logout = () => {
         setLoading(true);
         try {
 
-            //await axios.post('/api/logout');
+            // API URL should be stored in your environment variables
+            const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+
+            if (!wakabaBaseUrl) {
+                throw new Error('API base URL is not defined');
+            }
+
+            //await axios.post(`${wakabaBaseUrl}/logout`);
             navigate('/');
         } catch (err) {
-            setError('Failed to logout. Please try again.');
+            setError('ログアウトに失敗しました。もう一度お試しください。');//Failed to logout. Please try again.
         } finally {
             setLoading(false);
         }
@@ -56,7 +70,7 @@ const Logout = () => {
                                     </div>
                                     <label className="text-[#70685a] font-bold mb-2 block text-left flex justify-end" style={{ flexDirection: 'column',width:'20%' }}><u> <Link to='/todolist'>キャンセル</Link></u></label>
                                 </div>
-                                {error && <div className="text-red-500 text-center">{error}</div>}
+                                {error && <div className="text-red-500 text-center flex justify-center">{error}</div>}
                             </form>
                         </div>
                     </div>

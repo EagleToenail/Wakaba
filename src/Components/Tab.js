@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import TabContent1 from './TabContent1';
+import TabContent2 from './TabContent2';
+import TabContent3 from './TabContent3';
 // import { Link } from 'react-router-dom'
 // import '../Assets/css/sidebar.css'
 
@@ -12,7 +14,7 @@ const Tab = () => {
 
     return (
         <div className="w-full max-w-md mx-auto">
-            <div className="flex border-b border-[#655b4a] gap-1 mr-3">
+            <div className="flex  gap-1 mr-3">
                 <button
                     className={`w-1/3  text-center  text-[#655b4a] text-[15px] font-bold  rounded-tl-xl rounded-tr-xl focus:outline-none border border-[#655b4a] ${activeTab === 'tab1' ? 'bg-[#ebe6e0] border-b-[#ebe6e0]' : ' bg-gray-100'}`}
                     onClick={() => handleTabClick('tab1')}
@@ -36,10 +38,10 @@ const Tab = () => {
                 <TabContent1 />
             </div>
             <div id="tab2" className={`tabcontent ${activeTab === 'tab2' ? '' : 'hidden'}`}>
-                <h2 className="text-lg font-bold text-gray-800">Tab 2 Content</h2>
+                <TabContent2 />
             </div>
             <div id="tab3" className={`tabcontent ${activeTab === 'tab3' ? '' : 'hidden'}`}>
-                <h2 className="text-lg font-bold text-gray-800">Tab 3 Content</h2>
+                <TabContent3 />
             </div>
         </div>
     );
