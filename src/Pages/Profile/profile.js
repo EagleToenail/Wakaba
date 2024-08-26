@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link ,useNavigate} from 'react-router-dom';
 //import axios from 'axios';
 import Titlebar from '../../Components/Common/Titlebar';
 import InputComponent from '../../Components/Common/InputComponent';
@@ -37,6 +37,7 @@ const Profile = () => {
         guarantor: '配偶者',
     });
 
+    const navigate = useNavigate();
     const [isChecked, setIsChecked] = useState(false);
     const [agreeSel, setAgreeSel] = useState(false);
     const handleCheckChange = (event) => {
@@ -135,6 +136,7 @@ const Profile = () => {
             setJobPdfFile(null);
             setIdcardFile(null);
             // Handle successful response here
+            navigate('/'); // Navigate to the profile page after closing the modal
         } catch (error) {
             console.error('Error submitting form:', error);
             // Handle error here
