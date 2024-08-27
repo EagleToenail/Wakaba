@@ -1,8 +1,12 @@
 /* LayoutWithMainContainer.module.css or your preferred CSS file */
 .layout-container {
-    display: grid;
-    grid-template-columns: auto 1fr; /* Sidebar takes up auto width, MainContainer takes up the remaining space */
-    height: 100vh; /* Full viewport height */
-    overflow: hidden;
-    width: 100%;
+  display: grid;
+  grid-template-columns: auto 1fr; /* Sidebar takes up auto width, MainContainer takes up the remaining space */
+  height: 100vh; /* Full viewport height */
+  overflow: auto;
+  width: 100%;
   }
+.layout-maincontainer {
+  width:100%;
+  overflow:auto;
+}

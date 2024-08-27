@@ -24,7 +24,6 @@ const LayoutWithMainContainer = () => {
         const handleResize = () => {
             setSidebarWidth(sidebarElement.offsetWidth);
         };
-
         const resizeObserver = new ResizeObserver(handleResize);
         resizeObserver.observe(sidebarElement);
 
@@ -34,6 +33,7 @@ const LayoutWithMainContainer = () => {
         // Cleanup function to disconnect observer
         return () => resizeObserver.disconnect();
     }
+
 }, [showHeaderAndSidebar]);  // Re-run if sidebar visibility changes
 
   return (
