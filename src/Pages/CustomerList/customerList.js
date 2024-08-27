@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-//import axios from 'axios';
+import axios from 'axios';
 import InputComponent from '../../Components/Common/InputComponent';
 import ButtonComponent from '../../Components/Common/ButtonComponent';
 import LabelComponent from '../../Components/Common/LabelComponent';
@@ -45,117 +45,20 @@ const CustomerList = () => {
     // Fetch customer data
     useEffect(() => {
         const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
-
+        console.log('url', wakabaBaseUrl);
         if (!wakabaBaseUrl) {
             throw new Error('API base URL is not defined');
         }
 
-        setCustomers([
-            {
-                "id": 1,
-                "storeName": "Store A",
-                "type": "Regular",
-                "gender": "Male",
-                "name": "John Doe",
-                "kanaName": "ジョン ドウ",
-                "age": 30,
-                "tel": "123-456-7890",
-                "prefecture": "Tokyo",
-                "city": "Shibuya",
-                "address": "1-1-1 Shibuya",
-                "idCard": "Passport",
-                "idCardNo": "AB1234567",
-                "occupation": "Engineer",
-                "visitCount": 10,
-                "lastVisit": "2024-08-01",
-                "specialNotes": "Frequent visitor"
-            },
-            {
-                "id": 2,
-                "storeName": "Store B",
-                "type": "VIP",
-                "gender": "Female",
-                "name": "Jane Smith",
-                "kanaName": "ジェーン スミス",
-                "age": 25,
-                "tel": "234-567-8901",
-                "prefecture": "Osaka",
-                "city": "Namba",
-                "address": "2-2-2 Namba",
-                "idCard": "Driver's License",
-                "idCardNo": "CD2345678",
-                "occupation": "Designer",
-                "visitCount": 5,
-                "lastVisit": "2024-08-15",
-                "specialNotes": "Prefers premium services"
-            },
-            {
-                "id": 3,
-                "storeName": "Store C",
-                "type": "Occasional",
-                "gender": "Non-Binary",
-                "name": "Alex Taylor",
-                "kanaName": "アレックス テイラー",
-                "age": 40,
-                "tel": "345-678-9012",
-                "prefecture": "Kyoto",
-                "city": "Gion",
-                "address": "3-3-3 Gion",
-                "idCard": "Residence Card",
-                "idCardNo": "EF3456789",
-                "occupation": "Artist",
-                "visitCount": 2,
-                "lastVisit": "2024-07-20",
-                "specialNotes": "Occasional visitor"
-            },
-            {
-                "id": 4,
-                "storeName": "Store D",
-                "type": "Regular",
-                "gender": "Male",
-                "name": "Michael Johnson",
-                "kanaName": "マイケル ジョンソン",
-                "age": 35,
-                "tel": "456-789-0123",
-                "prefecture": "Hokkaido",
-                "city": "Sapporo",
-                "address": "4-4-4 Sapporo",
-                "idCard": "Passport",
-                "idCardNo": "GH4567890",
-                "occupation": "Manager",
-                "visitCount": 8,
-                "lastVisit": "2024-08-10",
-                "specialNotes": "Loyal customer"
-            },
-            {
-                "id": 5,
-                "storeName": "Store E",
-                "type": "VIP",
-                "gender": "Female",
-                "name": "Emily Davis",
-                "kanaName": "エミリー デイビス",
-                "age": 28,
-                "tel": "567-890-1234",
-                "prefecture": "Fukuoka",
-                "city": "Tenjin",
-                "address": "5-5-5 Tenjin",
-                "idCard": "Driver's License",
-                "idCardNo": "IJ5678901",
-                "occupation": "Consultant",
-                "visitCount": 6,
-                "lastVisit": "2024-08-18",
-                "specialNotes": "High-value customer"
-            }
-        ]
-        );
-
-        // axios.get(`${wakabaBaseUrl}/coustomerList`)
-        //     .then(response => {
-        //         setCustomers(response.data);
-        //     })
-        //     .catch(error => {
-        //         console.error("There was an error fetching the customer data!", error);
-        //     });
+        console.log(`${wakabaBaseUrl}/customers/view`);
+        axios.post(`${wakabaBaseUrl}/customers/view`)
+            .then(response => {
+                console.log(response.data)
+                setCustomers(response.data);
+            })
+            .catch(error => {
+                console.error("There was an error fetching the customer data!", error);
+            });
     }, []);
 
 
@@ -181,13 +84,18 @@ const CustomerList = () => {
     const handleSearch = (e) => {
         e.preventDefault();
         console.log('searchParms', searchParams);
-        // axios.get(`${wakabaBaseUrl}/customerSearch`, { params: searchParams })
-        //     .then(response => {
-        //         setCustomers(response.data);
-        //     })
-        //     .catch(error => {
-        //         console.error("There was an error searching for customers!", error);
-        //     });
+        const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+        console.log('url', wakabaBaseUrl);
+        if (!wakabaBaseUrl) {
+            throw new Error('API base URL is not defined');
+        }
+        axios.post(`${wakabaBaseUrl}/customers/search`, { params: searchParams })
+            .then(response => {
+                setCustomers(response.data);
+            })
+            .catch(error => {
+                console.error("There was an error searching for customers!", error);
+            });
     };
 
     return (
@@ -318,22 +226,22 @@ const CustomerList = () => {
                             {customers.map(customer => (
                                 <tr key={customer.id}>
                                     <td style={Td}>{customer.id}</td>
-                                    <td style={Td}>{customer.storeName}</td>
+                                    <td style={Td}>{customer.store_name}</td>
                                     <td style={Td}>{customer.type}</td>
                                     <td style={Td}>{customer.gender}</td>
-                                    <td style={Td} onClick={() => handleCustomerClick(customer.id)}>{customer.name}</td>
-                                    <td style={Td}>{customer.kanaName}</td>
+                                    <td style={Td} onClick={() => handleCustomerClick(customer.id)}>{customer.full_name}</td>
+                                    <td style={Td}>{customer.katakana_name}</td>
                                     <td style={Td}>{customer.age}</td>
-                                    <td style={Td}>{customer.tel}</td>
+                                    <td style={Td}>{customer.phone_number}</td>
                                     <td style={Td}>{customer.prefecture}</td>
                                     <td style={Td}>{customer.city}</td>
                                     <td style={Td}> {customer.address} </td>
-                                    <td style={Td}>{customer.idCard}</td>
-                                    <td style={Td}>{customer.idCardNo}</td>
+                                    <td style={Td}>{customer.id_card}</td>
+                                    <td style={Td}>{customer.identification_no}</td>
                                     <td style={Td}>{customer.occupation}</td>
-                                    <td style={Td}>{customer.visitCount}</td>
-                                    <td style={Td}>{customer.lastVisit}</td>
-                                    <td style={Td}> {customer.specialNotes} </td>
+                                    <td style={Td}>{customer.number_visits}</td>
+                                    <td style={Td}>{customer.last_visit_date}</td>
+                                    <td style={Td}> {customer.special_top} </td>
                                     <td onClick={() => handleCustomerClick(customer.id)}>
                                         <svg className="w-5 h-5 ml-5" fill='#70685a' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="ContentCopyIcon" title="ContentCopy">
                                             <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2m0 16H8V7h11z"></path>

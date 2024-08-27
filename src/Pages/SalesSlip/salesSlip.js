@@ -1,5 +1,5 @@
 import React from 'react';
-// import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 // import Titlebar from '../../Components/Common/Titlebar';
 // import InputComponent from '../../Components/Common/InputComponent';
 import ButtonComponent from '../../Components/Common/ButtonComponent';
@@ -21,13 +21,15 @@ const SalesSlip = () => {
         border: '1px solid #70685a',
         borderCollapse: 'collapse',
         color: '#70685a',
-        fontSize: '15px'
+        fontSize: '15px',
+        whiteSpace:'nowrap'
     };
     const Td = {
         border: '1px solid #70685a',
         borderCollapse: 'collapse',
         color: '#70685a',
-        fontSize: '15px'
+        fontSize: '15px',
+        whiteSpace:'nowrap'
     };
 
 
@@ -40,8 +42,8 @@ const SalesSlip = () => {
                     <div className='w-full'>
                         <div className='flex justify-between ml-10' style={{ width: '85%' }}>
                             <div className='flex mt-10 w-1/2' >
-                                <div>
-                                    <ButtonComponent children={'リサイクルショップへの買取依頼書へ'} className='!px-5 text-2xl w-max' style={{ backgroundColor: '#9bd195', height: '40px' }} />
+                                <div className='w-full'>
+                                    <ButtonComponent children={'リサイクルショップへの買取依頼書へ'} className='!px-5 text-2xl w-[100%]' style={{ backgroundColor: '#9bd195', height: '40px' }} />
                                     <div className='flex justify-center'>
                                         <LabelComponent value={'行を選択してください'} />
                                     </div>
@@ -55,8 +57,11 @@ const SalesSlip = () => {
                             </div>
                             <div className='flex justify-end mt-10 w-1/2' >
                                 <ButtonComponent children={'売上表'} className='!px-5 text-2xl' style={{ backgroundColor: '#424242', height: '40px' }} />
-                                <ButtonComponent children={'業者査定シート'} className='!px-5 text-2xl'  style={{ backgroundColor: 'transparent', border: '1px solid #424242', color: '#424242', marginLeft: '30px', height: '40px' }} />
-                                <ButtonComponent children={'ヤフオク'} className='!px-5 text-2xl ' style={{ backgroundColor: 'transparent', border: '1px solid #424242', color: '#424242', marginLeft: '30px', height: '40px' }} />
+                                <ButtonComponent children={'業者査定シート'} className='!px-5 text-2xl'  style={{ backgroundColor: 'transparent', border: '1px solid #424242', color: '#424242', marginLeft: '30px', height: '40px' }} >
+                                    <Link to='/contractorassessmentsheet'>業者査定シート</Link></ButtonComponent>
+                                <ButtonComponent children={'ヤフオク'} className='!px-5 text-2xl ' style={{ backgroundColor: 'transparent', border: '1px solid #424242', color: '#424242', marginLeft: '30px', height: '40px' }} >
+                                    <Link to='/yahooauction'>ヤフオク</Link>
+                                </ButtonComponent>
                             </div>
                         </div>
 
@@ -91,21 +96,21 @@ const SalesSlip = () => {
                                 <table style={Table}>
                                     <thead>
                                         <tr>
-                                            <th rowSpan={2}>選択</th>
-                                            <th width='5%' style={Th} rowSpan={2}>商品番号</th>
-                                            <th width='5%' style={Th} rowSpan={2}>わかばNo.</th>
-                                            <th width='5%' style={Th} rowSpan={2}><div style={{ border: '1px solid black', borderRadius: '5px', margin: '5%' }}>ステー夕ス</div></th>
-                                            <th width='5%' style={Th} rowSpan={2}><div style={{ border: '1px solid black', borderRadius: '5px', margin: '5%' }}>入金日</div></th>
-                                            <th width='5%' style={Th} rowSpan={2}><div style={{ border: '1px solid black', borderRadius: '5px', margin: '5%' }}>卸日</div></th>
-                                            <th width='5%' style={Th} rowSpan={2}><div style={{ border: '1px solid black', borderRadius: '5px', margin: '5%' }}>買取日</div></th>
-                                            <th width='5%' style={Th} rowSpan={2}><div style={{ border: '1px solid black', borderRadius: '5px', margin: '5%' }}>買取担当</div></th>
+                                            <th rowSpan={2} className='px-2'>選択</th>
+                                            <th width='5%'  className='px-2' style={Th} rowSpan={2}>商品番号</th>
+                                            <th width='5%' className='px-2' style={Th} rowSpan={2}>わかばNo.</th>
+                                            <th width='10%' className='px-2' style={Th} rowSpan={2}><div className='border border-[black] rounded-md px-3  w-max'>入金日</div></th>
+                                            <th width='10%' className='px-2' style={Th} rowSpan={2}><div className='border border-[black] rounded-md px-3  w-max'>卸日</div></th>
+                                            <th width='10%' className='px-2' style={Th} rowSpan={2}><div className='border border-[black] rounded-md px-3  w-max'>&nbsp;ステー夕ス&nbsp;</div></th>
+                                            <th width='10%' className='px-2' style={Th} rowSpan={2}><div className='border border-[black] rounded-md px-3  w-max'>買取日</div></th>
+                                            <th width='10%' className='px-2' style={Th} rowSpan={2}><div className='border border-[black] rounded-md px-3  w-max'>買取担当</div></th>
 
                                             <th style={Th} colSpan={6}>個人情報</th>
 
-                                            <th width='5%' style={Th} rowSpan={2}>カテゴリ-1</th>
-                                            <th width='10%' style={Th} rowSpan={2} >カテゴリ-2</th>
-                                            <th width='10%' style={Th} rowSpan={2} >カテゴリ-3</th>
-                                            <th width='10%' style={Th} rowSpan={2} >カテゴリ-4</th>
+                                            <th width='10%' style={Th} rowSpan={2} className='px-2'>カテゴリ-1</th>
+                                            <th width='10%' style={Th} rowSpan={2} className='px-2' >カテゴリ-2</th>
+                                            <th width='10%' style={Th} rowSpan={2} className='px-2' >カテゴリ-3</th>
+                                            <th width='10%' style={Th} rowSpan={2} className='px-2' >カテゴリ-4</th>
                                             <th width='10%' style={Th} rowSpan={2} >画像</th>
                                             <th width='5%' style={Th} rowSpan={2} >商品名</th>
                                             <th width='5%' style={Th} rowSpan={2} >個数</th>
@@ -116,43 +121,15 @@ const SalesSlip = () => {
                                             <th width='5%' style={Th} rowSpan={2} >真贋</th>
                                         </tr>
                                         <tr>
-                                            <th width='5%' style={Th}>お名前</th>
-                                            <th width='5%' style={Th} >カナ</th>
-                                            <th width='5%' style={Th} >TEL</th>
-                                            <th width='10%' style={Th} >住所</th>
-                                            <th width='5%' style={Th} >来店種別-1</th>
-                                            <th width='5%' style={Th} >来店種別-2</th>
+                                            <th width='5%' style={Th}className='px-2'>お名前</th>
+                                            <th width='5%' style={Th}className='px-2' >カナ</th>
+                                            <th width='5%' style={Th} className='px-2'>TEL</th>
+                                            <th width='10%' style={Th} className='px-2'>住所</th>
+                                            <th width='5%' style={Th} className='px-2'>来店種別-1</th>
+                                            <th width='5%' style={Th} className='px-2'>来店種別-2</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr style={{ visibility: 'hidden' }}>
-                                            <td><input type="checkbox"></input></td>
-                                            <td style={Td}>ooooooooo</td>
-                                            <td style={Td}>ooooooooo</td>
-                                            <td style={Td}>ooooooooo</td>
-                                            <td style={Td}>ooooooooo</td>
-                                            <td style={Td}>ooooooooo</td>
-                                            <td style={Td}>ooooooooo</td>
-                                            <td style={Td}>ooooooooo</td>
-                                            <td style={Td}>ooooooooo</td>
-                                            <td style={Td}>ooooooooo</td>
-                                            <td style={Td}>ooooooooo</td>
-                                            <td style={Td}>ooooooooo</td>
-                                            <td style={Td}>ooooooooo</td>
-                                            <td style={Td}>ooooooooo</td>
-                                            <td style={Td}>ooooooooo</td>
-                                            <td style={Td}>ooooooooo</td>
-                                            <td style={Td}>ooooooooo</td>
-                                            <td style={Td}>ooooooooo</td>
-                                            <td style={Td}>ooooooooo</td>
-                                            <td style={Td}>ooooooooo</td>
-                                            <td style={Td}>ooooooooo</td>
-                                            <td style={Td}>ooooooooo</td>
-                                            <td style={Td}>ooooooooo</td>
-                                            <td style={Td}>ooooooooo</td>
-                                            <td style={Td}>ooooooooo</td>
-                                            <td style={Td}>ooooooooo</td>
-                                        </tr>
                                         <tr>
                                             <td><input type="checkbox"></input></td>
                                             <td style={Td}>99999</td>
