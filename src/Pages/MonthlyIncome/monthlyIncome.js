@@ -14,15 +14,10 @@ const MonthlyIncome = () => {
         color: '#70685a',
         textAlign: 'center',
         width: '100%',
-        alignItem: 'center'
+        alignItem: 'center',
+
     };
 
-    // const Th = {
-    //     border: '1px solid #70685a',
-    //     borderCollapse: 'collapse',
-    //     color: '#70685a',
-    //     fontSize: '15px'
-    // };
     const Td = {
         border: '1px solid #6e6e7c',
         borderCollapse: 'collapse',

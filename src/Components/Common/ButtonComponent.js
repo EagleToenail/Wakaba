@@ -12,7 +12,7 @@ const Button = ({ onClick, children, type = 'button', className, disabled = fals
   return (
     <button
       type={type}
-      className={`w-30 py-1 px-20 font-bold text-[white] rounded-lg text-center bg-[#e87a00] hover:bg-blue-700 focus:outline-none ${className}`}
+      className={`inline-block whitespace-nowrap overflow-hidden text-ellipsis w-30 py-1 px-20 font-bold text-[white] rounded-lg text-center bg-[#e87a00] hover:bg-blue-700 focus:outline-none ${className}`}
       onClick={onClick}
       disabled={disabled}
       style={{ ...defaultStyle, ...style }}
