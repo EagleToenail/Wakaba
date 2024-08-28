@@ -45,13 +45,12 @@ const CustomerList = () => {
     // Fetch customer data
     useEffect(() => {
         const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
-        console.log('url', wakabaBaseUrl);
         if (!wakabaBaseUrl) {
             throw new Error('API base URL is not defined');
         }
 
-        console.log(`${wakabaBaseUrl}/customers/view`);
-        axios.post(`${wakabaBaseUrl}/customers/view`)
+        console.log(`${wakabaBaseUrl}/customer/getCustomerList`);
+        axios.get(`${wakabaBaseUrl}/customer/getCustomerList`)
             .then(response => {
                 console.log(response.data)
                 setCustomers(response.data);
@@ -89,7 +88,7 @@ const CustomerList = () => {
         if (!wakabaBaseUrl) {
             throw new Error('API base URL is not defined');
         }
-        axios.post(`${wakabaBaseUrl}/customers/search`, { params: searchParams })
+        axios.post(`${wakabaBaseUrl}/customer/search`, { params: searchParams })
             .then(response => {
                 setCustomers(response.data);
             })
@@ -226,22 +225,22 @@ const CustomerList = () => {
                             {customers.map(customer => (
                                 <tr key={customer.id}>
                                     <td style={Td}>{customer.id}</td>
-                                    <td style={Td}>{customer.store_name}</td>
-                                    <td style={Td}>{customer.type}</td>
-                                    <td style={Td}>{customer.gender}</td>
+                                    <td style={Td}></td>
+                                    <td style={Td}></td>
+                                    <td style={Td}></td>
                                     <td style={Td} onClick={() => handleCustomerClick(customer.id)}>{customer.full_name}</td>
                                     <td style={Td}>{customer.katakana_name}</td>
-                                    <td style={Td}>{customer.age}</td>
+                                    <td style={Td}></td>
                                     <td style={Td}>{customer.phone_number}</td>
-                                    <td style={Td}>{customer.prefecture}</td>
-                                    <td style={Td}>{customer.city}</td>
+                                    <td style={Td}></td>
+                                    <td style={Td}></td>
                                     <td style={Td}> {customer.address} </td>
-                                    <td style={Td}>{customer.id_card}</td>
-                                    <td style={Td}>{customer.identification_no}</td>
-                                    <td style={Td}>{customer.occupation}</td>
-                                    <td style={Td}>{customer.number_visits}</td>
-                                    <td style={Td}>{customer.last_visit_date}</td>
-                                    <td style={Td}> {customer.special_top} </td>
+                                    <td style={Td}>{customer.trigger}</td>
+                                    <td style={Td}>{customer.shop}</td>
+                                    <td style={Td}></td>
+                                    <td style={Td}></td>
+                                    <td style={Td}></td>
+                                    <td style={Td}>  </td>
                                     <td onClick={() => handleCustomerClick(customer.id)}>
                                         <svg className="w-5 h-5 ml-5" fill='#70685a' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="ContentCopyIcon" title="ContentCopy">
                                             <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2m0 16H8V7h11z"></path>

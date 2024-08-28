@@ -21,13 +21,16 @@ const YahooAuction = () => {
         border: '1px solid #70685a',
         borderCollapse: 'collapse',
         color: '#70685a',
-        fontSize: '15px'
+        fontSize: '15px',
+        whiteSpace:'nowrap',
+        padding:'5px'
     };
     const Td = {
         border: '1px solid #70685a',
         borderCollapse: 'collapse',
         color: '#70685a',
-        fontSize: '15px'
+        fontSize: '15px',
+        whiteSpace:'nowrap'
     };
 
 
@@ -37,9 +40,9 @@ const YahooAuction = () => {
             {/* first button line  */}
             <div className='flex justify-between ml-10'>
                 <div className='flex justify-center mt-10 w-full' >
-                    <ButtonComponent children={'売上表'} className='bg-[#424242] h-11 !text-2xl' />
+                    <ButtonComponent children={'売上表'} className='bg-[transparent] border border-[#424242] !text-[#424242] h-11 !text-2xl' />
                     <ButtonComponent children={'業者査定シート'} className='h-11 bg-[transparent] border border-[#424242] !text-[#424242] text-2xl !px-10'  style={{ marginLeft: '30px' }} />
-                    <ButtonComponent children={'ヤフオク'} className='h-11 bg-[transparent] border border-[#424242] !text-[#424242] text-2xl !px-10' style={{ marginLeft: '30px' }} />
+                    <ButtonComponent children={'ヤフオク'} className='h-11 !bg-[#424242] border border-[#424242] !text-[white] text-2xl !px-10' style={{ marginLeft: '30px' }} />
                 </div>
             </div>
 
@@ -67,9 +70,9 @@ const YahooAuction = () => {
                                 <th style={Th} rowSpan={2}>落札額</th>
                                 <th style={Th} rowSpan={2}>租利額</th>
 
-                                <th width='10%' style={Th} rowSpan={2} ><div style={{ border: '1px solid black', borderRadius: '5px', margin: '5%' }}>ステー夕ス</div></th>
-                                <th width='10%' style={Th} rowSpan={2} ><div style={{ border: '1px solid black', borderRadius: '5px', margin: '5%' }}>入金日</div></th>
-                                <th width='10%' style={Th} rowSpan={2} ><div style={{ border: '1px solid black', borderRadius: '5px', margin: '5%' }}>発送日</div></th>
+                                <th width='10%' className='px-3 w-max' style={Th} rowSpan={2} ><div style={{ border: '1px solid black', borderRadius: '5px', }}>ステー夕ス</div></th>
+                                <th width='10%' className='px-2 w-max' style={Th} rowSpan={2} ><div style={{ border: '1px solid black', borderRadius: '5px', }}>入金日</div></th>
+                                <th width='10%' className='px-2 w-max' style={Th} rowSpan={2} ><div style={{ border: '1px solid black', borderRadius: '5px', }}>発送日</div></th>
 
                                 <th style={Th} colSpan={6}>落札者情報</th>
 
