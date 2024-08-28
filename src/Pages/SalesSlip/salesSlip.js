@@ -1,5 +1,6 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React,{ useState, useEffect } from 'react';
+import {Link } from 'react-router-dom';
+import axios from 'axios';
 // import Titlebar from '../../Components/Common/Titlebar';
 // import InputComponent from '../../Components/Common/InputComponent';
 import ButtonComponent from '../../Components/Common/ButtonComponent';
@@ -30,6 +31,45 @@ const SalesSlip = () => {
         color: '#70685a',
         fontSize: '15px',
         whiteSpace:'nowrap'
+    };
+
+    const [sales, setSales] = useState([]);
+    // Fetch customer data
+    useEffect(() => {
+        const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+        if (!wakabaBaseUrl) {
+            throw new Error('API base URL is not defined');
+        }
+
+        console.log(`${wakabaBaseUrl}/sales/getSalesList`);
+        axios.get(`${wakabaBaseUrl}/sales/getSalesList`)
+            .then(response => {
+                console.log(response.data)
+                setSales(response.data);
+            })
+            .catch(error => {
+                console.error("There was an error fetching the customer data!", error);
+            });
+    }, []);
+
+
+    const handleCategory =(value) =>(e) => {
+        e.preventDefault();
+        console.log("afdaf",value)
+        const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+        if (!wakabaBaseUrl) {
+            throw new Error('API base URL is not defined');
+        }
+
+        console.log(`${wakabaBaseUrl}/sales/filter`);
+        axios.post(`${wakabaBaseUrl}/sales/filter`,{ value: value })
+            .then(response => {
+                console.log(response.data)
+                setSales(response.data);
+            })
+            .catch(error => {
+                console.error("There was an error fetching the customer data!", error);
+            });
     };
 
 
@@ -69,18 +109,18 @@ const SalesSlip = () => {
                         {/* This buttons doesn't have borders and background-color */}
                         <div className='flex ml-10' style={{ width: '85%' }}>
                             <div className='flex justify-between  mt-5 w-full' >
-                                <ButtonComponent children={'全て'} className="!px-3  bg-[transparent] border border-[#424242] !text-[#424242] h-8 rounded-lg !w-max" />
-                                <ButtonComponent children={'貴金属'} className="!px-3 bg-[transparent] border border-[#424242] !text-[#424242] h-8 rounded-lg !w-max" />
-                                <ButtonComponent children={'ブランド'} className="!px-3 bg-[transparent] border border-[#424242] !text-[#424242] h-8 rounded-lg !w-max" />
-                                <ButtonComponent children={'バッグ'} className="!px-3 bg-[transparent] border border-[#424242] !text-[#424242] h-8 rounded-lg !w-max" />
-                                <ButtonComponent children={'時計'} className="!px-3 bg-[transparent] border border-[#424242] !text-[#424242] h-8 rounded-lg !w-max" />
-                                <ButtonComponent children={'財布'} className="!px-3 bg-[transparent] border border-[#424242] !text-[#424242] h-8 rounded-lg !w-max" />
-                                <ButtonComponent children={'アクセサリ'} className="!px-3 bg-[transparent] border border-[#424242] !text-[#424242] h-8 rounded-lg !w-max" />
-                                <ButtonComponent children={'骨董品'} className="!px-3 bg-[transparent] border border-[#424242] !text-[#424242] h-8 rounded-lg !w-max" />
-                                <ButtonComponent children={'洋酒'} className="!px-3 bg-[transparent] border border-[#424242] !text-[#424242] h-8 rounded-lg !w-max" />
-                                <ButtonComponent children={'カメラ'} className="!px-3 bg-[transparent] border border-[#424242] !text-[#424242] h-8 rounded-lg !w-max" />
-                                <ButtonComponent children={'楽器'} className="!px-3 bg-[transparent] border border-[#424242] !text-[#424242] h-8 rounded-lg !w-max" />
-                                <ButtonComponent children={'スマホ/夕ブレット'} className="!px-5 bg-[transparent] border border-[#424242] !text-[#424242] h-8 rounded-lg !w-max" />
+                                <ButtonComponent children={'全て'} onClick={handleCategory('')}  className="!px-3  bg-[transparent] border border-[#424242] !text-[#424242] h-8 rounded-lg !w-max" />
+                                <ButtonComponent children={'貴金属'} onClick={handleCategory('貴金属')} className="!px-3 bg-[transparent] border border-[#424242] !text-[#424242] h-8 rounded-lg !w-max" />
+                                <ButtonComponent children={'ブランド'} onClick={handleCategory('ブランド')} className="!px-3 bg-[transparent] border border-[#424242] !text-[#424242] h-8 rounded-lg !w-max" />
+                                <ButtonComponent children={'バッグ'} onClick={handleCategory('バッグ')} className="!px-3 bg-[transparent] border border-[#424242] !text-[#424242] h-8 rounded-lg !w-max" />
+                                <ButtonComponent children={'時計'} onClick={handleCategory('時計')} className="!px-3 bg-[transparent] border border-[#424242] !text-[#424242] h-8 rounded-lg !w-max" />
+                                <ButtonComponent children={'財布'} onClick={handleCategory('財布')} className="!px-3 bg-[transparent] border border-[#424242] !text-[#424242] h-8 rounded-lg !w-max" />
+                                <ButtonComponent children={'アクセサリ'} onClick={handleCategory('アクセサリ')} className="!px-3 bg-[transparent] border border-[#424242] !text-[#424242] h-8 rounded-lg !w-max" />
+                                <ButtonComponent children={'骨董品'} onClick={handleCategory('骨董品')} className="!px-3 bg-[transparent] border border-[#424242] !text-[#424242] h-8 rounded-lg !w-max" />
+                                <ButtonComponent children={'洋酒'} onClick={handleCategory('洋酒')} className="!px-3 bg-[transparent] border border-[#424242] !text-[#424242] h-8 rounded-lg !w-max" />
+                                <ButtonComponent children={'カメラ'} onClick={handleCategory('カメラ')} className="!px-3 bg-[transparent] border border-[#424242] !text-[#424242] h-8 rounded-lg !w-max" />
+                                <ButtonComponent children={'楽器'} onClick={handleCategory('楽器')} className="!px-3 bg-[transparent] border border-[#424242] !text-[#424242] h-8 rounded-lg !w-max" />
+                                <ButtonComponent children={'スマホ/夕ブレット'} onClick={handleCategory('夕ブレット')} className="!px-5 bg-[transparent] border border-[#424242] !text-[#424242] h-8 rounded-lg !w-max" />
                                 <select id="classificatin" name="classificatin" className="!w-max h-8 rounded-lg !text-[#70685a] text-[15px] font-bold border border-[#70685a] px-4 py-1 outline-[#70685a]" >
                                     <option value="1">その他</option>
                                     <option value="2">Afghanistan</option>
@@ -130,35 +170,36 @@ const SalesSlip = () => {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td><input type="checkbox"></input></td>
-                                            <td style={Td}>99999</td>
-                                            <td style={Td}>OOOO</td>
-                                            <td style={Td}>50</td>
-                                            <td style={Td}>50</td>
-                                            <td style={Td}>50</td>
-                                            <td style={Td}>50</td>
-                                            <td style={Td}>50</td>
-                                            <td style={Td}>50</td>
-                                            <td style={Td}>50</td>
-                                            <td style={Td}>50</td>
-                                            <td style={Td}>50</td>
-                                            <td style={Td}>50</td>
-                                            <td style={Td}>50</td>
-                                            <td style={Td}>50</td>
-                                            <td style={Td}>50</td>
-                                            <td style={Td}>50</td>
-                                            <td style={Td}>50</td>
-                                            <td style={Td}>50000000000</td>
-                                            <td style={Td}>5000000000</td>
-                                            <td style={Td}>50000000000</td>
-                                            <td style={Td}>50000000000</td>
-                                            <td style={Td}>500000000000</td>
-                                            <td style={Td}>500000000000</td>
-                                            <td style={Td}>50</td>
-                                            <td style={Td}>50000</td>
-                                        </tr>
-
+                                        {sales.map(sale => (
+                                            <tr key={sale.id}>
+                                                <td><input type="checkbox"></input></td>
+                                                <td style={Td}>{sale.no}</td>
+                                                <td style={Td}>OOOO</td>
+                                                <td style={Td}>{sale.deposit_date}</td>
+                                                <td style={Td}>{sale.wholesale_date}</td>
+                                                <td style={Td}></td>
+                                                <td style={Td}></td>
+                                                <td style={Td}>{sale.purchasing_manager}</td>
+                                                <td style={Td}>{sale.customer_name}</td>
+                                                <td style={Td}>{sale.katakana_name}</td>
+                                                <td style={Td}>{sale.telephone_number}</td>
+                                                <td style={Td}>{sale.address}</td>
+                                                <td style={Td}>{sale.visit_type}</td>
+                                                <td style={Td}></td>
+                                                <td style={Td}>{sale.product_type_one}</td>
+                                                <td style={Td}>{sale.product_type_two}</td>
+                                                <td style={Td}></td>
+                                                <td style={Td}></td>
+                                                <td style={Td}></td>
+                                                <td style={Td}>{sale.merchandise}</td>
+                                                <td style={Td}>{sale.number}</td>
+                                                <td style={Td}></td>
+                                                <td style={Td}>{sale.purchase_amount}</td>
+                                                <td style={Td}></td>
+                                                <td style={Td}></td>
+                                                <td style={Td}></td>
+                                            </tr>
+                                        ))}
                                     </tbody>
 
                                 </table>

@@ -1,5 +1,5 @@
 import React from 'react';
-// import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 // import Titlebar from '../../Components/Common/Titlebar';
 // import InputComponent from '../../Components/Common/InputComponent';
 import ButtonComponent from '../../Components/Common/ButtonComponent';
@@ -40,8 +40,10 @@ const YahooAuction = () => {
             {/* first button line  */}
             <div className='flex justify-between ml-10'>
                 <div className='flex justify-center mt-10 w-full' >
-                    <ButtonComponent children={'売上表'} className='bg-[transparent] border border-[#424242] !text-[#424242] h-11 !text-2xl' />
-                    <ButtonComponent children={'業者査定シート'} className='h-11 bg-[transparent] border border-[#424242] !text-[#424242] text-2xl !px-10'  style={{ marginLeft: '30px' }} />
+                    <ButtonComponent className='bg-[transparent] border border-[#424242] !text-[#424242] h-11 !text-2xl' ><Link to="/salesslip">売上表</Link></ButtonComponent>
+                    <ButtonComponent className='h-11 bg-[transparent] border border-[#424242] !text-[#424242] text-2xl !px-10'  style={{ marginLeft: '30px' }} >
+                        <Link to="/contractorassessmentsheet">業者査定シート</Link>
+                    </ButtonComponent>
                     <ButtonComponent children={'ヤフオク'} className='h-11 !bg-[#424242] border border-[#424242] !text-[white] text-2xl !px-10' style={{ marginLeft: '30px' }} />
                 </div>
             </div>

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-// import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 // import Titlebar from '../../Components/Common/Titlebar';
 // import InputComponent from '../../Components/Common/InputComponent';
 import ButtonComponent from '../../Components/Common/ButtonComponent';
@@ -57,9 +57,11 @@ const ContractorAssementSheet = () => {
                     <div className='w-full'>
                         <div className='flex justify-center ml-10 ' >
                             <div className='flex mt-10 mr-40' >
-                                <ButtonComponent children={'売上表'} className='bg-[#424242] h-11 !text-2xl ' />
+                                <ButtonComponent className='bg-[#424242] h-11 !text-2xl ' ><Link to="/salesslip">売上表</Link></ButtonComponent>
                                 <ButtonComponent children={'業者査定シート'} className='h-11 !bg-[transparent] border border-[#424242] !text-[#424242] !text-2xl !px-10' style={{ marginLeft: '30px' }} />
-                                <ButtonComponent children={'ヤフオク'} className='h-11 !bg-[transparent] border border-[#424242] !text-[#424242] !text-2xl' style={{ marginLeft: '30px' }} />
+                                <ButtonComponent className='h-11 !bg-[transparent] border border-[#424242] !text-[#424242] !text-2xl' style={{ marginLeft: '30px' }} >
+                                    <Link to="/yahooauction">ヤフオク</Link>
+                                </ButtonComponent>
                             </div>
                             <div className='flex mt-10 ' >
                                 <div>
