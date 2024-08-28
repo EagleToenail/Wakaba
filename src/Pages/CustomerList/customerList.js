@@ -4,7 +4,7 @@ import axios from 'axios';
 import InputComponent from '../../Components/Common/InputComponent';
 import ButtonComponent from '../../Components/Common/ButtonComponent';
 import LabelComponent from '../../Components/Common/LabelComponent';
-import dateimage from '../../Assets/img/datepicker.png';
+// import dateimage from '../../Assets/img/datepicker.png';
 import DateAndTime from '../../Components/Common/PickData';
 
 const CustomerList = () => {
@@ -40,7 +40,7 @@ const CustomerList = () => {
         birthDate: ''
     });
 
-    const [date, setDate] = useState('');
+    // const [date, setDate] = useState('');
 
     // Fetch customer data
     useEffect(() => {
@@ -71,13 +71,13 @@ const CustomerList = () => {
     };
 
     // Handle date change
-    const handleDateChange = (e) => {
-        setDate(e.target.value);
-        setSearchParams({
-            ...searchParams,
-            birthDate: e.target.value
-        });
-    };
+    // const handleDateChange = (e) => {
+    //     setDate(e.target.value);
+    //     setSearchParams({
+    //         ...searchParams,
+    //         birthDate: e.target.value
+    //     });
+    // };
 
     // Handle search form submission
     const handleSearch = (e) => {
@@ -138,7 +138,7 @@ const CustomerList = () => {
                            className="w-[40vh] h-[40px]"
                         />
                     </div>
-                    <div className=' px-2 mr-2 !text-center'>
+                    {/* <div className=' px-2 mr-2 !text-center'>
                         <LabelComponent value={'生年月日'} />
                         <div className='flex'>
                             <div style={{ flexDirection: 'column', }} className='flex align-center justify-around'>
@@ -167,7 +167,7 @@ const CustomerList = () => {
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> */}
                     <div className=' text-[#70685a] px-2 mr-5 flex flex-col justify-end'>
                         <label className="text-[#70685a] text-[20px] block text-center pb-2">この条件で</label>
                     </div>
@@ -192,32 +192,17 @@ const CustomerList = () => {
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>店舗名</th>
-                                <th>種別</th>
-                                <th>性別</th>
                                 <th>氏名</th>
                                 <th>カタカナ名</th>
-                                <th>年齢</th>
                                 <th>TEL</th>
-                                <th>都道府県</th>
-                                <th>市町村</th>
-                                <th className='flex justify-end'>
+                                <th className='flex justify-center'>
                                     <label className='flex flex-col justify-center'>住所詳細</label>
-                                    <svg className='h-10' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="ArrowRightIcon" title="ArrowRight">
+                                    {/* <svg className='h-10' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="ArrowRightIcon" title="ArrowRight">
                                         <path d="m10 17 5-5-5-5z"></path>
-                                    </svg>
+                                    </svg> */}
                                 </th>
-                                <th>身分証</th>
-                                <th>身分証No.</th>
-                                <th>職業</th>
-                                <th>来店回数</th>
-                                <th>最終来店日</th>
-                                <th className='flex justify-end'>
-                                    <label className='flex flex-col justify-center'>特記事頂</label>
-                                    <svg className='h-10' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="ArrowRightIcon" title="ArrowRight">
-                                        <path d="m10 17 5-5-5-5z"></path>
-                                    </svg>
-                                </th>
+                                <th>契機</th>
+                                <th>ショップ</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -225,22 +210,12 @@ const CustomerList = () => {
                             {customers.map(customer => (
                                 <tr key={customer.id}>
                                     <td style={Td}>{customer.id}</td>
-                                    <td style={Td}></td>
-                                    <td style={Td}></td>
-                                    <td style={Td}></td>
                                     <td style={Td} onClick={() => handleCustomerClick(customer.id)}>{customer.full_name}</td>
                                     <td style={Td}>{customer.katakana_name}</td>
-                                    <td style={Td}></td>
                                     <td style={Td}>{customer.phone_number}</td>
-                                    <td style={Td}></td>
-                                    <td style={Td}></td>
                                     <td style={Td}> {customer.address} </td>
                                     <td style={Td}>{customer.trigger}</td>
                                     <td style={Td}>{customer.shop}</td>
-                                    <td style={Td}></td>
-                                    <td style={Td}></td>
-                                    <td style={Td}></td>
-                                    <td style={Td}>  </td>
                                     <td onClick={() => handleCustomerClick(customer.id)}>
                                         <svg className="w-5 h-5 ml-5" fill='#70685a' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="ContentCopyIcon" title="ContentCopy">
                                             <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2m0 16H8V7h11z"></path>

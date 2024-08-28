@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate,useParams } from 'react-router-dom';
+import axios from 'axios';
 import '../../Assets/css/showtable.css'
 import dateimage from '../../Assets/img/datepicker.png';
 import InputComponent from '../../Components/Common/InputComponent';
@@ -75,6 +76,13 @@ const CustomerIndividual = () => {
         addressdetail: '',
         staffTerms: '',
     });
+    const [customer,setCustomer] = useState({
+        id:'',
+        full_name:'',
+        katakana_name:'',
+        phone_number:'',
+        address:''
+    });
     const [customerPastVisitHistory, setCustomerPastVisitHistory] = useState([]);
     const navigate = useNavigate();
 
@@ -136,42 +144,47 @@ const CustomerIndividual = () => {
             //     });
         }, []);
         // Fetch customer data
+        const { id } = useParams();
+        console.log('id',id);
+
         useEffect(() => {
+
             const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
     
             if (!wakabaBaseUrl) {
                 throw new Error('API base URL is not defined');
             }
     
-            setFormData(
-                {
-                    "id":1,
-                    "customerID": 1,
-                    "storeName": "Store A",
-                    "storeType": "Regular",
-                    "gender": "Male",
-                    "name": "John Doe",
-                    "katakanaName": "ジョン ドウ",
-                    "phoneNumber1": "123-456-7890",
-                    "birthdayValue":"1999-11-01",
-                    "organBusiness":"ABC",
-                    "phoneNumber2": "123-456-7890",
-                    "prefecture": "Tokyo",
-                    "city": "Shibuya",
-                    "addressdetail": "1-1-1 Shibuya",
-                    "cardType": "Passport",
-                    "staffTerms": "Frequent visitor"
-                },
-            );
+            // setFormData(
+            //     {
+            //         "id":1,
+            //         "customerID": 1,
+            //         "storeName": "Store A",
+            //         "storeType": "Regular",
+            //         "gender": "Male",
+            //         "name": "John Doe",
+            //         "katakanaName": "ジョン ドウ",
+            //         "phoneNumber1": "123-456-7890",
+            //         "birthdayValue":"1999-11-01",
+            //         "organBusiness":"ABC",
+            //         "phoneNumber2": "123-456-7890",
+            //         "prefecture": "Tokyo",
+            //         "city": "Shibuya",
+            //         "addressdetail": "1-1-1 Shibuya",
+            //         "cardType": "Passport",
+            //         "staffTerms": "Frequent visitor"
+            //     },
+            // );
     
-            // axios.get(`${wakabaBaseUrl}/coustomerindividual/:id`)
-            //     .then(response => {
-            //         setFormData(response.data);
-            //     })
-            //     .catch(error => {
-            //         console.error("There was an error fetching the customer data!", error);
-            //     });
-        }, []);
+            axios.get(`${wakabaBaseUrl}/customer/getUserByCustomer/${id}`)
+                .then(response => {
+                    console.log("data",response.data)
+                    setCustomer(response.data);
+                })
+                .catch(error => {
+                    console.error("There was an error fetching the customer data!", error);
+                });
+        }, [id]);
 
     // //file upload
     const [avatarimageFile, setAvatarImageFile] = useState(null);
@@ -183,6 +196,12 @@ const CustomerIndividual = () => {
     const handleChange = (e) => {
         setFormData({
             ...formData,
+            [e.target.name]: e.target.value,
+        });
+    };
+    const handleCustomerChange = (e) => {
+        setCustomer({
+            ...customer,
             [e.target.name]: e.target.value,
         });
     };
@@ -292,7 +311,7 @@ const CustomerIndividual = () => {
                                 <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">顧客番号</label>
                             </div>
                             <div style={{ width: '50%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                <label className="text-[#70685a] font-bold mb-2 block text-left mr-10 py-1 !mb-0">{formData.customerID}</label>
+                                <label className="text-[#70685a] font-bold mb-2 block text-left mr-10 py-1 !mb-0">{customer.id}</label>
                             </div>
                         </div>
                     </div>
@@ -335,7 +354,7 @@ const CustomerIndividual = () => {
                                     <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">お名前</label>
                                 </div>
                                 <div style={{ width: '50%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <input name="name" value={formData.name} onChange={handleChange} type="text" required className="w-full text-[#70685a] border border-[#70685a] px-4 py-2 outline-[#70685a]" />
+                                    <input name="name" value={customer.full_name} onChange={handleCustomerChange} type="text" required className="w-full text-[#70685a] border border-[#70685a] px-4 py-2 outline-[#70685a]" />
                                 </div>
                             </div>
                             {/* new */}
@@ -344,7 +363,7 @@ const CustomerIndividual = () => {
                                     <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">カタカナ名</label>
                                 </div>
                                 <div style={{ width: '75%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <input name="katakanaName" value={formData.katakanaName} onChange={handleChange} type="text" required className="w-full text-[#70685a] border border-[#70685a] px-4 py-2 outline-[#70685a]" />
+                                    <input name="katakanaName" value={customer.katakana_name} onChange={handleCustomerChange} type="text" required className="w-full text-[#70685a] border border-[#70685a] px-4 py-2 outline-[#70685a]" />
                                 </div>
                             </div>
                             {/* new */}
@@ -353,7 +372,7 @@ const CustomerIndividual = () => {
                                     <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">お電話番号</label>
                                 </div>
                                 <div style={{ width: '35%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <InputComponent name="phoneNumber1" value={formData.phoneNumber1} onChange={handleChange} type='text' required />
+                                    <InputComponent name="phoneNumber1" value={customer.phone_number} onChange={handleCustomerChange} type='text' required />
                                 </div>
                             </div>
                             {/* new */}
@@ -507,7 +526,7 @@ const CustomerIndividual = () => {
                                     <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">住所詳細</label>
                                 </div>
                                 <div style={{ width: '75%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <input name="addressdetail" type="text" value={formData.addressdetail} onChange={handleChange} required className="w-full text-[#70685a] border border-[#70685a] px-4 py-2 outline-[#70685a]" />
+                                    <input name="addressdetail" type="text" value={customer.address} onChange={handleCustomerChange} required className="w-full text-[#70685a] border border-[#70685a] px-4 py-2 outline-[#70685a]" />
                                 </div>
                             </div>
                             {/* new */}
