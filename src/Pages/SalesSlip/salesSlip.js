@@ -52,10 +52,21 @@ const SalesSlip = () => {
             });
     }, []);
 
+    // State to track the value of the active button
+    const [activeValue, setActiveValue] = useState('');
+    // State to track if the select box is active
+    const [isSelectActive, setIsSelectActive] = useState(false);
+    const buttonValues = ['', '貴金属', 'ブランド', 'バッグ', '時計',
+        '財布', 'アクセサリ', '骨董品', '洋酒', 'カメラ','楽器','スマホ/夕ブレット'];
 
     const handleCategory =(value) =>(e) => {
         e.preventDefault();
-        console.log("afdaf",value)
+
+        console.log('vlaue',value)
+        setActiveValue(value);
+        console.log('activeValue',activeValue)
+        setIsSelectActive(false); // Deactivate select box
+
         const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
         if (!wakabaBaseUrl) {
             throw new Error('API base URL is not defined');
@@ -64,7 +75,29 @@ const SalesSlip = () => {
         console.log(`${wakabaBaseUrl}/sales/filter`);
         axios.post(`${wakabaBaseUrl}/sales/filter`,{ value: value })
             .then(response => {
-                console.log(response.data)
+                // console.log(response.data)
+                setSales(response.data);
+            })
+            .catch(error => {
+                console.error("There was an error fetching the customer data!", error);
+            });
+    };
+    const onChangeCategory=(e) => {
+        e.preventDefault();
+        console.log("afdaf",e.target.value)
+        setActiveValue(null); // Deactivate all buttons
+        setIsSelectActive(true);
+
+        const value = e.target.value;
+        const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+        if (!wakabaBaseUrl) {
+            throw new Error('API base URL is not defined');
+        }
+
+        console.log(`${wakabaBaseUrl}/sales/filter`);
+        axios.post(`${wakabaBaseUrl}/sales/filter`,{ value: value })
+            .then(response => {
+                // console.log(response.data)
                 setSales(response.data);
             })
             .catch(error => {
@@ -82,14 +115,18 @@ const SalesSlip = () => {
                     <div className='w-full'>
                         <div className='flex justify-between ml-10' style={{ width: '85%' }}>
                             <div className='flex mt-10 w-1/2' >
-                                <div className='w-full'>
-                                    <ButtonComponent children={'リサイクルショップへの買取依頼書へ'} className='!px-5 text-2xl w-[100%]' style={{ backgroundColor: '#9bd195', height: '40px' }} />
+                                <div className=''>
+                                    <ButtonComponent className='!px-5 text-2xl w-max' style={{ backgroundColor: '#9bd195', height: '40px' }} >
+                                        <Link to="/purchasetorshop">リサイクルショップへの買取依頼書へ</Link>
+                                    </ButtonComponent>
                                     <div className='flex justify-center'>
                                         <LabelComponent value={'行を選択してください'} />
                                     </div>
                                 </div>
                                 <div>
-                                    <ButtonComponent children={'廃棄申請'} className='!px-5 text-2xl' style={{ backgroundColor: '#9bd195', marginLeft: '30px', height: '40px' }} />
+                                    <ButtonComponent className='!px-5 text-2xl' style={{ backgroundColor: '#9bd195', marginLeft: '30px', height: '40px' }} >
+                                        <Link>廃棄申請</Link>
+                                    </ButtonComponent>
                                     <div className='flex justify-centerb w-max'>
                                         <LabelComponent value={'行を選択してください'} />
                                     </div>
@@ -109,23 +146,23 @@ const SalesSlip = () => {
                         {/* This buttons doesn't have borders and background-color */}
                         <div className='flex ml-10' style={{ width: '85%' }}>
                             <div className='flex justify-between  mt-5 w-full' >
-                                <ButtonComponent children={'全て'} onClick={handleCategory('')}  className="!px-3  bg-[transparent] border border-[#424242] !text-[#424242] h-8 rounded-lg !w-max" />
-                                <ButtonComponent children={'貴金属'} onClick={handleCategory('貴金属')} className="!px-3 bg-[transparent] border border-[#424242] !text-[#424242] h-8 rounded-lg !w-max" />
-                                <ButtonComponent children={'ブランド'} onClick={handleCategory('ブランド')} className="!px-3 bg-[transparent] border border-[#424242] !text-[#424242] h-8 rounded-lg !w-max" />
-                                <ButtonComponent children={'バッグ'} onClick={handleCategory('バッグ')} className="!px-3 bg-[transparent] border border-[#424242] !text-[#424242] h-8 rounded-lg !w-max" />
-                                <ButtonComponent children={'時計'} onClick={handleCategory('時計')} className="!px-3 bg-[transparent] border border-[#424242] !text-[#424242] h-8 rounded-lg !w-max" />
-                                <ButtonComponent children={'財布'} onClick={handleCategory('財布')} className="!px-3 bg-[transparent] border border-[#424242] !text-[#424242] h-8 rounded-lg !w-max" />
-                                <ButtonComponent children={'アクセサリ'} onClick={handleCategory('アクセサリ')} className="!px-3 bg-[transparent] border border-[#424242] !text-[#424242] h-8 rounded-lg !w-max" />
-                                <ButtonComponent children={'骨董品'} onClick={handleCategory('骨董品')} className="!px-3 bg-[transparent] border border-[#424242] !text-[#424242] h-8 rounded-lg !w-max" />
-                                <ButtonComponent children={'洋酒'} onClick={handleCategory('洋酒')} className="!px-3 bg-[transparent] border border-[#424242] !text-[#424242] h-8 rounded-lg !w-max" />
-                                <ButtonComponent children={'カメラ'} onClick={handleCategory('カメラ')} className="!px-3 bg-[transparent] border border-[#424242] !text-[#424242] h-8 rounded-lg !w-max" />
-                                <ButtonComponent children={'楽器'} onClick={handleCategory('楽器')} className="!px-3 bg-[transparent] border border-[#424242] !text-[#424242] h-8 rounded-lg !w-max" />
-                                <ButtonComponent children={'スマホ/夕ブレット'} onClick={handleCategory('夕ブレット')} className="!px-5 bg-[transparent] border border-[#424242] !text-[#424242] h-8 rounded-lg !w-max" />
-                                <select id="classificatin" name="classificatin" className="!w-max h-8 rounded-lg !text-[#70685a] text-[15px] font-bold border border-[#70685a] px-4 py-1 outline-[#70685a]" >
-                                    <option value="1">その他</option>
-                                    <option value="2">Afghanistan</option>
-                                    <option value="3">Åland Islands</option>
-                                    <option value="4">Albania</option>
+                                <ButtonComponent children={'全て'} onClick={handleCategory('')}  className="!px-3  bg-[transparent] border border-[#424242] text-[#424242] h-8 rounded-lg !w-max"  style={{color: activeValue == buttonValues[0] ? 'white' : 'black', backgroundColor: activeValue === '' ? '#424242' : 'transparent'}}/>
+                                <ButtonComponent children={'貴金属'} onClick={handleCategory('貴金属')} className="!px-3 bg-[transparent] border border-[#424242] text-[#424242] h-8 rounded-lg !w-max" style={{color: activeValue === buttonValues[1] ? 'white' : 'black', backgroundColor: activeValue === buttonValues[1] ? '#424242' : 'transparent'}}/>
+                                <ButtonComponent children={'ブランド'} onClick={handleCategory('ブランド')} className="!px-3 bg-[transparent] border border-[#424242] text-[#424242] h-8 rounded-lg !w-max" style={{color: activeValue === buttonValues[2] ? 'white' : 'black', backgroundColor: activeValue === buttonValues[2] ? '#424242' : 'transparent'}}/>
+                                <ButtonComponent children={'バッグ'} onClick={handleCategory('バッグ')} className="!px-3 bg-[transparent] border border-[#424242] text-[#424242] h-8 rounded-lg !w-max" style={{color: activeValue === buttonValues[3] ? 'white' : 'black', backgroundColor: activeValue === buttonValues[3] ? '#424242' : 'transparent'}}/>
+                                <ButtonComponent children={'時計'} onClick={handleCategory('時計')} className="!px-3 bg-[transparent] border border-[#424242] text-[#424242] h-8 rounded-lg !w-max" style={{color: activeValue === buttonValues[4] ? 'white' : 'black', backgroundColor: activeValue === buttonValues[4] ? '#424242' : 'transparent'}}/>
+                                <ButtonComponent children={'財布'} onClick={handleCategory('財布')} className="!px-3 bg-[transparent] border border-[#424242] text-[#424242] h-8 rounded-lg !w-max" style={{color: activeValue === buttonValues[5] ? 'white' : 'black', backgroundColor: activeValue === buttonValues[5] ? '#424242' : 'transparent'}}/>
+                                <ButtonComponent children={'アクセサリ'} onClick={handleCategory('アクセサリ')} className="!px-3 bg-[transparent] border border-[#424242] text-[#424242] h-8 rounded-lg !w-max" style={{color: activeValue === buttonValues[6] ? 'white' : 'black', backgroundColor: activeValue === buttonValues[6] ? '#424242' : 'transparent'}}/>
+                                <ButtonComponent children={'骨董品'} onClick={handleCategory('骨董品')} className="!px-3 bg-[transparent] border border-[#424242] text-[#424242] h-8 rounded-lg !w-max" style={{color: activeValue === buttonValues[7] ? 'white' : 'black', backgroundColor: activeValue === buttonValues[7] ? '#424242' : 'transparent'}}/>
+                                <ButtonComponent children={'洋酒'} onClick={handleCategory('洋酒')} className="!px-3 bg-[transparent] border border-[#424242] text-[#424242] h-8 rounded-lg !w-max" style={{color: activeValue === buttonValues[8] ? 'white' : 'black', backgroundColor: activeValue === buttonValues[8] ? '#424242' : 'transparent'}}/>
+                                <ButtonComponent children={'カメラ'} onClick={handleCategory('カメラ')} className="!px-3 bg-[transparent] border border-[#424242] text-[#424242] h-8 rounded-lg !w-max" style={{color: activeValue === buttonValues[9] ? 'white' : 'black', backgroundColor: activeValue === buttonValues[9] ? '#424242' : 'transparent'}}/>
+                                <ButtonComponent children={'楽器'} onClick={handleCategory('楽器')} className="!px-3 bg-[transparent] border border-[#424242] text-[#424242] h-8 rounded-lg !w-max" style={{color: activeValue === buttonValues[10] ? 'white' : 'black', backgroundColor: activeValue === buttonValues[10] ? '#424242' : 'transparent'}}/>
+                                <ButtonComponent children={'スマホ/夕ブレット'} onClick={handleCategory('スマホ/夕ブレット')} className="!px-5 bg-[transparent] border border-[#424242] text-[#424242] h-8 rounded-lg !w-max" style={{color: activeValue === buttonValues[11] ? 'white' : 'black', backgroundColor: activeValue === buttonValues[11] ? '#424242' : 'transparent'}}/>
+                                <select id="classificatin" onChange={onChangeCategory}  name="classificatin" className="!w-max h-8 rounded-lg text-[#70685a] text-[15px] font-bold border border-[#70685a] px-4 py-1 outline-[#70685a]" style={{color: isSelectActive ? 'white' : 'black', backgroundColor: isSelectActive ? '#424242' : 'transparent'}}>
+                                    <option value="その他">その他</option>
+                                    <option value="Afghanistan">Afghanistan</option>
+                                    <option value=" Islands">Islands</option>
+                                    <option value="Albania">Albania</option>
                                 </select>
                             </div>
                         </div>

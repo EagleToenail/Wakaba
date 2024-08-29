@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const Button = ({ onClick, children, type = 'button', className, disabled = false, style = {} }) => {
+const Button = ({ onClick,id, children, type = 'button', className, disabled = false, style = {} }) => {
   // Default style
   const defaultStyle = {
     
@@ -11,6 +11,7 @@ const Button = ({ onClick, children, type = 'button', className, disabled = fals
 
   return (
     <button
+    id={id}
       type={type}
       className={`inline-block whitespace-nowrap overflow-hidden text-ellipsis w-30 py-1 px-20 font-bold text-[white] rounded-lg text-center bg-[#e87a00] hover:bg-blue-700 focus:outline-none ${className}`}
       onClick={onClick}
