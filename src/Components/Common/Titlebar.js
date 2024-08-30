@@ -5,7 +5,7 @@ import React from 'react';
 const Titlebar = ({title}) => {
 
     const handleNavigate = () => {
-        window.location.href = '/todolist'; // Navigate and reload the page
+        window.location.href = '/'; // Navigate and reload the page
       };
       
     return (

@@ -2,7 +2,7 @@ import React, { useState,useEffect} from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Titlebar from '../../../Components/Common/Titlebar';
 import DateAndTime from '../../../Components/Common/nowdateandtime';
-//import axios from 'axios';
+import axios from 'axios';
 
 const Login = () => {
     const title = 'タイトルタイトル';
@@ -35,12 +35,11 @@ const Login = () => {
             if (!wakabaBaseUrl) {
                 throw new Error('API base URL is not defined');
             }
+            console.log(`${wakabaBaseUrl}/auth/login`);
+            const response = await axios.post(`${wakabaBaseUrl}/auth/login`, payload);
             
-            console.log(wakabaBaseUrl);
-            //const response = await axios.post(`${wakabaBaseUrl}/login`, payload);
-            
-            // console.log(response.data);
-            navigate('/logintimecard'); 
+            console.log(response.data);
+            if(response.data.success) navigate('/logintimecard'); 
 
         } catch (error) {
             // Handle error
