@@ -419,7 +419,7 @@ const CustomerIndividual = () => {
                             {/* new */}
                             <div className='flex'>
                                 <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">ご臓業</label>
+                                    <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">ご職業</label>
                                 </div>
                                 <div style={{ width: '30%', flexDirection: 'column', }} className='flex align-center justify-around'>
                                     <InputComponent name="organBusiness" value={formData.organBusiness} onChange={handleChange} type='text' required />
@@ -446,7 +446,7 @@ const CustomerIndividual = () => {
                                     <select id="cardType" name="cardType" value={formData.cardType} onChange={handleChange} className="w-full h-full text-[#70685a] text-[15px] font-bold border border-[#70685a] px-4 py-2 outline-[#70685a]">
                                         <option value="運転免許証">運転免許証</option>
                                         <option value="運転経歴証明書">運転経歴証明書</option>
-                                        <option value="旅券（パスポート)">旅券（パスポート)</option>
+                                        <option value="旅券（パスポート)">旅券(パスポート)</option>
                                         <option value="個人番号カード（マイナンバーカード）在留カード・特別永住者証明書">個人番号カード（マイナンバーカード）在留カード・特別永住者証明書</option>
                                         <option value="各種福祉手帳（身体障害者手帳等）">各種福祉手帳（身体障害者手帳等）</option>
                                     </select>

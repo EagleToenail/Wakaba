@@ -30,7 +30,7 @@ export default function Navbar() {
             className='lg:flex py-2  max-lg:space-y-3 max-lg:fixed max-lg:bg-white max-lg:w-1/2 max-lg:min-w-[300px] max-lg:top-0 max-lg:left-0 max-lg:p-6 max-lg:h-full max-lg:shadow-md max-lg:overflow-auto z-50'>
             <li className='max-lg:border-b border-gray-300 max-lg:py-4 px-3'>
                 <Link className='text-[#655b4a] block font-semibold text-[15px]' to='/startingwork'>
-                        <button type="button" className="inline-block whitespace-nowrap overflow-hidden text-ellipsis px-5 text-[15px] font-semibold  text-[#655b4a] text-sm tracking-wider  outline-none bg-white hover:bg-[#222] active:bg-[#333]">検索</button>
+                        <button type="button" className="inline-block whitespace-nowrap overflow-hidden text-ellipsis px-5 text-[15px] font-semibold  text-[#655b4a] text-sm tracking-wider  outline-none bg-white hover:bg-[#222] active:bg-[#333]">始業</button>
                 </Link>
             </li>
             <li className='max-lg:border-b border-gray-300 max-lg:py-4 px-3'>
