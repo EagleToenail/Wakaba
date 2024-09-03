@@ -213,7 +213,7 @@ function Inbox({ inboxes, setInboxes }) {
                       ? elem.content.senderName: elem.group.name} */}
                   </p>
                   <p className="text-sm opacity-60">
-                    {moment(JSON.parse(elem.content).time).fromNow()}
+                    {moment((elem.content).time).fromNow()}
                   </p>
                 </div>
                 {/* <div className="grid grid-cols-[1fr_auto] gap-2 items-center">
