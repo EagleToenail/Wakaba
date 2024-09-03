@@ -29,7 +29,7 @@ const Logout = () => {
             if (!wakabaBaseUrl) {
                 throw new Error('API base URL is not defined');
             }
-
+            localStorage.clear();
             //await axios.post(`${wakabaBaseUrl}/logout`);
             navigate('/');
         } catch (err) {

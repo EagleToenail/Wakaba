@@ -11,7 +11,7 @@ export default function Toolbar() {
 
   return (
     <>
-    <header className='flex shadow-md  sm:px-3 bg-[#ebe6e0] font-[sans-serif] max-h-[50px] tracking-wide relative z-49 justify-end'>
+    <header className='flex  sm:px-3 bg-[#ebe6e0] font-[sans-serif] max-h-[50px] tracking-wide relative z-49 justify-end'>
       <div className='flex flex-wrap items-center justify-between gap-5 '>
         <div id="collapseMenu" style={{ display: isOpen ? 'block' : 'none' }}
           className='max-lg:hidden lg:!block max-lg:before:fixed max-lg:before:bg-black max-lg:before:opacity-50 max-lg:before:inset-0 max-lg:before:z-49'>

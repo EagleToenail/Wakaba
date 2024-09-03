@@ -1,5 +1,5 @@
 import React, { useState ,useEffect} from 'react';
-//import axios from 'axios';
+import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import Titlebar from '../../../Components/Common/Titlebar';
 import DateAndTime from '../../../Components/Common/nowdateandtime';
@@ -14,6 +14,7 @@ const Register = () => {
         };
     }, []);
 
+    const [username, setUserName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState(null);
@@ -31,9 +32,9 @@ const Register = () => {
                 throw new Error('API base URL is not defined');
             }
 
-            //const response = await axios.post(`${wakabaBaseUrl}/register`, { email, password });
+            const response = await axios.post(`${wakabaBaseUrl}/auth/register`, { username,email, password });
 
-            //console.log('Response data:', response.data);
+            console.log('Response data:', response.data);
             setSuccess(`認証メールが送信されました.`);
             setIsModalOpen(true); // Show modal on success
 
@@ -61,11 +62,22 @@ const Register = () => {
                             <form onSubmit={handleSubmit} className="mt-8 space-y-6">
                                 <div className='flex'>
                                     <div style={{ width: '20%', flexDirection: 'column' }} className='flex align-center justify-around'>
+                                        <label className="text-[#70685a] font-bold mb-2 block text-right mr-5 !mb-0">username</label>
                                         <label className="text-[#70685a] font-bold mb-2 block text-right mr-5 !mb-0">メールアドレス</label>
                                         <label className="text-[#70685a] font-bold mb-2 block text-right mr-5 !mb-0">パスワード</label>
                                     </div>
                                     <div style={{ width: '80%', paddingRight: '20%' }} className='!mt-0'>
                                         <div className="relative flex items-center">
+                                            <input
+                                                name="username"
+                                                type="text"
+                                                value={username}
+                                                onChange={(e) => setUserName(e.target.value)}
+                                                required
+                                                className="w-full text-gray-800 text-sm border border-gray-300 px-4 py-3 outline-blue-600"
+                                            />
+                                        </div>
+                                        <div className="relative flex items-center mt-5">
                                             <input
                                                 name="email"
                                                 type="email"

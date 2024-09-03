@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 import LayoutWithMainContainer from './Layout/LayoutWithMainContainer';
+import LayoutContainer from './Layout/LayoutContainer';
 
 import Login from './Pages/Auth/Login/login';
 import Logout from './Pages/Auth/Logout/logout';
@@ -78,6 +79,10 @@ import ManagementHQRankingFunction from './Pages/Admin/ManagementHQRankingFuncti
 import ManagementHQScoreCount from './Pages/Admin/ManagementHQScoreCount/managementHQScoreCount';
 import ManagementHeadquartersPurchaseItemCount from './Pages/Admin/ManagementHeadquartersPurchaseItemCount/managementHeadquartersPurchaseItemCount';
 import ManagementHeadquartersRepeaterAnalysis from './Pages/Admin/ManagementHeadquartersRepeaterAnalysis/managementHeadquartersRepeaterAnalysis';
+
+
+
+import MainChatPage from './Pages/Chat/mainChatPage';
 
 function App() {
   return (
@@ -166,6 +171,10 @@ function App() {
             <Route path='/pledge' element={<Pledge/>}/>
             <Route path='/profile' element={<Profile/>}/>
             <Route path='/purchaseinvoiceforbroughtinitems' element={<PurchaseInvoiceForBroughtInItems/>}/>
+
+          <Route element={<LayoutContainer/>}>
+            <Route path='/chat' element={<MainChatPage/>}/>
+          </Route>
             
       </Routes>
     </Router>

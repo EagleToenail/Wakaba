@@ -1,0 +1,21 @@
+
+input:-webkit-autofill {
+  transition: 'color 9999s ease-out, background-color 9999s ease-out';
+  transition-delay: 9999s;
+}
+
+svg {
+  font-size: x-large;
+}
+
+.dark\:text-white\/90 {
+   color:black;
+}
+
+input{
+  background-color: transparent;
+  border: 1px solid #70685a;
+  border-radius: 5px;
+  height:40px !important;
+  padding-left: 10px;
+}

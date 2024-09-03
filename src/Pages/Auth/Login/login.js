@@ -38,8 +38,24 @@ const Login = () => {
             console.log(`${wakabaBaseUrl}/auth/login`);
             const response = await axios.post(`${wakabaBaseUrl}/auth/login`, payload);
             
-            console.log(response.data);
-            if(response.data.success) navigate('/logintimecard'); 
+            console.log(response.data.payload.token);
+            // store jwt token on localStorage
+            localStorage.setItem('token', response.data.payload.token);
+            localStorage.setItem('userId', response.data.payload.userId);
+            localStorage.setItem(
+                'cache',
+                JSON.stringify({
+                me: payload.ID,
+                })
+            );
+            const cache = JSON.parse(localStorage.getItem('cache'));
+            const token = localStorage.getItem('token');
+            const userId = localStorage.getItem('userId');
+            console.log("==token===cache==userid==",token, cache ,userId);
+            // if(response.data.success) navigate('/chat'); 
+            if(response.data.success) {
+                window.location.href="/logintimecard"
+            }; 
 
         } catch (error) {
             // Handle error

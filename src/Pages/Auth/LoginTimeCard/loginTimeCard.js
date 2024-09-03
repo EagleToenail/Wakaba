@@ -33,7 +33,7 @@ const LoginTimeCard = () => {
             //const response = await axios.post(`${wakabaBaseUrl}/todolist`, { action });
             // Handle success, maybe redirect or show a success message
            // console.log('Success:', response.data);
-           navigate('/todolist');
+           window.location.href="/chat"
         } catch (err) {
             setError(err.message || 'Something went wrong');
             console.error('Error:', err);
