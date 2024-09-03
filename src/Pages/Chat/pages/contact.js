@@ -27,6 +27,7 @@ function Contact() {
         const userId = localStorage.getItem('userId');
         const { data } = await axios.post('/contacts/find', { userId });
         setContacts(data.payload);
+        console.log('contacts',data.payload)
       } else {
         // reset when page is closed
         setContacts(null);
@@ -72,6 +73,7 @@ function Contact() {
   };
 
   useEffect(() => {
+    console.log("setting " ,setting)
     const ctrl = new AbortController();
     handleGetContacts(ctrl.signal);
 
@@ -81,6 +83,7 @@ function Contact() {
   }, [page.contact, refreshContact]);
 
   return (
+   
     <div 
       className={`
         ${page.contact ? 'delay-75' : '-translate-x-full'}
@@ -160,100 +163,15 @@ function Contact() {
           <div className="py-2 px-4 text-sm bg-spill-100/60 dark:bg-black/20">
             {contacts ? (
               <div className="pr-2 opacity-80 flex justify-between">
-                {/* <p>
-                  {setting?.sortContactByName
-                    ? 'Sorted by name'
-                    : 'Sorted by last seen time'}
-                </p> */}
-                {/* <p className="font-bold">{contacts.length}</p> */}
+               
               </div>
             ) : (
               <p className="opacity-80">Loading...</p>
             )}
           </div>
-  {/* {contacts &&
-    contacts.map((elem, i, arr) => (
-      <div
-        key={elem._id}
-        aria-hidden
-        className={`${
-          chatRoom.data?.roomId === elem.roomId &&
-          'bg-spill-100/60 dark:bg-spill-800/60'
-        } grid grid-cols-[auto_auto_1fr] gap-4 p-4 items-center cursor-pointer border-0 border-b border-solid border-spill-200 dark:border-spill-800 hover:bg-spill-100/60 dark:hover:bg-spill-800/60`}
-        onClick={(e) => {
-          e.stopPropagation();
-
-          dispatch(
-            setChatRoom({
-              isOpen: true,
-              refreshId: elem.roomId,
-              data: {
-                ownersId: [elem.userId, elem.friendId],
-                roomId: elem.roomId,
-                roomType: 'private',
-                profile: !elem.profile
-                  ? {
-                      avatar: 'default-avatar.png',
-                      fullname: '[inactive]',
-                      updatedAt: new Date().toISOString(),
-                      active: false,
-                    }
-                  : {
-                      ...elem.profile,
-                      active: true,
-                    },
-              },
-            })
-          );
-        }}
-      >
-        {setting && setting.sortContactByName && (
-          <span className="flex justify-center">
-            {charTag(
-              elem.profile.fullname,
-              arr[i - 1]?.profile.fullname
-            ) ? (
-              <h1 className="font-bold text-lg">
-                {charTag(
-                  elem.profile.fullname,
-                  arr[i - 1]?.profile.fullname
-                ) ?? ''}
-              </h1>
-            ) : (
-              <h1 className="invisible">$</h1>
-            )}
-          </span>
-        )}
-        <img
-          src={
-            elem.profile?.avatar || '/default-avatar.png'
-          }
-          alt=""
-          className="w-14 h-14 rounded-full"
-        />
-        <span className="overflow-hidden">
-          <h1 className="truncate text-lg font-bold">
-            {elem.profile?.fullname ?? '[inactive]'}
-          </h1>
-          {!setting.sortContactByName ? (
-            <p className="truncate opacity-60 mt-0.5">
-              {elem.profile.online
-                ? 'online'
-                : `Last seen ${moment(
-                    elem.profile.updatedAt
-                  ).fromNow()}`}
-            </p>
-          ) : (
-            <p className="truncate opacity-60 mt-0.5">
-              {elem.profile.bio}
-            </p>
-          )}
-        </span>
-      </div>
-    ))} */}
               {contacts && contacts.length > 0 && contacts.map((elem, i, arr) => (
               <div
-                key={elem.id || i} // Fallback to index if _id is not present
+                key={elem.id || i} 
                 aria-hidden
                 className={`
                   ${chatRoom.data?.roomId === elem.roomId ? 'bg-spill-100/60 dark:bg-spill-800/60' : ''}
@@ -283,9 +201,11 @@ function Contact() {
                   );
                 }}
               >
+
                 {setting && setting.sortContactByName && (
                   <span className="flex justify-center">
-                    {charTag(
+                    {console.log(elem.profile)}
+                    {/* {charTag(
                       elem.profile?.fullname,
                       arr[i - 1]?.profile?.fullname
                     ) ? (
@@ -297,26 +217,16 @@ function Contact() {
                       </h1>
                     ) : (
                       <h1 className="invisible">$</h1>
-                    )}
+                    )} */}
                   </span>
                 )}
-                {/* <img
-                  src={elem.profile?.avatar || '/default-avatar.png'}
-                  alt=""
-                  className="w-14 h-14 rounded-full"
-                /> */}
+               
                 <div type="button" className="w-6 h-6 rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none text-[15px]"></div>
                 <span className="overflow-hidden">
                   <h1 className="truncate text-[15px] font-bold">
                     {elem.profile?.fullname ?? '[inactive]'}
                   </h1>
-                  {/* <p className="truncate opacity-60 mt-0.5">
-                    {setting.sortContactByName
-                      ? elem.profile?.bio
-                      : (elem.profile?.online
-                        ? 'online'
-                        : `Last seen ${moment(elem.profile?.updated_at).fromNow()}`)}
-                  </p> */}
+                 
                 </span>
               </div>
             ))}
@@ -324,6 +234,7 @@ function Contact() {
         </div>
       </div>
     </div>
+
   );
 }
 

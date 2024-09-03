@@ -214,7 +214,7 @@ const CustomerList = () => {
                                     <td style={Td}>{customer.katakana_name}</td>
                                     <td style={Td}>{customer.phone_number}</td>
                                     <td style={Td}> {customer.address} </td>
-                                    <td style={Td}>{customer.trigger}</td>
+                                    <td style={Td}>{customer.opportunity}</td>
                                     <td style={Td}>{customer.shop}</td>
                                     <td onClick={() => handleCustomerClick(customer.id)}>
                                         <svg className="w-5 h-5 ml-5" fill='#70685a' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="ContentCopyIcon" title="ContentCopy">

@@ -8,8 +8,11 @@ import { Link } from 'react-router-dom'
 const Tab = () => {
     const [activeTab, setActiveTab] = useState('tab1');
 
+    const [isShow,setActiveShow] = useState(false)
+
     const handleTabClick = (tabName) => {
         setActiveTab(tabName);
+        setActiveShow(true);
     };
 
     return (
@@ -41,7 +44,7 @@ const Tab = () => {
                 <TabContent2 />
             </div>
             <div id="tab3" className={`tabcontent ${activeTab === 'tab3' ? '' : 'hidden'}`} style={{height:'100vh',overflow:'auto'}}>
-                <TabContent3 />
+                {isShow && <TabContent3 />}
             </div>
         </div>
     );
