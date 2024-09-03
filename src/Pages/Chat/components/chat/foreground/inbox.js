@@ -146,7 +146,7 @@ function Inbox({ inboxes, setInboxes }) {
                   
                   if (elem.roomType === 'private') {
                     
-                    const profile = (elem.ownersId).find((x) => x!= master.id);
+                    const profile = JSON.parse(elem.ownersId).find((x) => x!= master.id);
                     dispatch(
                       setChatRoom({
                         isOpen: true,
