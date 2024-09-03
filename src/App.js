@@ -27,6 +27,7 @@ import WithdrawVariousPurchase from './Pages/WithdrawVariousPurchase/withdrawVar
 import WithdrawApply from './Pages/WithdrawApply/withdrawApply';//WIthdrawal requestfor shipping fees
 import CustomerList from './Pages/CustomerList/customerList';//customer List
 import CustomerIndividual from './Pages/CustomerIndividual/customerIndividual';//Customer Specific
+import CustomerIndividualCreate from './Pages/CustomerIndividualCreate/customerIndividualCreate';//Customer Specific
 import PurchaseToRShop from './Pages/PurchaseToRShop/purchaseToRShop';//Purchase application to R shop
 import InvoiceForPurchaseOfBrought from './Pages/InvoiceForPurchaseOfBrought/invoiceforpurchaseofbrought';//Application for invoice for purchase of brought-in goods
 import PurchaseInvoiceForBroughtInItems from './Pages/PurchaseInvoiceForBroughtInItems/purchaseInvoiceForBroughtInItems';//Purchase invoice for brought-in items(for customer presentaion)
@@ -106,6 +107,7 @@ function App() {
             <Route path='/purchaserequest' element={<PurchaseRequest/>}/>
             <Route path='/customerlist' element={<CustomerList/>}/>
             <Route path='/customerindividual/:id' element={<CustomerIndividual/>}/> 
+            <Route path='/customerindividualcreate' element={<CustomerIndividualCreate/>}/> 
             <Route path='/invoiceforpurchaseofbrought' element={<InvoiceForPurchaseOfBrought/>}/>
             <Route path='/wholesalershippinglist' element={<WholeSalerShippingList/>}/>
             <Route path='/purchaserequestformforwholesaler' element={<PurchaseRequestFormForWholeSaler/>}/>

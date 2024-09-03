@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 import InputComponent from '../../Components/Common/InputComponent';
 import ButtonComponent from '../../Components/Common/ButtonComponent';
@@ -105,7 +106,7 @@ const CustomerList = () => {
                 <ButtonComponent children={'asdfasfd'} style={{ visibility: 'hidden' }} />
                 <h2 className="text-[#70685a] text-center text-2xl font-bold flex justify-center">顧客一覧</h2>
                 <div className='flex justify-around'>
-                    <ButtonComponent children={'新規顧客登銀'} className='py-2 text-2xl !text-[#695d50] bg-[#ebe6e0]' />
+                    <ButtonComponent children={'新規顧客登銀'} className='py-2 text-2xl !text-[#695d50] bg-[#ebe6e0]' ><Link to="/customerindividualcreate">新規顧客登銀</Link></ButtonComponent>
                 </div>
             </div>
 

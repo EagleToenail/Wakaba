@@ -226,14 +226,15 @@ const CustomerIndividual = () => {
         const formDataObj = new FormData();
         formDataObj.append('id', customer.id);
         formDataObj.append('opportunity', customer.opportunity);
-        formDataObj.append('name', customer.name);
+        formDataObj.append('full_name', customer.full_name);
         formDataObj.append('katakana_name', customer.katakana_name);
         formDataObj.append('phone_number', customer.phone_number);
+        formDataObj.append('job', customer.job);
         formDataObj.append('birthday', customer.birthday);
         formDataObj.append('age', customer.age);
         formDataObj.append('gender', customer.gender);
         formDataObj.append('cardType', customer.cardType);
-        formDataObj.append('prefecture', customer.prefecture);
+        formDataObj.append('prefeature', customer.prefeature);
         formDataObj.append('city', customer.city);
         formDataObj.append('address', customer.address);
 
