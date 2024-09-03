@@ -461,10 +461,10 @@ const CustomerIndividual = () => {
                                 <div style={{ width: '75%', flexDirection: 'column', }} className='flex h-full felx-col justify-center'>
                                     <div className='flex justify-between w-full h-[100px]'>
                                         <div style={{ width: '60%' }} className='border border-[#70685a] rounded-lg flex justify-center'>
-                                            {imageAvatarPreview=="http://192.168.141.65:8081/api/uploads/customer/" ? "": <img src={imageAvatarPreview} alt="Image Preview" className='h-[100px] p-1 rounded-lg' />}
+                                            {imageAvatarPreview=="http://localhost:8081/api/uploads/customer/" ? "": <img src={imageAvatarPreview} alt="Image Preview" className='h-[100px] p-1 rounded-lg' />}
                                         </div>
                                         <div style={{ width: '35%' }} className='border border-[#70685a] rounded-full flex justify-center'>
-                                            {imageIdCardPreview =="http://192.168.141.65:8081/api/uploads/customer/" ? "": <img src={imageIdCardPreview} alt="Image Preview" className='h-[100px] p-1 rounded-full' />}
+                                            {imageIdCardPreview =="http://localhost:8081/api/uploads/customer/" ? "": <img src={imageIdCardPreview} alt="Image Preview" className='h-[100px] p-1 rounded-full' />}
                                         </div>
                                     </div>
 
