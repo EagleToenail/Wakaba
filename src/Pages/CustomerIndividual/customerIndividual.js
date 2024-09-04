@@ -71,7 +71,7 @@ const CustomerIndividual = () => {
         idCard_url: '',
         cardType: '',
         avatar_url: '',
-        prefecture: '',
+        prefeature: '',
         city: '',
         gender: '',
     });
@@ -476,7 +476,7 @@ const CustomerIndividual = () => {
                                     <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">都道府県</label>
                                 </div>
                                 <div style={{ width: '30%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <select id="prefeature" value={customer.prefecture} onChange={handleCustomerChange} name="prefeature" className="w-full h-full text-[#70685a] font-bold border border-[#70685a] px-4 py-1 outline-[#70685a]">
+                                    <select id="prefeature" value={customer.prefeature} onChange={handleCustomerChange} name="prefeature" className="w-full h-full text-[#70685a] font-bold border border-[#70685a] px-4 py-1 outline-[#70685a]">
                                         <option value="北海道">北海道</option>
                                         <option value="青森県">青森県</option>
                                         <option value="岩手県">岩手県</option>

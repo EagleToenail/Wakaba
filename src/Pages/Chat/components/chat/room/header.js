@@ -122,7 +122,7 @@ function Header() {
   return (
     <nav className="h-16 grid grid-cols-[1fr_auto] gap-4 justify-between items-center bg-white dark:bg-spill-900">
       <RoomHeaderMenu />
-      {!selectedChats && (
+      {/* {!selectedChats && ( */}
         <>
           <div className="pl-2 md:pl-4 flex gap-2 items-center">
             <button
@@ -209,8 +209,8 @@ function Header() {
             </button>
           </div>
         </>
-      )}
-      {selectedChats && (
+      {/* )} */}
+      {/* {selectedChats && (
         <>
           <div className="pl-2 grid grid-cols-[auto_1fr] gap-4 items-center">
             <button
@@ -259,7 +259,7 @@ function Header() {
             </div>
           )}
         </>
-      )}
+      )} */}
     </nav>
   );
 }

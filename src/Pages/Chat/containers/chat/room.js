@@ -125,8 +125,8 @@ function Room() {
             className={`${
               (page.groupProfile || page.friendProfile) &&
               '-translate-x-full sm:translate-x-0 xl:mr-[380px]'
-            } transition-all w-full h-full grid grid-rows-[auto_1fr_auto] overflow-hidden`}
-         style={{marginRight:'380px',height:'80vh'}} >
+            } chat-roompage transition-all w-full h-full grid grid-rows-[auto_1fr_auto] overflow-hidden`}
+         style={{marginRight:'250px',height:'80vh'}} >
             <RoomHeader/>
             <RoomMoniter
               newMessage={newMessage}

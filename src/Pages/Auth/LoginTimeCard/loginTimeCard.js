@@ -33,7 +33,7 @@ const LoginTimeCard = () => {
             //const response = await axios.post(`${wakabaBaseUrl}/todolist`, { action });
             // Handle success, maybe redirect or show a success message
            // console.log('Success:', response.data);
-           window.location.href="/chat"
+           window.location.href="/customerlist"
         } catch (err) {
             setError(err.message || 'Something went wrong');
             console.error('Error:', err);
@@ -54,11 +54,11 @@ const LoginTimeCard = () => {
                             <h2 className="text-[#70685a] text-center text-2xl font-bold flex justify-center mt-10">出勤のタイムカードを打刻して良いですか?</h2>
                             <form className="mt-10 space-y-6">
                                 <div className='flex justify-center !mt-5'>
-                                    <div className="!mt-5 flex" style={{ marginBottom: '10px', width: '80%', paddingLeft: '20%' }}>
-                                        <div className='w-full flex justify-between'>
+                                    <div className="!mt-5 flex " style={{ marginBottom: '10px', width: '80%', paddingLeft: '20%' }}>
+                                        <div className='logintimecard w-full flex justify-between '>
                                             <button
                                                 type="button"
-                                                className="w-[280px] px-5 py-2 font-bold tracking-wide rounded-lg justify-center text-white bg-[#e87a00] hover:bg-blue-700 focus:outline-none"
+                                                className="w-[280px] mt-5 px-5 py-2 font-bold tracking-wide rounded-lg justify-center text-white bg-[#e87a00] hover:bg-blue-700 focus:outline-none"
                                                 onClick={() => handleSubmit('clock-in')}
                                                 disabled={loading}
                                             >
@@ -66,7 +66,7 @@ const LoginTimeCard = () => {
                                             </button>
                                             <button
                                                 type="button"
-                                                className="w-[280px] px-5 py-2 font-bold tracking-wide rounded-lg justify-center border border-[#70685a] text-[#70685a] bg-[white] hover:bg-blue-700 focus:outline-none"
+                                                className="w-[280px] mt-5 px-5 py-2 font-bold tracking-wide rounded-lg justify-center border border-[#70685a] text-[#70685a] bg-[white] hover:bg-blue-700 focus:outline-none"
                                                 onClick={() => handleSubmit('skip-clock-in')}
                                                 disabled={loading}
                                             >

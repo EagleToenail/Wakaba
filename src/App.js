@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import '../src/Assets/css/responsive.css'
 
 import LayoutWithMainContainer from './Layout/LayoutWithMainContainer';
 import LayoutContainer from './Layout/LayoutContainer';
@@ -83,7 +84,7 @@ import ManagementHeadquartersRepeaterAnalysis from './Pages/Admin/ManagementHead
 
 
 
-import MainChatPage from './Pages/Chat/mainChatPage';
+// import MainChatPage from './Pages/Chat/mainChatPage';
 
 function App() {
   return (
@@ -175,7 +176,7 @@ function App() {
             <Route path='/purchaseinvoiceforbroughtinitems' element={<PurchaseInvoiceForBroughtInItems/>}/>
 
           <Route element={<LayoutContainer/>}>
-            <Route path='/chat' element={<MainChatPage/>}/>
+            {/* <Route path='/chat' element={<MainChatPage/>}/> */}
           </Route>
             
       </Routes>

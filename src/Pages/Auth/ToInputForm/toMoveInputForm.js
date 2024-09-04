@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-//import axios from 'axios';
+import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import Titlebar from '../../../Components/Common/Titlebar';
 import DateAndTime from '../../../Components/Common/nowdateandtime';
@@ -14,7 +14,7 @@ const ToMoveInputForm = () => {
         };
     }, []);
     
-    const [username, setUsername] = useState('');
+    const [email, setUserEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState(null);
     const [success, setSuccess] = useState(null);
@@ -30,12 +30,26 @@ const ToMoveInputForm = () => {
             if (!wakabaBaseUrl) {
                 throw new Error('API base URL is not defined');
             }
+            console.log(email,password)
+            const response = await axios.post(`${wakabaBaseUrl}/user/confirmuser`, { email, password });
 
-            //const response = await axios.post(`${wakabaBaseUrl}/your-endpoint`, { username, password });
-
-            //console.log('Response data:', response.data);
-            setSuccess('データは正常に送信されました。.');//Data submitted successfully.
-            setIsModalOpen(true); // Show modal on success
+            console.log('Response data:', response.data);
+            localStorage.setItem('token', response.data.payload.token);
+            localStorage.setItem('userId', response.data.payload.userId);
+            localStorage.setItem(
+                'cache',
+                JSON.stringify({
+                me: response.data.payload.username,
+                })
+            );
+            const cache = JSON.parse(localStorage.getItem('cache'));
+            const token = localStorage.getItem('token');
+            const userId = localStorage.getItem('userId');
+            
+            if(response.data.success){
+                setSuccess('データは正常に送信されました。.');//Data submitted successfully.
+                setIsModalOpen(true); // Show modal on success
+            }
 
         } catch (error) {
             console.error('There was an error!', error);
@@ -67,10 +81,10 @@ const ToMoveInputForm = () => {
                                     <div style={{ width: '80%', paddingRight: '20%' }} className='!mt-0'>
                                         <div className="relative flex items-center">
                                             <input
-                                                name="username"
+                                                name="email"
                                                 type="text"
-                                                value={username}
-                                                onChange={(e) => setUsername(e.target.value)}
+                                                value={email}
+                                                onChange={(e) => setUserEmail(e.target.value)}
                                                 required
                                                 className="w-full text-gray-800 text-sm border border-gray-300 px-4 py-3 outline-blue-600"
                                             />

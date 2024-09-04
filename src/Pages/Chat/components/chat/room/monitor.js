@@ -177,7 +177,7 @@ function Monitor({
                     </div>
                   )
                 }
-              <div
+              {/* <div
                   className={`
                     ${elem.userId !== arr[i + 1]?.userId && 'mb-2'}
                     ${selectedChats ? 'cursor-pointer' : ''}
@@ -194,8 +194,8 @@ function Monitor({
                       dispatch(setSelectedChats(elem.id));
                     }
                   }}
-                ></div>
-               {selectedChats && (
+                ></div> */}
+               {/* {selectedChats && (
                     <span
                       className={`${
                         selectedChats.includes(elem.id)
@@ -207,11 +207,11 @@ function Monitor({
                         <bi.BiCheck size={18} />
                       )}
                     </span>
-                  )}
+                  )} */}
                    <div
                     className={`${
                       elem.userId == master.id && 'justify-end'
-                    } w-[90%] flex`}
+                    } w-[90%] flex pt-2`}
                   >
                     {/* chat card */}
                     <div

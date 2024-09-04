@@ -35,8 +35,10 @@ const Register = () => {
             const response = await axios.post(`${wakabaBaseUrl}/auth/register`, { username,email, password });
 
             console.log('Response data:', response.data);
-            setSuccess(`認証メールが送信されました.`);
-            setIsModalOpen(true); // Show modal on success
+            if(response.data.success){
+                setSuccess(`認証メールが送信されました.`);
+                setIsModalOpen(true); // Show modal on success
+            }
 
         } catch (error) {
             console.error('There was an error!', error);
@@ -46,7 +48,7 @@ const Register = () => {
 
     const handleCloseModal = () => {
         setIsModalOpen(false);
-        navigate('/'); // Adjust as needed
+        navigate('/tomoveinputform'); // Adjust as needed
     };
 
     return (

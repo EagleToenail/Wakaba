@@ -17,6 +17,7 @@ const Login = () => {
 
     const [userID, setUserID] = useState('');
     const [password, setPassword] = useState('');
+    const [error, setError] = useState(null);
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -51,16 +52,15 @@ const Login = () => {
             const cache = JSON.parse(localStorage.getItem('cache'));
             const token = localStorage.getItem('token');
             const userId = localStorage.getItem('userId');
-            console.log("==token===cache==userid==",token, cache ,userId);
+
             // if(response.data.success) navigate('/chat'); 
             if(response.data.success) {
                 window.location.href="/logintimecard"
             }; 
 
         } catch (error) {
-            // Handle error
             console.error('There was an error!', error);
-            // Optionally, display an error message to the user
+            setError('リクエストの処理にエラーが発生しました。もう一度お試しください。');//There was an error processing your request. Please try again.
         }
     };
 
@@ -122,6 +122,7 @@ const Login = () => {
                                         </div>
                                     </div>
                                 </div>
+                                {error && <div className="text-red-500 flex justify-center">{error}</div>}
                             </form>
                         </div>
                     </div>

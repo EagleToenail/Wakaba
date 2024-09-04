@@ -33,7 +33,7 @@ function Chat() {
   return (
     <div
       
-      className="absolute w-full h-full overflow-hidden grid md:grid-cols-[380px_1fr] dark:text-white/90"
+      className=" chat-mainpage absolute w-full h-full overflow-hidden grid md:grid-cols-[380px_1fr] dark:text-white/90"
       onClick={() => {
         // close all modals
         dispatch(setModal({ target: '*' }));

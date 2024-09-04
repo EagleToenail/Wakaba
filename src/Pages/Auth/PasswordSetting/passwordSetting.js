@@ -23,7 +23,7 @@ const Passwordsetting = () => {
         event.preventDefault();
 
         if (newPassword !== confirmPassword) {
-            setError('Passwords do not match');
+            setError('パスワードが一致しない');//Passwords do not match
             return;
         }
 

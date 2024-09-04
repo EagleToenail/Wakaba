@@ -46,10 +46,10 @@ const LoginTimeCard = () => {
                             <form className="mt-10 space-y-6">
                                 <div className='flex justify-center !mt-5'>
                                     <div className="!mt-5 flex" style={{ marginBottom: '10px', width: '80%', paddingLeft: '20%' }}>
-                                        <div className='w-full flex justify-between'>
+                                        <div className='logouttimecard w-full flex justify-between'>
                                             <button
                                                 type="button"
-                                                className="w-[280px] px-5 py-2 font-bold tracking-wide rounded-lg justify-center text-white bg-[#e87a00] hover:bg-blue-700 focus:outline-none"
+                                                className="w-[280px] px-5 py-2 mt-5 font-bold tracking-wide rounded-lg justify-center text-white bg-[#e87a00] hover:bg-blue-700 focus:outline-none"
                                                 onClick={() => handleSubmit('clock-out')}
                                                 disabled={loading}
                                             >
@@ -57,7 +57,7 @@ const LoginTimeCard = () => {
                                             </button>
                                             <button
                                                 type="button"
-                                                className="w-[280px] px-5 py-2 font-bold tracking-wide rounded-lg justify-center border border-[#70685a] text-[#70685a] bg-[white] hover:bg-blue-700 focus:outline-none"
+                                                className="w-[280px] px-5 py-2 mt-5 font-bold tracking-wide rounded-lg justify-center border border-[#70685a] text-[#70685a] bg-[white] hover:bg-blue-700 focus:outline-none"
                                                 onClick={() => handleSubmit('skip-clock-out')}
                                                 disabled={loading}
                                             >

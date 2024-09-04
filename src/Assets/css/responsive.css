@@ -1,0 +1,12 @@
+@media screen and (max-width: 1060px) {
+    .logintimecard {display: block !important;}
+    
+  }
+@media screen and (max-width: 1060px) {
+    .logouttimecard {display: block !important;}
+    
+  }
+@media screen and (max-width: 670px) {
+    .checkout {display: block !important;}
+    
+  }
