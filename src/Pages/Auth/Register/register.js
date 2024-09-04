@@ -46,7 +46,7 @@ const Register = () => {
 
     const handleCloseModal = () => {
         setIsModalOpen(false);
-        navigate('/tomoveinputform'); // Adjust as needed
+        navigate('/'); // Adjust as needed
     };
 
     return (
