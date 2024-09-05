@@ -10,3 +10,21 @@
     .checkout {display: block !important;}
     
   }
+@media screen and (max-width: 1050px) {
+    .customerlist {display: block !important;}
+    
+  }
+@media screen and (max-width: 1050px) {
+    .customer-name-tel {display: block !important;}
+    
+  }
+@media screen and (max-width: 1050px) {
+    .customer-edit {display: block !important;}
+    .customer-edit-center{
+        justify-content: center;
+        margin-top:20px;
+    }
+    .customer-pasting-view {
+        margin-left: 0px !important;
+    }
+  }

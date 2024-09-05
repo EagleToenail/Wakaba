@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import TabContent1 from './TabContent1';
 import TabContent2 from './TabContent2';
-import TabContent3 from '../Pages/Chat/containers/chat/foreground';
+// import TabContent3 from '../Pages/Chat/containers/chat/foreground';
 import { Link } from 'react-router-dom'
 // import '../Assets/css/sidebar.css'
 
@@ -34,7 +34,7 @@ const Tab = () => {
                     className={`w-1/3 text-center font-bold  text-[#655b4a] text-[15px]  rounded-tl-xl rounded-tr-xl focus:outline-none  border border-[#655b4a] ${activeTab === 'tab3' ? 'bg-[#ebe6e0] border-b-[#ebe6e0]' : ' bg-gray-100'}`}
                     onClick={() => handleTabClick('tab3')}
                 >
-                   <Link to="/chat">チャット</Link> 
+                   <Link>チャット</Link> 
                 </button>
             </div>
             <div id="tab1" className={`tabcontent ${activeTab === 'tab1' ? '' : 'hidden'}`}>
@@ -44,7 +44,7 @@ const Tab = () => {
                 <TabContent2 />
             </div>
             <div id="tab3" className={`tabcontent ${activeTab === 'tab3' ? '' : 'hidden'}`} style={{height:'100vh',overflow:'auto'}}>
-                {isShow && <TabContent3 />}
+                {/* {isShow && <TabContent3 />} */}
             </div>
         </div>
     );

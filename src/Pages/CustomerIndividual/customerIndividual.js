@@ -292,7 +292,7 @@ const CustomerIndividual = () => {
     return (<>
         <div className="bg-[trasparent] font-[sans-serif]">
             <div className='flex justify-center'>
-                <div className="w-full pt-3" style={{ maxWidth: '80em' }}>
+                <div className="w-full pt-3" style={{ maxWidth: '90em' }}>
                     <div className="w-full pt-3" style={{ maxWidth: '40em' }}>
                         {/* new */}
                         <div className='flex'>
@@ -314,16 +314,20 @@ const CustomerIndividual = () => {
                         </div>
                     </div>
                     <h2 className="text-[#70685a] text-center text-2xl font-bold flex justify-center !mt-0">顧客 個別情報(編集画面)</h2>
-                    <div className='w-full flex justify-between mt-10' style={{ marginLeft: '13%' }}>
-                        <ButtonComponent name="delete" children="削除" onClick={openDeleteCheckModal} className='px-5' style={{ backgroundColor: '#838383' }} />
-                        <ButtonComponent name="keep" className='' onClick={openKeepCheckModal} children="保存" />
-                        <ButtonComponent name="onsitepurchase" children="出張買取" className='px-5' style={{ border: '1px solid #838383', backgroundColor: 'transparent', color: '#838383', }} ><Link to='/onsitepurchase'>キャンセル</Link></ButtonComponent>
-                        <label className="text-[#70685a] font-bold mb-2 block text-left flex justify-end" style={{ flexDirection: 'column', width: '20%' }}><u> <Link to='/customerlist'>キャンセル</Link></u></label>
+                    <div className='customer-edit w-full flex justify-center mt-10 gap-10' >
+                        <div className='customer-edit-center flex gap-10'>
+                            <ButtonComponent name="delete" children="削除" onClick={openDeleteCheckModal} className='px-5' style={{ backgroundColor: '#838383' }} />
+                            <ButtonComponent name="keep" className='' onClick={openKeepCheckModal} children="保存" />
+                        </div>
+                        <div className=' customer-edit-center flex gap-10'>
+                            <ButtonComponent name="onsitepurchase" children="出張買取" className='px-5' style={{ border: '1px solid #838383', backgroundColor: 'transparent', color: '#838383', }} ><Link to='/onsitepurchase'>キャンセル</Link></ButtonComponent>
+                            <label className="text-[#70685a] font-bold mb-2 block text-left flex justify-end" style={{ flexDirection: 'column'}}><u> <Link to='/customerlist'>キャンセル</Link></u></label>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div className=" flex  justify-center ">
-                <div className="w-full pt-3" style={{ maxWidth: '50em' }}>
+            <div className="customer-edit flex  justify-center ">
+                <div className="w-full pt-3">
                     <div className=" rounded-2xl w-full">
                         <form className=" space-y-6 pt-10">
                             {/* new */}
@@ -338,7 +342,8 @@ const CustomerIndividual = () => {
                                     <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-3 !mb-0">契機</label>
                                 </div>
                                 <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <select id="opportunity" name="opportunity" value={customer.opportunity || ''} onChange={handleCustomerChange} className="w-full text-[#70685a] font-bold border border-[#70685a] px-4 py-2 outline-[#70685a]">
+                                    <select id="opportunity" name="opportunity" value={customer.opportunity || ''} required onChange={handleCustomerChange} className="w-full text-[#70685a] font-bold border border-[#70685a] px-4 py-2 outline-[#70685a]">
+                                        <option value="" disabled></option>
                                         <option value="新規顧客">新規顧客</option>
                                         <option value="再来顧客">再来顧客</option>
                                     </select>
@@ -380,7 +385,7 @@ const CustomerIndividual = () => {
                                 <div style={{ width: '20%', flexDirection: 'column', }} className='flex align-center justify-around'>
                                     <input name="birthdayValue" type="text" value={customer.birthday} required className="w-full text-[#70685a] border border-[#70685a] px-4 py-1 text-[15px] outline-[#70685a]" readOnly />
                                 </div>
-                                <div style={{ width: '5%', flexDirection: 'column', }} className='flex flex-col justify-center pl-3'>
+                                <div style={{ width: '10%', flexDirection: 'column', }} className='flex flex-col justify-center pl-3'>
                                     <div style={{ width: '40px', height: '30px', cursor: 'pointer' }}>
                                         <div style={{ position: 'relative' }}>
                                             <img src={dateimage} style={{ width: '40px', height: '30px', position: 'absolute', cursor: 'pointer' }} alt='calendar'></img>
@@ -391,13 +396,14 @@ const CustomerIndividual = () => {
                                 </div>
 
                                 <div style={{ width: '15%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">{customer.age}才</label>
+                                    <label className="text-[#70685a] font-bold mb-2 block text-right py-1 !mb-0">{customer.age}才</label>
                                 </div>
                                 <div style={{ width: '15%', flexDirection: 'column', }} className='flex flex-col justify-center text-right'>
                                     <label className="text-[#70685a] font-bold mb-2 block text-right py-1 !mb-0 mr-3">性別</label>
                                 </div>
                                 <div style={{ width: '15%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <select id="gender" name="gender" onChange={handleCustomerChange} value={customer.gender} className="w-40 text-[#70685a] font-bold border border-[#70685a] px-4 py-2 outline-[#70685a]">
+                                    <select id="gender" name="gender" required onChange={handleCustomerChange} value={customer.gender} className="w-full text-[#70685a] font-bold border border-[#70685a] px-4 py-2 outline-[#70685a]">
+                                        <option value="" disabled></option>
                                         <option value="man">男</option>
                                         <option value="woman">女</option>
                                     </select>
@@ -422,7 +428,7 @@ const CustomerIndividual = () => {
                                 </div>
                             </div>
                             {/* new */}
-                            <div className='flex'>
+                            <div className='flex '>
                                 <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
                                     <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">本人確認書類</label>
                                 </div>
@@ -438,8 +444,9 @@ const CustomerIndividual = () => {
                                     <input type="file" name='idcardUpload' ref={idcardInputRef} style={{ display: 'none' }} onChange={(e) => handleFileChange(e, setIdcardFile, setAvatarImagePreview)} />
                                     {/* {idcardFile && <p>{idcardFile.name}</p>} */}
                                 </div>
-                                <div style={{ width: '40%', flexDirection: 'column', height: '40px', marginRight: '5%' }} className='flex align-center justify-around'>
-                                    <select id="cardType" name="cardType" value={customer.cardType} onChange={handleCustomerChange} className="w-full h-full text-[#70685a] text-[15px] font-bold border border-[#70685a] px-4 py-2 outline-[#70685a]">
+                                <div style={{ width: '30%', flexDirection: 'column',  }} className='flex ml-3 align-center justify-around'>
+                                    <select id="cardType" name="cardType" value={customer.cardType} required onChange={handleCustomerChange} className="w-full h-9 text-[#70685a] text-[15px] font-bold border border-[#70685a] px-4 py-2 outline-[#70685a]">
+                                        <option value="" disabled></option>
                                         <option value="運転免許証">運転免許証</option>
                                         <option value="運転経歴証明書">運転経歴証明書</option>
                                         <option value="旅券（パスポート)">旅券(パスポート)</option>
@@ -447,8 +454,8 @@ const CustomerIndividual = () => {
                                         <option value="各種福祉手帳（身体障害者手帳等）">各種福祉手帳（身体障害者手帳等）</option>
                                     </select>
                                 </div>
-                                <div style={{ width: '20%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <button type="button" onClick={() => handleButtonClick(avatarImageInputRef)} className="py-2 min-w-[160px] text-[#70685a] rounded-full tracking-wider font-medium outline-none border border-[#70685a] ">画像と情報表示</button>
+                                <div style={{ width: '30%', flexDirection: 'column', display:'none' }} className='flex align-center justify-around'>
+                                    <button type="button" onClick={() => handleButtonClick(avatarImageInputRef)} className="py-2 text-[#70685a] rounded-full tracking-wider font-medium outline-none border border-[#70685a] ">画像と情報表示</button>
                                     <input type="file" name="avatarimageUpload" ref={avatarImageInputRef} style={{ display: 'none' }} onChange={(e) => handleFileChange(e, setAvatarImageFile, setIdCardImagePreview)} />
                                     {/* {avatarimageFile && <p>Selected Image: {avatarimageFile.name}</p>} */}
                                 </div>
@@ -461,9 +468,9 @@ const CustomerIndividual = () => {
                                 <div style={{ width: '75%', flexDirection: 'column', }} className='flex h-full felx-col justify-center'>
                                     <div className='flex justify-between w-full h-[100px]'>
                                         <div style={{ width: '60%' }} className='border border-[#70685a] rounded-lg flex justify-center'>
-                                            {imageAvatarPreview=="http:///172.31.0.201:8081/api/uploads/customer/" ? "": <img src={imageAvatarPreview} alt="Image Preview" className='h-[100px] p-1 rounded-lg' />}
+                                            {imageIdCardPreview=="http:///172.31.0.201:8081/api/uploads/customer/" ? "": <img src={imageIdCardPreview} alt="Image Preview" className='h-[100px] p-1 rounded-lg' />}
                                         </div>
-                                        <div style={{ width: '35%' }} className='border border-[#70685a] rounded-full flex justify-center'>
+                                        <div style={{ width: '35%',display:'none' }} className='border border-[#70685a] rounded-full flex justify-center'>
                                             {imageIdCardPreview =="http:///172.31.0.201:8081/api/uploads/customer/" ? "": <img src={imageIdCardPreview} alt="Image Preview" className='h-[100px] p-1 rounded-full' />}
                                         </div>
                                     </div>
@@ -476,7 +483,8 @@ const CustomerIndividual = () => {
                                     <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">都道府県</label>
                                 </div>
                                 <div style={{ width: '30%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <select id="prefeature" value={customer.prefeature} onChange={handleCustomerChange} name="prefeature" className="w-full h-full text-[#70685a] font-bold border border-[#70685a] px-4 py-1 outline-[#70685a]">
+                                    <select id="prefeature" value={customer.prefeature} required onChange={handleCustomerChange} name="prefeature" className="w-full h-10 text-[#70685a] font-bold border border-[#70685a] px-4 py-1 outline-[#70685a]">
+                                        <option value="" disabled></option>
                                         <option value="北海道">北海道</option>
                                         <option value="青森県">青森県</option>
                                         <option value="岩手県">岩手県</option>
@@ -547,10 +555,10 @@ const CustomerIndividual = () => {
                     </div>
                 </div>
                 {/* Detail area*/}
-                <div className="w-full h-full mt-10 pt-5" style={{ maxWidth: '50em' }}>
+                <div className="customer-pasting-view w-full h-full mt-10 pt-5 ml-10" style={{ maxWidth: '50em' }}>
                     {/* Detail area First*/}
                     <div style={{ width: '100%', }} className='flex'>
-                        <div className=" h-full w-full ml-10">
+                        <div className=" h-full w-full">
                             {/*Past visit history of Table area */}
                             <div className="border border-[#70685a] rounded px-3 w-full mb-5" style={{ height: '350px', overflowX: 'scroll', overflowY: 'scroll' }}>
                                 <label className="text-[#70685a] text-[20px] font-bold mb-2 block text-left mr-10 py-1 !mb-0">Past vist history</label>

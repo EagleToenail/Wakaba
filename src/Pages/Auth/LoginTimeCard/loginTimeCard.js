@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-//import axios from 'axios';
+import axios from 'axios';
 import Titlebar from '../../../Components/Common/Titlebar';
 import DateAndTime from '../../../Components/Common/PickData';
 
@@ -30,12 +30,13 @@ const LoginTimeCard = () => {
             if (!wakabaBaseUrl) {
                 throw new Error('API base URL is not defined');
             }
-            //const response = await axios.post(`${wakabaBaseUrl}/todolist`, { action });
-            // Handle success, maybe redirect or show a success message
-           // console.log('Success:', response.data);
+            const userId = localStorage.getItem('userId');
+            const response = await axios.post(`${wakabaBaseUrl}/logintime`, { action,userId });
+           // Handle success, maybe redirect or show a success message
+           console.log('Success:', response.data);
            window.location.href="/customerlist"
         } catch (err) {
-            setError(err.message || 'Something went wrong');
+            setError('何かが間違っていた');
             console.error('Error:', err);
         } finally {
             setLoading(false);
@@ -81,8 +82,11 @@ const LoginTimeCard = () => {
                                     </label>
                                 </div>
                             </form>
-                            {loading && <p>Loading...</p>}
-                            {error && <p className="text-red-500">{error}</p>}
+                            <div className='flex justify-center'>
+                                {loading && <p>Loading...</p>}
+                                {error && <p className="text-red-500">{error}</p>}
+                            </div>
+
                         </div>
                     </div>
                 </div>
