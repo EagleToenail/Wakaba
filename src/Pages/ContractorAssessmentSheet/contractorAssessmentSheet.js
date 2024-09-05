@@ -53,7 +53,7 @@ const ContractorAssementSheet = () => {
             {/* <Titlebar title={title} /> */}
             {/* first button line  */}
             <div className="w-full flex flex-col items-center justify-center py-3 px-4">
-                <div className="w-full ml-10  pr-10 flex justify-center" style={{ minWidth: '100em' }}>
+                <div className="w-full ml-10  pr-10 flex justify-center">
                     <div className='w-full'>
                         <div className='flex justify-center ml-10 ' >
                             <div className='flex mt-10 mr-40' >

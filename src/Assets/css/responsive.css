@@ -28,3 +28,41 @@
         margin-left: 0px !important;
     }
   }
+@media screen and (max-width: 1650px) {
+    .sales-slip-top-button {
+        display: block !important;
+        width:100% !important;
+    }
+  }
+@media screen and (max-width: 1100px) {
+    .sales-slip-next-button1 {
+        display: block !important;
+        width:100% !important;
+    }
+    .sales-slip-next-button2 {
+        width:100% !important;
+    }
+  }
+@media screen and (max-width: 1100px) {
+    .sales-slip-next-button2 {
+        width:100% !important;
+        justify-content: center !important;
+    }
+  }
+@media screen and (max-width: 1100px) {
+    .sales-slip-filters {
+        display: block !important;
+        width:100% !important;
+        justify-content: space-between !important;
+    }
+  }
+@media screen and (max-width: 1100px) {
+    .sales-slip-filters-btns {
+        width:100% !important;
+    }
+  }
+@media screen and (max-width: 1100px) {
+    .closing-content {
+        width:100% !important;
+    }
+  }

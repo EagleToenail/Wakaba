@@ -33,7 +33,7 @@ const ClosingWork = () => {
                                 {/* new */}
                                 <div className='flex'>
                                     <div style={{ width: '10%' }} className='flex align-center justify-end'>
-                                        <button type="button" onClick={() => handleClick(setButton1Active, button1Active)} className={`w-20 px-1 py-1 font-bold tracking-wide rounded-lg justify-end text-[#d1cdc9] border border-[#d1cdca] ${button1Active ? 'bg-[#e87a00]' : 'transparent'} hover:bg-blue-700 focus:outline-none`}>一致
+                                        <button type="button" onClick={() => handleClick(setButton1Active, button1Active)} className={`w-20 h-9 px-1 py-1 font-bold tracking-wide rounded-lg justify-end text-[#d1cdc9] border border-[#d1cdca] ${button1Active ? 'bg-[#e87a00]' : 'transparent'} hover:bg-blue-700 focus:outline-none`}>一致
                                         </button>
                                     </div>
                                     <div style={{ width: '5%' }} className=' px-5 flex align-center justify-center'>
@@ -46,7 +46,7 @@ const ClosingWork = () => {
                                 {/* new */}
                                 <div className='flex !mt-3'>
                                     <div style={{ width: '10%' }} className='flex align-center justify-end'>
-                                        <button type="button" onClick={() => handleClick(setButton2Active, button2Active)} className={`w-20 px-1 py-1 font-bold tracking-wide rounded-lg justify-end text-[#d1cdc9] border border-[#d1cdca] ${button2Active ? 'bg-[#e87a00]' : 'transparent'} hover:bg-blue-700 focus:outline-none`}>完了
+                                        <button type="button" onClick={() => handleClick(setButton2Active, button2Active)} className={`w-20 h-9 px-1 py-1 font-bold tracking-wide rounded-lg justify-end text-[#d1cdc9] border border-[#d1cdca] ${button2Active ? 'bg-[#e87a00]' : 'transparent'} hover:bg-blue-700 focus:outline-none`}>完了
                                         </button>
                                     </div>
                                     <div style={{ width: '5%' }} className=' px-5 flex align-center justify-center'>
@@ -90,7 +90,7 @@ const ClosingWork = () => {
                                 {/* new */}
                                 <div className='flex !mt-3'>
                                     <div style={{ width: '10%' }} className='flex align-center justify-end'>
-                                        <button type="button" onClick={() => handleClick(setButton4Active, button4Active)} className={`w-20 px-1 py-1 font-bold tracking-wide rounded-lg justify-end text-[#d1cdc9] border border-[#d1cdc9] ${button4Active ? 'bg-[#e87a00]' : 'transparent'}  hover:bg-blue-700 focus:outline-none`}>完了
+                                        <button type="button" onClick={() => handleClick(setButton4Active, button4Active)} className={`w-20 h-9 px-1 py-1 font-bold tracking-wide rounded-lg justify-end text-[#d1cdc9] border border-[#d1cdc9] ${button4Active ? 'bg-[#e87a00]' : 'transparent'}  hover:bg-blue-700 focus:outline-none`}>完了
                                         </button>
                                     </div>
                                     <div style={{ width: '5%' }} className=' px-5 flex align-center justify-center'>
@@ -103,7 +103,7 @@ const ClosingWork = () => {
                                 {/* new */}
                                 <div className='flex !mt-3'>
                                     <div style={{ width: '10%' }} className='flex align-center justify-end'>
-                                        <button type="button" onClick={() => handleClick(setButton5Active, button5Active)} className={`w-20 px-1 py-1 font-bold tracking-wide rounded-lg justify-end text-[#d1cdc9] border border-[#d1cdca] ${button5Active ? 'bg-[#e87a00]' : 'transparent'} hover:bg-blue-700 focus:outline-none`}>完了
+                                        <button type="button" onClick={() => handleClick(setButton5Active, button5Active)} className={`w-20 h-9 px-1 py-1 font-bold tracking-wide rounded-lg justify-end text-[#d1cdc9] border border-[#d1cdca] ${button5Active ? 'bg-[#e87a00]' : 'transparent'} hover:bg-blue-700 focus:outline-none`}>完了
                                         </button>
                                     </div>
                                     <div style={{ width: '5%' }} className=' px-5 flex align-center justify-center'>
@@ -116,7 +116,7 @@ const ClosingWork = () => {
                                 {/* new */}
                                 <div className='flex !mt-3'>
                                     <div style={{ width: '10%' }} className='flex align-center justify-end'>
-                                        <button type="button" onClick={() => handleClick(setButton6Active, button6Active)} className={`w-20 px-1 py-1 font-bold tracking-wide rounded-lg justify-end text-[#d1cdc9] border border-[e87a00] ${button6Active ? 'bg-[#e87a00]' : 'transparent'} hover:bg-blue-700 focus:outline-none`}>完了
+                                        <button type="button" onClick={() => handleClick(setButton6Active, button6Active)} className={`w-20 h-9 px-1 py-1 font-bold tracking-wide rounded-lg justify-end text-[#d1cdc9] border border-[e87a00] ${button6Active ? 'bg-[#e87a00]' : 'transparent'} hover:bg-blue-700 focus:outline-none`}>完了
                                         </button>
                                     </div>
                                     <div style={{ width: '5%' }} className=' px-5 flex align-center justify-center'>
@@ -129,7 +129,7 @@ const ClosingWork = () => {
                                 {/* new */}
                                 <div className='flex !mt-3'>
                                     <div style={{ width: '10%' }} className='flex align-center justify-end'>
-                                        <button type="button" onClick={() => handleClick(setButton7Active, button7Active)} className={`w-20 px-1 py-1 font-bold tracking-wide rounded-lg justify-end text-[#d1cdc9] border border-[#d1cdca] ${button7Active ? 'bg-[#e87a00]' : 'transparent'} hover:bg-blue-700 focus:outline-none`}>完了
+                                        <button type="button" onClick={() => handleClick(setButton7Active, button7Active)} className={`w-20 h-9 px-1 py-1 font-bold tracking-wide rounded-lg justify-end text-[#d1cdc9] border border-[#d1cdca] ${button7Active ? 'bg-[#e87a00]' : 'transparent'} hover:bg-blue-700 focus:outline-none`}>完了
                                         </button>
                                     </div>
                                     <div style={{ width: '5%' }} className=' px-5 flex align-center justify-center'>
@@ -151,15 +151,14 @@ const ClosingWork = () => {
                                     <div style={{ width: '85%', flexDirection: 'column', }} className='flex align-center justify-around'>
                                         <label className="text-[#70685a] fold-semiblod mb-1 block text-left text-[20px] mr-10 py-1 !mb-0">本日の確認事項</label>
 
-                                        <div style={{ width: '60%' }} className='flex align-center'>
-                                            <div style={{ width: '80%' }} className='flex justify-between'>
+                                        <div style={{ width: '60%' }} className='closing-content flex flex align-center'>
+                                            <div style={{ width: '100%' }} className='flex justify-between'>
                                                 <div className=' text-[20px] text-[#70685a] text-center pl-3'>[責任者タスク]</div>
                                                 <div className='text-[20px] text-[#70685a] text-center pr-3 font-bold'>なし</div>
                                             </div>
-                                            <div style={{ width: '10%', }} className='text-[20px] text-[#70685a] text-left pr-3'></div>
                                         </div>
-                                        <div style={{ width: '60%' }} className='flex align-center'>
-                                            <div style={{ width: '80%' }} className='flex justify-between'>
+                                        <div style={{ width: '60%' }} className='closing-content flex align-center'>
+                                            <div style={{ width: '100%' }} className='flex justify-between'>
                                                 <div className=' text-[20px] text-[#70685a] text-left pl-3 flex'>
                                                     <span className='w-1 flex flex-col justify-center mr-3'>
                                                         <svg focusable="false" fill="#70685a" aria-hidden="true" viewBox="0 0 24 24" data-testid="CircleIcon" title="Circle"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2"></path></svg>
@@ -167,10 +166,9 @@ const ClosingWork = () => {
                                                     単日買取額</div>
                                                 <div className='text-[20px] text-[#70685a] text-right pr-3 font-bold'>99,999円</div>
                                             </div>
-                                            <div style={{ width: '10%', }} className='text-[20px] text-[#70685a] text-left pr-3'></div>
                                         </div>
-                                        <div style={{ width: '60%' }} className='flex align-center'>
-                                            <div style={{ width: '80%' }} className='flex justify-between'>
+                                        <div style={{ width: '60%' }} className='closing-content flex align-center'>
+                                            <div style={{ width: '100%' }} className='flex justify-between'>
                                                 <div className=' text-[20px] text-[#70685a] text-left pl-3 flex'>
                                                     <span className='w-1 flex flex-col justify-center mr-3'>
                                                         <svg focusable="false" fill="#70685a" aria-hidden="true" viewBox="0 0 24 24" data-testid="CircleIcon" title="Circle"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2"></path></svg>
@@ -178,10 +176,9 @@ const ClosingWork = () => {
                                                     単日粗利額</div>
                                                 <div className='text-[20px] text-[#70685a] text-right pr-3 font-bold'>99,999円</div>
                                             </div>
-                                            <div style={{ width: '10%', }} className='text-[20px] text-[#70685a] text-left pr-3'></div>
                                         </div>
-                                        <div style={{ width: '60%' }} className='flex align-center'>
-                                            <div style={{ width: '80%' }} className='flex justify-between'>
+                                        <div style={{ width: '60%' }} className='closing-content flex align-center'>
+                                            <div style={{ width: '100%' }} className='flex justify-between'>
                                                 <div className=' text-[20px] text-[#70685a] text-left pl-3 flex'>
                                                     <span className='w-1 flex flex-col justify-center mr-3'>
                                                         <svg focusable="false" fill="#70685a" aria-hidden="true" viewBox="0 0 24 24" data-testid="CircleIcon" title="Circle"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2"></path></svg>
@@ -189,10 +186,9 @@ const ClosingWork = () => {
                                                     当月粗利額</div>
                                                 <div className='text-[20px] text-[#70685a] text-right pr-3 font-bold'>99,999,999円</div>
                                             </div>
-                                            <div style={{ width: '10%', }} className='text-[20px] text-[#70685a] text-left pr-3'></div>
                                         </div>
-                                        <div style={{ width: '60%' }} className='flex align-center'>
-                                            <div style={{ width: '80%' }} className='flex justify-between'>
+                                        <div style={{ width: '60%' }} className='closing-content flex align-center'>
+                                            <div style={{ width: '100%' }} className='flex justify-between'>
                                                 <div className=' text-[20px] text-[#70685a] text-left pl-3 flex'>
                                                     <span className='w-1 flex flex-col justify-center mr-3'>
                                                         <svg focusable="false" fill="#70685a" aria-hidden="true" viewBox="0 0 24 24" data-testid="CircleIcon" title="Circle"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2"></path></svg>
@@ -200,10 +196,9 @@ const ClosingWork = () => {
                                                     金庫追加金</div>
                                                 <div className='text-[20px] text-[#70685a] text-right pr-3 font-bold'>99,999,999円</div>
                                             </div>
-                                            <div style={{ width: '10%', }} className='text-[20px] text-[#70685a] text-left pr-3'></div>
                                         </div>
-                                        <div style={{ width: '60%' }} className='flex align-center'>
-                                            <div style={{ width: '80%' }} className='flex justify-between'>
+                                        <div style={{ width: '60%' }} className='closing-content flex align-center'>
+                                            <div style={{ width: '100%' }} className='flex justify-between'>
                                                 <div className=' text-[20px] text-[#70685a] text-left pl-3 flex'>
                                                     <span className='w-1 flex flex-col justify-center mr-3'>
                                                         <svg focusable="false" fill="#70685a" aria-hidden="true" viewBox="0 0 24 24" data-testid="CircleIcon" title="Circle"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2"></path></svg>
@@ -213,8 +208,8 @@ const ClosingWork = () => {
                                             </div>
 
                                         </div>
-                                        <div style={{ width: '60%' }} className='flex align-center'>
-                                            <div style={{ width: '80%' }} className='flex justify-between'>
+                                        <div style={{ width: '60%' }} className='closing-content flex align-center'>
+                                            <div style={{ width: '100%' }} className='flex justify-between'>
                                                 <div className=' text-[20px] text-[#70685a] text-left pl-3 flex'>
                                                     <span className='w-1 flex flex-col justify-center mr-3'>
                                                         <svg focusable="false" fill="#70685a" aria-hidden="true" viewBox="0 0 24 24" data-testid="CircleIcon" title="Circle"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2"></path></svg>
@@ -223,8 +218,8 @@ const ClosingWork = () => {
                                                 <div className='text-[20px] text-[#70685a] text-right pr-3 font-bold'>99,999円</div>
                                             </div>
                                         </div>
-                                        <div style={{ width: '60%' }} className='flex align-center'>
-                                            <div style={{ width: '80%' }} className='flex justify-between'>
+                                        <div style={{ width: '60%' }} className='closing-content flex align-center'>
+                                            <div style={{ width: '100%' }} className='flex justify-between'>
                                                 <div className=' text-[20px] text-[#70685a] text-left pl-3 flex'>
                                                     <span className='w-1 flex flex-col justify-center mr-3'>
                                                         <svg focusable="false" fill="#70685a" aria-hidden="true" viewBox="0 0 24 24" data-testid="CircleIcon" title="Circle"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2"></path></svg>
@@ -234,8 +229,8 @@ const ClosingWork = () => {
                                             </div>
 
                                         </div>
-                                        <div style={{ width: '60%' }} className='flex align-center'>
-                                            <div style={{ width: '80%' }} className='flex justify-between'>
+                                        <div style={{ width: '60%' }} className='closing-content flex align-center'>
+                                            <div style={{ width: '100%' }} className='flex justify-between'>
                                                 <div className=' text-[20px] text-[#70685a] text-left pl-3 flex'>
                                                     <span className='w-1 flex flex-col justify-center mr-3'>
                                                         <svg focusable="false" fill="#70685a" aria-hidden="true" viewBox="0 0 24 24" data-testid="CircleIcon" title="Circle"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2"></path></svg>
@@ -245,8 +240,8 @@ const ClosingWork = () => {
                                             </div>
 
                                         </div>
-                                        <div style={{ width: '60%' }} className='flex align-center'>
-                                            <div style={{ width: '80%' }} className='flex justify-between'>
+                                        <div style={{ width: '60%' }} className='closing-content flex align-center'>
+                                            <div style={{ width: '100%' }} className='flex justify-between'>
                                                 <div className=' text-[20px] text-[#70685a] text-left pl-3 flex'>
                                                     <span className='w-1 flex flex-col justify-center mr-3'>
                                                         <svg focusable="false" fill="#70685a" aria-hidden="true" viewBox="0 0 24 24" data-testid="CircleIcon" title="Circle"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2"></path></svg>
@@ -256,8 +251,8 @@ const ClosingWork = () => {
                                             </div>
 
                                         </div>
-                                        <div style={{ width: '60%' }} className='flex align-center'>
-                                            <div style={{ width: '80%' }} className='flex justify-between'>
+                                        <div style={{ width: '60%' }} className='closing-content flex align-center'>
+                                            <div style={{ width: '100%' }} className='flex justify-between'>
                                                 <div className=' text-[20px] text-[#70685a] text-left pl-3 flex'>
                                                     <span className='w-1 flex flex-col justify-center mr-3'>
                                                         <svg focusable="false" fill="#70685a" aria-hidden="true" viewBox="0 0 24 24" data-testid="CircleIcon" title="Circle"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2"></path></svg>
@@ -266,8 +261,8 @@ const ClosingWork = () => {
                                                 <div className='text-[20px] text-[#70685a] text-right pr-3 font-bold'>99,9999入</div>
                                             </div>
                                         </div>
-                                        <div style={{ width: '60%' }} className='flex align-center'>
-                                            <div style={{ width: '80%' }} className='flex justify-between'>
+                                        <div style={{ width: '60%' }} className='closing-content flex align-center'>
+                                            <div style={{ width: '100%' }} className='flex justify-between'>
                                                 <div className=' text-[20px] text-[#70685a] text-left pl-3 flex'>
                                                     <span className='w-1 flex flex-col justify-center mr-3'>
                                                         <svg focusable="false" fill="#70685a" aria-hidden="true" viewBox="0 0 24 24" data-testid="CircleIcon" title="Circle"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2"></path></svg>
@@ -277,8 +272,8 @@ const ClosingWork = () => {
                                             </div>
 
                                         </div>
-                                        <div style={{ width: '60%' }} className='flex align-center'>
-                                            <div style={{ width: '80%' }} className='flex justify-between'>
+                                        <div style={{ width: '60%' }} className='closing-content flex align-center'>
+                                            <div style={{ width: '100%' }} className='flex justify-between'>
                                                 <div className=' text-[20px] text-[#70685a] text-left pl-3 flex'>
                                                     <span className='w-1 flex flex-col justify-center mr-3'>
                                                         <svg focusable="false" fill="#70685a" aria-hidden="true" viewBox="0 0 24 24" data-testid="CircleIcon" title="Circle"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2"></path></svg>
@@ -288,8 +283,8 @@ const ClosingWork = () => {
                                             </div>
 
                                         </div>
-                                        <div style={{ width: '60%' }} className='flex align-center'>
-                                            <div style={{ width: '80%' }} className='flex justify-between'>
+                                        <div style={{ width: '60%' }} className='closing-content flex align-center'>
+                                            <div style={{ width: '100%' }} className='flex justify-between'>
                                                 <div className=' text-[20px] text-[#70685a] text-left pl-3 flex'>
                                                     <span className='w-1 flex flex-col justify-center mr-3'>
                                                         <svg focusable="false" fill="#70685a" aria-hidden="true" viewBox="0 0 24 24" data-testid="CircleIcon" title="Circle"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2"></path></svg>
@@ -299,8 +294,8 @@ const ClosingWork = () => {
                                             </div>
 
                                         </div>
-                                        <div style={{ width: '60%' }} className='flex align-center'>
-                                            <div style={{ width: '80%' }} className='flex justify-between'>
+                                        <div style={{ width: '60%' }} className='closing-content flex align-center'>
+                                            <div style={{ width: '100%' }} className='flex justify-between'>
                                                 <div className=' text-[20px] text-[#70685a] text-left pl-3 flex'>
                                                     <span className='w-1 flex flex-col justify-center mr-3'>
                                                         <svg focusable="false" fill="#70685a" aria-hidden="true" viewBox="0 0 24 24" data-testid="CircleIcon" title="Circle"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2"></path></svg>
@@ -310,8 +305,8 @@ const ClosingWork = () => {
                                             </div>
 
                                         </div>
-                                        <div style={{ width: '60%' }} className='flex align-center'>
-                                            <div style={{ width: '80%' }} className='flex justify-between'>
+                                        <div style={{ width: '60%' }} className='closing-content flex align-center'>
+                                            <div style={{ width: '100%' }} className='flex justify-between'>
                                                 <div className=' text-[20px] text-[#70685a] text-left pl-3 flex'>
                                                     <span className='w-1 flex flex-col justify-center mr-3'>
                                                         <svg focusable="false" fill="#70685a" aria-hidden="true" viewBox="0 0 24 24" data-testid="CircleIcon" title="Circle"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2"></path></svg>
@@ -321,8 +316,8 @@ const ClosingWork = () => {
                                             </div>
 
                                         </div>
-                                        <div style={{ width: '60%' }} className='flex align-center'>
-                                            <div style={{ width: '80%' }} className='flex justify-between'>
+                                        <div style={{ width: '60%' }} className='closing-content flex align-center'>
+                                            <div style={{ width: '100%' }} className='flex justify-between'>
                                                 <div className=' text-[20px] text-[#70685a] text-left pl-3 flex'>
                                                     <span className='w-1 flex flex-col justify-center mr-3'>
                                                         <svg focusable="false" fill="#70685a" aria-hidden="true" viewBox="0 0 24 24" data-testid="CircleIcon" title="Circle"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2"></path></svg>
@@ -332,8 +327,8 @@ const ClosingWork = () => {
                                             </div>
 
                                         </div>
-                                        <div style={{ width: '60%' }} className='flex align-center'>
-                                            <div style={{ width: '80%' }} className='flex justify-between'>
+                                        <div style={{ width: '60%' }} className='closing-content flex align-center'>
+                                            <div style={{ width: '100%' }} className='flex justify-between'>
                                                 <div className=' text-[20px] text-[#70685a] text-left pl-3 flex'>
                                                     <span className='w-1 flex flex-col justify-center mr-3'>
                                                         <svg focusable="false" fill="#70685a" aria-hidden="true" viewBox="0 0 24 24" data-testid="CircleIcon" title="Circle"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2"></path></svg>
@@ -343,8 +338,8 @@ const ClosingWork = () => {
                                             </div>
 
                                         </div>
-                                        <div style={{ width: '60%' }} className='flex align-center'>
-                                            <div style={{ width: '80%' }} className='flex justify-between'>
+                                        <div style={{ width: '60%' }} className='closing-content flex align-center'>
+                                            <div style={{ width: '100%' }} className='flex justify-between'>
                                                 <div className=' text-[20px] text-[#70685a] text-left pl-3 flex'>
                                                     <span className='w-1 flex flex-col justify-center mr-3'>
                                                         <svg focusable="false" fill="#70685a" aria-hidden="true" viewBox="0 0 24 24" data-testid="CircleIcon" title="Circle"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2"></path></svg>
@@ -354,8 +349,8 @@ const ClosingWork = () => {
                                             </div>
 
                                         </div>
-                                        <div style={{ width: '60%' }} className='flex align-center'>
-                                            <div style={{ width: '80%' }} className='flex justify-between'>
+                                        <div style={{ width: '60%' }} className='closing-content flex align-center'>
+                                            <div style={{ width: '100%' }} className='flex justify-between'>
                                                 <div className=' text-[20px] text-[#70685a] text-left pl-3 flex'>
                                                     <span className='w-1 flex flex-col justify-center mr-3'>
                                                         <svg focusable="false" fill="#70685a" aria-hidden="true" viewBox="0 0 24 24" data-testid="CircleIcon" title="Circle"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2"></path></svg>
@@ -365,8 +360,8 @@ const ClosingWork = () => {
                                             </div>
 
                                         </div>
-                                        <div style={{ width: '60%' }} className='flex align-center'>
-                                            <div style={{ width: '80%' }} className='flex justify-between'>
+                                        <div style={{ width: '60%' }} className='closing-content flex align-center'>
+                                            <div style={{ width: '87%' }} className='flex justify-between'>
                                                 <div className=' text-[20px] text-[#70685a] text-left pl-3 flex'>
                                                     <span className='w-1 flex flex-col justify-center mr-3'>
                                                         <svg focusable="false" fill="#70685a" aria-hidden="true" viewBox="0 0 24 24" data-testid="CircleIcon" title="Circle"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2"></path></svg>
@@ -374,7 +369,7 @@ const ClosingWork = () => {
                                                     本日のアナウンス回数</div>
                                                 <div className='text-[20px] text-[#70685a] text-right pr-3 font-bold'>99回</div>
                                             </div>
-                                            <div style={{ width: '10%', }} className='text-center text-[20px] text-[#70685a] text-left pr-3!p-0'><u>[詳細]</u></div>
+                                            <div style={{ width: '13%', }} className='text-center text-[20px] text-[#70685a] text-left pr-3!p-0'><u>[詳細]</u></div>
                                         </div>
 
 
@@ -419,7 +414,7 @@ const ClosingWork = () => {
 
                                     <div className="!mt-5" style={{ marginBottom: '10px', width: '70%', paddingLeft: '30%' }}>
                                         <div className='w-full flex justify-center'>
-                                            <button type="button" className="w-30 px-10 py-1 font-bold tracking-wide rounded-lg justify-center text-[#d1cdc9] border border-[#d1cdca] bg-[#e87a00] hover:bg-blue-700 focus:outline-none">
+                                            <button type="button" className="w-max px-5 py-1 font-bold tracking-wide rounded-lg justify-center text-[#d1cdc9] border border-[#d1cdca] bg-[#e87a00] hover:bg-blue-700 focus:outline-none">
                                                 <Link to='/logouttimecard' className='p-3  '>一括締めボタン</Link>
                                             </button>
                                         </div>
