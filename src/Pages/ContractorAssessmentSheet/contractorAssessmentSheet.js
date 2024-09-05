@@ -53,21 +53,23 @@ const ContractorAssementSheet = () => {
             {/* <Titlebar title={title} /> */}
             {/* first button line  */}
             <div className="w-full flex flex-col items-center justify-center py-3 px-4">
-                <div className="w-full ml-10  pr-10 flex justify-center">
+                <div className="w-full flex justify-center">
                     <div className='w-full'>
                         <div className='flex justify-center ml-10 ' >
-                            <div className='flex mt-10 mr-40' >
-                                <ButtonComponent className='bg-[#424242] h-11 !text-2xl ' ><Link to="/salesslip">売上表</Link></ButtonComponent>
-                                <ButtonComponent children={'業者査定シート'} className='h-11 !bg-[transparent] border border-[#424242] !text-[#424242] !text-2xl !px-10' style={{ marginLeft: '30px' }} />
-                                <ButtonComponent className='h-11 !bg-[transparent] border border-[#424242] !text-[#424242] !text-2xl' style={{ marginLeft: '30px' }} >
-                                    <Link to="/yahooauction">ヤフオク</Link>
-                                </ButtonComponent>
-                            </div>
-                            <div className='flex mt-10 ' >
-                                <div>
-                                    <ButtonComponent children={'業者への買取依書へ'} className='h-11 bg-[#9bd195] !text-2xl text-[white] !px-10' style={{ marginLeft: '30px' }} />
-                                    <div className='text-center'>
-                                        <LabelComponent value={'adf'} />
+                            <div className='contractor-assessment-sheet flex justify-between w-full '>
+                                <div className='flex justify-center mt-10 w-full' >
+                                    <ButtonComponent className='!w-[200px] !bg-[transparent] border border-[#424242] !text-[#424242] h-11 !text-2xl !px-0 ' ><Link to="/salesslip">売上表</Link></ButtonComponent>
+                                    <ButtonComponent children={'業者査定シート'} className='!w-[350px] h-11 !bg-[#424242] border border-[#424242] !text-2xl !px-0' style={{ marginLeft: '30px' }} />
+                                    <ButtonComponent className='!w-[200px] h-11 !bg-[transparent] border border-[#424242] !text-[#424242] !text-2xl !px-0' style={{ marginLeft: '30px' }} >
+                                        <Link to="/yahooauction">ヤフオク</Link>
+                                    </ButtonComponent>
+                                </div>
+                                <div className='flex justify-center mt-10 w-full' >
+                                    <div>
+                                        <ButtonComponent children={'業者への買取依書へ'} className='h-11 !bg-[#9bd195] !text-2xl text-[white] !px-10' />
+                                        <div className='text-center'>
+                                            <LabelComponent value={'行を選択してくだをい'} className="text-center"/>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -75,30 +77,37 @@ const ContractorAssementSheet = () => {
 
                         {/* second button line  */}
                         <div className='flex ml-5 justify-center'>
-                            <div className='flex justify-between  mt-5 w-full' >
-                                <ButtonComponent children={'全て'} className="!px-5  bg-[transparent] border border-[#424242] !text-[#424242] h-8 rounded-lg !w-max" />
-                                <ButtonComponent children={'貴金属'} className="!px-5 bg-[transparent] border border-[#424242] !text-[#424242] h-8 rounded-lg !w-max" />
-                                <ButtonComponent children={'ブランド'} className="!px-5 bg-[transparent] border border-[#424242] !text-[#424242] h-8 rounded-lg !w-max" />
-                                <ButtonComponent children={'バッグ'} className="!px-5 bg-[transparent] border border-[#424242] !text-[#424242] h-8 rounded-lg !w-max" />
-                                <ButtonComponent children={'時計'} className="!px-5 bg-[transparent] border border-[#424242] !text-[#424242] h-8 rounded-lg !w-max" />
-                                <ButtonComponent children={'財布'} className="!px-5 bg-[transparent] border border-[#424242] !text-[#424242] h-8 rounded-lg !w-max" />
-                                <ButtonComponent children={'アクセサリ'} className="!px-5 bg-[transparent] border border-[#424242] !text-[#424242] h-8 rounded-lg !w-max" />
-                                <ButtonComponent children={'骨董品'} className="!px-5 bg-[transparent] border border-[#424242] !text-[#424242] h-8 rounded-lg !w-max" />
-                                <ButtonComponent children={'洋酒'} className="!px-5 bg-[transparent] border border-[#424242] !text-[#424242] h-8 rounded-lg !w-max" />
-                                <ButtonComponent children={'カメラ'} className="!px-5 bg-[transparent] border border-[#424242] !text-[#424242] h-8 rounded-lg !w-max" />
-                                <ButtonComponent children={'楽器'} className="!px-5 bg-[transparent] border border-[#424242] !text-[#424242] h-8 rounded-lg !w-max" />
-                                <ButtonComponent children={'スマホ/タブレット'} className="!px-5 bg-[transparent] border border-[#424242] !text-[#424242] h-8 rounded-lg !w-max" />
-                                <select id="classificatin" name="classificatin" className="!w-max h-8 rounded-lg text-[#70685a] !text-[15px] font-bold border border-[#70685a] px-4 py-1 outline-[#70685a]">
-                                    <option value="1">その他</option>
-                                    <option value="2">Afghanistan</option>
-                                    <option value="3">Åland Islands</option>
-                                    <option value="4">Albania</option>
-                                </select>
+                            <div className='contractor-assessment-sheet-btns flex justify-around  mt-5 w-full' >
+                                <div className='flex justify-center gap-5 mt-5'>
+                                    <ButtonComponent children={'全て'} className="!px-4  bg-[transparent] border border-[#424242] !text-[#424242] h-8 rounded-lg " />
+                                    <ButtonComponent children={'貴金属'} className="!px-4 bg-[transparent] border border-[#424242] !text-[#424242] h-8 rounded-lg " />
+                                    <ButtonComponent children={'ブランド'} className="!px-4 bg-[transparent] border border-[#424242] !text-[#424242] h-8 rounded-lg " />
+                                    <ButtonComponent children={'バッグ'} className="!px-4 bg-[transparent] border border-[#424242] !text-[#424242] h-8 rounded-lg " />
+                                    <ButtonComponent children={'時計'} className="!px-4 bg-[transparent] border border-[#424242] !text-[#424242] h-8 rounded-lg " />
+                                </div>
+                                <div className='flex justify-center gap-5 mt-5 '>
+                                    <ButtonComponent children={'財布'} className="!px-4 bg-[transparent] border border-[#424242] !text-[#424242] h-8 rounded-lg " />
+                                    <ButtonComponent children={'アクセサリ'} className="!px-4 bg-[transparent] border border-[#424242] !text-[#424242] h-8 rounded-lg " />
+                                    <ButtonComponent children={'骨董品'} className="!px-4 bg-[transparent] border border-[#424242] !text-[#424242] h-8 rounded-lg " />
+                                    <ButtonComponent children={'洋酒'} className="!px-4 bg-[transparent] border border-[#424242] !text-[#424242] h-8 rounded-lg " />
+                                </div>
+                                <div className='flex justify-center gap-5 mt-5 '>
+                                   
+                                    <ButtonComponent children={'カメラ'} className="!px-4 bg-[transparent] border border-[#424242] !text-[#424242] h-8 rounded-lg " />
+                                    <ButtonComponent children={'楽器'} className="!px-4 bg-[transparent] border border-[#424242] !text-[#424242] h-8 rounded-lg " />
+                                    <ButtonComponent children={'スマホ/タブレット'} className="!px-4 bg-[transparent] border border-[#424242] !text-[#424242] h-8 rounded-lg " />
+                                    <select id="classificatin" name="classificatin" className="!px-4 h-8 rounded-lg text-[#70685a] !text-[15px] font-bold border border-[#70685a] py-1 outline-[#70685a]">
+                                        <option value="1">その他</option>
+                                        <option value="2">Afghanistan</option>
+                                        <option value="3">Åland Islands</option>
+                                        <option value="4">Albania</option>
+                                    </select>
+                                </div>
                             </div>
                         </div>
 
                         {/*  Tabe*/}
-                        <div className='mt-20 pl-10 pr-10 pb-20 w-full flex'>
+                        <div className='mt-10 pb-20 w-full flex'>
                             <div style={{ width: '100%', overflow: 'auto' }} >
                                 <table style={Table}>
                                     <thead>

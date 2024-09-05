@@ -40,20 +40,20 @@ const YahooAuction = () => {
             {/* first button line  */}
             <div className='flex justify-between ml-10'>
                 <div className='flex justify-center mt-10 w-full' >
-                    <ButtonComponent className='bg-[transparent] border border-[#424242] !text-[#424242] h-11 !text-2xl' ><Link to="/salesslip">売上表</Link></ButtonComponent>
-                    <ButtonComponent className='h-11 bg-[transparent] border border-[#424242] !text-[#424242] text-2xl !px-10'  style={{ marginLeft: '30px' }} >
+                    <ButtonComponent className='bg-[transparent] border border-[#424242] !text-[#424242] h-11 !text-2xl  !w-[200px] !px-0' ><Link to="/salesslip">売上表</Link></ButtonComponent>
+                    <ButtonComponent className='h-11 bg-[transparent] border border-[#424242] !text-[#424242] text-2xl !w-[200px] !px-0'  style={{ marginLeft: '30px' }} >
                         <Link to="/contractorassessmentsheet">業者査定シート</Link>
                     </ButtonComponent>
-                    <ButtonComponent children={'ヤフオク'} className='h-11 !bg-[#424242] border border-[#424242] !text-[white] text-2xl !px-10' style={{ marginLeft: '30px' }} />
+                    <ButtonComponent children={'ヤフオク'} className='h-11 !bg-[#424242] border border-[#424242] !text-[white] text-2xl !w-[200px] !px-0' style={{ marginLeft: '30px' }} />
                 </div>
             </div>
 
             <div className='flex justify-center mt-10 '>
-                <label className='flex flex-center'>(asd)</label>
+                <label className='flex flex-center'>(売上額と同い)</label>
             </div>
 
             {/*  Tabe*/}
-            <div className='pl-10 pr-10 pb-20 w-full flex'>
+            <div className='pb-20 w-full flex'>
                 <div style={{ width: '100%', overflow: 'auto' }} >
                     <table style={Table}>
                         <thead>

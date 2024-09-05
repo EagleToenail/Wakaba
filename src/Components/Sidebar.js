@@ -23,7 +23,7 @@ const Sidebar = () => {
   return (
     <div>
       {/* Sidebar */}
-        <div id="mySidebar" className="sidebar" style={{ width: isOpen ? '250px' : '65px',  transition: '0.2s'}} >
+        <div id="mySidebar" className="sidebar z-48" style={{ width: isOpen ? '250px' : '65px',  transition: '0.2s'}} >
             {isshow ?
                 // <div  className="openbtn" onClick={openNav} ><img src={rightArrow} alt='aaa'></img></div> :
                 <div  className="openbtn" onClick={openNav} >
