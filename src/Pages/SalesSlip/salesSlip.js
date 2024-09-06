@@ -135,7 +135,7 @@ const SalesSlip = () => {
                                         </div>
                                     </div>
                                     <div>
-                                        <ButtonComponent children={'新しい'} className='!px-5 text-2xl' style={{ height: '40px' }} />
+                                        <ButtonComponent className='!px-5 text-2xl' style={{ height: '40px' }} ><Link to="/salesSlipCreate">新しい</Link></ButtonComponent>
                                     </div>
                                 </div>
                             </div>

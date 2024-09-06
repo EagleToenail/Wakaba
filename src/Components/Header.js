@@ -108,7 +108,7 @@ export default function Header() {
               </Link>
               </li>
               <li className='max-lg:border-b border-gray-300 max-lg:py-3 px-3'><Link
-                className='text-[#655b4a] block font-semibold text-[15px]'>At 99,000</Link>
+                className='text-[#655b4a] block font-semibold text-[15px]'>Ag 99,000</Link>
               </li>
               <li className='max-lg:border-b border-gray-300 max-lg:py-3 px-3'><Link
                 className='text-[#655b4a] block font-semibold text-[15px]'>Au 99,000</Link>

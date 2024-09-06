@@ -16,107 +16,76 @@ export default function PurchaseToRShop() {
 
     return (
         <>
-            <div className=" flex flex-col items-center justify-center py-3 px-4">
-                <div className="w-full pr-10 pl-10 " style={{ maxWidth: '90em' }}>
+            <div className=" flex flex-col items-center justify-center py-3">
+                <div className="w-full">
                     <div className='w-full'>
                         {/* received message */}
                         <div className='w-full'>
                             {/* first */}
-                            <div className='w-full flex'>
-                                <div className='flex justify-between' style={{ width: '80%' }}>
-                                    <div className='flex mt-5'>
-                                        <div>
-                                            <div className='w-30'>
-                                                <label className="text-[black] font-bold text-[10px] block text-center">2024/12/30 23:25</label>
+                                <div className='new-post-receive w-full flex'>
+                                    <div className='new-post-receive-message flex' style={{ width: '75%' }}>
+                                        <div className='flex mt-5'>
+                                            <div>
+                                                <div className='w-30'>
+                                                    <label className="text-[black] font-bold text-[10px] block text-center">2024/12/30 23:25</label>
+                                                </div>
+                                                <div className='border border-[#70685a] w-30'>
+                                                    <label className="text-[#70685a] font-bold text-[10px] block text-center">ステー夕ス表示</label>
+                                                </div>
                                             </div>
-                                            <div className='border border-[#70685a] w-30'>
-                                                <label className="text-[#70685a] font-bold text-[10px] block text-center">ステー夕ス表示</label>
+                                            <div className='text-[15px] text-[black] ml-3'>
+                                            リサイクルショップへの買い取ら依頼許可申請の件
                                             </div>
-                                        </div>
-                                        <div className='text-[15px] text-[black] ml-3'>
-                                        リサイクルショップへの買い取ら依頼許可申請の件
                                         </div>
                                     </div>
-                                    <div className='flex mt-5'>
-                                        <div className='w-7 h-7 rounded-full border border-[#70685a]'></div>
-                                        <div>
-                                            <label className="text-[black] pl-3 text-[15px] block text-center">宛先の名前</label>
+                                    <div className='new-post-receive-name flex justify-between' style={{ width: '25%' }}>
+                                        <div className='flex mt-5'>
+                                            <div className='w-7 h-7 rounded-full border border-[#70685a]'></div>
+                                            <div>
+                                                <label className="text-[black] pl-3 text-[15px] block text-center">宛先の名前</label>
+                                            </div>
+                                        </div>
+                                        <div className='flex mt-5'>
+                                            <div className='w-7 h-7 rounded-full border border-[#70685a] bg-[#70685a]'></div>
+                                            <div>
+                                                <label className="text-[black] pl-3 text-[15px] block text-center">名前名前名前名前</label>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div className='flex justify-end' style={{ width: '20%' }}>
-                                    <div className='flex mt-5'>
-                                        <div className='w-7 h-7 rounded-full border border-[#70685a] bg-[#70685a]'></div>
-                                        <div>
-                                            <label className="text-[black] pl-3 text-[15px] block text-center">名前名前名前名前</label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                             {/* second */}
-                            <div className='w-full flex'>
-                                <div className='flex justify-between' style={{ width: '80%' }}>
-                                    <div className='flex mt-5'>
-                                        <div>
-                                            <div className='w-30'>
-                                                <label className="text-[black] font-bold text-[10px] block text-center">2024/12/30 23:25</label>
+                            <div className='new-post-receive w-full flex'>
+                                    <div className='new-post-receive-message flex' style={{ width: '75%' }}>
+                                        <div className='flex mt-5'>
+                                            <div>
+                                                <div className='w-30'>
+                                                    <label className="text-[black] font-bold text-[10px] block text-center">2024/12/30 23:25</label>
+                                                </div>
+                                                <div className='border border-[#70685a] w-30'>
+                                                    <label className="text-[#70685a] font-bold text-[10px] block text-center">ステー夕ス表示</label>
+                                                </div>
                                             </div>
-                                            <div className='border border-[#70685a] w-30'>
-                                                <label className="text-[#70685a] font-bold text-[10px] block text-center">ステー夕ス表示</label>
+                                            <div className='text-[15px] text-[black] ml-3'>
+                                            リサイクルショップへの買い取ら依頼許可申請の件
                                             </div>
-                                        </div>
-                                        <div className='text-[15px] text-[black] ml-3'>
-                                        リサイクルショップへの買い取ら依頼許可申請の件
                                         </div>
                                     </div>
-                                    <div className='flex mt-5'>
-                                        <div className='w-7 h-7 rounded-full border border-[#70685a]'></div>
-                                        <div>
-                                            <label className="text-[black] pl-3 text-[15px] block text-center">宛先の名前</label>
+                                    <div className='new-post-receive-name flex justify-between' style={{ width: '25%' }}>
+                                        <div className='flex mt-5'>
+                                            <div className='w-7 h-7 rounded-full border border-[#70685a]'></div>
+                                            <div>
+                                                <label className="text-[black] pl-3 text-[15px] block text-center">宛先の名前</label>
+                                            </div>
+                                        </div>
+                                        <div className='flex mt-5'>
+                                            <div className='w-7 h-7 rounded-full border border-[#70685a] bg-[#70685a]'></div>
+                                            <div>
+                                                <label className="text-[black] pl-3 text-[15px] block text-center">名前名前名前名前</label>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div className='flex justify-end' style={{ width: '20%' }}>
-                                    <div className='flex mt-5'>
-                                        <div className='w-7 h-7 rounded-full border border-[#70685a] bg-[#70685a]'></div>
-                                        <div>
-                                            <label className="text-[black] pl-3 text-[15px] block text-center">名前名前名前名前</label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                             {/* third */}
-                            <div className='w-full flex'>
-                                <div className='flex justify-between' style={{ width: '80%' }}>
-                                    <div className='flex mt-5'>
-                                        <div>
-                                            <div className='w-30'>
-                                                <label className="text-[black] font-bold text-[10px] block text-center">2024/12/30 23:25</label>
-                                            </div>
-                                            <div className='border border-[#70685a] w-30'>
-                                                <label className="text-[#70685a] font-bold text-[10px] block text-center">ステー夕ス表示</label>
-                                            </div>
-                                        </div>
-                                        <div className='text-[15px] text-[black] ml-3'>
-                                        リサイクルショップへの買い取ら依頼許可申請の件
-                                        </div>
-                                    </div>
-                                    <div className='flex mt-5'>
-                                        <div className='w-7 h-7 rounded-full border border-[#70685a]'></div>
-                                        <div>
-                                            <label className="text-[black] pl-3 text-[15px] block text-center">宛先の名前</label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className='flex justify-end' style={{ width: '20%' }}>
-                                    <div className='flex mt-5'>
-                                        <div className='w-7 h-7 rounded-full border border-[#70685a] bg-[#70685a]'></div>
-                                        <div>
-                                            <label className="text-[black] pl-3 text-[15px] block text-center">名前名前名前名前</label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                         {/* send message*/}
                         <div className='w-full'>
@@ -178,8 +147,8 @@ export default function PurchaseToRShop() {
                         {/* reply  */}
                         <div className='w-full mt-5'>
                             {/* first */}
-                            <div className='w-full flex'>
-                                <div className='flex justify-between' style={{ width: '80%' }}>
+                            <div className='new-post-receive-reply-name w-full flex'>
+                                <div className='flex justify-between' style={{ width: '75%' }}>
                                     <div className='flex ml-20'>
                                         <div className='w-30 flex flex-col justify-center'>
                                             <label className="text-[black] font-bold text-[10px] block text-center">2024/12/30 23:25</label>
@@ -188,14 +157,14 @@ export default function PurchaseToRShop() {
                                             <label className="text-[black]  text-[15px] block text-left pl-5">[返信]</label>
                                         </div>
                                     </div>
+                                </div>
+                                <div style={{ width: '25%' }} className='new-post-receive-name flex justify-between'>
                                     <div className='flex'>
                                         <div className='w-7 h-7 rounded-full border border-[#70685a]'></div>
                                         <div>
                                             <label className="text-[black] pl-3 text-[15px] block text-center">宛先の名前</label>
                                         </div>
                                     </div>
-                                </div>
-                                <div style={{ width: '20%' }} className='flex justify-end'>
                                     <div className='flex'>
                                         <div className='w-7 h-7 rounded-full border border-[#70685a] bg-[#70685a]'></div>
                                         <div>
@@ -292,17 +261,19 @@ export default function PurchaseToRShop() {
                                 </div>
                             </div>
                             {/* secondline */}
-                            <div className='flex !mt-2' style={{ height: '40px' }}>
-                                <div style={{ width: '80%' }} className='flex justify-start'>
-                                    <InputComponent style={{ height: '40px' }} className='w-full mr-10' />
+                            <div className='new-post-operation-second flex !mt-2' style={{ height: '40px' }}>
+                                <div className='w-full flex'>  
+                                    <div className='w-full flex justify-start'>
+                                        <InputComponent style={{ height: '40px' }} className='w-full' />
+                                    </div>
+                                    <div >
+                                        < button type="button" className="w-max ml-10 px-5 py-1 font-semiblod rounded-lg justify-center text-[#70685a] text-[16px] bg-[#ebe6e0] hover:bg-blue-700 focus:outline-none">
+                                            ファイル
+                                        </button>
+                                    </div>
                                 </div>
-                                <div style={{ width: '10%' }}>
-                                    < button type="button" className="w-max px-5 m1-10 py-1 font-semiblod rounded-lg justify-center text-[#70685a] text-[16px] bg-[#ebe6e0] hover:bg-blue-700 focus:outline-none">
-                                        ファイル
-                                    </button>
-                                </div>
-                                <div style={{ width: '40%' }} className='mt-0.5 flex justify-end ml-5'>
-                                    <div className='flex flex-col justify-center ml-5'>
+                                <div className='new-post-operation-second-color mt-0.5 flex justify-end ml-10 w-max'>
+                                    <div className='flex flex-col justify-center'>
                                         <div className='flex gap-2.5'>
                                             <div className='w-6 h-6 border border-[#70685a] '></div>
                                             <div className='w-6 h-6 border border-[#70685a] '></div>
@@ -316,7 +287,6 @@ export default function PurchaseToRShop() {
                                             <div className='w-6 h-6 border border-[#70685a] '></div>
                                         </div>
                                     </div>
-
                                 </div>
                             </div>
                             {/* thirdline */}
