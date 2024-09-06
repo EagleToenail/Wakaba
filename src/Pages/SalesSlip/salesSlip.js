@@ -127,17 +127,20 @@ const SalesSlip = () => {
                                 </div>
                                 <div className='flex justify-center'>
                                     <div className=''>
-                                        <ButtonComponent className='!px-5 text-2xl ml-10' style={{ backgroundColor: '#9bd195', height: '40px' }} >
+                                        <ButtonComponent className='!px-5 text-2xl ml-5' style={{ backgroundColor: '#9bd195', height: '40px' }} >
                                             <Link>廃棄申請</Link>
                                         </ButtonComponent>
-                                        <div className='flex justify-centerb w-max ml-10'>
+                                        <div className='flex justify-centerb w-max ml-5'>
                                             <LabelComponent value={'行を選択してください'} />
                                         </div>
+                                    </div>
+                                    <div>
+                                        <ButtonComponent children={'新しい'} className='!px-5 text-2xl' style={{ height: '40px' }} />
                                     </div>
                                 </div>
                             </div>
                             <div className='sales-slip-next-button2 flex mt-5 w-1/2' >
-                                <ButtonComponent children={'売上表'} className='!px-5 text-2xl' style={{ backgroundColor: '#424242', height: '40px' }} />
+                                <ButtonComponent children={'売上表'} className='!px-5 text-2xl ml-5' style={{ backgroundColor: '#424242', height: '40px' }} />
                                 <ButtonComponent children={'業者査定シート'} className='!px-5 text-2xl'  style={{ backgroundColor: 'transparent', border: '1px solid #424242', color: '#424242', marginLeft: '30px', height: '40px' }} >
                                     <Link to='/contractorassessmentsheet'>業者査定シート</Link></ButtonComponent>
                                 <ButtonComponent children={'ヤフオク'} className='!px-5 text-2xl ' style={{ backgroundColor: 'transparent', border: '1px solid #424242', color: '#424242', marginLeft: '30px', height: '40px' }} >
@@ -183,68 +186,62 @@ const SalesSlip = () => {
                                 <table style={Table}>
                                     <thead>
                                         <tr>
-                                            <th rowSpan={2} className='px-2'>選択</th>
-                                            <th width='5%'  className='px-2' style={Th} rowSpan={2}>商品番号</th>
-                                            <th width='5%' className='px-2' style={Th} rowSpan={2}>わかばNo.</th>
-                                            <th width='10%' className='px-2' style={Th} rowSpan={2}><div className='border border-[black] rounded-md px-3  w-max'>入金日</div></th>
-                                            <th width='10%' className='px-2' style={Th} rowSpan={2}><div className='border border-[black] rounded-md px-3  w-max'>卸日</div></th>
-                                            <th width='10%' className='px-2' style={Th} rowSpan={2}><div className='border border-[black] rounded-md px-3  w-max'>&nbsp;ステー夕ス&nbsp;</div></th>
-                                            <th width='10%' className='px-2' style={Th} rowSpan={2}><div className='border border-[black] rounded-md px-3  w-max'>買取日</div></th>
-                                            <th width='10%' className='px-2' style={Th} rowSpan={2}><div className='border border-[black] rounded-md px-3  w-max'>買取担当</div></th>
+                                            <th rowSpan={2} className='px-2'>番号</th>
+                                            <th  className='px-2' style={Th} rowSpan={2}>日付</th>
+                                            <th className='px-2' style={Th} rowSpan={2}>買取担当.</th>
 
-                                            <th style={Th} colSpan={6}>個人情報</th>
+                                            <th style={Th} colSpan={4}>個人情報</th>
 
-                                            <th width='10%' style={Th} rowSpan={2} className='px-2'>カテゴリ-1</th>
-                                            <th width='10%' style={Th} rowSpan={2} className='px-2' >カテゴリ-2</th>
-                                            <th width='10%' style={Th} rowSpan={2} className='px-2' >カテゴリ-3</th>
-                                            <th width='10%' style={Th} rowSpan={2} className='px-2' >カテゴリ-4</th>
-                                            <th width='10%' style={Th} rowSpan={2} >画像</th>
-                                            <th width='5%' style={Th} rowSpan={2} >商品名</th>
-                                            <th width='5%' style={Th} rowSpan={2} >個数</th>
-                                            <th width='5%' style={Th} rowSpan={2} >粗利益</th>
-                                            <th width='5%' style={Th} rowSpan={2} >買取額</th>
-                                            <th width='10%' style={Th} rowSpan={2} >最高査定額</th>
-                                            <th width='5%' style={Th} rowSpan={2} ><svg className='h-10' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="ArrowRightIcon" title="ArrowRight"><path d="m10 17 5-5-5-5z"></path></svg></th>
-                                            <th width='5%' style={Th} rowSpan={2} >真贋</th>
+                                            <th  style={Th} rowSpan={2} >来店種別 </th>
+                                            <th  style={Th} rowSpan={2} >銘柄・種別 </th>
+                                            <th  style={Th} rowSpan={2} >販売店名</th>
+                                            <th style={Th} rowSpan={2} >商品種別1 </th>
+                                            <th style={Th} rowSpan={2} >商品種別2</th>
+                                            <th style={Th} rowSpan={2} >商品</th>
+                                            <th style={Th} rowSpan={2} >数 </th>
+                                            <th style={Th} rowSpan={2} >金種</th>
+                                            <th style={Th} rowSpan={2} >g/額面</th>
+                                            <th style={Th} rowSpan={2} >買取額</th>
+                                            <th style={Th} rowSpan={2} >売上額 </th>
+                                            <th style={Th} rowSpan={2} >送料</th>
+                                            <th style={Th} rowSpan={2} >粗利益</th>
+                                            <th style={Th} rowSpan={2} >卸し先</th>
+                                            <th style={Th} rowSpan={2} >卸日</th>
+                                            <th style={Th} rowSpan={2} >入金日</th>
                                         </tr>
                                         <tr>
-                                            <th width='5%' style={Th}className='px-2'>お名前</th>
-                                            <th width='5%' style={Th}className='px-2' >カナ</th>
-                                            <th width='5%' style={Th} className='px-2'>TEL</th>
-                                            <th width='10%' style={Th} className='px-2'>住所</th>
-                                            <th width='5%' style={Th} className='px-2'>来店種別-1</th>
-                                            <th width='5%' style={Th} className='px-2'>来店種別-2</th>
+                                            <th style={Th}className='px-2'>顧客名</th>
+                                            <th style={Th}className='px-2' >ヨミガナ</th>
+                                            <th style={Th} className='px-2'>電話番号 </th>
+                                            <th style={Th} className='px-2'>住所 </th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {sales.map(sale => (
+                                        {sales.map((sale,Index) => (
                                             <tr key={sale.id}>
-                                                <td><input type="checkbox"></input></td>
-                                                <td style={Td}>{sale.no}</td>
-                                                <td style={Td}>OOOO</td>
-                                                <td style={Td}>{sale.deposit_date}</td>
-                                                <td style={Td}>{sale.wholesale_date}</td>
-                                                <td style={Td}></td>
-                                                <td style={Td}></td>
-                                                <td style={Td}>{sale.purchasing_manager}</td>
-                                                <td style={Td}>{sale.customer_name}</td>
-                                                <td style={Td}>{sale.katakana_name}</td>
-                                                <td style={Td}>{sale.telephone_number}</td>
-                                                <td style={Td}>{sale.address}</td>
+                                                <td>{Index+1}</td>
+                                                <td style={Td}>{sale.trading_date}</td>
+                                                <td style={Td}>{sale.purchase_staff}</td>
+                                                <td style={Td}>{sale.Customer.full_name}</td>
+                                                <td style={Td}>{sale.Customer.katakana_name}</td>
+                                                <td style={Td}>{sale.Customer.phone_number}</td>
+                                                <td style={Td}>{sale.Customer.address}</td>
                                                 <td style={Td}>{sale.visit_type}</td>
-                                                <td style={Td}></td>
+                                                <td style={Td}>{sale.brand_type}</td>
+                                                <td style={Td}>{sale.store_name}</td>
                                                 <td style={Td}>{sale.product_type_one}</td>
                                                 <td style={Td}>{sale.product_type_two}</td>
-                                                <td style={Td}></td>
-                                                <td style={Td}></td>
-                                                <td style={Td}></td>
-                                                <td style={Td}>{sale.merchandise}</td>
-                                                <td style={Td}>{sale.number}</td>
-                                                <td style={Td}></td>
-                                                <td style={Td}>{sale.purchase_amount}</td>
-                                                <td style={Td}></td>
-                                                <td style={Td}></td>
-                                                <td style={Td}></td>
+                                                <td style={Td}>{sale.product}</td>
+                                                <td style={Td}>{sale.quantity}</td>
+                                                <td style={Td}>{sale.metal_type}</td>
+                                                <td style={Td}>{sale.price_per_gram}</td>
+                                                <td style={Td}>{sale.purchase_price}</td>
+                                                <td style={Td}>{sale.sales_amount}</td>
+                                                <td style={Td}>{sale.shipping_cost}</td>
+                                                <td style={Td}>{sale.gross_profit}</td>
+                                                <td style={Td}>{sale.wholesale_buyer}</td>
+                                                <td style={Td}>{sale.wholesale_date}</td>
+                                                <td style={Td}>{sale.payment_date}</td>
                                             </tr>
                                         ))}
                                     </tbody>

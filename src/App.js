@@ -35,6 +35,7 @@ import PurchaseInvoiceForBroughtInItems from './Pages/PurchaseInvoiceForBroughtI
 import WholeSalerShippingList from './Pages/WholeSalerShippingList/wholeSalerShippingList';//Wholesaler Shipping List
 import PurchaseRequestFormForWholeSaler from './Pages/PurchaseRequestFormForWholeSaler/purchaseRequestFormForWholeSaler';//Purchase requesr form
 import SalesSlip from './Pages/SalesSlip/salesSlip';//Sales slip
+import SalesSlipCreate from './Pages/SalesSlipCreate/salesSlipCreate';//SalesSlipCreate
 import ContractorAssessmentSheet from './Pages/ContractorAssessmentSheet/contractorAssessmentSheet';//Contractor assessment sheet
 import YahooAuction from './Pages/YahooAuctions/yahooAuction';//Yahoo Auctions
 import SalesList from './Pages/SalesList/salesList';//Sales List
@@ -113,6 +114,7 @@ function App() {
             <Route path='/wholesalershippinglist' element={<WholeSalerShippingList/>}/>
             <Route path='/purchaserequestformforwholesaler' element={<PurchaseRequestFormForWholeSaler/>}/>
             <Route path='/salesslip' element={<SalesSlip/>}/>
+            <Route path='/salesslipcreate' element={<SalesSlipCreate/>}/>
             <Route path='/contractorassessmentsheet' element={<ContractorAssessmentSheet/>}/>
             <Route path='/yahooauction' element={<YahooAuction/>}/>
             <Route path='/saleslist' element={<SalesList/>}/>
