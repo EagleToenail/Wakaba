@@ -150,36 +150,6 @@ const CustomerList = () => {
                         </div>
                     </div>
 
-                    {/* <div className=' px-2 mr-2 !text-center'>
-                        <LabelComponent value={'生年月日'} />
-                        <div className='flex'>
-                            <div style={{ flexDirection: 'column', }} className='flex align-center justify-around'>
-                                <input
-                                    name="birthDate"
-                                    type="text"
-                                    value={date}
-                                    required
-                                    className="w-40 h-10 text-[#6e6e7c] border border-[#6e6e7c] text-[20px] px-4 py-1 outline-[#70685a]"
-                                    readOnly
-                                />
-                            </div>
-                            <div style={{ flexDirection: 'column', }} className='flex flex-col justify-center pl-3'>
-                                <div style={{ width: '40px', height: '30px', cursor: 'pointer' }}>
-                                    <div style={{ position: 'relative' }}>
-                                        <img src={dateimage} style={{ width: '40px', height: '30px', position: 'absolute', cursor: 'pointer' }} alt='calendar' />
-                                        <input
-                                            type="date"
-                                            id="date"
-                                            name="date"
-                                            value={date}
-                                            onChange={handleDateChange}
-                                            style={{ position: 'absolute', left: '0', width: '40px', height: '30px', background: 'transparent', border: 'none', opacity: '0', cursor: 'pointer' }}
-                                        />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div> */}
                     <div className='flex mt-5'>
                         <div className=' text-[#70685a] px-2 mr-5 flex flex-col justify-end'>
                             <label className="text-[#70685a] text-[20px] block text-center pb-2">この条件で</label>

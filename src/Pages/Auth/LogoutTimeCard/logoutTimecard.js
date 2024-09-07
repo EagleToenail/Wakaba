@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-//import axios from 'axios'; // Import Axios
+import axios from 'axios'; // Import Axios
 import Titlebar from '../../../Components/Common/Titlebar';
 import DateAndTime from '../../../Components/Common/PickData';
 
@@ -22,8 +22,10 @@ const LoginTimeCard = () => {
             if (!wakabaBaseUrl) {
                 throw new Error('API base URL is not defined');
             }
-            //const response = await axios.post(`${wakabaBaseUrl}/logouttimecard`, { action });
-            //console.log('Success:', response.data);
+
+            const userId = localStorage.getItem('userId');
+            // const response = await axios.post(`${wakabaBaseUrl}/logouttime`, { action,userId });
+            // console.log('Success:', response.data);
             navigate('/clockedout');
         } catch (err) {
             setError(err.message || 'Something went wrong');
@@ -41,7 +43,7 @@ const LoginTimeCard = () => {
                 <div className="flex flex-col items-center justify-center py-6 px-4">
                     <div className="w-full pt-3" style={{ maxWidth: '80em' }}>
                         <div className="p-8 rounded-2xl">
-                            <h2 className="text-[#70685a] text-center text-2xl font-bold flex justify-center">ログイン時のタイムカード 機能</h2>
+                            <h2 className="text-[#70685a] text-center text-2xl font-bold flex justify-center">ログアウト時のタイムカード 機能</h2>
                             <h2 className="text-[#70685a] text-center text-2xl font-bold flex justify-center mt-10">退勤のタイムカードを打刻して良いですか?</h2>
                             <form className="mt-10 space-y-6">
                                 <div className='flex justify-center !mt-5'>
@@ -53,7 +55,7 @@ const LoginTimeCard = () => {
                                                 onClick={() => handleSubmit('clock-out')}
                                                 disabled={loading}
                                             >
-                                                打刻してログイン
+                                                打刻してログアウト
                                             </button>
                                             <button
                                                 type="button"
@@ -61,7 +63,7 @@ const LoginTimeCard = () => {
                                                 onClick={() => handleSubmit('skip-clock-out')}
                                                 disabled={loading}
                                             >
-                                                打刻せずにしてログイン
+                                                打刻せずにしてログアウト
                                             </button>
                                         </div>
                                     </div>
@@ -72,8 +74,10 @@ const LoginTimeCard = () => {
                                     </label>
                                 </div>
                             </form>
-                            {loading && <p>Loading...</p>}
-                            {error && <p className="text-red-500">{error}</p>}
+                            <div className='flex justify-center'>
+                                {loading && <p>ローディング...</p>}
+                                {error && <p className="text-red-500">{error}</p>}
+                            </div>
                         </div>
                     </div>
                 </div>

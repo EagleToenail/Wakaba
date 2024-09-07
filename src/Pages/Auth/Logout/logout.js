@@ -2,7 +2,7 @@ import React,{useState,useEffect} from 'react';
 import { Link,useNavigate } from 'react-router-dom';
 import Titlebar from '../../../Components/Common/Titlebar';
 import DateAndTime from '../../../Components/Common/nowdateandtime';
-//import axios from 'axios';
+import axios from 'axios';
 
 
 const Logout = () => {
@@ -29,8 +29,8 @@ const Logout = () => {
             if (!wakabaBaseUrl) {
                 throw new Error('API base URL is not defined');
             }
+            // await axios.post(`${wakabaBaseUrl}/logouttime`,);
             localStorage.clear();
-            //await axios.post(`${wakabaBaseUrl}/logout`);
             navigate('/');
         } catch (err) {
             setError('ログアウトに失敗しました。もう一度お試しください。');//Failed to logout. Please try again.

@@ -130,7 +130,7 @@ export default function Header() {
 
           <div className='flex max-lg:ml-auto space-x-3'>
             <button
-              className='px-4 text-sm rounded-full font-bold border-2 border-[#655b4a]  transition-all ease-in-out duration-300 hover:bg-transparent text-[#655b4a]'><Link to="/logout">ログアウト</Link></button>
+              className='px-4 text-sm rounded-full font-bold border-2 border-[#655b4a]  transition-all ease-in-out duration-300 hover:bg-transparent text-[#655b4a]'><Link to="/logouttimecard">ログアウト</Link></button>
 
             <button id="toggleOpen" className='lg:hidden' onClick={handleClick}>
               <svg className="w-7 h-7" fill="#000" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">

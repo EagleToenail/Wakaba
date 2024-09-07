@@ -1,15 +1,19 @@
-import React from 'react'
+import React,{useState} from 'react'
 import InputComponent from '../../Components/Common/InputComponent';
 import LabelComponent from '../../Components/Common/LabelComponent';
 
 export default function TODOList() {
 
-    // useEffect(() => {
-    //     document.body.style.overflow = 'hidden';
-    //     return () => {
-    //         document.body.style.overflow = 'auto';
-    //     };
-    // }, []);
+    const [textColor, setTextColor] = useState('black');
+      // Handle button click
+    const handleColorChange = (color) => {
+        setTextColor(color);
+    };
+    const [textMessageColor, setTextMessageColor] = useState('black');
+      // Handle button click
+    const handleMessageColorChange = (color) => {
+        setTextMessageColor(color);
+    };
 
     return (
         <>
@@ -68,25 +72,25 @@ export default function TODOList() {
                                             {/* rect-btn-gurope 8 */}
                                             <div className='flex mt-2'>
                                                 <div className='mr-1'>
-                                                    <div className='w-5 h-5 border border-[#70685a]'></div>
-                                                    <div className='w-5 h-5 border border-[#70685a] mt-1'></div>
+                                                    <button type="button" onClick={()=>handleMessageColorChange('#ff0000')} className='w-5 h-5 border border-[#70685a] bg-[#ff0000]'></button>
+                                                    <button type="button" onClick={()=>handleMessageColorChange('#0000ff')} className='w-5 h-5 border border-[#70685a] bg-[#0000ff]'></button>
                                                 </div>
                                                 <div className='mr-1'>
-                                                    <div className='w-5 h-5 border border-[#70685a]'></div>
-                                                    <div className='w-5 h-5 border border-[#70685a] mt-1'></div>
+                                                    <button type="button" onClick={()=>handleMessageColorChange('#ee82ee')} className='w-5 h-5 border border-[#70685a] bg-[#ee82ee]'></button>
+                                                    <button type="button" onClick={()=>handleMessageColorChange('#3cb371')} className='w-5 h-5 border border-[#70685a] bg-[#3cb371]'></button>
                                                 </div>
                                                 <div className='mr-1'>
-                                                    <div className='w-5 h-5 border border-[#70685a]'></div>
-                                                    <div className='w-5 h-5 border border-[#70685a] mt-1'></div>
+                                                    <button type="button" onClick={()=>handleMessageColorChange('#ffa500')} className='w-5 h-5 border border-[#70685a] bg-[#ffa500]'></button>
+                                                    <button type="button" onClick={()=>handleMessageColorChange('#6a5acd')} className='w-5 h-5 border border-[#70685a] bg-[#6a5acd]'></button>
                                                 </div>
                                                 <div className='mr-1'>
-                                                    <div className='w-5 h-5 border border-[#70685a]'></div>
-                                                    <div className='w-5 h-5 border border-[#70685a] mt-1'></div>
+                                                    <button type="button" onClick={()=>handleMessageColorChange('#3c3c3c')} className='w-5 h-5 border border-[#70685a] bg-[#3c3c3c]'></button>
+                                                    <button type="button" onClick={()=>handleMessageColorChange('#616161')} className='w-5 h-5 border border-[#70685a] bg-[#616161]'></button>
                                                 </div>
                                             </div>
                                         </div>
                                         <div>
-                                            <label className="text-[black] pl-3 text-[15px] block text-left" style={{ width: '100%', overflow: 'scroll' }}>
+                                            <label className="text-[black] pl-3 text-[15px] block text-left" style={{ width: '100%',color:textMessageColor, overflow: 'scroll' }}>
                                                 テキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキスト
                                                 テキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキスト
                                                 テキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキスト
@@ -239,7 +243,7 @@ export default function TODOList() {
                             <div className='new-post-operation-second flex !mt-2' style={{ height: '40px' }}>
                                 <div className='w-full flex'>  
                                     <div className='w-full flex justify-start'>
-                                        <InputComponent style={{ height: '40px' }} className='w-full' />
+                                        <InputComponent style={{ height: '40px',color:textColor }} className='w-full' name='file_name'/>
                                     </div>
                                     <div >
                                         < button type="button" className="w-max ml-10 px-5 py-1 font-semiblod rounded-lg justify-center text-[#70685a] text-[16px] bg-[#ebe6e0] hover:bg-blue-700 focus:outline-none">
@@ -250,16 +254,16 @@ export default function TODOList() {
                                 <div className='new-post-operation-second-color mt-0.5 flex justify-end ml-10 w-max'>
                                     <div className='flex flex-col justify-center'>
                                         <div className='flex gap-2.5'>
-                                            <div className='w-6 h-6 border border-[#70685a] '></div>
-                                            <div className='w-6 h-6 border border-[#70685a] '></div>
-                                            <div className='w-6 h-6 border border-[#70685a] '></div>
-                                            <div className='w-6 h-6 border border-[#70685a] '></div>
-                                            <div className='w-6 h-6 border border-[#70685a] '></div>
-                                            <div className='w-6 h-6 border border-[#70685a] '></div>
-                                            <div className='w-6 h-6 border border-[#70685a] '></div>
-                                            <div className='w-6 h-6 border border-[#70685a] '></div>
-                                            <div className='w-6 h-6 border border-[#70685a] '></div>
-                                            <div className='w-6 h-6 border border-[#70685a] '></div>
+                                             <button type="button" onClick={()=>handleColorChange('#ff0000')} className='w-6 h-6 border border-[#70685a] bg-[#ff0000]'></button>
+                                            <button type="button" onClick={()=>handleColorChange('#0000ff')} className='w-6 h-6 border border-[#70685a] bg-[#0000ff]'></button>
+                                            <button type="button" onClick={()=>handleColorChange('#ee82ee')} className='w-6 h-6 border border-[#70685a] bg-[#ee82ee]'></button>
+                                            <button type="button" onClick={()=>handleColorChange('#3cb371')} className='w-6 h-6 border border-[#70685a] bg-[#3cb371]'></button>
+                                            <button type="button" onClick={()=>handleColorChange('#ffa500')} className='w-6 h-6 border border-[#70685a] bg-[#ffa500]'></button>
+                                            <button type="button" onClick={()=>handleColorChange('#6a5acd')} className='w-6 h-6 border border-[#70685a] bg-[#6a5acd]'></button>
+                                            <button type="button" onClick={()=>handleColorChange('#3c3c3c')} className='w-6 h-6 border border-[#70685a] bg-[#3c3c3c]'></button>
+                                            <button type="button" onClick={()=>handleColorChange('#616161')} className='w-6 h-6 border border-[#70685a] bg-[#616161]'></button>
+                                            <button type="button" onClick={()=>handleColorChange('#15bbc6')} className='w-6 h-6 border border-[#70685a] bg-[#15bbc6]'></button>
+                                            <button type="button" onClick={()=>handleColorChange('#e0bbc6')} className='w-6 h-6 border border-[#70685a] bg-[#e0bbc6]'></button>
                                         </div>
                                     </div>
                                 </div>
@@ -267,7 +271,7 @@ export default function TODOList() {
                             {/* thirdline */}
                             <div className='flex mt-2' style={{ height: '40px' }}>
                                 <div style={{ width: '85%' }}>
-                                    <InputComponent style={{ height: '40px' }} className="w-full" />
+                                    <InputComponent style={{ height: '40px',color:textColor}} className="w-full" name='post_content'/>
                                 </div>
                                 <div className='ml-10'>
                                     < button type="button" className=" w-max px-10 py-1 font-semiblod rounded-lg justify-center text-[#70685a] text-[16px] bg-[#ebe6e0] hover:bg-blue-700 focus:outline-none">

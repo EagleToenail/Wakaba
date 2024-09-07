@@ -83,7 +83,7 @@ const LoginTimeCard = () => {
                                 </div>
                             </form>
                             <div className='flex justify-center'>
-                                {loading && <p>Loading...</p>}
+                                {loading && <p>ローディング...</p>}
                                 {error && <p className="text-red-500">{error}</p>}
                             </div>
 

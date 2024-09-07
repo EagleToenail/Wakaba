@@ -24,7 +24,7 @@ const ClockedOut = () => {
             }
             //const response = await axios.post(`${wakabaBaseUrl}/clockout`, { action });
             //console.log('Success:', response.data);
-            navigate('/');
+            navigate('/logout');
         } catch (err) {
             setError(err.message || 'Something went wrong');
             console.error('Error:', err);
@@ -68,12 +68,12 @@ const ClockedOut = () => {
                                     </div>
                                     <label className="text-[#70685a] font-bold mb-2 block text-left flex justify-end align-end" style={{ flexDirection: 'column', width: '20%' }}>
                                         <u className='flex justify-center'>
-                                            <Link to='/login'>キャンセル</Link>
+                                            <Link to='/'>キャンセル</Link>
                                         </u>
                                     </label>
                                 </div>
                             </form>
-                            {loading && <p>Loading...</p>}
+                            {loading && <p>ローディング...</p>}
                             {error && <p className="text-red-500">{error}</p>}
                         </div>
                     </div>
