@@ -141,7 +141,6 @@ const CustomerIndividual = () => {
     }, []);
     // Fetch customer data
     const { id } = useParams();
-    console.log('id', id);
 
     useEffect(() => {
 

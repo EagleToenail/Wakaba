@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Link ,useNavigate} from 'react-router-dom';
+import { Link ,useNavigate,useParams} from 'react-router-dom';
 import axios from 'axios';
 import InputComponent from '../../Components/Common/InputComponent';
 import ButtonComponent from '../../Components/Common/ButtonComponent';
@@ -13,7 +13,7 @@ import { setData } from '../../redux/sales/actions';
 
 // THIS PAGE SHOULD HAVE VERTICAL SCROLL BAR : Onishi Comment Aug-22 2024
 
-const SalesSlipCreate = () => {
+const SalesSlipUpdate = () => {
 
     const Table = {
         borderCollapse: 'collapse',
@@ -55,8 +55,25 @@ const SalesSlipCreate = () => {
         wholesale_date:'',
         payment_date:''
     });
-//total data:
-    const [totalSalesSlipData,setTotalSalesSlipData] = useState([]);
+
+    const { id } = useParams();
+
+    useEffect(() => {
+        const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+        if (!wakabaBaseUrl) {
+            throw new Error('API base URL is not defined');
+        }
+
+        console.log(`${wakabaBaseUrl}/sales/getSalesById`);
+        axios.get(`${wakabaBaseUrl}/sales/getSalesById/${id}`)
+            .then(response => {
+                console.log("123",response.data)
+                setSalesSlipData(response.data);
+            })
+            .catch(error => {
+                console.error("There was an error fetching the customer data!", error);
+            });
+    }, [id]);
 
     const navigate = useNavigate();
 
@@ -70,64 +87,29 @@ const SalesSlipCreate = () => {
 
 
     const [customers, setCustomers] = useState([]);
-
+    const customerId = salesSlipData.customer_id;
     useEffect(() => {
+
         const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+
         if (!wakabaBaseUrl) {
             throw new Error('API base URL is not defined');
         }
-
-        console.log(`${wakabaBaseUrl}/customer/getCustomerList`);
-        axios.get(`${wakabaBaseUrl}/customer/getCustomerList`)
+        // const customerId = salesSlipData.customer_id;
+        console.log('aaa',customerId)
+        if(customerId) {
+            axios.get(`${wakabaBaseUrl}/customer/getCustomerById/${customerId}`)
             .then(response => {
+                console.log("data", response.data)
                 setCustomers(response.data);
             })
             .catch(error => {
                 console.error("There was an error fetching the customer data!", error);
             });
-    }, []);
-
-    const [searchParams, setSearchParams] = useState({
-        name: '',
-        tel: '',
-        address: '',
-        birthDate: ''
-    });
-        // Handle input change
-    const handleSearchChange = (e) => {
-        const { name, value } = e.target;
-        setSearchParams({
-            ...searchParams,
-            [name]: value
-        });
-    };
-
-    // Handle search form submission
-    const handleSearch = (e) => {
-        e.preventDefault();
-        console.log('searchParms', searchParams);
-        const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
-        console.log('url', wakabaBaseUrl);
-        if (!wakabaBaseUrl) {
-            throw new Error('API base URL is not defined');
         }
-        axios.post(`${wakabaBaseUrl}/customer/search`, { params: searchParams })
-            .then(response => {
-                setCustomers(response.data);
-            })
-            .catch(error => {
-                console.error("There was an error searching for customers!", error);
-            });
-    };
 
+    }, [customerId]);
 
-    const [customerName, setCustomerName] = useState('');
-    const selectCustomer = (value) => {
-        console.log(value,'fullname')
-        setSalesSlipData({customer_id:value});
-        setCustomerName(customers[value-1].full_name);
-        console.log(customers[value-1].full_name,'fullname')
-    }
 
     const [product1, setProduct1] = useState([]);
     useEffect(() => {
@@ -163,61 +145,30 @@ const SalesSlipCreate = () => {
 
     const dispatch = useDispatch();
 
-    const updateData = (totalSalesSlipData) => {
-      dispatch(setData(totalSalesSlipData));
-    };
+    // const updateData = (totalSalesSlipData) => {
+    //   dispatch(setData(totalSalesSlipData));
+    // };
 
     const handlePurchaseSubmit = async (e) => {
         e.preventDefault();
-        if(totalSalesSlipData.length == 0) {
-            console.log('sales data',[salesSlipData]);
-            updateData([salesSlipData]);
-            navigate('/purchaseinvoiceforbroughtinitems');
-        } else {
-            console.log('sales data',totalSalesSlipData);
-            updateData(totalSalesSlipData);
-            navigate('/purchaseinvoiceforbroughtinitems');
+
+        try {
+            const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+
+            if (!wakabaBaseUrl) {
+                throw new Error('API base URL is not defined');
+            }
+            const response = await axios.post(`${wakabaBaseUrl}/sales/updateSales`,{id,salesSlipData});
+            //console.log('Response:', response.data);
+            // Handle successful response here
+            navigate('/salesslip'); // Navigate to the profile page after closing the modal
+        } catch (error) {
+            console.error('Error submitting form:', error);
+            // Handle error here
         }
-
-        // try {
-        //     const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
-
-        //     if (!wakabaBaseUrl) {
-        //         throw new Error('API base URL is not defined');
-        //     }
-        //     const response = await axios.post(`${wakabaBaseUrl}/sales/createSales`,salesSlipData);
-        //     //console.log('Response:', response.data);
-        //     // Handle successful response here
-        //     navigate('/salesslip'); // Navigate to the profile page after closing the modal
-        // } catch (error) {
-        //     console.error('Error submitting form:', error);
-        //     // Handle error here
-        // }
     };
     
-    const addItem = () => {
-        setTotalSalesSlipData((prevSalesSlipDatas) => [...prevSalesSlipDatas, { ...salesSlipData, id: Date.now() }]);
-        setSalesSlipData({
-            trading_date:salesSlipData.trading_date,
-            purchase_staff:salesSlipData.purchase_staff,
-            customer_id:salesSlipData.customer_id,
-            visit_type:salesSlipData.visit_type,
-            brand_type:salesSlipData.brand_type,
-            store_name:salesSlipData.store_name,
-            product_type_one:salesSlipData.product_type_one,
-            product_type_two:salesSlipData.product_type_two,
-            product:salesSlipData.product,
-            quantity:salesSlipData.quantity,
-            metal_type:salesSlipData.metal_type,
-            price_per_gram:salesSlipData.price_per_gram,
-            purchase_price:salesSlipData.purchase_price,
-            // sales_amount:'',
-            // shipping_cost:'',
-            // wholesale_buyer:'',
-            // wholesale_date:'',
-            // payment_date:''
-        });
-    }
+
 
     return (
         <>
@@ -226,101 +177,9 @@ const SalesSlipCreate = () => {
                 <div className=" flex flex-col items-center justify-center px-4">
                     <div className="w-full pt-3" style={{ maxWidth: '50em' }}>
                         <div className=" rounded-2xl">
-                            <h2 className="text-[#70685a] text-center text-2xl font-bold flex justify-center">売上伝票作成</h2>
-                            {/*==== Customer table =====*/}
-                            <div className='flex mt-3 justify-center text-left'>
-                                    <form className='flex flex-wrap justify-center' onSubmit={handleSearch}>
-                                        <div className='customer-name-tel flex justify-center'>
-                                            <div className='flex mt-5'>
-                                                <div className=' text-[#70685a] px-2 mr-2 text-left'>
-                                                    <LabelComponent value={'氏名'} className='text-left' />
-                                                    <InputComponent
-                                                        name="name"
-                                                        value={searchParams.name}
-                                                        onChange={handleSearchChange}
-                                                        className="w-[20vh] h-[40px]"
-                                                    />
-                                                </div>
-                                                <div className=' text-[#70685a] px-2 mr-2'>
-                                                    <LabelComponent value={'TEL'} />
-                                                    <InputComponent
-                                                        name="tel"
-                                                        value={searchParams.tel}
-                                                        onChange={handleSearchChange}
-                                                        className="w-[20vh] h-[40px]"
-                                                    />
-                                                </div>
-                                            </div>
-                                            <div className='text-[#70685a] px-2 mr-2 mt-5'>
-                                                <LabelComponent value={'住所'} />
-                                                <InputComponent
-                                                    name="address"
-                                                    value={searchParams.address}
-                                                    onChange={handleSearchChange}
-                                                className="w-[40vh] h-[40px]"
-                                                />
-                                            </div>
-                                        </div>
+                            <h2 className="text-[#70685a] text-center text-2xl font-bold flex justify-center">売上票編集</h2>
 
-                                        <div className='flex mt-5'>
-                                            <div className=' text-[#70685a] px-2 mr-5 flex flex-col justify-end'>
-                                                <label className="text-[#70685a] text-[20px] block text-center pb-2">この条件で</label>
-                                            </div>
-                                            <div className=' text-[#70685a] px-2 mr-2 flex flex-col justify-end'>
-                                                <button
-                                                    type="submit" 
-                                                    style={{ display: 'flex', alignItems: 'end' }}
-                                                    className="flex align-end w-20 px-3 py-2 font-bold rounded-md tracking-wide text-[#655b4d] justify-center text-[] bg-[#ebe6e0] hover:bg-blue-700 focus:outline-none"
-                                                >
-                                                    検索
-                                                </button>
-                                            </div>
-                                            <div className=' text-[#70685a] px-2 mr-5 flex flex-col justify-end'>
-                                                <label className="text-[#70685a] mb-2 block text-center pb-13">(and条件)</label>
-                                            </div>
-                                        </div>
-
-                                    </form>
-                                </div>
-
-                                <div className='mt-5 pb-20 w-full flex'>
-                                    <div style={{ width: '100%', overflow: 'auto' }} >
-                                        <table className='text-center w-full' style={Table}>
-                                            <thead>
-                                                <tr>
-                                                    <th style={Th}>ID</th>
-                                                    <th style={Th}>氏名</th>
-                                                    <th style={Th}>カタカナ名</th>
-                                                    <th style={Th}>TEL</th>
-                                                    <th  style={Th}className='flex justify-center'>
-                                                        <label className='flex flex-col justify-center'>住所詳細</label>
-                                                        {/* <svg className='h-10' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="ArrowRightIcon" title="ArrowRight">
-                                                            <path d="m10 17 5-5-5-5z"></path>
-                                                        </svg> */}
-                                                    </th>
-                                                    <th style={Th}>契機</th>
-                                                    <th style={Th}>ショップ</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                {customers.map(customer => (
-                                                    <tr key={customer.id} onClick={()=>selectCustomer(customer.id)} className='cursor-pointer'>
-                                                        <td style={Td}>{customer.id}</td>
-                                                        <td style={Td} >{customer.full_name}</td>
-                                                        <td style={Td}>{customer.katakana_name}</td>
-                                                        <td style={Td}>{customer.phone_number}</td>
-                                                        <td style={Td}> {customer.address} </td>
-                                                        <td style={Td}>{customer.opportunity}</td>
-                                                        <td style={Td}>{customer.shop}</td>
-                                                    </tr>
-                                                ))}
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            {/*===== Customer table====== */}
-
-                            <div className=" space-y-6" >
+                            <div className=" space-y-6 mt-10" >
                                 {/* /==========================================/ */}
                                 {/* new */}
                                 <div className='flex'>
@@ -328,7 +187,7 @@ const SalesSlipCreate = () => {
                                         <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">顧客</label>
                                     </div>
                                     <div style={{ width: '50%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                        <label className="w-full h-11 text-[#70685a] font-bold border border-[#70685a] px-4 py-2 outline-[#70685a]">{customerName || ''}</label>
+                                        <label className="w-full h-11 text-[#70685a] font-bold border border-[#70685a] px-4 py-2 outline-[#70685a]">{customers.full_name}</label>
                                     </div>
                                 </div>
                                 {/* new */}
@@ -337,7 +196,7 @@ const SalesSlipCreate = () => {
                                         <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">来店種別 </label>
                                     </div>
                                     <div style={{ width: '50%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                        <input name="visit_type" onChange={handleChange} value={salesSlipData.visit_type} type="text" required className="w-full text-[#70685a] border border-[#70685a] px-4 py-2 outline-[#70685a]" />
+                                        <input name="visit_type" onChange={handleChange} value={salesSlipData.visit_type} type="text" required className="w-full text-[#70685a] border border-[#70685a] px-4 py-2 outline-[#70685a]"  readOnly/>
                                     </div>
                                 </div>
                                 {/* new */}
@@ -346,7 +205,7 @@ const SalesSlipCreate = () => {
                                         <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">銘柄・種別 </label>
                                     </div>
                                     <div style={{ width: '50%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                        <input name="brand_type" onChange={handleChange} value={salesSlipData.brand_type} type="text" required className="w-full text-[#70685a] border border-[#70685a] px-4 py-2 outline-[#70685a]" />
+                                        <input name="brand_type" onChange={handleChange} value={salesSlipData.brand_type} type="text" required className="w-full text-[#70685a] border border-[#70685a] px-4 py-2 outline-[#70685a]" readOnly/>
                                     </div>
                                 </div>
                                 {/* new */}
@@ -373,7 +232,7 @@ const SalesSlipCreate = () => {
                                         <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">買取担当 </label>
                                     </div>
                                     <div style={{ width: '50%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                        <input name="purchase_staff" onChange={handleChange} value={salesSlipData.purchase_staff} type="text"  className="w-full text-[#70685a] border border-[#70685a] px-4 py-2 outline-[#70685a]" />
+                                        <input name="purchase_staff" onChange={handleChange} value={salesSlipData.purchase_staff} type="text"  className="w-full text-[#70685a] border border-[#70685a] px-4 py-2 outline-[#70685a]" readOnly/>
                                     </div>
                                 </div>
 
@@ -383,39 +242,9 @@ const SalesSlipCreate = () => {
                                         <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">販売店名 </label>
                                     </div>
                                     <div style={{ width: '50%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                        <input name="store_name" onChange={handleChange} value={salesSlipData.store_name} type="text" required className="w-full text-[#70685a] border border-[#70685a] px-4 py-2 outline-[#70685a]" />
+                                        <input name="store_name" onChange={handleChange} value={salesSlipData.store_name} type="text" required className="w-full text-[#70685a] border border-[#70685a] px-4 py-2 outline-[#70685a]" readOnly/>
                                     </div>
                                 </div>
-                                {/* sales table */}
-                                <div className='mt-5 pb-20 w-full flex'>
-                                    <div style={{ width: '100%', overflow: 'auto' }} >
-                                        <table className='text-center w-full' style={Table}>
-                                            <thead>
-                                                <tr>
-                                                    <th style={Th}>ID</th>
-                                                    <th style={Th}>商品種別1</th>
-                                                    <th style={Th}>商品種別2</th>
-                                                    <th style={Th}>商品</th>
-                                                    <th  style={Th}>数</th>
-                                                    <th style={Th}>買取額</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                {totalSalesSlipData.map((salesData,Index) => (
-                                                    <tr key={Index} >
-                                                        <td style={Td}>{Index+1}</td>
-                                                        <td style={Td} >{salesData.product_type_one}</td>
-                                                        <td style={Td}>{salesData.product_type_two}</td>
-                                                        <td style={Td}>{salesData.product}</td>
-                                                        <td style={Td}> {salesData.quantity} </td>
-                                                        <td style={Td}>{salesData.purchase_price}</td>
-                                                    </tr>
-                                                ))}
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-
                                 {/* new */}
                                 <div className='flex'>
                                     <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
@@ -450,7 +279,7 @@ const SalesSlipCreate = () => {
                                         <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">買取額</label>
                                     </div>
                                     <div style={{ width: '50%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                        <input name="purchase_price" onChange={handleChange} value={salesSlipData.purchase_price || ''} required type="number" className="w-full text-[#70685a] border border-[#70685a] px-4 py-2 outline-[#70685a]" />
+                                        <input name="purchase_price" onChange={handleChange} value={salesSlipData.purchase_price} required type="number" className="w-full text-[#70685a] border border-[#70685a] px-4 py-2 outline-[#70685a]" />
                                     </div>
                                 </div>
                                 {(salesSlipData.product_type_one == "貴金属") && (
@@ -497,43 +326,43 @@ const SalesSlipCreate = () => {
                                     <div style={{ width: '35%', flexDirection: 'column', }} className='flex align-center justify-around'>
                                         <input name="quantity" onChange={handleChange} value={salesSlipData.quantity} type="number" required className="w-full text-[#70685a] border border-[#70685a] px-4 py-2 outline-[#70685a]" />
                                     </div>
-                                    <div style={{ width: '35%'}} className='flex justify-center'>
+                                    {/* <div style={{ width: '35%'}} className='flex justify-center'>
                                             <button name='add_item' type="button" onClick={addItem} className="w-[150px] !px-3 h-11 font-bold text-[white] border border-[#70685a] tracking-wide rounded-lg justify-center t bg-[#a3a1c8] hover:bg-blue-700 focus:outline-none">
                                             アイテム追加
                                             </button>
-                                    </div>
+                                    </div> */}
                                 </div>
                                 {/* ------------------------- HR -------------------------*/}
                                 <hr className="my-5 font-bold  border-gray-400" />
                                 {/* new */}
-                                {/* <div className='flex'>
+                                <div className='flex'>
                                     <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
                                         <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">売上額</label>
                                     </div>
                                     <div style={{ width: '50%', flexDirection: 'column', }} className='flex align-center justify-around'>
                                         <input name="sales_amount" onChange={handleChange} value={salesSlipData.sales_amount || ''} required type="number" className="w-full text-[#70685a] border border-[#70685a] px-4 py-2 outline-[#70685a]" />
                                     </div>
-                                </div> */}
+                                </div>
                                 {/* new */}
-                                {/* <div className='flex'>
+                                <div className='flex'>
                                     <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
                                         <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">送料 </label>
                                     </div>
                                     <div style={{ width: '50%', flexDirection: 'column', }} className='flex align-center justify-around'>
                                         <input name="shipping_cost" onChange={handleChange} value={salesSlipData.shipping_cost || ''} required type="number" className="w-full text-[#70685a] border border-[#70685a] px-4 py-2 outline-[#70685a]" />
                                     </div>
-                                </div> */}
+                                </div>
                                 {/* new */}
-                                {/* <div className='flex'>
+                                <div className='flex'>
                                     <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
                                         <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">卸し先 </label>
                                     </div>
                                     <div style={{ width: '60%', flexDirection: 'column', }} className='flex align-center justify-around'>
                                         <input name="wholesale_buyer" onChange={handleChange} value={salesSlipData.wholesale_buyer} required type="text" className="w-full text-[#70685a] border border-[#70685a] px-4 py-2 outline-[#70685a]" />
                                     </div>
-                                </div> */}
+                                </div>
                                 {/* new */}
-                                {/* <div className='flex'>
+                                <div className='flex'>
                                     <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
                                         <label className="text-[#70685a] font-bold mb-2 block text-right mr-11 py-1 !mb-0">卸日</label>
                                     </div>
@@ -549,9 +378,9 @@ const SalesSlipCreate = () => {
                                             </div>
                                         </div>
                                     </div>
-                                </div> */}
+                                </div>
                                 {/* new */}
-                                {/* <div className='flex'>
+                                <div className='flex'>
                                     <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
                                         <label className="text-[#70685a] font-bold mb-2 block text-right mr-11 py-1 !mb-0">入金日</label>
                                     </div>
@@ -567,7 +396,7 @@ const SalesSlipCreate = () => {
                                             </div>
                                         </div>
                                     </div>
-                                </div> */}
+                                </div>
                                 {/* /==========================================/ */}
                                 <div className='flex justify-between !mt-5 pb-10' >
 
@@ -589,4 +418,4 @@ const SalesSlipCreate = () => {
     );
 };
 
-export default SalesSlipCreate;
+export default SalesSlipUpdate;

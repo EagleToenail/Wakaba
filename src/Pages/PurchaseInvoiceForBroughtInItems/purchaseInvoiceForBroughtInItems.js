@@ -1,15 +1,74 @@
-import React , {useState,useEffect} from 'react';
-// import { Link } from 'react-router-dom';
+import React , {useState,useEffect,useRef} from 'react';
+import { useNavigate } from 'react-router-dom';
 import Titlebar from '../../Components/Common/Titlebar';
-import '../../Assets/css/showtable.css'
-import '../../Assets/css/firstTd.css'
+import '../../Assets/css/showtable.css';
+import '../../Assets/css/firstTd.css';
+import axios from 'axios';
 // import InputComponent from '../../Components/Common/InputComponent';
 import ButtonComponent from '../../Components/Common/ButtonComponent';
 // import LabelComponent from '../../Components/Common/LabelComponent';
+import { useSelector } from 'react-redux';
+import SignatureCanvas from 'react-signature-canvas';
 
 
 const PurchaseInvoiceForBroughtInItems = () => {
     const title = 'タイトルタイトル';
+    const sigCanvas = useRef(null);
+    const navigate = useNavigate();
+    const data = useSelector(state => state.data);
+    const purchaseData = data.data;
+
+    const [totalQuantity, setTotalQuantity] = useState('');
+    const [totalPrice, setTotalPrice] = useState('');
+  
+    // Calculate total quantity
+    const calculateTotalQuantity = () => {
+      const total = purchaseData.reduce((sum, item) => sum + (item.quantity || 0), 0);
+      setTotalQuantity(total);
+    };
+  
+    // Calculate total price
+    const calculateTotalPrice = () => {
+      const total = purchaseData.reduce((sum, item) => sum + (item.purchase_price || 0), 0);
+      setTotalPrice(total);
+    };
+  
+    useEffect(() => {
+      calculateTotalQuantity();
+      calculateTotalPrice();
+    }, [purchaseData]); // Recalculate whenever purchaseData changes
+
+    const [customer, setCustomer] = useState([]);
+
+    useEffect(() => {
+        const customerId = data.data[0].customer_id;
+        if(customerId != '' && customerId !=null){
+            const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+            if (!wakabaBaseUrl) {
+                throw new Error('API base URL is not defined');
+            }
+
+            console.log(`${wakabaBaseUrl}/customer/getCustomerById`);
+            axios.get(`${wakabaBaseUrl}/customer/getCustomerById/${customerId}`)
+                .then(response => {
+                    setCustomer(response.data);
+                    console.log('customerdata',response.data);
+                })
+                .catch(error => {
+                    console.error("There was an error fetching the customer data!", error);
+                });
+        }
+    }, []);
+
+    useEffect(() => {
+        // Set overflow to hidden when the component mounts
+        document.body.style.overflow = 'auto';
+
+        // Cleanup function to reset overflow when component unmounts
+        return () => {
+            document.body.style.overflow = 'hidden';
+        };
+    }, []);
 
     const Table = {
         borderCollapse: 'collapse',
@@ -61,12 +120,48 @@ const PurchaseInvoiceForBroughtInItems = () => {
  
     const formattedDateTime = formatDateTime(dateTime);
 
+    const [agree ,setAgree] = useState({
+        agree:false,
+        disagree:false
+    });
+    const agreeCheck = (e) => {
+        const {name} = e.target;
+        const {value} = e.target.checked;
+        setAgree({
+            ...agree,
+            [name]: value
+        });
+    }
+
+    const confirmAgree = async () => {
+        const dataUrl = sigCanvas.current.toDataURL();
+        console.log('Signature Data URL:', dataUrl);
+        console.log('received data',data.data[0].customer_id)
+
+        try {
+            const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+
+            if (!wakabaBaseUrl) {
+                throw new Error('API base URL is not defined');
+            }
+            const response = await  axios.post(`${wakabaBaseUrl}/purchaseinvoice`,{dataUrl, purchaseData});
+            //console.log('Response:', response.data);
+            // Handle successful response here
+            navigate('/salesslip'); // Navigate to the profile page after closing the modal
+        } catch (error) {
+            console.error('Error submitting form:', error);
+            // Handle error here
+        }
+
+    }
     return (<>
+    {data.length != 0 && (
+        <div>
         <Titlebar title={title} />
         <div className="bg-[trasparent] font-[sans-serif]">
             <div className='flex justify-center'>
                 <div className="w-full pt-3" style={{ maxWidth: '80em' }}>
-                    <h2 className="text-[#70685a] text-center font-bold text-[15px] flex justify-end mt-3" style={{ paddingRight: '1%' }}><span className='mr-5'>来店時間</span>&nbsp;{formattedDateTime}</h2>
+                    <h2 className="text-[#70685a] text-center font-bold flex justify-end mt-3" style={{ paddingRight: '1%' }}><span className='mr-5'>来店時間</span>&nbsp;{formattedDateTime}</h2>
                     {/* header */}
                     <div className='flex justify-between'>
                         <div className='' style={{ width: '25%' }}>
@@ -81,50 +176,50 @@ const PurchaseInvoiceForBroughtInItems = () => {
                             <div className='flex'>
                                 <label className="text-[#70685a] font-bold mb-2 block text-left mr-3 !mb-0">店舗名</label>
                                 <div>
-                                    <label className="text-[#70685a] font-bold mb-2 block text-left !mb-0">OOOO OOOO OOOOOO</label>
+                                    <label className="text-[#70685a] font-bold mb-2 block text-left !mb-0">{data.data[0].store_name}</label>
                                 </div>
                             </div>
                         </div>
                         <div style={{ width: '50%' }}>
                             <div className='flex justify-center'>
-                                <label className="text-[#70685a] font-bold mb-2 text-[20px] block text-left !mb-0">持ち込み商品 買取計算書</label>
+                                <label className="text-[#70685a] font-bold mb-2 text-2xl block text-left !mb-0">持ち込み商品 買取計算書</label>
                             </div>
                         </div>
                         <div style={{ width: '25%' }}>
-                            <div className='flex pt-3'>
-                                <label className="text-[#70685a] font-bold mb-2 block text-left mr-3 !mb-0">接客担当</label>
-                                <label className="text-[#70685a] font-bold mb-2 block text-left !mb-0">OOOO OOOO OOOOOO</label>
+                            <div className='flex pt-3 w-full justify-end'>
+                                <label className="w-[70%] text-[#70685a] font-bold mb-2 block text-left mr-3 !mb-0">接客担当</label>
+                                <label className="text-[#70685a] font-bold mb-2 block text-left !mb-0">OOOO</label>
                             </div>
-                            <div className='flex'>
-                                <label className="text-[#70685a] font-bold mb-2 block text-left mr-3 !mb-0">支払担当</label>
-                                <label className="text-[#70685a] font-bold mb-2 block text-left !mb-0">OOOO OOOO OOOOOO</label>
+                            <div className='flex w-full justify-end'>
+                                <label className="w-[70%] text-[#70685a] font-bold mb-2 block text-left mr-3 !mb-0">支払担当</label>
+                                <label className="text-[#70685a] font-bold mb-2 block text-left !mb-0">OOOO</label>
                             </div>
-                            <div className='flex'>
-                                <label className="text-[#70685a] font-bold mb-2 block text-left mr-3 !mb-0">次回の現金還元額</label>
-                                <label className="text-[#70685a] font-bold mb-2 block text-left !mb-0">OOOO OOOO OOOOOO</label>
+                            <div className='flex w-full justify-end'>
+                                <label className=" w-[70%] text-[#70685a] font-bold mb-2 block text-left mr-3 !mb-0">次回の現金還元額</label>
+                                <label className="text-[#70685a] font-bold mb-2 block text-left !mb-0">OOOO</label>
                             </div>
                         </div>
                     </div>
                     {/* first line */}
-                    <div className='flex'>
+                    <div className='flex mt-10'>
                         <div style={{ width: '20%' }}>
                             <label className="text-[#70685a] font-bold mb-2 block text-right mr-3 !mb-0">会員番号</label>
                         </div>
                         <div style={{ width: '80%' }} className='flex justify-between'>
-                            <label className="text-[#70685a]  mb-2 block text-left !mb-0">OOOO OO</label>
+                            <label className="text-[#70685a]  mb-2 block text-left !mb-0">{customer.id}</label>
                             <label className="text-[#70685a] font-bold mb-2 block text-left !mb-0">VIP</label>
-                            <label className="text-[#70685a] font-bold mb-2 block text-left !mb-0">男</label>
+                            <label className="text-[#70685a] font-bold mb-2 block text-left !mb-0">{customer.gender}</label>
                             <div className='flex'>
                                 <label className="text-[#70685a] font-bold mb-2 block text-left !mb-0 mr-5">お名前</label>
-                                <label className="text-[#70685a]  mb-2 block text-left !mb-0">OOOO OOO</label>
+                                <label className="text-[#70685a]  mb-2 block text-left !mb-0">{customer.full_name}</label>
                             </div>
                             <div className='flex'>
                                 <label className="text-[#70685a] font-bold mb-2 block text-left !mb-0 mr-5">カ夕力ナ名</label>
-                                <label className="text-[#70685a]  mb-2 block text-left !mb-0">OOOO OO</label>
+                                <label className="text-[#70685a]  mb-2 block text-left !mb-0">{customer.katakana_name}</label>
                             </div>
                             <div className='flex'>
                                 <label className="text-[#70685a] font-bold mb-2 block text-left !mb-0 mr-5">生年月日</label>
-                                <label className="text-[#70685a]  mb-2 block text-left !mb-0 mr-10">OOOO OOO</label>
+                                <label className="text-[#70685a]  mb-2 block text-left !mb-0 mr-10">{customer.birthday}</label>
                             </div>
                         </div>
                     </div>
@@ -134,14 +229,14 @@ const PurchaseInvoiceForBroughtInItems = () => {
                             <label className="text-[#70685a] font-bold mb-2 block text-right mr-3 !mb-0">お電話番号</label>
                         </div>
                         <div style={{ width: '60%' }} className='flex justify-between'>
-                            <label className="text-[#70685a]  mb-2 block text-left !mb-0">OOOO OO</label>
+                            <label className="text-[#70685a]  mb-2 block text-left !mb-0">{customer.phone_number}</label>
                             <div className='flex'>
                                 <label className="text-[#70685a] font-bold mb-2 block text-left !mb-0 mr-5">e-mail</label>
                                 <label className="text-[#70685a]  mb-2 block text-left !mb-0 ">OOOO OOO</label>
                             </div>
                             <div className='flex'>
                                 <label className="text-[#70685a] font-bold mb-2 block text-left !mb-0 mr-5">ご職業</label>
-                                <label className="text-[#70685a]  mb-2 block text-left !mb-0">OOOO OO</label>
+                                <label className="text-[#70685a]  mb-2 block text-left !mb-0">{customer.opportunity}</label>
                             </div>
                         </div>
                     </div>
@@ -151,7 +246,7 @@ const PurchaseInvoiceForBroughtInItems = () => {
                             <label className="text-[#70685a] font-bold mb-2 block text-right mr-3 !mb-0">ご住所</label>
                         </div>
                         <div style={{ width: '60%' }} className='flex justify-between'>
-                            <label className="text-[#70685a]  mb-2 block text-left !mb-0">OOOO OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO</label>
+                            <label className="text-[#70685a]  mb-2 block text-left !mb-0">{customer.address}</label>
                         </div>
                     </div>
                     {/* forth line */}
@@ -189,19 +284,24 @@ const PurchaseInvoiceForBroughtInItems = () => {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td ><input type='checkbox' /></td>
+                                        {purchaseData.map((purchase,Index)=>(
+                                            <tr key={Index}>
+                                            <td >{Index+1}.</td>
                                             <td style={Td}>                            
-                                                <select id="gender" name="gender" className="w-full text-[#70685a] font-bold  px-4 py-1 outline-[#70685a]">
+                                                {/* <select id="gender" name="gender" className="w-full text-[#70685a] font-bold  px-4 py-1 outline-[#70685a]">
                                                 <option value="1">種別</option>
                                                 <option value="2">Afg</option>
                                                 <option value="3">Åland</option>
                                                 <option value="4">Albania</option>
-                                            </select></td>
-                                            <td style={Td}>OOOOOOOOOOO</td>
-                                            <td style={Td}>1</td>
-                                            <td style={Td}>100</td>
+                                            </select> */}
+                                            {purchase.product_type_one}
+                                            </td>
+                                            <td style={Td}>{purchase.product}</td>
+                                            <td style={Td}>{purchase.quantity}</td>
+                                            <td style={Td}>{purchase.purchase_price}</td>
                                         </tr>
+                                        ))}
+
                                     </tbody>
 
                                 </table>
@@ -216,8 +316,8 @@ const PurchaseInvoiceForBroughtInItems = () => {
                                 <div>
                                     <label className="text-[#70685a] font-bold mb-2 block text-right mr-3 !mb-0">買取合計金額</label>
                                     <div className='flex justify-end'>
-                                        <label className="text-[#70685a] font-bold mb-2 block text-right mr-3 !mb-0">999点</label>
-                                        <label className="text-[#70685a] font-bold mb-2 block text-right mr-3 !mb-0">9999999円</label>
+                                        <label className="text-[#70685a] font-bold mb-2 block text-right mr-3 !mb-0">{totalQuantity}点</label>
+                                        <label className="text-[#70685a] font-bold mb-2 block text-right mr-3 !mb-0">{totalPrice}円</label>
                                     </div>
                                 </div>
 
@@ -231,22 +331,22 @@ const PurchaseInvoiceForBroughtInItems = () => {
                             <div style={{ width: '50%' }} className='flex justify-center'>
                                 <div>
                                     <label className="text-[#70685a] font-bold mb-2 block text-left mr-3 pt-1 !mb-0 flex">
-                                         <span className='w-1 flex flex-col justify-center mr-3'>
+                                        <span className='w-1 flex flex-col justify-center mr-3'>
                                                 <svg  focusable="false" fill="#70685a" aria-hidden="true" viewBox="0 0 24 24" data-testid="CircleIcon" title="Circle"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2"></path></svg>
                                             </span>
                                             売却後は、商品に対して一切の返却申し立てを行いません。</label>
                                     <label className="text-[#70685a] font-bold mb-2 block text-left mr-3 pt-1 !mb-0 flex">
-                                         <span className='w-1 flex flex-col justify-center mr-3'>
+                                        <span className='w-1 flex flex-col justify-center mr-3'>
                                                 <svg  focusable="false" fill="#70685a" aria-hidden="true" viewBox="0 0 24 24" data-testid="CircleIcon" title="Circle"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2"></path></svg>
                                             </span>
                                             売却商品は全て本物です。売却後貴社基準外商品と判明した場合は、即座に返金いたします。</label>
                                     <label className="text-[#70685a] font-bold mb-2 block text-left mr-3 pt-1 !mb-0 flex">
-                                         <span className='w-1 flex flex-col justify-center mr-3'>
+                                        <span className='w-1 flex flex-col justify-center mr-3'>
                                                 <svg  focusable="false" fill="#70685a" aria-hidden="true" viewBox="0 0 24 24" data-testid="CircleIcon" title="Circle"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2"></path></svg>
                                             </span>
                                             個人情報の取扱にいて、了承いしました。</label>
                                     <label className="text-[#70685a] font-bold mb-2 block text-left mr-3 pt-1 !mb-0 flex">
-                                         <span className='w-1 flex flex-col justify-center mr-3'>
+                                        <span className='w-1 flex flex-col justify-center mr-3'>
                                                 <svg  focusable="false" fill="#70685a" aria-hidden="true" viewBox="0 0 24 24" data-testid="CircleIcon" title="Circle"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2"></path></svg>
                                             </span>
                                             私は反社会勢力ではないことを表明し、確約いたします。</label>
@@ -261,7 +361,7 @@ const PurchaseInvoiceForBroughtInItems = () => {
                         
                             <div style={{ width: '55%',paddingLeft:'6.3%' }} className='flex'>
                                 <div className='flex'>
-                                    <input type='checkbox' style={{ marginTop: '5px' }}/>
+                                    <input type='checkbox' style={{ marginTop: '5px' }} name='disagree' checked={agree.agree} onChange={agreeCheck}/>
                                     <label className="text-[#70685a] font-bold mb-2 block text-left mr-3 pt-1 mr-30 ml-2 !mb-0"> 私は適格請求書業者ではありません。</label>
                                 </div>
 
@@ -273,7 +373,8 @@ const PurchaseInvoiceForBroughtInItems = () => {
                         <div className='w-full pt-1 flex justify-center' style={{ maxWidth: '80em' }}>
                         
                             <div style={{ width: '39%',height:'150px'}} className='flex'>
-                                <div className='border border-[black] h-wull w-full'>   
+                                <div className='border border-[black] h-wull w-full'>  
+
                                 </div>
                             </div>
                         </div>
@@ -284,7 +385,7 @@ const PurchaseInvoiceForBroughtInItems = () => {
                         
                             <div style={{ width: '55%',paddingLeft:'6.3%' }} className='flex'>
                                 <div className='flex'>
-                                    <input type='checkbox' style={{ marginTop: '5px' }}/>
+                                    <input type='checkbox' style={{ marginTop: '5px' }} name='agree' checked={agree.disagree} onChange={agreeCheck}/>
                                     <label className="text-[#70685a] font-bold mb-2 block text-left mr-3 pt-1 mr-30 ml-2 !mb-0"> 規約を熟読して了承しました。</label>
                                 </div>
 
@@ -309,8 +410,14 @@ const PurchaseInvoiceForBroughtInItems = () => {
                     <div className="flex justify-center" >
                         <div className='w-full pt-1 flex justify-center' style={{ maxWidth: '80em' }}>
                         
-                            <div style={{ width: '70%',height:'150px'}} className='flex'>
-                                <div className='border border-[black] h-wull w-full'>   
+                            <div style={{ width: '70%',height:'200px'}} className='flex'>
+                                <div className='w-full h-full flex justify-center'>  
+                                    <SignatureCanvas
+                                        ref={sigCanvas}
+                                        penColor='black'
+                                        canvasProps={{width: 500, height: 200, className: 'signature-canvas,pt-2 border border-[black]' }}
+                                        backgroundColor='white'
+                                    /> 
                                 </div>
                             </div>
                         </div>
@@ -318,13 +425,15 @@ const PurchaseInvoiceForBroughtInItems = () => {
                     {/* Button */}
                     <div className="flex justify-center pt-5 mb-10" >
                         <div className='w-full pt-1 flex justify-center' style={{ maxWidth: '80em' }}>
-                               <ButtonComponent children={'買取を了承します'} className=""/> 
+                            <ButtonComponent children={'買取を了承します'} className="" onClick={confirmAgree}/> 
                         </div>
                     </div>
 
                 </div>
             </div>
         </div>
+    </div> 
+    )}  
     </>
     );
 };

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link,useNavigate } from 'react-router-dom';
-//import axios from 'axios'; // Import Axios
+import axios from 'axios'; // Import Axios
 import Titlebar from '../../../Components/Common/Titlebar';
 import DateAndTime from '../../../Components/Common/PickData';
 
@@ -15,22 +15,29 @@ const ClockedOut = () => {
     const handleAction = async (action) => {
         setLoading(true);
         setError(null);
-        try {
+        if(action =='clock-out' ){
+            try {
 
-            const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
-
-            if (!wakabaBaseUrl) {
-                throw new Error('API base URL is not defined');
+                const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+    
+                if (!wakabaBaseUrl) {
+                    throw new Error('API base URL is not defined');
+                }
+                const userId = localStorage.getItem('userId');
+                const response = await axios.post(`${wakabaBaseUrl}/logouttime`, { action,userId });
+                console.log('Success:', response.data);
+                navigate('/logout');
+            } catch (err) {
+                setError(err.message || 'Something went wrong');
+                console.error('Error:', err);
+            } finally {
+                setLoading(false);
             }
-            //const response = await axios.post(`${wakabaBaseUrl}/clockout`, { action });
-            //console.log('Success:', response.data);
-            navigate('/logout');
-        } catch (err) {
-            setError(err.message || 'Something went wrong');
-            console.error('Error:', err);
-        } finally {
-            setLoading(false);
+        } else {
+            localStorage.clear();
+            navigate('/');
         }
+
     };
 
     return (
@@ -68,7 +75,7 @@ const ClockedOut = () => {
                                     </div>
                                     <label className="text-[#70685a] font-bold mb-2 block text-left flex justify-end align-end" style={{ flexDirection: 'column', width: '20%' }}>
                                         <u className='flex justify-center'>
-                                            <Link to='/'>キャンセル</Link>
+                                            <Link to='/logouttimecard'>キャンセル</Link>
                                         </u>
                                     </label>
                                 </div>

@@ -2,7 +2,6 @@ import React,{useState,useEffect} from 'react';
 import { Link,useNavigate } from 'react-router-dom';
 import Titlebar from '../../../Components/Common/Titlebar';
 import DateAndTime from '../../../Components/Common/nowdateandtime';
-import axios from 'axios';
 
 
 const Logout = () => {
@@ -21,22 +20,10 @@ const Logout = () => {
 
     const handleLogout = async () => {
         setLoading(true);
-        try {
 
-            // API URL should be stored in your environment variables
-            const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+        localStorage.clear();
+        navigate('/');
 
-            if (!wakabaBaseUrl) {
-                throw new Error('API base URL is not defined');
-            }
-            // await axios.post(`${wakabaBaseUrl}/logouttime`,);
-            localStorage.clear();
-            navigate('/');
-        } catch (err) {
-            setError('ログアウトに失敗しました。もう一度お試しください。');//Failed to logout. Please try again.
-        } finally {
-            setLoading(false);
-        }
     };
 
     return (
@@ -68,7 +55,7 @@ const Logout = () => {
                                         </button>
                                         </div>
                                     </div>
-                                    <label className="text-[#70685a] font-bold mb-2 block text-left flex justify-end" style={{ flexDirection: 'column',width:'20%' }}><u> <Link to='/todolist'>キャンセル</Link></u></label>
+                                    {/* <label className="text-[#70685a] font-bold mb-2 block text-left flex justify-end" style={{ flexDirection: 'column',width:'20%' }}><u> <Link to='/checkedout'>キャンセル</Link></u></label> */}
                                 </div>
                                 {error && <div className="text-red-500 text-center flex justify-center">{error}</div>}
                             </form>

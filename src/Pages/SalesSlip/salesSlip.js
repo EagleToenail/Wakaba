@@ -1,5 +1,5 @@
 import React,{ useState, useEffect } from 'react';
-import {Link } from 'react-router-dom';
+import {Link ,useNavigate} from 'react-router-dom';
 import axios from 'axios';
 // import Titlebar from '../../Components/Common/Titlebar';
 // import InputComponent from '../../Components/Common/InputComponent';
@@ -9,7 +9,7 @@ import LabelComponent from '../../Components/Common/LabelComponent';
 
 const SalesSlip = () => {
     // const title = 'タイトルタイトル';
-
+    const navigate = useNavigate(); // Use useNavigate instead of useHistory
     const Table = {
         borderCollapse: 'collapse',
         color: '#70685a',
@@ -105,6 +105,9 @@ const SalesSlip = () => {
             });
     };
 
+    const handleSalesEditClick = (id) => {
+        navigate(`/salesslipupdate/${id}`); // Use navigate for routing
+    };
 
     return (
         <>
@@ -208,12 +211,14 @@ const SalesSlip = () => {
                                             <th style={Th} rowSpan={2} >卸し先</th>
                                             <th style={Th} rowSpan={2} >卸日</th>
                                             <th style={Th} rowSpan={2} >入金日</th>
+                                            <th rowSpan={2} ></th>
                                         </tr>
                                         <tr>
                                             <th style={Th}className='px-2'>顧客名</th>
                                             <th style={Th}className='px-2' >ヨミガナ</th>
                                             <th style={Th} className='px-2'>電話番号 </th>
                                             <th style={Th} className='px-2'>住所 </th>
+                                            
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -242,6 +247,11 @@ const SalesSlip = () => {
                                                 <td style={Td}>{sale.wholesale_buyer}</td>
                                                 <td style={Td}>{sale.wholesale_date}</td>
                                                 <td style={Td}>{sale.payment_date}</td>
+                                                <td  onClick={() => handleSalesEditClick(sale.id)}>
+                                                    <svg className="w-5 h-5 ml-5" fill='#70685a' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="ContentCopyIcon" title="ContentCopy">
+                                                        <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2m0 16H8V7h11z"></path>
+                                                    </svg>
+                                                </td>
                                             </tr>
                                         ))}
                                     </tbody>

@@ -1,38 +1,20 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios'; // Import Axios
 import Titlebar from '../../../Components/Common/Titlebar';
 import DateAndTime from '../../../Components/Common/PickData';
 
 const LoginTimeCard = () => {
     const title = 'タイトルタイトル';
-    const [loading, setLoading] = useState(false); // Loading state
-    const [error, setError] = useState(null); // Error state
-
     const navigate = useNavigate();
 
     // Function to handle form submission
     const handleSubmit = async (action) => {
-        setLoading(true);
-        setError(null);
-        try {
-
-            const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
-
-            if (!wakabaBaseUrl) {
-                throw new Error('API base URL is not defined');
+            if(action == 'clock-out'){
+                navigate('/clockedout');
+            } else {
+                navigate('/logout');
             }
-
-            const userId = localStorage.getItem('userId');
-            // const response = await axios.post(`${wakabaBaseUrl}/logouttime`, { action,userId });
-            // console.log('Success:', response.data);
-            navigate('/clockedout');
-        } catch (err) {
-            setError(err.message || 'Something went wrong');
-            console.error('Error:', err);
-        } finally {
-            setLoading(false);
-        }
+            
     };
 
     return (
@@ -53,7 +35,6 @@ const LoginTimeCard = () => {
                                                 type="button"
                                                 className="w-[280px] px-5 py-2 mt-5 font-bold tracking-wide rounded-lg justify-center text-white bg-[#e87a00] hover:bg-blue-700 focus:outline-none"
                                                 onClick={() => handleSubmit('clock-out')}
-                                                disabled={loading}
                                             >
                                                 打刻してログアウト
                                             </button>
@@ -61,7 +42,6 @@ const LoginTimeCard = () => {
                                                 type="button"
                                                 className="w-[280px] px-5 py-2 mt-5 font-bold tracking-wide rounded-lg justify-center border border-[#70685a] text-[#70685a] bg-[white] hover:bg-blue-700 focus:outline-none"
                                                 onClick={() => handleSubmit('skip-clock-out')}
-                                                disabled={loading}
                                             >
                                                 打刻せずにしてログアウト
                                             </button>
@@ -75,8 +55,6 @@ const LoginTimeCard = () => {
                                 </div>
                             </form>
                             <div className='flex justify-center'>
-                                {loading && <p>ローディング...</p>}
-                                {error && <p className="text-red-500">{error}</p>}
                             </div>
                         </div>
                     </div>
