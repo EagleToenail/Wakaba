@@ -1,5 +1,5 @@
 import React , {useState,useEffect,useRef} from 'react';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 import Titlebar from '../../Components/Common/Titlebar';
 import '../../Assets/css/showtable.css';
 import '../../Assets/css/firstTd.css';
@@ -9,12 +9,14 @@ import ButtonComponent from '../../Components/Common/ButtonComponent';
 // import LabelComponent from '../../Components/Common/LabelComponent';
 import { useSelector } from 'react-redux';
 import SignatureCanvas from 'react-signature-canvas';
+import html2canvas from 'html2canvas';
+import { jsPDF } from 'jspdf';
 
 
 const PurchaseInvoiceForBroughtInItems = () => {
     const title = 'タイトルタイトル';
     const sigCanvas = useRef(null);
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
     const data = useSelector(state => state.data);
     const purchaseData = data.data;
 
@@ -23,15 +25,20 @@ const PurchaseInvoiceForBroughtInItems = () => {
   
     // Calculate total quantity
     const calculateTotalQuantity = () => {
-      const total = purchaseData.reduce((sum, item) => sum + (item.quantity || 0), 0);
+      const total = purchaseData.reduce((sum, item) => parseInt(sum) + (parseInt(item.quantity) || 0), 0);
       setTotalQuantity(total);
     };
   
     // Calculate total price
     const calculateTotalPrice = () => {
-      const total = purchaseData.reduce((sum, item) => sum + (item.purchase_price || 0), 0);
+      const total = purchaseData.reduce((sum, item) => parseFloat(sum) + (parseFloat(parseFloat(item.purchase_price)*parseFloat(item.quantity)) || 0), 0);
       setTotalPrice(total);
     };
+
+    const formatQuantityForDisplay = (quantity) => {
+        // Convert the number to a string and remove any leading zeros
+        return quantity.toString().replace(/^0+/, '');
+      };
   
     useEffect(() => {
       calculateTotalQuantity();
@@ -42,7 +49,7 @@ const PurchaseInvoiceForBroughtInItems = () => {
 
     useEffect(() => {
         const customerId = data.data[0].customer_id;
-        if(customerId != '' && customerId !=null){
+        if(customerId !== '' && customerId !==null){
             const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
             if (!wakabaBaseUrl) {
                 throw new Error('API base URL is not defined');
@@ -120,47 +127,100 @@ const PurchaseInvoiceForBroughtInItems = () => {
  
     const formattedDateTime = formatDateTime(dateTime);
 
-    const [agree ,setAgree] = useState({
-        agree:false,
-        disagree:false
-    });
-    const agreeCheck = (e) => {
-        const {name} = e.target;
-        const {value} = e.target.checked;
-        setAgree({
-            ...agree,
-            [name]: value
-        });
-    }
+    const [checked, setChecked] = useState(null);
+    const handleCheckboxChange = (value) => {
+        setChecked(checked === value ? null : value);
+    };
+
+    const clear = () => sigCanvas.current.clear();//clear signature
+    const [error, setError] = useState(null);
+
+    //create pdf
+    const handleSavePageAsPDF = async () => {
+        const element = document.getElementById('purchaseInvoice');
+        if (!element) {
+          console.error('Element not found');
+          return;
+        }
+    
+        try {
+                // Capture the content of the element
+                const canvas = await html2canvas(element, {
+                    scale: 2, // Higher scale for better resolution
+                    useCORS: true // Handle CORS for external resources
+                });
+
+                const imgData = canvas.toDataURL('image/png');
+
+                // Create a PDF with dimensions matching the captured image
+                const imgWidth = canvas.width * 0.75 / 96 * 25.4; // Convert pixels to mm
+                const imgHeight = canvas.height * 0.75 / 96 * 25.4; // Convert pixels to mm
+
+                // Create a new jsPDF instance
+                const pdf = new jsPDF({
+                    orientation: imgWidth > imgHeight ? 'l' : 'p', // Landscape or Portrait
+                    unit: 'mm',
+                    format: [imgWidth, imgHeight] // Set PDF format to the dimensions of the captured content
+                });
+
+                // Add image to PDF
+                pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
+
+                // Save the PDF to the user's device
+                const pdfBlob = pdf.output('blob');
+                const url = URL.createObjectURL(pdfBlob);
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = 'page-content.pdf';
+                link.click();
+                URL.revokeObjectURL(url);
+          // Save the PDF to the server
+          // Ensure your API endpoint is HTTPS
+        //   const formData = new FormData();
+        //   formData.append('file', pdfBlob, 'page-content.pdf');
+    
+        //   await fetch('https://your-domain.com/api/upload-pdf', {
+        //     method: 'POST',
+        //     body: formData
+        //   });
+    
+        } catch (error) {
+          console.error('Error generating PDF:', error);
+        }
+    };
 
     const confirmAgree = async () => {
-        const dataUrl = sigCanvas.current.toDataURL();
-        console.log('Signature Data URL:', dataUrl);
-        console.log('received data',data.data[0].customer_id)
-
-        try {
-            const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
-
-            if (!wakabaBaseUrl) {
-                throw new Error('API base URL is not defined');
-            }
-            const response = await  axios.post(`${wakabaBaseUrl}/purchaseinvoice`,{dataUrl, purchaseData});
-            //console.log('Response:', response.data);
-            // Handle successful response here
-            navigate('/salesslip'); // Navigate to the profile page after closing the modal
-        } catch (error) {
-            console.error('Error submitting form:', error);
-            // Handle error here
-        }
+        handleSavePageAsPDF();
+        // const dataUrl = sigCanvas.current.toDataURL();
+        // console.log('Signature Data URL:', dataUrl);
+        // console.log('received data',data.data[0].customer_id)
+        // if(checked === 'agree' && dataUrl != null) {
+        //     try {
+        //         const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+    
+        //         if (!wakabaBaseUrl) {
+        //             throw new Error('API base URL is not defined');
+        //         }
+        //         const response = await  axios.post(`${wakabaBaseUrl}/purchaseinvoice`,{dataUrl, purchaseData});
+        //         //console.log('Response:', response.data);
+        //         // Handle successful response here
+        //         navigate('/salesslip'); // Navigate to the profile page after closing the modal
+        //     } catch (error) {
+        //         console.error('Error submitting form:', error);
+        //         // Handle error here
+        //     }
+        // } else {
+        //     setError('リクエストの処理にエラーが発生しました。もう一度ご確認ください。');//There was an error processing your request. Please check again.
+        // }
 
     }
     return (<>
-    {data.length != 0 && (
-        <div>
+    {data.length !== 0 && (
+        <div >
         <Titlebar title={title} />
-        <div className="bg-[trasparent] font-[sans-serif]">
+        <div id='purchaseInvoice' className="bg-[trasparent] font-[sans-serif]">
             <div className='flex justify-center'>
-                <div className="w-full pt-3" style={{ maxWidth: '80em' }}>
+                <div className="w-full pt-3 pl-5 pr-5" style={{ maxWidth: '80em' }}>
                     <h2 className="text-[#70685a] text-center font-bold flex justify-end mt-3" style={{ paddingRight: '1%' }}><span className='mr-5'>来店時間</span>&nbsp;{formattedDateTime}</h2>
                     {/* header */}
                     <div className='flex justify-between'>
@@ -316,8 +376,8 @@ const PurchaseInvoiceForBroughtInItems = () => {
                                 <div>
                                     <label className="text-[#70685a] font-bold mb-2 block text-right mr-3 !mb-0">買取合計金額</label>
                                     <div className='flex justify-end'>
-                                        <label className="text-[#70685a] font-bold mb-2 block text-right mr-3 !mb-0">{totalQuantity}点</label>
-                                        <label className="text-[#70685a] font-bold mb-2 block text-right mr-3 !mb-0">{totalPrice}円</label>
+                                        <label className="text-[#70685a] font-bold mb-2 block text-right mr-3 !mb-0">{formatQuantityForDisplay(totalQuantity)}点</label>
+                                        <label className="text-[#70685a] font-bold mb-2 block text-right mr-3 !mb-0">{formatQuantityForDisplay(totalPrice)}円</label>
                                     </div>
                                 </div>
 
@@ -360,10 +420,10 @@ const PurchaseInvoiceForBroughtInItems = () => {
                         <div className='w-full pt-1 flex justify-center' style={{ maxWidth: '80em' }}>
                         
                             <div style={{ width: '55%',paddingLeft:'6.3%' }} className='flex'>
-                                <div className='flex'>
-                                    <input type='checkbox' style={{ marginTop: '5px' }} name='disagree' checked={agree.agree} onChange={agreeCheck}/>
+                                {/* <div className='flex'>
+                                    <input type='checkbox' style={{ marginTop: '5px' }} name='disagree'  checked={checked === 'disagree'}  onChange={() => handleCheckboxChange('disagree')}/>
                                     <label className="text-[#70685a] font-bold mb-2 block text-left mr-3 pt-1 mr-30 ml-2 !mb-0"> 私は適格請求書業者ではありません。</label>
-                                </div>
+                                </div> */}
 
                             </div>
                         </div>
@@ -385,7 +445,7 @@ const PurchaseInvoiceForBroughtInItems = () => {
                         
                             <div style={{ width: '55%',paddingLeft:'6.3%' }} className='flex'>
                                 <div className='flex'>
-                                    <input type='checkbox' style={{ marginTop: '5px' }} name='agree' checked={agree.disagree} onChange={agreeCheck}/>
+                                    <input type='checkbox' style={{ marginTop: '5px' }} name='agree'  checked={checked === 'agree'}  onChange={() => handleCheckboxChange('agree')}/>
                                     <label className="text-[#70685a] font-bold mb-2 block text-left mr-3 pt-1 mr-30 ml-2 !mb-0"> 規約を熟読して了承しました。</label>
                                 </div>
 
@@ -399,8 +459,9 @@ const PurchaseInvoiceForBroughtInItems = () => {
                                 <div className='flex justify-center'>
                                     <label className="text-[#70685a] text-[20px] font-bold mb-2 block text-left mr-3 pt-1 mr-30 ml-2 !mb-0">上記の全てを了承した上で、売却に同意してサインいたします。</label>
                                 </div>
-                                <div className='flex justify-center pt-2'>
+                                <div className='flex justify-center pt-2 gap-10'>
                                     <label className="text-[#70685a] font-bold text-[20px] mb-2 block text-left mr-3 pt-1 mr-30 ml-2 !mb-0"> お客様 サイン</label>
+                                    <ButtonComponent children={'クリア'} className="bg-[transparent] border border-[#70685a] !text-[#70685a] !px-5 !py-0" onClick={clear}/> 
                                 </div>
 
                             </div>
@@ -425,7 +486,7 @@ const PurchaseInvoiceForBroughtInItems = () => {
                     {/* Button */}
                     <div className="flex justify-center pt-5 mb-10" >
                         <div className='w-full pt-1 flex justify-center' style={{ maxWidth: '80em' }}>
-                            <ButtonComponent children={'買取を了承します'} className="" onClick={confirmAgree}/> 
+                            <ButtonComponent children={'買取を了承します'} className="!py-2" onClick={confirmAgree}/> 
                         </div>
                     </div>
 
@@ -433,7 +494,8 @@ const PurchaseInvoiceForBroughtInItems = () => {
             </div>
         </div>
     </div> 
-    )}  
+    )}
+     {error && <div className="text-red-500 flex justify-center pb-20">{error}</div>}  
     </>
     );
 };

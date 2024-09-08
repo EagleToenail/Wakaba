@@ -150,7 +150,7 @@ const CustomerIndividual = () => {
             throw new Error('API base URL is not defined');
         }
 
-        axios.get(`${wakabaBaseUrl}/customer/getUserByCustomer/${id}`)
+        axios.get(`${wakabaBaseUrl}/customer/getCustomerById/${id}`)
             .then(response => {
                 console.log("data", response.data)
                 setCustomer(response.data);

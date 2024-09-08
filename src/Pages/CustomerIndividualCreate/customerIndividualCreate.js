@@ -215,11 +215,27 @@ const CustomerIndividualCreate = () => {
     const onClose = () => {
         setIsCreateModalOpen(false);
     }
-
+    //create-symbol
+    const formatPhoneNumber = (number) => {
+        // Ensure the number is a string
+        const numStr = number.toString();
+        
+        // Extract parts of the string
+        const part1 = numStr.slice(0, 3);    // First 3 digits
+        const part2 = numStr.slice(3, 7);    // Next 4 digits
+        const part3 = numStr.slice(7);       // Last 4 digits
+    
+        // Combine parts with dashes
+        return `${part1}-${part2}-${part3}`;
+    };
 
     const handleCreateSubmit = async (e) => {
         e.preventDefault();
         setIsCreateModalOpen(false);
+
+        const formattedNumber = formatPhoneNumber(customer.phone_number);
+        customer.phone_number =  formattedNumber;
+
         const formDataObj = new FormData();
         formDataObj.append('id', customer.id);
         formDataObj.append('shop', customer.shop);

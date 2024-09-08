@@ -164,7 +164,7 @@ const Profile = () => {
                     'Content-Type': 'multipart/form-data',
                 },
             });
-            //console.log('Response:', response.data);
+            console.log('Response:', response.data);
             setAvatarImageFile(null);
             setPledgeImageFile(null);
             setResumePdfFile(null);

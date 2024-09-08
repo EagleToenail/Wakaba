@@ -41,10 +41,10 @@ const SalesSlip = () => {
             throw new Error('API base URL is not defined');
         }
 
-        console.log(`${wakabaBaseUrl}/sales/getSalesList`);
+        // console.log(`${wakabaBaseUrl}/sales/getSalesList`);
         axios.get(`${wakabaBaseUrl}/sales/getSalesList`)
             .then(response => {
-                console.log(response.data)
+                // console.log(response.data)
                 setSales(response.data);
             })
             .catch(error => {
@@ -62,9 +62,9 @@ const SalesSlip = () => {
     const handleCategory =(value) =>(e) => {
         e.preventDefault();
 
-        console.log('vlaue',value)
+        // console.log('vlaue',value)
         setActiveValue(value);
-        console.log('activeValue',activeValue)
+        // console.log('activeValue',activeValue)
         setIsSelectActive(false); // Deactivate select box
 
         const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
@@ -72,7 +72,7 @@ const SalesSlip = () => {
             throw new Error('API base URL is not defined');
         }
 
-        console.log(`${wakabaBaseUrl}/sales/filter`);
+        // console.log(`${wakabaBaseUrl}/sales/filter`);
         axios.post(`${wakabaBaseUrl}/sales/filter`,{ value: value })
             .then(response => {
                 // console.log(response.data)
@@ -84,7 +84,7 @@ const SalesSlip = () => {
     };
     const onChangeCategory=(e) => {
         e.preventDefault();
-        console.log("afdaf",e.target.value)
+        // console.log("afdaf",e.target.value)
         setActiveValue(null); // Deactivate all buttons
         setIsSelectActive(true);
 
@@ -94,7 +94,7 @@ const SalesSlip = () => {
             throw new Error('API base URL is not defined');
         }
 
-        console.log(`${wakabaBaseUrl}/sales/filter`);
+        // console.log(`${wakabaBaseUrl}/sales/filter`);
         axios.post(`${wakabaBaseUrl}/sales/filter`,{ value: value })
             .then(response => {
                 // console.log(response.data)
@@ -138,7 +138,7 @@ const SalesSlip = () => {
                                         </div>
                                     </div>
                                     <div>
-                                        <ButtonComponent className='!px-5 text-2xl' style={{ height: '40px' }} ><Link to="/salesSlipCreate">新しい</Link></ButtonComponent>
+                                        <ButtonComponent className='!px-5 text-2xl' style={{ height: '40px' }} ><Link to="/salesSlipCreate">売上伝票作成</Link></ButtonComponent>
                                     </div>
                                 </div>
                             </div>
