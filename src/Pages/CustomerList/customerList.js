@@ -54,10 +54,10 @@ const CustomerList = () => {
             throw new Error('API base URL is not defined');
         }
 
-        console.log(`${wakabaBaseUrl}/customer/getCustomerList`);
+        // console.log(`${wakabaBaseUrl}/customer/getCustomerList`);
         axios.get(`${wakabaBaseUrl}/customer/getCustomerList`)
             .then(response => {
-                console.log(response.data)
+                // console.log(response.data)
                 setCustomers(response.data);
             })
             .catch(error => {

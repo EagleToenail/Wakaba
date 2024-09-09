@@ -143,12 +143,15 @@
     .new-post-receive {
         display: block !important;
         width: 100% !important;
+        
+
     }
     .new-post-receive-message {
         width: 100% !important;
     }
     .new-post-receive-name {
         width: 100% !important;
+        margin-top: 10px !important;
     }
   }
   @media screen and (max-width: 1390px) {
