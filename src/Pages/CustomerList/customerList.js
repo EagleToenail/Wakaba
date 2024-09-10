@@ -174,7 +174,7 @@ const CustomerList = () => {
             <div className='mt-5 pb-20 w-full flex'>
                 <div style={{ width: '100%', overflow: 'auto' }} >
                     <table className='text-center w-full' style={Table}>
-                        <thead>
+                        <thead className='sticky top-0 bg-white z-10'>
                             <tr>
                                 <th style={Th}>ID</th>
                                 <th style={Th}>氏名</th>

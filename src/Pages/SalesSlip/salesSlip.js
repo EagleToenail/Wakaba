@@ -187,7 +187,7 @@ const SalesSlip = () => {
                         <div className='mt-10 pb-20 w-full flex'>
                             <div style={{ width: '100%', overflow: 'auto' }} >
                                 <table style={Table}>
-                                    <thead>
+                                    <thead className='sticky top-0 bg-white z-10'>
                                         <tr>
                                             <th rowSpan={2} className='px-2'>番号</th>
                                             <th  className='px-2' style={Th} rowSpan={2}>日付</th>

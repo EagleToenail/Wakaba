@@ -176,3 +176,36 @@
         width: 100% !important;
     }
   }
+  @media screen and (max-width: 1390px) {
+
+    .invoice-purchase-brought {
+        display: block !important;
+        width: 100% !important;
+    }
+  }
+  @media screen and (max-width: 1390px) {
+
+    .invoice-purchase-brought-buttons {
+      justify-content: space-around;
+      width: 100%;
+      margin-top: 15px;
+    }
+  }
+  @media screen and (max-width: 1700px) {
+
+    .sales-list {
+      display: block !important;
+      width: 100%;
+      margin-top: 15px;
+    }
+  }
+  @media screen and (max-width: 1700px) {
+
+    .stamp-related-inventory-list {
+      display: block !important;
+    }
+    .stamp-related-inventory-list-one{
+      width: 100% !important;
+      margin-top: 30px !important;
+    }
+  }

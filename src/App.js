@@ -35,8 +35,7 @@ import PurchaseInvoiceForBroughtInItems from './Pages/PurchaseInvoiceForBroughtI
 import WholeSalerShippingList from './Pages/WholeSalerShippingList/wholeSalerShippingList';//Wholesaler Shipping List
 import PurchaseRequestFormForWholeSaler from './Pages/PurchaseRequestFormForWholeSaler/purchaseRequestFormForWholeSaler';//Purchase requesr form
 import SalesSlip from './Pages/SalesSlip/salesSlip';//Sales slip
-// import SalesSlipCreate2 from './Pages/SalesSlipCreate2/salesSlipCreate2';//SalesSlipCreate2
-import SalesSlipCreate from './Pages/SalesSlipCreate/salesSlipCreate';//SalesSlipCreate
+import SalesSlipCreate from './Pages/SalesSlipCreate/salesSlipCreate';//SalesSlipCreate//no need
 import SalesSlipUpdate from './Pages/SalesSlipUpdate/salesSlipUpdate';//SalesSlipUpdate
 import ContractorAssessmentSheet from './Pages/ContractorAssessmentSheet/contractorAssessmentSheet';//Contractor assessment sheet
 import YahooAuction from './Pages/YahooAuctions/yahooAuction';//Yahoo Auctions

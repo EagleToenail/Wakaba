@@ -17,17 +17,15 @@ const PurchaseRequestFormForWholeSaler = () => {
         alignItem: 'center'
     };
 
-    // const Th = {
-    //     border: '1px solid #70685a',
-    //     borderCollapse: 'collapse',
-    //     color: '#70685a',
-    //     fontSize: '15px'
-    // };
+    const Th = {
+        whiteSpace:'nowrap'
+    };
     const Td = {
         border: '1px solid #70685a',
         borderCollapse: 'collapse',
         color: '#70685a',
-        fontSize: '15px'
+        fontSize: '15px',
+        whiteSpace:'nowrap'
     };
 
     return (
@@ -39,7 +37,7 @@ const PurchaseRequestFormForWholeSaler = () => {
             </div>
 
             {/*  */}
-            <div className='flex mt-10 justify-center pr-40 pl-40'>
+            <div className='flex mt-10 justify-center'>
                 <div className=' text-[#70685a] px-2 mr-2 font-bold flex'>
                     <div className='text-center flex flex-col justify-center'>
                         <LabelComponent value={'卸業者'} className='w-max' />
@@ -51,7 +49,7 @@ const PurchaseRequestFormForWholeSaler = () => {
                         <option value="4">Albania</option>
                     </select>
                 </div>
-                <div className=' text-[#70685a] px-2 mr-5 flex flex-col justify-end'>
+                <div className=' text-[#70685a] px-2 mr-3 flex flex-col justify-end'>
                     <label className="text-[#70685a] text-[20px] block text-center pb-2">用伝表を</label>
                 </div>
                 <div className=' text-[#70685a] px-2 mr-2 flex flex-col justify-end'>
@@ -62,29 +60,29 @@ const PurchaseRequestFormForWholeSaler = () => {
             </div>
 
             {/*  Tabe*/}
-            <div className='mt-10 pl-10 pr-10 pb-20 w-full flex'>
+            <div className='mt-10 pb-20 w-full flex'>
                 <div style={{ width: '100%', overflow: 'auto' }} >
                     <table className='text-center w-full' style={Table}>
-                        <thead>
+                        <thead className='sticky top-0 bg-white z-10'> 
                             <tr>
-                                <th></th>
-                                <th >ステー夕ス</th>
-                                <th >発送予定者</th>
-                                <th >発送担当者</th>
-                                <th>わかばNo.</th>
-                                <th>カテゴリ一1</th>
-                                <th>カテゴリ一2</th>
-                                <th>ブランド名</th>
-                                <th>商品名</th>
-                                <th>型番</th>
-                                <th>備考(金種／詳細仕様他)</th>
-                                <th>RANK</th>
-                                <th >画像</th>
-                                <th>個数</th>
-                                <th >仮査定日</th>
-                                <th>仮査定額</th>
-                                <th>他社 最高査定額</th>
-                                <th >最高査定額業者</th>
+                                <th style={Th}></th>
+                                <th  style={Th} >ステー夕ス</th>
+                                <th  style={Th} >発送予定者</th>
+                                <th  style={Th} >発送担当者</th>
+                                <th style={Th} >わかばNo.</th>
+                                <th style={Th} >カテゴリ一1</th>
+                                <th style={Th} >カテゴリ一2</th>
+                                <th style={Th} >ブランド名</th>
+                                <th style={Th} >商品名</th>
+                                <th style={Th} >型番</th>
+                                <th style={Th} >備考(金種／詳細仕様他)</th>
+                                <th style={Th} >RANK</th>
+                                <th  style={Th} >画像</th>
+                                <th style={Th} >個数</th>
+                                <th  style={Th} >仮査定日</th>
+                                <th style={Th} >仮査定額</th>
+                                <th style={Th} >他社 最高査定額</th>
+                                <th style={Th}  >最高査定額業者</th>
                             </tr>
                         </thead>
                         <tbody>

@@ -198,7 +198,7 @@ export default function TODOList() {
                 <div className="w-full">
                     <div className='w-full'>
                         {/* received message */}
-                        <div className='w-full'>
+                        <div className='w-full h-[400px]'>
                             <TodoAccordion onSendIdData={handleDataFromChildAccordion} />
                         </div>
                     </div>
@@ -302,7 +302,7 @@ export default function TODOList() {
                                 <div style={{ width: '85%' }}>
                                     {/* <InputComponent style={{ height: '40px',color:textColor}} className="w-full" name='post_content'/> */}
                                     <div className="space-y-3">
-                                        <textarea name='content' value={reply.content || ''} onChange={handleMessageChange} className="py-2 px-3 block w-full rounded-lg text-sm border border-[#70685a] outline-[#70685a] disabled:opacity-50  " rows="2" ></textarea>
+                                        <textarea name='content' value={reply.content || ''} onChange={handleMessageChange} className="py-2 px-3 block w-full text-sm border border-[#70685a] outline-[#70685a] disabled:opacity-50  " rows="2" ></textarea>
                                     </div>
 
                                 </div>

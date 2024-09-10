@@ -54,9 +54,9 @@ const YahooAuction = () => {
 
             {/*  Tabe*/}
             <div className='pb-20 w-full flex'>
-                <div style={{ width: '100%', overflow: 'auto' }} >
+                <div style={{ width: '100%',height:'450px', overflow: 'auto' }} >
                     <table style={Table}>
-                        <thead>
+                        <thead className='sticky top-0 bg-white z-10'>
                             <tr>
                                 <th style={Th} rowSpan={2}>ヤフオク商品ID</th>
                                 <th width='5%' style={Th} rowSpan={2}>わかばNo.</th>

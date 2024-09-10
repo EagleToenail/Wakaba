@@ -86,7 +86,7 @@ const TodoMessageAccordion = ({ onSendIdData }) => {
   };
 
   return (
-    <div>
+    <div className='h-full overflow-auto'>
       <h2 className="text-[#70685a] text-center text-2xl font-bold flex justify-center !mt-0">メッセージ</h2>
       {renderMessages(messages)}
     </div>

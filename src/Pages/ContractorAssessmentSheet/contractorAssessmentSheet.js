@@ -51,7 +51,7 @@ const ContractorAssementSheet = () => {
     const [visibleTable, setVisibleTable] = useState('貴金属');
 
         // State to track the value of the active button
-        const [activeValue, setActiveValue] = useState('');
+        const [activeValue, setActiveValue] = useState('貴金属');
         const buttonValues = ['貴金属', '古銭等', 'バッグ', '時計',
             '財布', 'アクセサリ', '骨董品', '洋酒', 'カメラ','楽器','着物','スマホ/夕ブレット'];
 
@@ -166,12 +166,12 @@ const ContractorAssementSheet = () => {
                             </div>
                         </div>
                         {/*  Tabe*/}
-                        <div className='mt-10 pb-20 w-full flex'>
+                        <div className='mt-10 pb-20 w-full h-full flex'>
                             {/* precious metal */}
-                            <div style={{ width: '100%', overflow: 'auto' , display: visibleTable === '貴金属' ? 'block' : 'none' }} >
+                            <div className='h-[300px]' style={{ width: '100%', overflow: 'auto' , display: visibleTable === '貴金属' ? 'block' : 'none' }} >
                             {data.preciousMetals && data.preciousMetals.length > 0 ? (
                                 <table id="" style={Table}>
-                                    <thead>
+                                    <thead className='sticky top-0 bg-white z-10'>
                                         <tr>
                                             <th style={Th}>NO</th>
                                             <th style={Th}>配送先</th>
@@ -229,7 +229,7 @@ const ContractorAssementSheet = () => {
                             <div style={{ width: '100%', overflow: 'auto' , display: visibleTable === '古銭等' ? 'block' : 'none' }} >
                             {data.oldCoins && data.oldCoins.length > 0 ? (
                                 <table id="oldcoin" style={Table}>
-                                    <thead>
+                                    <thead className='sticky top-0 bg-white z-10'>
                                         <tr>
                                             <th style={Th}>NO</th>
                                             <th style={Th}>発送日</th>
@@ -266,7 +266,7 @@ const ContractorAssementSheet = () => {
                             <div style={{ width: '100%', overflow: 'auto' , display: visibleTable === 'バッグ' ? 'block' : 'none' }} >
                             {data.bags && data.bags.length > 0 ? (
                                 <table id="bag" style={Table}>
-                                <thead>
+                                <thead className='sticky top-0 bg-white z-10'>
                                     <tr>
                                         <th style={Th}>NO</th>
                                         <th style={Th}>配送先</th>
@@ -315,7 +315,7 @@ const ContractorAssementSheet = () => {
                             <div style={{ width: '100%', overflow: 'auto' , display: visibleTable === '時計' ? 'block' : 'none' }} >
                             {data.clocks && data.clocks.length > 0 ? (
                                 <table id="clock" style={Table}>
-                                    <thead>
+                                    <thead className='sticky top-0 bg-white z-10'>
                                         <tr>
                                             <th style={Th}>NO</th>
                                             <th style={Th}>配送先</th>
@@ -374,7 +374,7 @@ const ContractorAssementSheet = () => {
                             <div style={{ width: '100%', overflow: 'auto' , display: visibleTable === '財布' ? 'block' : 'none' }} >
                             {data.wallets && data.wallets.length > 0 ? (
                                 <table id="wallet" style={Table}>
-                                    <thead>
+                                    <thead className='sticky top-0 bg-white z-10'>
                                         <tr>
                                             <th style={Th}>NO</th>
                                             <th style={Th}>配送先</th>
@@ -423,7 +423,7 @@ const ContractorAssementSheet = () => {
                             <div style={{ width: '100%', overflow: 'auto' , display: visibleTable === 'アクセサリ' ? 'block' : 'none' }} >
                             {data.accessories && data.accessories.length > 0 ? (
                                 <table id="accessories" style={Table}>
-                                    <thead>
+                                    <thead className='sticky top-0 bg-white z-10'>
                                         <tr>
                                             <th style={Th}>NO</th>
                                             <th style={Th}>配送先</th>
@@ -470,7 +470,7 @@ const ContractorAssementSheet = () => {
                             <div style={{ width: '100%', overflow: 'auto' , display: visibleTable === 'カメラ' ? 'block' : 'none' }} >
                             {data.cameras && data.cameras.length > 0 ? (
                                 <table id="camera" style={Table}>
-                                    <thead>
+                                    <thead className='sticky top-0 bg-white z-10'>
                                         <tr>
                                             <th style={Th}>NO</th>
                                             <th style={Th}>発送日</th>
@@ -509,7 +509,7 @@ const ContractorAssementSheet = () => {
                             <div style={{ width: '100%', overflow: 'auto' , display: visibleTable === '骨董品' ? 'block' : 'none' }} >
                             {data.antiques && data.antiques.length > 0 ? (
                                 <table id="antique" style={Table}>
-                                    <thead>
+                                    <thead className='sticky top-0 bg-white z-10'>
                                         <tr>
                                             <th style={Th}>NO</th>
                                             <th style={Th}>配送先</th>
@@ -552,7 +552,7 @@ const ContractorAssementSheet = () => {
                             <div style={{ width: '100%', overflow: 'auto' , display: visibleTable === '洋酒' ? 'block' : 'none' }} >
                             {data.westernLiquors && data.westernLiquors.length > 0 ? (
                                 <table id="westernliquor" style={Table}>
-                                    <thead>
+                                    <thead className='sticky top-0 bg-white z-10'>
                                         <tr>
                                             <th style={Th}>NO</th>
                                             <th style={Th}>配送先</th>
@@ -599,7 +599,7 @@ const ContractorAssementSheet = () => {
                             <div style={{ width: '100%', overflow: 'auto' , display: visibleTable === '楽器' ? 'block' : 'none' }} >
                             {data.musicalInstruments && data.musicalInstruments.length > 0 ? (
                                 <table id="musicalinstrument" style={Table}>
-                                    <thead>
+                                    <thead className='sticky top-0 bg-white z-10'>
                                         <tr>
                                             <th style={Th}>NO</th>
                                             <th style={Th}>発送日</th>
@@ -634,7 +634,7 @@ const ContractorAssementSheet = () => {
                             <div style={{ width: '100%', overflow: 'auto' , display: visibleTable === '着物' ? 'block' : 'none' }} >
                             {data.kimonos && data.kimonos.length > 0 ? (
                                 <table id="kimono" style={Table}>
-                                    <thead>
+                                    <thead className='sticky top-0 bg-white z-10'>
                                         <tr>
                                             <th style={Th}>NO</th>
                                             <th style={Th}>発送日</th>
@@ -667,7 +667,7 @@ const ContractorAssementSheet = () => {
                             <div style={{ width: '100%', overflow: 'auto' , display: visibleTable === 'スマホタブレット' ? 'block' : 'none' }} >
                             {data.smartPhoneAndTablets && data.smartPhoneAndTablets.length > 0 ? (
                                 <table id="smartphoneandtablet" style={Table}>
-                                    <thead>
+                                    <thead className='sticky top-0 bg-white z-10'>
                                         <tr>
                                             <th style={Th}>NO</th>
                                             <th style={Th}>発送日</th>
