@@ -34,7 +34,6 @@ export default function TODOList() {
         axios.get(`${wakabaBaseUrl}/user/getUserList`)
             .then(response => {
                 const data = response.data;
-                console.log('users', data)
                 setUsers(data);
                 setFilteredOptions(data);
             })
@@ -72,7 +71,7 @@ export default function TODOList() {
         setIsOpen(false);
         setSelectedCustomerId(user.id); // Update state with the selected customer's ID
         setReply({ receiverId: user.id, senderId: userId, time: new Date().toISOString() });
-        console.log('Selected Customer ID:', user.id);
+        // console.log('Selected Customer ID:', user.id);
     };
 
     //==============post function=========
@@ -87,36 +86,6 @@ export default function TODOList() {
         fileUrl: null,
         parentMessageId: null
     });
-    //fetch message data related user
-    // useEffect(() => {
-    //     const fetchMessages = async () => {
-    //         const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
-    //         if (!wakabaBaseUrl) {
-    //             throw new Error('API base URL is not defined');
-    //         }
-
-    //         // console.log(`${wakabaBaseUrl}/customer/getCustomerList`);
-    //         const userId = localStorage.getItem('userId');
-    //         axios.get(`${wakabaBaseUrl}/todomessages/${userId}`)
-    //             .then(response => {
-    //                 console.log("all message", response.data)
-    //                 setMessages(response.data);
-    //             })
-    //             .catch(error => {
-    //                 console.error("There was an error fetching the customer data!", error);
-    //             });
-    //     };
-
-    //     fetchMessages();
-
-    //         // // Set up polling
-    //         // const intervalId = setInterval(() => {
-    //         //     fetchMessages();
-    //         // }, 1000); // Poll every 5 seconds
-        
-    //         // // Clean up on unmount
-    //         // return () => clearInterval(intervalId);
-    // }, []);
 
     const handleMessageChange = (e) => {
         setReply({
@@ -138,77 +107,90 @@ export default function TODOList() {
     };
 
     const handleButtonClick = (sendInputRef) => {
-        console.log('aaaa')
         sendInputRef.current.click();
     };
     // send message and file to other user 
     const sendTodoMessage = async () => {
-        console.log('sendtododata', reply);
-        const formData = new FormData();
-        formData.append('time', reply.time);
-        formData.append('title', reply.title);
-        formData.append('content', reply.content);
-        formData.append('senderId', reply.senderId);
-        formData.append('receiverId', reply.receiverId);
-        formData.append('parentMessageId', reply.parentMessageId || '');
-        
-        if (sendFile) formData.append('fileUrl', sendFile);
+        // console.log('sendtododata', reply);
+        if (reply.title != '' && reply.content != '' && reply.senderId != '' && reply.receiverId != '') {
+            const formData = new FormData();
+            formData.append('time', reply.time);
+            formData.append('title', reply.title);
+            formData.append('content', reply.content);
+            formData.append('senderId', reply.senderId);
+            formData.append('receiverId', reply.receiverId);
+            formData.append('parentMessageId', reply.parentMessageId || '');
+
+            if (sendFile) formData.append('fileUrl', sendFile);
 
 
-        try {
-            const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+            try {
+                const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
 
-            if (!wakabaBaseUrl) {
-                throw new Error('API base URL is not defined');
-            }
-
-            await axios.post(`${wakabaBaseUrl}/todomessages/getmessagelist`, formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data'
+                if (!wakabaBaseUrl) {
+                    throw new Error('API base URL is not defined');
                 }
-            }).then(response => {
-                console.log('get data',response.data)
-                // setMessages(response.data);
-                setReply({
-                    time: new Date().toISOString(),
-                    title: '',
-                    content: '',
-                    senderId: '',
-                    receiverId: '',
-                    file: null,
-                    parentId: null
-                });
-            })
-                .catch(error => {
-                    console.error("There was an error fetching the customer data!", error);
-                });
-        } catch (error) {
-            console.error('Error sending message:', error);
+
+                await axios.post(`${wakabaBaseUrl}/todomessages/getmessagelist`, formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                }).then(response => {
+                    // console.log('get data',response.data)
+                    setReply({
+                        time: new Date().toISOString(),
+                        title: '',
+                        content: '',
+                        senderId: '',
+                        receiverId: '',
+                        file: null,
+                        parentId: null
+                    });
+                })
+                    .catch(error => {
+                        console.error("There was an error fetching the customer data!", error);
+                    });
+            } catch (error) {
+                console.error('Error sending message:', error);
+            }
         }
     };
 
-  // Callback function to handle data from child
-  const handleDataFromChildAccordion = (data1,data2,data3) => {
-    const userId = localStorage.getItem('userId');
-    if(data3 === userId){
-        users.forEach(user => {
-            if (user.id === parseInt(data2)) {
-                setQuery(user.username); // Assuming 'username' is a property in the message object
-                // console.log('ReceiverName')
-            }
-        });
-    } else {
-        users.forEach(user => {
-            if (user.id === parseInt(data3)) {
-                setQuery(user.username); // Assuming 'username' is a property in the message object
-                // console.log('ReceiverName')
-            }
+    // Callback function to handle data from child
+    const handleDataFromChildAccordion = (data1, data2, data3) => {
+        const userId = localStorage.getItem('userId');
+        if (data3 === userId) {
+            users.forEach(user => {
+                if (user.id === parseInt(data2)) {
+                    setQuery(user.username); // Assuming 'username' is a property in the message object
+                    // console.log('ReceiverName')
+                }
+            });
+        } else {
+            users.forEach(user => {
+                if (user.id === parseInt(data3)) {
+                    setQuery(user.username); // Assuming 'username' is a property in the message object
+                    // console.log('ReceiverName')
+                }
+            });
+        }
+
+        setReply({ parentMessageId: data1, senderId: data2, receiverId: data3 ,time:new Date().toISOString()})
+        console.log('Data received from child++++++++:', data1, data2, data3, userId);
+    };
+    // New post
+    const newPost = () => {
+        setQuery('');
+        setReply({
+            time: new Date().toISOString(),
+            title: '',
+            content: '',
+            senderId: '',
+            receiverId: '',
+            file: null,
+            parentId: null
         });
     }
-
-    setReply({parentMessageId:data1,senderId:data2,receiverId:data3})
-    console.log('Data received from child++++++++:', data1,data2,data3,userId);
-  };
 
     return (
         <>
@@ -217,10 +199,16 @@ export default function TODOList() {
                     <div className='w-full'>
                         {/* received message */}
                         <div className='w-full'>
-                            <TodoAccordion  onSendIdData={handleDataFromChildAccordion}/>
+                            <TodoAccordion onSendIdData={handleDataFromChildAccordion} />
                         </div>
                     </div>
-                    <div className='mt-20'>
+                    {/* new post */}
+                    <div className='ml-2 mt-20 flex flex-col justify-center'>
+                        < button type="button" onClick={newPost} className=" w-max px-10 py-1 font-blod rounded-lg justify-center text-[#70685a] text-[18px] bg-[#ebe6e0] hover:bg-blue-700 focus:outline-none">
+                            新しい
+                        </button>
+                    </div>
+                    <div className='mt-2'>
                         <hr className="my-1 border-[#70685a]" />
                     </div>
 
