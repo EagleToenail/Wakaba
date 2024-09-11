@@ -55,6 +55,7 @@ const CustomerIndividual = () => {
         borderCollapse: 'collapse',
         color: '#6e6e7c',
         fontSize: '15px',
+        whiteSpace:'nowrap'
     };
 
     const [customer, setCustomer] = useState({
@@ -76,81 +77,51 @@ const CustomerIndividual = () => {
         gender: '',
     });
 
+    // const [customerPastVisitHistory, setCustomerPastVisitHistory] = useState([{
+    //     visit_date:'',
+    //     applicable:'',
+    //     total_amount:'',
+    //     category:'',
+    //     product_name:'',
+    //     total_sales:'',
+    //     total_gross_profit:'',
+    //     total_purchase_price:''
+    // }]);
+    const [customerPastVisitHistory, setCustomerPastVisitHistory] = useState([]);
+
     const [imageAvatarPreview, setAvatarImagePreview] = useState("");
     const [imageIdCardPreview, setIdCardImagePreview] = useState("");
 
-    const [customerPastVisitHistory, setCustomerPastVisitHistory] = useState([]);
     const navigate = useNavigate();
 
-    // Fetch customerPastVisitHistory data
-    useEffect(() => {
-        const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
-
-        if (!wakabaBaseUrl) {
-            throw new Error('API base URL is not defined');
-        }
-
-        setCustomerPastVisitHistory([
-            {
-                "id": 1,
-                "numberOfVisit": "123",
-                "visitDate": "1999/12/31",
-                "applicable": "買取",
-                "totalAmount": "9,999,999",
-                "category1": "ジュエリー",
-                "productName": "グシチooooooo",
-                "totalSales": "999,999,999",
-                "totalGrossProfit": "999,999,999",
-                "totalPurchaseAmount": "999,999,999",
-            },
-            {
-                "id": 2,
-                "numberOfVisit": "123",
-                "visitDate": "1999/12/30",
-                "applicable": "買取",
-                "totalAmount": "9,999,999",
-                "category1": "ジュエリー",
-                "productName": "グシチooooooo",
-                "totalSales": "999,999,999",
-                "totalGrossProfit": "999,999,999",
-                "totalPurchaseAmount": "999,999,999",
-            },
-            {
-                "id": 2,
-                "numberOfVisit": "123",
-                "visitDate": "1999/12/29",
-                "applicable": "買取",
-                "totalAmount": "9,999,999",
-                "category1": "ジュエリー",
-                "productName": "グシチooooooo",
-                "totalSales": "999,999,999",
-                "totalGrossProfit": "999,999,999",
-                "totalPurchaseAmount": "999,999,999",
-            },
-
-        ]
-        );
-
-        // axios.get(`${wakabaBaseUrl}/coustomervisithistory/:id`)
-        //     .then(response => {
-        //         setCustomerPastVisitHistory(response.data);
-        //     })
-        //     .catch(error => {
-        //         console.error("There was an error fetching the customer data!", error);
-        //     });
-    }, []);
     // Fetch customer data
     const { id } = useParams();
 
-    useEffect(() => {
+        // Fetch customerPastVisitHistory data
+        useEffect(() => {
+            const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+    
+            if (!wakabaBaseUrl) {
+                throw new Error('API base URL is not defined');
+            } 
+            axios.get(`${wakabaBaseUrl}/customer/customerpastvisithistory/${id}`)
+                .then(response => {
+                    console.log("historydata", response.data)
+                    setCustomerPastVisitHistory(response.data);
+                })
+                .catch(error => {
+                    console.error("There was an error fetching the customer data!", error);
+                });
+        }, []);
 
+    useEffect(() => {
         const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
 
         if (!wakabaBaseUrl) {
             throw new Error('API base URL is not defined');
         }
-
-        axios.get(`${wakabaBaseUrl}/customer/getCustomerById/${id}`)
+        if(id){
+            axios.get(`${wakabaBaseUrl}/customer/getCustomerById/${id}`)
             .then(response => {
                 console.log("data", response.data)
                 setCustomer(response.data);
@@ -160,6 +131,8 @@ const CustomerIndividual = () => {
             .catch(error => {
                 console.error("There was an error fetching the customer data!", error);
             });
+        }
+
     }, [id]);
 
     // //file upload
@@ -283,8 +256,8 @@ const CustomerIndividual = () => {
             // Handle error here
         }
     };
-    const handleCustomerPurchaseInvoiceClick = (id) => {
-        navigate(`/customerindividual/${id}`); // Use navigate for routing
+    const gotoInvoiceForPurchase = () => {
+        navigate(`/invoiceforpurchaseofbrought/${id}`); // Use navigate for routing
     };
 
 
@@ -560,7 +533,12 @@ const CustomerIndividual = () => {
                         <div className=" h-full w-full">
                             {/*Past visit history of Table area */}
                             <div className="border border-[#70685a] rounded px-3 w-full mb-5" style={{ height: '350px', overflowX: 'scroll', overflowY: 'scroll' }}>
-                                <label className="text-[#70685a] text-[20px] font-bold mb-2 block text-left mr-10 py-1 !mb-0">Past vist history</label>
+                                <div className='flex justify-between mt-5'>
+                                   <label className="text-[#70685a] text-[20px] font-bold mb-2 block text-left mr-10 py-1 !mb-0">過去の訪問履歴</label>
+                                   <button type="button" onClick={gotoInvoiceForPurchase}
+                                   className="px-5 py-1 rounded-lg text-md tracking-wider font-bold border border-[#70685a] outline-none bg-transparent hover:bg-[#524c3b] text-[#70685a] hover:text-white transition-all duration-300">追加</button>
+                                </div>
+
                                 <div style={{ width: '100%', }} >
                                     <table className='text-center w-full' style={Table}>
                                         <thead>
@@ -590,7 +568,7 @@ const CustomerIndividual = () => {
                                         <tbody>
                                             {customerPastVisitHistory.map((pastVisit, Index) => (
                                                 <tr key={Index}>
-                                                    <td onClick={() => handleCustomerPurchaseInvoiceClick(pastVisit.id)}>
+                                                    <td>
                                                         <div className='flex justify-center'>
                                                             <div>{Index + 1}.</div>
                                                             <div>
@@ -600,19 +578,20 @@ const CustomerIndividual = () => {
                                                             </div>
                                                         </div>
                                                     </td>
-                                                    <td style={Td}>{pastVisit.visitDate}</td>
+                                                    <td style={Td}>{pastVisit.visit_date}</td>
                                                     <td style={Td}>{pastVisit.applicable}</td>
-                                                    <td style={Td}>{pastVisit.totalAmount}</td>
-                                                    <td style={Td}>{pastVisit.category1}</td>
-                                                    <td style={Td}>{pastVisit.productName}</td>
-                                                    <td style={Td}>{pastVisit.totalSales}</td>
-                                                    <td style={Td}>{pastVisit.totalGrossProfit}</td>
-                                                    <td style={Td}>{pastVisit.totalPurchaseAmount}</td>
+                                                    <td style={Td}>{pastVisit.total_amount}</td>
+                                                    <td style={Td}>{pastVisit.category}</td>
+                                                    <td style={Td}>{pastVisit.product_name}</td>
+                                                    <td style={Td}>{pastVisit.total_sales}</td>
+                                                    <td style={Td}>{pastVisit.total_gross_profit}</td>
+                                                    <td style={Td}>{pastVisit.total_purchase_price}</td>
                                                 </tr>
                                             ))}
                                         </tbody>
                                     </table>
                                 </div>
+
                             </div>
                             {/* Text area */}
                             <div className="border border-[#70685a] rounded px-3 w-full" style={{ height: '340px', overflowX: 'scroll', overflowY: 'scroll' }}>

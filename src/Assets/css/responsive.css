@@ -182,6 +182,9 @@
         display: block !important;
         width: 100% !important;
     }
+    .invoice-purchase-brought-one {
+      width: 100% !important;
+    }
   }
   @media screen and (max-width: 1390px) {
 
@@ -209,3 +212,31 @@
       margin-top: 30px !important;
     }
   }
+  @media screen and (max-width: 1050px) {
+
+    .customer-receipt {
+      display: block !important;
+      width: 100%;
+      margin-top: 15px;
+    }
+    .customer-receipt-one{
+      display: block !important;
+      width: 100% !important;
+    }
+    .customer-receipt-deadline{
+      width:100% !important;
+    }
+    .customer-receipt-two{
+      display: none !important;
+    }
+    .customer-receipt-three{
+      display: block !important;
+      width:100% !important;
+    }
+    .customer-receipt-four{
+      width:100% !important;
+      display: flex !important;
+      justify-content: center !important;
+    }
+  }
+  

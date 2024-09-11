@@ -47,12 +47,12 @@ const TodoMessageAccordion = ({ onSendIdData }) => {
 
     fetchMessages();
     // Set up polling
-    const intervalId = setInterval(() => {
-      fetchMessages();
-    }, 1000); // Poll every 1 seconds
+    // const intervalId = setInterval(() => {
+    //   fetchMessages();
+    // }, 1000); // Poll every 1 seconds
 
-    // Clean up on unmount
-    return () => clearInterval(intervalId);
+    // // Clean up on unmount
+    // return () => clearInterval(intervalId);
   }, []);
 
   const [childData1, setChildData1] = useState(null);

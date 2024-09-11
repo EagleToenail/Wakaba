@@ -111,7 +111,7 @@ function App() {
             <Route path='/customerlist' element={<CustomerList/>}/>
             <Route path='/customerindividual/:id' element={<CustomerIndividual/>}/> 
             <Route path='/customerindividualcreate' element={<CustomerIndividualCreate/>}/> 
-            <Route path='/invoiceforpurchaseofbrought' element={<InvoiceForPurchaseOfBrought/>}/>
+            <Route path='/invoiceforpurchaseofbrought/:id' element={<InvoiceForPurchaseOfBrought/>}/>
             <Route path='/wholesalershippinglist' element={<WholeSalerShippingList/>}/>
             <Route path='/purchaserequestformforwholesaler' element={<PurchaseRequestFormForWholeSaler/>}/>
             <Route path='/salesslip' element={<SalesSlip/>}/>

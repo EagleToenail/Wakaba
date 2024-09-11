@@ -109,6 +109,20 @@ const SalesSlip = () => {
         navigate(`/salesslipupdate/${id}`); // Use navigate for routing
     };
 
+    const [isCreateModalOpen , setIsCreateModalOpen] = useState(false);
+
+    const openCreateCheckModal = () => {
+        setIsCreateModalOpen(true);
+    }
+    const gotoCustomer = () => {
+        setIsCreateModalOpen(false);
+            navigate('/customerlist')
+    }
+    const gotoRegisterCustomer =()=> {
+        setIsCreateModalOpen(false);
+        navigate('/customerindividualcreate');
+    }
+
     return (
         <>
             {/* <Titlebar title={title} /> */}
@@ -138,7 +152,7 @@ const SalesSlip = () => {
                                         </div>
                                     </div>
                                     <div>
-                                        <ButtonComponent className='!px-5 text-2xl' style={{ height: '40px' }} ><Link to="/salesSlipCreate">売上伝票作成</Link></ButtonComponent>
+                                        <ButtonComponent children={'売上伝票作成'} onClick={openCreateCheckModal} className='!px-5 text-2xl' style={{ height: '40px' }} ></ButtonComponent>
                                     </div>
                                 </div>
                             </div>
@@ -262,6 +276,24 @@ const SalesSlip = () => {
                     </div>
                 </div>
             </div>
+            {isCreateModalOpen && (
+            <div
+            className="fixed inset-0 p-4 flex flex-wrap justify-center items-center w-full h-full z-[1000] before:fixed before:inset-0 before:w-full before:h-full before:bg-[rgba(0,0,0,0.5)] overflow-auto font-[sans-serif]">
+            <div className="w-full max-w-lg bg-white shadow-lg rounded-lg p-6 relative">
+
+                <div className="my-4 text-center">
+                    <h4 className="text-gray-800 text-base font-semibold mt-4">新規来店ですか?</h4>
+
+                    <div className="text-center space-x-4 mt-8">
+                        <button type="button" onClick={gotoRegisterCustomer}
+                            className="px-6 py-2 rounded-lg text-white text-sm bg-red-600 hover:bg-red-700 active:bg-red-600">いいえ</button>
+                        <button type="button" onClick={gotoCustomer}
+                            className="px-4 py-2 rounded-lg text-gray-800 text-sm bg-gray-200 hover:bg-gray-300 active:bg-gray-200">はい</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        )}
         </>
     );
 };
