@@ -176,7 +176,7 @@ const CustomerList = () => {
                     <table className='text-center w-full' style={Table}>
                         <thead className='sticky top-0 bg-white z-10'>
                             <tr>
-                                <th style={Th}>ID</th>
+                                <th style={Th}>NO</th>
                                 <th style={Th}>氏名</th>
                                 <th style={Th}>カタカナ名</th>
                                 <th style={Th}>TEL</th>
@@ -192,9 +192,9 @@ const CustomerList = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {customers.map(customer => (
+                            {customers.map((customer,Index) => (
                                 <tr key={customer.id}>
-                                    <td style={Td}>{customer.id}</td>
+                                    <td style={Td}>{Index+1}</td>
                                     <td style={Td} onClick={() => handleCustomerClick(customer.id)}>{customer.full_name}</td>
                                     <td style={Td}>{customer.katakana_name}</td>
                                     <td style={Td}>{customer.phone_number}</td>

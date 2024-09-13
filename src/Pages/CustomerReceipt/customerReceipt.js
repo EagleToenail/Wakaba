@@ -1,5 +1,5 @@
 import React , {useState,useEffect,useRef} from 'react';
-// import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 // import Titlebar from '../../Components/Common/Titlebar';
 import '../../Assets/css/showtable.css';
 import axios from 'axios';
@@ -28,7 +28,7 @@ const CustomerReceipt = () => {
         fontSize: '15px',
         whiteSpace:'nowrap'
     };
-
+    const navigate = useNavigate();
     const data = useSelector(state => state.data);
     const purchaseData = data.data;
 
@@ -42,7 +42,7 @@ const CustomerReceipt = () => {
             if (!wakabaBaseUrl) {
                 throw new Error('API base URL is not defined');
             }
-
+            console.log('received data',purchaseData)
             // console.log(`${wakabaBaseUrl}/customer/getCustomerById`);
             axios.get(`${wakabaBaseUrl}/customer/getCustomerById/${customerId}`)
                 .then(response => {
@@ -52,8 +52,11 @@ const CustomerReceipt = () => {
                 .catch(error => {
                     console.error("There was an error fetching the customer data!", error);
                 });
+        } else {
+            navigate('/salesslip');
         }
     }, []);
+
 
     const [totalQuantity, setTotalQuantity] = useState('');
     // Calculate total quantity
@@ -64,6 +67,14 @@ const CustomerReceipt = () => {
     useEffect(() => {
         calculateTotalQuantity();
       }, [purchaseData]); // Recalculate whenever purchaseData changes
+  // Function to extract year, month, and day
+  const extractDateParts = (dateStr) => {
+    const [year, month, day] = dateStr.split('-');
+    return { year, month, day };
+  };
+
+  // Extract the date parts
+  const { year, month, day } = extractDateParts(purchaseData.deadline);
 
     return (
         <>
@@ -85,7 +96,7 @@ const CustomerReceipt = () => {
                         <div className='flex justify-center'>
                             <div className=' text-[#70685a] text-[20px] px-2 mr-2'>
                                 <div className='flex font-bold'>
-                                    <div>買取計算書No.{purchaseData.numberOfInvoice}</div>
+                                    <div>買取計算書No.{purchaseData.numberOfInvoice || ''}</div>
                                 </div>
 
                             </div>
@@ -125,7 +136,7 @@ const CustomerReceipt = () => {
                                         <div>店舗名</div>
                                     </div>
                                     <div className='ml-5 text-left'>
-                                        <div>{purchaseData.totalSalesSlipData[0].store_name}</div>
+                                        <div>{purchaseData.totalSalesSlipData[0].store_name || ''}</div>
                                     </div>
                                 </div>
                             </div>
@@ -142,7 +153,7 @@ const CustomerReceipt = () => {
                         </div>
                         <div className='customer-receipt-deadline' style={{ width: '50%' }}>
                             <div className='flex justify-center pt-3 text-[#70685a] text-[20px] font-bold' >
-                                <div className='text-[#70685a]'>下記商品を、令和99年12月30日までお預かり致します</div>
+                                <div className='text-[#70685a]'>下記商品を、令和{year||''}年{month||''}月{day||''}日までお預かり致します</div>
                             </div>
                         </div>
                         <div className='customer-receipt-two' style={{ width: '25%' }}></div>

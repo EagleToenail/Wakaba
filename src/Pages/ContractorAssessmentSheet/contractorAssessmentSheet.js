@@ -101,10 +101,261 @@ const ContractorAssementSheet = () => {
             kimonos: [],
             smartPhoneAndTablets: []
           });
+
+          setPreciousMetalData(response.data.payload.preciousMetals);
+          setOldCoinData(response.data.payload.oldCoins);
+        //   console.log('preciousMetal',response.data.payload.preciousMetals);
       };
       fetchData();
     }, []);
-  
+
+    const editableRowStyle = { backgroundColor: '#e7e9f1' };
+ //------------------------------precious metal--------------------------------------
+    const [preciousMetalData, setPreciousMetalData] = useState();
+
+    const [editPreciousMetalId, setEditPreciousMetalId] = useState(null);
+    const [newPreciousMetalRow, setNewPreciousMetalRow] = useState({
+        shipping_address: '',
+        wholesale_date: '',
+        number: '',
+        product: '',
+        quantity: '',
+        gold_type: '',
+        gross_weight: '',
+        purchase_price: '',
+        bullion_weight: '',
+        book_assessment_net_japan: '',
+        line_color_stone_bank: '',
+        real_assessment_color_stone_bank: '',
+        line_four_nine: '',
+        book_assessment_four_nine: '',
+        kaimana_assessment_date: '',
+        line_kaimana: '',
+        original_assessment_kaimana: '',
+        online_ssessment_date_quote: ''
+    });
+
+    const handlePreciousMetalChange = (e, id = null) => {
+        const { name, value } = e.target;
+        if (id === null) {
+            setNewPreciousMetalRow((prev) => ({ ...prev, [name]: value }));
+        } else {
+            setPreciousMetalData((prevData) =>
+            prevData.map((row) =>
+            row.id === id ? { ...row, [name]: value } : row
+            )
+        );
+        }
+    };
+
+    const handlePreciousMetalAdd = () => {
+        setPreciousMetalData((prevData) => [
+        ...prevData,
+        { id: Date.now(), ...newPreciousMetalRow }
+        ]);
+        setNewPreciousMetalRow({
+        shipping_address: '',
+        wholesale_date: '',
+        number: '',
+        product: '',
+        quantity: '',
+        gold_type: '',
+        gross_weight: '',
+        purchase_price: '',
+        bullion_weight: '',
+        book_assessment_net_japan: '',
+        line_color_stone_bank: '',
+        real_assessment_color_stone_bank: '',
+        line_four_nine: '',
+        book_assessment_four_nine: '',
+        kaimana_assessment_date: '',
+        line_kaimana: '',
+        original_assessment_kaimana: '',
+        online_ssessment_date_quote: ''
+        });
+    };
+
+    const handlePreciousMetalEdit = (id) => {
+        setEditPreciousMetalId(id);
+    };
+
+    const handlePreciousMetalSave = async(id) => {
+        try {
+            const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+            if (!wakabaBaseUrl) {
+                throw new Error('API base URL is not defined');
+            }
+            await axios.post(`${wakabaBaseUrl}/contractorassessments/preciousmetalupdate`, preciousMetalData.find((row) => row.id === id)); // Update row on the server
+            setEditPreciousMetalId(null);
+          } catch (error) {
+            console.error('Error saving row:', error);
+          }
+    };
+
+    const handlePreciousMetalCancel = () => {
+        setEditPreciousMetalId(null);
+    };
+
+    const handlePreciousMetalDelete = async(id) => {
+        try {
+            const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+            if (!wakabaBaseUrl) {
+                throw new Error('API base URL is not defined');
+            }
+            await axios.get(`${wakabaBaseUrl}/contractorassessments/preciousmetaldelete/${id}`); // Delete row from the server
+            setPreciousMetalData((prevData) => prevData.filter((row) => row.id !== id));
+          } catch (error) {
+            console.error('Error deleting row:', error);
+          }
+    };
+    const [inputPreciousMetalShow, setInputPreciousMetalShow] = useState(false);
+    const handleAddPreciousMetalRow = async() => {
+        if (inputPreciousMetalShow) {
+            try {
+                const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+                if (!wakabaBaseUrl) {
+                    throw new Error('API base URL is not defined');
+                }
+                const response = await axios.post(`${wakabaBaseUrl}/contractorassessments/preciousmetaladd`, newPreciousMetalRow); // Send newRow data to the server
+                setPreciousMetalData((prevData) => [
+                  ...prevData,
+                  { id: response.data.id, ...newPreciousMetalRow } // Assuming server returns the new row with an id
+                ]);
+                setNewPreciousMetalRow({
+                    shipping_address: '',
+                    wholesale_date: '',
+                    number: '',
+                    product: '',
+                    quantity: '',
+                    gold_type: '',
+                    gross_weight: '',
+                    purchase_price: '',
+                    bullion_weight: '',
+                    book_assessment_net_japan: '',
+                    line_color_stone_bank: '',
+                    real_assessment_color_stone_bank: '',
+                    line_four_nine: '',
+                    book_assessment_four_nine: '',
+                    kaimana_assessment_date: '',
+                    line_kaimana: '',
+                    original_assessment_kaimana: '',
+                    online_ssessment_date_quote: ''
+                });
+              } catch (error) {
+                console.error('Error adding row:', error);
+              }
+        }
+        setInputPreciousMetalShow(!inputPreciousMetalShow);
+    };
+ //----------------------------- old Coin--------------------------------------------------------
+    const [oldCoinData, setOldCoinData] = useState('');
+
+    const [editOldCoinId, setEditOldCoinId] = useState(null);
+    const [newOldCoinRow, setNewOldCoinRow] = useState({
+        shipping_date: '',
+        number: '',
+        product_name: '',
+        remarks: '',
+        assessment_date: '',
+        wataru_shoji: '',
+        omiya: '',
+        yahoo_auctions: ''
+    });
+
+    const handleOldCoinChange = (e, id = null) => {
+        const { name, value } = e.target;
+        if (id === null) {
+        setNewOldCoinRow((prev) => ({ ...prev, [name]: value }));
+        } else {
+        setOldCoinData((prevData) =>
+            prevData.map((row) =>
+            row.id === id ? { ...row, [name]: value } : row
+            )
+        );
+        }
+    };
+
+    const handleOldCoinAdd = () => {
+        setData((prevData) => [
+        ...prevData,
+        { id: Date.now(), ...newOldCoinRow }
+        ]);
+        setNewOldCoinRow({
+            shipping_date: '',
+            number: '',
+            product_name: '',
+            remarks: '',
+            assessment_date: '',
+            wataru_shoji: '',
+            omiya: '',
+            yahoo_auctions: ''
+        });
+    };
+
+    const handleOldCoinEdit = (id) => {
+        setEditOldCoinId(id);
+    };
+
+    const handleOldCoinSave = async(id) => {
+        try {
+            const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+            if (!wakabaBaseUrl) {
+                throw new Error('API base URL is not defined');
+            }
+            await axios.post(`${wakabaBaseUrl}/contractorassessments/oldcoinupdate`, oldCoinData.find((row) => row.id === id)); // Update row on the server
+            setEditOldCoinId(null);
+          } catch (error) {
+            console.error('Error saving row:', error);
+          }
+    };
+
+    const handleOldCoinCancel = () => {
+        setEditOldCoinId(null);
+    };
+
+    const handleOldCoinDelete = async(id) => {
+        try {
+            const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+            if (!wakabaBaseUrl) {
+                throw new Error('API base URL is not defined');
+            }
+            await axios.get(`${wakabaBaseUrl}/contractorassessments/oldcoindelete/${id}`); // Delete row from the server
+            setOldCoinData((prevData) => prevData.filter((row) => row.id !== id));
+          } catch (error) {
+            console.error('Error deleting row:', error);
+          }
+    };
+
+    const [inputOldCoinShow, setInputOldCoinShow] = useState(false);
+    const handleAddOldCoinRow = async() => {
+        if (inputOldCoinShow) {
+            try {
+                const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+                if (!wakabaBaseUrl) {
+                    throw new Error('API base URL is not defined');
+                }
+                const response = await axios.post(`${wakabaBaseUrl}/contractorassessments/oldcoinadd`, newOldCoinRow); // Send newRow data to the server
+                setOldCoinData((prevData) => [
+                  ...prevData,
+                  { id: response.data.id, ...newOldCoinRow } // Assuming server returns the new row with an id
+                ]);
+                setNewOldCoinRow({
+                  shipping_date: '',
+                  number: '',
+                  product_name: '',
+                  remarks: '',
+                  assessment_date: '',
+                  wataru_shoji: '',
+                  omiya: '',
+                  yahoo_auctions: ''
+                });
+              } catch (error) {
+                console.error('Error adding row:', error);
+              }
+        }
+        setInputOldCoinShow(!inputOldCoinShow);
+    };
+ //----------------------------- 
 
     return (
         <>
@@ -168,10 +419,10 @@ const ContractorAssementSheet = () => {
                         {/*  Tabe*/}
                         <div className='mt-10 pb-20 w-full h-full flex'>
                             {/* precious metal */}
-                            <div className='h-[300px]' style={{ width: '100%', overflow: 'auto' , display: visibleTable === '貴金属' ? 'block' : 'none' }} >
+                            <div className='h-[400px]' style={{ width: '100%', overflow: 'auto' , display: visibleTable === '貴金属' ? 'block' : 'none' }} >
                             {data.preciousMetals && data.preciousMetals.length > 0 ? (
                                 <table id="" style={Table}>
-                                    <thead className='sticky top-0 bg-white z-10'>
+                                    <thead className='sticky top-0 bg-white z-10 h-11'>
                                         <tr>
                                             <th style={Th}>NO</th>
                                             <th style={Th}>配送先</th>
@@ -192,44 +443,101 @@ const ContractorAssementSheet = () => {
                                             <th style={Th}>LINEカイマナ</th>
                                             <th style={Th}>本査定カイマナ</th>
                                             <th style={Th}>LINE査定日相場</th>
+                                            <th style={Th}>{editPreciousMetalId === null ? '編集する' : 'セーブ'}</th>
+                                            <th style={Th}>{editPreciousMetalId === null ? '削除' : 'キャンセル'}</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
-                                        {data.preciousMetals.map((item,Index) => (
-                                            <tr key={item.id}>
-                                            <td style={Td}>{Index+1}</td>
-                                            <td style={Td}>{item.shipping_address}</td>
-                                            <td style={Td}>{item.wholesale_date}</td>
-                                            <td style={Td}>{item.number}</td>
-                                            <td style={Td}>{item.product}</td>
-                                            <td style={Td}>{item.quantity}</td>
-                                            <td style={Td}>{item.gold_type}</td>
-                                            <td style={Td}>{item.gross_weight}</td>
-                                            <td style={Td}>{item.purchase_price}</td>
-                                            <td style={Td}>{item.bullion_weight}</td>
-                                            <td style={Td}>{item.book_assessment_net_japan}</td>
-                                            <td style={Td}>{item.line_color_stone_bank}</td>
-                                            <td style={Td}>{item.real_assessment_color_stone_bank}</td>
-                                            <td style={Td}>{item.line_four_nine}</td>
-                                            <td style={Td}>{item.book_assessment_four_nine}</td>
-                                            <td style={Td}>{item.kaimana_assessment_date}</td>
-                                            <td style={Td}>{item.line_kaimana}</td>
-                                            <td style={Td}>{item.original_assessment_kaimana}</td>
-                                            <td style={Td}>{item.online_ssessment_date_quote}</td>
-                                            </tr>
-                                   
-                                ))} 
-                                    </tbody>
+        <tbody>
+          {preciousMetalData.map((item, index) => (
+            <tr key={item.id} style={editPreciousMetalId === item.id ? editableRowStyle : {}}>
+              <td style={Td}>{index + 1}</td>
+              {Object.keys(newPreciousMetalRow).map((key) => (
+                <td key={key} style={Td}>
+                  {editPreciousMetalId === item.id ? (
+                    <input
+                      type='text'
+                      name={key}
+                      value={item[key]||''}
+                    // value={key}
+                      onChange={(e) => handlePreciousMetalChange(e, item.id)}
+                      style={editableRowStyle}
+                    />
+                  ) : (
+                    item[key]
+                  )}
+                </td>
+              ))}
+              <td style={Td}>
+                {editPreciousMetalId === item.id ? (
+                  <div>
+                    <button onClick={() => handlePreciousMetalSave(item.id)} className='w-7'>
+                        <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium  MuiSvgIcon-root MuiSvgIcon-fontSizeLarge  css-1hkft75" fill='#524c3b' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckOutlinedIcon" title="CheckOutlined"><path d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
+                    </button>
+                  </div>
+                ) : (
+                  <div>
+                    <button onClick={() => handlePreciousMetalEdit(item.id)} className='w-7'>
+                    <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium  MuiSvgIcon-root MuiSvgIcon-fontSizeLarge  css-1hkft75" fill='#524c3b' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="EditCalendarOutlinedIcon" title="EditCalendarOutlined"><path d="M5 10h14v2h2V6c0-1.1-.9-2-2-2h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h7v-2H5zm0-4h14v2H5zm17.84 10.28-.71.71-2.12-2.12.71-.71c.39-.39 1.02-.39 1.41 0l.71.71c.39.39.39 1.02 0 1.41m-3.54-.7 2.12 2.12-5.3 5.3H14v-2.12z"></path></svg>
+                    </button>
+                  </div>
+                )}
+              </td>
+              <td style={Td}>
+                {editPreciousMetalId === item.id ? (
+                  <div>
+                    <button onClick={handlePreciousMetalCancel} className='w-7'>
+                        <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium  MuiSvgIcon-root MuiSvgIcon-fontSizeLarge  css-1hkft75" fill='#524c3b' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="KeyboardReturnOutlinedIcon" title="KeyboardReturnOutlined"><path d="M19 7v4H5.83l3.58-3.59L8 6l-6 6 6 6 1.41-1.41L5.83 13H21V7z"></path></svg>
+                    </button>
+                  </div>
+                ) : (
+                  <div>
+                    <button onClick={() => handlePreciousMetalDelete(item.id)} className='w-7'>
+                    <svg className="flex flex-col justify-center" focusable="false" aria-hidden="true" viewBox="0 0 23 23" fill='#524c3b' data-testid="CancelOutlinedIcon" title="CancelOutlined"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8m3.59-13L12 10.59 8.41 7 7 8.41 10.59 12 7 15.59 8.41 17 12 13.41 15.59 17 17 15.59 13.41 12 17 8.41z"></path></svg>
+                    </button>
+                  </div>
+                )}
+              </td>
+            </tr>
+          ))}
+        { inputPreciousMetalShow ?(
+          <tr>
+            <td style={Td}></td>
+            {Object.keys(newPreciousMetalRow).map((key) => (
+            <td key={key} style={Td}>
+                <input
+                    key={key}
+                    type="text"
+                    name={key}
+                    value={newPreciousMetalRow[key]}
+                    onChange={handlePreciousMetalChange}
+                    placeholder={key.replace(/_/g, ' ')}
+                />
+            </td>
+            ))}
+        </tr>
+        ):''}
+        </tbody>
                                 </table>
                                 ) : (
                                     <p className='flex justify-center'>クロックデータなし</p> //No clock data available
                                 )}
+                                                                
+                                <div className='flex justify-center mt-3 mb-3' >
+                                        <button type="button" onClick={handleAddPreciousMetalRow}
+                                            className="w-7 h-7 inline-flex items-center justify-center text-[#70685a] border border-[#70685a] outline-none hover:bg-purple-700 active:bg-purple-600">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="14px" fill="#70685a" className="inline" viewBox="0 0 512 512">
+                                                <path
+                                                    d="M467 211H301V45c0-24.853-20.147-45-45-45s-45 20.147-45 45v166H45c-24.853 0-45 20.147-45 45s20.147 45 45 45h166v166c0 24.853 20.147 45 45 45s45-20.147 45-45V301h166c24.853 0 45-20.147 45-45s-20.147-45-45-45z"
+                                                    data-original="#000000" />
+                                            </svg>
+                                        </button>
+                                    </div>
                             </div>
                             {/* Old coin */}
-                            <div style={{ width: '100%', overflow: 'auto' , display: visibleTable === '古銭等' ? 'block' : 'none' }} >
+                            <div className='h-[400px]' style={{ width: '100%', overflow: 'auto' , display: visibleTable === '古銭等' ? 'block' : 'none' }} >
                             {data.oldCoins && data.oldCoins.length > 0 ? (
                                 <table id="oldcoin" style={Table}>
-                                    <thead className='sticky top-0 bg-white z-10'>
+                                    <thead className='sticky top-0 bg-white z-10 border border-[#524c3b] h-11'>
                                         <tr>
                                             <th style={Th}>NO</th>
                                             <th style={Th}>発送日</th>
@@ -240,27 +548,94 @@ const ContractorAssementSheet = () => {
                                             <th style={Th}>ワタル商事</th>
                                             <th style={Th}>近江屋</th>
                                             <th style={Th}>ヤフオク</th>
+                                            <th style={Th}>{editOldCoinId === null ? '編集' : 'セーブ'}</th>
+                                            <th style={Th}>{editOldCoinId === null ? '削除' : 'キャンセル'}</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {data.oldCoins.map((coin,Index) => (
-                                            <tr key={coin.id}>
-                                            <td style={Td}>{Index+1}</td>
-                                            <td style={Td}>{coin.shipping_date}</td>
-                                            <td style={Td}>{coin.number}</td>
-                                            <td style={Td}>{coin.product_name}</td>
-                                            <td style={Td}>{coin.remarks}</td>
-                                            <td style={Td}>{coin.assessment_date}</td>
-                                            <td style={Td}>{coin.wataru_shoji}</td>
-                                            <td style={Td}>{coin.omiya}</td>
-                                            <td style={Td}>{coin.yahoo_auctions}</td>
-                                            </tr>
-                                        ))}
-                                    </tbody>
+          {oldCoinData.map((item, index) => (
+            <tr key={item.id} style={editOldCoinId === item.id ? editableRowStyle : {}}>
+              <td style={Td}>{index + 1}</td>
+              {Object.keys(newOldCoinRow).map((key) => (
+                <td key={key} style={Td}>
+                  {editOldCoinId === item.id ? (
+                    <input
+                      type="text"
+                      name={key}
+                      value={item[key]||''}
+                    // value={key}
+                      onChange={(e) => handleOldCoinChange(e, item.id)}
+                      style={editableRowStyle}
+                    />
+                  ) : (
+                    item[key]
+                  )}
+                </td>
+              ))}
+              <td style={Td}>
+                {editOldCoinId === item.id ? (
+                  <div>
+                    <button onClick={() => handleOldCoinSave(item.id)} className='w-7'>
+                        <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium  MuiSvgIcon-root MuiSvgIcon-fontSizeLarge  css-1hkft75" fill='#524c3b' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckOutlinedIcon" title="CheckOutlined"><path d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
+                    </button>
+                  </div>
+                ) : (
+                  <div>
+                    <button onClick={() => handleOldCoinEdit(item.id)} className='w-7'>
+                        <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium  MuiSvgIcon-root MuiSvgIcon-fontSizeLarge  css-1hkft75" fill='#524c3b' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="EditCalendarOutlinedIcon" title="EditCalendarOutlined"><path d="M5 10h14v2h2V6c0-1.1-.9-2-2-2h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h7v-2H5zm0-4h14v2H5zm17.84 10.28-.71.71-2.12-2.12.71-.71c.39-.39 1.02-.39 1.41 0l.71.71c.39.39.39 1.02 0 1.41m-3.54-.7 2.12 2.12-5.3 5.3H14v-2.12z"></path></svg>
+                    </button>
+                  </div>
+                )}
+              </td>
+              <td style={Td}>
+                {editOldCoinId === item.id ? (
+                  <div>
+                    <button onClick={handleOldCoinCancel} className='w-7'>
+                        <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium  MuiSvgIcon-root MuiSvgIcon-fontSizeLarge  css-1hkft75" fill='#524c3b' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="KeyboardReturnOutlinedIcon" title="KeyboardReturnOutlined"><path d="M19 7v4H5.83l3.58-3.59L8 6l-6 6 6 6 1.41-1.41L5.83 13H21V7z"></path></svg>
+                    </button>
+                  </div>
+                ) : (
+                  <div>
+                    <button onClick={() => handleOldCoinDelete(item.id)} className='w-7'> 
+                        <svg className="flex flex-col justify-center" focusable="false" aria-hidden="true" viewBox="0 0 23 23" fill='#524c3b' data-testid="CancelOutlinedIcon" title="CancelOutlined"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8m3.59-13L12 10.59 8.41 7 7 8.41 10.59 12 7 15.59 8.41 17 12 13.41 15.59 17 17 15.59 13.41 12 17 8.41z"></path></svg>
+                        </button>
+                  </div>
+                )}
+              </td>
+            </tr>
+          ))}
+          { inputOldCoinShow ?(
+          <tr>
+            <td style={Td}></td>
+            {Object.keys(newOldCoinRow).map((key) => (
+            <td key={key} style={Td}>
+                <input
+                    key={key}
+                    type="text"
+                    name={key}
+                    value={newOldCoinRow[key]}
+                    onChange={handleOldCoinChange}
+                    placeholder={key.replace(/_/g, ' ')}
+                />
+            </td>
+            ))}
+        </tr>
+        ):''}
+        </tbody>
                                 </table>
                             ) : (
                                     <p className='flex justify-center'>クロックデータなし</p> //No clock data available
                                 )}
+                                <div className='flex justify-center mt-3 mb-3' >
+                                        <button type="button" onClick={handleAddOldCoinRow}
+                                            className="w-7 h-7 inline-flex items-center justify-center text-[#70685a] border border-[#70685a] outline-none hover:bg-purple-700 active:bg-purple-600">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="14px" fill="#70685a" className="inline" viewBox="0 0 512 512">
+                                                <path
+                                                    d="M467 211H301V45c0-24.853-20.147-45-45-45s-45 20.147-45 45v166H45c-24.853 0-45 20.147-45 45s20.147 45 45 45h166v166c0 24.853 20.147 45 45 45s45-20.147 45-45V301h166c24.853 0 45-20.147 45-45s-20.147-45-45-45z"
+                                                    data-original="#000000" />
+                                            </svg>
+                                        </button>
+                                    </div>
                             </div>
                             {/* bag */}
                             <div style={{ width: '100%', overflow: 'auto' , display: visibleTable === 'バッグ' ? 'block' : 'none' }} >
@@ -701,132 +1076,7 @@ const ContractorAssementSheet = () => {
                     </div>
                 </div>
             </div>
-                                {/* <table style={Table}>
-                                    <thead>
-                                        <tr>
-                                            <th rowSpan={2}>選択</th>
-                                            <th width='5%' style={Th} rowSpan={2}>商品番号</th>
-                                            <th width='5%' style={Th} rowSpan={2}>わかばNo.</th>
-                                            <th width='5%' style={Th} rowSpan={2}><div style={{ border: '1px solid black', borderRadius: '5px', margin: '5%' }}>ステー夕ス</div></th>
-                                            <th width='5%' style={Th} rowSpan={2}><div style={{ border: '1px solid black', borderRadius: '5px', margin: '5%' }}>卸し先</div></th>
-                                            <th width='5%' style={Th} rowSpan={2}><div style={{ border: '1px solid black', borderRadius: '5px', margin: '5%' }}>発送日</div></th>
-                                            <th width='5%' style={Th} rowSpan={2}><div style={{ border: '1px solid black', borderRadius: '5px', margin: '5%' }}>入金日</div></th>
 
-                                            <th width='5%' style={Th} rowSpan={2}>カテゴリ-1</th>
-                                            <th style={Th} rowSpan={2}>カテゴリ-2</th>
-                                            <th style={Th} rowSpan={2} >カテゴリ-3</th>
-                                            <th style={Th} rowSpan={2} >カテゴリ-4</th>
-                                            <th style={Th} rowSpan={2} >商品名</th>
-                                            <th style={Th} rowSpan={2} >画像</th>
-                                            <th style={Th} rowSpan={2} >個数</th>
-
-                                            <th style={Th} rowSpan={2}>買取額</th>
-                                            <th width='10%' style={Th} rowSpan={2} >最高査定額</th>
-                                            <th width='10%' style={Th} rowSpan={2} >
-                                                {isshow ? <button><img src={rightArrow} style={{maxWidth: '25px' }} alt='' onClick={openSubtable} ></img></button> : <button><img src={leftArrow} style={{ width: '30px' }} alt='' onClick={closeSubtable}></img></button>}
-                                            </th>
-                                            <th width='10%' style={Th} rowSpan={2} >真贋</th>
-
-                                            {isshow ? <th style={Th} colSpan={4}>業者名01 OOOOOOOOOOOO</th> : <th colSpan={4} style={{ display: 'none' }}></th>}
-
-                                            {isshow ? <th style={Th} >業者名02<svg className='h-10' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="ArrowRightIcon" title="ArrowRight"><path d="m10 17 5-5-5-5z"></path></svg></th> : <th style={{ display: 'none' }}></th>}
-                                            {isshow ? <th style={Th} >業者名03<svg className='h-10' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="ArrowRightIcon" title="ArrowRight"><path d="m10 17 5-5-5-5z"></path></svg></th> : <th style={{ display: 'none' }}></th>}
-                                            {isshow ? <th style={Th} >業者名04<svg className='h-10' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="ArrowRightIcon" title="ArrowRight"><path d="m10 17 5-5-5-5z"></path></svg></th> : <th style={{ display: 'none' }}></th>}
-                                            {isshow ? <th style={Th} >ヤフオク<svg className='h-10' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="ArrowRightIcon" title="ArrowRight"><path d="m10 17 5-5-5-5z"></path></svg></th> : <th style={{ display: 'none' }}></th>}
-
-                                            <th style={Th}>備考<svg className='h-10' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="ArrowRightIcon" title="ArrowRight"><path d="m10 17 5-5-5-5z"></path></svg></th>
-                                        </tr>
-                                        <tr>
-                                            {isshow ? <th width='10%' style={Th} >仮査定日</th> : <th style={{ display: 'none' }}></th>}
-                                            {isshow ? <th width='10%' style={Th} >仮査定額</th> : <th style={{ display: 'none' }}></th>}
-                                            {isshow ? <th style={Th} >本査定日</th> : <th style={{ display: 'none' }}></th>}
-                                            {isshow ? <th style={Th} >本査定額</th> : <th style={{ display: 'none' }}></th>}
-
-                                            {isshow ? <th style={Th} >本査定日</th> : <th style={{ display: 'none' }}></th>}
-                                            {isshow ? <th style={Th} >本査定額</th> : <th style={{ display: 'none' }}></th>}
-                                            {isshow ? <th style={Th} >本査定日</th> : <th style={{ display: 'none' }}></th>}
-                                            {isshow ? <th style={Th} >最高落札額</th> : <th style={{ display: 'none' }}></th>}
-
-                                            <th width='10%' style={Th} ></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td><input type="checkbox"></input></td>
-                                            <td style={Td}>9999</td>
-                                            <td style={Td}>9999</td>
-                                            <td style={Td}>
-                                                <select id="gender" name="gender" className="w-full text-[#70685a] font-bold  px-4 py-2 outline-[#70685a]">
-                                                    <option value="1">宛先の名前</option>
-                                                    <option value="2">Afghanistan</option>
-                                                    <option value="3">Åland Islands</option>
-                                                    <option value="4">Albania</option>
-                                                </select>
-                                            </td>
-                                            <td style={Td}>
-                                                <select id="gender" name="gender" className="w-full text-[#70685a] font-bold  px-4 py-2 outline-[#70685a]">
-                                                    <option value="1">宛先の名前</option>
-                                                    <option value="2">Afghanistan</option>
-                                                    <option value="3">Åland Islands</option>
-                                                    <option value="4">Albania</option>
-                                                </select>
-                                            </td>
-                                            <td style={Td}>2024/12/30</td>
-                                            <td style={Td}>2024/12/30</td>
-                                            <td style={Td}>
-                                                <select id="gender" name="gender" className="w-full text-[#70685a] font-bold  px-4 py-2 outline-[#70685a]">
-                                                    <option value="1">宛先の名前</option>
-                                                    <option value="2">Afghanistan</option>
-                                                    <option value="3">Åland Islands</option>
-                                                    <option value="4">Albania</option>
-                                                </select>
-                                            </td>
-                                            <td style={Td}>
-                                                <select id="gender" name="gender" className="w-full text-[#70685a] font-bold  px-4 py-2 outline-[#70685a]">
-                                                    <option value="1">宛先の名前</option>
-                                                    <option value="2">Afghanistan</option>
-                                                    <option value="3">Åland Islands</option>
-                                                    <option value="4">Albania</option>
-                                                </select>
-                                            </td>
-                                            <td style={Td}>
-                                                <select id="gender" name="gender" className="w-full text-[#70685a] font-bold  px-4 py-2 outline-[#70685a]">
-                                                    <option value="1">宛先の名前</option>
-                                                    <option value="2">Afghanistan</option>
-                                                    <option value="3">Åland Islands</option>
-                                                    <option value="4">Albania</option>
-                                                </select>
-
-                                            </td>
-                                            <td style={Td}>
-                                                <select id="gender" name="gender" className="w-full text-[#70685a] font-bold  px-4 py-2 outline-[#70685a]">
-                                                    <option value="1">宛先の名前</option>
-                                                    <option value="2">Afghanistan</option>
-                                                    <option value="3">Åland Islands</option>
-                                                    <option value="4">Albania</option>
-                                                </select>
-                                            </td>
-                                            <td style={Td}>グッチOOOO</td>
-                                            <td style={Td}><ButtonComponent children="1" className='w-max !px-5 rounded-lg' style={{ backgroundColor: '#ebe5e1', color: '#626373' }} /></td>
-                                            <td style={Td}>1</td>
-                                            <td style={Td}>100</td>
-                                            <td style={Td}>100</td>
-                                            <td style={Td}>1</td>
-                                            <td style={Td}>O</td>
-                                            {isshow ? <td style={Td}>12/30</td> :<td style={{ display: 'none' }}></td>}
-                                            {isshow ? <td style={Td}>12/30</td> :<td style={{ display: 'none' }}></td>}
-                                            {isshow ? <td style={Td}></td> :<td style={{ display: 'none' }}></td>}
-                                            {isshow ? <td style={Td}></td> :<td style={{ display: 'none' }}></td>}
-                                            {isshow ? <td style={Td}></td> :<td style={{ display: 'none' }}></td>}
-                                            {isshow ? <td style={Td}></td> :<td style={{ display: 'none' }}></td>}
-                                            {isshow ? <td style={Td}></td> :<td style={{ display: 'none' }}></td>}
-                                            {isshow ? <td style={Td}></td> :<td style={{ display: 'none' }}></td>}
-                                            <td style={Td}></td>
-                                        </tr>
-
-                                    </tbody>
-
-                                </table> */}
         </>
     );
 };

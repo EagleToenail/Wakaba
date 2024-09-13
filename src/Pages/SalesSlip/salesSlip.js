@@ -120,7 +120,7 @@ const SalesSlip = () => {
     }
     const gotoRegisterCustomer =()=> {
         setIsCreateModalOpen(false);
-        navigate('/customerindividualcreate');
+        navigate('/invoiceforpurchaseofbroughtblank');
     }
 
     return (
@@ -152,7 +152,7 @@ const SalesSlip = () => {
                                         </div>
                                     </div>
                                     <div>
-                                        <ButtonComponent children={'売上伝票作成'} onClick={openCreateCheckModal} className='!px-5 text-2xl' style={{ height: '40px' }} ></ButtonComponent>
+                                        <ButtonComponent children={'購買計算'} onClick={openCreateCheckModal} className='!px-5 text-2xl' style={{ height: '40px' }} ></ButtonComponent>
                                     </div>
                                 </div>
                             </div>
@@ -171,22 +171,22 @@ const SalesSlip = () => {
                         <div className='flex' >
                             <div className='sales-slip-filters flex justify-center w-full' >
                                 <div className='sales-slip-filters-btns flex justify-center w-1/3 gap-5 mt-5'>
-                                    <ButtonComponent children={'全て'} onClick={handleCategory('')}  className="!px-3  bg-[transparent] border border-[#424242] text-[#424242] h-8 rounded-lg !w-max"  style={{color: activeValue === buttonValues[0] ? 'white' : 'black', backgroundColor: activeValue === '' ? '#424242' : 'transparent'}}/>
-                                    <ButtonComponent children={'貴金属'} onClick={handleCategory('貴金属')} className="!px-3 bg-[transparent] border border-[#424242] text-[#424242] h-8 rounded-lg !w-max" style={{color: activeValue === buttonValues[1] ? 'white' : 'black', backgroundColor: activeValue === buttonValues[1] ? '#424242' : 'transparent'}}/>
-                                    <ButtonComponent children={'ブランド'} onClick={handleCategory('ブランド')} className="!px-3 bg-[transparent] border border-[#424242] text-[#424242] h-8 rounded-lg !w-max" style={{color: activeValue === buttonValues[2] ? 'white' : 'black', backgroundColor: activeValue === buttonValues[2] ? '#424242' : 'transparent'}}/>
-                                    <ButtonComponent children={'バッグ'} onClick={handleCategory('バッグ')} className="!px-3 bg-[transparent] border border-[#424242] text-[#424242] h-8 rounded-lg !w-max" style={{color: activeValue === buttonValues[3] ? 'white' : 'black', backgroundColor: activeValue === buttonValues[3] ? '#424242' : 'transparent'}}/>
-                                    <ButtonComponent children={'時計'} onClick={handleCategory('時計')} className="!px-3 bg-[transparent] border border-[#424242] text-[#424242] h-8 rounded-lg !w-max" style={{color: activeValue === buttonValues[4] ? 'white' : 'black', backgroundColor: activeValue === buttonValues[4] ? '#424242' : 'transparent'}}/>
+                                    <ButtonComponent children={'全て'} onClick={handleCategory('')}  className="!px-3  bg-[transparent] border border-[#424242] text-[#70685a] h-8 rounded-lg !w-max"  style={{color: activeValue === buttonValues[0] ? 'white' : 'black', backgroundColor: activeValue === '' ? '#424242' : 'transparent'}}/>
+                                    <ButtonComponent children={'貴金属'} onClick={handleCategory('貴金属')} className="!px-3 bg-[transparent] border border-[#424242] text-[#70685a] h-8 rounded-lg !w-max" style={{color: activeValue === buttonValues[1] ? 'white' : 'black', backgroundColor: activeValue === buttonValues[1] ? '#424242' : 'transparent'}}/>
+                                    <ButtonComponent children={'ブランド'} onClick={handleCategory('ブランド')} className="!px-3 bg-[transparent] border border-[#424242] text-[#70685a] h-8 rounded-lg !w-max" style={{color: activeValue === buttonValues[2] ? 'white' : 'black', backgroundColor: activeValue === buttonValues[2] ? '#424242' : 'transparent'}}/>
+                                    <ButtonComponent children={'バッグ'} onClick={handleCategory('バッグ')} className="!px-3 bg-[transparent] border border-[#424242] text-[#70685a] h-8 rounded-lg !w-max" style={{color: activeValue === buttonValues[3] ? 'white' : 'black', backgroundColor: activeValue === buttonValues[3] ? '#424242' : 'transparent'}}/>
+                                    <ButtonComponent children={'時計'} onClick={handleCategory('時計')} className="!px-3 bg-[transparent] border border-[#424242] text-[#70685a] h-8 rounded-lg !w-max" style={{color: activeValue === buttonValues[4] ? 'white' : 'black', backgroundColor: activeValue === buttonValues[4] ? '#424242' : 'transparent'}}/>
                                 </div>
                                 <div className='sales-slip-filters-btns flex justify-center w-1/3 gap-5 mt-5 ml-5'>
-                                    <ButtonComponent children={'財布'} onClick={handleCategory('財布')} className="!px-3 bg-[transparent] border border-[#424242] text-[#424242] h-8 rounded-lg !w-max" style={{color: activeValue === buttonValues[5] ? 'white' : 'black', backgroundColor: activeValue === buttonValues[5] ? '#424242' : 'transparent'}}/>
-                                    <ButtonComponent children={'アクセサリ'} onClick={handleCategory('アクセサリ')} className="!px-3 bg-[transparent] border border-[#424242] text-[#424242] h-8 rounded-lg !w-max" style={{color: activeValue === buttonValues[6] ? 'white' : 'black', backgroundColor: activeValue === buttonValues[6] ? '#424242' : 'transparent'}}/>
-                                    <ButtonComponent children={'骨董品'} onClick={handleCategory('骨董品')} className="!px-3 bg-[transparent] border border-[#424242] text-[#424242] h-8 rounded-lg !w-max" style={{color: activeValue === buttonValues[7] ? 'white' : 'black', backgroundColor: activeValue === buttonValues[7] ? '#424242' : 'transparent'}}/>
-                                    <ButtonComponent children={'洋酒'} onClick={handleCategory('洋酒')} className="!px-3 bg-[transparent] border border-[#424242] text-[#424242] h-8 rounded-lg !w-max" style={{color: activeValue === buttonValues[8] ? 'white' : 'black', backgroundColor: activeValue === buttonValues[8] ? '#424242' : 'transparent'}}/>
-                                    <ButtonComponent children={'カメラ'} onClick={handleCategory('カメラ')} className="!px-3 bg-[transparent] border border-[#424242] text-[#424242] h-8 rounded-lg !w-max" style={{color: activeValue === buttonValues[9] ? 'white' : 'black', backgroundColor: activeValue === buttonValues[9] ? '#424242' : 'transparent'}}/>
+                                    <ButtonComponent children={'財布'} onClick={handleCategory('財布')} className="!px-3 bg-[transparent] border border-[#424242] text-[#70685a] h-8 rounded-lg !w-max" style={{color: activeValue === buttonValues[5] ? 'white' : 'black', backgroundColor: activeValue === buttonValues[5] ? '#424242' : 'transparent'}}/>
+                                    <ButtonComponent children={'アクセサリ'} onClick={handleCategory('アクセサリ')} className="!px-3 bg-[transparent] border border-[#424242] text-[#70685a] h-8 rounded-lg !w-max" style={{color: activeValue === buttonValues[6] ? 'white' : 'black', backgroundColor: activeValue === buttonValues[6] ? '#424242' : 'transparent'}}/>
+                                    <ButtonComponent children={'骨董品'} onClick={handleCategory('骨董品')} className="!px-3 bg-[transparent] border border-[#424242] text-[#70685a] h-8 rounded-lg !w-max" style={{color: activeValue === buttonValues[7] ? 'white' : 'black', backgroundColor: activeValue === buttonValues[7] ? '#424242' : 'transparent'}}/>
+                                    <ButtonComponent children={'洋酒'} onClick={handleCategory('洋酒')} className="!px-3 bg-[transparent] border border-[#424242] text-[#70685a] h-8 rounded-lg !w-max" style={{color: activeValue === buttonValues[8] ? 'white' : 'black', backgroundColor: activeValue === buttonValues[8] ? '#424242' : 'transparent'}}/>
+                                    <ButtonComponent children={'カメラ'} onClick={handleCategory('カメラ')} className="!px-3 bg-[transparent] border border-[#424242] text-[#70685a] h-8 rounded-lg !w-max" style={{color: activeValue === buttonValues[9] ? 'white' : 'black', backgroundColor: activeValue === buttonValues[9] ? '#424242' : 'transparent'}}/>
                                 </div>
                                 <div className='sales-slip-filters-btns flex justify-center w-1/3 gap-5 mt-5 ml-5'>
-                                    <ButtonComponent children={'楽器'} onClick={handleCategory('楽器')} className="!px-3 bg-[transparent] border border-[#424242] text-[#424242] h-8 rounded-lg !w-max" style={{color: activeValue === buttonValues[10] ? 'white' : 'black', backgroundColor: activeValue === buttonValues[10] ? '#424242' : 'transparent'}}/>
-                                    <ButtonComponent children={'スマホ/夕ブレット'} onClick={handleCategory('スマホ/夕ブレット')} className="!px-5 bg-[transparent] border border-[#424242] text-[#424242] h-8 rounded-lg !w-max" style={{color: activeValue === buttonValues[11] ? 'white' : 'black', backgroundColor: activeValue === buttonValues[11] ? '#424242' : 'transparent'}}/>
+                                    <ButtonComponent children={'楽器'} onClick={handleCategory('楽器')} className="!px-3 bg-[transparent] border border-[#424242] text-[#70685a] h-8 rounded-lg !w-max" style={{color: activeValue === buttonValues[10] ? 'white' : 'black', backgroundColor: activeValue === buttonValues[10] ? '#424242' : 'transparent'}}/>
+                                    <ButtonComponent children={'スマホ/夕ブレット'} onClick={handleCategory('スマホ/夕ブレット')} className="!px-5 bg-[transparent] border border-[#424242] text-[#70685a] h-8 rounded-lg !w-max" style={{color: activeValue === buttonValues[11] ? 'white' : 'black', backgroundColor: activeValue === buttonValues[11] ? '#424242' : 'transparent'}}/>
                                     <select id="classificatin" onChange={onChangeCategory}  name="classificatin" className="!w-max h-8 rounded-lg text-[#70685a] text-[15px] font-bold border border-[#70685a] px-4 py-1 outline-[#70685a]" style={{color: isSelectActive ? 'white' : 'black', backgroundColor: isSelectActive ? '#424242' : 'transparent'}}>
                                         <option value="その他">その他</option>
                                         <option value="Afghanistan">Afghanistan</option>
@@ -286,9 +286,9 @@ const SalesSlip = () => {
 
                     <div className="text-center space-x-4 mt-8">
                         <button type="button" onClick={gotoRegisterCustomer}
-                            className="px-6 py-2 rounded-lg text-white text-sm bg-red-600 hover:bg-red-700 active:bg-red-600">いいえ</button>
+                            className="px-6 py-2 rounded-lg text-white text-sm bg-red-600 hover:bg-red-700 active:bg-red-600">はい</button>
                         <button type="button" onClick={gotoCustomer}
-                            className="px-4 py-2 rounded-lg text-gray-800 text-sm bg-gray-200 hover:bg-gray-300 active:bg-gray-200">はい</button>
+                            className="px-4 py-2 rounded-lg text-gray-800 text-sm bg-gray-200 hover:bg-gray-300 active:bg-gray-200">いいえ</button>
                     </div>
                 </div>
             </div>

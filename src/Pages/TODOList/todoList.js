@@ -109,6 +109,38 @@ export default function TODOList() {
     const handleButtonClick = (sendInputRef) => {
         sendInputRef.current.click();
     };
+
+    const [messages, setMessages] = useState([]);
+    //fetch message data related user
+    useEffect(() => {
+      const fetchMessages = async () => {
+        const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+        if (!wakabaBaseUrl) {
+          throw new Error('API base URL is not defined');
+        }
+  
+        // console.log(`${wakabaBaseUrl}/customer/getCustomerList`);
+        const userId = localStorage.getItem('userId');
+        axios.get(`${wakabaBaseUrl}/todomessages/${userId}`)
+          .then(response => {
+            // console.log("all message",response.data)
+            setMessages(response.data);
+          })
+          .catch(error => {
+            console.error("There was an error fetching the customer data!", error);
+          });
+      };
+  
+      fetchMessages();
+      // Set up polling
+      // const intervalId = setInterval(() => {
+      //   fetchMessages();
+      // }, 1000); // Poll every 1 seconds
+  
+      // // Clean up on unmount
+      // return () => clearInterval(intervalId);
+    }, []);
+    
     // send message and file to other user 
     const sendTodoMessage = async () => {
         // console.log('sendtododata', reply);
@@ -137,6 +169,7 @@ export default function TODOList() {
                     }
                 }).then(response => {
                     // console.log('get data',response.data)
+                    setMessages(response.data);
                     setReply({
                         time: new Date().toISOString(),
                         title: '',
@@ -199,7 +232,7 @@ export default function TODOList() {
                     <div className='w-full'>
                         {/* received message */}
                         <div className='w-full h-[400px]'>
-                            <TodoAccordion onSendIdData={handleDataFromChildAccordion} />
+                            <TodoAccordion onSendIdData={handleDataFromChildAccordion} messages={messages}/>
                         </div>
                     </div>
                     {/* new post */}

@@ -240,7 +240,7 @@ const InvoicePurchaseOfBrought = () => {
     const sendPurchaseDataToReceipt = () => {
         const numberOfInvoice = customerPastVisitHistory.length;
         const purchaseData = {deadline,numberOfInvoice,totalSalesSlipData};
-        console.log('send purchase data',purchaseData,id);
+        // console.log('send purchase data',purchaseData,id);
         updateData(purchaseData);
         navigate('/customerreceipt');
        
@@ -248,7 +248,7 @@ const InvoicePurchaseOfBrought = () => {
     const sendPurchaseData = () => {
         const numberOfInvoice = customerPastVisitHistory.length;
         const purchaseData = {deadline,numberOfInvoice,totalSalesSlipData};
-        console.log('send purchase data',purchaseData,id);
+        // console.log('send purchase data',purchaseData,id);
         updateData(purchaseData);
         navigate('/purchaseinvoiceforbroughtinitems');
        
@@ -320,7 +320,7 @@ const InvoicePurchaseOfBrought = () => {
                 </div>
             </div>
             <div className="invoice-purchase-brought flex  justify-center ">
-                <div className="w-full pt-3" >
+                <div className="w-full pt-3 flex justify-center" >
                     <div className=" rounded-2xl">
                         <form className=" space-y-6">
                             {/* new */}
@@ -425,91 +425,93 @@ const InvoicePurchaseOfBrought = () => {
                     </div>
                 </div>
                 {/* textarea*/}
-                <div className="w-full h-full mt-9" style={{ maxWidth: '60em' }}>
-                    {/* textarea First*/}
-                    <div style={{ width: '100%', }} className='flex'>
-                        <div className=" h-full w-full ml-10">
-                            {/* Text area */}
-                            <div className="border border-[#70685a] rounded px-3 w-full" style={{ height: '300px', overflowX: 'scroll', overflowY: 'scroll' }}>
-                                <label className="text-[#70685a] text-[20px] font-bold mb-2 block text-left mr-10 py-1 !mb-0">過去の来店履歴</label>
-                                <div style={{ width: '100%', overflow: 'auto' }} >
-                                    <table className='text-center w-full' style={Table}>
-                                        <thead>
-                                            <tr>
-                                                <th className='whitespace-nowrap text-eclipse' width='5%'>来店回数 </th>
-                                                <th className='whitespace-nowrap' width='5%'></th>
-                                                <th className='whitespace-nowrap' width='5%'></th>
-                                                <th className='whitespace-nowrap' width='5%'></th>
-                                                <th className='whitespace-nowrap' width='5%'></th>
-                                                <th className='whitespace-nowrap' width='10%'>合計</th>
-                                                <th className='whitespace-nowrap' width='5%'>99,999,999</th>
-                                                <th className='whitespace-nowrap' width='5%'>99,999,999</th>
-                                                <th className='whitespace-nowrap' width='5%'>99,999,999</th>
-                                            </tr>
-                                            <tr>
-                                                <th className='whitespace-nowrap' width='5%'>999</th>
-                                                <th className='whitespace-nowrap' width='5%'>来店日</th>
-                                                <th className='whitespace-nowrap' width='5%'>適用</th>
-                                                <th className='whitespace-nowrap' width='5%'>合計金額</th>
-                                                <th className='whitespace-nowrap' width='5%'>カテゴリ-1</th>
-                                                <th className='whitespace-nowrap' width='5%'>商品名</th>
-                                                <th className='whitespace-nowrap' width='5%'>売上総額</th>
-                                                <th className='whitespace-nowrap' width='5%'>粗利総額</th>
-                                                <th className='whitespace-nowrap' width='5%'>買取総額</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {customerPastVisitHistory.map((pastVisit, Index) => (
-                                                <tr key={Index}>
-                                                    <td>
-                                                        <div className='flex justify-center'>
-                                                            <div>{Index + 1}.</div>
-                                                            <div>
-                                                                <svg className="w-5 h-5 ml-1" fill='#70685a' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="ContentCopyIcon" title="ContentCopy">
-                                                                    <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2m0 16H8V7h11z"></path>
-                                                                </svg>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                    <td style={Td}>{pastVisit.visit_date}</td>
-                                                    <td style={Td}>{pastVisit.applicable}</td>
-                                                    <td style={Td}>{pastVisit.total_amount}</td>
-                                                    <td style={Td}>{pastVisit.category}</td>
-                                                    <td style={Td}>{pastVisit.product_name}</td>
-                                                    <td style={Td}>{pastVisit.total_sales}</td>
-                                                    <td style={Td}>{pastVisit.total_gross_profit}</td>
-                                                    <td style={Td}>{pastVisit.total_purchase_price}</td>
+                <div className="w-full h-full mt-9 flex justify-center">
+                    <div className='w-full'>
+                        {/* textarea First*/}
+                        <div className='w-full flex justify-center'>
+                            <div className=" h-full w-full">
+                                {/* Text area */}
+                                <div className="border border-[#70685a] rounded px-3 w-full" style={{ height: '300px', overflowX: 'scroll', overflowY: 'scroll' }}>
+                                    <label className="text-[#70685a] text-[20px] font-bold mb-2 block text-left mr-10 py-1 !mb-0">過去の来店履歴</label>
+                                    <div style={{ width: '100%', overflow: 'auto' }} >
+                                        <table className='text-center w-full' style={Table}>
+                                            <thead>
+                                                <tr>
+                                                    <th className='whitespace-nowrap text-eclipse' width='5%'>来店回数 </th>
+                                                    <th className='whitespace-nowrap' width='5%'></th>
+                                                    <th className='whitespace-nowrap' width='5%'></th>
+                                                    <th className='whitespace-nowrap' width='5%'></th>
+                                                    <th className='whitespace-nowrap' width='5%'></th>
+                                                    <th className='whitespace-nowrap' width='10%'>合計</th>
+                                                    <th className='whitespace-nowrap' width='5%'>99,999,999</th>
+                                                    <th className='whitespace-nowrap' width='5%'>99,999,999</th>
+                                                    <th className='whitespace-nowrap' width='5%'>99,999,999</th>
                                                 </tr>
-                                            ))}
-                                        </tbody>
-                                    </table>
+                                                <tr>
+                                                    <th className='whitespace-nowrap' width='5%'>999</th>
+                                                    <th className='whitespace-nowrap' width='5%'>来店日</th>
+                                                    <th className='whitespace-nowrap' width='5%'>適用</th>
+                                                    <th className='whitespace-nowrap' width='5%'>合計金額</th>
+                                                    <th className='whitespace-nowrap' width='5%'>カテゴリ-1</th>
+                                                    <th className='whitespace-nowrap' width='5%'>商品名</th>
+                                                    <th className='whitespace-nowrap' width='5%'>売上総額</th>
+                                                    <th className='whitespace-nowrap' width='5%'>粗利総額</th>
+                                                    <th className='whitespace-nowrap' width='5%'>買取総額</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {customerPastVisitHistory.map((pastVisit, Index) => (
+                                                    <tr key={Index}>
+                                                        <td>
+                                                            <div className='flex justify-center'>
+                                                                <div>{Index + 1}.</div>
+                                                                <div>
+                                                                    <svg className="w-5 h-5 ml-1" fill='#70685a' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="ContentCopyIcon" title="ContentCopy">
+                                                                        <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2m0 16H8V7h11z"></path>
+                                                                    </svg>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td style={Td}>{pastVisit.visit_date}</td>
+                                                        <td style={Td}>{pastVisit.applicable}</td>
+                                                        <td style={Td}>{pastVisit.total_amount}</td>
+                                                        <td style={Td}>{pastVisit.category}</td>
+                                                        <td style={Td}>{pastVisit.product_name}</td>
+                                                        <td style={Td}>{pastVisit.total_sales}</td>
+                                                        <td style={Td}>{pastVisit.total_gross_profit}</td>
+                                                        <td style={Td}>{pastVisit.total_purchase_price}</td>
+                                                    </tr>
+                                                ))}
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
-                            </div>
 
+                            </div>
                         </div>
-                    </div>
-                    {/* textarea Second*/}
-                    <div style={{ width: '100%', }} className='flex'>
-                        <div className=" h-full w-full ml-10 mt-10">
-                            {/* Text area */}
-                            <div className="border border-[#70685a] rounded px-3 w-full" style={{ height: '305px', overflowX: 'scroll', overflowY: 'scroll' }}>
-                                <label className="text-[#70685a] text-[20px] font-bold mb-2 block text-left mr-10 py-1 !mb-0">全体ヒアリング</label>
-                                <div>
-                                    <div className='flex'>
-                                        <label className="text-[#70685a] text-[20px] mb-2 block text-left mr-10 py-1">項目1</label>
-                                        <label className="text-[#70685a] text-[20px] mb-2 block text-left mr-10 py-1 !mb-0">O O O O O O O O</label>
+                        {/* textarea Second*/}
+                        <div className='w-full flex justify-center'>
+                            <div className=" h-full w-full mt-10">
+                                {/* Text area */}
+                                <div className="border border-[#70685a] rounded px-3 w-full" style={{ height: '305px', overflowX: 'scroll', overflowY: 'scroll' }}>
+                                    <label className="text-[#70685a] text-[20px] font-bold mb-2 block text-left mr-10 py-1 !mb-0">全体ヒアリング</label>
+                                    <div>
+                                        <div className='flex'>
+                                            <label className="text-[#70685a] text-[20px] mb-2 block text-left mr-10 py-1">項目1</label>
+                                            <label className="text-[#70685a] text-[20px] mb-2 block text-left mr-10 py-1 !mb-0">O O O O O O O O</label>
+                                        </div>
+                                        <div className='ml-20'>
+                                            <InputComponent className="w-full text-[#70685a] text-[20px] mb-2 block text-left  mr-10 py-1 !mb-0" />
+                                        </div>
                                     </div>
-                                    <div className='ml-20'>
-                                        <InputComponent className="w-full text-[#70685a] text-[20px] mb-2 block text-left  mr-10 py-1 !mb-0" />
-                                    </div>
-                                </div>
-                                <div>
-                                    <div className='flex'>
-                                        <label className="text-[#70685a] text-[20px] mb-2 block text-left mr-10 py-1">項目2</label>
-                                        <label className="text-[#70685a] text-[20px] mb-2 block text-left mr-10 py-1 !mb-0">O O O O O O O O</label>
-                                    </div>
-                                    <div className='border border-[#70685a] ml-20'>
-                                        <InputComponent className="w-full text-[#70685a] text-[20px] mb-2 block text-left  mr-10 py-1 !mb-0" />
+                                    <div>
+                                        <div className='flex'>
+                                            <label className="text-[#70685a] text-[20px] mb-2 block text-left mr-10 py-1">項目2</label>
+                                            <label className="text-[#70685a] text-[20px] mb-2 block text-left mr-10 py-1 !mb-0">O O O O O O O O</label>
+                                        </div>
+                                        <div className='border border-[#70685a] ml-20'>
+                                            <InputComponent className="w-full text-[#70685a] text-[20px] mb-2 block text-left  mr-10 py-1 !mb-0" />
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -616,7 +618,7 @@ const InvoicePurchaseOfBrought = () => {
                                 <th style={Th}>商品</th>
                                 <th style={Th}>数</th>
                                 <th style={Th}>買取額</th>
-                                <th style={Th}></th>
+                                <th style={Th}>削除</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -628,9 +630,9 @@ const InvoicePurchaseOfBrought = () => {
                                     <td style={Td}>{salesData.product}</td>
                                     <td style={Td}> {salesData.quantity} </td>
                                     <td style={Td}>{salesData.purchase_price}</td>
-                                    <td style={Td} className='flex justify-center w-10'>
-                                        <div onClick={() => removeSalesItem(Index)} className='w-full h-ful bg-transparent hover:bg-[#ebe6e0] transition-all duration-300'>
-                                            <svg className="" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CloseIcon" title="Close"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
+                                    <td style={Td} className='w-8 bg-transparent hover:bg-[#ebe6e0] transition-all duration-300'>
+                                        <div onClick={() => removeSalesItem(Index)} className='w-7'>
+                                            <svg className="flex flex-col justify-center" focusable="false" aria-hidden="true" viewBox="0 0 23 23" fill='#524c3b' data-testid="CancelOutlinedIcon" title="CancelOutlined"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8m3.59-13L12 10.59 8.41 7 7 8.41 10.59 12 7 15.59 8.41 17 12 13.41 15.59 17 17 15.59 13.41 12 17 8.41z"></path></svg>
                                         </div>
                                     </td>
                                 </tr>

@@ -5,41 +5,9 @@ import '../../Assets/css/showtable.css'
 import dateimage from '../../Assets/img/datepicker.png';
 import InputComponent from '../../Components/Common/InputComponent';
 import ButtonComponent from '../../Components/Common/ButtonComponent';
-// import LabelComponent from '../../Components/Common/LabelComponent';
 
 
-const CustomerIndividual = () => {
-    // const title = 'タイトルタイトル';
-
-    // State to store the current date and time
-    const [dateTime, setDateTime] = useState(new Date());
-
-    useEffect(() => {
-        // Update the date and time every minute
-        const intervalId = setInterval(() => {
-            setDateTime(new Date());
-        }, 60000); // Update every 60,000 milliseconds (1 minute)
-
-        // Clear the interval on component unmount
-        return () => clearInterval(intervalId);
-    }, []);
-
-    // Map of days of the week to Japanese kanji
-    const dayKanji = ['日', '月', '火', '水', '木', '金', '土'];
-
-    // Format the date and time as YYYY/MM/DD (Kanji) HH:MM
-    const formatDateTime = (date) => {
-        const year = date.getFullYear();
-        const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are 0-based
-        const day = String(date.getDate()).padStart(2, '0');
-        const dayOfWeek = date.getDay(); // Get day of week (0: Sunday, 1: Monday, ..., 6: Saturday)
-        const hours = String(date.getHours()).padStart(2, '0');
-        const minutes = String(date.getMinutes()).padStart(2, '0');
-
-        return `${year}/${month}/${day} (${dayKanji[dayOfWeek]}) ${hours}:${minutes}`;
-    };
-
-    const formattedDateTime = formatDateTime(dateTime);
+const CustomerIndividualCreate = ({onSendData}) => {
 
     const Table = {
         borderCollapse: 'collapse',
@@ -55,7 +23,6 @@ const CustomerIndividual = () => {
         borderCollapse: 'collapse',
         color: '#6e6e7c',
         fontSize: '15px',
-        whiteSpace:'nowrap'
     };
 
     const [customer, setCustomer] = useState({
@@ -64,7 +31,6 @@ const CustomerIndividual = () => {
         katakana_name: '',
         phone_number: '',
         address: '',
-        shop: '',
         opportunity: '',
         birthday: '',
         age: '',
@@ -75,65 +41,15 @@ const CustomerIndividual = () => {
         prefeature: '',
         city: '',
         gender: '',
-    });
+        trigger:'',
+        shop:'',
 
-    // const [customerPastVisitHistory, setCustomerPastVisitHistory] = useState([{
-    //     visit_date:'',
-    //     applicable:'',
-    //     total_amount:'',
-    //     category:'',
-    //     product_name:'',
-    //     total_sales:'',
-    //     total_gross_profit:'',
-    //     total_purchase_price:''
-    // }]);
-    const [customerPastVisitHistory, setCustomerPastVisitHistory] = useState([]);
+    });
 
     const [imageAvatarPreview, setAvatarImagePreview] = useState("");
     const [imageIdCardPreview, setIdCardImagePreview] = useState("");
 
     const navigate = useNavigate();
-
-    // Fetch customer data
-    const { id } = useParams();
-
-        // Fetch customerPastVisitHistory data
-        useEffect(() => {
-            const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
-    
-            if (!wakabaBaseUrl) {
-                throw new Error('API base URL is not defined');
-            } 
-            axios.get(`${wakabaBaseUrl}/customer/customerpastvisithistory/${id}`)
-                .then(response => {
-                    console.log("historydata", response.data)
-                    setCustomerPastVisitHistory(response.data);
-                })
-                .catch(error => {
-                    console.error("There was an error fetching the customer data!", error);
-                });
-        }, []);
-
-    useEffect(() => {
-        const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
-
-        if (!wakabaBaseUrl) {
-            throw new Error('API base URL is not defined');
-        }
-        if(id){
-            axios.get(`${wakabaBaseUrl}/customer/getCustomerById/${id}`)
-            .then(response => {
-                console.log("data", response.data)
-                setCustomer(response.data);
-                setAvatarImagePreview(`${wakabaBaseUrl}/uploads/customer/${response.data.avatar_url}`);
-                setIdCardImagePreview(`${wakabaBaseUrl}/uploads/customer/${response.data.idCard_url}`);
-            })
-            .catch(error => {
-                console.error("There was an error fetching the customer data!", error);
-            });
-        }
-
-    }, [id]);
 
     // //file upload
     const [avatarimageFile, setAvatarImageFile] = useState(null);
@@ -177,34 +93,55 @@ const CustomerIndividual = () => {
         inputRef.current.click();
     };
 
-    const [isKeepModalOpen, setIsKeepModalOpen] = useState(false); // For modal visibility
-    const openKeepCheckModal = () => {
-        setIsKeepModalOpen(true);
+    const [isCreateModalOpen, setIsCreateModalOpen] = useState(false); // For modal visibility
+    const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false); // For modal visibility
+
+    const openCreateCheckModal = () => {
+        setIsCreateModalOpen(true);
+    }
+    const openSuccessCheckModal = () => {
+        setIsSuccessModalOpen(true);
     }
     const onClose = () => {
-        setIsKeepModalOpen(false);
+        setIsCreateModalOpen(false);
     }
-    const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false); // For modal visibility
-    const openDeleteCheckModal = () => {
-        setIsDeleteModalOpen(true);
+    const onCloseSuccess = (customerId) => {
+        onSendData(customerId);
+        setIsSuccessModalOpen(false);
     }
-    const onDeleteClose = () => {
-        setIsDeleteModalOpen(false);
-    }
-
-    const handleKeepSubmit = async (e) => {
+    //create-symbol
+    const formatPhoneNumber = (number) => {
+        // Ensure the number is a string
+        const numStr = number.toString();
+        
+        // Extract parts of the string
+        const part1 = numStr.slice(0, 3);    // First 3 digits
+        const part2 = numStr.slice(3, 7);    // Next 4 digits
+        const part3 = numStr.slice(7);       // Last 4 digits
+    
+        // Combine parts with dashes
+        return `${part1}-${part2}-${part3}`;
+    };
+    const [customerId , setCustomerId] = useState('');
+    const handleCreateSubmit = async (e) => {
         e.preventDefault();
-        setIsKeepModalOpen(false);
+        setIsCreateModalOpen(false);
+
+        const formattedNumber = formatPhoneNumber(customer.phone_number);
+        customer.phone_number =  formattedNumber;
+
         const formDataObj = new FormData();
         formDataObj.append('id', customer.id);
+        formDataObj.append('shop', customer.shop);
         formDataObj.append('opportunity', customer.opportunity);
         formDataObj.append('full_name', customer.full_name);
         formDataObj.append('katakana_name', customer.katakana_name);
         formDataObj.append('phone_number', customer.phone_number);
-        formDataObj.append('job', customer.job);
         formDataObj.append('birthday', customer.birthday);
         formDataObj.append('age', customer.age);
         formDataObj.append('gender', customer.gender);
+        formDataObj.append('job', customer.job);
+        formDataObj.append('trigger', customer.trigger);
         formDataObj.append('cardType', customer.cardType);
         formDataObj.append('prefeature', customer.prefeature);
         formDataObj.append('city', customer.city);
@@ -220,7 +157,7 @@ const CustomerIndividual = () => {
             if (!wakabaBaseUrl) {
                 throw new Error('API base URL is not defined');
             }
-            const response = await axios.post(`${wakabaBaseUrl}/customer/updateCustomer`, formDataObj,
+            const response = await axios.post(`${wakabaBaseUrl}/customer/createCustomer`, formDataObj,
                 {
                     headers: {
                         'Content-Type': 'multipart/form-data',
@@ -228,78 +165,19 @@ const CustomerIndividual = () => {
                 }
             );
             console.log('Response:', response.data);
-            // setAvatarImageFile(null);
-            // setIdcardFile(null);
+            setCustomerId(response.data.id)
+            openSuccessCheckModal();
         } catch (error) {
             console.error('Error submitting form:', error);
             // Handle error here
         }
-    };
-    const handleDeleteSubmit = async (e) => {
-        e.preventDefault();
-        setIsDeleteModalOpen(false);
-        const customerId = customer.id;
-        console.log('CustomerId', customerId);
-
-        try {
-            const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
-
-            if (!wakabaBaseUrl) {
-                throw new Error('API base URL is not defined');
-            }
-            const response = await axios.post(`${wakabaBaseUrl}/customer/deleteCustomer`, {customerId});
-            console.log('Response:', response.data);
-
-            navigate('/customerlist'); // Navigate to the profile page after closing the modal
-        } catch (error) {
-            console.error('Error submitting form:', error);
-            // Handle error here
-        }
-    };
-    const gotoInvoiceForPurchase = () => {
-        navigate(`/invoiceforpurchaseofbrought/${id}`); // Use navigate for routing
     };
 
 
     return (<>
         <div className="bg-[trasparent] font-[sans-serif]">
-            <div className='flex justify-center'>
-                <div className="w-full pt-3" style={{ maxWidth: '90em' }}>
-                    <div className="w-full pt-3" style={{ maxWidth: '40em' }}>
-                        {/* new */}
-                        <div className='flex'>
-                            <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 !mb-0">来店時間</label>
-                            </div>
-                            <div style={{ width: '50%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                <label className="text-[#70685a] font-bold block text-left mr-10 py-1 !mb-0">{formattedDateTime}</label>
-                            </div>
-                        </div>
-                        {/* new */}
-                        <div className='flex'>
-                            <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">顧客番号</label>
-                            </div>
-                            <div style={{ width: '50%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                <label className="text-[#70685a] font-bold mb-2 block text-left mr-10 py-1 !mb-0">{customer.id}</label>
-                            </div>
-                        </div>
-                    </div>
-                    <h2 className="text-[#70685a] text-center text-2xl font-bold flex justify-center !mt-0">顧客 個別情報(編集画面)</h2>
-                    <div className='customer-edit w-full flex justify-center mt-10 gap-10' >
-                        <div className='customer-edit-center flex gap-10'>
-                            <ButtonComponent name="delete" children="削除" onClick={openDeleteCheckModal} className='px-5' style={{ backgroundColor: '#838383' }} />
-                            <ButtonComponent name="keep" className='' onClick={openKeepCheckModal} children="保存" />
-                        </div>
-                        <div className=' customer-edit-center flex gap-10'>
-                            <ButtonComponent name="onsitepurchase" children="出張買取" className='px-5' style={{ border: '1px solid #838383', backgroundColor: 'transparent', color: '#838383', }} ><Link to='/onsitepurchase'>キャンセル</Link></ButtonComponent>
-                            <label className="text-[#70685a] font-bold mb-2 block text-left flex justify-end" style={{ flexDirection: 'column'}}><u> <Link to='/customerlist'>キャンセル</Link></u></label>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div className="customer-edit flex  justify-center ">
-                <div className="w-full pt-3">
+            <div className=" flex  justify-center ">
+                <div className="w-full pt-3" style={{ maxWidth: '60em' }}>
                     <div className=" rounded-2xl w-full">
                         <form className=" space-y-6 pt-10">
                             {/* new */}
@@ -308,13 +186,13 @@ const CustomerIndividual = () => {
                                     <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">店舗名</label>
                                 </div>
                                 <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <label name="storename" className="text-[#70685a] font-bold mb-2 block text-left mr-10 py-2 !mb-0">{customer.shop}</label>
+                                    <input name="shop" value={customer.shop} onChange={handleCustomerChange} type="text" required className="w-full text-[#70685a] border border-[#70685a] px-4 py-2 outline-[#70685a]" />
                                 </div>
                                 <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
                                     <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-3 !mb-0">契機</label>
                                 </div>
                                 <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <select id="opportunity" name="opportunity" value={customer.opportunity || ''} required onChange={handleCustomerChange} className="w-full text-[#70685a] font-bold border border-[#70685a] px-4 py-2 outline-[#70685a]">
+                                    <select id="opportunity" name="opportunity" value={customer.opportunity} required onChange={handleCustomerChange} className="w-full text-[#70685a] font-bold border border-[#70685a] px-4 py-2 outline-[#70685a]">
                                         <option value="" disabled></option>
                                         <option value="新規顧客">新規顧客</option>
                                         <option value="再来顧客">再来顧客</option>
@@ -376,8 +254,8 @@ const CustomerIndividual = () => {
                                 <div style={{ width: '15%', flexDirection: 'column', }} className='flex align-center justify-around'>
                                     <select id="gender" name="gender" required onChange={handleCustomerChange} value={customer.gender} className="w-full text-[#70685a] font-bold border border-[#70685a] px-4 py-2 outline-[#70685a]">
                                         <option value="" disabled></option>
-                                        <option value="man">男</option>
-                                        <option value="woman">女</option>
+                                        <option value="男">男</option>
+                                        <option value="女">女</option>
                                     </select>
                                 </div>
                             </div>
@@ -400,7 +278,16 @@ const CustomerIndividual = () => {
                                 </div>
                             </div>
                             {/* new */}
-                            <div className='flex '>
+                            <div className='flex'>
+                                <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
+                                    <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">トリガー</label>
+                                </div>
+                                <div style={{ width: '30%', flexDirection: 'column', }} className='flex align-center justify-around'>
+                                    <InputComponent name="trigger" value={customer.trigger} onChange={handleCustomerChange} type='text' required />
+                                </div>
+                            </div>
+                            {/* new */}
+                            <div className='flex'>
                                 <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
                                     <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">本人確認書類</label>
                                 </div>
@@ -416,7 +303,7 @@ const CustomerIndividual = () => {
                                     <input type="file" name='idcardUpload' ref={idcardInputRef} style={{ display: 'none' }} onChange={(e) => handleFileChange(e, setIdcardFile, setAvatarImagePreview)} />
                                     {/* {idcardFile && <p>{idcardFile.name}</p>} */}
                                 </div>
-                                <div style={{ width: '30%', flexDirection: 'column',  }} className='flex ml-3 align-center justify-around'>
+                                <div style={{ width: '30%', flexDirection: 'column'}} className='flex align-center justify-around ml-3'>
                                     <select id="cardType" name="cardType" value={customer.cardType} required onChange={handleCustomerChange} className="w-full h-9 text-[#70685a] text-[15px] font-bold border border-[#70685a] px-4 py-2 outline-[#70685a]">
                                         <option value="" disabled></option>
                                         <option value="運転免許証">運転免許証</option>
@@ -426,7 +313,7 @@ const CustomerIndividual = () => {
                                         <option value="各種福祉手帳（身体障害者手帳等）">各種福祉手帳（身体障害者手帳等）</option>
                                     </select>
                                 </div>
-                                <div style={{ width: '30%', flexDirection: 'column', display:'none' }} className='flex align-center justify-around'>
+                                <div style={{ width: '30%', flexDirection: 'column',display:'none'}} className='flex align-center justify-around'>
                                     <button type="button" onClick={() => handleButtonClick(avatarImageInputRef)} className="py-2 text-[#70685a] rounded-full tracking-wider font-medium outline-none border border-[#70685a] ">画像と情報表示</button>
                                     <input type="file" name="avatarimageUpload" ref={avatarImageInputRef} style={{ display: 'none' }} onChange={(e) => handleFileChange(e, setAvatarImageFile, setIdCardImagePreview)} />
                                     {/* {avatarimageFile && <p>Selected Image: {avatarimageFile.name}</p>} */}
@@ -440,10 +327,10 @@ const CustomerIndividual = () => {
                                 <div style={{ width: '75%', flexDirection: 'column', }} className='flex h-full felx-col justify-center'>
                                     <div className='flex justify-between w-full h-[100px]'>
                                         <div style={{ width: '60%' }} className='border border-[#70685a] rounded-lg flex justify-center'>
-                                            {imageIdCardPreview=="http:///172.31.0.201:8081/api/uploads/customer/" ? "": <img src={imageIdCardPreview} alt="Image Preview" className='h-[100px] p-1 rounded-lg' />}
+                                            {imageAvatarPreview=="" ? "": <img src={imageAvatarPreview} alt="Image Preview" className='h-[100px] p-1 rounded-lg' />}
                                         </div>
-                                        <div style={{ width: '35%',display:'none' }} className='border border-[#70685a] rounded-full flex justify-center'>
-                                            {imageIdCardPreview =="http:///172.31.0.201:8081/api/uploads/customer/" ? "": <img src={imageIdCardPreview} alt="Image Preview" className='h-[100px] p-1 rounded-full' />}
+                                        <div style={{ width: '35%',display:'none'}} className='border border-[#70685a] rounded-full flex justify-center'>
+                                            {imageIdCardPreview =="" ? "": <img src={imageIdCardPreview} alt="Image Preview" className='h-[100px] p-1 rounded-full' />}
                                         </div>
                                     </div>
 
@@ -526,116 +413,25 @@ const CustomerIndividual = () => {
                         </form>
                     </div>
                 </div>
-                {/* Detail area*/}
-                <div className="customer-pasting-view w-full h-full mt-10 pt-5 ml-10" style={{ maxWidth: '50em' }}>
-                    {/* Detail area First*/}
-                    <div style={{ width: '100%', }} className='flex'>
-                        <div className=" h-full w-full">
-                            {/*Past visit history of Table area */}
-                            <div className="border border-[#70685a] rounded px-3 w-full mb-5" style={{ height: '350px', overflowX: 'scroll', overflowY: 'scroll' }}>
-                                <div className='flex justify-between mt-5'>
-                                   <label className="text-[#70685a] text-[20px] font-bold mb-2 block text-left mr-10 py-1 !mb-0">過去の訪問履歴</label>
-                                   <button type="button" onClick={gotoInvoiceForPurchase}
-                                   className="flex px-5 py-1 rounded-lg text-md tracking-wider font-bold border border-[#70685a] outline-none bg-transparent text-[#70685a] transition-all duration-300">
-                                    <div className='w-7'>
-                                        <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium  MuiSvgIcon-root MuiSvgIcon-fontSizeLarge  css-1hkft75" fill='#524c3b' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="AddCircleOutlineOutlinedIcon" title="AddCircleOutlineOutlined"><path d="M13 7h-2v4H7v2h4v4h2v-4h4v-2h-4zm-1-5C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8"></path></svg>
-                                    </div>
-                                    <div><span className='pl-1 text-[20px]'>追加</span></div>
-                                    </button>
-                                </div>
-
-                                <div style={{ width: '100%', }} >
-                                    <table className='text-center w-full' style={Table}>
-                                        <thead>
-                                            <tr>
-                                                <th className='whitespace-nowrap text-eclipse' width='5%'>来店回数 </th>
-                                                <th className='whitespace-nowrap' width='5%'></th>
-                                                <th className='whitespace-nowrap' width='5%'></th>
-                                                <th className='whitespace-nowrap' width='5%'></th>
-                                                <th className='whitespace-nowrap' width='5%'></th>
-                                                <th className='whitespace-nowrap' width='10%'>合計</th>
-                                                <th className='whitespace-nowrap' width='5%'>99,999,999</th>
-                                                <th className='whitespace-nowrap' width='5%'>99,999,999</th>
-                                                <th className='whitespace-nowrap' width='5%'>99,999,999</th>
-                                            </tr>
-                                            <tr>
-                                                <th className='whitespace-nowrap' width='5%'>999</th>
-                                                <th className='whitespace-nowrap' width='5%'>来店日</th>
-                                                <th className='whitespace-nowrap' width='5%'>適用</th>
-                                                <th className='whitespace-nowrap' width='5%'>合計金額</th>
-                                                <th className='whitespace-nowrap' width='5%'>カテゴリ-1</th>
-                                                <th className='whitespace-nowrap' width='5%'>商品名</th>
-                                                <th className='whitespace-nowrap' width='5%'>売上総額</th>
-                                                <th className='whitespace-nowrap' width='5%'>粗利総額</th>
-                                                <th className='whitespace-nowrap' width='5%'>買取総額</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {customerPastVisitHistory.map((pastVisit, Index) => (
-                                                <tr key={Index}>
-                                                    <td>
-                                                        <div className='flex justify-center'>
-                                                            <div>{Index + 1}.</div>
-                                                            <div>
-                                                                <svg className="w-5 h-5 ml-1" fill='#70685a' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="ContentCopyIcon" title="ContentCopy">
-                                                                    <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2m0 16H8V7h11z"></path>
-                                                                </svg>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                    <td style={Td}>{pastVisit.visit_date}</td>
-                                                    <td style={Td}>{pastVisit.applicable}</td>
-                                                    <td style={Td}>{pastVisit.total_amount}</td>
-                                                    <td style={Td}>{pastVisit.category}</td>
-                                                    <td style={Td}>{pastVisit.product_name}</td>
-                                                    <td style={Td}>{pastVisit.total_sales}</td>
-                                                    <td style={Td}>{pastVisit.total_gross_profit}</td>
-                                                    <td style={Td}>{pastVisit.total_purchase_price}</td>
-                                                </tr>
-                                            ))}
-                                        </tbody>
-                                    </table>
-                                </div>
-
-                            </div>
-                            {/* Text area */}
-                            <div className="border border-[#70685a] rounded px-3 w-full" style={{ height: '340px', overflowX: 'scroll', overflowY: 'scroll' }}>
-                                <label className="text-[#70685a] text-[20px] font-bold mb-2 block text-left mr-10 py-1 !mb-0">Whole hearing</label>
-                                <div>
-                                    <div className='flex'>
-                                        <label className="text-[#70685a] text-[18px] mb-2 block text-left mr-10 py-1">Eleven 1</label>
-                                        <label className="text-[#70685a] text-[15px] mb-2 block text-left mr-10 py-1 !mb-0">O O O O O O O O</label>
-                                    </div>
-                                    <div className='border border-[#70685a] ml-20'>
-                                        <label className="text-[#70685a] text-[15px] mb-2 block text-left  mr-10 py-1 !mb-0">O O O O O O O O</label>
-                                    </div>
-                                </div>
-                                <div>
-                                    <div className='flex'>
-                                        <label className="text-[#70685a] text-[18px] mb-2 block text-left mr-10 py-1">Eleven 2</label>
-                                        <label className="text-[#70685a] text-[15px] mb-2 block text-left mr-10 py-1 !mb-0">O O O O O O O O</label>
-                                    </div>
-                                    <div className='border border-[#70685a] ml-20'>
-                                        <label className="text-[#70685a] text-[15px] mb-2 block text-left  mr-10 py-1 !mb-0">O O O O O O O O</label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+            </div>
+            <div className='flex justify-center'>
+                <div className="w-full pt-3" style={{ maxWidth: '80em' }}>
+                    <div className='w-full flex justify-center gap-20 mt-3 mb-5'>
+                        <ButtonComponent children="作成する" onClick={openCreateCheckModal} className='w-max h-11 !px-5' style={{ border: '1px solid #e87a00', backgroundColor: 'transparent', color: '#e87a00' }} />
                     </div>
-
                 </div>
             </div>
         </div>
-        {isKeepModalOpen && (
+        {isCreateModalOpen && (
             <div
             className="fixed inset-0 p-4 flex flex-wrap justify-center items-center w-full h-full z-[1000] before:fixed before:inset-0 before:w-full before:h-full before:bg-[rgba(0,0,0,0.5)] overflow-auto font-[sans-serif]">
             <div className="w-full max-w-lg bg-white shadow-lg rounded-lg p-6 relative">
 
                 <div className="my-4 text-center">
-                    <h4 className="text-gray-800 text-base font-semibold mt-4">保存しました</h4>
+                    <h4 className="text-gray-800 text-base font-semibold mt-4">顧客データを保存していますか？</h4>
 
                     <div className="text-center space-x-4 mt-8">
-                        <button type="button" onClick={handleKeepSubmit}
+                        <button type="button" onClick={handleCreateSubmit}
                             className="px-6 py-2 rounded-lg text-white text-sm bg-red-600 hover:bg-red-700 active:bg-red-600">オーケー</button>
                         <button type="button" onClick={onClose}
                             className="px-4 py-2 rounded-lg text-gray-800 text-sm bg-gray-200 hover:bg-gray-300 active:bg-gray-200">キャンセル</button>
@@ -644,33 +440,25 @@ const CustomerIndividual = () => {
             </div>
         </div>
         )}
-        {isDeleteModalOpen && (
+        {isSuccessModalOpen && (
             <div
             className="fixed inset-0 p-4 flex flex-wrap justify-center items-center w-full h-full z-[1000] before:fixed before:inset-0 before:w-full before:h-full before:bg-[rgba(0,0,0,0.5)] overflow-auto font-[sans-serif]">
             <div className="w-full max-w-lg bg-white shadow-lg rounded-lg p-6 relative">
 
                 <div className="my-4 text-center">
-                   
-                    <svg xmlns="http://www.w3.org/2000/svg" className="w-14 fill-red-500 inline" viewBox="0 0 24 24">
-                        <path
-                            d="M19 7a1 1 0 0 0-1 1v11.191A1.92 1.92 0 0 1 15.99 21H8.01A1.92 1.92 0 0 1 6 19.191V8a1 1 0 0 0-2 0v11.191A3.918 3.918 0 0 0 8.01 23h7.98A3.918 3.918 0 0 0 20 19.191V8a1 1 0 0 0-1-1Zm1-3h-4V2a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v2H4a1 1 0 0 0 0 2h16a1 1 0 0 0 0-2ZM10 4V3h4v1Z"
-                            data-original="#000000" />
-                        <path d="M11 17v-7a1 1 0 0 0-2 0v7a1 1 0 0 0 2 0Zm4 0v-7a1 1 0 0 0-2 0v7a1 1 0 0 0 2 0Z"
-                            data-original="#000000" />
-                    </svg>
-                    <h4 className="text-gray-800 text-base font-semibold mt-4">削除します。よろしいですか？</h4>
+                    <h4 className="text-gray-800 text-base font-semibold mt-4">新しい顧客データが正常に作成されました。</h4>
+
                     <div className="text-center space-x-4 mt-8">
-                        <button type="button" onClick={handleDeleteSubmit}
+                        <button type="button" onClick={()=>onCloseSuccess(customerId)}
                             className="px-6 py-2 rounded-lg text-white text-sm bg-red-600 hover:bg-red-700 active:bg-red-600">オーケー</button>
-                        <button type="button" onClick={onDeleteClose}
-                            className="px-4 py-2 rounded-lg text-gray-800 text-sm bg-gray-200 hover:bg-gray-300 active:bg-gray-200">キャンセル</button>
                     </div>
                 </div>
             </div>
         </div>
         )}
+  
     </>
     );
 };
 
-export default CustomerIndividual;
+export default CustomerIndividualCreate;

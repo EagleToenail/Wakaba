@@ -40,7 +40,7 @@ export default function Navbar() {
             </li>
             <li className='max-lg:border-b border-gray-300 max-lg:py-4 px-3'>
                 <Link className='text-[#655b4a] block font-semibold text-[15px]' to='/salesslip'>
-                        <button type="button" className="inline-block whitespace-nowrap overflow-hidden text-ellipsis px-5 text-[15px] font-semibold  text-[#655b4a] text-sm tracking-wider  outline-none bg-white hover:bg-[#222] active:bg-[#333]">売上表</button>
+                        <button type="button" className="inline-block whitespace-nowrap overflow-hidden text-ellipsis px-5 text-[15px] font-semibold  text-[#655b4a] text-sm tracking-wider  outline-none bg-white hover:bg-[#222] active:bg-[#333]">商品一覧</button>
                 </Link>
             </li>
             <li className='max-lg:border-b border-gray-300 max-lg:py-4 px-3'>
@@ -61,6 +61,11 @@ export default function Navbar() {
             <li className='max-lg:border-b border-gray-300 max-lg:py-4 px-3'>
                 <Link className='text-[#655b4a] block font-semibold text-[15px]' to='/safemoney'>
                         <button type="button" className="inline-block whitespace-nowrap overflow-hidden text-ellipsis px-5 text-[15px] font-semibold  text-[#655b4a] text-sm tracking-wider  outline-none bg-white hover:bg-[#222] active:bg-[#333]">金入庫出金履歴</button>
+                </Link>
+            </li>
+            <li className='max-lg:border-b border-gray-300 max-lg:py-4 px-3'>
+                <Link className='text-[#655b4a] block font-semibold text-[15px]' to='/safemoney'>
+                        <button type="button" className="inline-block whitespace-nowrap overflow-hidden text-ellipsis px-5 text-[15px] font-semibold  text-[#655b4a] text-sm tracking-wider  outline-none bg-white hover:bg-[#222] active:bg-[#333]">ヤフオク</button>
                 </Link>
             </li>
             <li className='max-lg:border-b border-gray-300 max-lg:py-4 px-3'>

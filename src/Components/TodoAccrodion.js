@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios'; // or use fetch
 import TodoAccordionItem from './TodoAccordionItem';
 
-const TodoMessageAccordion = ({ onSendIdData }) => {
+const TodoMessageAccordion = ({ onSendIdData ,messages}) => {
 
   const [users, setUsers] = useState([]);
   useEffect(() => {
@@ -22,37 +22,6 @@ const TodoMessageAccordion = ({ onSendIdData }) => {
     };
 
     fetchMessages();
-  }, []);
-
-  const [messages, setMessages] = useState([]);
-  //fetch message data related user
-  useEffect(() => {
-    const fetchMessages = async () => {
-      const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
-      if (!wakabaBaseUrl) {
-        throw new Error('API base URL is not defined');
-      }
-
-      // console.log(`${wakabaBaseUrl}/customer/getCustomerList`);
-      const userId = localStorage.getItem('userId');
-      axios.get(`${wakabaBaseUrl}/todomessages/${userId}`)
-        .then(response => {
-          // console.log("all message",response.data)
-          setMessages(response.data);
-        })
-        .catch(error => {
-          console.error("There was an error fetching the customer data!", error);
-        });
-    };
-
-    fetchMessages();
-    // Set up polling
-    // const intervalId = setInterval(() => {
-    //   fetchMessages();
-    // }, 1000); // Poll every 1 seconds
-
-    // // Clean up on unmount
-    // return () => clearInterval(intervalId);
   }, []);
 
   const [childData1, setChildData1] = useState(null);
