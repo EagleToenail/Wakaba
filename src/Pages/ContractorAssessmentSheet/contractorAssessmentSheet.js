@@ -104,6 +104,10 @@ const ContractorAssementSheet = () => {
 
           setPreciousMetalData(response.data.payload.preciousMetals);
           setOldCoinData(response.data.payload.oldCoins);
+          setBagData(response.data.payload.bags);
+          setClockData(response.data.payload.clocks);
+          setWalletData(response.data.payload.wallets);
+          setAccesseoriesData(response.data.payload.accessories);
         //   console.log('preciousMetal',response.data.payload.preciousMetals);
       };
       fetchData();
@@ -275,22 +279,22 @@ const ContractorAssementSheet = () => {
         }
     };
 
-    const handleOldCoinAdd = () => {
-        setData((prevData) => [
-        ...prevData,
-        { id: Date.now(), ...newOldCoinRow }
-        ]);
-        setNewOldCoinRow({
-            shipping_date: '',
-            number: '',
-            product_name: '',
-            remarks: '',
-            assessment_date: '',
-            wataru_shoji: '',
-            omiya: '',
-            yahoo_auctions: ''
-        });
-    };
+    // const handleOldCoinAdd = () => {
+    //     setData((prevData) => [
+    //     ...prevData,
+    //     { id: Date.now(), ...newOldCoinRow }
+    //     ]);
+    //     setNewOldCoinRow({
+    //         shipping_date: '',
+    //         number: '',
+    //         product_name: '',
+    //         remarks: '',
+    //         assessment_date: '',
+    //         wataru_shoji: '',
+    //         omiya: '',
+    //         yahoo_auctions: ''
+    //     });
+    // };
 
     const handleOldCoinEdit = (id) => {
         setEditOldCoinId(id);
@@ -355,7 +359,427 @@ const ContractorAssementSheet = () => {
         }
         setInputOldCoinShow(!inputOldCoinShow);
     };
- //----------------------------- 
+ //----------------------------- bags---------------------------------
+ const [bagData, setBagData] = useState('');
+
+ const [editBagId, setEditBagId] = useState(null);
+ const [newBagRow, setNewBagRow] = useState({
+    shipping_address: '',
+    shipping_date: '',
+    number: '',
+    manufacturer: '',
+    product_name: '',
+    model_number: '',
+    rank: '',
+    purchase_price: '',
+    bb_skype_date: '',
+    bb: '',
+    ga: '',
+    home_com: '',
+    kaimana: '',
+    four_nine: ''
+ });
+
+ const handleBagChange = (e, id = null) => {
+     const { name, value } = e.target;
+     if (id === null) {
+     setNewBagRow((prev) => ({ ...prev, [name]: value }));
+     } else {
+     setBagData((prevData) =>
+         prevData.map((row) =>
+         row.id === id ? { ...row, [name]: value } : row
+         )
+     );
+     }
+ };
+
+ const handleBagEdit = (id) => {
+     setEditBagId(id);
+ };
+
+ const handleBagSave = async(id) => {
+     try {
+         const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+         if (!wakabaBaseUrl) {
+             throw new Error('API base URL is not defined');
+         }
+         await axios.post(`${wakabaBaseUrl}/contractorassessments/bagupdate`, bagData.find((row) => row.id === id)); // Update row on the server
+         setEditBagId(null);
+       } catch (error) {
+         console.error('Error saving row:', error);
+       }
+ };
+
+ const handleBagCancel = () => {
+     setEditBagId(null);
+ };
+
+ const handleBagDelete = async(id) => {
+     try {
+         const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+         if (!wakabaBaseUrl) {
+             throw new Error('API base URL is not defined');
+         }
+        await axios.get(`${wakabaBaseUrl}/contractorassessments/bagdelete/${id}`); // Delete row from the server
+         setBagData((prevData) => prevData.filter((row) => row.id !== id));
+       } catch (error) {
+         console.error('Error deleting row:', error);
+       }
+ };
+
+ const [inputBagShow, setInputBagShow] = useState(false);
+ const handleAddBagRow = async() => {
+     if (inputBagShow) {
+         try {
+             const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+             if (!wakabaBaseUrl) {
+                 throw new Error('API base URL is not defined');
+             }
+             const response = await axios.post(`${wakabaBaseUrl}/contractorassessments/bagadd`, newBagRow); // Send newRow data to the server
+             setBagData((prevData) => [
+               ...prevData,
+               { id: response.data.id, ...newBagRow } // Assuming server returns the new row with an id
+             ]);
+             setNewBagRow({
+                shipping_address: '',
+                shipping_date: '',
+                number: '',
+                manufacturer: '',
+                product_name: '',
+                model_number: '',
+                rank: '',
+                purchase_price: '',
+                bb_skype_date: '',
+                bb: '',
+                ga: '',
+                home_com: '',
+                kaimana: '',
+                four_nine: ''
+             });
+           } catch (error) {
+             console.error('Error adding row:', error);
+           }
+     }
+     setInputBagShow(!inputBagShow);
+ };
+ //-----------------------------clock---------------------------------
+ const [clockData, setClockData] = useState('');
+
+ const [editClockId, setEditClockId] = useState(null);
+ const [newClockRow, setNewClockRow] = useState({
+    shipping_address: '',
+    shipping_date: '',
+    number: '',
+    product: '',
+    model_number_one: '',
+    model_number_two: '',
+    automatic_quartz: '',
+    movable: '',
+    tester: '',
+    box_guarantee: '',
+    purchase_price: '',
+    skype_date: '',
+    bb: '',
+    ga: '',
+    belmond: '',
+    homecom: '',
+    kaimana: '',
+    four_nine: '',
+    yahoo_auction: ''
+ });
+
+ const handleClockChange = (e, id = null) => {
+     const { name, value } = e.target;
+     if (id === null) {
+     setNewClockRow((prev) => ({ ...prev, [name]: value }));
+     } else {
+     setClockData((prevData) =>
+         prevData.map((row) =>
+         row.id === id ? { ...row, [name]: value } : row
+         )
+     );
+     }
+ };
+
+ const handleClockEdit = (id) => {
+     setEditClockId(id);
+ };
+
+ const handleClockSave = async(id) => {
+     try {
+         const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+         if (!wakabaBaseUrl) {
+             throw new Error('API base URL is not defined');
+         }
+         await axios.post(`${wakabaBaseUrl}/contractorassessments/clockupdate`, clockData.find((row) => row.id === id)); // Update row on the server
+         setEditClockId(null);
+       } catch (error) {
+         console.error('Error saving row:', error);
+       }
+ };
+
+ const handleClockCancel = () => {
+     setEditClockId(null);
+ };
+
+ const handleClockDelete = async(id) => {
+     try {
+         const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+         if (!wakabaBaseUrl) {
+             throw new Error('API base URL is not defined');
+         }
+        await axios.get(`${wakabaBaseUrl}/contractorassessments/clockdelete/${id}`); // Delete row from the server
+         setClockData((prevData) => prevData.filter((row) => row.id !== id));
+       } catch (error) {
+         console.error('Error deleting row:', error);
+       }
+ };
+
+ const [inputClockShow, setInputClockShow] = useState(false);
+ const handleAddClockRow = async() => {
+     if (inputClockShow) {
+         try {
+             const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+             if (!wakabaBaseUrl) {
+                 throw new Error('API base URL is not defined');
+             }
+             const response = await axios.post(`${wakabaBaseUrl}/contractorassessments/clockadd`, newClockRow); // Send newRow data to the server
+             setClockData((prevData) => [
+               ...prevData,
+               { id: response.data.id, ...newBagRow } // Assuming server returns the new row with an id
+             ]);
+             setNewClockRow({
+                shipping_address: '',
+                shipping_date: '',
+                number: '',
+                product: '',
+                model_number_one: '',
+                model_number_two: '',
+                automatic_quartz: '',
+                movable: '',
+                tester: '',
+                box_guarantee: '',
+                purchase_price: '',
+                skype_date: '',
+                bb: '',
+                ga: '',
+                belmond: '',
+                homecom: '',
+                kaimana: '',
+                four_nine: '',
+                yahoo_auction: ''
+             });
+           } catch (error) {
+             console.error('Error adding row:', error);
+           }
+     }
+     setInputClockShow(!inputClockShow);
+ };
+//  -----------------------------wallet---------------------------------
+const [walletData, setWalletData] = useState('');
+
+const [editWalletId, setEditWalletId] = useState(null);
+const [newWalletRow, setNewWalletRow] = useState({
+    shipping_address: '',
+    shipping_date: '',
+    number: '',
+    manufacturer: '',
+    product_name: '',
+    model_number: '',
+    rank: '',
+    bb_skype_day: '',
+    bb: '',
+    ga: '',
+    girasol: '',
+    home_com: '',
+    kaimana: '',
+    four_nine: ''
+});
+
+const handleWalletChange = (e, id = null) => {
+    const { name, value } = e.target;
+    if (id === null) {
+    setNewWalletRow((prev) => ({ ...prev, [name]: value }));
+    } else {
+    setWalletData((prevData) =>
+        prevData.map((row) =>
+        row.id === id ? { ...row, [name]: value } : row
+        )
+    );
+    }
+};
+
+const handleWalletEdit = (id) => {
+    setEditWalletId(id);
+};
+
+const handleWalletSave = async(id) => {
+    try {
+        const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+        if (!wakabaBaseUrl) {
+            throw new Error('API base URL is not defined');
+        }
+        await axios.post(`${wakabaBaseUrl}/contractorassessments/walletupdate`, walletData.find((row) => row.id === id)); // Update row on the server
+        setEditWalletId(null);
+      } catch (error) {
+        console.error('Error saving row:', error);
+      }
+};
+
+const handleWalletCancel = () => {
+    setEditWalletId(null);
+};
+
+const handleWalletDelete = async(id) => {
+    try {
+        const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+        if (!wakabaBaseUrl) {
+            throw new Error('API base URL is not defined');
+        }
+       await axios.get(`${wakabaBaseUrl}/contractorassessments/walletdelete/${id}`); // Delete row from the server
+        setWalletData((prevData) => prevData.filter((row) => row.id !== id));
+      } catch (error) {
+        console.error('Error deleting row:', error);
+      }
+};
+
+const [inputWalletShow, setInputWalletShow] = useState(false);
+const handleAddWalletRow = async() => {
+    if (inputWalletShow) {
+        try {
+            const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+            if (!wakabaBaseUrl) {
+                throw new Error('API base URL is not defined');
+            }
+            const response = await axios.post(`${wakabaBaseUrl}/contractorassessments/walletadd`, newWalletRow); // Send newRow data to the server
+            setWalletData((prevData) => [
+              ...prevData,
+              { id: response.data.id, ...newBagRow } // Assuming server returns the new row with an id
+            ]);
+            setNewWalletRow({
+                shipping_address: '',
+                shipping_date: '',
+                number: '',
+                manufacturer: '',
+                product_name: '',
+                model_number: '',
+                rank: '',
+                bb_skype_day: '',
+                bb: '',
+                ga: '',
+                girasol: '',
+                home_com: '',
+                kaimana: '',
+                four_nine: ''
+            });
+          } catch (error) {
+            console.error('Error adding row:', error);
+          }
+    }
+    setInputWalletShow(!inputWalletShow);
+};
+//  ----------------------------- accesseories---------------------------------
+const [accesseoriesData, setAccesseoriesData] = useState('');
+
+const [editAccesseoriesId, setEditAccesseoriesId] = useState(null);
+const [newAccesseoriesRow, setNewAccesseoriesRow] = useState({
+    shipping_address: '',
+    shipping_date: '',
+    wakaba_number: '',
+    manufacturer: '',
+    product_details: '',
+    model_number: '',
+    rank: '',
+    bb_skype_day: '',
+    bb: '',
+    ga: '',
+    home_com: '',
+    kaimana: '',
+    four_nine: ''
+});
+
+const handleAccesseoriesChange = (e, id = null) => {
+    const { name, value } = e.target;
+    if (id === null) {
+    setNewAccesseoriesRow((prev) => ({ ...prev, [name]: value }));
+    } else {
+    setAccesseoriesData((prevData) =>
+        prevData.map((row) =>
+        row.id === id ? { ...row, [name]: value } : row
+        )
+    );
+    }
+};
+
+const handleAccesseoriesEdit = (id) => {
+    setEditAccesseoriesId(id);
+};
+
+const handleAccesseoriesSave = async(id) => {
+    try {
+        const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+        if (!wakabaBaseUrl) {
+            throw new Error('API base URL is not defined');
+        }
+        await axios.post(`${wakabaBaseUrl}/contractorassessments/accesseoriesupdate`, accesseoriesData.find((row) => row.id === id)); // Update row on the server
+        setEditAccesseoriesId(null);
+      } catch (error) {
+        console.error('Error saving row:', error);
+      }
+};
+
+const handleAccesseoriesCancel = () => {
+    setEditAccesseoriesId(null);
+};
+
+const handleAccesseoriesDelete = async(id) => {
+    try {
+        const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+        if (!wakabaBaseUrl) {
+            throw new Error('API base URL is not defined');
+        }
+       await axios.get(`${wakabaBaseUrl}/contractorassessments/accesseoriesdelete/${id}`); // Delete row from the server
+        setAccesseoriesData((prevData) => prevData.filter((row) => row.id !== id));
+      } catch (error) {
+        console.error('Error deleting row:', error);
+      }
+};
+
+const [inputAccesseoriesShow, setInputAccesseoriesShow] = useState(false);
+const handleAddAccesseoriesRow = async() => {
+    if (inputAccesseoriesShow) {
+        try {
+            const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+            if (!wakabaBaseUrl) {
+                throw new Error('API base URL is not defined');
+            }
+            const response = await axios.post(`${wakabaBaseUrl}/contractorassessments/accesseoriesadd`, newAccesseoriesRow); // Send newRow data to the server
+            setAccesseoriesData((prevData) => [
+              ...prevData,
+              { id: response.data.id, ...newBagRow } // Assuming server returns the new row with an id
+            ]);
+            setNewAccesseoriesRow({
+                shipping_address: '',
+                shipping_date: '',
+                wakaba_number: '',
+                manufacturer: '',
+                product_details: '',
+                model_number: '',
+                rank: '',
+                bb_skype_day: '',
+                bb: '',
+                ga: '',
+                home_com: '',
+                kaimana: '',
+                four_nine: ''
+            });
+          } catch (error) {
+            console.error('Error adding row:', error);
+          }
+    }
+    setInputAccesseoriesShow(!inputAccesseoriesShow);
+};
+//  ----------------------------- ---------------------------------
 
     return (
         <>
@@ -638,10 +1062,10 @@ const ContractorAssementSheet = () => {
                                     </div>
                             </div>
                             {/* bag */}
-                            <div style={{ width: '100%', overflow: 'auto' , display: visibleTable === 'バッグ' ? 'block' : 'none' }} >
+                            <div className='h-[400px]' style={{ width: '100%', overflow: 'auto' , display: visibleTable === 'バッグ' ? 'block' : 'none' }} >
                             {data.bags && data.bags.length > 0 ? (
                                 <table id="bag" style={Table}>
-                                <thead className='sticky top-0 bg-white z-10'>
+                                <thead className='h-11 sticky top-0 bg-white z-10'>
                                     <tr>
                                         <th style={Th}>NO</th>
                                         <th style={Th}>配送先</th>
@@ -658,39 +1082,100 @@ const ContractorAssementSheet = () => {
                                         <th style={Th}>ホームコム</th>
                                         <th style={Th}>カイマナ</th>
                                         <th style={Th}>フォーナイン</th>
+                                        <th style={Th}>{editBagId === null ? '編集' : 'セーブ'}</th>
+                                        <th style={Th}>{editBagId === null ? '削除' : 'キャンセル'}</th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                        {data.bags.map((index,Index) => (
-                                            <tr key={index.id}>
-                                            <td style={Td}>{Index+1}</td>
-                                            <td style={Td}>{index.shipping_address}</td>
-                                            <td style={Td}>{index.shipping_date}</td>
-                                            <td style={Td}>{index.number}</td>
-                                            <td style={Td}>{index.manufacturer}</td>
-                                            <td style={Td}>{index.product_name}</td>
-                                            <td style={Td}>{index.model_number}</td>
-                                            <td style={Td}>{index.rank}</td>
-                                            <td style={Td}>{index.purchase_price}</td>
-                                            <td style={Td}>{index.bb_skype_date}</td>
-                                            <td style={Td}>{index.bb}</td>
-                                            <td style={Td}>{index.ga}</td>
-                                            <td style={Td}>{index.home_com}</td>
-                                            <td style={Td}>{index.kaimana}</td>
-                                            <td style={Td}>{index.four_nine}</td>
-                                            </tr>
-                                        ))}
-                                    </tbody>
+          {bagData.map((item, index) => (
+            <tr key={item.id} style={editBagId === item.id ? editableRowStyle : {}}>
+              <td style={Td}>{index + 1}</td>
+              {Object.keys(newBagRow).map((key) => (
+                <td key={key} style={Td}>
+                  {editBagId === item.id ? (
+                    <input
+                      type="text"
+                      name={key}
+                      value={item[key]||''}
+                    // value={key}
+                      onChange={(e) => handleBagChange(e, item.id)}
+                      style={editableRowStyle}
+                    />
+                  ) : (
+                    item[key]
+                  )}
+                </td>
+              ))}
+              <td style={Td}>
+                {editBagId === item.id ? (
+                  <div>
+                    <button onClick={() => handleBagSave(item.id)} className='w-7'>
+                        <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium  MuiSvgIcon-root MuiSvgIcon-fontSizeLarge  css-1hkft75" fill='#524c3b' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckOutlinedIcon" title="CheckOutlined"><path d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
+                    </button>
+                  </div>
+                ) : (
+                  <div>
+                    <button onClick={() => handleBagEdit(item.id)} className='w-7'>
+                        <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium  MuiSvgIcon-root MuiSvgIcon-fontSizeLarge  css-1hkft75" fill='#524c3b' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="EditCalendarOutlinedIcon" title="EditCalendarOutlined"><path d="M5 10h14v2h2V6c0-1.1-.9-2-2-2h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h7v-2H5zm0-4h14v2H5zm17.84 10.28-.71.71-2.12-2.12.71-.71c.39-.39 1.02-.39 1.41 0l.71.71c.39.39.39 1.02 0 1.41m-3.54-.7 2.12 2.12-5.3 5.3H14v-2.12z"></path></svg>
+                    </button>
+                  </div>
+                )}
+              </td>
+              <td style={Td}>
+                {editBagId === item.id ? (
+                  <div>
+                    <button onClick={handleBagCancel} className='w-7'>
+                        <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium  MuiSvgIcon-root MuiSvgIcon-fontSizeLarge  css-1hkft75" fill='#524c3b' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="KeyboardReturnOutlinedIcon" title="KeyboardReturnOutlined"><path d="M19 7v4H5.83l3.58-3.59L8 6l-6 6 6 6 1.41-1.41L5.83 13H21V7z"></path></svg>
+                    </button>
+                  </div>
+                ) : (
+                  <div>
+                    <button onClick={() => handleBagDelete(item.id)} className='w-7'> 
+                        <svg className="flex flex-col justify-center" focusable="false" aria-hidden="true" viewBox="0 0 23 23" fill='#524c3b' data-testid="CancelOutlinedIcon" title="CancelOutlined"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8m3.59-13L12 10.59 8.41 7 7 8.41 10.59 12 7 15.59 8.41 17 12 13.41 15.59 17 17 15.59 13.41 12 17 8.41z"></path></svg>
+                        </button>
+                  </div>
+                )}
+              </td>
+            </tr>
+          ))}
+          { inputBagShow ?(
+          <tr>
+            <td style={Td}></td>
+            {Object.keys(newBagRow).map((key) => (
+            <td key={key} style={Td}>
+                <input
+                    key={key}
+                    type="text"
+                    name={key}
+                    value={newBagRow[key]}
+                    onChange={handleBagChange}
+                    placeholder={key.replace(/_/g, ' ')}
+                />
+            </td>
+            ))}
+        </tr>
+        ):''}
+        </tbody>
                                 </table>
                             ) : (
                                     <p className='flex justify-center'>クロックデータなし</p> //No clock data available
                                 )}
+                                                                <div className='flex justify-center mt-3 mb-3' >
+                                        <button type="button" onClick={handleAddBagRow}
+                                            className="w-7 h-7 inline-flex items-center justify-center text-[#70685a] border border-[#70685a] outline-none hover:bg-purple-700 active:bg-purple-600">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="14px" fill="#70685a" className="inline" viewBox="0 0 512 512">
+                                                <path
+                                                    d="M467 211H301V45c0-24.853-20.147-45-45-45s-45 20.147-45 45v166H45c-24.853 0-45 20.147-45 45s20.147 45 45 45h166v166c0 24.853 20.147 45 45 45s45-20.147 45-45V301h166c24.853 0 45-20.147 45-45s-20.147-45-45-45z"
+                                                    data-original="#000000" />
+                                            </svg>
+                                        </button>
+                                    </div>
                             </div>
                             {/* clock */}
-                            <div style={{ width: '100%', overflow: 'auto' , display: visibleTable === '時計' ? 'block' : 'none' }} >
+                            <div className='h-[400px]' style={{ width: '100%', overflow: 'auto' , display: visibleTable === '時計' ? 'block' : 'none' }}>
                             {data.clocks && data.clocks.length > 0 ? (
                                 <table id="clock" style={Table}>
-                                    <thead className='sticky top-0 bg-white z-10'>
+                                    <thead className='h-11 sticky top-0 bg-white z-10'>
                                         <tr>
                                             <th style={Th}>NO</th>
                                             <th style={Th}>配送先</th>
@@ -712,44 +1197,100 @@ const ContractorAssementSheet = () => {
                                             <th style={Th}>カイマナ</th>
                                             <th style={Th}>フォーナイン</th>
                                             <th style={Th}>ヤフオク</th>
+                                            <th style={Th}>{editClockId === null ? '編集' : 'セーブ'}</th>
+                                            <th style={Th}>{editClockId === null ? '削除' : 'キャンセル'}</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {data.clocks.map((item,Index) => (
-                                            <tr key={item.id}>
-                                            <td style={Td}>{Index + 1}</td>
-                                            <td style={Td}>{item.shipping_address}</td>
-                                            <td style={Td}>{item.shipping_date}</td>
-                                            <td style={Td}>{item.number}</td>
-                                            <td style={Td}>{item.product}</td>
-                                            <td style={Td}>{item.model_number_one}</td>
-                                            <td style={Td}>{item.model_number_two}</td>
-                                            <td style={Td}>{item.automatic_quartz}</td>
-                                            <td style={Td}>{item.movable}</td>
-                                            <td style={Td}>{item.tester}</td>
-                                            <td style={Td}>{item.box_guarantee}</td>
-                                            <td style={Td}>{item.purchase_price}</td>
-                                            <td style={Td}>{item.skype_date}</td>
-                                            <td style={Td}>{item.bb}</td>
-                                            <td style={Td}>{item.ga}</td>
-                                            <td style={Td}>{item.belmond}</td>
-                                            <td style={Td}>{item.homecom}</td>
-                                            <td style={Td}>{item.kaimana}</td>
-                                            <td style={Td}>{item.four_nine}</td>
-                                            <td style={Td}>{item.yahoo_auction}</td>
-                                            </tr>
-                                        ))}
-                                    </tbody>
+          {clockData.map((item, index) => (
+            <tr key={item.id} style={editClockId === item.id ? editableRowStyle : {}}>
+              <td style={Td}>{index + 1}</td>
+              {Object.keys(newClockRow).map((key) => (
+                <td key={key} style={Td}>
+                  {editClockId === item.id ? (
+                    <input
+                      type="text"
+                      name={key}
+                      value={item[key]||''}
+                    // value={key}
+                      onChange={(e) => handleClockChange(e, item.id)}
+                      style={editableRowStyle}
+                    />
+                  ) : (
+                    item[key]
+                  )}
+                </td>
+              ))}
+              <td style={Td}>
+                {editClockId === item.id ? (
+                  <div>
+                    <button onClick={() => handleClockSave(item.id)} className='w-7'>
+                        <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium  MuiSvgIcon-root MuiSvgIcon-fontSizeLarge  css-1hkft75" fill='#524c3b' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckOutlinedIcon" title="CheckOutlined"><path d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
+                    </button>
+                  </div>
+                ) : (
+                  <div>
+                    <button onClick={() => handleClockEdit(item.id)} className='w-7'>
+                        <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium  MuiSvgIcon-root MuiSvgIcon-fontSizeLarge  css-1hkft75" fill='#524c3b' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="EditCalendarOutlinedIcon" title="EditCalendarOutlined"><path d="M5 10h14v2h2V6c0-1.1-.9-2-2-2h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h7v-2H5zm0-4h14v2H5zm17.84 10.28-.71.71-2.12-2.12.71-.71c.39-.39 1.02-.39 1.41 0l.71.71c.39.39.39 1.02 0 1.41m-3.54-.7 2.12 2.12-5.3 5.3H14v-2.12z"></path></svg>
+                    </button>
+                  </div>
+                )}
+              </td>
+              <td style={Td}>
+                {editClockId === item.id ? (
+                  <div>
+                    <button onClick={handleClockCancel} className='w-7'>
+                        <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium  MuiSvgIcon-root MuiSvgIcon-fontSizeLarge  css-1hkft75" fill='#524c3b' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="KeyboardReturnOutlinedIcon" title="KeyboardReturnOutlined"><path d="M19 7v4H5.83l3.58-3.59L8 6l-6 6 6 6 1.41-1.41L5.83 13H21V7z"></path></svg>
+                    </button>
+                  </div>
+                ) : (
+                  <div>
+                    <button onClick={() => handleClockDelete(item.id)} className='w-7'> 
+                        <svg className="flex flex-col justify-center" focusable="false" aria-hidden="true" viewBox="0 0 23 23" fill='#524c3b' data-testid="CancelOutlinedIcon" title="CancelOutlined"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8m3.59-13L12 10.59 8.41 7 7 8.41 10.59 12 7 15.59 8.41 17 12 13.41 15.59 17 17 15.59 13.41 12 17 8.41z"></path></svg>
+                        </button>
+                  </div>
+                )}
+              </td>
+            </tr>
+          ))}
+          { inputClockShow ?(
+          <tr>
+            <td style={Td}></td>
+            {Object.keys(newClockRow).map((key) => (
+            <td key={key} style={Td}>
+                <input
+                    key={key}
+                    type="text"
+                    name={key}
+                    value={newClockRow[key]}
+                    onChange={handleClockChange}
+                    placeholder={key.replace(/_/g, ' ')}
+                />
+            </td>
+            ))}
+        </tr>
+        ):''}
+        </tbody>
                                 </table>
                             ) : (
                                     <p className='flex justify-center'>クロックデータなし</p> //No clock data available
                                 )}
+                                                                                                <div className='flex justify-center mt-3 mb-3' >
+                                        <button type="button" onClick={handleAddClockRow}
+                                            className="w-7 h-7 inline-flex items-center justify-center text-[#70685a] border border-[#70685a] outline-none hover:bg-purple-700 active:bg-purple-600">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="14px" fill="#70685a" className="inline" viewBox="0 0 512 512">
+                                                <path
+                                                    d="M467 211H301V45c0-24.853-20.147-45-45-45s-45 20.147-45 45v166H45c-24.853 0-45 20.147-45 45s20.147 45 45 45h166v166c0 24.853 20.147 45 45 45s45-20.147 45-45V301h166c24.853 0 45-20.147 45-45s-20.147-45-45-45z"
+                                                    data-original="#000000" />
+                                            </svg>
+                                        </button>
+                                    </div>
                             </div>
                             {/* wallet */}
-                            <div style={{ width: '100%', overflow: 'auto' , display: visibleTable === '財布' ? 'block' : 'none' }} >
+                            <div className='h-[400px]' style={{ width: '100%', overflow: 'auto' , display: visibleTable === '財布' ? 'block' : 'none' }} >
                             {data.wallets && data.wallets.length > 0 ? (
                                 <table id="wallet" style={Table}>
-                                    <thead className='sticky top-0 bg-white z-10'>
+                                    <thead className='h-11 sticky top-0 bg-white z-10'>
                                         <tr>
                                             <th style={Th}>NO</th>
                                             <th style={Th}>配送先</th>
@@ -766,39 +1307,100 @@ const ContractorAssementSheet = () => {
                                             <th style={Th}>ホームコム</th>
                                             <th style={Th}>カイマナ</th>
                                             <th style={Th}>フォーナイン</th>
+                                            <th style={Th}>{editWalletId === null ? '編集' : 'セーブ'}</th>
+                                            <th style={Th}>{editWalletId === null ? '削除' : 'キャンセル'}</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {data.wallets.map((wallet,Index) => (
-                                            <tr key={wallet.id}>
-                                            <td style={Td}>{Index+1}</td>
-                                            <td style={Td}>{wallet.shipping_address}</td>
-                                            <td style={Td}>{wallet.shipping_date}</td>
-                                            <td style={Td}>{wallet.number}</td>
-                                            <td style={Td}>{wallet.manufacturer}</td>
-                                            <td style={Td}>{wallet.product_name}</td>
-                                            <td style={Td}>{wallet.model_number}</td>
-                                            <td style={Td}>{wallet.rank}</td>
-                                            <td style={Td}>{wallet.bb_skype_day}</td>
-                                            <td style={Td}>{wallet.bb}</td>
-                                            <td style={Td}>{wallet.ga}</td>
-                                            <td style={Td}>{wallet.girasol}</td>
-                                            <td style={Td}>{wallet.home_com}</td>
-                                            <td style={Td}>{wallet.kaimana}</td>
-                                            <td style={Td}>{wallet.four_nine}</td>
-                                            </tr>
-                                        ))}
-                                    </tbody>
+          {walletData.map((item, index) => (
+            <tr key={item.id} style={editWalletId === item.id ? editableRowStyle : {}}>
+              <td style={Td}>{index + 1}</td>
+              {Object.keys(newWalletRow).map((key) => (
+                <td key={key} style={Td}>
+                  {editWalletId === item.id ? (
+                    <input
+                      type="text"
+                      name={key}
+                      value={item[key]||''}
+                    // value={key}
+                      onChange={(e) => handleWalletChange(e, item.id)}
+                      style={editableRowStyle}
+                    />
+                  ) : (
+                    item[key]
+                  )}
+                </td>
+              ))}
+              <td style={Td}>
+                {editWalletId === item.id ? (
+                  <div>
+                    <button onClick={() => handleWalletSave(item.id)} className='w-7'>
+                        <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium  MuiSvgIcon-root MuiSvgIcon-fontSizeLarge  css-1hkft75" fill='#524c3b' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckOutlinedIcon" title="CheckOutlined"><path d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
+                    </button>
+                  </div>
+                ) : (
+                  <div>
+                    <button onClick={() => handleWalletEdit(item.id)} className='w-7'>
+                        <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium  MuiSvgIcon-root MuiSvgIcon-fontSizeLarge  css-1hkft75" fill='#524c3b' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="EditCalendarOutlinedIcon" title="EditCalendarOutlined"><path d="M5 10h14v2h2V6c0-1.1-.9-2-2-2h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h7v-2H5zm0-4h14v2H5zm17.84 10.28-.71.71-2.12-2.12.71-.71c.39-.39 1.02-.39 1.41 0l.71.71c.39.39.39 1.02 0 1.41m-3.54-.7 2.12 2.12-5.3 5.3H14v-2.12z"></path></svg>
+                    </button>
+                  </div>
+                )}
+              </td>
+              <td style={Td}>
+                {editWalletId === item.id ? (
+                  <div>
+                    <button onClick={handleWalletCancel} className='w-7'>
+                        <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium  MuiSvgIcon-root MuiSvgIcon-fontSizeLarge  css-1hkft75" fill='#524c3b' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="KeyboardReturnOutlinedIcon" title="KeyboardReturnOutlined"><path d="M19 7v4H5.83l3.58-3.59L8 6l-6 6 6 6 1.41-1.41L5.83 13H21V7z"></path></svg>
+                    </button>
+                  </div>
+                ) : (
+                  <div>
+                    <button onClick={() => handleWalletDelete(item.id)} className='w-7'> 
+                        <svg className="flex flex-col justify-center" focusable="false" aria-hidden="true" viewBox="0 0 23 23" fill='#524c3b' data-testid="CancelOutlinedIcon" title="CancelOutlined"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8m3.59-13L12 10.59 8.41 7 7 8.41 10.59 12 7 15.59 8.41 17 12 13.41 15.59 17 17 15.59 13.41 12 17 8.41z"></path></svg>
+                        </button>
+                  </div>
+                )}
+              </td>
+            </tr>
+          ))}
+          { inputWalletShow ?(
+          <tr>
+            <td style={Td}></td>
+            {Object.keys(newWalletRow).map((key) => (
+            <td key={key} style={Td}>
+                <input
+                    key={key}
+                    type="text"
+                    name={key}
+                    value={newWalletRow[key]}
+                    onChange={handleWalletChange}
+                    placeholder={key.replace(/_/g, ' ')}
+                />
+            </td>
+            ))}
+        </tr>
+        ):''}
+        </tbody>
                                 </table>
                             ) : (
                                     <p className='flex justify-center'>クロックデータなし</p> //No clock data available
                                 )}
+                                    <div className='flex justify-center mt-3 mb-3' >
+                                        <button type="button" onClick={handleAddWalletRow}
+                                            className="w-7 h-7 inline-flex items-center justify-center text-[#70685a] border border-[#70685a] outline-none hover:bg-purple-700 active:bg-purple-600">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="14px" fill="#70685a" className="inline" viewBox="0 0 512 512">
+                                                <path
+                                                    d="M467 211H301V45c0-24.853-20.147-45-45-45s-45 20.147-45 45v166H45c-24.853 0-45 20.147-45 45s20.147 45 45 45h166v166c0 24.853 20.147 45 45 45s45-20.147 45-45V301h166c24.853 0 45-20.147 45-45s-20.147-45-45-45z"
+                                                    data-original="#000000" />
+                                            </svg>
+                                        </button>
+                                    </div>
                             </div>
-                            {/* accessories */}
-                            <div style={{ width: '100%', overflow: 'auto' , display: visibleTable === 'アクセサリ' ? 'block' : 'none' }} >
+                            {/* accessories */} 
+                            <div className='h-[400px]' style={{ width: '100%', overflow: 'auto' , display: visibleTable === 'アクセサリ' ? 'block' : 'none' }} >
                             {data.accessories && data.accessories.length > 0 ? (
                                 <table id="accessories" style={Table}>
-                                    <thead className='sticky top-0 bg-white z-10'>
+                                    <thead className='h-11 sticky top-0 bg-white z-10'>
                                         <tr>
                                             <th style={Th}>NO</th>
                                             <th style={Th}>配送先</th>
@@ -814,32 +1416,94 @@ const ContractorAssementSheet = () => {
                                             <th style={Th}>ホームコム</th>
                                             <th style={Th}>カイマナ</th>
                                             <th style={Th}>フォーナイン</th>
+                                            <th style={Th}>{editAccesseoriesId === null ? '編集' : 'セーブ'}</th>
+                                            <th style={Th}>{editAccesseoriesId === null ? '削除' : 'キャンセル'}</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {data.accessories.map((accessory,Index) => (
-                                            <tr key={accessory.id}>
-                                            <td style={Td}>{Index+1}</td>
-                                            <td style={Td}>{accessory.shipping_address}</td>
-                                            <td style={Td}>{accessory.shipping_date}</td>
-                                            <td style={Td}>{accessory.wakaba_number}</td>
-                                            <td style={Td}>{accessory.manufacturer}</td>
-                                            <td style={Td}>{accessory.product_details}</td>
-                                            <td style={Td}>{accessory.model_number}</td>
-                                            <td style={Td}>{accessory.rank}</td>
-                                            <td style={Td}>{accessory.bb_skype_day}</td>
-                                            <td style={Td}>{accessory.bb}</td>
-                                            <td style={Td}>{accessory.ga}</td>
-                                            <td style={Td}>{accessory.home_com}</td>
-                                            <td style={Td}>{accessory.kaimana}</td>
-                                            <td style={Td}>{accessory.four_nine}</td>
-                                            </tr>
-                                        ))}
-                                    </tbody>
+          {accesseoriesData.map((item, index) => (
+            <tr key={item.id} style={editAccesseoriesId === item.id ? editableRowStyle : {}}>
+              <td style={Td}>{index + 1}</td>
+              {Object.keys(newAccesseoriesRow).map((key) => (
+                <td key={key} style={Td}>
+                  {editAccesseoriesId === item.id ? (
+                    <input
+                      type="text"
+                      name={key}
+                      value={item[key]||''}
+                    // value={key}
+                      onChange={(e) => handleAccesseoriesChange(e, item.id)}
+                      style={editableRowStyle}
+                    />
+                  ) : (
+                    item[key]
+                  )}
+                </td>
+              ))}
+              <td style={Td}>
+                {editAccesseoriesId === item.id ? (
+                  <div>
+                    <button onClick={() => handleAccesseoriesSave(item.id)} className='w-7'>
+                        <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium  MuiSvgIcon-root MuiSvgIcon-fontSizeLarge  css-1hkft75" fill='#524c3b' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckOutlinedIcon" title="CheckOutlined"><path d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
+                    </button>
+                  </div>
+                ) : (
+                  <div>
+                    <button onClick={() => handleAccesseoriesEdit(item.id)} className='w-7'>
+                        <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium  MuiSvgIcon-root MuiSvgIcon-fontSizeLarge  css-1hkft75" fill='#524c3b' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="EditCalendarOutlinedIcon" title="EditCalendarOutlined"><path d="M5 10h14v2h2V6c0-1.1-.9-2-2-2h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h7v-2H5zm0-4h14v2H5zm17.84 10.28-.71.71-2.12-2.12.71-.71c.39-.39 1.02-.39 1.41 0l.71.71c.39.39.39 1.02 0 1.41m-3.54-.7 2.12 2.12-5.3 5.3H14v-2.12z"></path></svg>
+                    </button>
+                  </div>
+                )}
+              </td>
+              <td style={Td}>
+                {editAccesseoriesId === item.id ? (
+                  <div>
+                    <button onClick={handleAccesseoriesCancel} className='w-7'>
+                        <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium  MuiSvgIcon-root MuiSvgIcon-fontSizeLarge  css-1hkft75" fill='#524c3b' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="KeyboardReturnOutlinedIcon" title="KeyboardReturnOutlined"><path d="M19 7v4H5.83l3.58-3.59L8 6l-6 6 6 6 1.41-1.41L5.83 13H21V7z"></path></svg>
+                    </button>
+                  </div>
+                ) : (
+                  <div>
+                    <button onClick={() => handleAccesseoriesDelete(item.id)} className='w-7'> 
+                        <svg className="flex flex-col justify-center" focusable="false" aria-hidden="true" viewBox="0 0 23 23" fill='#524c3b' data-testid="CancelOutlinedIcon" title="CancelOutlined"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8m3.59-13L12 10.59 8.41 7 7 8.41 10.59 12 7 15.59 8.41 17 12 13.41 15.59 17 17 15.59 13.41 12 17 8.41z"></path></svg>
+                        </button>
+                  </div>
+                )}
+              </td>
+            </tr>
+          ))}
+          { inputAccesseoriesShow ?(
+          <tr>
+            <td style={Td}></td>
+            {Object.keys(newAccesseoriesRow).map((key) => (
+            <td key={key} style={Td}>
+                <input
+                    key={key}
+                    type="text"
+                    name={key}
+                    value={newAccesseoriesRow[key]}
+                    onChange={handleAccesseoriesChange}
+                    placeholder={key.replace(/_/g, ' ')}
+                />
+            </td>
+            ))}
+        </tr>
+        ):''}
+        </tbody>
                                 </table>
                             ) : (
                                     <p className='flex justify-center'>クロックデータなし</p> //No clock data available
                                 )}
+                                                                    <div className='flex justify-center mt-3 mb-3' >
+                                        <button type="button" onClick={handleAddAccesseoriesRow}
+                                            className="w-7 h-7 inline-flex items-center justify-center text-[#70685a] border border-[#70685a] outline-none hover:bg-purple-700 active:bg-purple-600">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="14px" fill="#70685a" className="inline" viewBox="0 0 512 512">
+                                                <path
+                                                    d="M467 211H301V45c0-24.853-20.147-45-45-45s-45 20.147-45 45v166H45c-24.853 0-45 20.147-45 45s20.147 45 45 45h166v166c0 24.853 20.147 45 45 45s45-20.147 45-45V301h166c24.853 0 45-20.147 45-45s-20.147-45-45-45z"
+                                                    data-original="#000000" />
+                                            </svg>
+                                        </button>
+                                    </div>
                             </div>
                             {/* camera */}
                             <div style={{ width: '100%', overflow: 'auto' , display: visibleTable === 'カメラ' ? 'block' : 'none' }} >

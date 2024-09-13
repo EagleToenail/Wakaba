@@ -152,7 +152,7 @@ const SalesSlip = () => {
                                         </div>
                                     </div>
                                     <div>
-                                        <ButtonComponent children={'購買計算'} onClick={openCreateCheckModal} className='!px-5 text-2xl' style={{ height: '40px' }} ></ButtonComponent>
+                                        <ButtonComponent children={'買取計算書'} onClick={openCreateCheckModal} className='!px-5 text-2xl' style={{ height: '40px' }} ></ButtonComponent>
                                     </div>
                                 </div>
                             </div>
