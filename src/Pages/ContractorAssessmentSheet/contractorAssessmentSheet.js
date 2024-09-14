@@ -108,6 +108,12 @@ const ContractorAssementSheet = () => {
           setClockData(response.data.payload.clocks);
           setWalletData(response.data.payload.wallets);
           setAccesseoriesData(response.data.payload.accessories);
+          setCameraData(response.data.payload.cameras);
+          setAntiqueData(response.data.payload.antiques);
+          setWesternliquorData(response.data.payload.westernLiquors);
+          setMusicalinstrumentData(response.data.payload.musicalInstruments)
+          setKimonoData(response.data.payload.kimonos);
+          setSmartphoneandtabletData(response.data.payload.smartPhoneAndTablets);
         //   console.log('preciousMetal',response.data.payload.preciousMetals);
       };
       fetchData();
@@ -403,7 +409,7 @@ const ContractorAssementSheet = () => {
          if (!wakabaBaseUrl) {
              throw new Error('API base URL is not defined');
          }
-         await axios.post(`${wakabaBaseUrl}/contractorassessments/bagupdate`, bagData.find((row) => row.id === id)); // Update row on the server
+        //  await axios.post(`${wakabaBaseUrl}/contractorassessments/bagupdate`, bagData.find((row) => row.id === id)); // Update row on the server
          setEditBagId(null);
        } catch (error) {
          console.error('Error saving row:', error);
@@ -420,7 +426,7 @@ const ContractorAssementSheet = () => {
          if (!wakabaBaseUrl) {
              throw new Error('API base URL is not defined');
          }
-        await axios.get(`${wakabaBaseUrl}/contractorassessments/bagdelete/${id}`); // Delete row from the server
+        // await axios.get(`${wakabaBaseUrl}/contractorassessments/bagdelete/${id}`); // Delete row from the server
          setBagData((prevData) => prevData.filter((row) => row.id !== id));
        } catch (error) {
          console.error('Error deleting row:', error);
@@ -435,10 +441,11 @@ const ContractorAssementSheet = () => {
              if (!wakabaBaseUrl) {
                  throw new Error('API base URL is not defined');
              }
-             const response = await axios.post(`${wakabaBaseUrl}/contractorassessments/bagadd`, newBagRow); // Send newRow data to the server
+            //  const response = await axios.post(`${wakabaBaseUrl}/contractorassessments/bagadd`, newBagRow); // Send newRow data to the server
              setBagData((prevData) => [
                ...prevData,
-               { id: response.data.id, ...newBagRow } // Assuming server returns the new row with an id
+              //  { id: response.data.id, ...newBagRow } // Assuming server returns the new row with an id
+               { id: Date.now(), ...newBagRow } // Assuming server returns the new row with an id
              ]);
              setNewBagRow({
                 shipping_address: '',
@@ -511,7 +518,7 @@ const ContractorAssementSheet = () => {
          if (!wakabaBaseUrl) {
              throw new Error('API base URL is not defined');
          }
-         await axios.post(`${wakabaBaseUrl}/contractorassessments/clockupdate`, clockData.find((row) => row.id === id)); // Update row on the server
+        //  await axios.post(`${wakabaBaseUrl}/contractorassessments/clockupdate`, clockData.find((row) => row.id === id)); // Update row on the server
          setEditClockId(null);
        } catch (error) {
          console.error('Error saving row:', error);
@@ -528,7 +535,7 @@ const ContractorAssementSheet = () => {
          if (!wakabaBaseUrl) {
              throw new Error('API base URL is not defined');
          }
-        await axios.get(`${wakabaBaseUrl}/contractorassessments/clockdelete/${id}`); // Delete row from the server
+        // await axios.get(`${wakabaBaseUrl}/contractorassessments/clockdelete/${id}`); // Delete row from the server
          setClockData((prevData) => prevData.filter((row) => row.id !== id));
        } catch (error) {
          console.error('Error deleting row:', error);
@@ -543,10 +550,11 @@ const ContractorAssementSheet = () => {
              if (!wakabaBaseUrl) {
                  throw new Error('API base URL is not defined');
              }
-             const response = await axios.post(`${wakabaBaseUrl}/contractorassessments/clockadd`, newClockRow); // Send newRow data to the server
+            //  const response = await axios.post(`${wakabaBaseUrl}/contractorassessments/clockadd`, newClockRow); // Send newRow data to the server
              setClockData((prevData) => [
                ...prevData,
-               { id: response.data.id, ...newBagRow } // Assuming server returns the new row with an id
+              //  { id: response.data.id, ...newBagRow } // Assuming server returns the new row with an id
+               { id: Date.now(), ...newBagRow } // Assuming server returns the new row with an id
              ]);
              setNewClockRow({
                 shipping_address: '',
@@ -619,7 +627,7 @@ const handleWalletSave = async(id) => {
         if (!wakabaBaseUrl) {
             throw new Error('API base URL is not defined');
         }
-        await axios.post(`${wakabaBaseUrl}/contractorassessments/walletupdate`, walletData.find((row) => row.id === id)); // Update row on the server
+        // await axios.post(`${wakabaBaseUrl}/contractorassessments/walletupdate`, walletData.find((row) => row.id === id)); // Update row on the server
         setEditWalletId(null);
       } catch (error) {
         console.error('Error saving row:', error);
@@ -636,7 +644,7 @@ const handleWalletDelete = async(id) => {
         if (!wakabaBaseUrl) {
             throw new Error('API base URL is not defined');
         }
-       await axios.get(`${wakabaBaseUrl}/contractorassessments/walletdelete/${id}`); // Delete row from the server
+      //  await axios.get(`${wakabaBaseUrl}/contractorassessments/walletdelete/${id}`); // Delete row from the server
         setWalletData((prevData) => prevData.filter((row) => row.id !== id));
       } catch (error) {
         console.error('Error deleting row:', error);
@@ -651,10 +659,11 @@ const handleAddWalletRow = async() => {
             if (!wakabaBaseUrl) {
                 throw new Error('API base URL is not defined');
             }
-            const response = await axios.post(`${wakabaBaseUrl}/contractorassessments/walletadd`, newWalletRow); // Send newRow data to the server
+            // const response = await axios.post(`${wakabaBaseUrl}/contractorassessments/walletadd`, newWalletRow); // Send newRow data to the server
             setWalletData((prevData) => [
               ...prevData,
-              { id: response.data.id, ...newBagRow } // Assuming server returns the new row with an id
+              // { id: response.data.id, ...newBagRow } // Assuming server returns the new row with an id
+              { id: Date.now(), ...newBagRow } // Assuming server returns the new row with an id
             ]);
             setNewWalletRow({
                 shipping_address: '',
@@ -721,7 +730,7 @@ const handleAccesseoriesSave = async(id) => {
         if (!wakabaBaseUrl) {
             throw new Error('API base URL is not defined');
         }
-        await axios.post(`${wakabaBaseUrl}/contractorassessments/accesseoriesupdate`, accesseoriesData.find((row) => row.id === id)); // Update row on the server
+        // await axios.post(`${wakabaBaseUrl}/contractorassessments/accesseoriesupdate`, accesseoriesData.find((row) => row.id === id)); // Update row on the server
         setEditAccesseoriesId(null);
       } catch (error) {
         console.error('Error saving row:', error);
@@ -738,7 +747,7 @@ const handleAccesseoriesDelete = async(id) => {
         if (!wakabaBaseUrl) {
             throw new Error('API base URL is not defined');
         }
-       await axios.get(`${wakabaBaseUrl}/contractorassessments/accesseoriesdelete/${id}`); // Delete row from the server
+      //  await axios.get(`${wakabaBaseUrl}/contractorassessments/accesseoriesdelete/${id}`); // Delete row from the server
         setAccesseoriesData((prevData) => prevData.filter((row) => row.id !== id));
       } catch (error) {
         console.error('Error deleting row:', error);
@@ -753,10 +762,11 @@ const handleAddAccesseoriesRow = async() => {
             if (!wakabaBaseUrl) {
                 throw new Error('API base URL is not defined');
             }
-            const response = await axios.post(`${wakabaBaseUrl}/contractorassessments/accesseoriesadd`, newAccesseoriesRow); // Send newRow data to the server
+            // const response = await axios.post(`${wakabaBaseUrl}/contractorassessments/accesseoriesadd`, newAccesseoriesRow); // Send newRow data to the server
             setAccesseoriesData((prevData) => [
               ...prevData,
-              { id: response.data.id, ...newBagRow } // Assuming server returns the new row with an id
+              // { id: response.data.id, ...newBagRow } // Assuming server returns the new row with an id
+              { id: Date.now(), ...newBagRow } // Assuming server returns the new row with an id
             ]);
             setNewAccesseoriesRow({
                 shipping_address: '',
@@ -779,7 +789,570 @@ const handleAddAccesseoriesRow = async() => {
     }
     setInputAccesseoriesShow(!inputAccesseoriesShow);
 };
-//  ----------------------------- ---------------------------------
+//  ----------------------------- camera---------------------------------
+const [cameraData, setCameraData] = useState('');
+
+const [editCameraId, setEditCameraId] = useState(null);
+const [newCameraRow, setNewCameraRow] = useState({
+  shipping_date: '',
+  number: '',
+  product_name: '',
+  model_number: '',
+  purchase_price: '',
+  rank: '',
+  assessment_date: '',
+  orchestra: '',
+  yahoo_auctions_wholesale: ''
+});
+
+const handleCameraChange = (e, id = null) => {
+    const { name, value } = e.target;
+    if (id === null) {
+    setNewCameraRow((prev) => ({ ...prev, [name]: value }));
+    } else {
+    setCameraData((prevData) =>
+        prevData.map((row) =>
+        row.id === id ? { ...row, [name]: value } : row
+        )
+    );
+    }
+};
+
+const handleCameraEdit = (id) => {
+    setEditCameraId(id);
+};
+
+const handleCameraSave = async(id) => {
+    try {
+        const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+        if (!wakabaBaseUrl) {
+            throw new Error('API base URL is not defined');
+        }
+        // await axios.post(`${wakabaBaseUrl}/contractorassessments/cameraupdate`, cameraData.find((row) => row.id === id)); // Update row on the server
+        setEditCameraId(null);
+      } catch (error) {
+        console.error('Error saving row:', error);
+      }
+};
+
+const handleCameraCancel = () => {
+    setEditCameraId(null);
+};
+
+const handleCameraDelete = async(id) => {
+    try {
+        const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+        if (!wakabaBaseUrl) {
+            throw new Error('API base URL is not defined');
+        }
+      //  await axios.get(`${wakabaBaseUrl}/contractorassessments/cameradelete/${id}`); // Delete row from the server
+        setCameraData((prevData) => prevData.filter((row) => row.id !== id));
+      } catch (error) {
+        console.error('Error deleting row:', error);
+      }
+};
+
+const [inputCameraShow, setInputCameraShow] = useState(false);
+const handleAddCameraRow = async() => {
+    if (inputCameraShow) {
+        try {
+            const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+            if (!wakabaBaseUrl) {
+                throw new Error('API base URL is not defined');
+            }
+            // const response = await axios.post(`${wakabaBaseUrl}/contractorassessments/cameraadd`, newCameraRow); // Send newRow data to the server
+            setCameraData((prevData) => [
+              ...prevData,
+              // { id: response.data.id, ...newBagRow } // Assuming server returns the new row with an id
+              { id: Date.now(), ...newBagRow } // Assuming server returns the new row with an id
+            ]);
+            setNewCameraRow({
+              shipping_date: '',
+              number: '',
+              product_name: '',
+              model_number: '',
+              purchase_price: '',
+              rank: '',
+              assessment_date: '',
+              orchestra: '',
+              yahoo_auctions_wholesale: ''
+            });
+          } catch (error) {
+            console.error('Error adding row:', error);
+          }
+    }
+    setInputCameraShow(!inputCameraShow);
+};
+//  -----------------------------Antique ---------------------------------
+const [antiqueData, setAntiqueData] = useState('');
+
+const [editAntiqueId, setEditAntiqueId] = useState(null);
+const [newAntiqueRow, setNewAntiqueRow] = useState({
+  shipping_address: '',
+  shipping_date: '',
+  number: '',
+  product_name: '',
+  remarks: '',
+  assessment_date: '',
+  nap_cat: '',
+  art: '',
+  yoshioka_art: '',
+  sword_sato: '',
+  yahoo_auctions: ''
+});
+
+const handleAntiqueChange = (e, id = null) => {
+    const { name, value } = e.target;
+    if (id === null) {
+    setNewAntiqueRow((prev) => ({ ...prev, [name]: value }));
+    } else {
+    setAntiqueData((prevData) =>
+        prevData.map((row) =>
+        row.id === id ? { ...row, [name]: value } : row
+        )
+    );
+    }
+};
+
+const handleAntiqueEdit = (id) => {
+    setEditAntiqueId(id);
+};
+
+const handleAntiqueSave = async(id) => {
+    try {
+        const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+        if (!wakabaBaseUrl) {
+            throw new Error('API base URL is not defined');
+        }
+        // await axios.post(`${wakabaBaseUrl}/contractorassessments/antiqueupdate`, antiqueData.find((row) => row.id === id)); // Update row on the server
+        setEditAntiqueId(null);
+      } catch (error) {
+        console.error('Error saving row:', error);
+      }
+};
+
+const handleAntiqueCancel = () => {
+    setEditAntiqueId(null);
+};
+
+const handleAntiqueDelete = async(id) => {
+    try {
+        const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+        if (!wakabaBaseUrl) {
+            throw new Error('API base URL is not defined');
+        }
+      //  await axios.get(`${wakabaBaseUrl}/contractorassessments/antiquedelete/${id}`); // Delete row from the server
+        setAntiqueData((prevData) => prevData.filter((row) => row.id !== id));
+      } catch (error) {
+        console.error('Error deleting row:', error);
+      }
+};
+
+const [inputAntiqueShow, setInputAntiqueShow] = useState(false);
+const handleAddAntiqueRow = async() => {
+    if (inputAntiqueShow) {
+        try {
+            const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+            if (!wakabaBaseUrl) {
+                throw new Error('API base URL is not defined');
+            }
+            // const response = await axios.post(`${wakabaBaseUrl}/contractorassessments/antiqueadd`, newAntiqueRow); // Send newRow data to the server
+            setAntiqueData((prevData) => [
+              ...prevData,
+              // { id: response.data.id, ...newBagRow } // Assuming server returns the new row with an id
+              { id: Date.now(), ...newBagRow } // Assuming server returns the new row with an id
+            ]);
+            setNewAntiqueRow({
+              shipping_address: '',
+              shipping_date: '',
+              number: '',
+              product_name: '',
+              remarks: '',
+              assessment_date: '',
+              nap_cat: '',
+              art: '',
+              yoshioka_art: '',
+              sword_sato: '',
+              yahoo_auctions: ''
+            });
+          } catch (error) {
+            console.error('Error adding row:', error);
+          }
+    }
+    setInputAntiqueShow(!inputAntiqueShow);
+};
+//  -----------------------------water liquor ---------------------------------
+const [westernliquorData, setWesternliquorData] = useState('');
+
+const [editWesternliquorId, setEditWesternliquorId] = useState(null);
+const [newWesternliquorRow, setNewWesternliquorRow] = useState({
+  shipping_address: '',
+  shipping_date: '',
+  wakaba_number: '',
+  kinds: '',
+  brand: '',
+  quantity: '',
+  capacity: '',
+  frequency: '',
+  assessment_date: '',
+  yahoo_auctions_highest_price: '',
+  auction_id: '',
+  gold_liquor: '',
+  linksus: ''
+});
+
+const handleWesternliquorChange = (e, id = null) => {
+    const { name, value } = e.target;
+    if (id === null) {
+    setNewWesternliquorRow((prev) => ({ ...prev, [name]: value }));
+    } else {
+    setWesternliquorData((prevData) =>
+        prevData.map((row) =>
+        row.id === id ? { ...row, [name]: value } : row
+        )
+    );
+    }
+};
+
+const handleWesternliquorEdit = (id) => {
+    setEditWesternliquorId(id);
+};
+
+const handleWesternliquorSave = async(id) => {
+    try {
+        const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+        if (!wakabaBaseUrl) {
+            throw new Error('API base URL is not defined');
+        }
+        // await axios.post(`${wakabaBaseUrl}/contractorassessments/westernliquorupdate`, westernliquorData.find((row) => row.id === id)); // Update row on the server
+        setEditWesternliquorId(null);
+      } catch (error) {
+        console.error('Error saving row:', error);
+      }
+};
+
+const handleWesternliquorCancel = () => {
+    setEditWesternliquorId(null);
+};
+
+const handleWesternliquorDelete = async(id) => {
+    try {
+        const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+        if (!wakabaBaseUrl) {
+            throw new Error('API base URL is not defined');
+        }
+      //  await axios.get(`${wakabaBaseUrl}/contractorassessments/westernliquordelete/${id}`); // Delete row from the server
+        setWesternliquorData((prevData) => prevData.filter((row) => row.id !== id));
+      } catch (error) {
+        console.error('Error deleting row:', error);
+      }
+};
+
+const [inputWesternliquorShow, setInputWesternliquorShow] = useState(false);
+const handleAddWesternliquorRow = async() => {
+    if (inputWesternliquorShow) {
+        try {
+            const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+            if (!wakabaBaseUrl) {
+                throw new Error('API base URL is not defined');
+            }
+            // const response = await axios.post(`${wakabaBaseUrl}/contractorassessments/westernliquoradd`, newWesternliquorRow); // Send newRow data to the server
+            setWesternliquorData((prevData) => [
+              ...prevData,
+              // { id: response.data.id, ...newBagRow } // Assuming server returns the new row with an id
+              { id: Date.now(), ...newBagRow } // Assuming server returns the new row with an id
+            ]);
+            setNewWesternliquorRow({
+              shipping_address: '',
+              shipping_date: '',
+              wakaba_number: '',
+              kinds: '',
+              brand: '',
+              quantity: '',
+              capacity: '',
+              frequency: '',
+              assessment_date: '',
+              yahoo_auctions_highest_price: '',
+              auction_id: '',
+              gold_liquor: '',
+              linksus: ''
+            });
+          } catch (error) {
+            console.error('Error adding row:', error);
+          }
+    }
+    setInputWesternliquorShow(!inputWesternliquorShow);
+};
+//  -----------------------------musical instrument---------------------------------
+const [musicalinstrumentData, setMusicalinstrumentData] = useState('');
+
+const [editMusicalinstrumentId, setEditMusicalinstrumentId] = useState(null);
+const [newMusicalinstrumentRow, setNewMusicalinstrumentRow] = useState({
+  shipping_date: '',
+  number: '',
+  product_name: '',
+  remarks: '',
+  assessment_date: '',
+  orchestra: '',
+  yahoo_auctions_wholesale: ''
+});
+
+const handleMusicalinstrumentChange = (e, id = null) => {
+    const { name, value } = e.target;
+    if (id === null) {
+    setNewMusicalinstrumentRow((prev) => ({ ...prev, [name]: value }));
+    } else {
+    setMusicalinstrumentData((prevData) =>
+        prevData.map((row) =>
+        row.id === id ? { ...row, [name]: value } : row
+        )
+    );
+    }
+};
+
+const handleMusicalinstrumentEdit = (id) => {
+    setEditMusicalinstrumentId(id);
+};
+
+const handleMusicalinstrumentSave = async(id) => {
+    try {
+        const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+        if (!wakabaBaseUrl) {
+            throw new Error('API base URL is not defined');
+        }
+        // await axios.post(`${wakabaBaseUrl}/contractorassessments/musicalinstrumentupdate`, musicalinstrumentData.find((row) => row.id === id)); // Update row on the server
+        setEditMusicalinstrumentId(null);
+      } catch (error) {
+        console.error('Error saving row:', error);
+      }
+};
+
+const handleMusicalinstrumentCancel = () => {
+    setEditMusicalinstrumentId(null);
+};
+
+const handleMusicalinstrumentDelete = async(id) => {
+    try {
+        const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+        if (!wakabaBaseUrl) {
+            throw new Error('API base URL is not defined');
+        }
+      //  await axios.get(`${wakabaBaseUrl}/contractorassessments/musicalinstrumentdelete/${id}`); // Delete row from the server
+        setMusicalinstrumentData((prevData) => prevData.filter((row) => row.id !== id));
+      } catch (error) {
+        console.error('Error deleting row:', error);
+      }
+};
+
+const [inputMusicalinstrumentShow, setInputMusicalinstrumentShow] = useState(false);
+const handleAddMusicalinstrumentRow = async() => {
+    if (inputMusicalinstrumentShow) {
+        try {
+            const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+            if (!wakabaBaseUrl) {
+                throw new Error('API base URL is not defined');
+            }
+            // const response = await axios.post(`${wakabaBaseUrl}/contractorassessments/musicalinstrumentadd`, newMusicalinstrumentRow); // Send newRow data to the server
+            setMusicalinstrumentData((prevData) => [
+              ...prevData,
+              // { id: response.data.id, ...newBagRow } // Assuming server returns the new row with an id
+              { id: Date.now(), ...newBagRow } // Assuming server returns the new row with an id
+            ]);
+            setNewMusicalinstrumentRow({
+              shipping_date: '',
+              number: '',
+              product_name: '',
+              remarks: '',
+              assessment_date: '',
+              orchestra: '',
+              yahoo_auctions_wholesale: ''
+            });
+          } catch (error) {
+            console.error('Error adding row:', error);
+          }
+    }
+    setInputMusicalinstrumentShow(!inputMusicalinstrumentShow);
+};
+//  ---------------------------kimono-----------------------------------
+const [kimonoData, setKimonoData] = useState('');
+
+const [editKimonoId, setEditKimonoId] = useState(null);
+const [newKimonoRow, setNewKimonoRow] = useState({
+  shipping_date: '',
+  number: '',
+  product_name: '',
+  remarks: '',
+  assessment_date: '',
+  hanamori: ''
+});
+
+const handleKimonoChange = (e, id = null) => {
+    const { name, value } = e.target;
+    if (id === null) {
+    setNewKimonoRow((prev) => ({ ...prev, [name]: value }));
+    } else {
+    setKimonoData((prevData) =>
+        prevData.map((row) =>
+        row.id === id ? { ...row, [name]: value } : row
+        )
+    );
+    }
+};
+
+const handleKimonoEdit = (id) => {
+    setEditKimonoId(id);
+};
+
+const handleKimonoSave = async(id) => {
+    try {
+        const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+        if (!wakabaBaseUrl) {
+            throw new Error('API base URL is not defined');
+        }
+        // await axios.post(`${wakabaBaseUrl}/contractorassessments/kimonoupdate`, kimonoData.find((row) => row.id === id)); // Update row on the server
+        setEditKimonoId(null);
+      } catch (error) {
+        console.error('Error saving row:', error);
+      }
+};
+
+const handleKimonoCancel = () => {
+    setEditKimonoId(null);
+};
+
+const handleKimonoDelete = async(id) => {
+    try {
+        const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+        if (!wakabaBaseUrl) {
+            throw new Error('API base URL is not defined');
+        }
+      //  await axios.get(`${wakabaBaseUrl}/contractorassessments/kimonodelete/${id}`); // Delete row from the server
+        setKimonoData((prevData) => prevData.filter((row) => row.id !== id));
+      } catch (error) {
+        console.error('Error deleting row:', error);
+      }
+};
+
+const [inputKimonoShow, setInputKimonoShow] = useState(false);
+const handleAddKimonoRow = async() => {
+    if (inputKimonoShow) {
+        try {
+            const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+            if (!wakabaBaseUrl) {
+                throw new Error('API base URL is not defined');
+            }
+            // const response = await axios.post(`${wakabaBaseUrl}/contractorassessments/kimonoadd`, newKimonoRow); // Send newRow data to the server
+            setKimonoData((prevData) => [
+              ...prevData,
+              // { id: response.data.id, ...newBagRow } // Assuming server returns the new row with an id
+              { id: Date.now(), ...newBagRow } // Assuming server returns the new row with an id
+            ]);
+            setNewKimonoRow({
+              shipping_date: '',
+              number: '',
+              product_name: '',
+              remarks: '',
+              assessment_date: '',
+              hanamori: ''
+            });
+          } catch (error) {
+            console.error('Error adding row:', error);
+          }
+    }
+    setInputKimonoShow(!inputKimonoShow);
+};
+//  -------------------------------smartphone and tablet-------------------------------
+const [smartphoneandtabletData, setSmartphoneandtabletData] = useState('');
+
+const [editSmartphoneandtabletId, setEditSmartphoneandtabletId] = useState(null);
+const [newSmartphoneandtabletRow, setNewSmartphoneandtabletRow] = useState({
+  shipping_date: '',
+  number: '',
+  product_name: '',
+  remarks: '',
+  yahoo_auctions_highest_price: '',
+  assessment_date:'',
+  pathtech:''
+});
+
+const handleSmartphoneandtabletChange = (e, id = null) => {
+    const { name, value } = e.target;
+    if (id === null) {
+    setNewSmartphoneandtabletRow((prev) => ({ ...prev, [name]: value }));
+    } else {
+    setSmartphoneandtabletData((prevData) =>
+        prevData.map((row) =>
+        row.id === id ? { ...row, [name]: value } : row
+        )
+    );
+    }
+};
+
+const handleSmartphoneandtabletEdit = (id) => {
+    setEditSmartphoneandtabletId(id);
+};
+
+const handleSmartphoneandtabletSave = async(id) => {
+    try {
+        const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+        if (!wakabaBaseUrl) {
+            throw new Error('API base URL is not defined');
+        }
+        // await axios.post(`${wakabaBaseUrl}/contractorassessments/smartphoneandtabletupdate`, smartphoneandtabletData.find((row) => row.id === id)); // Update row on the server
+        setEditSmartphoneandtabletId(null);
+      } catch (error) {
+        console.error('Error saving row:', error);
+      }
+};
+
+const handleSmartphoneandtabletCancel = () => {
+    setEditSmartphoneandtabletId(null);
+};
+
+const handleSmartphoneandtabletDelete = async(id) => {
+    try {
+        const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+        if (!wakabaBaseUrl) {
+            throw new Error('API base URL is not defined');
+        }
+      //  await axios.get(`${wakabaBaseUrl}/contractorassessments/smartphoneandtabletdelete/${id}`); // Delete row from the server
+        setSmartphoneandtabletData((prevData) => prevData.filter((row) => row.id !== id));
+      } catch (error) {
+        console.error('Error deleting row:', error);
+      }
+};
+
+const [inputSmartphoneandtabletShow, setInputSmartphoneandtabletShow] = useState(false);
+const handleAddSmartphoneandtabletRow = async() => {
+    if (inputSmartphoneandtabletShow) {
+        try {
+            const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+            if (!wakabaBaseUrl) {
+                throw new Error('API base URL is not defined');
+            }
+            // const response = await axios.post(`${wakabaBaseUrl}/contractorassessments/smartphoneandtabletadd`, newSmartphoneandtabletRow); // Send newRow data to the server
+            setSmartphoneandtabletData((prevData) => [
+              ...prevData,
+              // { id: response.data.id, ...newBagRow } // Assuming server returns the new row with an id
+              { id: Date.now(), ...newBagRow } // Assuming server returns the new row with an id
+            ]);
+            setNewSmartphoneandtabletRow({
+              shipping_date: '',
+              number: '',
+              product_name: '',
+              remarks: '',
+              yahoo_auctions_highest_price: '',
+              assessment_date:'',
+              pathtech:''
+            });
+          } catch (error) {
+            console.error('Error adding row:', error);
+          }
+    }
+    setInputSmartphoneandtabletShow(!inputKimonoShow);
+};
+
+//  --------------------------------------------------------------
 
     return (
         <>
@@ -1506,7 +2079,7 @@ const handleAddAccesseoriesRow = async() => {
                                     </div>
                             </div>
                             {/* camera */}
-                            <div style={{ width: '100%', overflow: 'auto' , display: visibleTable === 'カメラ' ? 'block' : 'none' }} >
+                            <div className='h-[400px]' style={{ width: '100%', overflow: 'auto' , display: visibleTable === 'カメラ' ? 'block' : 'none' }} >
                             {data.cameras && data.cameras.length > 0 ? (
                                 <table id="camera" style={Table}>
                                     <thead className='sticky top-0 bg-white z-10'>
@@ -1521,34 +2094,100 @@ const handleAddAccesseoriesRow = async() => {
                                             <th style={Th}>査定日</th>
                                             <th style={Th}>管弦屋</th>
                                             <th style={Th}>ヤフオク卸</th>
+                                            <th style={Th}>{editCameraId === null ? '編集' : 'セーブ'}</th>
+                                            <th style={Th}>{editCameraId === null ? '削除' : 'キャンセル'}</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {data.cameras.map((camera,Index) => (
-                                            <tr key={camera.id}>
-                                            <td style={Td}>{Index+1}</td>
-                                            <td style={Td}>{camera.shipping_date}</td>
-                                            <td style={Td}>{camera.number}</td>
-                                            <td style={Td}>{camera.product_name}</td>
-                                            <td style={Td}>{camera.model_number}</td>
-                                            <td style={Td}>{camera.purchase_price}</td>
-                                            <td style={Td}>{camera.rank}</td>
-                                            <td style={Td}>{camera.assessment_date}</td>
-                                            <td style={Td}>{camera.orchestra}</td>
-                                            <td style={Td}>{camera.yahoo_auctions_wholesale}</td>
-                                            </tr>
-                                        ))}
-                                    </tbody>
+          {cameraData.map((item, index) => (
+            <tr key={item.id} style={editCameraId === item.id ? editableRowStyle : {}}>
+              <td style={Td}>{index + 1}</td>
+              {Object.keys(newCameraRow).map((key) => (
+                <td key={key} style={Td}>
+                  {editCameraId === item.id ? (
+                    <input
+                      type="text"
+                      name={key}
+                      value={item[key]||''}
+                    // value={key}
+                      onChange={(e) => handleCameraChange(e, item.id)}
+                      style={editableRowStyle}
+                    />
+                  ) : (
+                    item[key]
+                  )}
+                </td>
+              ))}
+              <td style={Td}>
+                {editCameraId === item.id ? (
+                  <div>
+                    <button onClick={() => handleCameraSave(item.id)} className='w-7'>
+                        <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium  MuiSvgIcon-root MuiSvgIcon-fontSizeLarge  css-1hkft75" fill='#524c3b' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckOutlinedIcon" title="CheckOutlined"><path d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
+                    </button>
+                  </div>
+                ) : (
+                  <div>
+                    <button onClick={() => handleCameraEdit(item.id)} className='w-7'>
+                        <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium  MuiSvgIcon-root MuiSvgIcon-fontSizeLarge  css-1hkft75" fill='#524c3b' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="EditCalendarOutlinedIcon" title="EditCalendarOutlined"><path d="M5 10h14v2h2V6c0-1.1-.9-2-2-2h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h7v-2H5zm0-4h14v2H5zm17.84 10.28-.71.71-2.12-2.12.71-.71c.39-.39 1.02-.39 1.41 0l.71.71c.39.39.39 1.02 0 1.41m-3.54-.7 2.12 2.12-5.3 5.3H14v-2.12z"></path></svg>
+                    </button>
+                  </div>
+                )}
+              </td>
+              <td style={Td}>
+                {editCameraId === item.id ? (
+                  <div>
+                    <button onClick={handleCameraCancel} className='w-7'>
+                        <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium  MuiSvgIcon-root MuiSvgIcon-fontSizeLarge  css-1hkft75" fill='#524c3b' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="KeyboardReturnOutlinedIcon" title="KeyboardReturnOutlined"><path d="M19 7v4H5.83l3.58-3.59L8 6l-6 6 6 6 1.41-1.41L5.83 13H21V7z"></path></svg>
+                    </button>
+                  </div>
+                ) : (
+                  <div>
+                    <button onClick={() => handleCameraDelete(item.id)} className='w-7'> 
+                        <svg className="flex flex-col justify-center" focusable="false" aria-hidden="true" viewBox="0 0 23 23" fill='#524c3b' data-testid="CancelOutlinedIcon" title="CancelOutlined"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8m3.59-13L12 10.59 8.41 7 7 8.41 10.59 12 7 15.59 8.41 17 12 13.41 15.59 17 17 15.59 13.41 12 17 8.41z"></path></svg>
+                        </button>
+                  </div>
+                )}
+              </td>
+            </tr>
+          ))}
+          { inputCameraShow ?(
+          <tr>
+            <td style={Td}></td>
+            {Object.keys(newCameraRow).map((key) => (
+            <td key={key} style={Td}>
+                <input
+                    key={key}
+                    type="text"
+                    name={key}
+                    value={newCameraRow[key]}
+                    onChange={handleCameraChange}
+                    placeholder={key.replace(/_/g, ' ')}
+                />
+            </td>
+            ))}
+        </tr>
+        ):''}
+        </tbody>
                                 </table>
                             ) : (
                                     <p className='flex justify-center'>クロックデータなし</p> //No clock data available
                                 )}
+                                    <div className='flex justify-center mt-3 mb-3' >
+                                        <button type="button" onClick={handleAddCameraRow}
+                                            className="w-7 h-7 inline-flex items-center justify-center text-[#70685a] border border-[#70685a] outline-none hover:bg-purple-700 active:bg-purple-600">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="14px" fill="#70685a" className="inline" viewBox="0 0 512 512">
+                                                <path
+                                                    d="M467 211H301V45c0-24.853-20.147-45-45-45s-45 20.147-45 45v166H45c-24.853 0-45 20.147-45 45s20.147 45 45 45h166v166c0 24.853 20.147 45 45 45s45-20.147 45-45V301h166c24.853 0 45-20.147 45-45s-20.147-45-45-45z"
+                                                    data-original="#000000" />
+                                            </svg>
+                                        </button>
+                                    </div>
                             </div>
                             {/* Antiques */}
-                            <div style={{ width: '100%', overflow: 'auto' , display: visibleTable === '骨董品' ? 'block' : 'none' }} >
+                            <div className='h-[400px]' style={{ width: '100%', overflow: 'auto' , display: visibleTable === '骨董品' ? 'block' : 'none' }}>
                             {data.antiques && data.antiques.length > 0 ? (
                                 <table id="antique" style={Table}>
-                                    <thead className='sticky top-0 bg-white z-10'>
+                                    <thead className='h-11 sticky top-0 bg-white z-10'>
                                         <tr>
                                             <th style={Th}>NO</th>
                                             <th style={Th}>配送先</th>
@@ -1562,33 +2201,97 @@ const handleAddAccesseoriesRow = async() => {
                                             <th style={Th}>吉岡美術</th>
                                             <th style={Th}>刀剣佐藤</th>
                                             <th style={Th}>ヤフオク</th>
+                                            <th style={Th}>{editAntiqueId === null ? '編集' : 'セーブ'}</th>
+                                            <th style={Th}>{editAntiqueId === null ? '削除' : 'キャンセル'}</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {data.antiques.map((antique,Index) => (
-                                            <tr key={antique.id}>
-                                            <td style={Td}>{Index+1}</td>
-                                            <td style={Td}>{antique.shipping_address}</td>
-                                            <td style={Td}>{antique.shipping_date}</td>
-                                            <td style={Td}>{antique.number}</td>
-                                            <td style={Td}>{antique.product_name}</td>
-                                            <td style={Td}>{antique.remarks}</td>
-                                            <td style={Td}>{antique.assessment_date}</td>
-                                            <td style={Td}>{antique.nap_cat}</td>
-                                            <td style={Td}>{antique.art}</td>
-                                            <td style={Td}>{antique.yoshioka_art}</td>
-                                            <td style={Td}>{antique.sword_sato}</td>
-                                            <td style={Td}>{antique.yahoo_auctions}</td>
-                                            </tr>
-                                        ))}
-                                    </tbody>
+          {antiqueData.map((item, index) => (
+            <tr key={item.id} style={editAntiqueId === item.id ? editableRowStyle : {}}>
+              <td style={Td}>{index + 1}</td>
+              {Object.keys(newAntiqueRow).map((key) => (
+                <td key={key} style={Td}>
+                  {editAntiqueId === item.id ? (
+                    <input
+                      type="text"
+                      name={key}
+                      value={item[key]||''}
+                    // value={key}
+                      onChange={(e) => handleAntiqueChange(e, item.id)}
+                      style={editableRowStyle}
+                    />
+                  ) : (
+                    item[key]
+                  )}
+                </td>
+              ))}
+              <td style={Td}>
+                {editAntiqueId === item.id ? (
+                  <div>
+                    <button onClick={() => handleAntiqueSave(item.id)} className='w-7'>
+                        <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium  MuiSvgIcon-root MuiSvgIcon-fontSizeLarge  css-1hkft75" fill='#524c3b' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckOutlinedIcon" title="CheckOutlined"><path d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
+                    </button>
+                  </div>
+                ) : (
+                  <div>
+                    <button onClick={() => handleAntiqueEdit(item.id)} className='w-7'>
+                        <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium  MuiSvgIcon-root MuiSvgIcon-fontSizeLarge  css-1hkft75" fill='#524c3b' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="EditCalendarOutlinedIcon" title="EditCalendarOutlined"><path d="M5 10h14v2h2V6c0-1.1-.9-2-2-2h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h7v-2H5zm0-4h14v2H5zm17.84 10.28-.71.71-2.12-2.12.71-.71c.39-.39 1.02-.39 1.41 0l.71.71c.39.39.39 1.02 0 1.41m-3.54-.7 2.12 2.12-5.3 5.3H14v-2.12z"></path></svg>
+                    </button>
+                  </div>
+                )}
+              </td>
+              <td style={Td}>
+                {editAntiqueId === item.id ? (
+                  <div>
+                    <button onClick={handleAntiqueCancel} className='w-7'>
+                        <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium  MuiSvgIcon-root MuiSvgIcon-fontSizeLarge  css-1hkft75" fill='#524c3b' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="KeyboardReturnOutlinedIcon" title="KeyboardReturnOutlined"><path d="M19 7v4H5.83l3.58-3.59L8 6l-6 6 6 6 1.41-1.41L5.83 13H21V7z"></path></svg>
+                    </button>
+                  </div>
+                ) : (
+                  <div>
+                    <button onClick={() => handleAntiqueDelete(item.id)} className='w-7'> 
+                        <svg className="flex flex-col justify-center" focusable="false" aria-hidden="true" viewBox="0 0 23 23" fill='#524c3b' data-testid="CancelOutlinedIcon" title="CancelOutlined"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8m3.59-13L12 10.59 8.41 7 7 8.41 10.59 12 7 15.59 8.41 17 12 13.41 15.59 17 17 15.59 13.41 12 17 8.41z"></path></svg>
+                        </button>
+                  </div>
+                )}
+              </td>
+            </tr>
+          ))}
+          { inputAntiqueShow ?(
+          <tr>
+            <td style={Td}></td>
+            {Object.keys(newAntiqueRow).map((key) => (
+            <td key={key} style={Td}>
+                <input
+                    key={key}
+                    type="text"
+                    name={key}
+                    value={newAntiqueRow[key]}
+                    onChange={handleAntiqueChange}
+                    placeholder={key.replace(/_/g, ' ')}
+                />
+            </td>
+            ))}
+        </tr>
+        ):''}
+        </tbody>
                                 </table>
                             ) : (
                                     <p className='flex justify-center'>クロックデータなし</p> //No clock data available
                                 )}
+                                    <div className='flex justify-center mt-3 mb-3' >
+                                        <button type="button" onClick={handleAddAntiqueRow}
+                                            className="w-7 h-7 inline-flex items-center justify-center text-[#70685a] border border-[#70685a] outline-none hover:bg-purple-700 active:bg-purple-600">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="14px" fill="#70685a" className="inline" viewBox="0 0 512 512">
+                                                <path
+                                                    d="M467 211H301V45c0-24.853-20.147-45-45-45s-45 20.147-45 45v166H45c-24.853 0-45 20.147-45 45s20.147 45 45 45h166v166c0 24.853 20.147 45 45 45s45-20.147 45-45V301h166c24.853 0 45-20.147 45-45s-20.147-45-45-45z"
+                                                    data-original="#000000" />
+                                            </svg>
+                                        </button>
+                                    </div>
                             </div>
                             {/* western liquor */}
-                            <div style={{ width: '100%', overflow: 'auto' , display: visibleTable === '洋酒' ? 'block' : 'none' }} >
+                            <div className='h-[400px]' style={{ width: '100%', overflow: 'auto' , display: visibleTable === '洋酒' ? 'block' : 'none' }}>
                             {data.westernLiquors && data.westernLiquors.length > 0 ? (
                                 <table id="westernliquor" style={Table}>
                                     <thead className='sticky top-0 bg-white z-10'>
@@ -1607,32 +2310,94 @@ const handleAddAccesseoriesRow = async() => {
                                             <th style={Th}>オークションID</th>
                                             <th style={Th}>ゴールドリカー</th>
                                             <th style={Th}>リンクサス</th>
+                                            <th style={Th}>{editWesternliquorId === null ? '編集' : 'セーブ'}</th>
+                                            <th style={Th}>{editWesternliquorId === null ? '削除' : 'キャンセル'}</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                    {data.westernLiquors.map((liquor,Index) => (
-                                        <tr key={liquor.id}>
-                                        <td style={Td}>{Index+1}</td>
-                                        <td style={Td}>{liquor.shipping_address}</td>
-                                        <td style={Td}>{liquor.shipping_date}</td>
-                                        <td style={Td}>{liquor.wakaba_number}</td>
-                                        <td style={Td}>{liquor.kinds}</td>
-                                        <td style={Td}>{liquor.brand}</td>
-                                        <td style={Td}>{liquor.quantity}</td>
-                                        <td style={Td}>{liquor.capacity}</td>
-                                        <td style={Td}>{liquor.frequency}</td>
-                                        <td style={Td}>{liquor.assessment_date}</td>
-                                        <td style={Td}>{liquor.yahoo_auctions_highest_price}</td>
-                                        <td style={Td}>{liquor.auction_id}</td>
-                                        <td style={Td}>{liquor.gold_liquor}</td>
-                                        <td style={Td}>{liquor.linksus}</td>
-                                        </tr>
-                                    ))}
-                                    </tbody>
+          {westernliquorData.map((item, index) => (
+            <tr key={item.id} style={editWesternliquorId === item.id ? editableRowStyle : {}}>
+              <td style={Td}>{index + 1}</td>
+              {Object.keys(newWesternliquorRow).map((key) => (
+                <td key={key} style={Td}>
+                  {editWesternliquorId === item.id ? (
+                    <input
+                      type="text"
+                      name={key}
+                      value={item[key]||''}
+                    // value={key}
+                      onChange={(e) => handleWesternliquorChange(e, item.id)}
+                      style={editableRowStyle}
+                    />
+                  ) : (
+                    item[key]
+                  )}
+                </td>
+              ))}
+              <td style={Td}>
+                {editWesternliquorId === item.id ? (
+                  <div>
+                    <button onClick={() => handleWesternliquorSave(item.id)} className='w-7'>
+                        <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium  MuiSvgIcon-root MuiSvgIcon-fontSizeLarge  css-1hkft75" fill='#524c3b' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckOutlinedIcon" title="CheckOutlined"><path d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
+                    </button>
+                  </div>
+                ) : (
+                  <div>
+                    <button onClick={() => handleWesternliquorEdit(item.id)} className='w-7'>
+                        <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium  MuiSvgIcon-root MuiSvgIcon-fontSizeLarge  css-1hkft75" fill='#524c3b' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="EditCalendarOutlinedIcon" title="EditCalendarOutlined"><path d="M5 10h14v2h2V6c0-1.1-.9-2-2-2h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h7v-2H5zm0-4h14v2H5zm17.84 10.28-.71.71-2.12-2.12.71-.71c.39-.39 1.02-.39 1.41 0l.71.71c.39.39.39 1.02 0 1.41m-3.54-.7 2.12 2.12-5.3 5.3H14v-2.12z"></path></svg>
+                    </button>
+                  </div>
+                )}
+              </td>
+              <td style={Td}>
+                {editWesternliquorId === item.id ? (
+                  <div>
+                    <button onClick={handleWesternliquorCancel} className='w-7'>
+                        <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium  MuiSvgIcon-root MuiSvgIcon-fontSizeLarge  css-1hkft75" fill='#524c3b' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="KeyboardReturnOutlinedIcon" title="KeyboardReturnOutlined"><path d="M19 7v4H5.83l3.58-3.59L8 6l-6 6 6 6 1.41-1.41L5.83 13H21V7z"></path></svg>
+                    </button>
+                  </div>
+                ) : (
+                  <div>
+                    <button onClick={() => handleWesternliquorDelete(item.id)} className='w-7'> 
+                        <svg className="flex flex-col justify-center" focusable="false" aria-hidden="true" viewBox="0 0 23 23" fill='#524c3b' data-testid="CancelOutlinedIcon" title="CancelOutlined"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8m3.59-13L12 10.59 8.41 7 7 8.41 10.59 12 7 15.59 8.41 17 12 13.41 15.59 17 17 15.59 13.41 12 17 8.41z"></path></svg>
+                        </button>
+                  </div>
+                )}
+              </td>
+            </tr>
+          ))}
+          { inputWesternliquorShow ?(
+          <tr>
+            <td style={Td}></td>
+            {Object.keys(newWesternliquorRow).map((key) => (
+            <td key={key} style={Td}>
+                <input
+                    key={key}
+                    type="text"
+                    name={key}
+                    value={newWesternliquorRow[key]}
+                    onChange={handleWesternliquorChange}
+                    placeholder={key.replace(/_/g, ' ')}
+                />
+            </td>
+            ))}
+        </tr>
+        ):''}
+        </tbody>
                                 </table>
                             ) : (
                                     <p className='flex justify-center'>クロックデータなし</p> //No clock data available
                                 )}
+                                      <div className='flex justify-center mt-3 mb-3' >
+                                        <button type="button" onClick={handleAddWesternliquorRow}
+                                            className="w-7 h-7 inline-flex items-center justify-center text-[#70685a] border border-[#70685a] outline-none hover:bg-purple-700 active:bg-purple-600">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="14px" fill="#70685a" className="inline" viewBox="0 0 512 512">
+                                                <path
+                                                    d="M467 211H301V45c0-24.853-20.147-45-45-45s-45 20.147-45 45v166H45c-24.853 0-45 20.147-45 45s20.147 45 45 45h166v166c0 24.853 20.147 45 45 45s45-20.147 45-45V301h166c24.853 0 45-20.147 45-45s-20.147-45-45-45z"
+                                                    data-original="#000000" />
+                                            </svg>
+                                        </button>
+                                    </div>
                             </div>
                             {/* musical instrument */}
                             <div style={{ width: '100%', overflow: 'auto' , display: visibleTable === '楽器' ? 'block' : 'none' }} >
@@ -1648,26 +2413,94 @@ const handleAddAccesseoriesRow = async() => {
                                             <th style={Th}>査定日</th>
                                             <th style={Th}>管弦屋</th>
                                             <th style={Th}>ヤフオク卸</th>
+                                            <th style={Th}>{editMusicalinstrumentId === null ? '編集' : 'セーブ'}</th>
+                                            <th style={Th}>{editMusicalinstrumentId === null ? '削除' : 'キャンセル'}</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {data.musicalInstruments.map((instrument,Index) => (
-                                            <tr key={instrument.id}>
-                                            <td style={Td}>{Index+1}</td>
-                                            <td style={Td}>{instrument.shipping_date}</td>
-                                            <td style={Td}>{instrument.number}</td>
-                                            <td style={Td}>{instrument.product_name}</td>
-                                            <td style={Td}>{instrument.remarks}</td>
-                                            <td style={Td}>{instrument.assessment_date}</td>
-                                            <td style={Td}>{instrument.orchestra}</td>
-                                            <td style={Td}>{instrument.yahoo_auctions_wholesale}</td>
-                                            </tr>
-                                        ))}
-                                    </tbody>
+          {musicalinstrumentData.map((item, index) => (
+            <tr key={item.id} style={editMusicalinstrumentId === item.id ? editableRowStyle : {}}>
+              <td style={Td}>{index + 1}</td>
+              {Object.keys(newMusicalinstrumentRow).map((key) => (
+                <td key={key} style={Td}>
+                  {editMusicalinstrumentId === item.id ? (
+                    <input
+                      type="text"
+                      name={key}
+                      value={item[key]||''}
+                    // value={key}
+                      onChange={(e) => handleMusicalinstrumentChange(e, item.id)}
+                      style={editableRowStyle}
+                    />
+                  ) : (
+                    item[key]
+                  )}
+                </td>
+              ))}
+              <td style={Td}>
+                {editMusicalinstrumentId === item.id ? (
+                  <div>
+                    <button onClick={() => handleMusicalinstrumentSave(item.id)} className='w-7'>
+                        <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium  MuiSvgIcon-root MuiSvgIcon-fontSizeLarge  css-1hkft75" fill='#524c3b' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckOutlinedIcon" title="CheckOutlined"><path d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
+                    </button>
+                  </div>
+                ) : (
+                  <div>
+                    <button onClick={() => handleMusicalinstrumentEdit(item.id)} className='w-7'>
+                        <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium  MuiSvgIcon-root MuiSvgIcon-fontSizeLarge  css-1hkft75" fill='#524c3b' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="EditCalendarOutlinedIcon" title="EditCalendarOutlined"><path d="M5 10h14v2h2V6c0-1.1-.9-2-2-2h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h7v-2H5zm0-4h14v2H5zm17.84 10.28-.71.71-2.12-2.12.71-.71c.39-.39 1.02-.39 1.41 0l.71.71c.39.39.39 1.02 0 1.41m-3.54-.7 2.12 2.12-5.3 5.3H14v-2.12z"></path></svg>
+                    </button>
+                  </div>
+                )}
+              </td>
+              <td style={Td}>
+                {editMusicalinstrumentId === item.id ? (
+                  <div>
+                    <button onClick={handleMusicalinstrumentCancel} className='w-7'>
+                        <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium  MuiSvgIcon-root MuiSvgIcon-fontSizeLarge  css-1hkft75" fill='#524c3b' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="KeyboardReturnOutlinedIcon" title="KeyboardReturnOutlined"><path d="M19 7v4H5.83l3.58-3.59L8 6l-6 6 6 6 1.41-1.41L5.83 13H21V7z"></path></svg>
+                    </button>
+                  </div>
+                ) : (
+                  <div>
+                    <button onClick={() => handleMusicalinstrumentDelete(item.id)} className='w-7'> 
+                        <svg className="flex flex-col justify-center" focusable="false" aria-hidden="true" viewBox="0 0 23 23" fill='#524c3b' data-testid="CancelOutlinedIcon" title="CancelOutlined"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8m3.59-13L12 10.59 8.41 7 7 8.41 10.59 12 7 15.59 8.41 17 12 13.41 15.59 17 17 15.59 13.41 12 17 8.41z"></path></svg>
+                        </button>
+                  </div>
+                )}
+              </td>
+            </tr>
+          ))}
+          { inputMusicalinstrumentShow ?(
+          <tr>
+            <td style={Td}></td>
+            {Object.keys(newMusicalinstrumentRow).map((key) => (
+            <td key={key} style={Td}>
+                <input
+                    key={key}
+                    type="text"
+                    name={key}
+                    value={newMusicalinstrumentRow[key]}
+                    onChange={handleMusicalinstrumentChange}
+                    placeholder={key.replace(/_/g, ' ')}
+                />
+            </td>
+            ))}
+        </tr>
+        ):''}
+        </tbody>
                                 </table>
                             ) : (
                                     <p className='flex justify-center'>クロックデータなし</p> //No clock data available
                                 )}
+                                      <div className='flex justify-center mt-3 mb-3' >
+                                        <button type="button" onClick={handleAddMusicalinstrumentRow}
+                                            className="w-7 h-7 inline-flex items-center justify-center text-[#70685a] border border-[#70685a] outline-none hover:bg-purple-700 active:bg-purple-600">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="14px" fill="#70685a" className="inline" viewBox="0 0 512 512">
+                                                <path
+                                                    d="M467 211H301V45c0-24.853-20.147-45-45-45s-45 20.147-45 45v166H45c-24.853 0-45 20.147-45 45s20.147 45 45 45h166v166c0 24.853 20.147 45 45 45s45-20.147 45-45V301h166c24.853 0 45-20.147 45-45s-20.147-45-45-45z"
+                                                    data-original="#000000" />
+                                            </svg>
+                                        </button>
+                                    </div>
                             </div>
                             {/* kimono */}
                             <div style={{ width: '100%', overflow: 'auto' , display: visibleTable === '着物' ? 'block' : 'none' }} >
@@ -1682,25 +2515,94 @@ const handleAddAccesseoriesRow = async() => {
                                             <th style={Th}>備考</th>
                                             <th style={Th}>査定日</th>
                                             <th style={Th}>はなもり</th>
+                                            <th style={Th}>{editKimonoId === null ? '編集' : 'セーブ'}</th>
+                                            <th style={Th}>{editKimonoId === null ? '削除' : 'キャンセル'}</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {data.kimonos.map((kimono,Index) => (
-                                            <tr key={kimono.id}>
-                                            <td style={Td}>{Index+1}</td>
-                                            <td style={Td}>{kimono.shipping_date}</td>
-                                            <td style={Td}>{kimono.number}</td>
-                                            <td style={Td}>{kimono.product_name}</td>
-                                            <td style={Td}>{kimono.remarks}</td>
-                                            <td style={Td}>{kimono.assessment_date}</td>
-                                            <td style={Td}>{kimono.hanamori}</td>
-                                            </tr>
-                                        ))}
-                                    </tbody>
+          {kimonoData.map((item, index) => (
+            <tr key={item.id} style={editKimonoId === item.id ? editableRowStyle : {}}>
+              <td style={Td}>{index + 1}</td>
+              {Object.keys(newKimonoRow).map((key) => (
+                <td key={key} style={Td}>
+                  {editKimonoId === item.id ? (
+                    <input
+                      type="text"
+                      name={key}
+                      value={item[key]||''}
+                    // value={key}
+                      onChange={(e) => handleKimonoChange(e, item.id)}
+                      style={editableRowStyle}
+                    />
+                  ) : (
+                    item[key]
+                  )}
+                </td>
+              ))}
+              <td style={Td}>
+                {editKimonoId === item.id ? (
+                  <div>
+                    <button onClick={() => handleKimonoSave(item.id)} className='w-7'>
+                        <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium  MuiSvgIcon-root MuiSvgIcon-fontSizeLarge  css-1hkft75" fill='#524c3b' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckOutlinedIcon" title="CheckOutlined"><path d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
+                    </button>
+                  </div>
+                ) : (
+                  <div>
+                    <button onClick={() => handleKimonoEdit(item.id)} className='w-7'>
+                        <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium  MuiSvgIcon-root MuiSvgIcon-fontSizeLarge  css-1hkft75" fill='#524c3b' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="EditCalendarOutlinedIcon" title="EditCalendarOutlined"><path d="M5 10h14v2h2V6c0-1.1-.9-2-2-2h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h7v-2H5zm0-4h14v2H5zm17.84 10.28-.71.71-2.12-2.12.71-.71c.39-.39 1.02-.39 1.41 0l.71.71c.39.39.39 1.02 0 1.41m-3.54-.7 2.12 2.12-5.3 5.3H14v-2.12z"></path></svg>
+                    </button>
+                  </div>
+                )}
+              </td>
+              <td style={Td}>
+                {editKimonoId === item.id ? (
+                  <div>
+                    <button onClick={handleKimonoCancel} className='w-7'>
+                        <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium  MuiSvgIcon-root MuiSvgIcon-fontSizeLarge  css-1hkft75" fill='#524c3b' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="KeyboardReturnOutlinedIcon" title="KeyboardReturnOutlined"><path d="M19 7v4H5.83l3.58-3.59L8 6l-6 6 6 6 1.41-1.41L5.83 13H21V7z"></path></svg>
+                    </button>
+                  </div>
+                ) : (
+                  <div>
+                    <button onClick={() => handleKimonoDelete(item.id)} className='w-7'> 
+                        <svg className="flex flex-col justify-center" focusable="false" aria-hidden="true" viewBox="0 0 23 23" fill='#524c3b' data-testid="CancelOutlinedIcon" title="CancelOutlined"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8m3.59-13L12 10.59 8.41 7 7 8.41 10.59 12 7 15.59 8.41 17 12 13.41 15.59 17 17 15.59 13.41 12 17 8.41z"></path></svg>
+                        </button>
+                  </div>
+                )}
+              </td>
+            </tr>
+          ))}
+          { inputKimonoShow ?(
+          <tr>
+            <td style={Td}></td>
+            {Object.keys(newKimonoRow).map((key) => (
+            <td key={key} style={Td}>
+                <input
+                    key={key}
+                    type="text"
+                    name={key}
+                    value={newKimonoRow[key]}
+                    onChange={handleKimonoChange}
+                    placeholder={key.replace(/_/g, ' ')}
+                />
+            </td>
+            ))}
+        </tr>
+        ):''}
+        </tbody>
                                 </table>
                             ) : (
                                     <p className='flex justify-center'>クロックデータなし</p> //No clock data available
                                 )}
+                                    <div className='flex justify-center mt-3 mb-3' >
+                                        <button type="button" onClick={handleAddKimonoRow}
+                                            className="w-7 h-7 inline-flex items-center justify-center text-[#70685a] border border-[#70685a] outline-none hover:bg-purple-700 active:bg-purple-600">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="14px" fill="#70685a" className="inline" viewBox="0 0 512 512">
+                                                <path
+                                                    d="M467 211H301V45c0-24.853-20.147-45-45-45s-45 20.147-45 45v166H45c-24.853 0-45 20.147-45 45s20.147 45 45 45h166v166c0 24.853 20.147 45 45 45s45-20.147 45-45V301h166c24.853 0 45-20.147 45-45s-20.147-45-45-45z"
+                                                    data-original="#000000" />
+                                            </svg>
+                                        </button>
+                                    </div>
                             </div>
                             {/* smartphone and tablet */}
                             <div style={{ width: '100%', overflow: 'auto' , display: visibleTable === 'スマホタブレット' ? 'block' : 'none' }} >
@@ -1715,26 +2617,94 @@ const handleAddAccesseoriesRow = async() => {
                                             <th style={Th}>備考</th>
                                             <th style={Th}>査定日</th>
                                             <th style={Th}>はなもり</th>
+                                            <th style={Th}>{editSmartphoneandtabletId === null ? '編集' : 'セーブ'}</th>
+                                            <th style={Th}>{editSmartphoneandtabletId === null ? '削除' : 'キャンセル'}</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {data.smartPhoneAndTablets.map((item,Index) => (
-                                            <tr key={item.id}>
-                                            <td style={Td}>{Index+1}</td>
-                                            <td style={Td}>{item.shipping_date}</td>
-                                            <td style={Td}>{item.number}</td>
-                                            <td style={Td}>{item.product_name}</td>
-                                            <td style={Td}>{item.remarks}</td>
-                                            <td style={Td}>{item.yahoo_auctions_highest_price}</td>
-                                            <td style={Td}>{item.assessment_date}</td>
-                                            <td style={Td}>{item.pathtech}</td>
-                                            </tr>
-                                        ))}
-                                    </tbody>
+          {smartphoneandtabletData.map((item, index) => (
+            <tr key={item.id} style={editSmartphoneandtabletId === item.id ? editableRowStyle : {}}>
+              <td style={Td}>{index + 1}</td>
+              {Object.keys(newSmartphoneandtabletRow).map((key) => (
+                <td key={key} style={Td}>
+                  {editSmartphoneandtabletId === item.id ? (
+                    <input
+                      type="text"
+                      name={key}
+                      value={item[key]||''}
+                    // value={key}
+                      onChange={(e) => handleSmartphoneandtabletChange(e, item.id)}
+                      style={editableRowStyle}
+                    />
+                  ) : (
+                    item[key]
+                  )}
+                </td>
+              ))}
+              <td style={Td}>
+                {editSmartphoneandtabletId === item.id ? (
+                  <div>
+                    <button onClick={() => handleSmartphoneandtabletSave(item.id)} className='w-7'>
+                        <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium  MuiSvgIcon-root MuiSvgIcon-fontSizeLarge  css-1hkft75" fill='#524c3b' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckOutlinedIcon" title="CheckOutlined"><path d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
+                    </button>
+                  </div>
+                ) : (
+                  <div>
+                    <button onClick={() => handleSmartphoneandtabletEdit(item.id)} className='w-7'>
+                        <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium  MuiSvgIcon-root MuiSvgIcon-fontSizeLarge  css-1hkft75" fill='#524c3b' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="EditCalendarOutlinedIcon" title="EditCalendarOutlined"><path d="M5 10h14v2h2V6c0-1.1-.9-2-2-2h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h7v-2H5zm0-4h14v2H5zm17.84 10.28-.71.71-2.12-2.12.71-.71c.39-.39 1.02-.39 1.41 0l.71.71c.39.39.39 1.02 0 1.41m-3.54-.7 2.12 2.12-5.3 5.3H14v-2.12z"></path></svg>
+                    </button>
+                  </div>
+                )}
+              </td>
+              <td style={Td}>
+                {editSmartphoneandtabletId === item.id ? (
+                  <div>
+                    <button onClick={handleSmartphoneandtabletCancel} className='w-7'>
+                        <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium  MuiSvgIcon-root MuiSvgIcon-fontSizeLarge  css-1hkft75" fill='#524c3b' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="KeyboardReturnOutlinedIcon" title="KeyboardReturnOutlined"><path d="M19 7v4H5.83l3.58-3.59L8 6l-6 6 6 6 1.41-1.41L5.83 13H21V7z"></path></svg>
+                    </button>
+                  </div>
+                ) : (
+                  <div>
+                    <button onClick={() => handleSmartphoneandtabletDelete(item.id)} className='w-7'> 
+                        <svg className="flex flex-col justify-center" focusable="false" aria-hidden="true" viewBox="0 0 23 23" fill='#524c3b' data-testid="CancelOutlinedIcon" title="CancelOutlined"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8m3.59-13L12 10.59 8.41 7 7 8.41 10.59 12 7 15.59 8.41 17 12 13.41 15.59 17 17 15.59 13.41 12 17 8.41z"></path></svg>
+                        </button>
+                  </div>
+                )}
+              </td>
+            </tr>
+          ))}
+          { inputSmartphoneandtabletShow ?(
+          <tr>
+            <td style={Td}></td>
+            {Object.keys(newSmartphoneandtabletRow).map((key) => (
+            <td key={key} style={Td}>
+                <input
+                    key={key}
+                    type="text"
+                    name={key}
+                    value={newSmartphoneandtabletRow[key]}
+                    onChange={handleSmartphoneandtabletChange}
+                    placeholder={key.replace(/_/g, ' ')}
+                />
+            </td>
+            ))}
+        </tr>
+        ):''}
+        </tbody>
                                 </table>
                             ) : (
                                     <p className='flex justify-center'>クロックデータなし</p> //No clock data available
                                 )}
+                                      <div className='flex justify-center mt-3 mb-3' >
+                                        <button type="button" onClick={handleAddSmartphoneandtabletRow}
+                                            className="w-7 h-7 inline-flex items-center justify-center text-[#70685a] border border-[#70685a] outline-none hover:bg-purple-700 active:bg-purple-600">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="14px" fill="#70685a" className="inline" viewBox="0 0 512 512">
+                                                <path
+                                                    d="M467 211H301V45c0-24.853-20.147-45-45-45s-45 20.147-45 45v166H45c-24.853 0-45 20.147-45 45s20.147 45 45 45h166v166c0 24.853 20.147 45 45 45s45-20.147 45-45V301h166c24.853 0 45-20.147 45-45s-20.147-45-45-45z"
+                                                    data-original="#000000" />
+                                            </svg>
+                                        </button>
+                                    </div>
                             </div>
                         </div>
                     </div>
