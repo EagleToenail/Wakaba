@@ -2,6 +2,7 @@
 // import React, { useState, useCallback, useRef, Children } from 'react';
 import React, { useState, useCallback, useRef } from 'react';
 import '../Assets/css/MainContainer.css';
+import InvoiceForPurchaseChat from '../Pages/InvoiceForPurchaseChat/invoiceForPurchaseChat';
 
 
 const MainContainer = ({children}) => {

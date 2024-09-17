@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios'; // or use fetch
 
-const TodoAccordionItem = ({ time, title, content, fileUrl, sender, receiver, children, parentMessageId, onSendData, users }) => {
+const InvoiceForPurchaseAccordionItem = ({ time, title, content, fileUrl, sender, receiver, children, parentMessageId, onSendData, users }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const [receivedTime, setReceivedTime] = useState('');
@@ -95,7 +95,7 @@ const TodoAccordionItem = ({ time, title, content, fileUrl, sender, receiver, ch
         <div style={styles.content}>
           <div className='flex w-full' style={{ marginLeft: '20px' }}>
             <div style={{ width: '80%' }}>
-              <div className='flex mt-5 mb-5'>
+              <div className='flex mt-5'>
                 {/* rect btn */}
                 <div>
                   <div>
@@ -164,16 +164,14 @@ const TodoAccordionItem = ({ time, title, content, fileUrl, sender, receiver, ch
           </div>
           {/* <p>{content}</p> */}
           {fileUrl && isImageFile(fileUrl) ? (<div className='w-full h-[150px] flex justify-center' >
-            <div>
-              <img src={`http://3.14.245.186:8081/api/uploads/todoList/${fileUrl}`} alt="Uploaded" style={styles.imagePreview} />
-              <a href={`http://3.14.245.186:8081/api/uploads/todoList/${fileUrl}`} target="_blank">
-                  Open in Brosewer 
-              </a>
-            </div>
+            <img src={`http://3.14.245.186:8081/api/uploads/invoiceforpurchase/${fileUrl}`} alt="Uploaded" style={styles.imagePreview} />
+            <a href={`http://3.14.245.186:8081/api/uploads/invoiceforpurchase/${fileUrl}`} target="_blank">
+                Open in Brosewer 
+            </a>
           </div>
           ) : (<div className='w-full h-10 flex justify-center'>
-            <a href={`http://3.14.245.186:8081/api/uploads/todoList/${fileUrl}`} download={fileUrl} target="_blank" rel="noopener noreferrer">
-                File Link : {fileUrl}
+            <a href={`http://3.14.245.186:8081/api/uploads/invoiceforpurchase/${fileUrl}`} download={fileUrl} target="_blank" rel="noopener noreferrer">
+              Download {fileUrl}
             </a>
           </div>
           )}
@@ -211,4 +209,4 @@ const styles = {
   },
 };
 
-export default TodoAccordionItem;
+export default InvoiceForPurchaseAccordionItem;

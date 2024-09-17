@@ -7,7 +7,7 @@ import InputComponent from '../../Components/Common/InputComponent';
 import ButtonComponent from '../../Components/Common/ButtonComponent';
 
 
-const CustomerIndividualCreate = ({onSendData}) => {
+const CustomerIndividualCreate = ({ onSendData }) => {
 
     const Table = {
         borderCollapse: 'collapse',
@@ -41,8 +41,8 @@ const CustomerIndividualCreate = ({onSendData}) => {
         prefeature: '',
         city: '',
         gender: '',
-        trigger:'',
-        shop:'',
+        trigger: '',
+        shop: '',
 
     });
 
@@ -113,22 +113,22 @@ const CustomerIndividualCreate = ({onSendData}) => {
     const formatPhoneNumber = (number) => {
         // Ensure the number is a string
         const numStr = number.toString();
-        
+
         // Extract parts of the string
         const part1 = numStr.slice(0, 3);    // First 3 digits
         const part2 = numStr.slice(3, 7);    // Next 4 digits
         const part3 = numStr.slice(7);       // Last 4 digits
-    
+
         // Combine parts with dashes
         return `${part1}-${part2}-${part3}`;
     };
-    const [customerId , setCustomerId] = useState('');
+    const [customerId, setCustomerId] = useState('');
     const handleCreateSubmit = async (e) => {
         e.preventDefault();
         setIsCreateModalOpen(false);
 
         const formattedNumber = formatPhoneNumber(customer.phone_number);
-        customer.phone_number =  formattedNumber;
+        customer.phone_number = formattedNumber;
 
         const formDataObj = new FormData();
         formDataObj.append('id', customer.id);
@@ -303,7 +303,7 @@ const CustomerIndividualCreate = ({onSendData}) => {
                                     <input type="file" name='idcardUpload' ref={idcardInputRef} style={{ display: 'none' }} onChange={(e) => handleFileChange(e, setIdcardFile, setAvatarImagePreview)} />
                                     {/* {idcardFile && <p>{idcardFile.name}</p>} */}
                                 </div>
-                                <div style={{ width: '30%', flexDirection: 'column'}} className='flex align-center justify-around ml-3'>
+                                <div style={{ width: '30%', flexDirection: 'column' }} className='flex align-center justify-around ml-3'>
                                     <select id="cardType" name="cardType" value={customer.cardType} required onChange={handleCustomerChange} className="w-full h-9 text-[#70685a] text-[15px] font-bold border border-[#70685a] px-4 py-2 outline-[#70685a]">
                                         <option value="" disabled></option>
                                         <option value="運転免許証">運転免許証</option>
@@ -313,7 +313,7 @@ const CustomerIndividualCreate = ({onSendData}) => {
                                         <option value="各種福祉手帳（身体障害者手帳等）">各種福祉手帳（身体障害者手帳等）</option>
                                     </select>
                                 </div>
-                                <div style={{ width: '30%', flexDirection: 'column',display:'none'}} className='flex align-center justify-around'>
+                                <div style={{ width: '30%', flexDirection: 'column', display: 'none' }} className='flex align-center justify-around'>
                                     <button type="button" onClick={() => handleButtonClick(avatarImageInputRef)} className="py-2 text-[#70685a] rounded-full tracking-wider font-medium outline-none border border-[#70685a] ">画像と情報表示</button>
                                     <input type="file" name="avatarimageUpload" ref={avatarImageInputRef} style={{ display: 'none' }} onChange={(e) => handleFileChange(e, setAvatarImageFile, setIdCardImagePreview)} />
                                     {/* {avatarimageFile && <p>Selected Image: {avatarimageFile.name}</p>} */}
@@ -327,10 +327,10 @@ const CustomerIndividualCreate = ({onSendData}) => {
                                 <div style={{ width: '75%', flexDirection: 'column', }} className='flex h-full felx-col justify-center'>
                                     <div className='flex justify-between w-full h-[100px]'>
                                         <div style={{ width: '60%' }} className='border border-[#70685a] rounded-lg flex justify-center'>
-                                            {imageAvatarPreview=="" ? "": <img src={imageAvatarPreview} alt="Image Preview" className='h-[100px] p-1 rounded-lg' />}
+                                            {imageAvatarPreview == "" ? "" : <img src={imageAvatarPreview} alt="Image Preview" className='h-[100px] p-1 rounded-lg' />}
                                         </div>
-                                        <div style={{ width: '35%',display:'none'}} className='border border-[#70685a] rounded-full flex justify-center'>
-                                            {imageIdCardPreview =="" ? "": <img src={imageIdCardPreview} alt="Image Preview" className='h-[100px] p-1 rounded-full' />}
+                                        <div style={{ width: '35%', display: 'none' }} className='border border-[#70685a] rounded-full flex justify-center'>
+                                            {imageIdCardPreview == "" ? "" : <img src={imageIdCardPreview} alt="Image Preview" className='h-[100px] p-1 rounded-full' />}
                                         </div>
                                     </div>
 
@@ -412,51 +412,51 @@ const CustomerIndividualCreate = ({onSendData}) => {
 
                         </form>
                     </div>
-                </div>
-            </div>
-            <div className='flex justify-center'>
-                <div className="w-full pt-3" style={{ maxWidth: '80em' }}>
-                    <div className='w-full flex justify-center gap-20 mt-3 mb-5'>
-                        <ButtonComponent children="作成する" onClick={openCreateCheckModal} className='w-max h-11 !px-5' style={{ border: '1px solid #e87a00', backgroundColor: 'transparent', color: '#e87a00' }} />
+                    <div className='flex justify-center'>
+                        <div className="w-full pt-3" style={{ maxWidth: '80em' }}>
+                            <div className='w-full flex justify-center gap-20 mt-3 mb-5'>
+                                <ButtonComponent children="作成する" onClick={openCreateCheckModal} className='w-max h-11 !px-5' style={{ border: '1px solid #e87a00', backgroundColor: 'transparent', color: '#e87a00' }} />
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
         {isCreateModalOpen && (
             <div
-            className="fixed inset-0 p-4 flex flex-wrap justify-center items-center w-full h-full z-[1000] before:fixed before:inset-0 before:w-full before:h-full before:bg-[rgba(0,0,0,0.5)] overflow-auto font-[sans-serif]">
-            <div className="w-full max-w-lg bg-white shadow-lg rounded-lg p-6 relative">
+                className="fixed inset-0 p-4 flex flex-wrap justify-center items-center w-full h-full z-[1000] before:fixed before:inset-0 before:w-full before:h-full before:bg-[rgba(0,0,0,0.5)] overflow-auto font-[sans-serif]">
+                <div className="w-full max-w-lg bg-white shadow-lg rounded-lg p-6 relative">
 
-                <div className="my-4 text-center">
-                    <h4 className="text-gray-800 text-base font-semibold mt-4">顧客データを保存しますか？</h4>
+                    <div className="my-4 text-center">
+                        <h4 className="text-gray-800 text-base font-semibold mt-4">顧客データを保存しますか？</h4>
 
-                    <div className="text-center space-x-4 mt-8">
-                        <button type="button" onClick={handleCreateSubmit}
-                            className="px-6 py-2 rounded-lg text-white text-sm bg-red-600 hover:bg-red-700 active:bg-red-600">はい</button>
-                        <button type="button" onClick={onClose}
-                            className="px-4 py-2 rounded-lg text-gray-800 text-sm bg-gray-200 hover:bg-gray-300 active:bg-gray-200">キャンセル</button>
+                        <div className="text-center space-x-4 mt-8">
+                            <button type="button" onClick={handleCreateSubmit}
+                                className="px-6 py-2 rounded-lg text-white text-sm bg-red-600 hover:bg-red-700 active:bg-red-600">はい</button>
+                            <button type="button" onClick={onClose}
+                                className="px-4 py-2 rounded-lg text-gray-800 text-sm bg-gray-200 hover:bg-gray-300 active:bg-gray-200">キャンセル</button>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
         )}
         {isSuccessModalOpen && (
             <div
-            className="fixed inset-0 p-4 flex flex-wrap justify-center items-center w-full h-full z-[1000] before:fixed before:inset-0 before:w-full before:h-full before:bg-[rgba(0,0,0,0.5)] overflow-auto font-[sans-serif]">
-            <div className="w-full max-w-lg bg-white shadow-lg rounded-lg p-6 relative">
+                className="fixed inset-0 p-4 flex flex-wrap justify-center items-center w-full h-full z-[1000] before:fixed before:inset-0 before:w-full before:h-full before:bg-[rgba(0,0,0,0.5)] overflow-auto font-[sans-serif]">
+                <div className="w-full max-w-lg bg-white shadow-lg rounded-lg p-6 relative">
 
-                <div className="my-4 text-center">
-                    <h4 className="text-gray-800 text-base font-semibold mt-4">新しい顧客データが正常に作成されました。</h4>
+                    <div className="my-4 text-center">
+                        <h4 className="text-gray-800 text-base font-semibold mt-4">新しい顧客データが正常に作成されました。</h4>
 
-                    <div className="text-center space-x-4 mt-8">
-                        <button type="button" onClick={()=>onCloseSuccess(customerId)}
-                            className="px-6 py-2 rounded-lg text-white text-sm bg-red-600 hover:bg-red-700 active:bg-red-600">OK</button>
+                        <div className="text-center space-x-4 mt-8">
+                            <button type="button" onClick={() => onCloseSuccess(customerId)}
+                                className="px-6 py-2 rounded-lg text-white text-sm bg-red-600 hover:bg-red-700 active:bg-red-600">OK</button>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
         )}
-  
+
     </>
     );
 };

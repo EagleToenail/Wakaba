@@ -69,24 +69,18 @@ const CustomerIndividual = () => {
         birthday: '',
         age: '',
         job: '',
+        email:'',
         idCard_url: '',
         cardType: '',
         avatar_url: '',
         prefeature: '',
         city: '',
         gender: '',
+        item1:'',
+        item2:'',
+        item3:'',
     });
 
-    // const [customerPastVisitHistory, setCustomerPastVisitHistory] = useState([{
-    //     visit_date:'',
-    //     applicable:'',
-    //     total_amount:'',
-    //     category:'',
-    //     product_name:'',
-    //     total_sales:'',
-    //     total_gross_profit:'',
-    //     total_purchase_price:''
-    // }]);
     const [customerPastVisitHistory, setCustomerPastVisitHistory] = useState([]);
 
     const [imageAvatarPreview, setAvatarImagePreview] = useState("");
@@ -123,7 +117,7 @@ const CustomerIndividual = () => {
         if(id){
             axios.get(`${wakabaBaseUrl}/customer/getCustomerById/${id}`)
             .then(response => {
-                console.log("data", response.data)
+                // console.log("data", response.data)
                 setCustomer(response.data);
                 setAvatarImagePreview(`${wakabaBaseUrl}/uploads/customer/${response.data.avatar_url}`);
                 setIdCardImagePreview(`${wakabaBaseUrl}/uploads/customer/${response.data.idCard_url}`);
@@ -202,6 +196,7 @@ const CustomerIndividual = () => {
         formDataObj.append('katakana_name', customer.katakana_name);
         formDataObj.append('phone_number', customer.phone_number);
         formDataObj.append('job', customer.job);
+        formDataObj.append('email', customer.email);
         formDataObj.append('birthday', customer.birthday);
         formDataObj.append('age', customer.age);
         formDataObj.append('gender', customer.gender);
@@ -400,6 +395,15 @@ const CustomerIndividual = () => {
                                 </div>
                             </div>
                             {/* new */}
+                            <div className='flex'>
+                                <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
+                                    <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">email</label>
+                                </div>
+                                <div style={{ width: '30%', flexDirection: 'column', }} className='flex align-center justify-around'>
+                                    <InputComponent name="email" value={customer.email} onChange={handleCustomerChange} type='email' required />
+                                </div>
+                            </div>
+                            {/* new */}
                             <div className='flex '>
                                 <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
                                     <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">本人確認書類</label>
@@ -532,7 +536,7 @@ const CustomerIndividual = () => {
                     <div style={{ width: '100%', }} className='flex'>
                         <div className=" h-full w-full">
                             {/*Past visit history of Table area */}
-                            <div className="border border-[#70685a] rounded px-3 w-full mb-5" style={{ height: '350px', overflowX: 'scroll', overflowY: 'scroll' }}>
+                            <div className="border border-[#70685a] rounded px-3 w-full mb-5" style={{ height: '415px', overflowX: 'scroll', overflowY: 'scroll' }}>
                                 <div className='flex justify-between mt-5'>
                                    <label className="text-[#70685a] text-[20px] font-bold mb-2 block text-left mr-10 py-1 !mb-0">過去の訪問履歴</label>
                                    <button type="button" onClick={gotoInvoiceForPurchase}
@@ -599,24 +603,38 @@ const CustomerIndividual = () => {
 
                             </div>
                             {/* Text area */}
-                            <div className="border border-[#70685a] rounded px-3 w-full" style={{ height: '340px', overflowX: 'scroll', overflowY: 'scroll' }}>
-                                <label className="text-[#70685a] text-[20px] font-bold mb-2 block text-left mr-10 py-1 !mb-0">Whole hearing</label>
-                                <div>
-                                    <div className='flex'>
-                                        <label className="text-[#70685a] text-[18px] mb-2 block text-left mr-10 py-1">Eleven 1</label>
-                                        <label className="text-[#70685a] text-[15px] mb-2 block text-left mr-10 py-1 !mb-0">O O O O O O O O</label>
-                                    </div>
-                                    <div className='border border-[#70685a] ml-20'>
-                                        <label className="text-[#70685a] text-[15px] mb-2 block text-left  mr-10 py-1 !mb-0">O O O O O O O O</label>
-                                    </div>
-                                </div>
-                                <div>
-                                    <div className='flex'>
-                                        <label className="text-[#70685a] text-[18px] mb-2 block text-left mr-10 py-1">Eleven 2</label>
-                                        <label className="text-[#70685a] text-[15px] mb-2 block text-left mr-10 py-1 !mb-0">O O O O O O O O</label>
-                                    </div>
-                                    <div className='border border-[#70685a] ml-20'>
-                                        <label className="text-[#70685a] text-[15px] mb-2 block text-left  mr-10 py-1 !mb-0">O O O O O O O O</label>
+                            <div className='w-full flex justify-center'>
+                                <div className=" h-full w-full mt-10">
+                                    {/* Text area */}
+                                    <div className="border border-[#70685a] rounded px-3 w-full" style={{ height: '305px', overflowX: 'scroll', overflowY: 'scroll' }}>
+                                        <label className="text-[#70685a] text-[20px] font-bold mb-2 block text-left mr-10 py-1 !mb-0">全体ヒアリング</label>
+                                        <div>
+                                            <div className='flex'>
+                                                <label className="text-[#70685a] text-[18px] mb-2 block text-left mr-10 py-1">項目1</label>
+                                                <label className="text-[#70685a] text-[18px] mb-2 block text-left mr-10 py-1 !mb-0">何を見てご来店いただきましたか？</label>
+                                            </div>
+                                            <div className='ml-20'>
+                                                <InputComponent value={customer.item1 || ''} name='item1' onChange={handleCustomerChange} className="w-full text-[#70685a] text-[18px] mb-2 block text-left  mr-10 py-1 !mb-0 !h-10" />
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <div className='flex'>
+                                                <label className="text-[#70685a] text-[18px] mb-2 block text-left mr-10 py-1">項目2</label>
+                                                <label className="text-[#70685a] text-[18px] mb-2 block text-left mr-10 py-1 !mb-0">次回お持ちいただくご予定の商品はございますか？</label>
+                                            </div>
+                                            <div className='border border-[#70685a] ml-20'>
+                                                <InputComponent value={customer.item2 || ''} name='item2' onChange={handleCustomerChange} className="w-full text-[#70685a] text-[18px] mb-2 block text-left  mr-10 py-1 !mb-0 !h-10" />
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <div className='flex'>
+                                                <label className="text-[#70685a] text-[18px] mb-2 block text-left mr-10 py-1">項目3</label>
+                                                <label className="text-[#70685a] text-[18px] mb-2 block text-left mr-10 py-1 !mb-0">(各種ご案内)の送付は  可/不可</label>
+                                            </div>
+                                            <div className='border border-[#70685a] ml-20  mb-10'>
+                                                <InputComponent value={customer.item3 || ''} name='item3' onChange={handleCustomerChange} className="w-full text-[#70685a] text-[18px] mb-2 block text-left  mr-10 py-1 !mb-0 !h-10" />
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

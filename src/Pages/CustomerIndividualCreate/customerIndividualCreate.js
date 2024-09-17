@@ -67,6 +67,7 @@ const CustomerIndividualCreate = () => {
         birthday: '',
         age: '',
         job: '',
+        email:'',
         idCard_url: '',
         cardType: '',
         avatar_url: '',
@@ -247,6 +248,7 @@ const CustomerIndividualCreate = () => {
         formDataObj.append('age', customer.age);
         formDataObj.append('gender', customer.gender);
         formDataObj.append('job', customer.job);
+        formDataObj.append('email', customer.email);
         formDataObj.append('trigger', customer.trigger);
         formDataObj.append('cardType', customer.cardType);
         formDataObj.append('prefeature', customer.prefeature);
@@ -401,6 +403,15 @@ const CustomerIndividualCreate = () => {
                                 </div>
                                 <div style={{ width: '30%', flexDirection: 'column', }} className='flex align-center justify-around'>
                                     <InputComponent name="job" value={customer.job} onChange={handleCustomerChange} type='text' required />
+                                </div>
+                            </div>
+                            {/* new */}
+                            <div className='flex'>
+                                <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
+                                    <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">Email</label>
+                                </div>
+                                <div style={{ width: '30%', flexDirection: 'column', }} className='flex align-center justify-around'>
+                                    <InputComponent name="email" value={customer.email} onChange={handleCustomerChange} type='email' required />
                                 </div>
                             </div>
                             {/* new */}

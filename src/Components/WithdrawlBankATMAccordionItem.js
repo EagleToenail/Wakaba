@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios'; // or use fetch
 
-const TodoAccordionItem = ({ time, title, content, fileUrl, sender, receiver, children, parentMessageId, onSendData, users }) => {
+const WithdrawalBankATMAccordionItem = ({ time, title, content, fileUrl, sender, receiver, children, parentMessageId, onSendData, users }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const [receivedTime, setReceivedTime] = useState('');
@@ -165,14 +165,14 @@ const TodoAccordionItem = ({ time, title, content, fileUrl, sender, receiver, ch
           {/* <p>{content}</p> */}
           {fileUrl && isImageFile(fileUrl) ? (<div className='w-full h-[150px] flex justify-center' >
             <div>
-              <img src={`http://3.14.245.186:8081/api/uploads/todoList/${fileUrl}`} alt="Uploaded" style={styles.imagePreview} />
-              <a href={`http://3.14.245.186:8081/api/uploads/todoList/${fileUrl}`} target="_blank">
+              <img src={`http://3.14.245.186:8081/api/uploads/withdrawalbankatm/${fileUrl}`} alt="Uploaded" style={styles.imagePreview} />
+              <a href={`http://3.14.245.186:8081/api/uploads/withdrawalbankatm/${fileUrl}`} target="_blank">
                   Open in Brosewer 
               </a>
             </div>
           </div>
           ) : (<div className='w-full h-10 flex justify-center'>
-            <a href={`http://3.14.245.186:8081/api/uploads/todoList/${fileUrl}`} download={fileUrl} target="_blank" rel="noopener noreferrer">
+            <a href={`http://3.14.245.186:8081/api/uploads/withdrawalbankatm/${fileUrl}`} download={fileUrl} target="_blank" rel="noopener noreferrer">
                 File Link : {fileUrl}
             </a>
           </div>
@@ -211,4 +211,4 @@ const styles = {
   },
 };
 
-export default TodoAccordionItem;
+export default WithdrawalBankATMAccordionItem;
