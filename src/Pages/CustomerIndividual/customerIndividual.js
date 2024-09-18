@@ -65,7 +65,7 @@ const CustomerIndividual = () => {
         phone_number: '',
         address: '',
         shop: '',
-        opportunity: '',
+        visit_type: '',
         birthday: '',
         age: '',
         job: '',
@@ -76,6 +76,8 @@ const CustomerIndividual = () => {
         prefeature: '',
         city: '',
         gender: '',
+        trigger:'',
+        brand_type:'',
         item1:'',
         item2:'',
         item3:'',
@@ -101,7 +103,7 @@ const CustomerIndividual = () => {
             axios.get(`${wakabaBaseUrl}/customer/customerpastvisithistory/${id}`)
                 .then(response => {
                     console.log("historydata", response.data)
-                    setCustomerPastVisitHistory(response.data);
+                    setCustomerPastVisitHistory(response.data || []);
                 })
                 .catch(error => {
                     console.error("There was an error fetching the customer data!", error);
@@ -191,7 +193,7 @@ const CustomerIndividual = () => {
         setIsKeepModalOpen(false);
         const formDataObj = new FormData();
         formDataObj.append('id', customer.id);
-        formDataObj.append('opportunity', customer.opportunity);
+        formDataObj.append('visit_type', customer.visit_type);
         formDataObj.append('full_name', customer.full_name);
         formDataObj.append('katakana_name', customer.katakana_name);
         formDataObj.append('phone_number', customer.phone_number);
@@ -204,6 +206,9 @@ const CustomerIndividual = () => {
         formDataObj.append('prefeature', customer.prefeature);
         formDataObj.append('city', customer.city);
         formDataObj.append('address', customer.address);
+        formDataObj.append('item1', customer.item1);
+        formDataObj.append('item2', customer.item2);
+        formDataObj.append('item3', customer.item3);
 
         if (avatarimageFile) formDataObj.append('avatarimage', avatarimageFile);
         if (idcardFile) formDataObj.append('idcard', idcardFile);
@@ -225,6 +230,7 @@ const CustomerIndividual = () => {
             console.log('Response:', response.data);
             // setAvatarImageFile(null);
             // setIdcardFile(null);
+            navigate('/customerlist');
         } catch (error) {
             console.error('Error submitting form:', error);
             // Handle error here
@@ -255,6 +261,32 @@ const CustomerIndividual = () => {
         navigate(`/invoiceforpurchaseofbrought/${id}`); // Use navigate for routing
     };
 
+    const [totalSales , setTotalSales] = useState('');
+    const [totalPurchasePrice , setTotalPurchasePrice] = useState('');
+    const [totalGrossProfit , setTotalGrossProfit] = useState('');
+    // calculate total sales
+    const calculateTotalSales = () => {
+        const total = customerPastVisitHistory.reduce((sum, item) => parseInt(sum) + (parseInt(item.total_sales) || 0), 0);
+        setTotalSales(total);
+    };
+
+    // Calculate total purchase price
+    const calculateTotalpurchasePrice = () => {
+        const total = customerPastVisitHistory.reduce((sum, item) => parseInt(sum) + (parseInt(item.total_purchase_price) || 0), 0);
+        setTotalPurchasePrice(total);
+    };
+
+    // Calculate total purchase price
+    const calculateTotalGrossProfit = () => {
+        const total = customerPastVisitHistory.reduce((sum, item) => parseInt(sum) + (parseInt(item.total_gross_profit) || 0), 0);
+        setTotalGrossProfit(total);
+    };
+
+    useEffect(() => {
+        calculateTotalSales();
+        calculateTotalpurchasePrice();
+        calculateTotalGrossProfit();
+    }, [customerPastVisitHistory]);
 
     return (<>
         <div className="bg-[trasparent] font-[sans-serif]">
@@ -306,13 +338,17 @@ const CustomerIndividual = () => {
                                     <label name="storename" className="text-[#70685a] font-bold mb-2 block text-left mr-10 py-2 !mb-0">{customer.shop}</label>
                                 </div>
                                 <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-3 !mb-0">契機</label>
+                                    <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-3 !mb-0">訪問タイプ</label>
                                 </div>
                                 <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <select id="opportunity" name="opportunity" value={customer.opportunity || ''} required onChange={handleCustomerChange} className="w-full text-[#70685a] font-bold border border-[#70685a] px-4 py-2 outline-[#70685a]">
+                                    <select id="visit_type" name="visit_type" value={customer.visit_type || ''} required onChange={handleCustomerChange} className="w-full text-[#70685a] font-bold border border-[#70685a] px-4 py-2 outline-[#70685a]">
                                         <option value="" disabled></option>
-                                        <option value="新規顧客">新規顧客</option>
-                                        <option value="再来顧客">再来顧客</option>
+                                        <option value="折りたたまれた">折りたたまれた</option>
+                                        <option value="店の前で">店の前で</option>
+                                        <option value="顧客">顧客</option>
+                                        <option value="投稿">投稿</option>
+                                        <option value="紹介">紹介</option>
+                                        <option value="他の人">他の人</option>
                                     </select>
                                 </div>
                             </div>
@@ -401,6 +437,24 @@ const CustomerIndividual = () => {
                                 </div>
                                 <div style={{ width: '30%', flexDirection: 'column', }} className='flex align-center justify-around'>
                                     <InputComponent name="email" value={customer.email} onChange={handleCustomerChange} type='email' required />
+                                </div>
+                            </div>
+                            {/* new */}
+                            <div className='flex'>
+                                <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
+                                    <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">トリガー</label>
+                                </div>
+                                <div style={{ width: '30%', flexDirection: 'column', }} className='flex align-center justify-around'>
+                                    <InputComponent name="trigger" value={customer.trigger} onChange={handleCustomerChange} type='text' required />
+                                </div>
+                            </div>
+                            {/* new */}
+                            <div className='flex'>
+                                <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
+                                    <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">ブランドタイプ</label>
+                                </div>
+                                <div style={{ width: '30%', flexDirection: 'column', }} className='flex align-center justify-around'>
+                                    <InputComponent name="brand_type" value={customer.brand_type} onChange={handleCustomerChange} type='text' required />
                                 </div>
                             </div>
                             {/* new */}
@@ -547,7 +601,7 @@ const CustomerIndividual = () => {
                                     <div><span className='pl-1 text-[20px]'>追加</span></div>
                                     </button>
                                 </div>
-
+                                {  customerPastVisitHistory.length !== 0?
                                 <div style={{ width: '100%', }} >
                                     <table className='text-center w-full' style={Table}>
                                         <thead>
@@ -558,12 +612,12 @@ const CustomerIndividual = () => {
                                                 <th className='whitespace-nowrap' width='5%'></th>
                                                 <th className='whitespace-nowrap' width='5%'></th>
                                                 <th className='whitespace-nowrap' width='10%'>合計</th>
-                                                <th className='whitespace-nowrap' width='5%'>99,999,999</th>
-                                                <th className='whitespace-nowrap' width='5%'>99,999,999</th>
-                                                <th className='whitespace-nowrap' width='5%'>99,999,999</th>
+                                                <th className='whitespace-nowrap' width='5%'>{totalSales}</th>
+                                                <th className='whitespace-nowrap' width='5%'>{totalGrossProfit}</th>
+                                                <th className='whitespace-nowrap' width='5%'>{totalPurchasePrice}</th>
                                             </tr>
                                             <tr>
-                                                <th className='whitespace-nowrap' width='5%'>999</th>
+                                                <th className='whitespace-nowrap' width='5%'>{customerPastVisitHistory.length}</th>
                                                 <th className='whitespace-nowrap' width='5%'>来店日</th>
                                                 <th className='whitespace-nowrap' width='5%'>適用</th>
                                                 <th className='whitespace-nowrap' width='5%'>合計金額</th>
@@ -600,7 +654,9 @@ const CustomerIndividual = () => {
                                         </tbody>
                                     </table>
                                 </div>
-
+                                :<div className='flex justify-center'>
+                                     <label className="text-[#70685a] text-[18px] mb-2 block text-left mr-10 py-1">この顧客の訪問履歴は見つかりませんでした。</label>
+                                </div>}
                             </div>
                             {/* Text area */}
                             <div className='w-full flex justify-center'>

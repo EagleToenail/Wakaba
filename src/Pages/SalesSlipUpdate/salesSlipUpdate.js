@@ -191,23 +191,23 @@ const SalesSlipUpdate = () => {
                                     </div>
                                 </div>
                                 {/* new */}
-                                <div className='flex'>
+                                {/* <div className='flex'>
                                     <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
                                         <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">来店種別 </label>
                                     </div>
                                     <div style={{ width: '50%', flexDirection: 'column', }} className='flex align-center justify-around'>
                                         <input name="visit_type" onChange={handleChange} value={salesSlipData.visit_type || ''} type="text" required className="w-full text-[#70685a] border border-[#70685a] px-4 py-2 outline-[#70685a]"  readOnly/>
                                     </div>
-                                </div>
+                                </div> */}
                                 {/* new */}
-                                <div className='flex'>
+                                {/* <div className='flex'>
                                     <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
                                         <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">銘柄・種別 </label>
                                     </div>
                                     <div style={{ width: '50%', flexDirection: 'column', }} className='flex align-center justify-around'>
                                         <input name="brand_type" onChange={handleChange} value={salesSlipData.brand_type || ''} type="text" required className="w-full text-[#70685a] border border-[#70685a] px-4 py-2 outline-[#70685a]" readOnly/>
                                     </div>
-                                </div>
+                                </div> */}
                                 {/* new */}
                                 <div className='flex mt-10'>
                                     <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>

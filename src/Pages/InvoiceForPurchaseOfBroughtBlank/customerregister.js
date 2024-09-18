@@ -31,10 +31,11 @@ const CustomerIndividualCreate = ({ onSendData }) => {
         katakana_name: '',
         phone_number: '',
         address: '',
-        opportunity: '',
+        visit_type: '',
         birthday: '',
         age: '',
         job: '',
+        email:'',
         idCard_url: '',
         cardType: '',
         avatar_url: '',
@@ -42,6 +43,7 @@ const CustomerIndividualCreate = ({ onSendData }) => {
         city: '',
         gender: '',
         trigger: '',
+        brand_type:'',
         shop: '',
 
     });
@@ -133,7 +135,7 @@ const CustomerIndividualCreate = ({ onSendData }) => {
         const formDataObj = new FormData();
         formDataObj.append('id', customer.id);
         formDataObj.append('shop', customer.shop);
-        formDataObj.append('opportunity', customer.opportunity);
+        formDataObj.append('visit_type', customer.visit_type);
         formDataObj.append('full_name', customer.full_name);
         formDataObj.append('katakana_name', customer.katakana_name);
         formDataObj.append('phone_number', customer.phone_number);
@@ -141,11 +143,13 @@ const CustomerIndividualCreate = ({ onSendData }) => {
         formDataObj.append('age', customer.age);
         formDataObj.append('gender', customer.gender);
         formDataObj.append('job', customer.job);
+        formDataObj.append('email', customer.email);
         formDataObj.append('trigger', customer.trigger);
         formDataObj.append('cardType', customer.cardType);
         formDataObj.append('prefeature', customer.prefeature);
         formDataObj.append('city', customer.city);
         formDataObj.append('address', customer.address);
+        formDataObj.append('brand_type', customer.brand_type);
 
         if (avatarimageFile) formDataObj.append('avatarimage', avatarimageFile);
         if (idcardFile) formDataObj.append('idcard', idcardFile);
@@ -189,13 +193,17 @@ const CustomerIndividualCreate = ({ onSendData }) => {
                                     <input name="shop" value={customer.shop} onChange={handleCustomerChange} type="text" required className="w-full text-[#70685a] border border-[#70685a] px-4 py-2 outline-[#70685a]" />
                                 </div>
                                 <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-3 !mb-0">契機</label>
+                                    <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-3 !mb-0">訪問タイプ</label>
                                 </div>
                                 <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <select id="opportunity" name="opportunity" value={customer.opportunity} required onChange={handleCustomerChange} className="w-full text-[#70685a] font-bold border border-[#70685a] px-4 py-2 outline-[#70685a]">
+                                    <select id="visit_type" name="visit_type" value={customer.visit_type} required onChange={handleCustomerChange} className="w-full text-[#70685a] font-bold border border-[#70685a] px-4 py-2 outline-[#70685a]">
                                         <option value="" disabled></option>
-                                        <option value="新規顧客">新規顧客</option>
-                                        <option value="再来顧客">再来顧客</option>
+                                        <option value="折りたたまれた">折りたたまれた</option>
+                                        <option value="店の前で">店の前で</option>
+                                        <option value="顧客">顧客</option>
+                                        <option value="投稿">投稿</option>
+                                        <option value="紹介">紹介</option>
+                                        <option value="他の人">他の人</option>
                                     </select>
                                 </div>
                             </div>
@@ -274,7 +282,16 @@ const CustomerIndividualCreate = ({ onSendData }) => {
                                     <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">ご職業</label>
                                 </div>
                                 <div style={{ width: '30%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <InputComponent name="job" value={customer.job} onChange={handleCustomerChange} type='text' required />
+                                    <InputComponent name="job" value={customer.job || ''} onChange={handleCustomerChange} type='text' required />
+                                </div>
+                            </div>
+                            {/* new */}
+                            <div className='flex'>
+                                <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
+                                    <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">Email</label>
+                                </div>
+                                <div style={{ width: '30%', flexDirection: 'column', }} className='flex align-center justify-around'>
+                                    <InputComponent name="email" value={customer.email ||''} onChange={handleCustomerChange} type="email" required />
                                 </div>
                             </div>
                             {/* new */}
@@ -283,7 +300,16 @@ const CustomerIndividualCreate = ({ onSendData }) => {
                                     <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">トリガー</label>
                                 </div>
                                 <div style={{ width: '30%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <InputComponent name="trigger" value={customer.trigger} onChange={handleCustomerChange} type='text' required />
+                                    <InputComponent name="trigger" value={customer.trigger || ''} onChange={handleCustomerChange} type='text' required />
+                                </div>
+                            </div>
+                            {/* new */}
+                            <div className='flex'>
+                                <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
+                                    <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">ブランドタイプ</label>
+                                </div>
+                                <div style={{ width: '30%', flexDirection: 'column', }} className='flex align-center justify-around'>
+                                    <InputComponent name="brand_type" value={customer.brand_type || ''} onChange={handleCustomerChange} type='text' required />
                                 </div>
                             </div>
                             {/* new */}

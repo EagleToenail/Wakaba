@@ -35,16 +35,16 @@ const SalesSlip = () => {
 
     const [sales, setSales] = useState([]);
     // Fetch customer data
-    useEffect(() => {
+    useEffect( () => {
         const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
         if (!wakabaBaseUrl) {
             throw new Error('API base URL is not defined');
         }
 
         // console.log(`${wakabaBaseUrl}/sales/getSalesList`);
-        axios.get(`${wakabaBaseUrl}/sales/getSalesList`)
+         axios.get(`${wakabaBaseUrl}/sales/getSalesList`)
             .then(response => {
-                // console.log(response.data)
+                console.log(response.data)
                 setSales(response.data);
             })
             .catch(error => {
@@ -173,7 +173,7 @@ const SalesSlip = () => {
                                 <div className='sales-slip-filters-btns flex justify-center w-1/3 gap-5 mt-5'>
                                     <ButtonComponent children={'全て'} onClick={handleCategory('')}  className="!px-3  bg-[transparent] border border-[#424242] text-[#70685a] h-8 rounded-lg !w-max"  style={{color: activeValue === buttonValues[0] ? 'white' : 'black', backgroundColor: activeValue === '' ? '#424242' : 'transparent'}}/>
                                     <ButtonComponent children={'貴金属'} onClick={handleCategory('貴金属')} className="!px-3 bg-[transparent] border border-[#424242] text-[#70685a] h-8 rounded-lg !w-max" style={{color: activeValue === buttonValues[1] ? 'white' : 'black', backgroundColor: activeValue === buttonValues[1] ? '#424242' : 'transparent'}}/>
-                                    <ButtonComponent children={'ブランド'} onClick={handleCategory('ブランド')} className="!px-3 bg-[transparent] border border-[#424242] text-[#70685a] h-8 rounded-lg !w-max" style={{color: activeValue === buttonValues[2] ? 'white' : 'black', backgroundColor: activeValue === buttonValues[2] ? '#424242' : 'transparent'}}/>
+                                    <ButtonComponent children={'古銭等'} onClick={handleCategory('古銭等')} className="!px-3 bg-[transparent] border border-[#424242] text-[#70685a] h-8 rounded-lg !w-max" style={{color: activeValue === buttonValues[2] ? 'white' : 'black', backgroundColor: activeValue === buttonValues[2] ? '#424242' : 'transparent'}}/>
                                     <ButtonComponent children={'バッグ'} onClick={handleCategory('バッグ')} className="!px-3 bg-[transparent] border border-[#424242] text-[#70685a] h-8 rounded-lg !w-max" style={{color: activeValue === buttonValues[3] ? 'white' : 'black', backgroundColor: activeValue === buttonValues[3] ? '#424242' : 'transparent'}}/>
                                     <ButtonComponent children={'時計'} onClick={handleCategory('時計')} className="!px-3 bg-[transparent] border border-[#424242] text-[#70685a] h-8 rounded-lg !w-max" style={{color: activeValue === buttonValues[4] ? 'white' : 'black', backgroundColor: activeValue === buttonValues[4] ? '#424242' : 'transparent'}}/>
                                 </div>
@@ -241,16 +241,16 @@ const SalesSlip = () => {
                                                 <td>{Index+1}</td>
                                                 <td style={Td}>{sale.trading_date}</td>
                                                 <td style={Td}>{sale.purchase_staff}</td>
-                                                <td style={Td}>{sale.Customer.full_name}</td>
-                                                <td style={Td}>{sale.Customer.katakana_name}</td>
-                                                <td style={Td}>{sale.Customer.phone_number}</td>
-                                                <td style={Td}>{sale.Customer.address}</td>
-                                                <td style={Td}>{sale.visit_type}</td>
-                                                <td style={Td}>{sale.brand_type}</td>
+                                                <td style={Td}>{sale.Customer ? sale.Customer.full_name : 'Name not available'}</td>
+                                                <td style={Td}>{sale.Customer ? sale.Customer.katakana_name : 'katakana_name not available'}</td>
+                                                <td style={Td}>{sale.Customer ? sale.Customer.phone_number : 'phone_number not available'}</td>
+                                                <td style={Td}>{sale.Customer ? sale.Customer.address : 'address not available'}</td>
+                                                <td style={Td}>{sale.Customer ? sale.Customer.visit_type : 'visit_type not available'}</td>
+                                                <td style={Td}>{sale.Customer ? sale.Customer.brand_type : 'brand_type not available'}</td>
                                                 <td style={Td}>{sale.store_name}</td>
                                                 <td style={Td}>{sale.product_type_one}</td>
                                                 <td style={Td}>{sale.product_type_two}</td>
-                                                <td style={Td}>{sale.product}</td>
+                                                <td style={Td}>{sale.product_name}</td>
                                                 <td style={Td}>{sale.quantity}</td>
                                                 <td style={Td}>{sale.metal_type}</td>
                                                 <td style={Td}>{sale.price_per_gram}</td>
