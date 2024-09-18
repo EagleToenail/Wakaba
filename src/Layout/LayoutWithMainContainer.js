@@ -7,6 +7,7 @@ import MainContainer from '../Components/MainContainer';
 import {Outlet, useLocation } from 'react-router-dom';
 import '../Assets/css/LayoutWithMainContainer.css';
 
+
 const LayoutWithMainContainer = () => {
   const location = useLocation();
 
@@ -36,6 +37,12 @@ const LayoutWithMainContainer = () => {
 
 }, [showHeaderAndSidebar]);  // Re-run if sidebar visibility changes
 
+
+    // Get the full URL
+    const pathname = location.pathname; // Just the path
+    const parts = pathname.split('/'); // Split the path by "/"
+    const destinationURL = parts[1]; // This will give you "invoiceforpurchaseofbrought"
+
   return (
     <>
          {showHeaderAndSidebar && <Header />} 
@@ -44,7 +51,7 @@ const LayoutWithMainContainer = () => {
          <div className='layout-container'>
             {showHeaderAndSidebar &&<div className='layout-sidebar' style={{width:`${sidebarWidth}px`}}><Sidebar /></div>} 
             <div className='layout-maincontainer'>
-                <MainContainer>
+                <MainContainer destinationURL={destinationURL}>
                     <Outlet/>
                 </MainContainer>
             </div>    

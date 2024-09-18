@@ -1,11 +1,10 @@
 
 // import React, { useState, useCallback, useRef, Children } from 'react';
-import React, { useState, useCallback, useRef } from 'react';
+import React, { useState, useCallback, useRef} from 'react';
 import '../Assets/css/MainContainer.css';
 import InvoiceForPurchaseChat from '../Pages/InvoiceForPurchaseChat/invoiceForPurchaseChat';
 
-
-const MainContainer = ({children}) => {
+const MainContainer = ({children,destinationURL}) => {
   const [position, setPosition] = useState(80); // percentage for the height of the top pane
   const [isDragging, setIsDragging] = useState(false);
   const containerRef = useRef(null);
@@ -83,8 +82,8 @@ const MainContainer = ({children}) => {
 
 
       </div>
-      <div className="bottom-pane" style={{ height: `${100 - position}%` }}>
-        Bottom
+      <div className="bottom-pane" style={{ height: `${100 - position - 15}%` }}>
+        {destinationURL == 'invoiceforpurchaseofbrought' ? (<InvoiceForPurchaseChat/> ): ('Bottom')}
       </div>
     </div>
   );

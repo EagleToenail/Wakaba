@@ -113,8 +113,15 @@ function App() {
             <Route path='/customerindividual/:id' element={<CustomerIndividual/>}/> 
             <Route path='/customerindividualcreate' element={<CustomerIndividualCreate/>}/> 
             <Route path='/invoiceforpurchaseofbrought/:id' element={<InvoiceForPurchaseOfBrought/>}/>
+            {/* <Route path='/invoiceforpurchaseofbrought/:id'>
+              <Route>
+                <InvoiceForPurchaseOfBrought/>
+                <InvoiceForPurchaseChat/>
+              </Route>
+            </Route> */}
             <Route path='/invoiceforpurchaseofbroughtblank' element={<InvoiceForPurchaseOfBroughtBlank/>}/>
             <Route path='/invoiceforpurchasechat' element={<InvoiceForPurchaseChat/>}/>
+            {/* <Route path='/invoiceforpurchasechat' element={<InvoiceForPurchaseChat/>}/> */}
             <Route path='/wholesalershippinglist' element={<WholeSalerShippingList/>}/>
             <Route path='/purchaserequestformforwholesaler' element={<PurchaseRequestFormForWholeSaler/>}/>
             <Route path='/salesslip' element={<SalesSlip/>}/>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect,useRef } from 'react';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams ,useLocation} from 'react-router-dom';
 // import Titlebar from '../../Components/Common/Titlebar';
 import '../../Assets/css/showtable.css'
 import '../../Assets/css/firstTd.css'
@@ -444,11 +444,13 @@ const InvoicePurchaseOfBrought = () => {
             });
         //---------
         const numberOfInvoice = customerPastVisitHistory.length;
-        const purchaseData = {deadline,numberOfInvoice,totalSalesSlipData1};
-        // console.log('send purchase data',purchaseData,id);
-        updateData(purchaseData);
-        navigate('/purchaseinvoiceforbroughtinitems');
-       
+        if(totalSalesSlipData1.length !=0 && totalSalesSlipData1!=null){
+            const purchaseData = {deadline,numberOfInvoice,totalSalesSlipData1};
+            // console.log('send purchase data',purchaseData,id);
+            updateData(purchaseData);
+            navigate('/purchaseinvoiceforbroughtinitems');
+        }
+
     }
 
     //   const [isOpen, setIsOpen] = useState(false);
