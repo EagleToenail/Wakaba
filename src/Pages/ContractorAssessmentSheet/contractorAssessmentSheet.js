@@ -36,24 +36,24 @@ const ContractorAssementSheet = () => {
     };
 
     //   const [isOpen, setIsOpen] = useState(false);
-    const [isshow, setIsShow] = useState(true);
+    // const [isshow, setIsShow] = useState(true);
 
-    const openSubtable = () => {
-        // setIsOpen(true);
-        setIsShow(false);
-    };
+    // const openSubtable = () => {
+    //     // setIsOpen(true);
+    //     setIsShow(false);
+    // };
 
-    const closeSubtable = () => {
-        // setIsOpen(false);
-        setIsShow(true);
-    };
+    // const closeSubtable = () => {
+    //     // setIsOpen(false);
+    //     setIsShow(true);
+    // };
 
     const [visibleTable, setVisibleTable] = useState('貴金属');
 
         // State to track the value of the active button
         const [activeValue, setActiveValue] = useState('貴金属');
         const buttonValues = ['貴金属', '古銭等', 'バッグ', '時計',
-            '財布', 'アクセサリ', '骨董品', '洋酒', 'カメラ','楽器','着物','スマホ/夕ブレット'];
+            '財布', 'アクセサリ', '骨董品', '洋酒', 'カメラ','楽器','着物','スマホ夕ブレット'];
 
     // Function to handle button click
     const handleButtonClick = (tableName) => {
@@ -121,29 +121,54 @@ const ContractorAssementSheet = () => {
 
     const editableRowStyle = { backgroundColor: '#e7e9f1' };
  //------------------------------precious metal--------------------------------------
+    //get  vendor list form vendor table
+    const [preciousMetalVendors , setPreciousMetalVendors] = useState([]);
+    const [preciousMetalInitialValue , setPreciousMetalInitialValue] = useState([]);
+    useEffect(() => {
+        const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+        if (!wakabaBaseUrl) {
+            throw new Error('API base URL is not defined');
+        }
+        axios.post(`${wakabaBaseUrl}/vendor/getVendorList`,{type:'貴金属'})
+        .then(response => {
+            // console.log('vendrListAll',response.data)
+            setPreciousMetalVendors(response.data);
+            const result = response.data.reduce((acc, { vendor_name }) => {
+              // Create a new key-value pair where the key is the vendor name and the value is an empty string
+              acc[vendor_name] = '';
+              return acc;
+          }, {});
+          const previousPreciousMetalRow = {
+            shipping_address: '',
+            wholesale_date: '',
+            number: '',
+            product_name: '',
+            quantity: '',
+            gold_type: '',
+            gross_weight: '',
+            purchase_price: '',
+            bullion_weight: '',
+          }
+
+          const updatedPreciousMetalRow = {
+            ...previousPreciousMetalRow,
+            ...result
+        };
+        setPreciousMetalInitialValue(updatedPreciousMetalRow);
+        setNewPreciousMetalRow(updatedPreciousMetalRow);
+        // console.log('result',updatedPreciousMetalRow);
+        })
+        .catch(error => {
+            console.error("There was an error fetching the customer data!", error);
+        });
+    }, []);
+
     const [preciousMetalData, setPreciousMetalData] = useState();
 
     const [editPreciousMetalId, setEditPreciousMetalId] = useState(null);
-    const [newPreciousMetalRow, setNewPreciousMetalRow] = useState({
-        shipping_address: '',
-        wholesale_date: '',
-        number: '',
-        product: '',
-        quantity: '',
-        gold_type: '',
-        gross_weight: '',
-        purchase_price: '',
-        bullion_weight: '',
-        book_assessment_net_japan: '',
-        line_color_stone_bank: '',
-        real_assessment_color_stone_bank: '',
-        line_four_nine: '',
-        book_assessment_four_nine: '',
-        kaimana_assessment_date: '',
-        line_kaimana: '',
-        original_assessment_kaimana: '',
-        online_ssessment_date_quote: ''
-    });
+    const [newPreciousMetalRow, setNewPreciousMetalRow] = useState(preciousMetalInitialValue);
+    console.log('newprciousMetalRow',preciousMetalInitialValue,newPreciousMetalRow)
+
 
     const handlePreciousMetalChange = (e, id = null) => {
         const { name, value } = e.target;
@@ -163,26 +188,7 @@ const ContractorAssementSheet = () => {
         ...prevData,
         { id: Date.now(), ...newPreciousMetalRow }
         ]);
-        setNewPreciousMetalRow({
-        shipping_address: '',
-        wholesale_date: '',
-        number: '',
-        product: '',
-        quantity: '',
-        gold_type: '',
-        gross_weight: '',
-        purchase_price: '',
-        bullion_weight: '',
-        book_assessment_net_japan: '',
-        line_color_stone_bank: '',
-        real_assessment_color_stone_bank: '',
-        line_four_nine: '',
-        book_assessment_four_nine: '',
-        kaimana_assessment_date: '',
-        line_kaimana: '',
-        original_assessment_kaimana: '',
-        online_ssessment_date_quote: ''
-        });
+        setNewPreciousMetalRow(preciousMetalInitialValue);
     };
 
     const handlePreciousMetalEdit = (id) => {
@@ -231,26 +237,7 @@ const ContractorAssementSheet = () => {
                   ...prevData,
                   { id: response.data.id, ...newPreciousMetalRow } // Assuming server returns the new row with an id
                 ]);
-                setNewPreciousMetalRow({
-                    shipping_address: '',
-                    wholesale_date: '',
-                    number: '',
-                    product: '',
-                    quantity: '',
-                    gold_type: '',
-                    gross_weight: '',
-                    purchase_price: '',
-                    bullion_weight: '',
-                    book_assessment_net_japan: '',
-                    line_color_stone_bank: '',
-                    real_assessment_color_stone_bank: '',
-                    line_four_nine: '',
-                    book_assessment_four_nine: '',
-                    kaimana_assessment_date: '',
-                    line_kaimana: '',
-                    original_assessment_kaimana: '',
-                    online_ssessment_date_quote: ''
-                });
+                setNewPreciousMetalRow(preciousMetalInitialValue);
               } catch (error) {
                 console.error('Error adding row:', error);
               }
@@ -1403,7 +1390,7 @@ const handleAddSmartphoneandtabletRow = async() => {
                                     <ButtonComponent children={'カメラ'} onClick={() => handleButtonClick('カメラ')} className="!px-4 bg-[transparent] border border-[#424242] text-[#424242] h-8 rounded-lg " style={{color: activeValue === buttonValues[8] ? 'white' : '#424242', backgroundColor: activeValue === buttonValues[8] ? '#424242' : 'transparent'}}/>
                                     <ButtonComponent children={'楽器'} onClick={() => handleButtonClick('楽器')} className="!px-4 bg-[transparent] border border-[#424242] text-[#424242] h-8 rounded-lg " style={{color: activeValue === buttonValues[9] ? 'white' : '#424242', backgroundColor: activeValue === buttonValues[9] ? '#424242' : 'transparent'}}/>
                                     <ButtonComponent children={'着物'} onClick={() => handleButtonClick('着物')} className="!px-4 bg-[transparent] border border-[#424242] text-[#424242] h-8 rounded-lg " style={{color: activeValue === buttonValues[10] ? 'white' : '#424242', backgroundColor: activeValue === buttonValues[10] ? '#424242' : 'transparent'}}/>
-                                    <ButtonComponent children={'スマホ/夕ブレット'} onClick={() => handleButtonClick('スマホ/夕ブレット')} className="!px-4 bg-[transparent] border border-[#424242] text-[#424242] h-8 rounded-lg " style={{color: activeValue === buttonValues[11] ? 'white' : '#424242', backgroundColor: activeValue === buttonValues[11] ? '#424242' : 'transparent'}}/>
+                                    <ButtonComponent children={'スマホ/夕ブレット'} onClick={() => handleButtonClick('スマホ夕ブレット')} className="!px-4 bg-[transparent] border border-[#424242] text-[#424242] h-8 rounded-lg " style={{color: activeValue === buttonValues[11] ? 'white' : '#424242', backgroundColor: activeValue === buttonValues[11] ? '#424242' : 'transparent'}}/>
                                     <select id="classificatin" name="classificatin" onClick={() => handleButtonClick('その他')} className="!px-4 h-8 rounded-lg text-[#70685a] !text-[15px] font-bold border border-[#70685a] py-1 outline-[#70685a]">
                                         <option value="">その他</option>
                                         <option value="2"></option>
@@ -1431,15 +1418,9 @@ const handleAddSmartphoneandtabletRow = async() => {
                                             <th style={Th}>総重量</th>
                                             <th style={Th}>買取価格</th>
                                             <th style={Th}>地金重さ</th>
-                                            <th style={Th}>本査定ネットジャパン</th>
-                                            <th style={Th}>LINE色石バンク</th>
-                                            <th style={Th}>本査定色石バンク</th>
-                                            <th style={Th}>LINEフォーナイン</th>
-                                            <th style={Th}>本査定フォーナイン</th>
-                                            <th style={Th}>カイマナ査定日</th>
-                                            <th style={Th}>LINEカイマナ</th>
-                                            <th style={Th}>本査定カイマナ</th>
-                                            <th style={Th}>LINE査定日相場</th>
+                                            { preciousMetalVendors.map((vendor, index) => (
+                                                <th key={index} style={Th}>{vendor.vendor_name}</th>
+                                            ))}
                                             <th style={Th}>{editPreciousMetalId === null ? '編集する' : 'セーブ'}</th>
                                             <th style={Th}>{editPreciousMetalId === null ? '削除' : 'キャンセル'}</th>
                                         </tr>

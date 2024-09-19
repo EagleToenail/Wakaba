@@ -36,6 +36,7 @@ import InvoiceForPurchaseChat from './Pages/InvoiceForPurchaseChat/invoiceForPur
 import PurchaseInvoiceForBroughtInItems from './Pages/PurchaseInvoiceForBroughtInItems/purchaseInvoiceForBroughtInItems';//Purchase invoice for brought-in items(for customer presentaion)
 import WholeSalerShippingList from './Pages/WholeSalerShippingList/wholeSalerShippingList';//Wholesaler Shipping List
 import PurchaseRequestFormForWholeSaler from './Pages/PurchaseRequestFormForWholeSaler/purchaseRequestFormForWholeSaler';//Purchase requesr form
+import ShowSalesSlip from "./Pages/ShowSalesSlip/showSalesSlip";//show salesSlip in todolist page
 import SalesSlip from './Pages/SalesSlip/salesSlip';//Sales slip
 import SalesSlipCreate from './Pages/SalesSlipCreate/salesSlipCreate';//SalesSlipCreate//no need
 import SalesSlipUpdate from './Pages/SalesSlipUpdate/salesSlipUpdate';//SalesSlipUpdate
@@ -88,7 +89,8 @@ import ManagementHeadquartersRepeaterAnalysis from './Pages/Admin/ManagementHead
 
 
 
-// import MainChatPage from './Pages/Chat/mainChatPage';
+import MainChatPage from './Pages/Chat/mainChatPage';
+
 function App() {
   return (
     <Router>
@@ -125,6 +127,7 @@ function App() {
             <Route path='/wholesalershippinglist' element={<WholeSalerShippingList/>}/>
             <Route path='/purchaserequestformforwholesaler' element={<PurchaseRequestFormForWholeSaler/>}/>
             <Route path='/salesslip' element={<SalesSlip/>}/>
+            <Route path='/showsalesslip' element={<ShowSalesSlip/>}/>
             <Route path='/salesslipcreate' element={<SalesSlipCreate/>}/>
             <Route path='/salesslipupdate/:id' element={<SalesSlipUpdate/>}/>
             <Route path='/contractorassessmentsheet' element={<ContractorAssessmentSheet/>}/>
@@ -190,7 +193,7 @@ function App() {
             <Route path='/purchaseinvoiceforbroughtinitems' element={<PurchaseInvoiceForBroughtInItems/>}/>
 
           <Route element={<LayoutContainer/>}>
-            {/* <Route path='/chat' element={<MainChatPage/>}/> */}
+            <Route path='/chat' element={<MainChatPage/>}/>
           </Route>
             
       </Routes>

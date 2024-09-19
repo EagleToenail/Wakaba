@@ -34,7 +34,8 @@ const LoginTimeCard = () => {
             const response = await axios.post(`${wakabaBaseUrl}/logintime`, { action,userId });
            // Handle success, maybe redirect or show a success message
            console.log('Success:', response.data);
-           window.location.href="/customerlist"
+           //window.location.href="/todolist";
+           navigate('/todolist');
         } catch (err) {
             setError('何かが間違っていた');
             console.error('Error:', err);

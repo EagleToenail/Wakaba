@@ -15,6 +15,17 @@ import { jsPDF } from 'jspdf';
 
 const PurchaseInvoiceForBroughtInItems = () => {
     const title = 'タイトルタイトル';
+
+    useEffect(() => {
+        // Set overflow to hidden when the component mounts
+        document.body.style.overflow = 'auto';
+
+        // Cleanup function to reset overflow when component unmounts
+        return () => {
+            document.body.style.overflow = 'hidden';
+        };
+    }, []);
+
     const sigCanvas = useRef(null);
     const navigate = useNavigate();
     const data = useSelector(state => state.data);
@@ -25,13 +36,13 @@ const PurchaseInvoiceForBroughtInItems = () => {
 
     // Calculate total quantity
     const calculateTotalQuantity = () => {
-        const total = purchaseData.totalSalesSlipData1.reduce((sum, item) => parseInt(sum) + (parseInt(item.quantity) || 0), 0);
+        const total = purchaseData.totalSalesSlipData.reduce((sum, item) => parseInt(sum) + (parseInt(item.quantity) || 0), 0);
         setTotalQuantity(total);
     };
 
     // Calculate total price
     const calculateTotalPrice = () => {
-        const total = purchaseData.totalSalesSlipData1.reduce((sum, item) => parseFloat(sum) + (parseFloat(parseFloat(item.purchase_price) * parseFloat(item.quantity)) || 0), 0);
+        const total = purchaseData.totalSalesSlipData.reduce((sum, item) => parseFloat(sum) + (parseFloat(parseFloat(item.purchase_price) * parseFloat(item.quantity)) || 0), 0);
         setTotalPrice(total);
     };
 
@@ -48,7 +59,7 @@ const PurchaseInvoiceForBroughtInItems = () => {
     const [customer, setCustomer] = useState([]);
 
     useEffect(() => {
-        const customerId = data.data.totalSalesSlipData1[0].customer_id;
+        const customerId = data.data.totalSalesSlipData[0].customer_id;
         if (customerId !== '' && customerId !== null) {
             const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
             if (!wakabaBaseUrl) {
@@ -65,6 +76,7 @@ const PurchaseInvoiceForBroughtInItems = () => {
                     console.error("There was an error fetching the customer data!", error);
                 });
         } else{
+            window.scrollTo({ top: 0, behavior: 'smooth' });
             navigate('/salesslip');
         }
     }, []);
@@ -188,16 +200,17 @@ const PurchaseInvoiceForBroughtInItems = () => {
         console.log('Signature Data URL:', dataUrl);
         if(checked === 'agree' && dataUrl != null) {
             try {
-                // const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+                const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
 
-                // if (!wakabaBaseUrl) {
-                //     throw new Error('API base URL is not defined');
-                // }
-                // const payload = purchaseData.totalSalesSlipData1;
-                // const response = await  axios.post(`${wakabaBaseUrl}/purchaseinvoice`,{dataUrl, payload});
-                //console.log('Response:', response.data);
-                // Handle successful response here
-                navigate('/salesslip'); // Navigate to the profile page after closing the modal
+                if (!wakabaBaseUrl) {
+                    throw new Error('API base URL is not defined');
+                }
+                const payload = purchaseData.totalSalesSlipData;
+                const response = await  axios.post(`${wakabaBaseUrl}/purchaseinvoice`,{dataUrl, payload});
+                console.log('Response:', response.data);
+                
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                navigate('/salesslip');
             } catch (error) {
                 console.error('Error submitting form:', error);
                 // Handle error here
@@ -229,7 +242,7 @@ const PurchaseInvoiceForBroughtInItems = () => {
                                     <div className='flex'>
                                         <label className="text-[#70685a] font-bold mb-2 block text-left mr-3 !mb-0">店舗名</label>
                                         <div>
-                                            <label className="text-[#70685a] font-bold mb-2 block text-left !mb-0">{data.data.totalSalesSlipData1[0].store_name || ''}</label>
+                                            <label className="text-[#70685a] font-bold mb-2 block text-left !mb-0">{data.data.totalSalesSlipData[0].store_name || ''}</label>
                                         </div>
                                     </div>
                                 </div>
@@ -337,7 +350,7 @@ const PurchaseInvoiceForBroughtInItems = () => {
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                {purchaseData.totalSalesSlipData1.map((purchase, Index) => (
+                                                {purchaseData.totalSalesSlipData.map((purchase, Index) => (
                                                     <tr key={Index}>
                                                         <td >{Index + 1}.</td>
                                                         <td style={Td}>

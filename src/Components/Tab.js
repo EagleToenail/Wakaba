@@ -1,18 +1,23 @@
 import React, { useState } from 'react';
 import TabContent1 from './TabContent1';
 import TabContent2 from './TabContent2';
-// import TabContent3 from '../Pages/Chat/containers/chat/foreground';
-import { Link } from 'react-router-dom'
+import TabContent3 from '../Pages/Chat/containers/chat/foreground';
+import { Link ,useNavigate} from 'react-router-dom'
 // import '../Assets/css/sidebar.css'
 
 const Tab = () => {
+
+    const navigate = useNavigate();
     const [activeTab, setActiveTab] = useState('tab1');
 
     const [isShow,setActiveShow] = useState(false)
 
     const handleTabClick = (tabName) => {
         setActiveTab(tabName);
-        setActiveShow(true);
+        if(tabName === 'tab3') {
+            navigate('/chat');
+            setActiveShow(true);
+        }
     };
 
     return (
@@ -44,7 +49,7 @@ const Tab = () => {
                 <TabContent2 />
             </div>
             <div id="tab3" className={`tabcontent ${activeTab === 'tab3' ? '' : 'hidden'}`} style={{height:'100vh',overflow:'auto'}}>
-                {/* {isShow && <TabContent3 />} */}
+                {isShow && <TabContent3 />}
             </div>
         </div>
     );

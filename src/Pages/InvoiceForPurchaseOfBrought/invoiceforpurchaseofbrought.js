@@ -166,6 +166,7 @@ const InvoicePurchaseOfBrought = () => {
 //fetch salesSlipData
     const [salesSlipData, setSalesSlipData] = useState({
         trading_date: '',
+        number:'',
         purchase_staff: '',
         customer_id:'',
         store_name:'',
@@ -176,7 +177,7 @@ const InvoicePurchaseOfBrought = () => {
         product_type_four: '',
 
         product_photo:'',
-        product: '',
+        product_name: '',
         quantity: '',
         reason_application:'',
         interest_rate:'',
@@ -221,7 +222,6 @@ const InvoicePurchaseOfBrought = () => {
     //total data:
     const [totalSalesSlipData, setTotalSalesSlipData] = useState([]);
     const [editIndex, setEditIndex] = useState(-1);
-    const [totalSalesSlipData1, setTotalSalesSlipData1] = useState([]);
 
     const handleChange = (e) => {
         setSalesSlipData({
@@ -348,11 +348,11 @@ const InvoicePurchaseOfBrought = () => {
 
         if(showInputPurchase){
             console.log('purchase data',salesSlipData);
-            setSalesSlipData({trading_date:new Date().toISOString().split('T')[0], purchase_staff:userData.username, store_name:userData.store_name,customer_id:id});
-            setTotalSalesSlipData((prevSalesSlipDatas) => [...prevSalesSlipDatas, { ...salesSlipData, id: Date.now(),customer_id:id}]);
-            setTotalSalesSlipData1((prevSalesSlipDatas) => [...prevSalesSlipDatas, { ...salesSlipData, id: Date.now(),customer_id:id,product_photo:''}]);
+            // setSalesSlipData({trading_date:new Date().toISOString().split('T')[0], purchase_staff:userData.username, store_name:userData.store_name,customer_id:id});
+            setTotalSalesSlipData((prevSalesSlipDatas) => [...prevSalesSlipDatas, { ...salesSlipData, id: Date.now(), trading_date:new Date().toISOString().split('T')[0], purchase_staff:userData.username, store_name:userData.store_name, customer_id:id ,product_photo:''}]);
             setSalesSlipData({
                 trading_date:salesSlipData.trading_date,
+                number:'',
                 purchase_staff:salesSlipData.purchase_staff,
                 customer_id:salesSlipData.customer_id,
                 store_name:salesSlipData.store_name,
@@ -363,7 +363,7 @@ const InvoicePurchaseOfBrought = () => {
                 product_type_four:'',
     
                 product_photo:'',
-                product: '',
+                product_name: '',
                 quantity: '',
                 reason_application:'',
                 interest_rate:'',
@@ -404,10 +404,11 @@ const InvoicePurchaseOfBrought = () => {
                 はなもり: '',
                 バステック: '',
             });
-
+            console.log('purchase data1',totalSalesSlipData);
             calculateTotalQuantity();
+            console.log('ok1');
             calculateTotalPrice();
-
+            console.log('ok2');
             setShowInputPurchase(false);
         } else{
 
@@ -445,7 +446,7 @@ const InvoicePurchaseOfBrought = () => {
             product_type_four: '',
     
             product_photo:'',
-            product: '',
+            product_name: '',
             quantity: '',
             reason_application:'',
             interest_rate:'',
@@ -504,7 +505,7 @@ const InvoicePurchaseOfBrought = () => {
             product_type_four: '',
     
             product_photo:'',
-            product: '',
+            product_name: '',
             quantity: '',
             reason_application:'',
             interest_rate:'',
@@ -550,7 +551,6 @@ const InvoicePurchaseOfBrought = () => {
     //delete one of tatalsaleSlipdata
     const removeSalesItem = (index) => {
         setTotalSalesSlipData(totalSalesSlipData.filter((_, i) => i !== index));
-        setTotalSalesSlipData1(totalSalesSlipData.filter((_, i) => i !== index));
 
         calculateTotalQuantity();
         calculateTotalPrice();
@@ -565,7 +565,7 @@ const InvoicePurchaseOfBrought = () => {
     // send data
     const sendPurchaseDataToReceipt = () => {
         const numberOfInvoice = customerPastVisitHistory.length;
-        const purchaseData = {deadline,numberOfInvoice,totalSalesSlipData1};
+        const purchaseData = {deadline,numberOfInvoice,totalSalesSlipData};
         // console.log('send purchase data',purchaseData,id);
         updateData(purchaseData);
         navigate('/customerreceipt');
@@ -589,12 +589,13 @@ const InvoicePurchaseOfBrought = () => {
             });
         //---------
         const numberOfInvoice = customerPastVisitHistory.length;
-        // if(totalSalesSlipData1.length !=0 && totalSalesSlipData1!=null){
-        //     const purchaseData = {deadline,numberOfInvoice,totalSalesSlipData1};
-        //     // console.log('send purchase data',purchaseData,id);
-        //     updateData(purchaseData);
-        //     navigate('/purchaseinvoiceforbroughtinitems');
-        // }
+
+        if(totalSalesSlipData.length !=0 && totalSalesSlipData!=null){
+            const purchaseData = {deadline,numberOfInvoice,totalSalesSlipData};
+            console.log('send purchase data',purchaseData,id);
+            updateData(purchaseData);
+            navigate('/purchaseinvoiceforbroughtinitems');
+        }
 
     }
 
@@ -1010,32 +1011,68 @@ const InvoicePurchaseOfBrought = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {totalSalesSlipData.map((salesData, Index) => (
+                            <tr  style={{display:'none'}}>
+                                    <td><input type='checkbox' name='checkbox1'/></td>
+                                    <td style={Td}>qqq</td>
+                                    <td style={Td}>qqq</td>
+                                    <td style={Td} >qqq</td>
+                                    {isshow ? <td style={Td} >qq</td> :<td style={{display:'none'}}></td>}
+                                    {isshow ? <td style={Td} >qq</td> :<td style={{display:'none'}}></td>}
+                                    {isshow ? <td style={Td} >aa</td> :<td style={{display:'none'}}></td>}
+                                    <td style={Td}>
+                                        aa
+                                    </td>
+                                    <td style={Td}>aa</td>
+                                    <td style={Td}> aa </td>
+                                    <td style={Td}> aa </td>
+                                    <td style={Td}> aa </td>
+                                    <td style={Td}> aa </td>
+                                    <td style={Td}> aa </td>
+                                    <td style={Td}> aa</td>
+                                    <td style={Td}>aa</td>
+                                    {isvendorshow && allVendors.map((vendor, index) => (
+                                        <td key={index} style={Td}>aa</td>
+                                    ))}
+                                    <td style={Td}>aa</td>
+                                    <td style={Td}>aa</td>
+                                    <td style={Td}>aa</td>
+                                    <td style={Td} className='w-8 bg-transparent hover:bg-[#ebe6e0] transition-all duration-300'>
+                                        <div  className='w-7 ml-2'>
+                                            <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium  MuiSvgIcon-root MuiSvgIcon-fontSizeLarge  css-1hkft75" fill='#524c3b' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="EditCalendarOutlinedIcon" title="EditCalendarOutlined"><path d="M5 10h14v2h2V6c0-1.1-.9-2-2-2h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h7v-2H5zm0-4h14v2H5zm17.84 10.28-.71.71-2.12-2.12.71-.71c.39-.39 1.02-.39 1.41 0l.71.71c.39.39.39 1.02 0 1.41m-3.54-.7 2.12 2.12-5.3 5.3H14v-2.12z"></path></svg>
+                                        </div>
+                                    </td>
+                                    <td style={Td} className='w-8 bg-transparent hover:bg-[#ebe6e0] transition-all duration-300'>
+                                        <div  className='w-7 ml-2'>
+                                            <svg  focusable="false" aria-hidden="true" viewBox="0 0 23 23" fill='#524c3b' data-testid="CancelOutlinedIcon" title="CancelOutlined"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8m3.59-13L12 10.59 8.41 7 7 8.41 10.59 12 7 15.59 8.41 17 12 13.41 15.59 17 17 15.59 13.41 12 17 8.41z"></path></svg>
+                                        </div>
+                                    </td>
+                            </tr>
+                            {( totalSalesSlipData || totalSalesSlipData.length !==0) && totalSalesSlipData.map((salesData, Index) => (
                                 <tr key={Index} >
                                     <td><input type='checkbox' name='checkbox1'/></td>
-                                    <td style={Td}>{customerPastVisitHistory.length}</td>
-                                    <td style={Td}>{salesData.hearing}</td>
+                                    <td style={Td}>{salesData.number || ''}</td>
+                                    <td style={Td}>{salesData.hearing || ''}</td>
                                     <td style={Td} >{salesData.product_type_one}</td>
-                                    {isshow ? <td style={Td} >{salesData.product_type_two}</td> :<td style={{display:'none'}}></td>}
-                                    {isshow ? <td style={Td} >{salesData.product_type_three}</td> :<td style={{display:'none'}}></td>}
-                                    {isshow ? <td style={Td} >{salesData.product_type_four}</td> :<td style={{display:'none'}}></td>}
+                                    {isshow ? <td style={Td} >{salesData.product_type_two || ''}</td> :<td style={{display:'none'}}></td>}
+                                    {isshow ? <td style={Td} >{salesData.product_type_three || ''}</td> :<td style={{display:'none'}}></td>}
+                                    {isshow ? <td style={Td} >{salesData.product_type_four || ''}</td> :<td style={{display:'none'}}></td>}
                                     <td style={Td}>
                                         {salesData.product_photo != '' ? <ButtonComponent children="写真" name='photo' className='w-max !px-5 rounded-lg' style={{  backgroundColor: '#ebe5e1', color: '#626373'}} /> : 'ファイルなし'}
                                     </td>
-                                    <td style={Td}>{salesData.product}</td>
-                                    <td style={Td}> {salesData.quantity} </td>
-                                    <td style={Td}> {salesData.reason_application} </td>
-                                    <td style={Td}> {salesData.interest_rate} </td>
-                                    <td style={Td}> {salesData.product_price} </td>
-                                    <td style={Td}> {salesData.highest_estimate_vendor} </td>
-                                    <td style={Td}> {salesData.highest_estimate_price} </td>
-                                    <td style={Td}>{salesData.number_of_vendor}</td>
+                                    <td style={Td}>{salesData.product_name || ''}</td>
+                                    <td style={Td}> {salesData.quantity || ''} </td>
+                                    <td style={Td}> {salesData.reason_application || ''} </td>
+                                    <td style={Td}> {salesData.interest_rate || ''} </td>
+                                    <td style={Td}> {salesData.product_price || ''} </td>
+                                    <td style={Td}> {salesData.highest_estimate_vendor || ''} </td>
+                                    <td style={Td}> {salesData.highest_estimate_price || ''} </td>
+                                    <td style={Td}>{salesData.number_of_vendor || ''}</td>
                                     {isvendorshow && allVendors.map((vendor, index) => (
-                                        <td key={index} style={Td}> {salesData[vendor.vendor_name]} </td>
+                                        <td key={index} style={Td}> {salesData[vendor.vendor_name] || ''} </td>
                                     ))}
-                                    <td style={Td}>{salesData.supervisor_direction}</td>
-                                    <td style={Td}>{salesData.purchase_result}</td>
-                                    <td style={Td}>{salesData.purchase_price}</td>
+                                    <td style={Td}>{salesData.supervisor_direction || ''}</td>
+                                    <td style={Td}>{salesData.purchase_result || ''}</td>
+                                    <td style={Td}>{salesData.purchase_price || ''}</td>
                                     <td style={Td} className='w-8 bg-transparent hover:bg-[#ebe6e0] transition-all duration-300'>
                                         <div onClick={() => editSalesItem(Index)} className='w-7 ml-2'>
                                             <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium  MuiSvgIcon-root MuiSvgIcon-fontSizeLarge  css-1hkft75" fill='#524c3b' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="EditCalendarOutlinedIcon" title="EditCalendarOutlined"><path d="M5 10h14v2h2V6c0-1.1-.9-2-2-2h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h7v-2H5zm0-4h14v2H5zm17.84 10.28-.71.71-2.12-2.12.71-.71c.39-.39 1.02-.39 1.41 0l.71.71c.39.39.39 1.02 0 1.41m-3.54-.7 2.12 2.12-5.3 5.3H14v-2.12z"></path></svg>
@@ -1088,7 +1125,9 @@ const InvoicePurchaseOfBrought = () => {
                             <tbody>
                                 <tr className='!h-8'>
                                     <td style={{visibility:'hidden'}}>as</td>
-                                    <td style={Td}>{customerPastVisitHistory.length}</td>
+                                    <td style={Td}>
+                                        <InputComponent name='number' onChange={handleChange} value={salesSlipData.number || ''} className='w-max h-8 text-[#70685a]' />
+                                    </td>
                                     <td style={Td}>
                                         <select  name="hearing"  value={salesSlipData.hearing || ''} onChange={(e) => setSalesSlipData({hearing:e.target.value})} className="w-full h-8 text-[#70685a] font-bold outline-[#70685a]">
                                             <option value="" disabled></option>
@@ -1166,7 +1205,7 @@ const InvoicePurchaseOfBrought = () => {
                                         </div>
                                     </td>
                                     <td style={Td}>
-                                        <InputComponent name='product' onChange={handleChange} value={salesSlipData.product || ''} className='w-max h-8 text-[#70685a]' />
+                                        <InputComponent name='product_name' onChange={handleChange} value={salesSlipData.product_name || ''} className='w-max h-8 text-[#70685a]' />
                                     </td>
                                     <td style={Td}>
                                         <InputComponent name='quantity' type='number' onChange={handleChange} value={salesSlipData.quantity || ''} className='w-max h-8 text-[#70685a]' />
