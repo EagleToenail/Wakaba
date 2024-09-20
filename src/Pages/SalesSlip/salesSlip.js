@@ -1,6 +1,10 @@
 import React,{ useState, useEffect } from 'react';
 import {Link ,useNavigate} from 'react-router-dom';
 import axios from 'axios';
+
+import { useDispatch } from 'react-redux';
+import { setShippingData } from '../../redux/sales/actions';
+
 // import Titlebar from '../../Components/Common/Titlebar';
 // import InputComponent from '../../Components/Common/InputComponent';
 import ButtonComponent from '../../Components/Common/ButtonComponent';
@@ -33,8 +37,14 @@ const SalesSlip = () => {
         whiteSpace:'nowrap'
     };
 
+    const dispatch = useDispatch();
+
+    const updateData = (data) => {
+    dispatch(setShippingData(data));
+    };
+
     const [sales, setSales] = useState([]);
-    // Fetch customer data
+    // Fetch sales data
     useEffect( () => {
         const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
         if (!wakabaBaseUrl) {
@@ -123,6 +133,28 @@ const SalesSlip = () => {
         navigate('/invoiceforpurchaseofbroughtblank');
     }
 
+    //checked event
+    const [checkedValues, setCheckedValues] = useState([]);
+    // Handle checkbox change
+    const handleCheckboxChange = (event) => {
+        const value = event.target.value;
+        setCheckedValues((prevValues) => 
+        prevValues.includes(value)
+            ? prevValues.filter((v) => v !== value) // Uncheck
+            : [...prevValues, value] // Check
+        );
+    };
+    const handleSendCheckedValues = () => {
+        updateData(checkedValues);
+        console.log('checked values',checkedValues);
+        navigate('/purchaserequestformforwholesaler');
+    };
+    //go to disposal permission
+    const sendToDisposalPermission = (e) => {
+        e.preventDefault();
+        navigate('/applicationfordisposalpermission');
+    }
+
     return (
         <>
             {/* <Titlebar title={title} /> */}
@@ -134,8 +166,8 @@ const SalesSlip = () => {
                             <div className='sales-slip-next-button1 flex mt-5 w-1/2' >
                                 <div className='flex justify-center'>
                                     <div>
-                                        <ButtonComponent className='!px-5 text-2xl w-max' style={{ backgroundColor: '#9bd195', height: '40px' }} >
-                                            <Link to="/purchasetorshop">リサイクルショップへの買取依頼書へ</Link>
+                                        <ButtonComponent className='!px-5 text-2xl w-max' onClick={handleSendCheckedValues} style={{ backgroundColor: '#9bd195', height: '40px' }} >
+                                            リサイクルショップへの買取依頼書へ
                                         </ButtonComponent>
                                         <div className='flex justify-center'>
                                             <LabelComponent value={'行を選択してください'} />
@@ -144,8 +176,8 @@ const SalesSlip = () => {
                                 </div>
                                 <div className='flex justify-center'>
                                     <div className=''>
-                                        <ButtonComponent className='!px-5 text-2xl ml-5' style={{ backgroundColor: '#9bd195', height: '40px' }} >
-                                            <Link>廃棄申請</Link>
+                                        <ButtonComponent onClick={sendToDisposalPermission} className='!px-5 text-2xl ml-5' style={{ backgroundColor: '#9bd195', height: '40px' }} >
+                                            廃棄申請
                                         </ButtonComponent>
                                         <div className='flex justify-centerb w-max ml-5'>
                                             <LabelComponent value={'行を選択してください'} />
@@ -189,9 +221,6 @@ const SalesSlip = () => {
                                     <ButtonComponent children={'スマホ/夕ブレット'} onClick={handleCategory('スマホ/夕ブレット')} className="!px-5 bg-[transparent] border border-[#424242] text-[#70685a] h-8 rounded-lg !w-max" style={{color: activeValue === buttonValues[11] ? 'white' : 'black', backgroundColor: activeValue === buttonValues[11] ? '#424242' : 'transparent'}}/>
                                     <select id="classificatin" onChange={onChangeCategory}  name="classificatin" className="!w-max h-8 rounded-lg text-[#70685a] text-[15px] font-bold border border-[#70685a] px-4 py-1 outline-[#70685a]" style={{color: isSelectActive ? 'white' : 'black', backgroundColor: isSelectActive ? '#424242' : 'transparent'}}>
                                         <option value="その他">その他</option>
-                                        <option value="Afghanistan">Afghanistan</option>
-                                        <option value=" Islands">Islands</option>
-                                        <option value="Albania">Albania</option>
                                     </select>
                                 </div> 
                             </div>
@@ -203,6 +232,7 @@ const SalesSlip = () => {
                                 <table style={Table}>
                                     <thead className='sticky top-0 bg-white z-10'>
                                         <tr>
+                                            <th rowSpan={2} className='px-2'></th>
                                             <th rowSpan={2} className='px-2'>番号</th>
                                             <th  className='px-2' style={Th} rowSpan={2}>日付</th>
                                             <th className='px-2' style={Th} rowSpan={2}>買取担当.</th>
@@ -238,7 +268,8 @@ const SalesSlip = () => {
                                     <tbody>
                                         {sales.map((sale,Index) => (
                                             <tr key={sale.id}>
-                                                <td>{Index+1}</td>
+                                                <td className='flex flex-col justify-center'><input type='checkbox' value={sale.id} onChange={handleCheckboxChange} className='w-5'/></td>
+                                                <td>{Index + 1}</td>
                                                 <td style={Td}>{sale.trading_date}</td>
                                                 <td style={Td}>{sale.purchase_staff}</td>
                                                 <td style={Td}>{sale.Customer ? sale.Customer.full_name : 'Name not available'}</td>

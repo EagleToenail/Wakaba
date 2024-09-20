@@ -183,8 +183,9 @@ function Header() {
               />
               <span className="overflow-hidden">
                 <p className="font-bold truncate">
-                    {console.log(chatRoom.data.profile.fullname)}
-                {chatRoom.data.profile.fullname}
+                    {console.log(chatRoom.data)}
+                {chatRoom.data.profile?.fullname}
+                {chatRoom.data.fullname}
                   {/* {isGroup
                     ? chatRoom.data.group.name
                     : chatRoom.data.profile.fullname} */}

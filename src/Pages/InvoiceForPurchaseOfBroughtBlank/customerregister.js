@@ -181,9 +181,9 @@ const CustomerIndividualCreate = ({ onSendData }) => {
     return (<>
         <div className="bg-[trasparent] font-[sans-serif]">
             <div className=" flex  justify-center ">
-                <div className="w-full pt-3" style={{ maxWidth: '60em' }}>
+                <div className="w-full" style={{ maxWidth: '60em' }}>
                     <div className=" rounded-2xl w-full">
-                        <form className=" space-y-6 pt-10">
+                        <form className=" space-y-2">
                             {/* new */}
                             <div className='flex'>
                                 <div style={{ width: '25%', flexDirection: 'column', }} className='!mb-0 flex align-center justify-around'>
@@ -212,16 +212,13 @@ const CustomerIndividualCreate = ({ onSendData }) => {
                                 <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
                                     <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">お名前</label>
                                 </div>
-                                <div style={{ width: '50%', flexDirection: 'column', }} className='flex align-center justify-around'>
+                                <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
                                     <input name="full_name" value={customer.full_name} onChange={handleCustomerChange} type="text" required className="w-full text-[#70685a] border border-[#70685a] px-4 py-2 outline-[#70685a]" />
                                 </div>
-                            </div>
-                            {/* new */}
-                            <div className='flex'>
                                 <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
                                     <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">カタカナ名</label>
                                 </div>
-                                <div style={{ width: '75%', flexDirection: 'column', }} className='flex align-center justify-around'>
+                                <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
                                     <input name="katakana_name" value={customer.katakana_name} onChange={handleCustomerChange} type="text" required className="w-full text-[#70685a] border border-[#70685a] px-4 py-2 outline-[#70685a]" />
                                 </div>
                             </div>
@@ -230,8 +227,14 @@ const CustomerIndividualCreate = ({ onSendData }) => {
                                 <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
                                     <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">お電話番号</label>
                                 </div>
-                                <div style={{ width: '35%', flexDirection: 'column', }} className='flex align-center justify-around'>
+                                <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
                                     <InputComponent name="phone_number" value={customer.phone_number} onChange={handleCustomerChange} type='text' required />
+                                </div>
+                                <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
+                                    <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">ご職業</label>
+                                </div>
+                                <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
+                                    <InputComponent name="job" value={customer.job || ''} onChange={handleCustomerChange} type='text' required />
                                 </div>
                             </div>
                             {/* new */}
@@ -268,38 +271,17 @@ const CustomerIndividualCreate = ({ onSendData }) => {
                                 </div>
                             </div>
                             {/* new */}
-                            {/* <div className='flex'>
-                                <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">お電話番号</label>
-                                </div>
-                                <div style={{ width: '35%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <InputComponent name="phoneNumber2" value={formData.phoneNumber2} onChange={handleChange} type='text' required />
-                                </div>
-                            </div> */}
-                            {/* new */}
-                            <div className='flex'>
-                                <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">ご職業</label>
-                                </div>
-                                <div style={{ width: '30%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <InputComponent name="job" value={customer.job || ''} onChange={handleCustomerChange} type='text' required />
-                                </div>
-                            </div>
-                            {/* new */}
                             <div className='flex'>
                                 <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
                                     <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">Email</label>
                                 </div>
-                                <div style={{ width: '30%', flexDirection: 'column', }} className='flex align-center justify-around'>
+                                <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
                                     <InputComponent name="email" value={customer.email ||''} onChange={handleCustomerChange} type="email" required />
                                 </div>
-                            </div>
-                            {/* new */}
-                            <div className='flex'>
                                 <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
                                     <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">トリガー</label>
                                 </div>
-                                <div style={{ width: '30%', flexDirection: 'column', }} className='flex align-center justify-around'>
+                                <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
                                     <InputComponent name="trigger" value={customer.trigger || ''} onChange={handleCustomerChange} type='text' required />
                                 </div>
                             </div>
@@ -348,15 +330,15 @@ const CustomerIndividualCreate = ({ onSendData }) => {
                             {/* new */}
                             <div className='flex h-[130px]'>
                                 <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0"></label>
+                                    <label className="text-[#70685a] font-bold block text-right mr-10 py-1 !mb-0"></label>
                                 </div>
                                 <div style={{ width: '75%', flexDirection: 'column', }} className='flex h-full felx-col justify-center'>
                                     <div className='flex justify-between w-full h-[100px]'>
                                         <div style={{ width: '60%' }} className='border border-[#70685a] rounded-lg flex justify-center'>
-                                            {imageAvatarPreview == "" ? "" : <img src={imageAvatarPreview} alt="Image Preview" className='h-[100px] p-1 rounded-lg' />}
+                                            {imageAvatarPreview == "" ? "" : <img src={imageAvatarPreview} alt="Image Preview" className='h-[100px] rounded-lg' />}
                                         </div>
                                         <div style={{ width: '35%', display: 'none' }} className='border border-[#70685a] rounded-full flex justify-center'>
-                                            {imageIdCardPreview == "" ? "" : <img src={imageIdCardPreview} alt="Image Preview" className='h-[100px] p-1 rounded-full' />}
+                                            {imageIdCardPreview == "" ? "" : <img src={imageIdCardPreview} alt="Image Preview" className='h-[100px] rounded-full' />}
                                         </div>
                                     </div>
 

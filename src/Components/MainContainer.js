@@ -3,6 +3,7 @@
 import React, { useState, useCallback, useRef} from 'react';
 import '../Assets/css/MainContainer.css';
 import InvoiceForPurchaseChat from '../Pages/InvoiceForPurchaseChat/invoiceForPurchaseChat';
+import ShowSalesSlip from '../Pages/ShowSalesSlip/showSalesSlip';
 
 const MainContainer = ({children,destinationURL}) => {
   const [position, setPosition] = useState(80); // percentage for the height of the top pane
@@ -83,7 +84,8 @@ const MainContainer = ({children,destinationURL}) => {
 
       </div>
       <div className="bottom-pane" style={{ height: `${100 - position - 15}%` }}>
-        {destinationURL == 'invoiceforpurchaseofbrought' ? (<InvoiceForPurchaseChat/> ): ('Bottom')}
+        {destinationURL == 'invoiceforpurchaseofbrought' ? (<InvoiceForPurchaseChat/> ): ('')}
+        {destinationURL == 'todolist' ? (<ShowSalesSlip/> ): ('')}
       </div>
     </div>
   );

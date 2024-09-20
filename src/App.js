@@ -35,7 +35,7 @@ import InvoiceForPurchaseOfBroughtBlank from './Pages/InvoiceForPurchaseOfBrough
 import InvoiceForPurchaseChat from './Pages/InvoiceForPurchaseChat/invoiceForPurchaseChat';//invoice for purchase chat
 import PurchaseInvoiceForBroughtInItems from './Pages/PurchaseInvoiceForBroughtInItems/purchaseInvoiceForBroughtInItems';//Purchase invoice for brought-in items(for customer presentaion)
 import WholeSalerShippingList from './Pages/WholeSalerShippingList/wholeSalerShippingList';//Wholesaler Shipping List
-import PurchaseRequestFormForWholeSaler from './Pages/PurchaseRequestFormForWholeSaler/purchaseRequestFormForWholeSaler';//Purchase requesr form
+import PurchaseRequestFormForWholeSaler from './Pages/PurchaseRequestFormForWholeSaler/purchaseRequestFormForWholeSaler';//Purchase request form
 import ShowSalesSlip from "./Pages/ShowSalesSlip/showSalesSlip";//show salesSlip in todolist page
 import SalesSlip from './Pages/SalesSlip/salesSlip';//Sales slip
 import SalesSlipCreate from './Pages/SalesSlipCreate/salesSlipCreate';//SalesSlipCreate//no need
@@ -115,15 +115,8 @@ function App() {
             <Route path='/customerindividual/:id' element={<CustomerIndividual/>}/> 
             <Route path='/customerindividualcreate' element={<CustomerIndividualCreate/>}/> 
             <Route path='/invoiceforpurchaseofbrought/:id' element={<InvoiceForPurchaseOfBrought/>}/>
-            {/* <Route path='/invoiceforpurchaseofbrought/:id'>
-              <Route>
-                <InvoiceForPurchaseOfBrought/>
-                <InvoiceForPurchaseChat/>
-              </Route>
-            </Route> */}
             <Route path='/invoiceforpurchaseofbroughtblank' element={<InvoiceForPurchaseOfBroughtBlank/>}/>
             <Route path='/invoiceforpurchasechat' element={<InvoiceForPurchaseChat/>}/>
-            {/* <Route path='/invoiceforpurchasechat' element={<InvoiceForPurchaseChat/>}/> */}
             <Route path='/wholesalershippinglist' element={<WholeSalerShippingList/>}/>
             <Route path='/purchaserequestformforwholesaler' element={<PurchaseRequestFormForWholeSaler/>}/>
             <Route path='/salesslip' element={<SalesSlip/>}/>

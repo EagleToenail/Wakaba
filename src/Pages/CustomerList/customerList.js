@@ -94,12 +94,12 @@ const CustomerList = () => {
             throw new Error('API base URL is not defined');
         }
         axios.post(`${wakabaBaseUrl}/customer/search`, { params: searchParams })
-            .then(response => {
-                setCustomers(response.data);
-            })
-            .catch(error => {
-                console.error("There was an error searching for customers!", error);
-            });
+        .then(response => {
+            setCustomers(response.data);
+        })
+        .catch(error => {
+            console.error("There was an error searching for customers!", error);
+        });
     };
 
     return (

@@ -24,7 +24,7 @@ export default function TODOList() {
     const [selectedCustomerId, setSelectedCustomerId] = useState(null);
     const [filteredOptions, setFilteredOptions] = useState([]);
     const dropdownRef = useRef(null);
-    // Fetch customer data
+    // Fetch user data
     useEffect(() => {
         const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
         if (!wakabaBaseUrl) {

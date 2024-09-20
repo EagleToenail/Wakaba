@@ -55,7 +55,7 @@ const CustomerIndividual = () => {
         borderCollapse: 'collapse',
         color: '#6e6e7c',
         fontSize: '15px',
-        whiteSpace:'nowrap'
+        whiteSpace: 'nowrap'
     };
 
     const [customer, setCustomer] = useState({
@@ -69,18 +69,18 @@ const CustomerIndividual = () => {
         birthday: '',
         age: '',
         job: '',
-        email:'',
+        email: '',
         idCard_url: '',
         cardType: '',
         avatar_url: '',
         prefeature: '',
         city: '',
         gender: '',
-        trigger:'',
-        brand_type:'',
-        item1:'',
-        item2:'',
-        item3:'',
+        trigger: '',
+        brand_type: '',
+        item1: '',
+        item2: '',
+        item3: '',
     });
 
     const [customerPastVisitHistory, setCustomerPastVisitHistory] = useState([]);
@@ -93,22 +93,22 @@ const CustomerIndividual = () => {
     // Fetch customer data
     const { id } = useParams();
 
-        // Fetch customerPastVisitHistory data
-        useEffect(() => {
-            const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
-    
-            if (!wakabaBaseUrl) {
-                throw new Error('API base URL is not defined');
-            } 
-            axios.get(`${wakabaBaseUrl}/customer/customerpastvisithistory/${id}`)
-                .then(response => {
-                    console.log("historydata", response.data)
-                    setCustomerPastVisitHistory(response.data || []);
-                })
-                .catch(error => {
-                    console.error("There was an error fetching the customer data!", error);
-                });
-        }, []);
+    // Fetch customerPastVisitHistory data
+    useEffect(() => {
+        const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+
+        if (!wakabaBaseUrl) {
+            throw new Error('API base URL is not defined');
+        }
+        axios.get(`${wakabaBaseUrl}/customer/customerpastvisithistory/${id}`)
+            .then(response => {
+                console.log("historydata", response.data)
+                setCustomerPastVisitHistory(response.data || []);
+            })
+            .catch(error => {
+                console.error("There was an error fetching the customer data!", error);
+            });
+    }, []);
 
     useEffect(() => {
         const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
@@ -116,17 +116,17 @@ const CustomerIndividual = () => {
         if (!wakabaBaseUrl) {
             throw new Error('API base URL is not defined');
         }
-        if(id){
+        if (id) {
             axios.get(`${wakabaBaseUrl}/customer/getCustomerById/${id}`)
-            .then(response => {
-                // console.log("data", response.data)
-                setCustomer(response.data);
-                setAvatarImagePreview(`${wakabaBaseUrl}/uploads/customer/${response.data.avatar_url}`);
-                setIdCardImagePreview(`${wakabaBaseUrl}/uploads/customer/${response.data.idCard_url}`);
-            })
-            .catch(error => {
-                console.error("There was an error fetching the customer data!", error);
-            });
+                .then(response => {
+                    // console.log("data", response.data)
+                    setCustomer(response.data);
+                    setAvatarImagePreview(`${wakabaBaseUrl}/uploads/customer/${response.data.avatar_url}`);
+                    setIdCardImagePreview(`${wakabaBaseUrl}/uploads/customer/${response.data.idCard_url}`);
+                })
+                .catch(error => {
+                    console.error("There was an error fetching the customer data!", error);
+                });
         }
 
     }, [id]);
@@ -248,7 +248,7 @@ const CustomerIndividual = () => {
             if (!wakabaBaseUrl) {
                 throw new Error('API base URL is not defined');
             }
-            const response = await axios.post(`${wakabaBaseUrl}/customer/deleteCustomer`, {customerId});
+            const response = await axios.post(`${wakabaBaseUrl}/customer/deleteCustomer`, { customerId });
             console.log('Response:', response.data);
 
             navigate('/customerlist'); // Navigate to the profile page after closing the modal
@@ -261,9 +261,9 @@ const CustomerIndividual = () => {
         navigate(`/invoiceforpurchaseofbrought/${id}`); // Use navigate for routing
     };
 
-    const [totalSales , setTotalSales] = useState('');
-    const [totalPurchasePrice , setTotalPurchasePrice] = useState('');
-    const [totalGrossProfit , setTotalGrossProfit] = useState('');
+    const [totalSales, setTotalSales] = useState('');
+    const [totalPurchasePrice, setTotalPurchasePrice] = useState('');
+    const [totalGrossProfit, setTotalGrossProfit] = useState('');
     // calculate total sales
     const calculateTotalSales = () => {
         const total = customerPastVisitHistory.reduce((sum, item) => parseInt(sum) + (parseInt(item.total_sales) || 0), 0);
@@ -320,7 +320,7 @@ const CustomerIndividual = () => {
                         </div>
                         <div className=' customer-edit-center flex gap-10'>
                             <ButtonComponent name="onsitepurchase" children="出張買取" className='px-5' style={{ border: '1px solid #838383', backgroundColor: 'transparent', color: '#838383', }} ><Link to='/onsitepurchase'>キャンセル</Link></ButtonComponent>
-                            <label className="text-[#70685a] font-bold mb-2 block text-left flex justify-end" style={{ flexDirection: 'column'}}><u> <Link to='/customerlist'>キャンセル</Link></u></label>
+                            <label className="text-[#70685a] font-bold mb-2 block text-left flex justify-end" style={{ flexDirection: 'column' }}><u> <Link to='/customerlist'>キャンセル</Link></u></label>
                         </div>
                     </div>
                 </div>
@@ -474,7 +474,7 @@ const CustomerIndividual = () => {
                                     <input type="file" name='idcardUpload' ref={idcardInputRef} style={{ display: 'none' }} onChange={(e) => handleFileChange(e, setIdcardFile, setAvatarImagePreview)} />
                                     {/* {idcardFile && <p>{idcardFile.name}</p>} */}
                                 </div>
-                                <div style={{ width: '30%', flexDirection: 'column',  }} className='flex ml-3 align-center justify-around'>
+                                <div style={{ width: '30%', flexDirection: 'column', }} className='flex ml-3 align-center justify-around'>
                                     <select id="cardType" name="cardType" value={customer.cardType} required onChange={handleCustomerChange} className="w-full h-9 text-[#70685a] text-[15px] font-bold border border-[#70685a] px-4 py-2 outline-[#70685a]">
                                         <option value="" disabled></option>
                                         <option value="運転免許証">運転免許証</option>
@@ -484,7 +484,7 @@ const CustomerIndividual = () => {
                                         <option value="各種福祉手帳（身体障害者手帳等）">各種福祉手帳（身体障害者手帳等）</option>
                                     </select>
                                 </div>
-                                <div style={{ width: '30%', flexDirection: 'column', display:'none' }} className='flex align-center justify-around'>
+                                <div style={{ width: '30%', flexDirection: 'column', display: 'none' }} className='flex align-center justify-around'>
                                     <button type="button" onClick={() => handleButtonClick(avatarImageInputRef)} className="py-2 text-[#70685a] rounded-full tracking-wider font-medium outline-none border border-[#70685a] ">画像と情報表示</button>
                                     <input type="file" name="avatarimageUpload" ref={avatarImageInputRef} style={{ display: 'none' }} onChange={(e) => handleFileChange(e, setAvatarImageFile, setIdCardImagePreview)} />
                                     {/* {avatarimageFile && <p>Selected Image: {avatarimageFile.name}</p>} */}
@@ -498,10 +498,10 @@ const CustomerIndividual = () => {
                                 <div style={{ width: '75%', flexDirection: 'column', }} className='flex h-full felx-col justify-center'>
                                     <div className='flex justify-between w-full h-[100px]'>
                                         <div style={{ width: '60%' }} className='border border-[#70685a] rounded-lg flex justify-center'>
-                                            {imageIdCardPreview=="http:///172.31.0.201:8081/api/uploads/customer/" ? "": <img src={imageIdCardPreview} alt="Image Preview" className='h-[100px] p-1 rounded-lg' />}
+                                            {imageIdCardPreview == "http:///172.31.0.201:8081/api/uploads/customer/" ? "" : <img src={imageIdCardPreview} alt="Image Preview" className='h-[100px] p-1 rounded-lg' />}
                                         </div>
-                                        <div style={{ width: '35%',display:'none' }} className='border border-[#70685a] rounded-full flex justify-center'>
-                                            {imageIdCardPreview =="http:///172.31.0.201:8081/api/uploads/customer/" ? "": <img src={imageIdCardPreview} alt="Image Preview" className='h-[100px] p-1 rounded-full' />}
+                                        <div style={{ width: '35%', display: 'none' }} className='border border-[#70685a] rounded-full flex justify-center'>
+                                            {imageIdCardPreview == "http:///172.31.0.201:8081/api/uploads/customer/" ? "" : <img src={imageIdCardPreview} alt="Image Preview" className='h-[100px] p-1 rounded-full' />}
                                         </div>
                                     </div>
 
@@ -592,44 +592,44 @@ const CustomerIndividual = () => {
                             {/*Past visit history of Table area */}
                             <div className="border border-[#70685a] rounded px-3 w-full mb-5" style={{ height: '415px', overflowX: 'scroll', overflowY: 'scroll' }}>
                                 <div className='flex justify-between mt-5'>
-                                   <label className="text-[#70685a] text-[20px] font-bold mb-2 block text-left mr-10 py-1 !mb-0">過去の訪問履歴</label>
-                                   <button type="button" onClick={gotoInvoiceForPurchase}
-                                   className="flex px-5 py-1 rounded-lg text-md tracking-wider font-bold border border-[#70685a] outline-none bg-transparent text-[#70685a] transition-all duration-300">
-                                    <div className='w-7'>
-                                        <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium  MuiSvgIcon-root MuiSvgIcon-fontSizeLarge  css-1hkft75" fill='#524c3b' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="AddCircleOutlineOutlinedIcon" title="AddCircleOutlineOutlined"><path d="M13 7h-2v4H7v2h4v4h2v-4h4v-2h-4zm-1-5C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8"></path></svg>
-                                    </div>
-                                    <div><span className='pl-1 text-[20px]'>追加</span></div>
+                                    <label className="text-[#70685a] text-[20px] font-bold mb-2 block text-left mr-10 py-1 !mb-0">過去の訪問履歴</label>
+                                    <button type="button" onClick={gotoInvoiceForPurchase}
+                                        className="flex px-5 py-1 rounded-lg text-md tracking-wider font-bold border border-[#70685a] outline-none bg-transparent text-[#70685a] transition-all duration-300">
+                                        <div className='w-7'>
+                                            <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium  MuiSvgIcon-root MuiSvgIcon-fontSizeLarge  css-1hkft75" fill='#524c3b' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="AddCircleOutlineOutlinedIcon" title="AddCircleOutlineOutlined"><path d="M13 7h-2v4H7v2h4v4h2v-4h4v-2h-4zm-1-5C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8"></path></svg>
+                                        </div>
+                                        <div><span className='pl-1 text-[20px]'>追加</span></div>
                                     </button>
                                 </div>
-                                {  customerPastVisitHistory.length !== 0?
-                                <div style={{ width: '100%', }} >
-                                    <table className='text-center w-full' style={Table}>
-                                        <thead>
-                                            <tr>
-                                                <th className='whitespace-nowrap text-eclipse' width='5%'>来店回数 </th>
-                                                <th className='whitespace-nowrap' width='5%'></th>
-                                                <th className='whitespace-nowrap' width='5%'></th>
-                                                <th className='whitespace-nowrap' width='5%'></th>
-                                                <th className='whitespace-nowrap' width='5%'></th>
-                                                <th className='whitespace-nowrap' width='10%'>合計</th>
-                                                <th className='whitespace-nowrap' width='5%'>{totalSales}</th>
-                                                <th className='whitespace-nowrap' width='5%'>{totalGrossProfit}</th>
-                                                <th className='whitespace-nowrap' width='5%'>{totalPurchasePrice}</th>
-                                            </tr>
-                                            <tr>
-                                                <th className='whitespace-nowrap' width='5%'>{customerPastVisitHistory.length}</th>
-                                                <th className='whitespace-nowrap' width='5%'>来店日</th>
-                                                <th className='whitespace-nowrap' width='5%'>適用</th>
-                                                <th className='whitespace-nowrap' width='5%'>合計金額</th>
-                                                <th className='whitespace-nowrap' width='5%'>カテゴリ-1</th>
-                                                <th className='whitespace-nowrap' width='5%'>商品名</th>
-                                                <th className='whitespace-nowrap' width='5%'>売上総額</th>
-                                                <th className='whitespace-nowrap' width='5%'>粗利総額</th>
-                                                <th className='whitespace-nowrap' width='5%'>買取総額</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                                <tr style={{display:'none'}}>
+                                {customerPastVisitHistory.length !== 0 ?
+                                    <div style={{ width: '100%', }} >
+                                        <table className='text-center w-full' style={Table}>
+                                            <thead>
+                                                <tr>
+                                                    <th className='whitespace-nowrap text-eclipse' width='5%'>来店回数 </th>
+                                                    <th className='whitespace-nowrap' width='5%'></th>
+                                                    <th className='whitespace-nowrap' width='5%'></th>
+                                                    <th className='whitespace-nowrap' width='5%'></th>
+                                                    <th className='whitespace-nowrap' width='5%'></th>
+                                                    <th className='whitespace-nowrap' width='10%'>合計</th>
+                                                    <th className='whitespace-nowrap' width='5%'>{totalSales}</th>
+                                                    <th className='whitespace-nowrap' width='5%'>{totalGrossProfit}</th>
+                                                    <th className='whitespace-nowrap' width='5%'>{totalPurchasePrice}</th>
+                                                </tr>
+                                                <tr>
+                                                    <th className='whitespace-nowrap' width='5%'>{customerPastVisitHistory.length}</th>
+                                                    <th className='whitespace-nowrap' width='5%'>来店日</th>
+                                                    <th className='whitespace-nowrap' width='5%'>適用</th>
+                                                    <th className='whitespace-nowrap' width='5%'>合計金額</th>
+                                                    <th className='whitespace-nowrap' width='5%'>カテゴリ-1</th>
+                                                    <th className='whitespace-nowrap' width='5%'>商品名</th>
+                                                    <th className='whitespace-nowrap' width='5%'>売上総額</th>
+                                                    <th className='whitespace-nowrap' width='5%'>粗利総額</th>
+                                                    <th className='whitespace-nowrap' width='5%'>買取総額</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr style={{ display: 'none' }}>
                                                     <td>
                                                         <div className='flex justify-center'>
                                                             <div>1</div>
@@ -649,40 +649,40 @@ const CustomerIndividual = () => {
                                                     <td style={Td}>aa</td>
                                                     <td style={Td}>aa</td>
                                                 </tr>
-                                            {(customerPastVisitHistory || customerPastVisitHistory.length !==0) && customerPastVisitHistory.map((pastVisit, Index) => (
-                                                <tr key={Index}>
-                                                    <td>
-                                                        <div className='flex justify-center'>
-                                                            <div>{Index + 1}.</div>
-                                                            <div>
-                                                                <svg className="w-5 h-5 ml-1" fill='#70685a' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="ContentCopyIcon" title="ContentCopy">
-                                                                    <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2m0 16H8V7h11z"></path>
-                                                                </svg>
+                                                {(customerPastVisitHistory || customerPastVisitHistory.length !== 0) && customerPastVisitHistory.map((pastVisit, Index) => (
+                                                    <tr key={Index}>
+                                                        <td>
+                                                            <div className='flex justify-center'>
+                                                                <div>{Index + 1}.</div>
+                                                                <div>
+                                                                    <svg className="w-5 h-5 ml-1" fill='#70685a' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="ContentCopyIcon" title="ContentCopy">
+                                                                        <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2m0 16H8V7h11z"></path>
+                                                                    </svg>
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                    </td>
-                                                    <td style={Td}>{pastVisit.visit_date}</td>
-                                                    <td style={Td}>{pastVisit.applicable}</td>
-                                                    <td style={Td}>{pastVisit.total_amount}</td>
-                                                    <td style={Td}>{pastVisit.category}</td>
-                                                    <td style={Td}>{pastVisit.product_name}</td>
-                                                    <td style={Td}>{pastVisit.total_sales}</td>
-                                                    <td style={Td}>{pastVisit.total_gross_profit}</td>
-                                                    <td style={Td}>{pastVisit.total_purchase_price}</td>
-                                                </tr>
-                                            ))}
-                                        </tbody>
-                                    </table>
-                                </div>
-                                :<div className='flex justify-center'>
-                                     <label className="text-[#70685a] text-[18px] mb-2 block text-left mr-10 py-1">この顧客の訪問履歴は見つかりませんでした。</label>
-                                </div>}
+                                                        </td>
+                                                        <td style={Td}>{pastVisit.visit_date}</td>
+                                                        <td style={Td}>{pastVisit.applicable}</td>
+                                                        <td style={Td}>{pastVisit.total_amount}</td>
+                                                        <td style={Td}>{pastVisit.category}</td>
+                                                        <td style={Td}>{pastVisit.product_name}</td>
+                                                        <td style={Td}>{pastVisit.total_sales}</td>
+                                                        <td style={Td}>{pastVisit.total_gross_profit}</td>
+                                                        <td style={Td}>{pastVisit.total_purchase_price}</td>
+                                                    </tr>
+                                                ))}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    : <div className='flex justify-center'>
+                                        <label className="text-[#70685a] text-[18px] mb-2 block text-left mr-10 py-1">この顧客の訪問履歴は見つかりませんでした。</label>
+                                    </div>}
                             </div>
                             {/* Text area */}
                             <div className='w-full flex justify-center'>
                                 <div className=" h-full w-full mt-10">
                                     {/* Text area */}
-                                    <div className="border border-[#70685a] rounded px-3 w-full" style={{ height: '305px', overflowX: 'scroll', overflowY: 'scroll' }}>
+                                    <div className="border border-[#70685a] rounded px-3 w-full" style={{ height: '315px', overflow: 'auto' }}>
                                         <label className="text-[#70685a] text-[20px] font-bold mb-2 block text-left mr-10 py-1 !mb-0">全体ヒアリング</label>
                                         <div>
                                             <div className='flex'>
@@ -690,7 +690,49 @@ const CustomerIndividual = () => {
                                                 <label className="text-[#70685a] text-[18px] mb-2 block text-left mr-10 py-1 !mb-0">何を見てご来店いただきましたか？</label>
                                             </div>
                                             <div className='ml-20'>
-                                                <InputComponent value={customer.item1 || ''} name='item1' onChange={handleCustomerChange} className="w-full text-[#70685a] text-[18px] mb-2 block text-left  mr-10 py-1 !mb-0 !h-10" />
+                                                {/* <InputComponent value={customer.item1 || ''} name='item1' onChange={handleCustomerChange} className="w-full text-[#70685a] text-[18px] mb-2 block text-left  mr-10 py-1 !mb-0 !h-10" /> */}
+                                                <div className='flex gap-10'>
+                                                    <div class="flex items-center">
+                                                        <input id="checkbox1" type="checkbox"
+                                                            class="w-4 h-4 mr-3" />
+                                                        <label for="checkbox1" class="text-[#70685a]"> 以前も利用したことがある</label>
+                                                    </div>
+                                                    <div class="flex items-center">
+                                                        <input id="checkbox2" type="checkbox"
+                                                            class="w-4 h-4 mr-3" />
+                                                        <label for="checkbox2" class="text-[#70685a]">店舗を見て</label>
+                                                    </div>
+                                                </div>
+                                                <div class="flex items-center">
+                                                    <input id="checkbox3" type="checkbox"
+                                                        class="w-4 h-4 mr-3" />
+                                                    <label for="checkbox3" class="text-[#70685a] mr-3"> 店舗以外の看板・広告を見て</label>
+                                                    <InputComponent className="w-40 text-[#70685a] mb-2 block text-left  mr-10 py-1 !mb-0 !h-8" placeholder={'広告を見た場所'} />
+                                                </div>
+                                                <div class="flex items-center">
+                                                    <input id="checkbox4" type="checkbox"
+                                                        class="w-4 h-4 mr-3" />
+                                                    <label for="checkbox4" class="text-[#70685a] mr-3">折込チラシを見て</label>
+                                                    <InputComponent className="w-40 text-[#70685a] mb-2 block text-left  mr-10 py-1 !mb-0 !h-8" placeholder={'新聞銘柄'} />
+                                                </div>
+                                                <div className='flex gap-10'>
+                                                    <div class="flex items-center">
+                                                        <input id="checkbox5" type="checkbox"
+                                                            class="w-4 h-4 mr-3" />
+                                                        <label for="checkbox5" class="text-[#70685a]">インターネットを見て</label>
+                                                    </div>
+                                                    <div class="flex items-center">
+                                                        <input id="checkbox6" type="checkbox"
+                                                            class="w-4 h-4 mr-3" />
+                                                        <label for="checkbox6" class="text-[#70685a]"> 紹介されて</label>
+                                                    </div>
+                                                </div>
+                                                <div class="flex items-center">
+                                                    <input id="checkbox7" type="checkbox"
+                                                        class="w-4 h-4 mr-3" />
+                                                    <label for="checkbox7" class="text-[#70685a] mr-3">その他</label>
+                                                    <InputComponent className="w-40 text-[#70685a] mb-2 block text-left  mr-10 py-1 !mb-0 !h-8" placeholder={'その他詳細'} />
+                                                </div>
                                             </div>
                                         </div>
                                         <div>
@@ -698,8 +740,89 @@ const CustomerIndividual = () => {
                                                 <label className="text-[#70685a] text-[18px] mb-2 block text-left mr-10 py-1">項目2</label>
                                                 <label className="text-[#70685a] text-[18px] mb-2 block text-left mr-10 py-1 !mb-0">次回お持ちいただくご予定の商品はございますか？</label>
                                             </div>
-                                            <div className='border border-[#70685a] ml-20'>
-                                                <InputComponent value={customer.item2 || ''} name='item2' onChange={handleCustomerChange} className="w-full text-[#70685a] text-[18px] mb-2 block text-left  mr-10 py-1 !mb-0 !h-10" />
+                                            <div className=' ml-20'>
+                                                {/* <InputComponent value={customer.item2 || ''} name='item2' onChange={handleCustomerChange} className="w-full text-[#70685a] text-[18px] mb-2 block text-left  mr-10 py-1 !mb-0 !h-10" /> */}
+                                                <div className='flex gap-10'>
+                                                    <div class="flex items-center">
+                                                        <input id="checkbox8" type="checkbox" class="w-4 h-4 mr-3" />
+                                                        <label for="checkbox8" class="text-[#70685a]">ダイヤモンド</label>
+                                                    </div>
+                                                    <div class="flex items-center">
+                                                        <input id="checkbox9" type="checkbox" class="w-4 h-4 mr-3" />
+                                                        <label for="checkbox9" class="text-[#70685a]">色石</label>
+                                                    </div>
+                                                    <div class="flex items-center">
+                                                        <input id="checkbox10" type="checkbox" class="w-4 h-4 mr-3" />
+                                                        <label for="checkbox10" class="text-[#70685a]">ネックレス</label>
+                                                    </div>
+                                                </div>
+                                                <div className='flex gap-10'>
+                                                    <div class="flex items-center">
+                                                        <input id="checkbox11" type="checkbox" class="w-4 h-4 mr-3" />
+                                                        <label for="checkbox11" class="text-[#70685a]">指輪</label>
+                                                    </div>
+                                                    <div class="flex items-center">
+                                                        <input id="checkbox12" type="checkbox" class="w-4 h-4 mr-3" />
+                                                        <label for="checkbox12" class="text-[#70685a]">時計</label>
+                                                    </div>
+                                                    <div class="flex items-center">
+                                                        <input id="checkbox13" type="checkbox" class="w-4 h-4 mr-3" />
+                                                        <label for="checkbox13" class="text-[#70685a]">ブランド品</label>
+                                                    </div>
+                                                </div>
+                                                <div className='flex gap-10'>
+                                                    <div class="flex items-center">
+                                                        <input id="checkbox14" type="checkbox" class="w-4 h-4 mr-3" />
+                                                        <label for="checkbox15" class="text-[#70685a]">切手</label>
+                                                    </div>
+                                                    <div class="flex items-center">
+                                                        <input id="checkbox6" type="checkbox" class="w-4 h-4 mr-3" />
+                                                        <label for="checkbox16" class="text-[#70685a]">中国切手</label>
+                                                    </div>
+                                                    <div class="flex items-center">
+                                                        <input id="checkbox17" type="checkbox" class="w-4 h-4 mr-3" />
+                                                        <label for="checkbox17" class="text-[#70685a]">古銭</label>
+                                                    </div>
+                                                </div>
+                                                <div className='flex gap-10'>
+                                                    <div class="flex items-center">
+                                                        <input id="checkbox18" type="checkbox" class="w-4 h-4 mr-3" />
+                                                        <label for="checkbox18" class="text-[#70685a]">金券</label>
+                                                    </div>
+                                                    <div class="flex items-center">
+                                                        <input id="checkbox19" type="checkbox" class="w-4 h-4 mr-3" />
+                                                        <label for="checkbox19" class="text-[#70685a]">テレカ</label>
+                                                    </div>
+                                                    <div class="flex items-center">
+                                                        <input id="checkbox20" type="checkbox" class="w-4 h-4 mr-3" />
+                                                        <label for="checkbox20" class="text-[#70685a]">カメラ</label>
+                                                    </div>
+                                                </div>
+                                                <div className='flex gap-10'>
+                                                    <div class="flex items-center">
+                                                        <input id="checkbox21" type="checkbox" class="w-4 h-4 mr-3" />
+                                                        <label for="checkbox21" class="text-[#70685a]">スマートフォン</label>
+                                                    </div>
+                                                    <div class="flex items-center">
+                                                        <input id="checkbox22" type="checkbox" class="w-4 h-4 mr-3" />
+                                                        <label for="checkbox22" class="text-[#70685a]">食器</label>
+                                                    </div>
+                                                    <div class="flex items-center">
+                                                        <input id="checkbox23" type="checkbox" class="w-4 h-4 mr-3" />
+                                                        <label for="checkbox23" class="text-[#70685a]">ホビー</label>
+                                                    </div>
+                                                </div>
+                                                <div className='flex gap-10'>
+                                                    <div class="flex items-center">
+                                                        <input id="checkbox24" type="checkbox" class="w-4 h-4 mr-3" />
+                                                        <label for="checkbox24" class="text-[#70685a]">楽器</label>
+                                                    </div>
+                                                    <div class="flex items-center">
+                                                        <input id="checkbox25" type="checkbox" class="w-4 h-4 mr-3" />
+                                                        <label for="checkbox25" class="text-[#70685a] mr-3">その他</label>
+                                                        <InputComponent className="w-40 text-[#70685a] mb-2 block text-left  mr-10 py-1 !mb-0 !h-8" placeholder={'その他詳細'} />
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                         <div>
@@ -707,8 +830,18 @@ const CustomerIndividual = () => {
                                                 <label className="text-[#70685a] text-[18px] mb-2 block text-left mr-10 py-1">項目3</label>
                                                 <label className="text-[#70685a] text-[18px] mb-2 block text-left mr-10 py-1 !mb-0">(各種ご案内)の送付は  可/不可</label>
                                             </div>
-                                            <div className='border border-[#70685a] ml-20  mb-10'>
-                                                <InputComponent value={customer.item3 || ''} name='item3' onChange={handleCustomerChange} className="w-full text-[#70685a] text-[18px] mb-2 block text-left  mr-10 py-1 !mb-0 !h-10" />
+                                            <div className='ml-20  mb-10'>
+                                                {/* <InputComponent value={customer.item3 || ''} name='item3' onChange={handleCustomerChange} className="w-full text-[#70685a] text-[18px] mb-2 block text-left  mr-10 py-1 !mb-0 !h-10" /> */}
+                                                <div className='flex gap-10'>
+                                                    <div class="flex items-center">
+                                                        <input id="checkbox26" type="checkbox" class="w-4 h-4 mr-3" />
+                                                        <label for="checkbox26" class="text-[#70685a]">可</label>
+                                                    </div>
+                                                    <div class="flex items-center">
+                                                        <input id="checkbox27" type="checkbox" class="w-4 h-4 mr-3" />
+                                                        <label for="checkbox27" class="text-[#70685a]">不可</label>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -722,46 +855,46 @@ const CustomerIndividual = () => {
         </div>
         {isKeepModalOpen && (
             <div
-            className="fixed inset-0 p-4 flex flex-wrap justify-center items-center w-full h-full z-[1000] before:fixed before:inset-0 before:w-full before:h-full before:bg-[rgba(0,0,0,0.5)] overflow-auto font-[sans-serif]">
-            <div className="w-full max-w-lg bg-white shadow-lg rounded-lg p-6 relative">
+                className="fixed inset-0 p-4 flex flex-wrap justify-center items-center w-full h-full z-[1000] before:fixed before:inset-0 before:w-full before:h-full before:bg-[rgba(0,0,0,0.5)] overflow-auto font-[sans-serif]">
+                <div className="w-full max-w-lg bg-white shadow-lg rounded-lg p-6 relative">
 
-                <div className="my-4 text-center">
-                    <h4 className="text-gray-800 text-base font-semibold mt-4">保存しました</h4>
+                    <div className="my-4 text-center">
+                        <h4 className="text-gray-800 text-base font-semibold mt-4">保存しました</h4>
 
-                    <div className="text-center space-x-4 mt-8">
-                        <button type="button" onClick={handleKeepSubmit}
-                            className="px-6 py-2 rounded-lg text-white text-sm bg-red-600 hover:bg-red-700 active:bg-red-600">オーケー</button>
-                        <button type="button" onClick={onClose}
-                            className="px-4 py-2 rounded-lg text-gray-800 text-sm bg-gray-200 hover:bg-gray-300 active:bg-gray-200">キャンセル</button>
+                        <div className="text-center space-x-4 mt-8">
+                            <button type="button" onClick={handleKeepSubmit}
+                                className="px-6 py-2 rounded-lg text-white text-sm bg-red-600 hover:bg-red-700 active:bg-red-600">オーケー</button>
+                            <button type="button" onClick={onClose}
+                                className="px-4 py-2 rounded-lg text-gray-800 text-sm bg-gray-200 hover:bg-gray-300 active:bg-gray-200">キャンセル</button>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
         )}
         {isDeleteModalOpen && (
             <div
-            className="fixed inset-0 p-4 flex flex-wrap justify-center items-center w-full h-full z-[1000] before:fixed before:inset-0 before:w-full before:h-full before:bg-[rgba(0,0,0,0.5)] overflow-auto font-[sans-serif]">
-            <div className="w-full max-w-lg bg-white shadow-lg rounded-lg p-6 relative">
+                className="fixed inset-0 p-4 flex flex-wrap justify-center items-center w-full h-full z-[1000] before:fixed before:inset-0 before:w-full before:h-full before:bg-[rgba(0,0,0,0.5)] overflow-auto font-[sans-serif]">
+                <div className="w-full max-w-lg bg-white shadow-lg rounded-lg p-6 relative">
 
-                <div className="my-4 text-center">
-                   
-                    <svg xmlns="http://www.w3.org/2000/svg" className="w-14 fill-red-500 inline" viewBox="0 0 24 24">
-                        <path
-                            d="M19 7a1 1 0 0 0-1 1v11.191A1.92 1.92 0 0 1 15.99 21H8.01A1.92 1.92 0 0 1 6 19.191V8a1 1 0 0 0-2 0v11.191A3.918 3.918 0 0 0 8.01 23h7.98A3.918 3.918 0 0 0 20 19.191V8a1 1 0 0 0-1-1Zm1-3h-4V2a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v2H4a1 1 0 0 0 0 2h16a1 1 0 0 0 0-2ZM10 4V3h4v1Z"
-                            data-original="#000000" />
-                        <path d="M11 17v-7a1 1 0 0 0-2 0v7a1 1 0 0 0 2 0Zm4 0v-7a1 1 0 0 0-2 0v7a1 1 0 0 0 2 0Z"
-                            data-original="#000000" />
-                    </svg>
-                    <h4 className="text-gray-800 text-base font-semibold mt-4">削除します。よろしいですか？</h4>
-                    <div className="text-center space-x-4 mt-8">
-                        <button type="button" onClick={handleDeleteSubmit}
-                            className="px-6 py-2 rounded-lg text-white text-sm bg-red-600 hover:bg-red-700 active:bg-red-600">オーケー</button>
-                        <button type="button" onClick={onDeleteClose}
-                            className="px-4 py-2 rounded-lg text-gray-800 text-sm bg-gray-200 hover:bg-gray-300 active:bg-gray-200">キャンセル</button>
+                    <div className="my-4 text-center">
+
+                        <svg xmlns="http://www.w3.org/2000/svg" className="w-14 fill-red-500 inline" viewBox="0 0 24 24">
+                            <path
+                                d="M19 7a1 1 0 0 0-1 1v11.191A1.92 1.92 0 0 1 15.99 21H8.01A1.92 1.92 0 0 1 6 19.191V8a1 1 0 0 0-2 0v11.191A3.918 3.918 0 0 0 8.01 23h7.98A3.918 3.918 0 0 0 20 19.191V8a1 1 0 0 0-1-1Zm1-3h-4V2a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v2H4a1 1 0 0 0 0 2h16a1 1 0 0 0 0-2ZM10 4V3h4v1Z"
+                                data-original="#000000" />
+                            <path d="M11 17v-7a1 1 0 0 0-2 0v7a1 1 0 0 0 2 0Zm4 0v-7a1 1 0 0 0-2 0v7a1 1 0 0 0 2 0Z"
+                                data-original="#000000" />
+                        </svg>
+                        <h4 className="text-gray-800 text-base font-semibold mt-4">削除します。よろしいですか？</h4>
+                        <div className="text-center space-x-4 mt-8">
+                            <button type="button" onClick={handleDeleteSubmit}
+                                className="px-6 py-2 rounded-lg text-white text-sm bg-red-600 hover:bg-red-700 active:bg-red-600">オーケー</button>
+                            <button type="button" onClick={onDeleteClose}
+                                className="px-4 py-2 rounded-lg text-gray-800 text-sm bg-gray-200 hover:bg-gray-300 active:bg-gray-200">キャンセル</button>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
         )}
     </>
     );

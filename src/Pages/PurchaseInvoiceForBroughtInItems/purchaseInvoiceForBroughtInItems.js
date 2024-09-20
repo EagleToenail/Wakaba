@@ -150,7 +150,8 @@ const PurchaseInvoiceForBroughtInItems = () => {
     const [error, setError] = useState(null);
 
     //create pdf
-    const handleSavePageAsPDF = async () => {
+    const handleSavePageAsPDF = async (e) => {
+        e.preventDefault();
         const element = document.getElementById('purchaseInvoice');
         if (!element) {
             console.error('Element not found');
@@ -208,7 +209,7 @@ const PurchaseInvoiceForBroughtInItems = () => {
                 const payload = purchaseData.totalSalesSlipData;
                 const response = await  axios.post(`${wakabaBaseUrl}/purchaseinvoice`,{dataUrl, payload});
                 console.log('Response:', response.data);
-                
+
                 window.scrollTo({ top: 0, behavior: 'smooth' });
                 navigate('/salesslip');
             } catch (error) {

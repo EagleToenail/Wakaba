@@ -138,6 +138,7 @@ const InvoicePurchaseOfBroughtBlank = () => {
 //fetch salesSlipData
     const [salesSlipData, setSalesSlipData] = useState({
         trading_date: '',
+        number:'',
         purchase_staff: '',
         customer_id:'',
         store_name:'',
@@ -324,6 +325,7 @@ const InvoicePurchaseOfBroughtBlank = () => {
             setTotalSalesSlipData((prevSalesSlipDatas) => [...prevSalesSlipDatas, { ...salesSlipData, id: Date.now(),trading_date:new Date().toISOString().split('T')[0], purchase_staff:userData.username, store_name:userData.store_name, customer_id:id ,product_photo:''}]);
             setSalesSlipData({
                 trading_date:salesSlipData.trading_date,
+                number:'',
                 purchase_staff:salesSlipData.purchase_staff,
                 customer_id:salesSlipData.customer_id,
                 store_name:salesSlipData.store_name,
@@ -646,7 +648,7 @@ const InvoicePurchaseOfBroughtBlank = () => {
         const updatedData = totalSalesSlipData.map(data => ({
             ...data,
             customer_id: customerId // Replace with your desired value or logic
-          }));
+        }));
     
           setTotalSalesSlipData(updatedData);
     }
@@ -665,6 +667,11 @@ const InvoicePurchaseOfBroughtBlank = () => {
 
     const aaa = ()=> {
         updatecustomerId(childData);
+    }
+
+    //click all clear button
+    const allClear = ()=> {
+        setTotalSalesSlipData([]);
     }
 
     return (<>
@@ -733,13 +740,13 @@ const InvoicePurchaseOfBroughtBlank = () => {
                 </div>
             </div>
             <div className="w-full invoice-purchase-brought flex justify-center">
-                <div className="w-full pt-3 flex justify-center mt-10" >
-                    <div className=" h-[645px] overflow-auto pr-5">
+                <div className="w-full flex justify-center mt-5" >
+                    <div className=" pr-5">
                         <CustomerRegister onSendData={handleDataFromChild}/>
                     </div>
                 </div>
                 {/* textarea*/}
-                <div className="w-full h-full flex justify-center mt-10">
+                <div className="w-full h-full flex justify-center mt-5">
                     <div className='w-full'>
                         {/* textarea First*/}
                         <div className='w-full flex justify-center'>
@@ -783,7 +790,7 @@ const InvoicePurchaseOfBroughtBlank = () => {
                         <div className='w-full flex justify-center'>
                             <div className=" h-full w-full mt-10">
                                 {/* Text area */}
-                                <div className="border border-[#70685a] rounded px-3 w-full" style={{ height: '305px', overflowX: 'scroll', overflowY: 'scroll' }}>
+                                <div className="border border-[#70685a] rounded px-3 w-full" style={{ height: '315px',overflow:'auto'}}>
                                     <label className="text-[#70685a] text-[20px] font-bold mb-2 block text-left mr-10 py-1 !mb-0">全体ヒアリング</label>
                                     <div>
                                         <div className='flex'>
@@ -791,7 +798,49 @@ const InvoicePurchaseOfBroughtBlank = () => {
                                             <label className="text-[#70685a] text-[18px] mb-2 block text-left mr-10 py-1 !mb-0">何を見てご来店いただきましたか？</label>
                                         </div>
                                         <div className='ml-20'>
-                                            <InputComponent value={customer.item1 || ''} name='item1' onChange={handleCustomerChange} className="w-full text-[#70685a] text-[18px] mb-2 block text-left  mr-10 py-1 !mb-0 !h-10" />
+                                            {/* <InputComponent value={customer.item1 || ''} name='item1' onChange={handleCustomerChange} className="w-full text-[#70685a] text-[18px] mb-2 block text-left  mr-10 py-1 !mb-0 !h-10" /> */}
+                                            <div className='flex gap-10'>
+                                                <div class="flex items-center">
+                                                    <input id="checkbox1" type="checkbox"
+                                                        class="w-4 h-4 mr-3" />
+                                                    <label for="checkbox1" class="text-[#70685a]"> 以前も利用したことがある</label>
+                                                </div>
+                                                <div class="flex items-center">
+                                                    <input id="checkbox2" type="checkbox"
+                                                        class="w-4 h-4 mr-3" />
+                                                    <label for="checkbox2" class="text-[#70685a]">店舗を見て</label>
+                                                </div>
+                                            </div>
+                                            <div class="flex items-center">
+                                                <input id="checkbox3" type="checkbox"
+                                                    class="w-4 h-4 mr-3" />
+                                                <label for="checkbox3" class="text-[#70685a] mr-3"> 店舗以外の看板・広告を見て</label>
+                                                <InputComponent className="w-40 text-[#70685a] mb-2 block text-left  mr-10 py-1 !mb-0 !h-8" placeholder={'広告を見た場所'}/>
+                                            </div>
+                                            <div class="flex items-center">
+                                                <input id="checkbox4" type="checkbox"
+                                                    class="w-4 h-4 mr-3" />
+                                                <label for="checkbox4" class="text-[#70685a] mr-3">折込チラシを見て</label>
+                                                <InputComponent className="w-40 text-[#70685a] mb-2 block text-left  mr-10 py-1 !mb-0 !h-8" placeholder={'新聞銘柄'}/>
+                                            </div>
+                                            <div className='flex gap-10'>
+                                                <div class="flex items-center">
+                                                    <input id="checkbox5" type="checkbox"
+                                                        class="w-4 h-4 mr-3" />
+                                                    <label for="checkbox5" class="text-[#70685a]">インターネットを見て</label>
+                                                </div>
+                                                <div class="flex items-center">
+                                                    <input id="checkbox6" type="checkbox"
+                                                        class="w-4 h-4 mr-3" />
+                                                    <label for="checkbox6" class="text-[#70685a]"> 紹介されて</label>
+                                                </div>
+                                            </div>
+                                            <div class="flex items-center">
+                                                <input id="checkbox7" type="checkbox"
+                                                    class="w-4 h-4 mr-3" />
+                                                <label for="checkbox7" class="text-[#70685a] mr-3">その他</label>
+                                                <InputComponent className="w-40 text-[#70685a] mb-2 block text-left  mr-10 py-1 !mb-0 !h-8" placeholder={'その他詳細'}/>
+                                            </div>
                                         </div>
                                     </div>
                                     <div>
@@ -799,8 +848,89 @@ const InvoicePurchaseOfBroughtBlank = () => {
                                             <label className="text-[#70685a] text-[18px] mb-2 block text-left mr-10 py-1">項目2</label>
                                             <label className="text-[#70685a] text-[18px] mb-2 block text-left mr-10 py-1 !mb-0">次回お持ちいただくご予定の商品はございますか？</label>
                                         </div>
-                                        <div className='border border-[#70685a] ml-20'>
-                                            <InputComponent value={customer.item2 || ''} name='item2' onChange={handleCustomerChange} className="w-full text-[#70685a] text-[18px] mb-2 block text-left  mr-10 py-1 !mb-0 !h-10" />
+                                        <div className=' ml-20'>
+                                            {/* <InputComponent value={customer.item2 || ''} name='item2' onChange={handleCustomerChange} className="w-full text-[#70685a] text-[18px] mb-2 block text-left  mr-10 py-1 !mb-0 !h-10" /> */}
+                                            <div className='flex gap-10'>
+                                                <div class="flex items-center">
+                                                    <input id="checkbox8" type="checkbox" class="w-4 h-4 mr-3" />
+                                                    <label for="checkbox8" class="text-[#70685a]">ダイヤモンド</label>
+                                                </div>
+                                                <div class="flex items-center">
+                                                    <input id="checkbox9" type="checkbox"  class="w-4 h-4 mr-3" />
+                                                    <label for="checkbox9" class="text-[#70685a]">色石</label>
+                                                </div>
+                                                <div class="flex items-center">
+                                                    <input id="checkbox10" type="checkbox"  class="w-4 h-4 mr-3" />
+                                                    <label for="checkbox10" class="text-[#70685a]">ネックレス</label>
+                                                </div>
+                                            </div>
+                                            <div className='flex gap-10'>
+                                                <div class="flex items-center">
+                                                    <input id="checkbox11" type="checkbox" class="w-4 h-4 mr-3" />
+                                                    <label for="checkbox11" class="text-[#70685a]">指輪</label>
+                                                </div>
+                                                <div class="flex items-center">
+                                                    <input id="checkbox12" type="checkbox"  class="w-4 h-4 mr-3" />
+                                                    <label for="checkbox12" class="text-[#70685a]">時計</label>
+                                                </div>
+                                                <div class="flex items-center">
+                                                    <input id="checkbox13" type="checkbox"  class="w-4 h-4 mr-3" />
+                                                    <label for="checkbox13" class="text-[#70685a]">ブランド品</label>
+                                                </div>
+                                            </div>
+                                            <div className='flex gap-10'>
+                                                <div class="flex items-center">
+                                                    <input id="checkbox14" type="checkbox" class="w-4 h-4 mr-3" />
+                                                    <label for="checkbox15" class="text-[#70685a]">切手</label>
+                                                </div>
+                                                <div class="flex items-center">
+                                                    <input id="checkbox6" type="checkbox"  class="w-4 h-4 mr-3" />
+                                                    <label for="checkbox16" class="text-[#70685a]">中国切手</label>
+                                                </div>
+                                                <div class="flex items-center">
+                                                    <input id="checkbox17" type="checkbox"  class="w-4 h-4 mr-3" />
+                                                    <label for="checkbox17" class="text-[#70685a]">古銭</label>
+                                                </div>
+                                            </div>
+                                            <div className='flex gap-10'>
+                                                <div class="flex items-center">
+                                                    <input id="checkbox18" type="checkbox"  class="w-4 h-4 mr-3" />
+                                                    <label for="checkbox18" class="text-[#70685a]">金券</label>
+                                                </div>
+                                                <div class="flex items-center">
+                                                    <input id="checkbox19" type="checkbox"  class="w-4 h-4 mr-3" />
+                                                    <label for="checkbox19" class="text-[#70685a]">テレカ</label>
+                                                </div>
+                                                <div class="flex items-center">
+                                                    <input id="checkbox20" type="checkbox"   class="w-4 h-4 mr-3" />
+                                                    <label for="checkbox20" class="text-[#70685a]">カメラ</label>
+                                                </div>
+                                            </div>
+                                            <div className='flex gap-10'>
+                                                <div class="flex items-center">
+                                                    <input id="checkbox21" type="checkbox" class="w-4 h-4 mr-3" />
+                                                    <label for="checkbox21" class="text-[#70685a]">スマートフォン</label>
+                                                </div>
+                                                <div class="flex items-center">
+                                                    <input id="checkbox22" type="checkbox" class="w-4 h-4 mr-3" />
+                                                    <label for="checkbox22" class="text-[#70685a]">食器</label>
+                                                </div>
+                                                <div class="flex items-center">
+                                                    <input id="checkbox23" type="checkbox" class="w-4 h-4 mr-3" />
+                                                    <label for="checkbox23" class="text-[#70685a]">ホビー</label>
+                                                </div>
+                                            </div>
+                                            <div className='flex gap-10'>
+                                                <div class="flex items-center">
+                                                    <input id="checkbox24" type="checkbox" class="w-4 h-4 mr-3" />
+                                                    <label for="checkbox24" class="text-[#70685a]">楽器</label>
+                                                </div>
+                                                <div class="flex items-center">
+                                                    <input id="checkbox25" type="checkbox" class="w-4 h-4 mr-3" />
+                                                    <label for="checkbox25" class="text-[#70685a] mr-3">その他</label>
+                                                    <InputComponent className="w-40 text-[#70685a] mb-2 block text-left  mr-10 py-1 !mb-0 !h-8" placeholder={'その他詳細'}/>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                     <div>
@@ -808,8 +938,18 @@ const InvoicePurchaseOfBroughtBlank = () => {
                                             <label className="text-[#70685a] text-[18px] mb-2 block text-left mr-10 py-1">項目3</label>
                                             <label className="text-[#70685a] text-[18px] mb-2 block text-left mr-10 py-1 !mb-0">(各種ご案内)の送付は  可/不可</label>
                                         </div>
-                                        <div className='border border-[#70685a] ml-20  mb-10'>
-                                            <InputComponent value={customer.item3 || ''} name='item3' onChange={handleCustomerChange} className="w-full text-[#70685a] text-[18px] mb-2 block text-left  mr-10 py-1 !mb-0 !h-10" />
+                                        <div className='ml-20  mb-10'>
+                                            {/* <InputComponent value={customer.item3 || ''} name='item3' onChange={handleCustomerChange} className="w-full text-[#70685a] text-[18px] mb-2 block text-left  mr-10 py-1 !mb-0 !h-10" /> */}
+                                            <div className='flex gap-10'>
+                                                <div class="flex items-center">
+                                                    <input id="checkbox26" type="checkbox" class="w-4 h-4 mr-3" />
+                                                    <label for="checkbox26" class="text-[#70685a]">可</label>
+                                                </div>
+                                                <div class="flex items-center">
+                                                    <input id="checkbox27" type="checkbox" class="w-4 h-4 mr-3" />
+                                                    <label for="checkbox27" class="text-[#70685a]">不可</label>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -818,9 +958,15 @@ const InvoicePurchaseOfBroughtBlank = () => {
                     </div>
                 </div>
             </div>
+            <div className='w-full flex justify-end mt-3'>
+                <button type="button" onClick={() => allClear()}
+                    className="px-5 py-2.5 rounded-lg text-sm tracking-wider font-medium border border-[#70685a] outline-none bg-transparent hover:bg-[#524c3b] text-[#70685a] hover:text-white transition-all duration-300">
+                        すべてクリア
+                </button>
+            </div>
             {/* table */}
-            <div className="flex justify-center mt-10">
-                <div className='h-[400px]' style={{width:'100%',overflow:'auto'}}>
+            <div className="flex justify-center mt-5">
+                <div className='' style={{width:'100%',overflow:'auto'}}>
                     <table className='text-center w-full' style={Table}>
                         <thead className='sticky top-0 bg-white z-10 h-11'>
                             <tr>
@@ -896,7 +1042,7 @@ const InvoicePurchaseOfBroughtBlank = () => {
                             {totalSalesSlipData.map((salesData, Index) => (
                                 <tr key={Index} >
                                     <td><input type='checkbox' name='checkbox1'/></td>
-                                    <td style={Td}>1</td>
+                                    <td style={Td}>{salesData.number}</td>
                                     <td style={Td}>{salesData.hearing}</td>
                                     <td style={Td} >{salesData.product_type_one}</td>
                                     {isshow ? <td style={Td} >{salesData.product_type_two}</td> :<td style={{display:'none'}}></td>}
@@ -971,7 +1117,7 @@ const InvoicePurchaseOfBroughtBlank = () => {
                             <tbody>
                                 <tr className='!h-8'>
                                     <td style={{visibility:'hidden'}}>as</td>
-                                    <td style={Td}>1</td>
+                                    <td style={Td}> <InputComponent name='number' onChange={handleChange} value={salesSlipData.number || ''} className='w-full h-8 text-[#70685a]' /></td>
                                     <td style={Td}>
                                         <select  name="hearing"  value={salesSlipData.hearing || ''} onChange={(e) => setSalesSlipData({hearing:e.target.value})} className="w-full h-8 text-[#70685a] font-bold outline-[#70685a]">
                                             <option value="" disabled></option>
@@ -985,7 +1131,7 @@ const InvoicePurchaseOfBroughtBlank = () => {
                                             name="product_type_one"
                                             value={salesSlipData.product_type_one || ''}
                                             onChange={handleChange}
-                                            className='h-8'
+                                            className='h-8 w-full'
                                         />
                                         <datalist id="product1s">
                                             {product1s.map((option, index) => (
@@ -1000,7 +1146,7 @@ const InvoicePurchaseOfBroughtBlank = () => {
                                             name="product_type_two"
                                             value={salesSlipData.product_type_two ||''}
                                             onChange={handleChange}
-                                            className='h-8'
+                                            className='h-8 w-full'
                                         />
                                         <datalist id="product2s">
                                             {product2s.map((option, index) => (
@@ -1015,7 +1161,7 @@ const InvoicePurchaseOfBroughtBlank = () => {
                                             name="product_type_three"
                                             value={salesSlipData.product_type_three|| ''}
                                             onChange={handleChange}
-                                            className='h-8'
+                                            className='h-8 w-full'
                                         />
                                         <datalist id="product3s">
                                             {product3s.map((option, index) => (
@@ -1030,7 +1176,7 @@ const InvoicePurchaseOfBroughtBlank = () => {
                                             name="product_type_four"
                                             value={salesSlipData.product_type_four || ''}
                                             onChange={handleChange}
-                                            className='h-8'
+                                            className='h-8 w-full'
                                         />
                                         <datalist id="product4s">
                                             {product4s.map((option, index) => (
@@ -1049,39 +1195,39 @@ const InvoicePurchaseOfBroughtBlank = () => {
                                         </div>
                                     </td>
                                     <td style={Td}>
-                                        <InputComponent name='product' onChange={handleChange} value={salesSlipData.product || ''} className='w-max h-8 text-[#70685a]' />
+                                        <InputComponent name='product' onChange={handleChange} value={salesSlipData.product || ''} className='w-full h-8 text-[#70685a]' />
                                     </td>
                                     <td style={Td}>
-                                        <InputComponent name='quantity' type='number' onChange={handleChange} value={salesSlipData.quantity || ''} className='w-max h-8 text-[#70685a]' />
+                                        <InputComponent name='quantity' type='number' onChange={handleChange} value={salesSlipData.quantity || ''} className='w-full h-8 text-[#70685a]' />
                                     </td>
                                     <td style={Td}>
-                                        <InputComponent name='reason_application' onChange={handleChange} value={salesSlipData.reason_application || ''} className='w-max h-8 text-[#70685a]' />
+                                        <InputComponent name='reason_application' onChange={handleChange} value={salesSlipData.reason_application || ''} className='w-full h-8 text-[#70685a]' />
                                     </td>
                                     <td style={Td}>
-                                        <InputComponent name='interest_rate' type='number' onChange={handleChange} value={salesSlipData.interest_rate || ''} className='w-max h-8 text-[#70685a]' />
+                                        <InputComponent name='interest_rate' type='number' onChange={handleChange} value={salesSlipData.interest_rate || ''} className='w-full h-8 text-[#70685a]' />
                                     </td>
                                     <td style={Td}>
-                                        <InputComponent name='product_price' type='number' onChange={handleChange} value={salesSlipData.product_price || ''} className='w-max h-8 text-[#70685a]' />
+                                        <InputComponent name='product_price' type='number' onChange={handleChange} value={salesSlipData.product_price || ''} className='w-full h-8 text-[#70685a]' />
                                     </td>
                                     <td style={Td}>
-                                        <InputComponent name='highest_estimate_vendor' onChange={handleChange} value={salesSlipData.highest_estimate_vendor || ''} className='w-max h-8 text-[#70685a]' />
+                                        <InputComponent name='highest_estimate_vendor' onChange={handleChange} value={salesSlipData.highest_estimate_vendor || ''} className='w-full h-8 text-[#70685a]' />
                                     </td>
                                     <td style={Td}>
-                                        <InputComponent name='highest_estimate_price' type='number' onChange={handleChange} value={salesSlipData.highest_estimate_price || ''} className='w-max h-8 text-[#70685a]' />
+                                        <InputComponent name='highest_estimate_price' type='number' onChange={handleChange} value={salesSlipData.highest_estimate_price || ''} className='w-full h-8 text-[#70685a]' />
                                     </td>
                                     <td style={Td}>
-                                        <InputComponent name='number_of_vendor' type='number' onChange={handleChange} value={salesSlipData.number_of_vendor || ''} className='w-max h-8 text-[#70685a]' />
+                                        <InputComponent name='number_of_vendor' type='number' onChange={handleChange} value={salesSlipData.number_of_vendor || ''} className='w-full h-8 text-[#70685a]' />
                                     </td>
                                     {isvendorshow && vendors.map((vendor, index) => (
                                         <td style={Td} key={index}>
-                                            <InputComponent name={vendor.vendor_name} onChange={handleChange} value={salesSlipData[vendor.vendor_name] || ''} className='w-max h-8 text-[#70685a] border border-[red]' />
+                                            <InputComponent name={vendor.vendor_name} onChange={handleChange} value={salesSlipData[vendor.vendor_name] || ''} className='w-full h-8 text-[#70685a] border border-[red]' />
                                         </td>
                                     ))}
                                     <td style={Td}>
-                                        <InputComponent name='supervisor_direction' onChange={handleChange} value={salesSlipData.supervisor_direction || ''} className='w-max h-8 text-[#70685a]' />
+                                        <InputComponent name='supervisor_direction' onChange={handleChange} value={salesSlipData.supervisor_direction || ''} className='w-full h-8 text-[#70685a]' />
                                     </td>
                                     <td style={Td}>
-                                        <select  name="purchase_result"  value={salesSlipData.purchase_result || ''} onChange={handleChange} className="w-max h-8 text-[#70685a] font-bold border border-[#70685a] outline-[#70685a]">
+                                        <select  name="purchase_result"  value={salesSlipData.purchase_result || ''} onChange={handleChange} className="w-full h-8 text-[#70685a] font-bold border border-[#70685a] outline-[#70685a]">
                                             <option value="" disabled></option>
                                             <option value="賛成">賛成</option>
                                             <option value="反対">反対</option>
@@ -1089,7 +1235,7 @@ const InvoicePurchaseOfBroughtBlank = () => {
                                     </td>
                                     <td style={Td}>
                                         <div className='w-full flex justify-center'>
-                                            <InputComponent name='purchase_price' onChange={handleChange} type='number' value={salesSlipData.purchase_price || ''} className='w-max h-8 text-[#70685a]' />
+                                            <InputComponent name='purchase_price' onChange={handleChange} type='number' value={salesSlipData.purchase_price || ''} className='w-full h-8 text-[#70685a]' />
                                         </div>
                                     </td>
                                 </tr>
@@ -1099,7 +1245,7 @@ const InvoicePurchaseOfBroughtBlank = () => {
                     :''}
                     <div className='flex justify-center gap-10 mt-5'>
                      {editIndex === -1 ? (
-                        <div className='flex justify-center mt-3 mb-3' >
+                        <div className='flex justify-center mb-3' >
                             <button type="button" onClick={()=>addSlesItem()}
                                 className="w-7 h-7 inline-flex items-center justify-center text-[#70685a] border border-[#70685a] outline-none hover:bg-purple-700 active:bg-purple-600">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="14px" fill="#70685a" className="inline" viewBox="0 0 512 512">

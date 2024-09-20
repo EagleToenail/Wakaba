@@ -169,6 +169,7 @@ function Contact() {
               <p className="opacity-80">Loading...</p>
             )}
           </div>
+
               {contacts && contacts.length > 0 && contacts.map((elem, i, arr) => (
               <div
                 key={elem.id || i} 
@@ -201,7 +202,7 @@ function Contact() {
                   );
                 }}
               >
-
+                {console.log(elem, "testets")}
                 {setting && setting.sortContactByName && (
                   <span className="flex justify-center">
                     {console.log(elem.profile)}

@@ -105,9 +105,9 @@ const ShowSalesSlip = () => {
             });
     };
 
-    const handleSalesEditClick = (id) => {
-        navigate(`/salesslipupdate/${id}`); // Use navigate for routing
-    };
+    // const handleSalesEditClick = (id) => {
+    //     navigate(`/salesslipupdate/${id}`); // Use navigate for routing
+    // };
 
     const [isCreateModalOpen , setIsCreateModalOpen] = useState(false);
 
@@ -130,7 +130,7 @@ const ShowSalesSlip = () => {
             <div className="w-full flex flex-col items-center justify-center py-3 px-4">
                 <div className="w-full flex justify-center">
                     <div className='w-full'>
-                        <div className='sales-slip-top-button flex justify-between'>
+                        {/* <div className='sales-slip-top-button flex justify-between'>
                             <div className='sales-slip-next-button1 flex mt-5 w-1/2' >
                                 <div className='flex justify-center'>
                                     <div>
@@ -164,7 +164,7 @@ const ShowSalesSlip = () => {
                                     <Link to='/yahooauction'>ヤフオク</Link>
                                 </ButtonComponent>
                             </div>
-                        </div>
+                        </div> */}
 
                         {/* second button line  */}
                         {/* This buttons doesn't have borders and background-color */}
@@ -261,7 +261,7 @@ const ShowSalesSlip = () => {
                                                 <td style={Td}>{sale.wholesale_buyer}</td>
                                                 <td style={Td}>{sale.wholesale_date}</td>
                                                 <td style={Td}>{sale.payment_date}</td>
-                                                <td  onClick={() => handleSalesEditClick(sale.id)}>
+                                                <td>
                                                     <svg className="w-5 h-5 ml-5" fill='#70685a' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="ContentCopyIcon" title="ContentCopy">
                                                         <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2m0 16H8V7h11z"></path>
                                                     </svg>
