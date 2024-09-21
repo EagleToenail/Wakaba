@@ -649,7 +649,7 @@ const CustomerIndividual = () => {
                                                     <td style={Td}>aa</td>
                                                     <td style={Td}>aa</td>
                                                 </tr>
-                                                {(customerPastVisitHistory || customerPastVisitHistory.length !== 0) && customerPastVisitHistory.map((pastVisit, Index) => (
+                                                {(customerPastVisitHistory && customerPastVisitHistory.length !== 0) && customerPastVisitHistory.map((pastVisit, Index) => (
                                                     <tr key={Index}>
                                                         <td>
                                                             <div className='flex justify-center'>

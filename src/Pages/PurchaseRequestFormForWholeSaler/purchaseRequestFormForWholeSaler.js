@@ -175,6 +175,7 @@ const PurchaseRequestFormForWholeSaler = () => {
         if (!wakabaBaseUrl) {
             throw new Error('API base URL is not defined');
         }
+        wholeSalesPurchase[0].shipping_ids = salesDataIds.toString();
         console.log('shipping data',wholeSalesPurchase);
         axios.post(`${wakabaBaseUrl}/sales/purchaserequestfromwholesaler`, {payload:wholeSalesPurchase})
         .then(response => {
@@ -255,7 +256,7 @@ const PurchaseRequestFormForWholeSaler = () => {
                                 <th style={Th} >他社 最高査定額</th>
                                 <th style={Th}  >最高査定額業者</th>
                                 <th style={Th}>{editIndex === -1 ? '編集する' : 'セーブ'}</th>
-                                <th style={Th}>{editIndex === -1 ? '削除' : 'キャンセル'}</th>
+                                <th className='whitespace-nowrap pl-3'>{editIndex === -1 ? '' : 'キャンセル'}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -347,19 +348,19 @@ const PurchaseRequestFormForWholeSaler = () => {
                                         </div>
                                         )}
                                     </td>
-                                    <td style={Td}>
+                                    <td>
                                         {editIndex === Index ? (
                                         <div>
                                             <button onClick={() => handleCancelClick(Index)} className='w-7'>
                                                 <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium  MuiSvgIcon-root MuiSvgIcon-fontSizeLarge  css-1hkft75" fill='#524c3b' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="KeyboardReturnOutlinedIcon" title="KeyboardReturnOutlined"><path d="M19 7v4H5.83l3.58-3.59L8 6l-6 6 6 6 1.41-1.41L5.83 13H21V7z"></path></svg>
                                             </button>
                                         </div>
-                                        ) : (
-                                        <div>
-                                            <button onClick={() => handleDeleteClick(Index)}  className='w-7'>
-                                            <svg className="flex flex-col justify-center" focusable="false" aria-hidden="true" viewBox="0 0 23 23" fill='#524c3b' data-testid="CancelOutlinedIcon" title="CancelOutlined"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8m3.59-13L12 10.59 8.41 7 7 8.41 10.59 12 7 15.59 8.41 17 12 13.41 15.59 17 17 15.59 13.41 12 17 8.41z"></path></svg>
-                                            </button>
-                                        </div>
+                                        ) : (''
+                                        // <div>
+                                        //     <button className='w-7'>
+                                        //     <svg className="flex flex-col justify-center" focusable="false" aria-hidden="true" viewBox="0 0 23 23" fill='#524c3b' data-testid="CancelOutlinedIcon" title="CancelOutlined"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8m3.59-13L12 10.59 8.41 7 7 8.41 10.59 12 7 15.59 8.41 17 12 13.41 15.59 17 17 15.59 13.41 12 17 8.41z"></path></svg>
+                                        //     </button>
+                                        // </div>
                                         )}
                                     </td>
                                 </tr>

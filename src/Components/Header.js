@@ -55,7 +55,11 @@ export default function Header() {
       });
   }, [userId]);
   const formattedDate = formatDate(date);
-
+  
+  //go to admin top
+  const gotoAdminTop = () => {
+    navigate('/admin/ownerstop');
+  }
 
   return (
     <>
@@ -64,7 +68,7 @@ export default function Header() {
           <svg className=" h-10 px-3" fill="#655b4a" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path className='bg-white' fillRule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clipRule="evenodd"></path></svg>
         </Link>
         <div className='flex flex-wrap items-center justify-between w-full'>
-          <Link className='text-[#655b4a] block font-semibold text-[20px]'>WAKABA 業務システム&nbsp;<span className='text-[10px]'>ver0.1</span></Link>
+          <div onClick={gotoAdminTop} className='text-[#655b4a] block font-semibold text-[20px] cursor-pointer'>WAKABA 業務システム&nbsp;<span className='text-[10px]'>ver0.1</span></div>
           <div id="collapseMenu" style={{ display: isOpen ? 'block' : 'none' }}
             className='max-lg:hidden lg:!block max-lg:before:fixed max-lg:before:bg-black max-lg:before:opacity-50 max-lg:before:inset-0 max-lg:before:z-50'>
             <button id="toggleClose" className='lg:hidden fixed top-2 right-4 z-[100] rounded-full bg-white p-3' onClick={handleClick}>

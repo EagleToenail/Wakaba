@@ -1,14 +1,14 @@
 import React,{useState} from 'react';
-// import { Link } from 'react-router-dom';
+import {Link ,useNavigate} from 'react-router-dom';
 // import Titlebar from '../../Components/Common/Titlebar';
 import '../../Assets/css/showtable.css';
 import dateimage from '../../Assets/img/datepicker.png';
 
-
+import axios from 'axios';
 
 const MonthlyIncome = () => {
     // const title = 'タイトルタイトル';
-
+    const navigate = useNavigate(); // Use useNavigate instead of useHistory
     const Table = {
         borderCollapse: 'collapse',
         color: '#70685a',
@@ -29,8 +29,6 @@ const MonthlyIncome = () => {
         whiteSpace:'nowrap'
     };
 
-
-
     const [startdate, setStartDate] = useState('');
 
     const handleStartDateChange = (event) => {
@@ -42,6 +40,15 @@ const MonthlyIncome = () => {
     const handleEndDateChange = (event) => {
         setEndDate(event.target.value); // Update the date state with the selected date
     };
+
+    //got to cashbook
+    const gotoCashBook = ()=> {
+        navigate('/safemoney');
+    }
+    //got to cashbook
+    const gotoDepositeAndWithdrawl = ()=> {
+        navigate('/withdrawbankatm');
+    }
 
     return (
         <>
@@ -63,9 +70,9 @@ const MonthlyIncome = () => {
                             className="ml-10 py-1 min-w-[160px] text-[#70685a] rounded-full tracking-wider font-bold outline-none border border-[#70685a] ">本日分表示</button>
                     </div>
                     <div className='flex justify-around'>
-                        <button type="button"
+                        <button type="button" onClick={gotoCashBook}
                             className=" py-1 min-w-[160px] text-[#70685a] rounded-full tracking-wider font-bold outline-none border border-[#70685a] ">金銭出納帳</button>
-                        <button type="button"
+                        <button type="button" onClick={gotoDepositeAndWithdrawl}
                             className="ml-10 py-1 min-w-[160px] text-[#70685a] rounded-full tracking-wider font-bold outline-none border border-[#70685a] ">入出金申請</button>
                     </div>
                 </div>

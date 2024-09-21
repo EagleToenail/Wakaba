@@ -4,6 +4,7 @@ import React, { useState, useCallback, useRef} from 'react';
 import '../Assets/css/MainContainer.css';
 import InvoiceForPurchaseChat from '../Pages/InvoiceForPurchaseChat/invoiceForPurchaseChat';
 import ShowSalesSlip from '../Pages/ShowSalesSlip/showSalesSlip';
+import MultiRowShowSalesSlip from '../Pages/ApplicationForDisposalPermission/multiRowShowSalesSlip';
 
 const MainContainer = ({children,destinationURL}) => {
   const [position, setPosition] = useState(80); // percentage for the height of the top pane
@@ -86,6 +87,7 @@ const MainContainer = ({children,destinationURL}) => {
       <div className="bottom-pane" style={{ height: `${100 - position - 15}%` }}>
         {destinationURL == 'invoiceforpurchaseofbrought' ? (<InvoiceForPurchaseChat/> ): ('')}
         {destinationURL == 'todolist' ? (<ShowSalesSlip/> ): ('')}
+        {destinationURL == 'applicationfordisposalpermission' ? (<MultiRowShowSalesSlip/> ): ('')}
       </div>
     </div>
   );

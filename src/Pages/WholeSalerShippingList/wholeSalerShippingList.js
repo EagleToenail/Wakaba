@@ -10,6 +10,7 @@ import axios from 'axios';
 import { useSelector } from 'react-redux';
 import LabelComponent from '../../Components/Common/LabelComponent';
 import InputComponent from '../../Components/Common/InputComponent';
+import ButtonComponent from '../../Components/Common/ButtonComponent';
 import dateimage from '../../Assets/img/datepicker.png';
 
 
@@ -39,9 +40,10 @@ const WholeSalerShippingList = () => {
 
     const data = useSelector(state => state.data);
     const salesDataIds = data.data;
-    console.log('salesDataIds',salesDataIds);
+    // console.log('salesDataIds',salesDataIds);
 
     const [wholeSalesPurchase, setWholeSalesPurchase] = useState([]);
+    const [oldWholeSalesPurchase, setOldWholeSalesPurchase] = useState([]);
 
     const [editIndex, setEditIndex] = useState(-1);
     const [editedRow, setEditedRow] = useState({ 
@@ -55,40 +57,41 @@ const WholeSalerShippingList = () => {
         setEditedRow({ ...editedRow, [name]: value });
     };
 
-    const handleEditClick = (index) => {
-        setEditIndex(index);
-        setEditedRow(wholeSalesPurchase[index]); // Populate the input fields with the selected row's data
+    const handleEditClick = () => {
+        setEditIndex(1);
+        setEditedRow({
+            expected_deposite_date: wholeSalesPurchase[0].expected_deposite_date,
+            deposite_date: wholeSalesPurchase[0].deposite_date,
+            final_assessment_amount: wholeSalesPurchase[0].final_assessment_amount,
+        }); // Populate the input fields with the selected row's data
     };
 
     const handleSaveClick = () => {
-        const updatedData = wholeSalesPurchase.map((row, index) =>
-            index === editIndex ? { ...row, ...editedRow } : row
-        );
+        // const updatedData = wholeSalesPurchase.map((row, index) =>
+        //     index === editIndex ? { ...row, ...editedRow } : row
+        // );
+        const updatedData = wholeSalesPurchase.map(data => ({
+            ...data,
+            expected_deposite_date: editedRow.expected_deposite_date,
+            deposite_date: editedRow.deposite_date,
+            final_assessment_amount: editedRow.final_assessment_amount
+        }));
+    
         setWholeSalesPurchase(updatedData);
         setEditIndex(-1); // Exit edit mode
         setEditedRow({ 
-            product_status:'',
-            shipper: '',
-            shipper_manager: '',
-            rank: '',
-            assessment_date: '',
-            product_price: '',
-            highest_estimate_price: '',
-            highest_estimate_vendor: '',
+            expected_deposite_date: '',
+            deposite_date: '',
+            final_assessment_amount: '',
          }); // Reset editedRow state
     };
 
     const handleCancelClick = () => {
         setEditIndex(-1);
         setEditedRow({ 
-            product_status:'',
-            shipper: '',
-            shipper_manager: '',
-            rank: '',
-            assessment_date: '',
-            product_price: '',
-            highest_estimate_price: '',
-            highest_estimate_vendor: '',
+            expected_deposite_date: '',
+            deposite_date: '',
+            final_assessment_amount: '',
          }); // Reset editedRow state
     };
 
@@ -114,6 +117,7 @@ const WholeSalerShippingList = () => {
               // Extract data from responses and set the state
               const salesData = responses.map(response => response.data);
               setWholeSalesPurchase(salesData);
+              setOldWholeSalesPurchase(salesData);
               // console.log('salesdata========', salesData);
             } catch (error) {
               console.error("There was an error fetching the customer data!", error);
@@ -160,16 +164,22 @@ const WholeSalerShippingList = () => {
             [name]: value
         });
     };
+
+    const [showShippingHistory, setShowShippingHistory] = useState(false);
     //search function
     const handleSearch = (e) => {
         e.preventDefault();
         console.log('searchValues',searchParams)
+        console.log('wholeSalesPurchase',wholeSalesPurchase)
+
+        setShowShippingHistory(true);
+        setShowPackage(false);
+
         const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
-        console.log('url', wakabaBaseUrl);
         if (!wakabaBaseUrl) {
             throw new Error('API base URL is not defined');
         }
-        axios.post(`${wakabaBaseUrl}/sales/searchsaleslist`, { params: searchParams })
+        axios.post(`${wakabaBaseUrl}/sales/wholelist`, { params: searchParams })
         .then(response => {
             setWholeSalesPurchase(response.data);
         })
@@ -177,6 +187,44 @@ const WholeSalerShippingList = () => {
             console.error("There was an error searching for customers!", error);
         });
     }
+// only need for new package
+    const [showPackage, setShowPackage] = useState(false);
+    const handleShowPackage = ()=> {
+        setShowPackage(!showPackage);
+    }
+// need for old package
+const handleShowOldPackage = (ids)=> {
+    setShowPackage(!showPackage);
+    const arr = ids.split(','); // Split the string into an array
+    const idArray = arr.map(Number); // Convert string elements to numbers
+    console.log('ids',idArray)
+    fetchOldSalesData(idArray);
+}
+// fetch data
+const fetchOldSalesData = async (ids) => {
+    if (ids && ids.length !== 0) {
+      const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+      
+      if (!wakabaBaseUrl) {
+        throw new Error('API base URL is not defined');
+      }
+      try {
+        // Create an array of promises
+        const promises = ids.map((id) =>
+          axios.post(`${wakabaBaseUrl}/sales/getSalesById`, { id: id })
+        );
+
+        // Wait for all promises to resolve
+        const responses = await Promise.all(promises);
+        
+        // Extract data from responses and set the state
+        const salesData = responses.map(response => response.data);
+        setOldWholeSalesPurchase(salesData);
+      } catch (error) {
+        console.error("There was an error fetching the customer data!", error);
+      }
+    }
+  };
 
     return (
         <>
@@ -218,7 +266,7 @@ const WholeSalerShippingList = () => {
                                         <LabelComponent value={'卸業者'} className='text-center'/>
                                     </div>
                                     <select name="shipping_address" value={searchParams.shipping_address} onChange={handleChange} className="w-full h-11 text-[#70685a] text-[15px] font-bold border border-[#70685a] px-4 py-1 outline-[#70685a]">
-                                        <option value="" disabled></option>
+                                        <option value="" ></option>
                                         {allVendors && allVendors.map((vendor, index) => (
                                             <option key={index} value={vendor.vendor_name}>{vendor.vendor_name || ""}</option>
                                         ))}
@@ -229,7 +277,7 @@ const WholeSalerShippingList = () => {
                                         <LabelComponent value={'ステータス'} className='text-center'/>
                                     </div>
                                     <select name="product_status" value={searchParams.product_status || ''} onChange={handleChange} className="w-full h-11 text-[#70685a] text-[15px] font-bold border border-[#70685a] px-4 py-1 outline-[#70685a]">
-                                        <option value="" disabled></option>
+                                        <option value="" ></option>
                                         <option value="申請中">申請中</option>
                                         <option value="発送中">発送中</option>
                                         <option value="約定済">約定済</option>
@@ -255,8 +303,8 @@ const WholeSalerShippingList = () => {
                             </div>
                         </div>
 
-                        {/*  Tabe*/}
-                        <div className='mt-10 pb-20 w-full flex'>
+                        {/*  Table1-----------------------------------------*/}
+                        <div className='mt-10 pb-10 w-full flex'>
                             <div style={{ width: '100%', overflow: 'auto' }} >
                                 <table className='text-center w-full' style={Table}>
                                     <thead>
@@ -277,30 +325,93 @@ const WholeSalerShippingList = () => {
                                             <th style={Th}>{editIndex === -1 ? '' : 'キャンセル'}</th>
                                         </tr>
                                     </thead>
+                                    {showShippingHistory === true ? (
                                     <tbody>
                                         {(wholeSalesPurchase && wholeSalesPurchase.length !==0) && wholeSalesPurchase.map((saleData,Index) => (
-                                            <tr key={Index}>
-                                                <td style={Td}>{Index +1}</td>
+                                            <tr key={Index}> 
+                                                <td >{Index +1}.</td>
                                                 <td style={Td}>{saleData.product_status || ''}</td>
                                                 <td style={Td}>{saleData.shipping_address || ''}</td>
                                                 <td style={Td}>{saleData.shipping_date || ''}</td>
-                                                <td style={Td}>{saleData.id || ''}</td>
+                                                <td style={Td}>{saleData.shipping_ids || ''}</td>
                                                 <td style={Td}>{saleData.highest_estimate_price || ''}</td>
                                                 <td style={Td}>{saleData.shipper || ''}</td>
                                                 <td style={Td}>
-                                                    {editIndex === Index ?(
+                                                    {saleData.deposite_date || ''}
+                                                </td>
+                                                <td style={Td}>
+                                                    {saleData.expected_deposite_date || ''}
+                                                </td>
+                                                <td style={Td}>
+                                                    {saleData.final_assessment_amount || ''}
+                                                </td>
+                                                <td style={Td} >  
+                                                    <div className='flex justify-center'>
+                                                        <button className='bg-[#a6a6a6] w-10 h-5 flex justify-center ml-3 rounded-md'>
+                                                            <svg focusable="false" aria-hidden="true" data-testid="ArrowRightAltIcon" fill="#fefefe" className='ml-2' title="ArrowRightAlt"><path d="M16.01 11H4v2h12.01v3L20 12l-3.99-4z"></path></svg>
+                                                        </button>
+                                                    </div>
+                                                </td>
+                                                <td style={Td}>
+                                                    <div className='flex justify-center'>
+                                                        <button onClick={()=>handleShowOldPackage(saleData.shipping_ids)} className='w-5 h-3 ml-3 mb-1'>
+                                                            <svg className=" " fill='#70685a' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="ContentCopyIcon" title="ContentCopy"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2m0 16H8V7h11z"></path></svg>
+                                                        </button>
+                                                    </div>
+                                                </td>
+                                                <td style={Td}>
+                                                {editIndex === Index ? (
+                                                    <div>
+                                                        <button className='w-7'>
+                                                            <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium  MuiSvgIcon-root MuiSvgIcon-fontSizeLarge  css-1hkft75" fill='#524c3b' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckOutlinedIcon" title="CheckOutlined"><path d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
+                                                        </button>
+                                                    </div>
+                                                    ) : (
+                                                    <div>
+                                                        <button className='w-7'>
+                                                            <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium  MuiSvgIcon-root MuiSvgIcon-fontSizeLarge  css-1hkft75" fill='orange-700' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="EditCalendarOutlinedIcon" title="EditCalendarOutlined"><path d="M5 10h14v2h2V6c0-1.1-.9-2-2-2h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h7v-2H5zm0-4h14v2H5zm17.84 10.28-.71.71-2.12-2.12.71-.71c.39-.39 1.02-.39 1.41 0l.71.71c.39.39.39 1.02 0 1.41m-3.54-.7 2.12 2.12-5.3 5.3H14v-2.12z"></path></svg>
+                                                        </button>
+                                                    </div>
+                                                    )}
+                                                </td>
+                                                <td>
+                                                    {editIndex === Index ? (
+                                                    <div>
+                                                        <button className='w-7'>
+                                                            <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium  MuiSvgIcon-root MuiSvgIcon-fontSizeLarge  css-1hkft75" fill='#524c3b' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="KeyboardReturnOutlinedIcon" title="KeyboardReturnOutlined"><path d="M19 7v4H5.83l3.58-3.59L8 6l-6 6 6 6 1.41-1.41L5.83 13H21V7z"></path></svg>
+                                                        </button>
+                                                    </div>
+                                                    ) : (''
+                                                    )}
+                                                </td>
+                                            </tr>                                            
+                                        ))}
+                                    </tbody>
+                                    ) : (
+                                    <tbody>
+                                        {(wholeSalesPurchase && wholeSalesPurchase.length !==0) && 
+                                            <tr > 
+                                                <td>1.</td>
+                                                <td style={Td}>{wholeSalesPurchase[0].product_status || ''}</td>
+                                                <td style={Td}>{wholeSalesPurchase[0].shipping_address || ''}</td>
+                                                <td style={Td}>{wholeSalesPurchase[0].shipping_date || ''}</td>
+                                                <td style={Td}>{wholeSalesPurchase[0].shipping_ids || ''}</td>
+                                                <td style={Td}>{wholeSalesPurchase[0].highest_estimate_price || ''}</td>
+                                                <td style={Td}>{wholeSalesPurchase[0].shipper || ''}</td>
+                                                <td style={Td}>
+                                                    {editIndex === 1 ?(
                                                         <InputComponent type="date" name='deposite_date' value={editedRow.deposite_date || ''} onChange={handleInputChange} className='w-max h-8 text-[#70685a]' />
-                                                    ):(saleData.deposite_date || '')}
+                                                    ):(wholeSalesPurchase[0].deposite_date || '')}
                                                 </td>
                                                 <td style={Td}>
-                                                    {editIndex === Index ?(
+                                                    {editIndex === 1 ?(
                                                         <InputComponent type="date" name='expected_deposite_date' value={editedRow.expected_deposite_date || ''} onChange={handleInputChange} className='w-max h-8 text-[#70685a]' />
-                                                    ):(saleData.expected_deposite_date || '')}
+                                                    ):(wholeSalesPurchase[0].expected_deposite_date || '')}
                                                 </td>
                                                 <td style={Td}>
-                                                    {editIndex === Index ?(
+                                                    {editIndex === 1 ?(
                                                         <InputComponent name='final_assessment_amount' value={editedRow.final_assessment_amount ||''} onChange={handleInputChange} className='w-max h-8 text-[#70685a]' />
-                                                    ):(saleData.final_assessment_amount || '')}
+                                                    ):(wholeSalesPurchase[0].final_assessment_amount || '')}
                                                 </td>
                                                 <td style={Td} >  
                                                     <div className='flex justify-center'>
@@ -311,43 +422,118 @@ const WholeSalerShippingList = () => {
                                                 </td>
                                                 <td style={Td}>
                                                     <div className='flex justify-center'>
-                                                        <div className='w-5 h-3 ml-3 mb-1'>
+                                                        <button className='w-5 h-3 ml-3 mb-1' onClick={()=>handleShowPackage()}>
                                                             <svg className=" " fill='#70685a' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="ContentCopyIcon" title="ContentCopy"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2m0 16H8V7h11z"></path></svg>
-                                                        </div>
+                                                        </button>
                                                     </div>
                                                 </td>
                                                 <td style={Td}>
-                                                {editIndex === Index ? (
+                                                {editIndex === 1 ? (
                                                     <div>
-                                                        <button onClick={() => handleSaveClick(Index)} className='w-7'>
+                                                        <button onClick={() => handleSaveClick()} className='w-7'>
                                                             <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium  MuiSvgIcon-root MuiSvgIcon-fontSizeLarge  css-1hkft75" fill='#524c3b' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckOutlinedIcon" title="CheckOutlined"><path d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
                                                         </button>
                                                     </div>
                                                     ) : (
                                                     <div>
-                                                        <button onClick={() => handleEditClick(Index)} className='w-7'>
+                                                        <button onClick={() => handleEditClick()} className='w-7'>
                                                             <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium  MuiSvgIcon-root MuiSvgIcon-fontSizeLarge  css-1hkft75" fill='#524c3b' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="EditCalendarOutlinedIcon" title="EditCalendarOutlined"><path d="M5 10h14v2h2V6c0-1.1-.9-2-2-2h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h7v-2H5zm0-4h14v2H5zm17.84 10.28-.71.71-2.12-2.12.71-.71c.39-.39 1.02-.39 1.41 0l.71.71c.39.39.39 1.02 0 1.41m-3.54-.7 2.12 2.12-5.3 5.3H14v-2.12z"></path></svg>
                                                         </button>
                                                     </div>
                                                     )}
                                                 </td>
                                                 <td>
-                                                    {editIndex === Index ? (
+                                                    {editIndex === 1 ? (
                                                     <div>
-                                                        <button onClick={() => handleCancelClick(Index)} className='w-7'>
+                                                        <button onClick={() => handleCancelClick()} className='w-7'>
                                                             <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium  MuiSvgIcon-root MuiSvgIcon-fontSizeLarge  css-1hkft75" fill='#524c3b' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="KeyboardReturnOutlinedIcon" title="KeyboardReturnOutlined"><path d="M19 7v4H5.83l3.58-3.59L8 6l-6 6 6 6 1.41-1.41L5.83 13H21V7z"></path></svg>
                                                         </button>
                                                     </div>
                                                     ) : (''
                                                     )}
                                                 </td>
-                                            </tr>
-                                          ))}
+                                            </tr>  
+                                        }  
                                     </tbody>
-
+                                    )}
                                 </table>
                             </div>
                         </div>
+                        {/*  Table2--------------------------------------------*/}
+                        {showPackage === true ? (
+                            <div className='pb-20 w-full flex'>
+                                <div style={{ width: '100%', overflow: 'auto' }}>
+                                    <table className='text-center w-full' style={Table}>
+                                        <thead className='sticky top-0 bg-white z-10'> 
+                                            <tr>
+                                                <th className='px-2' style={Th}></th>
+                                                <th  style={Th} >ステー夕ス</th>
+                                                <th  style={Th} >発送予定者</th>
+                                                <th  style={Th} >発送担当者</th>
+                                                <th style={Th} >わかばNo.</th>
+                                                <th style={Th} >カテゴリ一1</th>
+                                                <th style={Th} >カテゴリ一2</th>
+                                                <th style={Th} >商品</th>
+                                                <th style={Th} >数</th>
+                                                <th style={Th} >金種</th>
+                                                <th style={Th} >g/種面</th>
+                                                <th style={Th} >買取額</th>
+                                                <th style={Th} >RANK</th>
+                                                <th  style={Th} >画像</th>
+                                                <th  style={Th} >仮査定日</th>
+                                                <th style={Th} >仮査定額</th>
+                                                <th style={Th} >他社 最高査定額</th>
+                                                <th style={Th}  >最高査定額業者</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {(oldWholeSalesPurchase && oldWholeSalesPurchase.length !==0) && oldWholeSalesPurchase.map((saleData,Index) => (
+                                                <tr key={saleData.id}>
+                                                    <td>{Index + 1}</td>
+                                                    <td style={Td}>
+                                                        {saleData.product_status}
+                                                    </td>
+                                                    <td style={Td}>
+                                                        {saleData.shipper}
+                                                    </td>
+                                                    <td style={Td}>
+                                                        {saleData.shipper_manager}
+                                                    </td>
+                                                    <td style={Td}>{saleData.id || ''}</td>
+                                                    <td style={Td}>{saleData.product_type_one || ''}</td>
+                                                    <td style={Td}>{saleData.product_type_two || ''}</td>
+                                                    <td style={Td}>{saleData.product_name || ''}</td>
+                                                    <td style={Td}>{saleData.quantity}</td>
+                                                    <td style={Td}>{saleData.gross_weight || ''}</td>
+                                                    <td style={Td}>{saleData.gold_type || ''}</td>
+                                                    <td style={Td}>{saleData.purchase_price || ''}</td>
+                                                    <td style={Td}>
+                                                        {saleData.assessment_date}
+                                                        </td>
+                                                    <td style={Td}>
+                                                        <ButtonComponent children="1" className='w-max !px-5 rounded-lg' style={{  backgroundColor: '#ebe5e1', color: '#626373'}} />
+                                                    </td>
+                                                    <td style={Td}>
+                                                        {saleData.assessment_date}
+                                                    </td>
+                                                    <td style={Td}>
+                                                        {saleData.product_price}
+                                                    </td>
+                                                    <td style={Td}>
+                                                        {saleData.highest_estimate_price}
+                                                    </td>
+                                                    <td style={Td}>
+                                                        {saleData.highest_estimate_vendor}
+                                                    </td>
+                                                </tr>
+                                            ))}
+
+                                        </tbody>
+
+                                    </table>
+                                </div>
+                            </div>
+                        ) : ('')}
                     </div>
                 </div>
             </div>

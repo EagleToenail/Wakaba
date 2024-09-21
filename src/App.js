@@ -46,6 +46,7 @@ import SalesList from './Pages/SalesList/salesList';//Sales List
 import TODOList from './Pages/TODOList/todoList';//ToDo List
 import OnSitePurchase from './Pages/OnSitePurchase/onSitePurchase';//On-site purchase
 import ApplicationForDisposalPermission from './Pages/ApplicationForDisposalPermission/applicationForDisposalPermission';//Application ofr disposal permisssion
+import MultiRowShowSalesSlip from './Pages/ApplicationForDisposalPermission/multiRowShowSalesSlip';//show salesSlip data that you want to show row
 import EndOfWorkReportToOwner from './Pages/EndOfWorkReportToOwner/endOfWorkReportToOwner';//End of workd report to onwer etc./headquarters
 import StampRelatedInventoryList from './Pages/StampRelatedInventoryList/stampRelatedInventoryList';//stamp-related inventory application form
 import StampRelatedInventoryApplicationForm from './Pages/StampRelatedInventoryApplicationForm/stampRelatedInventoryApplicationForm';
@@ -136,6 +137,7 @@ function App() {
             <Route path='/commemorativecoinexchange' element={<CommemorativeCoinExchange/>}/>
             <Route path='/preciousmetalsprices' element={<PreciousMetalsPrices/>}/>
             <Route path='/customerreceipt' element={<CustomerReceipt/>}/>  
+            <Route path='/multirowshowsalesslip' element={<MultiRowShowSalesSlip/>}/>  
             {/* admin */}
             <Route path='/admin/ownerstop' element={<OwnersTop/>}/>
             <Route path='/admin/ownersstafflist' element={<OwnersStaffList/>}/>

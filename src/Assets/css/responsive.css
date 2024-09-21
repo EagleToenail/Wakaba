@@ -272,3 +272,17 @@
       margin-top: 15px;
     }
   }
+  /* //------------------------------------------admin----------------------------------------------- */
+  @media screen and (max-width: 1040px) {
+    .owner-top {
+      display: none;
+    }
+  }
+  @media screen and (max-width: 1040px) {
+    .owner-top-one {
+      display: block !important;
+    }
+    .owner-top-two {
+      width: 100% !important;
+    }
+  }

@@ -1039,7 +1039,7 @@ const InvoicePurchaseOfBroughtBlank = () => {
                                         </div>
                                     </td>
                             </tr>
-                            {totalSalesSlipData.map((salesData, Index) => (
+                            {(totalSalesSlipData && totalSalesSlipData.length !==0) && totalSalesSlipData.map((salesData, Index) => (
                                 <tr key={Index} >
                                     <td><input type='checkbox' name='checkbox1'/></td>
                                     <td style={Td}>{salesData.number}</td>

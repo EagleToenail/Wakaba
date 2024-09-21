@@ -54,7 +54,7 @@ const SalesSlip = () => {
         // console.log(`${wakabaBaseUrl}/sales/getSalesList`);
          axios.get(`${wakabaBaseUrl}/sales/getSalesList`)
             .then(response => {
-                console.log(response.data)
+                // console.log(response.data)
                 setSales(response.data);
             })
             .catch(error => {
@@ -146,12 +146,13 @@ const SalesSlip = () => {
     };
     const handleSendCheckedValues = () => {
         updateData(checkedValues);
-        console.log('checked values',checkedValues);
+        // console.log('checked values',checkedValues);
         navigate('/purchaserequestformforwholesaler');
     };
     //go to disposal permission
     const sendToDisposalPermission = (e) => {
         e.preventDefault();
+        updateData(checkedValues);
         navigate('/applicationfordisposalpermission');
     }
 
