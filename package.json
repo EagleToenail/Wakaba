@@ -10,6 +10,7 @@
     "autoprefixer": "^10.4.20",
     "axios": "^1.7.5",
     "bootstrap": "^5.3.3",
+    "dhtmlx-scheduler": "^7.1.1",
     "html2canvas": "^1.4.1",
     "jspdf": "^2.5.1",
     "linkify-react": "^4.1.3",

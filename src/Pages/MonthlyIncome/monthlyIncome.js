@@ -1,8 +1,9 @@
-import React,{useState} from 'react';
+import {React, useState , useEffect} from 'react';
 import {Link ,useNavigate} from 'react-router-dom';
 // import Titlebar from '../../Components/Common/Titlebar';
 import '../../Assets/css/showtable.css';
 import dateimage from '../../Assets/img/datepicker.png';
+import InputComponent from '../../Components/Common/InputComponent';
 
 import axios from 'axios';
 
@@ -50,6 +51,166 @@ const MonthlyIncome = () => {
         navigate('/withdrawbankatm');
     }
 
+    //fetch data from safemoney database
+    const [monthlyIncome, setMonthlyIncome] = useState([]);
+
+    const [editIndex, setEditIndex] = useState(-1);
+    const [editedRow, setEditedRow] = useState({ 
+        total_withdrawal:'',
+        total_purchase_price: '',
+        safe_deposite_extra:'',
+        ten_thousand: '',
+        five_thousand: '',
+        one_thousand: '',
+        five_hundred: '',
+        one_hundred: '',
+        fifty: '',
+        ten: '',
+        five: '',
+        one: '',
+    });
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setEditedRow({ ...editedRow, [name]: value });
+    };
+
+    const handleEditClick = (index) => {
+        setEditIndex(index);
+        setEditedRow(monthlyIncome[index]); // Populate the input fields with the selected row's data
+    };
+
+    const handleSaveClick = () => {
+        const updatedData = monthlyIncome.map((row, index) =>
+            index === editIndex ? { ...row, ...editedRow } : row
+        );
+        setMonthlyIncome(updatedData);
+        setEditIndex(-1); // Exit edit mode
+        setEditedRow({ 
+            total_withdrawal:'',
+            total_purchase_price: '',
+            safe_deposite_extra:'',
+            ten_thousand: '',
+            five_thousand: '',
+            one_thousand: '',
+            five_hundred: '',
+            one_hundred: '',
+            fifty: '',
+            ten: '',
+            five: '',
+            one: '',
+        }); // Reset editedRow state
+        sendMonthlyIncomeData();
+    };
+
+    const handleCancelClick = () => {
+        setEditIndex(-1);
+        setEditedRow({ 
+            total_withdrawal:'',
+            total_purchase_price: '',
+            safe_deposite_extra:'',
+            ten_thousand: '',
+            five_thousand: '',
+            one_thousand: '',
+            five_hundred: '',
+            one_hundred: '',
+            fifty: '',
+            ten: '',
+            five: '',
+            one: '',
+        }); // Reset editedRow state
+    };
+
+    useEffect( () => {
+        const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+        if (!wakabaBaseUrl) {
+            throw new Error('API base URL is not defined');
+        }
+
+        // console.log(`${wakabaBaseUrl}/sales/getSalesList`);
+         axios.get(`${wakabaBaseUrl}/monthlyincome`)
+            .then(response => {
+                // console.log(response.data)
+                setMonthlyIncome(response.data);
+            })
+            .catch(error => {
+                console.error("There was an error fetching the customer data!", error);
+            });
+    }, []);
+//send data to backend
+    const sendMonthlyIncomeData = () =>{
+        const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+        if (!wakabaBaseUrl) {
+            throw new Error('API base URL is not defined');
+        }
+        console.log('monthlyIncome',monthlyIncome);
+        axios.post(`${wakabaBaseUrl}/monthlyincome/update`, {payload:monthlyIncome})
+        .then(response => {
+
+        })
+        .catch(error => {
+            console.error("There was an error fetching the customer data!", error);
+        });
+    }
+//fetch data to backend
+    const getMonthlyIncomeData = (date) =>{
+        const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+        if (!wakabaBaseUrl) {
+            throw new Error('API base URL is not defined');
+        }
+        axios.post(`${wakabaBaseUrl}/monthlyincome`, {payload:date})
+        .then(response => {
+
+        })
+        .catch(error => {
+            console.error("There was an error fetching the customer data!", error);
+        });
+    }
+
+    // Current year, month, and day
+    const date = new Date();
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+
+    // Calculate last month
+    const lastMonthDate = new Date(date);
+    lastMonthDate.setMonth(lastMonthDate.getMonth() - 1); // Go to the last month
+    const lastYear = lastMonthDate.getFullYear();
+    const lastMonth = String(lastMonthDate.getMonth() + 1).padStart(2, '0');
+
+    // Formatted strings
+    const yearFormat = `${year}`;                    // Format: Y
+    const yearMonthFormat = `${year}-${month}`;      // Format: Y-M
+    const yearMonthDayFormat = `${year}-${month}-${day}`; // Format: Y-M-D
+    const lastYearMonthFormat = `${lastYear}-${lastMonth}`; // Last month: Y-M
+
+    const getTodayData = ()=> {
+        getMonthlyIncomeData(yearMonthDayFormat);
+    }
+    const getThisMonthData = ()=> {
+        getMonthlyIncomeData(yearMonthFormat);
+    }
+    const getLastMonthData = ()=> {
+        getMonthlyIncomeData(lastYearMonthFormat);
+    }
+    const getThisYearData = ()=> {
+        getMonthlyIncomeData(yearFormat);
+    }
+    //get data from start date to end date
+    const getPeriodMontlyIncome = () => {
+        const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+        if (!wakabaBaseUrl) {
+            throw new Error('API base URL is not defined');
+        }
+        axios.post(`${wakabaBaseUrl}/monthlyincomeperiod`, {start:startdate,end:enddate})
+        .then(response => {
+
+        })
+        .catch(error => {
+            console.error("There was an error fetching the customer data!", error);
+        });
+    }
+
     return (
         <>
             {/* <Titlebar title={title} /> */}
@@ -78,10 +239,10 @@ const MonthlyIncome = () => {
                 </div>
                 {/*  */}
                 <div className='flex justify-center mt-5'>
-                    <button className='border border-[#6e6e7c] text-[#6e6e7c] px-2 mr-3 h-8 text-[18px]'>今年</button>
-                    <button className='border border-[#6e6e7c] text-[#6e6e7c] px-2 mr-3 text-[18px]'>今月</button>
-                    <button className='border border-[#6e6e7c] text-[#6e6e7c] px-2 mr-3 text-[18px]'>前月</button>
-                    <button className='border border-[#6e6e7c] text-[#6e6e7c] px-2 mr-3 text-[18px]'>今日まで</button>
+                    <button onClick={()=>getThisYearData()} className='border border-[#6e6e7c] text-[#6e6e7c] px-2 mr-3 h-8 text-[18px] cursor-pointer'>今年</button>
+                    <button onClick={()=>getThisMonthData()} className='border border-[#6e6e7c] text-[#6e6e7c] px-2 mr-3 text-[18px] cursor-pointer'>今月</button>
+                    <button onClick={()=>getLastMonthData()} className='border border-[#6e6e7c] text-[#6e6e7c] px-2 mr-3 text-[18px] cursor-pointer'>前月</button>
+                    <button onClick={()=>getTodayData()} className='border border-[#6e6e7c] text-[#6e6e7c] px-2 mr-3 text-[18px] cursor-pointer'>今日まで</button>
                 </div>
                 {/*  */}
                 <div className='monthly-income-date flex mt-3 justify-center'>
@@ -94,7 +255,7 @@ const MonthlyIncome = () => {
                                 <div style={{width:'40px',height:'30px',cursor:'pointer'}}>
                                     <div style={{position: 'relative'}}>
                                         <img src={dateimage} style={{width:'40px',height:'30px', position: 'absolute',cursor:'pointer'}} alt='calendar'></img>
-                                        <input type="date" id="startdate" name="startdate" value={''} onChange={handleStartDateChange} style={{position: 'absolute',left:'0', width:'40px', height:'30px', background:'transparent', border:'none',opacity:'0',cursor:'pointer'}}/>
+                                        <input type="date" id="startdate" name="startdate" onChange={handleStartDateChange} style={{position: 'absolute',left:'0', width:'40px', height:'30px', background:'transparent', border:'none',opacity:'0',cursor:'pointer'}}/>
                                     </div>
                                 </div>
                             </div>
@@ -121,7 +282,7 @@ const MonthlyIncome = () => {
                             <label className="text-[#656565] text-[20px] mb-2 block text-center !mb-0">この条件で</label>
                         </div>
                         <div className=' text-[#656565] px-2 mr-2'>
-                            < button type="button" className="w-20 h-8 px-3 py-1 font-bold tracking-wide rounded-lg justify-center text-white text-[15px] bg-[#a3a1c8] hover:bg-blue-700 focus:outline-none">
+                            < button type="button" onClick={()=>getPeriodMontlyIncome()} className="w-20 h-8 px-3 py-1 font-bold tracking-wide rounded-lg justify-center text-white text-[15px] bg-[#a3a1c8] hover:bg-blue-700 focus:outline-none">
                             検索
                             </button>
                         </div>
@@ -180,28 +341,122 @@ const MonthlyIncome = () => {
                                 <th style={Th}>合計金額</th>
                                 <th style={Th}>売上表残金</th>
                                 <th style={Th}>売上表差異</th>
+                                <th style={Th}>{editIndex === -1 ? '編集する' : 'セーブ'}</th>
+                                <th className='whitespace-nowrap pl-3'>{editIndex === -1 ? '' : 'キャンセル'}</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td style={Td}>¥9,999,999</td>
-                                <td style={Td}>¥9,999,999</td>
-                                <td style={Td}>¥9,999,999</td>
-                                <td style={Td}>¥9,999,999</td>
-                                <td style={Td}>¥9,999,999</td>
-                                <td style={Td}>¥9,999,999</td>
-                                <td style={Td}>¥9,999,999</td>
-                                <td style={Td}>¥9,999,999</td>
-                                <td style={Td}>¥9,999,999</td>
-                                <td style={Td}>¥9,999,999</td>
-                                <td style={Td}>¥9,999,999</td>
-                                <td style={Td}>¥9,999,999</td>
-                                <td style={Td}>¥9,999,999</td>
-                                <td style={Td}>¥9,999,999</td>
-                                <td style={Td}>¥9,999,999</td>
-                                <td style={Td}>¥9,999,999</td>
-                                <td style={Td}>5¥9,999,9990</td>
-                            </tr>
+                            {(monthlyIncome && monthlyIncome.length !==0) && monthlyIncome.map((Data,Index) => (
+                                <tr key={Data.id}>
+                                    <td style={Td}>{Data.date || ''}</td>
+                                    <td style={Td}>
+                                        {editIndex === Index ?(
+                                            <InputComponent type="number" name='total_withdrawal' value={editedRow.total_withdrawal || ''} onChange={handleInputChange} className='w-max h-8 text-[#70685a]' />
+                                        ):(Data.total_withdrawal || '')}
+                                    </td>
+                                    <td style={Td}>
+                                        {editIndex === Index ?(
+                                            <InputComponent type="number" name='total_purchase_price' value={editedRow.total_purchase_price || ''} onChange={handleInputChange} className='w-max h-8 text-[#70685a]' />
+                                        ):(Data.total_purchase_price || '')}
+                                    </td>
+                                    <td style={Td}>
+                                        {parseFloat(Data.total_withdrawal || '') - parseFloat(Data.total_purchase_price || '')}
+                                    </td>
+                                    <td style={Td}>
+                                        {editIndex === Index ?(
+                                            <InputComponent type="number" name='safe_deposite_extra' value={editedRow.safe_deposite_extra || ''} onChange={handleInputChange} className='w-max h-8 text-[#70685a]' />
+                                        ):(Data.safe_deposite_extra || '')}
+                                    </td>
+                                    <td style={Td}>
+                                        {editIndex === Index ?(
+                                            <InputComponent type="number" name='ten_thousand' value={editedRow.ten_thousand || ''} onChange={handleInputChange} className='w-max h-8 text-[#70685a]' />
+                                        ):(Data.ten_thousand || '')}
+                                    </td>
+                                    <td style={Td}>
+                                        {editIndex === Index ?(
+                                            <InputComponent type="number" name='five_thousand' value={editedRow.five_thousand || ''} onChange={handleInputChange} className='w-max h-8 text-[#70685a]' />
+                                        ):(Data.five_thousand || '')}
+                                    </td>
+                                    <td style={Td}>
+                                        {editIndex === Index ?(
+                                            <InputComponent type="number" name='one_thousand' value={editedRow.one_thousand || ''} onChange={handleInputChange} className='w-max h-8 text-[#70685a]' />
+                                        ):(Data.one_thousand || '')}
+                                    </td>
+                                    <td style={Td}>
+                                        {editIndex === Index ?(
+                                            <InputComponent type="number" name='five_hundred' value={editedRow.five_hundred || ''} onChange={handleInputChange} className='w-max h-8 text-[#70685a]' />
+                                        ):(Data.five_hundred || '')}
+                                    </td>
+                                    <td style={Td}>
+                                        {editIndex === Index ?(
+                                            <InputComponent type="number" name='one_hundred' value={editedRow.one_hundred|| ''} onChange={handleInputChange} className='w-max h-8 text-[#70685a]' />
+                                        ):(Data.one_hundred|| '')}
+                                    </td>
+                                    <td style={Td}>
+                                        {editIndex === Index ?(
+                                            <InputComponent type="number" name='fifty' value={editedRow.fifty|| ''} onChange={handleInputChange} className='w-max h-8 text-[#70685a]' />
+                                        ):(Data.fifty|| '')}
+                                    </td>
+                                    <td style={Td}>
+                                        {editIndex === Index ?(
+                                            <InputComponent type="number" name='ten' value={editedRow.ten|| ''} onChange={handleInputChange} className='w-max h-8 text-[#70685a]' />
+                                        ):(Data.ten || '')}
+                                    </td>
+                                    <td style={Td}>
+                                        {editIndex === Index ?(
+                                            <InputComponent type="number" name='five' value={editedRow.five || ''} onChange={handleInputChange} className='w-max h-8 text-[#70685a]' />
+                                        ):(Data.five || '')}
+                                    </td>
+                                    <td style={Td}>
+                                        {editIndex === Index ?(
+                                            <InputComponent type="number" name='one' value={editedRow.one || ''} onChange={handleInputChange} className='w-max h-8 text-[#70685a]' />
+                                        ):(Data.one || '')}
+                                    </td>
+                                    <td style={Td}>{10000*parseFloat(Data.ten_thousand)
+                                                + 5000*parseFloat(Data.five_thousand)
+                                                + 1000*parseFloat(Data.one_thousand)
+                                                + 500*parseFloat(Data.five_hundred)
+                                                + 100*parseFloat(Data.one_hundred)
+                                                + 50*parseFloat(Data.fifty)
+                                                + 10*parseFloat(Data.ten)
+                                                + 5*parseFloat(Data.five)
+                                                + 1*parseFloat(Data.one)
+                                                }
+                                    </td>
+                                    <td style={Td}>{Data.sales_balance}</td>
+                                    <td style={Td}>{Data.sales_variance}</td>
+                                    <td style={Td}>
+                                    {editIndex === Index ? (
+                                        <div>
+                                            <button onClick={() => handleSaveClick(Index)} className='w-7'>
+                                                <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium  MuiSvgIcon-root MuiSvgIcon-fontSizeLarge  css-1hkft75" fill='#524c3b' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckOutlinedIcon" title="CheckOutlined"><path d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
+                                            </button>
+                                        </div>
+                                        ) : (
+                                        <div>
+                                            <button onClick={() => handleEditClick(Index)} className='w-7'>
+                                                <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium  MuiSvgIcon-root MuiSvgIcon-fontSizeLarge  css-1hkft75" fill='#524c3b' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="EditCalendarOutlinedIcon" title="EditCalendarOutlined"><path d="M5 10h14v2h2V6c0-1.1-.9-2-2-2h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h7v-2H5zm0-4h14v2H5zm17.84 10.28-.71.71-2.12-2.12.71-.71c.39-.39 1.02-.39 1.41 0l.71.71c.39.39.39 1.02 0 1.41m-3.54-.7 2.12 2.12-5.3 5.3H14v-2.12z"></path></svg>
+                                            </button>
+                                        </div>
+                                        )}
+                                    </td>
+                                    <td>
+                                        {editIndex === Index ? (
+                                        <div>
+                                            <button onClick={() => handleCancelClick(Index)} className='w-7'>
+                                                <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium  MuiSvgIcon-root MuiSvgIcon-fontSizeLarge  css-1hkft75" fill='#524c3b' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="KeyboardReturnOutlinedIcon" title="KeyboardReturnOutlined"><path d="M19 7v4H5.83l3.58-3.59L8 6l-6 6 6 6 1.41-1.41L5.83 13H21V7z"></path></svg>
+                                            </button>
+                                        </div>
+                                        ) : (''
+                                        // <div>
+                                        //     <button className='w-7'>
+                                        //     <svg className="flex flex-col justify-center" focusable="false" aria-hidden="true" viewBox="0 0 23 23" fill='#524c3b' data-testid="CancelOutlinedIcon" title="CancelOutlined"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8m3.59-13L12 10.59 8.41 7 7 8.41 10.59 12 7 15.59 8.41 17 12 13.41 15.59 17 17 15.59 13.41 12 17 8.41z"></path></svg>
+                                        //     </button>
+                                        // </div>
+                                        )}
+                                    </td>
+                                </tr>
+                            ))}
                         </tbody>
 
                     </table>

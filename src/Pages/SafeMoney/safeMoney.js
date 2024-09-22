@@ -1,7 +1,9 @@
 import React,{ useState, useEffect } from 'react';
 import {Link ,useNavigate} from 'react-router-dom';
+import axios from 'axios';
 // import Titlebar from '../../Components/Common/Titlebar';
 import '../../Assets/css/showtable.css'
+import InputComponent from '../../Components/Common/InputComponent';
 import dateimage from '../../Assets/img/datepicker.png';
 
 
@@ -27,17 +29,6 @@ const SafeMoney = () => {
         whiteSpace:'nowrap'
     };
 
-    const [startdate, setStartDate] = useState('');
-
-    const handleStartDateChange = (event) => {
-        setStartDate(event.target.value); // Update the date state with the selected date
-    };
-
-    const [enddate, setEndDate] = useState('');
-
-    const handleEndDateChange = (event) => {
-        setEndDate(event.target.value); // Update the date state with the selected date
-    };
 // goto montly income page
     const gotoMonthlyIncome = ()=> {
         navigate('/monthlyincome');
@@ -46,6 +37,147 @@ const SafeMoney = () => {
     const gotoDepositeAndWithdrawl = ()=> {
         navigate('/withdrawbankatm');
     }
+
+        //fetch data from safemoney database
+        const [cashRegister, setCashRegister] = useState([]);
+
+        const [editIndex, setEditIndex] = useState(-1);
+        const [editedRow, setEditedRow] = useState({ 
+            status:'',
+            type:'',
+            acceptance:'',
+            executor:'',
+            confirmation_date:'',
+            application_date:'',
+        });
+        const handleInputChange = (e) => {
+            const { name, value } = e.target;
+            setEditedRow({ ...editedRow, [name]: value });
+        };
+    
+        const handleEditClick = (index) => {
+            setEditIndex(index);
+            setEditedRow(cashRegister[index]); // Populate the input fields with the selected row's data
+        };
+    
+        const handleSaveClick = () => {
+            const updatedData = cashRegister.map((row, index) =>
+                index === editIndex ? { ...row, ...editedRow } : row
+            );
+            setCashRegister(updatedData);
+            setEditIndex(-1); // Exit edit mode
+            setEditedRow({ 
+                status:'',
+                type:'',
+                acceptance:'',
+                executor:'',
+                confirmation_date:'',
+                application_date:'',
+            }); // Reset editedRow state
+        };
+    
+        const handleCancelClick = () => {
+            setEditIndex(-1);
+            setEditedRow({ 
+                status:'',
+                type:'',
+                acceptance:'',
+                executor:'',
+                confirmation_date:'',
+                application_date:'',
+            }); // Reset editedRow state
+        };
+        useEffect( () => {
+            const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+            if (!wakabaBaseUrl) {
+                throw new Error('API base URL is not defined');
+            }
+    
+            // console.log(`${wakabaBaseUrl}/sales/getSalesList`);
+             axios.get(`${wakabaBaseUrl}/cashregister`)
+                .then(response => {
+                    console.log(response.data)
+                    setCashRegister(response.data);
+                })
+                .catch(error => {
+                    console.error("There was an error fetching the customer data!", error);
+                });
+        }, []);
+
+    //fetch data to backend
+    const getCashRegisterData = (date) =>{
+        const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+        if (!wakabaBaseUrl) {
+            throw new Error('API base URL is not defined');
+        }
+        axios.post(`${wakabaBaseUrl}/cashregister`, {payload:date})
+        .then(response => {
+
+        })
+        .catch(error => {
+            console.error("There was an error fetching the customer data!", error);
+        });
+    }
+    // Current year, month, and day
+    const date = new Date();
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+
+    // Calculate last month
+    const lastMonthDate = new Date(date);
+    lastMonthDate.setMonth(lastMonthDate.getMonth() - 1); // Go to the last month
+    const lastYear = lastMonthDate.getFullYear();
+    const lastMonth = String(lastMonthDate.getMonth() + 1).padStart(2, '0');
+
+    // Formatted strings
+    const yearFormat = `${year}`;                    // Format: Y
+    const yearMonthFormat = `${year}-${month}`;      // Format: Y-M
+    const yearMonthDayFormat = `${year}-${month}-${day}`; // Format: Y-M-D
+    const lastYearMonthFormat = `${lastYear}-${lastMonth}`; // Last month: Y-M
+
+    const getTodayData = ()=> {
+        getCashRegisterData(yearMonthDayFormat);
+    }
+    const getThisMonthData = ()=> {
+        getCashRegisterData(yearMonthFormat);
+    }
+    const getLastMonthData = ()=> {
+        getCashRegisterData(lastYearMonthFormat);
+    }
+    const getThisYearData = ()=> {
+        getCashRegisterData(yearFormat);
+    }
+
+    const [searchParams, setSearchParams] = useState({
+        status: '',
+        type: '',
+        startdate:'',
+        enddate:'',
+    });
+    // Handle input change
+    const handleSearchChange = (e) => {
+        const { name, value } = e.target;
+        setSearchParams({
+            ...searchParams,
+            [name]: value
+        });
+    };
+    //get data from start date to end date
+    const getPeriodCashRegister = () => {
+        const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+        if (!wakabaBaseUrl) {
+            throw new Error('API base URL is not defined');
+        }
+        axios.post(`${wakabaBaseUrl}/cashregisterperiod`, {params: searchParams})
+        .then(response => {
+
+        })
+        .catch(error => {
+            console.error("There was an error fetching the customer data!", error);
+        });
+    }
+
     return (
         <>
             {/* <Titlebar title={title} /> */}
@@ -89,19 +221,16 @@ const SafeMoney = () => {
                     <div className='safe-money-search flex mt-3 justify-center'>
                         <div className='flex justify-center mt-5'>
                             <div className='mr-5'>
-                                <select id="gender" name="gender" className="w-40 text-[#70685a] font-bold border border-[#70685a] px-4 py-1 outline-[#70685a]">
-                                    <option value="1">ステータス</option>
-                                    <option value="2">Afghanistan</option>
-                                    <option value="3">Åland Islands</option>
-                                    <option value="4">Albania</option>
+                                <select name="status" value={searchParams.status || ''} onChange={handleSearchChange} className="w-40 text-[#70685a] font-bold border border-[#70685a] px-4 py-1 outline-[#70685a]">
+                                    <option value=""></option>
+                                    <option value="保留中">保留中</option>
+                                    <option value="利用可能">利用可能</option>
                                 </select>
                             </div>
                             <div className='mr-5'>
-                                <select id="gender" name="gender" className="w-40 text-[#70685a] font-bold border border-[#70685a] px-4 py-1 outline-[#70685a]">
-                                    <option value="1">種別</option>
-                                    <option value="2">Afghanistan</option>
-                                    <option value="3">Åland Islands</option>
-                                    <option value="4">Albania</option>
+                                <select name="type" value={searchParams.type || ''} onChange={handleSearchChange} className="w-40 text-[#70685a] font-bold border border-[#70685a] px-4 py-1 outline-[#70685a]">
+                                    <option value=""></option>
+                                    <option value="銀行ATM引き出し">銀行ATM引き出し</option>
                                 </select>
                             </div>
                             <div className='mr-5'>
@@ -111,13 +240,13 @@ const SafeMoney = () => {
                         <div className='flex justify-center mt-5'>
                             <div className='flex'>
                                 <div style={{ flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <input name="ads" type="text" value={startdate} required className="w-full h-8 text-[#6e6e7c] border border-[#6e6e7c] text-[20px] px-4 py-1 outline-[#70685a]" readOnly />
+                                    <input name="startdate" type="text" value={searchParams.startdate || ''} required className="w-full h-8 text-[#6e6e7c] border border-[#6e6e7c] text-[20px] px-4 py-1 outline-[#70685a]" readOnly />
                                 </div>
                                 <div style={{ flexDirection: 'column', }} className='flex flex-col justify-center pl-3'>
                                     <div style={{ width: '40px', height: '30px', cursor: 'pointer' }}>
                                         <div style={{ position: 'relative' }}>
                                             <img src={dateimage} style={{ width: '40px', height: '30px', position: 'absolute', cursor: 'pointer' }} alt='calendar'></img>
-                                            <input type="date" id="startdate" name="startdate" value={''} onChange={handleStartDateChange} style={{ position: 'absolute', width: '40px', height: '30px', background: 'transparent', border: 'none', opacity: '0', cursor: 'pointer' }} />
+                                            <input type="date" name="startdate" onChange={handleSearchChange} style={{ position: 'absolute', width: '40px', height: '30px', background: 'transparent', border: 'none', opacity: '0', cursor: 'pointer' }} />
                                         </div>
                                     </div>
                                 </div>
@@ -127,13 +256,13 @@ const SafeMoney = () => {
                             </div>
                             <div className='flex'>
                                 <div style={{ flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <input name="ads" type="text" value={enddate} required className="w-full h-8 text-[#6e6e7c] border border-[#6e6e7c] text-[20px] px-4 py-1 outline-[#70685a]" readOnly />
+                                    <input name="enddate" type="text" value={searchParams.enddate || ''} required className="w-full h-8 text-[#6e6e7c] border border-[#6e6e7c] text-[20px] px-4 py-1 outline-[#70685a]" readOnly />
                                 </div>
                                 <div style={{ flexDirection: 'column', }} className='flex flex-col justify-center pl-3'>
                                     <div style={{ width: '40px', height: '30px', cursor: 'pointer' }}>
                                         <div style={{ position: 'relative' }}>
                                             <img src={dateimage} style={{ width: '40px', height: '30px', position: 'absolute', cursor: 'pointer' }} alt='calendar'></img>
-                                            <input type="date" id="enddate" name="enddate" value={''} onChange={handleEndDateChange} style={{ position: 'absolute', width: '40px', height: '30px', background: 'transparent', border: 'none', opacity: '0', cursor: 'pointer' }} />
+                                            <input type="date" name="enddate" onChange={handleSearchChange} style={{ position: 'absolute', width: '40px', height: '30px', background: 'transparent', border: 'none', opacity: '0', cursor: 'pointer' }} />
                                         </div>
                                     </div>
                                 </div>
@@ -171,16 +300,89 @@ const SafeMoney = () => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td  style={Td}>99999</td>
-                                        <td style={Td}>申請中</td>
-                                        <td style={Td}>銀行ATM出金</td>
-                                        <td style={Td}>OOOO</td>
-                                        <td style={Td}>OOOO</td>
-                                        <td style={Td}>2024.12.31</td>
-                                        <td style={Td}>2024.12.31</td>
-                                        <td style={Td}>+¥9,999,999</td>
-                                    </tr>
+                                    {(cashRegister && cashRegister.length !==0) && cashRegister.map((Data,Index) => (
+                                        <tr key={Data.id}>
+                                            <td style={Td}>
+                                                {editIndex === Index ?(
+                                                    <select name="status" value={editedRow.status || ''} onChange={handleInputChange} className="w-40 text-[#70685a] font-bold border border-[#70685a] px-4 py-1 outline-[#70685a]">
+                                                        <option value=""></option>
+                                                        <option value="保留中">保留中</option>
+                                                        <option value="利用可能">利用可能</option>
+                                                    </select>
+                                                ):(Data.status || '')}
+                                            </td>
+                                            <td style={Td}>
+                                                {editIndex === Index ?(
+                                                    <select name="type" value={editedRow.type || ''} onChange={handleInputChange} className="w-40 text-[#70685a] font-bold border border-[#70685a] px-4 py-1 outline-[#70685a]">
+                                                        <option value=""></option>
+                                                        <option value="銀行ATM引き出し">銀行ATM引き出し</option>
+                                                    </select>
+                                                ):(Data.type || '')}
+                                            </td>
+                                            <td style={Td}>
+                                                {editIndex === Index ?(
+                                                    <select name="acceptance" value={editedRow.acceptance || ''} onChange={handleInputChange} className="w-40 text-[#70685a] font-bold border border-[#70685a] px-4 py-1 outline-[#70685a]">
+                                                        <option value=""></option>
+                                                        <option value="不許可">不許可</option>
+                                                        <option value="許可">許可</option>
+                                                    </select>
+                                                ):(Data.acceptance || '')}
+                                            </td>
+                                            <td style={Td}>
+                                                {editIndex === Index ?(
+                                                    <select name="executor" value={editedRow.executor || ''} onChange={handleInputChange} className="w-40 text-[#70685a] font-bold border border-[#70685a] px-4 py-1 outline-[#70685a]">
+                                                        <option value=""></option>
+                                                        <option value="qqq">qqq</option>
+                                                    </select>
+                                                ):(Data.executor || '')}
+                                            </td>
+                                            <td style={Td}>
+                                                {editIndex === Index ?(
+                                                    <InputComponent type="date" name='confirmtion_date' value={editedRow.confirmtion_date || ''} onChange={handleInputChange} className='w-max h-8 text-[#70685a]' />
+                                                ):(Data.confirmtion_date || '')}
+                                            </td>
+                                            <td style={Td}>
+                                                {editIndex === Index ?(
+                                                    <InputComponent type="date" name='application_date' value={editedRow.application_date || ''} onChange={handleInputChange} className='w-max h-8 text-[#70685a]' />
+                                                ):(Data.application_date || '')}
+                                            </td>
+                                            <td style={Td}>
+                                                {editIndex === Index ?(
+                                                    <InputComponent type="number" name='total' value={editedRow.total || ''} onChange={handleInputChange} className='w-max h-8 text-[#70685a]' />
+                                                ):(Data.total || '')}
+                                            </td>
+                                            <td style={Td}>
+                                            {editIndex === Index ? (
+                                                <div>
+                                                    <button onClick={() => handleSaveClick(Index)} className='w-7'>
+                                                        <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium  MuiSvgIcon-root MuiSvgIcon-fontSizeLarge  css-1hkft75" fill='#524c3b' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckOutlinedIcon" title="CheckOutlined"><path d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
+                                                    </button>
+                                                </div>
+                                                ) : (
+                                                <div>
+                                                    <button onClick={() => handleEditClick(Index)} className='w-7'>
+                                                        <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium  MuiSvgIcon-root MuiSvgIcon-fontSizeLarge  css-1hkft75" fill='#524c3b' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="EditCalendarOutlinedIcon" title="EditCalendarOutlined"><path d="M5 10h14v2h2V6c0-1.1-.9-2-2-2h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h7v-2H5zm0-4h14v2H5zm17.84 10.28-.71.71-2.12-2.12.71-.71c.39-.39 1.02-.39 1.41 0l.71.71c.39.39.39 1.02 0 1.41m-3.54-.7 2.12 2.12-5.3 5.3H14v-2.12z"></path></svg>
+                                                    </button>
+                                                </div>
+                                                )}
+                                            </td>
+                                            <td>
+                                                {editIndex === Index ? (
+                                                <div>
+                                                    <button onClick={() => handleCancelClick(Index)} className='w-7'>
+                                                        <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium  MuiSvgIcon-root MuiSvgIcon-fontSizeLarge  css-1hkft75" fill='#524c3b' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="KeyboardReturnOutlinedIcon" title="KeyboardReturnOutlined"><path d="M19 7v4H5.83l3.58-3.59L8 6l-6 6 6 6 1.41-1.41L5.83 13H21V7z"></path></svg>
+                                                    </button>
+                                                </div>
+                                                ) : (''
+                                                // <div>
+                                                //     <button className='w-7'>
+                                                //     <svg className="flex flex-col justify-center" focusable="false" aria-hidden="true" viewBox="0 0 23 23" fill='#524c3b' data-testid="CancelOutlinedIcon" title="CancelOutlined"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8m3.59-13L12 10.59 8.41 7 7 8.41 10.59 12 7 15.59 8.41 17 12 13.41 15.59 17 17 15.59 13.41 12 17 8.41z"></path></svg>
+                                                //     </button>
+                                                // </div>
+                                                )}
+                                            </td>
+                                        </tr>
+                                    ))}
                                 </tbody>
 
                             </table></div>

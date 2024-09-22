@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState, useEffect} from 'react';
 // import { Link } from 'react-router-dom';
 // import Titlebar from '../../../Components/Common/Titlebar';
+import axios from 'axios';
 import DateAndTime from '../../../Components/Common/PickData';
 
 
@@ -15,18 +16,30 @@ const OwnerAttendanceList = () => {
         alignItem: 'center'
     };
 
-    // const Th = {
-    //     border: '1px solid #70685a',
-    //     borderCollapse: 'collapse',
-    //     color: '#70685a',
-    //     fontSize: '15px'
-    // };
     const Td = {
         border: '1px solid #6e6e7c',
         borderCollapse: 'collapse',
         color: '#6e6e7c',
         fontSize: '15px',
     };
+
+    const [workingTime ,setWorkingTime] = useState([]);
+    useEffect( () => {
+        const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+        if (!wakabaBaseUrl) {
+            throw new Error('API base URL is not defined');
+        }
+
+        // console.log(`${wakabaBaseUrl}/sales/getSalesList`);
+         axios.get(`${wakabaBaseUrl}/workingtime`)
+            .then(response => {
+                // console.log(response.data)
+                setWorkingTime(response.data);
+            })
+            .catch(error => {
+                console.error("There was an error fetching the customer data!", error);
+            });
+    }, []);
 
     return (
         <>
@@ -55,8 +68,9 @@ const OwnerAttendanceList = () => {
                         <tr>
                             <td ></td>
                             <td >店舗</td>
-                            <td style={Td}>高崎店</td>
-                            <td style={Td}>高崎店</td>
+                            {(workingTime && workingTime.length !== 0) && workingTime.map((user,Index) => (
+                                <td key={Index} style={Td}>高崎店</td>
+                            ))}
                             <td style={Td}></td>
                         </tr>
                         <tr>
@@ -64,6 +78,9 @@ const OwnerAttendanceList = () => {
                             <td >休日</td>
                             <td style={Td}>土日</td>
                             <td style={Td}>火</td>
+                            {(workingTime && workingTime.length !== 0) && workingTime.map((user,Index) => (
+                                <td key={Index} style={Td}>高崎店</td>
+                            ))}
                             <td style={Td}></td>
                         </tr>
                         <tr>
@@ -105,17 +122,17 @@ const OwnerAttendanceList = () => {
                             <td style={Td}>3.2</td>
                             <td style={Td}></td>
                         </tr>
-                        <tr>
-                            <td style={Td}>2024/12/02</td>
-                            <td style={Td}>火</td>
-                            <td style={Td}></td>
-                            <td style={Td}></td>
-                            <td style={Td}></td>
-                            <td style={Td}></td>
-                            <td style={Td}></td>
-                            <td style={Td}></td>
-                            <td style={Td}></td>
-                        </tr>
+                        {workingTime.map((user) => (
+                            Object.keys(user).filter(key => key.startsWith('day')).map((dayKey, index) => (
+                            <tr key={`${user.userId}-${index}`}>
+                                <td>{user.userId}</td>
+                                <td>{dayKey.replace('day', '')}</td>
+                                <td>{user[dayKey]?.loginTime ? new Date(user[dayKey].loginTime).toLocaleString() : 'N/A'}</td>
+                                <td>{user[dayKey]?.logoutTime ? new Date(user[dayKey].logoutTime).toLocaleString() : 'N/A'}</td>
+                                <td>{user[dayKey]?.workingTime || '0'}</td>
+                            </tr>
+                            ))
+                        ))}
                     </tbody>
 
                     </table>

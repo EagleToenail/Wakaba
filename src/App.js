@@ -88,7 +88,7 @@ import ManagementHQScoreCount from './Pages/Admin/ManagementHQScoreCount/managem
 import ManagementHeadquartersPurchaseItemCount from './Pages/Admin/ManagementHeadquartersPurchaseItemCount/managementHeadquartersPurchaseItemCount';
 import ManagementHeadquartersRepeaterAnalysis from './Pages/Admin/ManagementHeadquartersRepeaterAnalysis/managementHeadquartersRepeaterAnalysis';
 
-
+import Calendar from './Pages/Calendar/calendar'
 
 import MainChatPage from './Pages/Chat/mainChatPage';
 
@@ -150,6 +150,9 @@ function App() {
             <Route path='/admin/managementSettingSuperAdministratorpaymentlist' element={<ManagementSettingsSuperAdministratorPaymentList/>}/>
             <Route path='/admin/adminsettingssuperadministratorsystembasicsettings' element={<ADminSettingsSuperAdministratorSystemBasicSettings/>}/>
             <Route path='/admin/managementsettingsforowners' element={<ManagementSettingsForOwners/>}/>
+            
+            <Route path='/calendar' element={<Calendar/>}/>
+
             {/* second milestone */}
             <Route path='/admin/ownerattendancelist' element={<OwnerAttendanceList/>}/>
             {/* typo? should be "ownersShi_f_tSchedule" for this routing.
