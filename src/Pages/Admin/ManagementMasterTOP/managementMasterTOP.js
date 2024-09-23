@@ -1,12 +1,24 @@
-import React from 'react';
+import React, { useState, useEffect,useRef } from 'react';
+import { Link, useNavigate, useParams ,useLocation} from 'react-router-dom';
 // import Titlebar from '../../../Components/Common/Titlebar';
 import DateAndTime from '../../../Components/Common/PickData';
 
 
 const  ManagementMasterTOP = () => {
     // const title = 'タイトルタイトル';
-
-    
+    const navigate = useNavigate();
+    const gotoCategory1Operation = ()=> {
+        navigate('/admin/managementvariousmasterproductcategory1');
+    }
+    const gotoCategory2Operation = ()=> {
+        navigate('/admin/managementvariousmasterproductcategory2');
+    }
+    const gotoCategory3Operation = ()=> {
+        navigate('/');
+    }
+    const gotoCategory4Operation = ()=> {
+        navigate('/');
+    }
     return (
         <>
             {/* <Titlebar title={title} /> */}
@@ -21,12 +33,12 @@ const  ManagementMasterTOP = () => {
                             <div className='flex justify-center'>
                                 <div className='mt-5'>
                                     <div className='mt-5'>
-                                        <button name='ProductCategory1' type="button" className="w-80 px-10 py-1 font-bold text-[#656564] tracking-wide text-2xl justify-center t bg-[#ebe6e0] hover:bg-blue-700 focus:outline-none">
+                                        <button name='ProductCategory1' onClick={gotoCategory1Operation} type="button" className="w-80 px-10 py-1 font-bold text-[#656564] tracking-wide text-2xl justify-center t bg-[#ebe6e0] hover:bg-blue-700 focus:outline-none">
                                         商品カテゴリー1
                                         </button>
                                     </div>
                                     <div className='mt-2'>
-                                        <button name='ProductCategory2' type="button" className="w-80 px-10 py-1 font-bold text-[#656564] tracking-wide text-2xl justify-center t bg-[#ebe6e0] hover:bg-blue-700 focus:outline-none">
+                                        <button name='ProductCategory2' onClick={gotoCategory2Operation} type="button" className="w-80 px-10 py-1 font-bold text-[#656564] tracking-wide text-2xl justify-center t bg-[#ebe6e0] hover:bg-blue-700 focus:outline-none">
                                         商品カテゴリー2
                                         </button>
                                     </div>

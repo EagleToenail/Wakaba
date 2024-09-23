@@ -3,12 +3,27 @@ import { Link } from 'react-router-dom'
 export default function Toolbar() {
 
   const [isOpen, setIsOpen] = useState(false);
+  const [inquiryphoneCount, setInquiryPhoneCount] = useState(1); // initial count is 10
+  const [inquiryvisitCount, setInquiryVisitCount] = useState(1); // initial count is 10
 
   // Function to toggle menu visibility
   const handleClick = () => {
     setIsOpen(!isOpen);
   };
+  const incrementInquiryphoneCount=()=>{
+    setInquiryPhoneCount(inquiryphoneCount + 1);
+  };
+  const decrementInquiryphoneCount=()=>{
+    setInquiryPhoneCount(inquiryphoneCount - 1);
+  };
+  const incrementInquiryVisitCount=()=>{
+    setInquiryVisitCount(inquiryvisitCount + 1);
 
+  }
+  const decrementInquiryVisitCount=()=>{
+    setInquiryVisitCount(inquiryvisitCount - 1);
+
+  }
   return (
     <>
     <header className='flex  sm:px-3 bg-[#ebe6e0] font-[sans-serif] max-h-[50px] tracking-wide relative z-49 justify-end'>
@@ -27,67 +42,69 @@ export default function Toolbar() {
           </button>
           <ul
             className='lg:flex py-1 max-lg:space-y-3 max-lg:fixed max-lg:bg-white max-lg:w-1/2 max-lg:min-w-[300px] max-lg:top-0 max-lg:left-0 max-lg:p-6 max-lg:h-full max-lg:shadow-md max-lg:overflow-auto z-50'>
-            <li className='max-lg:border-b border-gray-300 max-lg:py-4'>
+            {/* <li className='max-lg:border-b border-gray-300 max-lg:py-4'>
                 <Link className='text-[#655b4a] block font-semibold text-[15px]'>
                 <button type="button"
                     className=" text-[20px] px-5 py-1 rounded-full text-white text-sm tracking-wider bg-[#655b4a] border border-current outline-none">Au</button>
                         <span>&nbsp;99</span>
                 </Link>
-            </li>
-            <li className='max-lg:border-b border-gray-300 max-lg:py-4 '>
+            </li> */}
+            {/* <li className='max-lg:border-b border-gray-300 max-lg:py-4 '>
                 <Link className='text-[#655b4a] block font-semibold text-[15px]'>
                 <button type="button"
-                        className="text-[#655b4a] px-3 py-1 rounded-lg text-sm tracking-wider font-bold border border-[#655b4a] outline-none bg-transparent hover:text-black transition-all duration-300">A</button>
-                        <span>&nbsp;99</span>
+                        className="text-[#655b4a] px-3 py-1 rounded-lg text-sm tracking-wider font-bold border border-[#655b4a] outline-none bg-transparent">電話問合</button>
+                        
+                </Link>
+            </li> */}
+            <li className='max-lg:border-b border-gray-300 max-lg:py-4 ml-5 flex flex-col justify-center'>
+                  <button type="button" onClick={decrementInquiryphoneCount}
+                      className="w-7 h-7 inline-flex items-center justify-center text-[#70685a] border border-[#70685a] outline-none hover:bg-brown-700 active:bg-brown-600">
+                    <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1hkft75" focusable="false" fill='#655b4a' aria-hidden="true" viewBox="0 0 24 24" data-testid="RemoveOutlinedIcon" title="RemoveOutlined"><path d="M19 13H5v-2h14z"></path></svg>
+                  </button>
+            </li>
+            <li className='max-lg:border-b border-gray-300 max-lg:py-4 ml-5 flex flex-col justify-center'>
+                <div className='text-[#655b4a] block font-semibold text-[15px] flex flex-col justify-center'>
+                <label
+                        className="text-[#655b4a] px-3 py-1 rounded-lg text-sm tracking-wider font-bold outline-none bg-transparent">電話問合 : {inquiryphoneCount}</label>
+      
+                </div>
+            </li>
+            <li className='max-lg:border-b border-gray-300 max-lg:py-4 ml-5 flex flex-col justify-center'>
+                <Link className='text-[#655b4a] block font-semibold text-[15px]'>
+                    <button type="button" onClick={incrementInquiryphoneCount}
+                        className="w-7 h-7 inline-flex items-center justify-center text-[#70685a] border border-[#70685a] outline-none hover:bg-brown-700 active:bg-brown-600">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14px" fill="#70685a" className="inline" viewBox="0 0 512 512">
+                            <path
+                                d="M467 211H301V45c0-24.853-20.147-45-45-45s-45 20.147-45 45v166H45c-24.853 0-45 20.147-45 45s20.147 45 45 45h166v166c0 24.853 20.147 45 45 45s45-20.147 45-45V301h166c24.853 0 45-20.147 45-45s-20.147-45-45-45z"
+                                data-original="#000000" />
+                        </svg>
+                    </button>
                 </Link>
             </li>
-            <li className='max-lg:border-b border-gray-300 max-lg:py-4 '>
-                <Link className='text-[#655b4a] block font-semibold text-[15px]'>
-                <button type="button"
-                        className="text-[#655b4a] px-3 py-1 rounded-lg text-sm tracking-wider font-bold border border-[#655b4a] outline-none bg-transparent hover:text-black transition-all duration-300">B</button>
-                        <span>&nbsp;99</span>
-                </Link>
+            <li className='max-lg:border-b border-gray-300 max-lg:py-4 ml-5 flex flex-col justify-center'>
+                  <button type="button" onClick={decrementInquiryVisitCount}
+                      className="w-7 h-7 inline-flex items-center justify-center text-[#70685a] border border-[#70685a] outline-none hover:bg-brown-700 active:bg-brown-600">
+                    <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1hkft75" focusable="false" fill='#655b4a' aria-hidden="true" viewBox="0 0 24 24" data-testid="RemoveOutlinedIcon" title="RemoveOutlined"><path d="M19 13H5v-2h14z"></path></svg>
+                  </button>
             </li>
-            <li className='max-lg:border-b border-gray-300 max-lg:py-4 '>
-                <Link className='text-[#655b4a] block font-semibold text-[15px]'>
-                <button type="button"
-                        className="text-[#655b4a] px-3 py-1 rounded-lg text-sm tracking-wider font-bold border border-[#655b4a] outline-none bg-transparent hover:text-black transition-all duration-300">C</button>
-                        <span>&nbsp;99</span>
-                </Link>
+            <li className='max-lg:border-b border-gray-300 max-lg:py-4 ml-5 flex flex-col justify-center'>
+                <div className='text-[#655b4a] block font-semibold text-[15px] flex flex-col justify-center'>
+                <label
+                        className="text-[#655b4a] px-3 py-1 rounded-lg text-sm tracking-wider font-bold outline-none bg-transparent">来店問合 : {inquiryvisitCount}</label>
+      
+                </div>
             </li>
-            <li className='max-lg:border-b border-gray-300 max-lg:py-4 '>
+            <li className='max-lg:border-b border-gray-300 max-lg:py-4 ml-5 flex flex-col justify-center'>
                 <Link className='text-[#655b4a] block font-semibold text-[15px]'>
-                <button type="button"
-                        className="text-[#655b4a] px-3 py-1 rounded-lg text-sm tracking-wider font-bold border border-[#655b4a] outline-none bg-transparent hover:text-black transition-all duration-300">D</button>
-                        <span>&nbsp;99</span>
-                </Link>
-            </li>
-            <li className='max-lg:border-b border-gray-300 max-lg:py-4 '>
-                <Link className='text-[#655b4a] block font-semibold text-[15px]'>
-                <button type="button"
-                        className="text-[#655b4a] px-3 py-1 rounded-lg text-sm tracking-wider font-bold border border-[#655b4a] outline-none bg-transparent hover:text-black transition-all duration-300">AND</button>
-                        <span>&nbsp;99</span>
-                </Link>
-            </li>
-            <li className='max-lg:border-b border-gray-300 max-lg:py-4'>
-                <Link className='text-[#655b4a] block font-semibold text-[15px]'>
-                <button type="button"
-                        className="text-[#655b4a] px-3 py-1 rounded-lg text-sm tracking-wider font-bold border border-[#655b4a] outline-none bg-transparent hover:text-black transition-all duration-300">F</button>
-                        <span>&nbsp;99</span>
-                </Link>
-            </li>
-            <li className='max-lg:border-b border-gray-300 max-lg:py-4'>
-                <Link className='text-[#655b4a] block font-semibold text-[15px]'>
-                <button type="button"
-                        className="text-[#655b4a] px-3 py-1 rounded-lg text-sm tracking-wider font-bold border border-[#655b4a] outline-none bg-transparent hover:text-black transition-all duration-300">G</button>
-                        <span>&nbsp;99</span>
-                </Link>
-            </li>
-            <li className='max-lg:border-b border-gray-300 max-lg:py-4'>
-                <Link className='text-[#655b4a] block font-semibold text-[15px]'>
-                <button type="button"
-                        className="text-[#655b4a] px-3 py-1 rounded-lg text-sm tracking-wider font-bold border border-[#655b4a] outline-none bg-transparent hover:text-black transition-all duration-300">H</button>
-                        <span>&nbsp;99</span>
+                    <button type="button" onClick={incrementInquiryVisitCount}
+                        className="w-7 h-7 inline-flex items-center justify-center text-[#70685a] border border-[#70685a] outline-none hover:bg-brown-700 active:bg-brown-600">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14px" fill="#70685a" className="inline" viewBox="0 0 512 512">
+                            <path
+                                d="M467 211H301V45c0-24.853-20.147-45-45-45s-45 20.147-45 45v166H45c-24.853 0-45 20.147-45 45s20.147 45 45 45h166v166c0 24.853 20.147 45 45 45s45-20.147 45-45V301h166c24.853 0 45-20.147 45-45s-20.147-45-45-45z"
+                                data-original="#000000" />
+                        </svg>
+                    </button>
+                    <span className='ml-5'>&nbsp;当日の売上: ￥100,000,000</span>
                 </Link>
             </li>
           </ul>

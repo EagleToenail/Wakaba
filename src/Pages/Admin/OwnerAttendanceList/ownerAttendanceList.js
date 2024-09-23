@@ -67,28 +67,26 @@ const OwnerAttendanceList = () => {
                     <tbody>
                         <tr>
                             <td ></td>
-                            <td >店舗</td>
+                            <td >店舗</td>                
                             {(workingTime && workingTime.length !== 0) && workingTime.map((user,Index) => (
-                                <td key={Index} style={Td}>高崎店</td>
+                                <td key={Index} style={Td}>{user.store_name}</td>
                             ))}
-                            <td style={Td}></td>
                         </tr>
                         <tr>
                             <td ></td>
                             <td >休日</td>
-                            <td style={Td}>土日</td>
-                            <td style={Td}>火</td>
                             {(workingTime && workingTime.length !== 0) && workingTime.map((user,Index) => (
-                                <td key={Index} style={Td}>高崎店</td>
+                                <td key={Index} style={Td}>土日</td>
                             ))}
-                            <td style={Td}></td>
                         </tr>
                         <tr>
                             <td ></td>
                             <td >氏名</td>
-                            <td style={Td} >小泉純一郎</td>
-                            <td style={Td}>スタッフ02</td>
-                            <td style={Td}></td>
+                            {/* <td style={Td} >小泉純一郎</td>
+                            <td style={Td}>スタッフ02</td> */}
+                            {(workingTime && workingTime.length !== 0) && workingTime.map((user,Index) => (
+                                <td key={Index} style={Td}>{user.full_name}</td>
+                            ))}
                         </tr>
                     </tbody>
 
@@ -111,27 +109,14 @@ const OwnerAttendanceList = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td style={Td}>2024/12/01</td>
-                            <td style={Td}>月</td>
-                            <td style={Td}>07:05</td>
-                            <td style={Td}>22:55</td>
-                            <td style={Td}>15.8</td>
-                            <td style={Td}>12:00</td>
-                            <td style={Td}>15:10</td>
-                            <td style={Td}>3.2</td>
-                            <td style={Td}></td>
-                        </tr>
-                        {workingTime.map((user) => (
-                            Object.keys(user).filter(key => key.startsWith('day')).map((dayKey, index) => (
-                            <tr key={`${user.userId}-${index}`}>
-                                <td>{user.userId}</td>
-                                <td>{dayKey.replace('day', '')}</td>
-                                <td>{user[dayKey]?.loginTime ? new Date(user[dayKey].loginTime).toLocaleString() : 'N/A'}</td>
-                                <td>{user[dayKey]?.logoutTime ? new Date(user[dayKey].logoutTime).toLocaleString() : 'N/A'}</td>
-                                <td>{user[dayKey]?.workingTime || '0'}</td>
+                        { (workingTime && workingTime.length !== 0) && workingTime[0].days.map((day, index) => (
+                            <tr key={index}>
+                                <td style={Td}>{day.day}</td>
+                                <td style={Td}>月</td>
+                                <td style={Td}>{day.loginTime}</td>
+                                <td style={Td}>{day.logoutTime}</td>
+                                <td style={Td}>{day.workingTime}</td>
                             </tr>
-                            ))
                         ))}
                     </tbody>
 

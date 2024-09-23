@@ -192,7 +192,7 @@ const CustomerList = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {customers.map((customer,Index) => (
+                            {(customers && customers.length !==0) && customers.map((customer,Index) => (
                                 <tr key={customer.id}>
                                     <td style={Td}>{Index+1}</td>
                                     <td style={Td} onClick={() => handleCustomerClick(customer.id)}>{customer.full_name}</td>

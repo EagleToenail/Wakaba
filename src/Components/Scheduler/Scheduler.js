@@ -2,10 +2,13 @@ import { useEffect, useRef } from "react";
 import { Scheduler } from "@dhx/trial-scheduler";
 // import {Scheduler} from 'dhtmlx-scheduler';
 import "@dhx/trial-scheduler/codebase/dhtmlxscheduler.css";
-// 
+import axios from "axios";
 export default function SchedulerView( {events, timeFormatState, onDataUpdated} ) {
 	let container = useRef();
 	useEffect(() => {
+		const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+		const userId = localStorage.getItem('userId');
+
 		let scheduler = Scheduler.getSchedulerInstance();
 		scheduler.i18n.setLocale("jp");
 
@@ -24,14 +27,33 @@ export default function SchedulerView( {events, timeFormatState, onDataUpdated} 
 
 		scheduler.init(container.current, new Date());
 		scheduler.clearAll();
-		scheduler.parse(events);
+		
+		axios.post(`${wakabaBaseUrl}/scheduler/read`,{userId})
+		.then(response=>{
+		   const schedulers=response.data.schedulers;
+		   scheduler.parse(schedulers	);
+		})	 
 		scheduler.createDataProcessor((type, action, item, id) => {
 			return new Promise((resolve, reject) => {
 				onDataUpdated(action, item, id);
 				// if onDataUpdated changes returns a permanent id of the created item, you can return it from here so dhtmlxGantt could apply it
 				// return resolve({id: databaseId});
-				return resolve();
-			});
+				if (action === 'create') {
+
+					axios.post(`${wakabaBaseUrl}/scheduler/create`, {item:item,userId:userId,})
+					  .then(response => {
+						const eventId = response.data.id;
+						// Update the scheduler with the new event ID
+						scheduler.updateEvent(eventId, item);
+						resolve();
+					  })
+					  .catch(err => {
+						console.error(err);
+						reject();
+					  });
+				  }
+				
+				});
 		});
 
 		function setHoursScaleFormat(state) {

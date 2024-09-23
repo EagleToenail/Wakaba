@@ -33,6 +33,7 @@ import PurchaseToRShop from './Pages/PurchaseToRShop/purchaseToRShop';//Purchase
 import InvoiceForPurchaseOfBrought from './Pages/InvoiceForPurchaseOfBrought/invoiceforpurchaseofbrought';//Application for invoice for purchase of brought-in goods
 import InvoiceForPurchaseOfBroughtBlank from './Pages/InvoiceForPurchaseOfBroughtBlank/invoiceforpurchaseofbroughtblank';//Application for invoice for purchase of brought blank-in goods
 import InvoiceForPurchaseChat from './Pages/InvoiceForPurchaseChat/invoiceForPurchaseChat';//invoice for purchase chat
+import InvoiceForPurchaseList from './Pages/InvoiceForPurchaseList/invoiceForPurchaseList';//invoice for purchase list
 import PurchaseInvoiceForBroughtInItems from './Pages/PurchaseInvoiceForBroughtInItems/purchaseInvoiceForBroughtInItems';//Purchase invoice for brought-in items(for customer presentaion)
 import WholeSalerShippingList from './Pages/WholeSalerShippingList/wholeSalerShippingList';//Wholesaler Shipping List
 import PurchaseRequestFormForWholeSaler from './Pages/PurchaseRequestFormForWholeSaler/purchaseRequestFormForWholeSaler';//Purchase request form
@@ -62,6 +63,7 @@ import CustomerReceipt from './Pages/CustomerReceipt/customerReceipt';//Customer
 import OwnersTop from './Pages/Admin/OwnersTop/ownersTop';
 import OwnersStaffList from './Pages/Admin/OwnersStaffList/ownersStaffList';
 import OwnerStaffIndividual from './Pages/Admin/OwnerStaffIndividual/ownerStaffIndividual';
+import OwnerStaffIndividualCreate from './Pages/Admin/OwnerStaffIndividualCreate/ownerStaffIndividualCreate';
 import StoreListForOwners from './Pages/Admin/StoreListForOwners/storeListForOwners';
 import ManagementMasterTOP from './Pages/Admin/ManagementMasterTOP/managementMasterTOP';
 import ManagementVariousMasterproductCategory1 from './Pages/Admin/ManagementVariousMasterProductCategory1/managementVariousMasterProductCategory1';
@@ -118,6 +120,7 @@ function App() {
             <Route path='/invoiceforpurchaseofbrought/:id' element={<InvoiceForPurchaseOfBrought/>}/>
             <Route path='/invoiceforpurchaseofbroughtblank' element={<InvoiceForPurchaseOfBroughtBlank/>}/>
             <Route path='/invoiceforpurchasechat' element={<InvoiceForPurchaseChat/>}/>
+            <Route path='/invoiceforpurchaselist' element={<InvoiceForPurchaseList/>}/>
             <Route path='/wholesalershippinglist' element={<WholeSalerShippingList/>}/>
             <Route path='/purchaserequestformforwholesaler' element={<PurchaseRequestFormForWholeSaler/>}/>
             <Route path='/salesslip' element={<SalesSlip/>}/>
@@ -141,7 +144,8 @@ function App() {
             {/* admin */}
             <Route path='/admin/ownerstop' element={<OwnersTop/>}/>
             <Route path='/admin/ownersstafflist' element={<OwnersStaffList/>}/>
-            <Route path='/admin/ownerstaffindividual' element={<OwnerStaffIndividual/>}/>
+            <Route path='/admin/ownerstaffindividual/:id' element={<OwnerStaffIndividual/>}/>
+            <Route path='/admin/ownerstaffindividualcreate' element={<OwnerStaffIndividualCreate/>}/>
             <Route path='/admin/storelistforowners' element={<StoreListForOwners/>}/>
             <Route path='/admin/managementmastertop' element={<ManagementMasterTOP/>}/>
             <Route path='/admin/managementvariousmasterproductcategory1' element={<ManagementVariousMasterproductCategory1/>}/>

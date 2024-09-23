@@ -119,6 +119,9 @@ const PurchaseRequestFormForWholeSaler = () => {
             // Extract data from responses and set the state
             const salesData = responses.map(response => response.data);
             setWholeSalesPurchase(salesData);
+            if(salesData[0].product_type_one) {
+                fetchCategoryVendors(salesData[0].product_type_one);
+            }
             // console.log('salesdata========', salesData);
           } catch (error) {
             console.error("There was an error fetching the customer data!", error);
@@ -145,7 +148,26 @@ const PurchaseRequestFormForWholeSaler = () => {
             console.error("There was an error fetching the customer data!", error);
         });
     }, []);
+    // fetch vendor names
+    const [categoryVendors , setCategoryVendors] = useState([]);
+    const fetchCategoryVendors = (item)=>{
+    // useEffect(() => {
+        const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+        if (!wakabaBaseUrl) {
+            throw new Error('API base URL is not defined');
+        }
 
+            axios.post(`${wakabaBaseUrl}/vendor/getVendorList`,{type:item})
+            .then(response => {
+                setCategoryVendors(response.data);
+                // console.log('vendrListAll',response.data)
+            })
+            .catch(error => {
+                console.error("There was an error fetching the customer data!", error);
+            });
+
+    // }, []);
+    }
     const handleVendorChange = (e) => {
         const { name, value } = e.target;
         updateShippingAddress(value);
@@ -204,7 +226,7 @@ const PurchaseRequestFormForWholeSaler = () => {
             {/* <Titlebar title={title} /> */}
 
             <div className='flex justify-around mt-10' >
-                <h2 className="text-[#70685a] text-center text-2xl font-bold flex justify-center">卸への買取り依頼書(各業者用紙作成元シート)</h2>
+                <h2 className="text-[#70685a] text-center text-2xl font-bold flex justify-center">業者卸依頼書</h2>
             </div>
 
             {/*  */}
@@ -216,7 +238,7 @@ const PurchaseRequestFormForWholeSaler = () => {
 
                     <select name="shipping_address" onChange={handleVendorChange} className="w-full h-11 text-[#70685a] text-[15px] font-bold border border-[#70685a] px-4 py-1 outline-[#70685a]">
                         <option value=""></option>
-                        {allVendors && allVendors.map((vendor, index) => (
+                        {(categoryVendors && categoryVendors.length !== 0) && categoryVendors.map((vendor, index) => (
                             <option key={index} value={vendor.vendor_name}>{vendor.vendor_name}</option>
                         ))}
                     </select>

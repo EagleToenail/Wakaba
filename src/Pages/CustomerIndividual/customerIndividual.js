@@ -692,45 +692,45 @@ const CustomerIndividual = () => {
                                             <div className='ml-20'>
                                                 {/* <InputComponent value={customer.item1 || ''} name='item1' onChange={handleCustomerChange} className="w-full text-[#70685a] text-[18px] mb-2 block text-left  mr-10 py-1 !mb-0 !h-10" /> */}
                                                 <div className='flex gap-10'>
-                                                    <div class="flex items-center">
+                                                    <div className="flex items-center">
                                                         <input id="checkbox1" type="checkbox"
-                                                            class="w-4 h-4 mr-3" />
-                                                        <label for="checkbox1" class="text-[#70685a]"> 以前も利用したことがある</label>
+                                                            className="w-4 h-4 mr-3" />
+                                                        <label className="text-[#70685a]"> 以前も利用したことがある</label>
                                                     </div>
-                                                    <div class="flex items-center">
+                                                    <div className="flex items-center">
                                                         <input id="checkbox2" type="checkbox"
-                                                            class="w-4 h-4 mr-3" />
-                                                        <label for="checkbox2" class="text-[#70685a]">店舗を見て</label>
+                                                            className="w-4 h-4 mr-3" />
+                                                        <label className="text-[#70685a]">店舗を見て</label>
                                                     </div>
                                                 </div>
-                                                <div class="flex items-center">
+                                                <div className="flex items-center">
                                                     <input id="checkbox3" type="checkbox"
-                                                        class="w-4 h-4 mr-3" />
-                                                    <label for="checkbox3" class="text-[#70685a] mr-3"> 店舗以外の看板・広告を見て</label>
+                                                        className="w-4 h-4 mr-3" />
+                                                    <label className="text-[#70685a] mr-3"> 店舗以外の看板・広告を見て</label>
                                                     <InputComponent className="w-40 text-[#70685a] mb-2 block text-left  mr-10 py-1 !mb-0 !h-8" placeholder={'広告を見た場所'} />
                                                 </div>
-                                                <div class="flex items-center">
+                                                <div className="flex items-center">
                                                     <input id="checkbox4" type="checkbox"
-                                                        class="w-4 h-4 mr-3" />
-                                                    <label for="checkbox4" class="text-[#70685a] mr-3">折込チラシを見て</label>
+                                                        className="w-4 h-4 mr-3" />
+                                                    <label className="text-[#70685a] mr-3">折込チラシを見て</label>
                                                     <InputComponent className="w-40 text-[#70685a] mb-2 block text-left  mr-10 py-1 !mb-0 !h-8" placeholder={'新聞銘柄'} />
                                                 </div>
                                                 <div className='flex gap-10'>
-                                                    <div class="flex items-center">
+                                                    <div className="flex items-center">
                                                         <input id="checkbox5" type="checkbox"
-                                                            class="w-4 h-4 mr-3" />
-                                                        <label for="checkbox5" class="text-[#70685a]">インターネットを見て</label>
+                                                            className="w-4 h-4 mr-3" />
+                                                        <label className="text-[#70685a]">インターネットを見て</label>
                                                     </div>
-                                                    <div class="flex items-center">
+                                                    <div className="flex items-center">
                                                         <input id="checkbox6" type="checkbox"
-                                                            class="w-4 h-4 mr-3" />
-                                                        <label for="checkbox6" class="text-[#70685a]"> 紹介されて</label>
+                                                            className="w-4 h-4 mr-3" />
+                                                        <label className="text-[#70685a]"> 紹介されて</label>
                                                     </div>
                                                 </div>
-                                                <div class="flex items-center">
+                                                <div className="flex items-center">
                                                     <input id="checkbox7" type="checkbox"
-                                                        class="w-4 h-4 mr-3" />
-                                                    <label for="checkbox7" class="text-[#70685a] mr-3">その他</label>
+                                                        className="w-4 h-4 mr-3" />
+                                                    <label className="text-[#70685a] mr-3">その他</label>
                                                     <InputComponent className="w-40 text-[#70685a] mb-2 block text-left  mr-10 py-1 !mb-0 !h-8" placeholder={'その他詳細'} />
                                                 </div>
                                             </div>
@@ -743,83 +743,83 @@ const CustomerIndividual = () => {
                                             <div className=' ml-20'>
                                                 {/* <InputComponent value={customer.item2 || ''} name='item2' onChange={handleCustomerChange} className="w-full text-[#70685a] text-[18px] mb-2 block text-left  mr-10 py-1 !mb-0 !h-10" /> */}
                                                 <div className='flex gap-10'>
-                                                    <div class="flex items-center">
-                                                        <input id="checkbox8" type="checkbox" class="w-4 h-4 mr-3" />
-                                                        <label for="checkbox8" class="text-[#70685a]">ダイヤモンド</label>
+                                                    <div className="flex items-center">
+                                                        <input id="checkbox8" type="checkbox" className="w-4 h-4 mr-3" />
+                                                        <label className="text-[#70685a]">ダイヤモンド</label>
                                                     </div>
-                                                    <div class="flex items-center">
-                                                        <input id="checkbox9" type="checkbox" class="w-4 h-4 mr-3" />
-                                                        <label for="checkbox9" class="text-[#70685a]">色石</label>
+                                                    <div className="flex items-center">
+                                                        <input id="checkbox9" type="checkbox" className="w-4 h-4 mr-3" />
+                                                        <label className="text-[#70685a]">色石</label>
                                                     </div>
-                                                    <div class="flex items-center">
-                                                        <input id="checkbox10" type="checkbox" class="w-4 h-4 mr-3" />
-                                                        <label for="checkbox10" class="text-[#70685a]">ネックレス</label>
-                                                    </div>
-                                                </div>
-                                                <div className='flex gap-10'>
-                                                    <div class="flex items-center">
-                                                        <input id="checkbox11" type="checkbox" class="w-4 h-4 mr-3" />
-                                                        <label for="checkbox11" class="text-[#70685a]">指輪</label>
-                                                    </div>
-                                                    <div class="flex items-center">
-                                                        <input id="checkbox12" type="checkbox" class="w-4 h-4 mr-3" />
-                                                        <label for="checkbox12" class="text-[#70685a]">時計</label>
-                                                    </div>
-                                                    <div class="flex items-center">
-                                                        <input id="checkbox13" type="checkbox" class="w-4 h-4 mr-3" />
-                                                        <label for="checkbox13" class="text-[#70685a]">ブランド品</label>
+                                                    <div className="flex items-center">
+                                                        <input id="checkbox10" type="checkbox" className="w-4 h-4 mr-3" />
+                                                        <label  className="text-[#70685a]">ネックレス</label>
                                                     </div>
                                                 </div>
                                                 <div className='flex gap-10'>
-                                                    <div class="flex items-center">
-                                                        <input id="checkbox14" type="checkbox" class="w-4 h-4 mr-3" />
-                                                        <label for="checkbox15" class="text-[#70685a]">切手</label>
+                                                    <div className="flex items-center">
+                                                        <input id="checkbox11" type="checkbox" className="w-4 h-4 mr-3" />
+                                                        <label  className="text-[#70685a]">指輪</label>
                                                     </div>
-                                                    <div class="flex items-center">
-                                                        <input id="checkbox6" type="checkbox" class="w-4 h-4 mr-3" />
-                                                        <label for="checkbox16" class="text-[#70685a]">中国切手</label>
+                                                    <div className="flex items-center">
+                                                        <input id="checkbox12" type="checkbox" className="w-4 h-4 mr-3" />
+                                                        <label  className="text-[#70685a]">時計</label>
                                                     </div>
-                                                    <div class="flex items-center">
-                                                        <input id="checkbox17" type="checkbox" class="w-4 h-4 mr-3" />
-                                                        <label for="checkbox17" class="text-[#70685a]">古銭</label>
-                                                    </div>
-                                                </div>
-                                                <div className='flex gap-10'>
-                                                    <div class="flex items-center">
-                                                        <input id="checkbox18" type="checkbox" class="w-4 h-4 mr-3" />
-                                                        <label for="checkbox18" class="text-[#70685a]">金券</label>
-                                                    </div>
-                                                    <div class="flex items-center">
-                                                        <input id="checkbox19" type="checkbox" class="w-4 h-4 mr-3" />
-                                                        <label for="checkbox19" class="text-[#70685a]">テレカ</label>
-                                                    </div>
-                                                    <div class="flex items-center">
-                                                        <input id="checkbox20" type="checkbox" class="w-4 h-4 mr-3" />
-                                                        <label for="checkbox20" class="text-[#70685a]">カメラ</label>
+                                                    <div className="flex items-center">
+                                                        <input id="checkbox13" type="checkbox" className="w-4 h-4 mr-3" />
+                                                        <label  className="text-[#70685a]">ブランド品</label>
                                                     </div>
                                                 </div>
                                                 <div className='flex gap-10'>
-                                                    <div class="flex items-center">
-                                                        <input id="checkbox21" type="checkbox" class="w-4 h-4 mr-3" />
-                                                        <label for="checkbox21" class="text-[#70685a]">スマートフォン</label>
+                                                    <div className="flex items-center">
+                                                        <input id="checkbox14" type="checkbox" className="w-4 h-4 mr-3" />
+                                                        <label  className="text-[#70685a]">切手</label>
                                                     </div>
-                                                    <div class="flex items-center">
-                                                        <input id="checkbox22" type="checkbox" class="w-4 h-4 mr-3" />
-                                                        <label for="checkbox22" class="text-[#70685a]">食器</label>
+                                                    <div className="flex items-center">
+                                                        <input id="checkbox6" type="checkbox" className="w-4 h-4 mr-3" />
+                                                        <label  className="text-[#70685a]">中国切手</label>
                                                     </div>
-                                                    <div class="flex items-center">
-                                                        <input id="checkbox23" type="checkbox" class="w-4 h-4 mr-3" />
-                                                        <label for="checkbox23" class="text-[#70685a]">ホビー</label>
+                                                    <div className="flex items-center">
+                                                        <input id="checkbox17" type="checkbox" className="w-4 h-4 mr-3" />
+                                                        <label  className="text-[#70685a]">古銭</label>
                                                     </div>
                                                 </div>
                                                 <div className='flex gap-10'>
-                                                    <div class="flex items-center">
-                                                        <input id="checkbox24" type="checkbox" class="w-4 h-4 mr-3" />
-                                                        <label for="checkbox24" class="text-[#70685a]">楽器</label>
+                                                    <div className="flex items-center">
+                                                        <input id="checkbox18" type="checkbox" className="w-4 h-4 mr-3" />
+                                                        <label  className="text-[#70685a]">金券</label>
                                                     </div>
-                                                    <div class="flex items-center">
-                                                        <input id="checkbox25" type="checkbox" class="w-4 h-4 mr-3" />
-                                                        <label for="checkbox25" class="text-[#70685a] mr-3">その他</label>
+                                                    <div className="flex items-center">
+                                                        <input id="checkbox19" type="checkbox" className="w-4 h-4 mr-3" />
+                                                        <label  className="text-[#70685a]">テレカ</label>
+                                                    </div>
+                                                    <div className="flex items-center">
+                                                        <input id="checkbox20" type="checkbox" className="w-4 h-4 mr-3" />
+                                                        <label  className="text-[#70685a]">カメラ</label>
+                                                    </div>
+                                                </div>
+                                                <div className='flex gap-10'>
+                                                    <div className="flex items-center">
+                                                        <input id="checkbox21" type="checkbox" className="w-4 h-4 mr-3" />
+                                                        <label  className="text-[#70685a]">スマートフォン</label>
+                                                    </div>
+                                                    <div className="flex items-center">
+                                                        <input id="checkbox22" type="checkbox" className="w-4 h-4 mr-3" />
+                                                        <label  className="text-[#70685a]">食器</label>
+                                                    </div>
+                                                    <div className="flex items-center">
+                                                        <input id="checkbox23" type="checkbox" className="w-4 h-4 mr-3" />
+                                                        <label  className="text-[#70685a]">ホビー</label>
+                                                    </div>
+                                                </div>
+                                                <div className='flex gap-10'>
+                                                    <div className="flex items-center">
+                                                        <input id="checkbox24" type="checkbox" className="w-4 h-4 mr-3" />
+                                                        <label  className="text-[#70685a]">楽器</label>
+                                                    </div>
+                                                    <div className="flex items-center">
+                                                        <input id="checkbox25" type="checkbox" className="w-4 h-4 mr-3" />
+                                                        <label  className="text-[#70685a] mr-3">その他</label>
                                                         <InputComponent className="w-40 text-[#70685a] mb-2 block text-left  mr-10 py-1 !mb-0 !h-8" placeholder={'その他詳細'} />
                                                     </div>
                                                 </div>
@@ -833,13 +833,13 @@ const CustomerIndividual = () => {
                                             <div className='ml-20  mb-10'>
                                                 {/* <InputComponent value={customer.item3 || ''} name='item3' onChange={handleCustomerChange} className="w-full text-[#70685a] text-[18px] mb-2 block text-left  mr-10 py-1 !mb-0 !h-10" /> */}
                                                 <div className='flex gap-10'>
-                                                    <div class="flex items-center">
-                                                        <input id="checkbox26" type="checkbox" class="w-4 h-4 mr-3" />
-                                                        <label for="checkbox26" class="text-[#70685a]">可</label>
+                                                    <div className="flex items-center">
+                                                        <input id="checkbox26" type="checkbox" className="w-4 h-4 mr-3" />
+                                                        <label  className="text-[#70685a]">可</label>
                                                     </div>
-                                                    <div class="flex items-center">
-                                                        <input id="checkbox27" type="checkbox" class="w-4 h-4 mr-3" />
-                                                        <label for="checkbox27" class="text-[#70685a]">不可</label>
+                                                    <div className="flex items-center">
+                                                        <input id="checkbox27" type="checkbox" className="w-4 h-4 mr-3" />
+                                                        <label  className="text-[#70685a]">不可</label>
                                                     </div>
                                                 </div>
                                             </div>

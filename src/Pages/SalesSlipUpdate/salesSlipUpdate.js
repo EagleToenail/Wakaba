@@ -15,25 +15,6 @@ import DateAndTime from '../../Components/Common/PickData';
 
 const SalesSlipUpdate = () => {
 
-    // const Table = {
-    //     borderCollapse: 'collapse',
-    //     color: '#70685a',
-    //     textAlign: 'center',
-    //     width: '100%',
-    //     alignItem: 'center',
-
-    // };
-    // const Th = {
-    //     whiteSpace:'nowrap'
-    // }
-
-    // const Td = {
-    //     border: '1px solid #6e6e7c',
-    //     borderCollapse: 'collapse',
-    //     color: '#6e6e7c',
-    //     fontSize: '15px',
-    //     whiteSpace:'nowrap'
-    // };
 
     const [salesSlipData, setSalesSlipData] = useState({
         trading_date:'',
@@ -51,9 +32,17 @@ const SalesSlipUpdate = () => {
         purchase_price:'',
         sales_amount:'',
         shipping_cost:'',
-        wholesale_buyer:'',
-        wholesale_date:'',
-        payment_date:''
+        shipping_address:'',
+        shipping_date:'',
+        payment_date:'',
+        // ----yahooacution
+        successful_bider:'',
+        auction_purchase_price: '',
+        auction_bider_name: '',
+        auction_bider_katakana_name: '',
+        auction_bider_tel: '',
+        auction_bider_address: '',
+        auction_bider_evaluation: '',
     });
 
     const { id } = useParams();
@@ -64,11 +53,15 @@ const SalesSlipUpdate = () => {
             throw new Error('API base URL is not defined');
         }
 
-        console.log(`${wakabaBaseUrl}/sales/getSalesById`);
+        // console.log(`${wakabaBaseUrl}/sales/getSalesById`);
         axios.get(`${wakabaBaseUrl}/sales/getSalesById/${id}`)
             .then(response => {
-                console.log("123",response.data)
+                // console.log("123",response.data)
                 setSalesSlipData(response.data);
+                if(response.data){
+                    fetchCategoryVendors(response.data.product_type_one);
+                    fetchProduct2(response.data.product_type_one);
+                }
             })
             .catch(error => {
                 console.error("There was an error fetching the customer data!", error);
@@ -82,6 +75,10 @@ const SalesSlipUpdate = () => {
             ...salesSlipData,
             [e.target.name]: e.target.value,
         });
+        if(e.target.name == 'product_type_one') {
+            fetchCategoryVendors(e.target.value);
+            fetchProduct2(e.target.value);
+        }
 
     };
 
@@ -96,11 +93,11 @@ const SalesSlipUpdate = () => {
             throw new Error('API base URL is not defined');
         }
         // const customerId = salesSlipData.customer_id;
-        console.log('aaa',customerId)
+        // console.log('aaa',customerId)
         if(customerId) {
             axios.get(`${wakabaBaseUrl}/customer/getCustomerById/${customerId}`)
             .then(response => {
-                console.log("data", response.data)
+                // console.log("data", response.data)
                 setCustomers(response.data);
             })
             .catch(error => {
@@ -109,45 +106,6 @@ const SalesSlipUpdate = () => {
         }
 
     }, [customerId]);
-
-
-    const [product1, setProduct1] = useState([]);
-    useEffect(() => {
-        const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
-        if (!wakabaBaseUrl) {
-            throw new Error('API base URL is not defined');
-        }
-
-        axios.get(`${wakabaBaseUrl}/ProductType1s`)
-            .then(response => {
-                setProduct1(response.data);
-            })
-            .catch(error => {
-                console.error("There was an error fetching the customer data!", error);
-            });
-    }, []);
-    const [product2, setProduct2] = useState([]);
-    useEffect(() => {
-        const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
-        if (!wakabaBaseUrl) {
-            throw new Error('API base URL is not defined');
-        }
-
-        axios.get(`${wakabaBaseUrl}/ProductType2s`)
-            .then(response => {
-                setProduct2(response.data);
-            })
-            .catch(error => {
-                console.error("There was an error fetching the customer data!", error);
-            });
-    }, []);
-
-
-    // const dispatch = useDispatch();
-
-    // const updateData = (totalSalesSlipData) => {
-    //   dispatch(setData(totalSalesSlipData));
-    // };
 
     const handlePurchaseSubmit = async (e) => {
         e.preventDefault();
@@ -168,8 +126,61 @@ const SalesSlipUpdate = () => {
         }
     };
     
+    const [product1s, setProduct1s] = useState([]);
+    // Fetch product1 data
+    useEffect(() => {
+        const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+        if (!wakabaBaseUrl) {
+            throw new Error('API base URL is not defined');
+        }
 
+        axios.get(`${wakabaBaseUrl}/ProductType1s`)
+            .then(response => {
+                setProduct1s(response.data);
+            })
+            .catch(error => {
+                console.error("There was an error fetching the customer data!", error);
+            });
+    }, []);
 
+    const [product2s, setProduct2s] = useState([]);
+    // Fetch product1 data
+    const fetchProduct2 = (item)=> {
+        // useEffect(() => {
+            const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+            if (!wakabaBaseUrl) {
+                throw new Error('API base URL is not defined');
+            }
+    
+            axios.post(`${wakabaBaseUrl}/ProductType2sfilter`,{name:item})
+                .then(response => {
+                    setProduct2s(response.data);
+                })
+                .catch(error => {
+                    console.error("There was an error fetching the customer data!", error);
+                });
+        // }, []);
+    }
+    //fetch vendors form category
+    const [categoryVendors , setCategoryVendors] = useState([]);
+    const fetchCategoryVendors = (item)=>{
+    // useEffect(() => {
+        const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+        if (!wakabaBaseUrl) {
+            throw new Error('API base URL is not defined');
+        }
+
+            axios.post(`${wakabaBaseUrl}/vendor/getVendorList`,{type:item})
+            .then(response => {
+                setCategoryVendors(response.data);
+                // console.log('vendrListAll',response.data)
+            })
+            .catch(error => {
+                console.error("There was an error fetching the customer data!", error);
+            });
+
+    // }, []);
+    }
     return (
         <>
             <DateAndTime />
@@ -179,7 +190,7 @@ const SalesSlipUpdate = () => {
                         <div className=" rounded-2xl">
                             <h2 className="text-[#70685a] text-center text-2xl font-bold flex justify-center">売上票編集</h2>
 
-                            <div className=" space-y-6 mt-10" >
+                            <div className=" space-y-3 mt-5" >
                                 {/* /==========================================/ */}
                                 {/* new */}
                                 <div className='flex'>
@@ -253,7 +264,7 @@ const SalesSlipUpdate = () => {
                                     <div style={{ width: '50%', flexDirection: 'column', }} className='flex align-center justify-around'>
                                         <select id="product_type_one" name="product_type_one" onChange={handleChange} value={salesSlipData.product_type_one || ''} required className="w-full text-[#70685a] font-bold border border-[#70685a] px-4 py-2 outline-[#70685a]">
                                             <option value="" ></option>
-                                            {product1.map((product,Index) => (
+                                            {(product1s && product1s.length !== 0) && product1s.map((product,Index) => (
                                                 <option key={Index} value={product.category}>{product.category}</option>
                                             ))}
                                         </select>
@@ -267,7 +278,7 @@ const SalesSlipUpdate = () => {
                                     <div style={{ width: '50%', flexDirection: 'column', }} className='flex align-center justify-around'>
                                         <select id="product_type_two" name="product_type_two" onChange={handleChange} value={salesSlipData.product_type_two || ''} required className="w-full text-[#70685a] font-bold border border-[#70685a] px-4 py-2 outline-[#70685a]">
                                         <option value="" ></option>
-                                            {product2.map((product,Index) => (
+                                            {(product2s && product2s !== 0 ) && product2s.map((product,Index) => (
                                                 <option key={Index} value={product.category}>{product.category}</option>
                                             ))}
                                         </select>
@@ -334,6 +345,75 @@ const SalesSlipUpdate = () => {
                                 </div>
                                 {/* ------------------------- HR -------------------------*/}
                                 <hr className="my-5 font-bold  border-gray-400" />
+                                {/* --------------------------------yahooAuction---------------------------------- */}
+                                {(salesSlipData && salesSlipData.length !== 0 && salesSlipData.shipping_address === 'オークション') &&
+                                    <div className='w-full space-y-3'>
+                                        {/* new */}
+                                        <div className='flex'>
+                                            <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
+                                                <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">オークション買取額</label>
+                                            </div>
+                                            <div style={{ width: '60%', flexDirection: 'column', }} className='flex align-center justify-around'>
+                                                <input name="successful_bider" onChange={handleChange} value={salesSlipData.successful_bider || ''} type="text" required className="w-full text-[#70685a] border border-[#70685a] px-4 py-2 outline-[#70685a]" />
+                                            </div>
+                                        </div>
+                                        {/* new */}
+                                        <div className='flex'>
+                                            <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
+                                                <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">落札額</label>
+                                            </div>
+                                            <div style={{ width: '60%', flexDirection: 'column', }} className='flex align-center justify-around'>
+                                                <input name="auction_purchase_price" onChange={handleChange} value={salesSlipData.auction_purchase_price || ''} type="text" required className="w-full text-[#70685a] border border-[#70685a] px-4 py-2 outline-[#70685a]" />
+                                            </div>
+                                        </div>
+                                        {/* new */}
+                                        <div className='flex'>
+                                            <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
+                                                <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">お名前</label>
+                                            </div>
+                                            <div style={{ width: '60%', flexDirection: 'column', }} className='flex align-center justify-around'>
+                                                <input name="auction_bider_name" onChange={handleChange} value={salesSlipData.auction_bider_name || ''} type="text" required className="w-full text-[#70685a] border border-[#70685a] px-4 py-2 outline-[#70685a]" />
+                                            </div>
+                                        </div>
+                                        {/* new */}
+                                        <div className='flex'>
+                                            <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
+                                                <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">カナ</label>
+                                            </div>
+                                            <div style={{ width: '60%', flexDirection: 'column', }} className='flex align-center justify-around'>
+                                                <input name="auction_bider_katakana_name" onChange={handleChange} value={salesSlipData.auction_bider_katakana_name || ''} type="text" required className="w-full text-[#70685a] border border-[#70685a] px-4 py-2 outline-[#70685a]" />
+                                            </div>
+                                        </div>
+                                        {/* new */}
+                                        <div className='flex'>
+                                            <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
+                                                <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">TEL</label>
+                                            </div>
+                                            <div style={{ width: '60%', flexDirection: 'column', }} className='flex align-center justify-around'>
+                                                <input name="auction_bider_tel" onChange={handleChange} value={salesSlipData.auction_bider_tel || ''} type="text" required className="w-full text-[#70685a] border border-[#70685a] px-4 py-2 outline-[#70685a]" />
+                                            </div>
+                                        </div>
+                                        {/* new */}
+                                        <div className='flex'>
+                                            <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
+                                                <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">住所</label>
+                                            </div>
+                                            <div style={{ width: '60%', flexDirection: 'column', }} className='flex align-center justify-around'>
+                                                <input name="auction_bider_address" onChange={handleChange} value={salesSlipData.auction_bider_address || ''} type="text" required className="w-full text-[#70685a] border border-[#70685a] px-4 py-2 outline-[#70685a]" />
+                                            </div>
+                                        </div>
+                                        {/* new */}
+                                        <div className='flex'>
+                                            <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
+                                                <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">評価</label>
+                                            </div>
+                                            <div style={{ width: '60%', flexDirection: 'column', }} className='flex align-center justify-around'>
+                                                <input name="auction_bider_evaluation" onChange={handleChange} value={salesSlipData.auction_bider_evaluation || ''} type="text" required className="w-full text-[#70685a] border border-[#70685a] px-4 py-2 outline-[#70685a]" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                 }
+                                {/* ------------------------------------------------------------------------------ */}
                                 {/* new */}
                                 <div className='flex'>
                                     <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
@@ -358,7 +438,12 @@ const SalesSlipUpdate = () => {
                                         <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">卸し先 </label>
                                     </div>
                                     <div style={{ width: '60%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                        <input name="wholesale_buyer" onChange={handleChange} value={salesSlipData.wholesale_buyer || ''} required type="text" className="w-full text-[#70685a] border border-[#70685a] px-4 py-2 outline-[#70685a]" />
+                                        <select name="shipping_address" onChange={handleChange} value={salesSlipData.shipping_address || ''} required className="w-full text-[#70685a] font-bold border border-[#70685a] px-4 py-2 outline-[#70685a]">
+                                            <option value="" ></option>
+                                            {(categoryVendors && categoryVendors !== 0 ) && categoryVendors.map((vendor,Index) => (
+                                                <option key={Index} value={vendor.vendor_name}>{vendor.vendor_name}</option>
+                                            ))}
+                                        </select>
                                     </div>
                                 </div>
                                 {/* new */}
@@ -368,7 +453,7 @@ const SalesSlipUpdate = () => {
                                     </div>
 
                                     <div style={{ width: '35%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                        <input name="wholesale_date" type="text" value={salesSlipData.wholesale_date || ''} required className="w-full text-[#70685a] border border-[#70685a] px-4 py-1 text-[20px] outline-[#70685a]" readOnly />
+                                        <input name="shipping_date" type="text" value={salesSlipData.shipping_date || ''} required className="w-full text-[#70685a] border border-[#70685a] px-4 py-1 text-[20px] outline-[#70685a]" readOnly />
                                     </div>
                                     <div style={{ width: '5%', flexDirection: 'column', }} className='flex flex-col justify-center pl-3'>
                                         <div style={{ width: '40px', height: '30px', cursor: 'pointer' }}>

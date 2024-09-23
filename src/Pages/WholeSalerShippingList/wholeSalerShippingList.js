@@ -35,6 +35,15 @@ const WholeSalerShippingList = () => {
         fontSize: '15px',
         whiteSpace:'nowrap'
     };
+    const Td1 = {
+        border: '1px solid #70685a',
+        borderCollapse: 'collapse',
+        color: '#70685a',
+        fontSize: '15px',
+        whiteSpace:'nowrap',
+        borderRightWidth: '7px'
+
+    };
 
     const navigate = useNavigate();
 
@@ -336,7 +345,7 @@ const fetchOldSalesData = async (ids) => {
                                                 <td style={Td}>{saleData.shipping_ids || ''}</td>
                                                 <td style={Td}>{saleData.highest_estimate_price || ''}</td>
                                                 <td style={Td}>{saleData.shipper || ''}</td>
-                                                <td style={Td}>
+                                                <td style={Td} className='border-r-3 border-black'>
                                                     {saleData.deposite_date || ''}
                                                 </td>
                                                 <td style={Td}>
@@ -397,7 +406,7 @@ const fetchOldSalesData = async (ids) => {
                                                 <td style={Td}>{wholeSalesPurchase[0].shipping_date || ''}</td>
                                                 <td style={Td}>{wholeSalesPurchase[0].shipping_ids || ''}</td>
                                                 <td style={Td}>{wholeSalesPurchase[0].highest_estimate_price || ''}</td>
-                                                <td style={Td}>{wholeSalesPurchase[0].shipper || ''}</td>
+                                                <td style={Td1} className='border-10 border-black'>{wholeSalesPurchase[0].shipper || ''}a</td>
                                                 <td style={Td}>
                                                     {editIndex === 1 ?(
                                                         <InputComponent type="date" name='deposite_date' value={editedRow.deposite_date || ''} onChange={handleInputChange} className='w-max h-8 text-[#70685a]' />

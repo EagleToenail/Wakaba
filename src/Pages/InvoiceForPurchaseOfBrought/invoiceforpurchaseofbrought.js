@@ -230,6 +230,7 @@ const InvoicePurchaseOfBrought = () => {
         });
         if(e.target.name == 'product_type_one') {
             getVendorList(e.target.value);
+            fetchProduct2(e.target.value);
         }
     };
     // search selectbox product1================
@@ -263,7 +264,7 @@ const InvoicePurchaseOfBrought = () => {
         axios.post(`${wakabaBaseUrl}/vendor/getVendorList`,{type:type})
         .then(response => {
             setVendors(response.data);
-            console.log('vendrList',response.data)
+            // console.log('vendrList',response.data)
         })
         .catch(error => {
             console.error("There was an error fetching the customer data!", error);
@@ -278,7 +279,7 @@ const InvoicePurchaseOfBrought = () => {
         axios.get(`${wakabaBaseUrl}/vendor/getVendorListAll`)
         .then(response => {
             setAllVendors(response.data);
-            console.log('vendrListAll',response.data)
+            // console.log('vendrListAll',response.data)
         })
         .catch(error => {
             console.error("There was an error fetching the customer data!", error);
@@ -326,20 +327,22 @@ const InvoicePurchaseOfBrought = () => {
 
     const [product2s, setProduct2s] = useState([]);
     // Fetch product1 data
-    useEffect(() => {
-        const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
-        if (!wakabaBaseUrl) {
-            throw new Error('API base URL is not defined');
-        }
-
-        axios.get(`${wakabaBaseUrl}/ProductType2s`)
-            .then(response => {
-                setProduct2s(response.data);
-            })
-            .catch(error => {
-                console.error("There was an error fetching the customer data!", error);
-            });
-    }, []);
+    const fetchProduct2 = (item)=> {
+        // useEffect(() => {
+            const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+            if (!wakabaBaseUrl) {
+                throw new Error('API base URL is not defined');
+            }
+    
+            axios.post(`${wakabaBaseUrl}/ProductType2sfilter`,{name:item})
+                .then(response => {
+                    setProduct2s(response.data);
+                })
+                .catch(error => {
+                    console.error("There was an error fetching the customer data!", error);
+                });
+        // }, []);
+    }
     // Filter the options based on the query
 
 

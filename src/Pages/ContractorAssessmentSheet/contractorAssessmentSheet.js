@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import {Link ,useNavigate} from 'react-router-dom';
 // import Titlebar from '../../Components/Common/Titlebar';
 // import InputComponent from '../../Components/Common/InputComponent';
 import ButtonComponent from '../../Components/Common/ButtonComponent';
@@ -8,10 +8,12 @@ import axios from 'axios';
 import leftArrow from '../../Assets/img/right-arrow.png';
 import rightArrow from '../../Assets/img/left-arrow.png';
 
+import { useDispatch } from 'react-redux';
+import { setShippingData } from '../../redux/sales/actions';
 
 const ContractorAssementSheet = () => {
     // const title = 'タイトルタイトル';
-
+    const navigate = useNavigate(); // Use useNavigate instead of useHistory
     const Table = {
         borderCollapse: 'collapse',
         color: '#70685a',
@@ -35,18 +37,28 @@ const ContractorAssementSheet = () => {
         whiteSpace: 'nowrap',
     };
 
-    //   const [isOpen, setIsOpen] = useState(false);
-    // const [isshow, setIsShow] = useState(true);
+    const dispatch = useDispatch();
 
-    // const openSubtable = () => {
-    //     // setIsOpen(true);
-    //     setIsShow(false);
-    // };
+    const updateData = (data) => {
+    dispatch(setShippingData(data));
+    };
 
-    // const closeSubtable = () => {
-    //     // setIsOpen(false);
-    //     setIsShow(true);
-    // };
+    //checked event
+    const [checkedValues, setCheckedValues] = useState([]);
+    // Handle checkbox change
+    const handleCheckboxChange = (event) => {
+        const value = event.target.value;
+        setCheckedValues((prevValues) => 
+        prevValues.includes(value)
+            ? prevValues.filter((v) => v !== value) // Uncheck
+            : [...prevValues, value] // Check
+        );
+    };
+    const handleSendCheckedValues = () => {
+        updateData(checkedValues);
+        // console.log('checked values',checkedValues);
+        navigate('/purchaserequestformforwholesaler');
+    };
 
     const [visibleTable, setVisibleTable] = useState('貴金属');
 
@@ -84,7 +96,7 @@ const ContractorAssementSheet = () => {
             throw new Error('API base URL is not defined');
         }
 
-        console.log(`${wakabaBaseUrl}/sales/filter`);
+        // console.log(`${wakabaBaseUrl}/sales/filter`);
           const response = await axios.get(`${wakabaBaseUrl}/contractorassessments`);
         //   console.log("accessment",response.data.payload)
           setData(response.data.payload || {
@@ -129,45 +141,49 @@ const ContractorAssementSheet = () => {
         if (!wakabaBaseUrl) {
             throw new Error('API base URL is not defined');
         }
-        axios.post(`${wakabaBaseUrl}/vendor/getVendorList`,{type:'貴金属'})
-        .then(response => {
-            // console.log('vendrListAll',response.data)
-            setPreciousMetalVendors(response.data);
-            const result = response.data.reduce((acc, { vendor_name }) => {
-              // Create a new key-value pair where the key is the vendor name and the value is an empty string
-              acc[vendor_name] = '';
-              return acc;
-          }, {});
-          const previousPreciousMetalRow = {
-            shipping_address: '',
-            wholesale_date: '',
-            number: '',
-            product_name: '',
-            quantity: '',
-            gold_type: '',
-            gross_weight: '',
-            purchase_price: '',
-            bullion_weight: '',
-          }
 
-          const updatedPreciousMetalRow = {
-            ...previousPreciousMetalRow,
-            ...result
+        const fetchVendors = async () => {
+            try {
+                const response = await axios.post(`${wakabaBaseUrl}/vendor/getVendorList`, { type: '貴金属' });
+                setPreciousMetalVendors(response.data);
+
+                const result = response.data.reduce((acc, { vendor_name }) => {
+                    acc[vendor_name] = ''; // Create a key-value pair
+                    return acc;
+                }, {});
+
+                const previousPreciousMetalRow = {
+                    shipping_address: '',
+                    wholesale_date: '',
+                    number: '',
+                    product_name: '',
+                    quantity: '',
+                    gold_type: '',
+                    gross_weight: '',
+                    purchase_price: '',
+                    bullion_weight: '',
+                };
+
+                const updatedPreciousMetalRow = {
+                    ...previousPreciousMetalRow,
+                    ...result
+                };
+
+                setPreciousMetalInitialValue(updatedPreciousMetalRow);
+                setNewPreciousMetalRow(updatedPreciousMetalRow); // Ensure this is updated with the correct initial values
+
+            } catch (error) {
+                console.error("There was an error fetching the vendor data!", error);
+            }
         };
-        setPreciousMetalInitialValue(updatedPreciousMetalRow);
-        setNewPreciousMetalRow(updatedPreciousMetalRow);
-        // console.log('result',updatedPreciousMetalRow);
-        })
-        .catch(error => {
-            console.error("There was an error fetching the customer data!", error);
-        });
+        fetchVendors();
     }, []);
 
     const [preciousMetalData, setPreciousMetalData] = useState();
 
     const [editPreciousMetalId, setEditPreciousMetalId] = useState(null);
     const [newPreciousMetalRow, setNewPreciousMetalRow] = useState(preciousMetalInitialValue);
-    console.log('newprciousMetalRow',preciousMetalInitialValue,newPreciousMetalRow)
+    //console.log('newprciousMetalRow',preciousMetalInitialValue,newPreciousMetalRow)
 
 
     const handlePreciousMetalChange = (e, id = null) => {
@@ -181,14 +197,6 @@ const ContractorAssementSheet = () => {
             )
         );
         }
-    };
-
-    const handlePreciousMetalAdd = () => {
-        setPreciousMetalData((prevData) => [
-        ...prevData,
-        { id: Date.now(), ...newPreciousMetalRow }
-        ]);
-        setNewPreciousMetalRow(preciousMetalInitialValue);
     };
 
     const handlePreciousMetalEdit = (id) => {
@@ -245,19 +253,48 @@ const ContractorAssementSheet = () => {
         setInputPreciousMetalShow(!inputPreciousMetalShow);
     };
  //----------------------------- old Coin--------------------------------------------------------
+     //get  vendor list form vendor table
+     const [oldCoinVendors , setOldCoinVendors] = useState([]);
+     const [oldCoinInitialValue , setOldCoinInitialValue] = useState([]);
+     useEffect(() => {
+         const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+         if (!wakabaBaseUrl) {
+             throw new Error('API base URL is not defined');
+         }
+         axios.post(`${wakabaBaseUrl}/vendor/getVendorList`,{type:'古銭等'})
+         .then(response => {
+            //  console.log('vendrListAll',response.data)
+            setOldCoinVendors(response.data);
+             const result = response.data.reduce((acc, { vendor_name }) => {
+               // Create a new key-value pair where the key is the vendor name and the value is an empty string
+               acc[vendor_name] = '';
+               return acc;
+           }, {});
+           const oldCoinRow = {
+            shipping_date: '',
+            number: '',
+            product_name: '',
+            remarks: '',
+            assessment_date: '',
+           }
+ 
+           const updatedOldCoinRow = {
+             ...oldCoinRow,
+             ...result
+         };
+         setOldCoinInitialValue(updatedOldCoinRow);
+         setNewOldCoinRow(updatedOldCoinRow);
+         // console.log('result',updatedPreciousMetalRow);
+         })
+         .catch(error => {
+             console.error("There was an error fetching the customer data!", error);
+         });
+     }, []);
+
     const [oldCoinData, setOldCoinData] = useState('');
 
     const [editOldCoinId, setEditOldCoinId] = useState(null);
-    const [newOldCoinRow, setNewOldCoinRow] = useState({
-        shipping_date: '',
-        number: '',
-        product_name: '',
-        remarks: '',
-        assessment_date: '',
-        wataru_shoji: '',
-        omiya: '',
-        yahoo_auctions: ''
-    });
+    const [newOldCoinRow, setNewOldCoinRow] = useState(oldCoinInitialValue);
 
     const handleOldCoinChange = (e, id = null) => {
         const { name, value } = e.target;
@@ -271,23 +308,6 @@ const ContractorAssementSheet = () => {
         );
         }
     };
-
-    // const handleOldCoinAdd = () => {
-    //     setData((prevData) => [
-    //     ...prevData,
-    //     { id: Date.now(), ...newOldCoinRow }
-    //     ]);
-    //     setNewOldCoinRow({
-    //         shipping_date: '',
-    //         number: '',
-    //         product_name: '',
-    //         remarks: '',
-    //         assessment_date: '',
-    //         wataru_shoji: '',
-    //         omiya: '',
-    //         yahoo_auctions: ''
-    //     });
-    // };
 
     const handleOldCoinEdit = (id) => {
         setEditOldCoinId(id);
@@ -336,16 +356,7 @@ const ContractorAssementSheet = () => {
                   ...prevData,
                   { id: response.data.id, ...newOldCoinRow } // Assuming server returns the new row with an id
                 ]);
-                setNewOldCoinRow({
-                  shipping_date: '',
-                  number: '',
-                  product_name: '',
-                  remarks: '',
-                  assessment_date: '',
-                  wataru_shoji: '',
-                  omiya: '',
-                  yahoo_auctions: ''
-                });
+                setNewOldCoinRow({oldCoinInitialValue});
               } catch (error) {
                 console.error('Error adding row:', error);
               }
@@ -353,25 +364,51 @@ const ContractorAssementSheet = () => {
         setInputOldCoinShow(!inputOldCoinShow);
     };
  //----------------------------- bags---------------------------------
- const [bagData, setBagData] = useState('');
+      //get  vendor list form vendor table
+      const [bagVendors , setBagVendors] = useState([]);
+      const [bagInitialValue , setBagInitialValue] = useState([]);
+      useEffect(() => {
+          const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+          if (!wakabaBaseUrl) {
+              throw new Error('API base URL is not defined');
+          }
+          axios.post(`${wakabaBaseUrl}/vendor/getVendorList`,{type:'バッグ'})
+          .then(response => {
+             //  console.log('vendrListAll',response.data)
+             setBagVendors(response.data);
+              const result = response.data.reduce((acc, { vendor_name }) => {
+                // Create a new key-value pair where the key is the vendor name and the value is an empty string
+                acc[vendor_name] = '';
+                return acc;
+            }, {});
+            const bagRow = {
+              shipping_address: '',
+              shipping_date: '',
+              number: '',
+              manufacturer: '',
+              product_name: '',
+              model_number: '',
+              rank: '',
+              purchase_price: '',
+              bb_skype_date: '',
+            }
+  
+            const updatedBagRow = {
+              ...bagRow,
+              ...result
+          };
+          setBagInitialValue(updatedBagRow);
+          setNewBagRow(updatedBagRow);
+          // console.log('result',updatedPreciousMetalRow);
+          })
+          .catch(error => {
+              console.error("There was an error fetching the customer data!", error);
+          });
+      }, []);
 
+ const [bagData, setBagData] = useState('');
  const [editBagId, setEditBagId] = useState(null);
- const [newBagRow, setNewBagRow] = useState({
-    shipping_address: '',
-    shipping_date: '',
-    number: '',
-    manufacturer: '',
-    product_name: '',
-    model_number: '',
-    rank: '',
-    purchase_price: '',
-    bb_skype_date: '',
-    bb: '',
-    ga: '',
-    home_com: '',
-    kaimana: '',
-    four_nine: ''
- });
+ const [newBagRow, setNewBagRow] = useState(bagInitialValue);
 
  const handleBagChange = (e, id = null) => {
      const { name, value } = e.target;
@@ -434,22 +471,7 @@ const ContractorAssementSheet = () => {
               //  { id: response.data.id, ...newBagRow } // Assuming server returns the new row with an id
                { id: Date.now(), ...newBagRow } // Assuming server returns the new row with an id
              ]);
-             setNewBagRow({
-                shipping_address: '',
-                shipping_date: '',
-                number: '',
-                manufacturer: '',
-                product_name: '',
-                model_number: '',
-                rank: '',
-                purchase_price: '',
-                bb_skype_date: '',
-                bb: '',
-                ga: '',
-                home_com: '',
-                kaimana: '',
-                four_nine: ''
-             });
+             setNewBagRow(bagInitialValue);
            } catch (error) {
              console.error('Error adding row:', error);
            }
@@ -457,30 +479,55 @@ const ContractorAssementSheet = () => {
      setInputBagShow(!inputBagShow);
  };
  //-----------------------------clock---------------------------------
+       //get  vendor list form vendor table
+       const [clockVendors , setClockVendors] = useState([]);
+       const [clockInitialValue , setClockInitialValue] = useState([]);
+       useEffect(() => {
+           const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+           if (!wakabaBaseUrl) {
+               throw new Error('API base URL is not defined');
+           }
+           axios.post(`${wakabaBaseUrl}/vendor/getVendorList`,{type:'時計'})
+           .then(response => {
+              //  console.log('vendrListAll',response.data)
+              setClockVendors(response.data);
+               const result = response.data.reduce((acc, { vendor_name }) => {
+                 // Create a new key-value pair where the key is the vendor name and the value is an empty string
+                 acc[vendor_name] = '';
+                 return acc;
+             }, {});
+             const clockRow = {
+              shipping_address: '',
+              shipping_date: '',
+              number: '',
+              product: '',
+              model_number_one: '',
+              model_number_two: '',
+              automatic_quartz: '',
+              movable: '',
+              tester: '',
+              box_guarantee: '',
+              purchase_price: '',
+              skype_date: '',
+             }
+   
+             const updatedClockRow = {
+               ...clockRow,
+               ...result
+           };
+           setClockInitialValue(updatedClockRow);
+           setNewClockRow(updatedClockRow);
+           // console.log('result',updatedPreciousMetalRow);
+           })
+           .catch(error => {
+               console.error("There was an error fetching the customer data!", error);
+           });
+       }, []);
+
  const [clockData, setClockData] = useState('');
 
  const [editClockId, setEditClockId] = useState(null);
- const [newClockRow, setNewClockRow] = useState({
-    shipping_address: '',
-    shipping_date: '',
-    number: '',
-    product: '',
-    model_number_one: '',
-    model_number_two: '',
-    automatic_quartz: '',
-    movable: '',
-    tester: '',
-    box_guarantee: '',
-    purchase_price: '',
-    skype_date: '',
-    bb: '',
-    ga: '',
-    belmond: '',
-    homecom: '',
-    kaimana: '',
-    four_nine: '',
-    yahoo_auction: ''
- });
+ const [newClockRow, setNewClockRow] = useState(clockInitialValue);
 
  const handleClockChange = (e, id = null) => {
      const { name, value } = e.target;
@@ -543,27 +590,7 @@ const ContractorAssementSheet = () => {
               //  { id: response.data.id, ...newBagRow } // Assuming server returns the new row with an id
                { id: Date.now(), ...newBagRow } // Assuming server returns the new row with an id
              ]);
-             setNewClockRow({
-                shipping_address: '',
-                shipping_date: '',
-                number: '',
-                product: '',
-                model_number_one: '',
-                model_number_two: '',
-                automatic_quartz: '',
-                movable: '',
-                tester: '',
-                box_guarantee: '',
-                purchase_price: '',
-                skype_date: '',
-                bb: '',
-                ga: '',
-                belmond: '',
-                homecom: '',
-                kaimana: '',
-                four_nine: '',
-                yahoo_auction: ''
-             });
+             setNewClockRow(clockInitialValue);
            } catch (error) {
              console.error('Error adding row:', error);
            }
@@ -571,25 +598,51 @@ const ContractorAssementSheet = () => {
      setInputClockShow(!inputClockShow);
  };
 //  -----------------------------wallet---------------------------------
+       //get  vendor list form vendor table
+       const [walletVendors , setWalletVendors] = useState([]);
+       const [walletInitialValue , setWalletInitialValue] = useState([]);
+       useEffect(() => {
+           const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+           if (!wakabaBaseUrl) {
+               throw new Error('API base URL is not defined');
+           }
+           axios.post(`${wakabaBaseUrl}/vendor/getVendorList`,{type:'財布'})
+           .then(response => {
+              //  console.log('vendrListAll',response.data)
+              setWalletVendors(response.data);
+               const result = response.data.reduce((acc, { vendor_name }) => {
+                 // Create a new key-value pair where the key is the vendor name and the value is an empty string
+                 acc[vendor_name] = '';
+                 return acc;
+             }, {});
+             const walletRow = {
+              shipping_address: '',
+              shipping_date: '',
+              number: '',
+              manufacturer: '',
+              product_name: '',
+              model_number: '',
+              rank: '',
+              bb_skype_day: '',
+             }
+   
+             const updatedWalletRow = {
+               ...walletRow,
+               ...result
+           };
+           setWalletInitialValue(updatedWalletRow);
+           setNewWalletRow(updatedWalletRow);
+           // console.log('result',updatedPreciousMetalRow);
+           })
+           .catch(error => {
+               console.error("There was an error fetching the customer data!", error);
+           });
+       }, []);
+
 const [walletData, setWalletData] = useState('');
 
 const [editWalletId, setEditWalletId] = useState(null);
-const [newWalletRow, setNewWalletRow] = useState({
-    shipping_address: '',
-    shipping_date: '',
-    number: '',
-    manufacturer: '',
-    product_name: '',
-    model_number: '',
-    rank: '',
-    bb_skype_day: '',
-    bb: '',
-    ga: '',
-    girasol: '',
-    home_com: '',
-    kaimana: '',
-    four_nine: ''
-});
+const [newWalletRow, setNewWalletRow] = useState(walletInitialValue);
 
 const handleWalletChange = (e, id = null) => {
     const { name, value } = e.target;
@@ -652,22 +705,7 @@ const handleAddWalletRow = async() => {
               // { id: response.data.id, ...newBagRow } // Assuming server returns the new row with an id
               { id: Date.now(), ...newBagRow } // Assuming server returns the new row with an id
             ]);
-            setNewWalletRow({
-                shipping_address: '',
-                shipping_date: '',
-                number: '',
-                manufacturer: '',
-                product_name: '',
-                model_number: '',
-                rank: '',
-                bb_skype_day: '',
-                bb: '',
-                ga: '',
-                girasol: '',
-                home_com: '',
-                kaimana: '',
-                four_nine: ''
-            });
+            setNewWalletRow(walletInitialValue);
           } catch (error) {
             console.error('Error adding row:', error);
           }
@@ -675,24 +713,51 @@ const handleAddWalletRow = async() => {
     setInputWalletShow(!inputWalletShow);
 };
 //  ----------------------------- accesseories---------------------------------
+       //get  vendor list form vendor table
+       const [accessoiresVendors , setAccessoriesVendors] = useState([]);
+       const [accessoriesInitialValue , setAccesseoriesInitialValue] = useState([]);
+       useEffect(() => {
+           const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+           if (!wakabaBaseUrl) {
+               throw new Error('API base URL is not defined');
+           }
+           axios.post(`${wakabaBaseUrl}/vendor/getVendorList`,{type:'アクセサリ'})
+           .then(response => {
+              //  console.log('vendrListAll',response.data)
+              setAccessoriesVendors(response.data);
+               const result = response.data.reduce((acc, { vendor_name }) => {
+                 // Create a new key-value pair where the key is the vendor name and the value is an empty string
+                 acc[vendor_name] = '';
+                 return acc;
+             }, {});
+             const accesseoriesRow = {
+              shipping_address: '',
+              shipping_date: '',
+              wakaba_number: '',
+              manufacturer: '',
+              product_details: '',
+              model_number: '',
+              rank: '',
+              bb_skype_day: '',
+             }
+   
+             const updatedAccesseoriesRow = {
+               ...accesseoriesRow,
+               ...result
+           };
+           setAccesseoriesInitialValue(updatedAccesseoriesRow);
+           setNewAccesseoriesRow(updatedAccesseoriesRow);
+           // console.log('result',updatedPreciousMetalRow);
+           })
+           .catch(error => {
+               console.error("There was an error fetching the customer data!", error);
+           });
+       }, []);
+
 const [accesseoriesData, setAccesseoriesData] = useState('');
 
 const [editAccesseoriesId, setEditAccesseoriesId] = useState(null);
-const [newAccesseoriesRow, setNewAccesseoriesRow] = useState({
-    shipping_address: '',
-    shipping_date: '',
-    wakaba_number: '',
-    manufacturer: '',
-    product_details: '',
-    model_number: '',
-    rank: '',
-    bb_skype_day: '',
-    bb: '',
-    ga: '',
-    home_com: '',
-    kaimana: '',
-    four_nine: ''
-});
+const [newAccesseoriesRow, setNewAccesseoriesRow] = useState(accessoriesInitialValue);
 
 const handleAccesseoriesChange = (e, id = null) => {
     const { name, value } = e.target;
@@ -755,21 +820,7 @@ const handleAddAccesseoriesRow = async() => {
               // { id: response.data.id, ...newBagRow } // Assuming server returns the new row with an id
               { id: Date.now(), ...newBagRow } // Assuming server returns the new row with an id
             ]);
-            setNewAccesseoriesRow({
-                shipping_address: '',
-                shipping_date: '',
-                wakaba_number: '',
-                manufacturer: '',
-                product_details: '',
-                model_number: '',
-                rank: '',
-                bb_skype_day: '',
-                bb: '',
-                ga: '',
-                home_com: '',
-                kaimana: '',
-                four_nine: ''
-            });
+            setNewAccesseoriesRow(accessoriesInitialValue);
           } catch (error) {
             console.error('Error adding row:', error);
           }
@@ -777,20 +828,50 @@ const handleAddAccesseoriesRow = async() => {
     setInputAccesseoriesShow(!inputAccesseoriesShow);
 };
 //  ----------------------------- camera---------------------------------
+       //get  vendor list form vendor table
+       const [cameraVendors , setCameraVendors] = useState([]);
+       const [cameraInitialValue , setCameraInitialValue] = useState([]);
+       useEffect(() => {
+           const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+           if (!wakabaBaseUrl) {
+               throw new Error('API base URL is not defined');
+           }
+           axios.post(`${wakabaBaseUrl}/vendor/getVendorList`,{type:'カメラ'})
+           .then(response => {
+              //  console.log('vendrListAll',response.data)
+              setCameraVendors(response.data);
+               const result = response.data.reduce((acc, { vendor_name }) => {
+                 // Create a new key-value pair where the key is the vendor name and the value is an empty string
+                 acc[vendor_name] = '';
+                 return acc;
+             }, {});
+             const cameraRow = {
+              shipping_date: '',
+              number: '',
+              product_name: '',
+              model_number: '',
+              purchase_price: '',
+              rank: '',
+              assessment_date: '',
+             }
+   
+             const updatedCameraRow = {
+               ...cameraRow,
+               ...result
+           };
+           setCameraInitialValue(updatedCameraRow);
+           setNewCameraRow(updatedCameraRow);
+           // console.log('result',updatedPreciousMetalRow);
+           })
+           .catch(error => {
+               console.error("There was an error fetching the customer data!", error);
+           });
+       }, []);
+
 const [cameraData, setCameraData] = useState('');
 
 const [editCameraId, setEditCameraId] = useState(null);
-const [newCameraRow, setNewCameraRow] = useState({
-  shipping_date: '',
-  number: '',
-  product_name: '',
-  model_number: '',
-  purchase_price: '',
-  rank: '',
-  assessment_date: '',
-  orchestra: '',
-  yahoo_auctions_wholesale: ''
-});
+const [newCameraRow, setNewCameraRow] = useState(cameraInitialValue);
 
 const handleCameraChange = (e, id = null) => {
     const { name, value } = e.target;
@@ -853,17 +934,7 @@ const handleAddCameraRow = async() => {
               // { id: response.data.id, ...newBagRow } // Assuming server returns the new row with an id
               { id: Date.now(), ...newBagRow } // Assuming server returns the new row with an id
             ]);
-            setNewCameraRow({
-              shipping_date: '',
-              number: '',
-              product_name: '',
-              model_number: '',
-              purchase_price: '',
-              rank: '',
-              assessment_date: '',
-              orchestra: '',
-              yahoo_auctions_wholesale: ''
-            });
+            setNewCameraRow(cameraInitialValue);
           } catch (error) {
             console.error('Error adding row:', error);
           }
@@ -871,22 +942,49 @@ const handleAddCameraRow = async() => {
     setInputCameraShow(!inputCameraShow);
 };
 //  -----------------------------Antique ---------------------------------
+       //get  vendor list form vendor table
+       const [antiqueVendors , setAntiqueVendors] = useState([]);
+       const [antiqueInitialValue , setAntiqueInitialValue] = useState([]);
+       useEffect(() => {
+           const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+           if (!wakabaBaseUrl) {
+               throw new Error('API base URL is not defined');
+           }
+           axios.post(`${wakabaBaseUrl}/vendor/getVendorList`,{type:'骨董品'})
+           .then(response => {
+              //  console.log('vendrListAll',response.data)
+              setAntiqueVendors(response.data);
+               const result = response.data.reduce((acc, { vendor_name }) => {
+                 // Create a new key-value pair where the key is the vendor name and the value is an empty string
+                 acc[vendor_name] = '';
+                 return acc;
+             }, {});
+             const antiqueRow = {
+              shipping_address: '',
+              shipping_date: '',
+              number:'',
+              product_name: '',
+              rank: '',
+              assessment_date: '',
+             }
+   
+             const updatedAntiqueRow = {
+               ...antiqueRow,
+               ...result
+           };
+           setAntiqueInitialValue(updatedAntiqueRow);
+           setNewAntiqueRow(updatedAntiqueRow);
+           // console.log('result',updatedPreciousMetalRow);
+           })
+           .catch(error => {
+               console.error("There was an error fetching the customer data!", error);
+           });
+       }, []);
+
 const [antiqueData, setAntiqueData] = useState('');
 
 const [editAntiqueId, setEditAntiqueId] = useState(null);
-const [newAntiqueRow, setNewAntiqueRow] = useState({
-  shipping_address: '',
-  shipping_date: '',
-  number: '',
-  product_name: '',
-  remarks: '',
-  assessment_date: '',
-  nap_cat: '',
-  art: '',
-  yoshioka_art: '',
-  sword_sato: '',
-  yahoo_auctions: ''
-});
+const [newAntiqueRow, setNewAntiqueRow] = useState(antiqueInitialValue);
 
 const handleAntiqueChange = (e, id = null) => {
     const { name, value } = e.target;
@@ -949,44 +1047,60 @@ const handleAddAntiqueRow = async() => {
               // { id: response.data.id, ...newBagRow } // Assuming server returns the new row with an id
               { id: Date.now(), ...newBagRow } // Assuming server returns the new row with an id
             ]);
-            setNewAntiqueRow({
-              shipping_address: '',
-              shipping_date: '',
-              number: '',
-              product_name: '',
-              remarks: '',
-              assessment_date: '',
-              nap_cat: '',
-              art: '',
-              yoshioka_art: '',
-              sword_sato: '',
-              yahoo_auctions: ''
-            });
+            setNewAntiqueRow(antiqueInitialValue);
           } catch (error) {
             console.error('Error adding row:', error);
           }
     }
     setInputAntiqueShow(!inputAntiqueShow);
 };
-//  -----------------------------water liquor ---------------------------------
+//  -----------------------------westernLiquor ---------------------------------
+       //get  vendor list form vendor table
+       const [westernLiquorLiquorVendors , setWesternLiquorVendors] = useState([]);
+       const [westernLiquorInitialValue , setWesternLiquorInitialValue] = useState([]);
+       useEffect(() => {
+           const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+           if (!wakabaBaseUrl) {
+               throw new Error('API base URL is not defined');
+           }
+           axios.post(`${wakabaBaseUrl}/vendor/getVendorList`,{type:'洋酒'})
+           .then(response => {
+              //  console.log('vendrListAll',response.data)
+              setWesternLiquorVendors(response.data);
+               const result = response.data.reduce((acc, { vendor_name }) => {
+                 // Create a new key-value pair where the key is the vendor name and the value is an empty string
+                 acc[vendor_name] = '';
+                 return acc;
+             }, {});
+             const waterLiquorRow = {
+              shipping_address: '',
+              shipping_date: '',
+              wakaba_number: '',
+              kinds: '',
+              brand: '',
+              quantity: '',
+              capacity: '',
+              frequency: '',
+              assessment_date: '',
+             }
+   
+             const updatedWaterLiquorRow = {
+               ...waterLiquorRow,
+               ...result
+           };
+           setWesternLiquorInitialValue(updatedWaterLiquorRow);
+           setNewWesternliquorRow(updatedWaterLiquorRow);
+           // console.log('result',updatedPreciousMetalRow);
+           })
+           .catch(error => {
+               console.error("There was an error fetching the customer data!", error);
+           });
+       }, []);
+
 const [westernliquorData, setWesternliquorData] = useState('');
 
 const [editWesternliquorId, setEditWesternliquorId] = useState(null);
-const [newWesternliquorRow, setNewWesternliquorRow] = useState({
-  shipping_address: '',
-  shipping_date: '',
-  wakaba_number: '',
-  kinds: '',
-  brand: '',
-  quantity: '',
-  capacity: '',
-  frequency: '',
-  assessment_date: '',
-  yahoo_auctions_highest_price: '',
-  auction_id: '',
-  gold_liquor: '',
-  linksus: ''
-});
+const [newWesternliquorRow, setNewWesternliquorRow] = useState(westernLiquorInitialValue);
 
 const handleWesternliquorChange = (e, id = null) => {
     const { name, value } = e.target;
@@ -1049,21 +1163,7 @@ const handleAddWesternliquorRow = async() => {
               // { id: response.data.id, ...newBagRow } // Assuming server returns the new row with an id
               { id: Date.now(), ...newBagRow } // Assuming server returns the new row with an id
             ]);
-            setNewWesternliquorRow({
-              shipping_address: '',
-              shipping_date: '',
-              wakaba_number: '',
-              kinds: '',
-              brand: '',
-              quantity: '',
-              capacity: '',
-              frequency: '',
-              assessment_date: '',
-              yahoo_auctions_highest_price: '',
-              auction_id: '',
-              gold_liquor: '',
-              linksus: ''
-            });
+            setNewWesternliquorRow(westernLiquorInitialValue);
           } catch (error) {
             console.error('Error adding row:', error);
           }
@@ -1071,18 +1171,48 @@ const handleAddWesternliquorRow = async() => {
     setInputWesternliquorShow(!inputWesternliquorShow);
 };
 //  -----------------------------musical instrument---------------------------------
+       //get  vendor list form vendor table
+       const [musicalInstrumentVendors , setMusicalInstrumentVendors] = useState([]);
+       const [musicalInstrumentInitialValue , setMusicalInstrumentInitialValue] = useState([]);
+       useEffect(() => {
+           const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+           if (!wakabaBaseUrl) {
+               throw new Error('API base URL is not defined');
+           }
+           axios.post(`${wakabaBaseUrl}/vendor/getVendorList`,{type:'楽器'})
+           .then(response => {
+              //  console.log('vendrListAll',response.data)
+              setMusicalInstrumentVendors(response.data);
+               const result = response.data.reduce((acc, { vendor_name }) => {
+                 // Create a new key-value pair where the key is the vendor name and the value is an empty string
+                 acc[vendor_name] = '';
+                 return acc;
+             }, {});
+             const musicalInstrumentRow = {
+              shipping_date: '',
+              number: '',
+              product_name: '',
+              remarks: '',
+              assessment_date: '',
+             }
+   
+             const updatedMusicalInstrumentRow = {
+               ...musicalInstrumentRow,
+               ...result
+           };
+           setMusicalInstrumentInitialValue(updatedMusicalInstrumentRow);
+           setNewMusicalinstrumentRow(updatedMusicalInstrumentRow);
+           // console.log('result',updatedPreciousMetalRow);
+           })
+           .catch(error => {
+               console.error("There was an error fetching the customer data!", error);
+           });
+       }, []);
+
 const [musicalinstrumentData, setMusicalinstrumentData] = useState('');
 
 const [editMusicalinstrumentId, setEditMusicalinstrumentId] = useState(null);
-const [newMusicalinstrumentRow, setNewMusicalinstrumentRow] = useState({
-  shipping_date: '',
-  number: '',
-  product_name: '',
-  remarks: '',
-  assessment_date: '',
-  orchestra: '',
-  yahoo_auctions_wholesale: ''
-});
+const [newMusicalinstrumentRow, setNewMusicalinstrumentRow] = useState(musicalInstrumentInitialValue);
 
 const handleMusicalinstrumentChange = (e, id = null) => {
     const { name, value } = e.target;
@@ -1145,15 +1275,7 @@ const handleAddMusicalinstrumentRow = async() => {
               // { id: response.data.id, ...newBagRow } // Assuming server returns the new row with an id
               { id: Date.now(), ...newBagRow } // Assuming server returns the new row with an id
             ]);
-            setNewMusicalinstrumentRow({
-              shipping_date: '',
-              number: '',
-              product_name: '',
-              remarks: '',
-              assessment_date: '',
-              orchestra: '',
-              yahoo_auctions_wholesale: ''
-            });
+            setNewMusicalinstrumentRow(musicalInstrumentInitialValue);
           } catch (error) {
             console.error('Error adding row:', error);
           }
@@ -1161,17 +1283,48 @@ const handleAddMusicalinstrumentRow = async() => {
     setInputMusicalinstrumentShow(!inputMusicalinstrumentShow);
 };
 //  ---------------------------kimono-----------------------------------
+       //get  vendor list form vendor table
+       const [kimonoVendors , setKimonoVendors] = useState([]);
+       const [kimonoInitialValue , setKimonoInitialValue] = useState([]);
+       useEffect(() => {
+           const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+           if (!wakabaBaseUrl) {
+               throw new Error('API base URL is not defined');
+           }
+           axios.post(`${wakabaBaseUrl}/vendor/getVendorList`,{type:'着物'})
+           .then(response => {
+              //  console.log('vendrListAll',response.data)
+              setKimonoVendors(response.data);
+               const result = response.data.reduce((acc, { vendor_name }) => {
+                 // Create a new key-value pair where the key is the vendor name and the value is an empty string
+                 acc[vendor_name] = '';
+                 return acc;
+             }, {});
+             const kimonoRow = {
+              shipping_date: '',
+              number: '',
+              product_name: '',
+              remarks: '',
+              assessment_date: '',
+             }
+   
+             const updatedKimonoRow = {
+               ...kimonoRow,
+               ...result
+           };
+           setKimonoInitialValue(updatedKimonoRow);
+           setNewKimonoRow(updatedKimonoRow);
+           // console.log('result',updatedPreciousMetalRow);
+           })
+           .catch(error => {
+               console.error("There was an error fetching the customer data!", error);
+           });
+       }, []);
+
 const [kimonoData, setKimonoData] = useState('');
 
 const [editKimonoId, setEditKimonoId] = useState(null);
-const [newKimonoRow, setNewKimonoRow] = useState({
-  shipping_date: '',
-  number: '',
-  product_name: '',
-  remarks: '',
-  assessment_date: '',
-  hanamori: ''
-});
+const [newKimonoRow, setNewKimonoRow] = useState(kimonoInitialValue);
 
 const handleKimonoChange = (e, id = null) => {
     const { name, value } = e.target;
@@ -1234,14 +1387,7 @@ const handleAddKimonoRow = async() => {
               // { id: response.data.id, ...newBagRow } // Assuming server returns the new row with an id
               { id: Date.now(), ...newBagRow } // Assuming server returns the new row with an id
             ]);
-            setNewKimonoRow({
-              shipping_date: '',
-              number: '',
-              product_name: '',
-              remarks: '',
-              assessment_date: '',
-              hanamori: ''
-            });
+            setNewKimonoRow(kimonoInitialValue);
           } catch (error) {
             console.error('Error adding row:', error);
           }
@@ -1249,18 +1395,49 @@ const handleAddKimonoRow = async() => {
     setInputKimonoShow(!inputKimonoShow);
 };
 //  -------------------------------smartphone and tablet-------------------------------
+       //get  vendor list form vendor table
+       const [smartphoneVendors , setSmartphoneVendors] = useState([]);
+       const [smartphoneInitialValue , setSmartphoneInitialValue] = useState([]);
+       useEffect(() => {
+           const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+           if (!wakabaBaseUrl) {
+               throw new Error('API base URL is not defined');
+           }
+           axios.post(`${wakabaBaseUrl}/vendor/getVendorList`,{type:'スマホ夕ブレット'})
+           .then(response => {
+              //  console.log('vendrListAll',response.data)
+              setSmartphoneVendors(response.data);
+               const result = response.data.reduce((acc, { vendor_name }) => {
+                 // Create a new key-value pair where the key is the vendor name and the value is an empty string
+                 acc[vendor_name] = '';
+                 return acc;
+             }, {});
+             const smartphoneRow = {
+              shipping_date: '',
+              number: '',
+              product_name: '',
+              remarks: '',
+              yahoo_auctions_highest_price: '',
+              assessment_date:'',
+             }
+   
+             const updatedSmartphoneRow = {
+               ...smartphoneRow,
+               ...result
+           };
+           setSmartphoneInitialValue(updatedSmartphoneRow);
+           setNewSmartphoneandtabletRow(updatedSmartphoneRow);
+           // console.log('result',updatedPreciousMetalRow);
+           })
+           .catch(error => {
+               console.error("There was an error fetching the customer data!", error);
+           });
+       }, []);
+
 const [smartphoneandtabletData, setSmartphoneandtabletData] = useState('');
 
 const [editSmartphoneandtabletId, setEditSmartphoneandtabletId] = useState(null);
-const [newSmartphoneandtabletRow, setNewSmartphoneandtabletRow] = useState({
-  shipping_date: '',
-  number: '',
-  product_name: '',
-  remarks: '',
-  yahoo_auctions_highest_price: '',
-  assessment_date:'',
-  pathtech:''
-});
+const [newSmartphoneandtabletRow, setNewSmartphoneandtabletRow] = useState(smartphoneInitialValue);
 
 const handleSmartphoneandtabletChange = (e, id = null) => {
     const { name, value } = e.target;
@@ -1323,15 +1500,7 @@ const handleAddSmartphoneandtabletRow = async() => {
               // { id: response.data.id, ...newBagRow } // Assuming server returns the new row with an id
               { id: Date.now(), ...newBagRow } // Assuming server returns the new row with an id
             ]);
-            setNewSmartphoneandtabletRow({
-              shipping_date: '',
-              number: '',
-              product_name: '',
-              remarks: '',
-              yahoo_auctions_highest_price: '',
-              assessment_date:'',
-              pathtech:''
-            });
+            setNewSmartphoneandtabletRow(smartphoneInitialValue);
           } catch (error) {
             console.error('Error adding row:', error);
           }
@@ -1359,7 +1528,7 @@ const handleAddSmartphoneandtabletRow = async() => {
                                 </div>
                                 <div className='flex justify-center mt-10 w-full' >
                                     <div>
-                                        <ButtonComponent children={'業者への買取依書へ'} className='h-11 !bg-[#9bd195] !text-2xl text-[white] !px-10' />
+                                        <ButtonComponent onClick={handleSendCheckedValues} children={'業者への買取依書へ'} className='h-11 !bg-[#9bd195] !text-2xl text-[white] !px-10' />
                                         <div className='text-center'>
                                             <LabelComponent value={'行を選択してくだをい'} className="text-center"/>
                                         </div>
@@ -1408,6 +1577,7 @@ const handleAddSmartphoneandtabletRow = async() => {
                                 <table id="" style={Table}>
                                     <thead className='sticky top-0 bg-white z-10 h-11'>
                                         <tr>
+                                            <th></th>
                                             <th style={Th}>NO</th>
                                             <th style={Th}>配送先</th>
                                             <th style={Th}>卸日</th>
@@ -1418,7 +1588,7 @@ const handleAddSmartphoneandtabletRow = async() => {
                                             <th style={Th}>総重量</th>
                                             <th style={Th}>買取価格</th>
                                             <th style={Th}>地金重さ</th>
-                                            { preciousMetalVendors.map((vendor, index) => (
+                                            {(preciousMetalVendors && preciousMetalVendors.length !== 0) && preciousMetalVendors.map((vendor, index) => (
                                                 <th key={index} style={Th}>{vendor.vendor_name}</th>
                                             ))}
                                             <th style={Th}>{editPreciousMetalId === null ? '編集する' : 'セーブ'}</th>
@@ -1426,8 +1596,9 @@ const handleAddSmartphoneandtabletRow = async() => {
                                         </tr>
                                     </thead>
         <tbody>
-          {preciousMetalData.map((item, index) => (
+          {(preciousMetalVendors && preciousMetalVendors.length !== 0) && preciousMetalData.map((item, index) => (
             <tr key={item.id} style={editPreciousMetalId === item.id ? editableRowStyle : {}}>
+              <td><input type='checkbox' value={item.id} onChange={handleCheckboxChange} className='w-5 mr-3'/></td>
               <td style={Td}>{index + 1}</td>
               {Object.keys(newPreciousMetalRow).map((key) => (
                 <td key={key} style={Td}>
@@ -1500,7 +1671,7 @@ const handleAddSmartphoneandtabletRow = async() => {
                                     <p className='flex justify-center'>クロックデータなし</p> //No clock data available
                                 )}
                                                                 
-                                <div className='flex justify-center mt-3 mb-3' >
+                                {/* <div className='flex justify-center mt-3 mb-3' >
                                         <button type="button" onClick={handleAddPreciousMetalRow}
                                             className="w-7 h-7 inline-flex items-center justify-center text-[#70685a] border border-[#70685a] outline-none hover:bg-purple-700 active:bg-purple-600">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="14px" fill="#70685a" className="inline" viewBox="0 0 512 512">
@@ -1509,23 +1680,24 @@ const handleAddSmartphoneandtabletRow = async() => {
                                                     data-original="#000000" />
                                             </svg>
                                         </button>
-                                    </div>
+                                    </div> */}
                             </div>
                             {/* Old coin */}
                             <div className='h-[400px]' style={{ width: '100%', overflow: 'auto' , display: visibleTable === '古銭等' ? 'block' : 'none' }} >
                             {data.oldCoins && data.oldCoins.length > 0 ? (
                                 <table id="oldcoin" style={Table}>
-                                    <thead className='sticky top-0 bg-white z-10 border border-[#524c3b] h-11'>
+                                    <thead className='sticky top-0 bg-white z-10 h-11'>
                                         <tr>
+                                            <th></th>
                                             <th style={Th}>NO</th>
                                             <th style={Th}>発送日</th>
                                             <th style={Th}>番号</th>
                                             <th style={Th}>商品名</th>
                                             <th style={Th}>備考</th>
                                             <th style={Th}>査定日</th>
-                                            <th style={Th}>ワタル商事</th>
-                                            <th style={Th}>近江屋</th>
-                                            <th style={Th}>ヤフオク</th>
+                                            {(oldCoinVendors && oldCoinVendors.length !== 0) && oldCoinVendors.map((vendor, index) => (
+                                                <th key={index} style={Th}>{vendor.vendor_name}</th>
+                                            ))}
                                             <th style={Th}>{editOldCoinId === null ? '編集' : 'セーブ'}</th>
                                             <th style={Th}>{editOldCoinId === null ? '削除' : 'キャンセル'}</th>
                                         </tr>
@@ -1533,6 +1705,7 @@ const handleAddSmartphoneandtabletRow = async() => {
                                     <tbody>
           {oldCoinData.map((item, index) => (
             <tr key={item.id} style={editOldCoinId === item.id ? editableRowStyle : {}}>
+              <td><input type='checkbox' value={item.id} onChange={handleCheckboxChange} className='w-5 mr-3'/></td>
               <td style={Td}>{index + 1}</td>
               {Object.keys(newOldCoinRow).map((key) => (
                 <td key={key} style={Td}>
@@ -1604,7 +1777,7 @@ const handleAddSmartphoneandtabletRow = async() => {
                             ) : (
                                     <p className='flex justify-center'>クロックデータなし</p> //No clock data available
                                 )}
-                                <div className='flex justify-center mt-3 mb-3' >
+                                {/* <div className='flex justify-center mt-3 mb-3' >
                                         <button type="button" onClick={handleAddOldCoinRow}
                                             className="w-7 h-7 inline-flex items-center justify-center text-[#70685a] border border-[#70685a] outline-none hover:bg-purple-700 active:bg-purple-600">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="14px" fill="#70685a" className="inline" viewBox="0 0 512 512">
@@ -1613,7 +1786,7 @@ const handleAddSmartphoneandtabletRow = async() => {
                                                     data-original="#000000" />
                                             </svg>
                                         </button>
-                                    </div>
+                                    </div> */}
                             </div>
                             {/* bag */}
                             <div className='h-[400px]' style={{ width: '100%', overflow: 'auto' , display: visibleTable === 'バッグ' ? 'block' : 'none' }} >
@@ -1621,6 +1794,7 @@ const handleAddSmartphoneandtabletRow = async() => {
                                 <table id="bag" style={Table}>
                                 <thead className='h-11 sticky top-0 bg-white z-10'>
                                     <tr>
+                                        <th></th>
                                         <th style={Th}>NO</th>
                                         <th style={Th}>配送先</th>
                                         <th style={Th}>発送日2</th>
@@ -1631,18 +1805,17 @@ const handleAddSmartphoneandtabletRow = async() => {
                                         <th style={Th}>ランク</th>
                                         <th style={Th}>買取額</th>
                                         <th style={Th}>BBスカイプ日</th>
-                                        <th style={Th}>BB</th>
-                                        <th style={Th}>GA</th>
-                                        <th style={Th}>ホームコム</th>
-                                        <th style={Th}>カイマナ</th>
-                                        <th style={Th}>フォーナイン</th>
+                                        {(bagVendors && bagVendors.length !== 0) && bagVendors.map((vendor, index) => (
+                                                <th key={index} style={Th}>{vendor.vendor_name}</th>
+                                            ))}
                                         <th style={Th}>{editBagId === null ? '編集' : 'セーブ'}</th>
                                         <th style={Th}>{editBagId === null ? '削除' : 'キャンセル'}</th>
                                     </tr>
                                     </thead>
                                     <tbody>
-          {bagData.map((item, index) => (
+          {(bagVendors && bagVendors.length !== 0) && bagData.map((item, index) => (
             <tr key={item.id} style={editBagId === item.id ? editableRowStyle : {}}>
+              <td><input type='checkbox' value={item.id} onChange={handleCheckboxChange} className='w-5 mr-3'/></td>
               <td style={Td}>{index + 1}</td>
               {Object.keys(newBagRow).map((key) => (
                 <td key={key} style={Td}>
@@ -1715,14 +1888,14 @@ const handleAddSmartphoneandtabletRow = async() => {
                                     <p className='flex justify-center'>クロックデータなし</p> //No clock data available
                                 )}
                                                                 <div className='flex justify-center mt-3 mb-3' >
-                                        <button type="button" onClick={handleAddBagRow}
+                                        {/* <button type="button" onClick={handleAddBagRow}
                                             className="w-7 h-7 inline-flex items-center justify-center text-[#70685a] border border-[#70685a] outline-none hover:bg-purple-700 active:bg-purple-600">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="14px" fill="#70685a" className="inline" viewBox="0 0 512 512">
                                                 <path
                                                     d="M467 211H301V45c0-24.853-20.147-45-45-45s-45 20.147-45 45v166H45c-24.853 0-45 20.147-45 45s20.147 45 45 45h166v166c0 24.853 20.147 45 45 45s45-20.147 45-45V301h166c24.853 0 45-20.147 45-45s-20.147-45-45-45z"
                                                     data-original="#000000" />
                                             </svg>
-                                        </button>
+                                        </button> */}
                                     </div>
                             </div>
                             {/* clock */}
@@ -1731,6 +1904,7 @@ const handleAddSmartphoneandtabletRow = async() => {
                                 <table id="clock" style={Table}>
                                     <thead className='h-11 sticky top-0 bg-white z-10'>
                                         <tr>
+                                            <th></th>
                                             <th style={Th}>NO</th>
                                             <th style={Th}>配送先</th>
                                             <th style={Th}>発送日2</th>
@@ -1744,20 +1918,17 @@ const handleAddSmartphoneandtabletRow = async() => {
                                             <th style={Th}>箱ギャラ</th>
                                             <th style={Th}>買取額</th>
                                             <th style={Th}>スカイプ日</th>
-                                            <th style={Th}>BB</th>
-                                            <th style={Th}>GA</th>
-                                            <th style={Th}>ベルモンド</th>
-                                            <th style={Th}>ホームコム</th>
-                                            <th style={Th}>カイマナ</th>
-                                            <th style={Th}>フォーナイン</th>
-                                            <th style={Th}>ヤフオク</th>
+                                            {(clockVendors && clockVendors.length !== 0) && clockVendors.map((vendor, index) => (
+                                                <th key={index} style={Th}>{vendor.vendor_name}</th>
+                                            ))}
                                             <th style={Th}>{editClockId === null ? '編集' : 'セーブ'}</th>
                                             <th style={Th}>{editClockId === null ? '削除' : 'キャンセル'}</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-          {clockData.map((item, index) => (
+          {(clockVendors && clockVendors.length !== 0) && clockData.map((item, index) => (
             <tr key={item.id} style={editClockId === item.id ? editableRowStyle : {}}>
+              <td><input type='checkbox' value={item.id} onChange={handleCheckboxChange} className='w-5 mr-3'/></td>
               <td style={Td}>{index + 1}</td>
               {Object.keys(newClockRow).map((key) => (
                 <td key={key} style={Td}>
@@ -1830,14 +2001,14 @@ const handleAddSmartphoneandtabletRow = async() => {
                                     <p className='flex justify-center'>クロックデータなし</p> //No clock data available
                                 )}
                                                                                                 <div className='flex justify-center mt-3 mb-3' >
-                                        <button type="button" onClick={handleAddClockRow}
+                                        {/* <button type="button" onClick={handleAddClockRow}
                                             className="w-7 h-7 inline-flex items-center justify-center text-[#70685a] border border-[#70685a] outline-none hover:bg-purple-700 active:bg-purple-600">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="14px" fill="#70685a" className="inline" viewBox="0 0 512 512">
                                                 <path
                                                     d="M467 211H301V45c0-24.853-20.147-45-45-45s-45 20.147-45 45v166H45c-24.853 0-45 20.147-45 45s20.147 45 45 45h166v166c0 24.853 20.147 45 45 45s45-20.147 45-45V301h166c24.853 0 45-20.147 45-45s-20.147-45-45-45z"
                                                     data-original="#000000" />
                                             </svg>
-                                        </button>
+                                        </button> */}
                                     </div>
                             </div>
                             {/* wallet */}
@@ -1846,6 +2017,7 @@ const handleAddSmartphoneandtabletRow = async() => {
                                 <table id="wallet" style={Table}>
                                     <thead className='h-11 sticky top-0 bg-white z-10'>
                                         <tr>
+                                            <th></th>
                                             <th style={Th}>NO</th>
                                             <th style={Th}>配送先</th>
                                             <th style={Th}>発送日2</th>
@@ -1855,19 +2027,17 @@ const handleAddSmartphoneandtabletRow = async() => {
                                             <th style={Th}>型番</th>
                                             <th style={Th}>ランク</th>
                                             <th style={Th}>ＢＢスカイプ日</th>
-                                            <th style={Th}>BB</th>
-                                            <th style={Th}>GA</th>
-                                            <th style={Th}>ベルモンド</th>
-                                            <th style={Th}>ホームコム</th>
-                                            <th style={Th}>カイマナ</th>
-                                            <th style={Th}>フォーナイン</th>
+                                            {(walletVendors && walletVendors.length !== 0) && walletVendors.map((vendor, index) => (
+                                                <th key={index} style={Th}>{vendor.vendor_name}</th>
+                                            ))}
                                             <th style={Th}>{editWalletId === null ? '編集' : 'セーブ'}</th>
                                             <th style={Th}>{editWalletId === null ? '削除' : 'キャンセル'}</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-          {walletData.map((item, index) => (
+          {(walletVendors && walletVendors.length !== 0) && walletData.map((item, index) => (
             <tr key={item.id} style={editWalletId === item.id ? editableRowStyle : {}}>
+              <td><input type='checkbox' value={item.id} onChange={handleCheckboxChange} className='w-5 mr-3'/></td>
               <td style={Td}>{index + 1}</td>
               {Object.keys(newWalletRow).map((key) => (
                 <td key={key} style={Td}>
@@ -1940,14 +2110,14 @@ const handleAddSmartphoneandtabletRow = async() => {
                                     <p className='flex justify-center'>クロックデータなし</p> //No clock data available
                                 )}
                                     <div className='flex justify-center mt-3 mb-3' >
-                                        <button type="button" onClick={handleAddWalletRow}
+                                        {/* <button type="button" onClick={handleAddWalletRow}
                                             className="w-7 h-7 inline-flex items-center justify-center text-[#70685a] border border-[#70685a] outline-none hover:bg-purple-700 active:bg-purple-600">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="14px" fill="#70685a" className="inline" viewBox="0 0 512 512">
                                                 <path
                                                     d="M467 211H301V45c0-24.853-20.147-45-45-45s-45 20.147-45 45v166H45c-24.853 0-45 20.147-45 45s20.147 45 45 45h166v166c0 24.853 20.147 45 45 45s45-20.147 45-45V301h166c24.853 0 45-20.147 45-45s-20.147-45-45-45z"
                                                     data-original="#000000" />
                                             </svg>
-                                        </button>
+                                        </button> */}
                                     </div>
                             </div>
                             {/* accessories */} 
@@ -1956,6 +2126,7 @@ const handleAddSmartphoneandtabletRow = async() => {
                                 <table id="accessories" style={Table}>
                                     <thead className='h-11 sticky top-0 bg-white z-10'>
                                         <tr>
+                                            <th></th>
                                             <th style={Th}>NO</th>
                                             <th style={Th}>配送先</th>
                                             <th style={Th}>発送日2</th>
@@ -1965,18 +2136,17 @@ const handleAddSmartphoneandtabletRow = async() => {
                                             <th style={Th}>型番</th>
                                             <th style={Th}>ランク</th>
                                             <th style={Th}>BBスカイプ日</th>
-                                            <th style={Th}>BB</th>
-                                            <th style={Th}>GA</th>
-                                            <th style={Th}>ホームコム</th>
-                                            <th style={Th}>カイマナ</th>
-                                            <th style={Th}>フォーナイン</th>
+                                            {(accessoiresVendors && accessoiresVendors.length !== 0) && accessoiresVendors.map((vendor, index) => (
+                                                <th key={index} style={Th}>{vendor.vendor_name}</th>
+                                            ))}
                                             <th style={Th}>{editAccesseoriesId === null ? '編集' : 'セーブ'}</th>
                                             <th style={Th}>{editAccesseoriesId === null ? '削除' : 'キャンセル'}</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-          {accesseoriesData.map((item, index) => (
+          {(accessoiresVendors && accessoiresVendors.length !== 0) && accesseoriesData.map((item, index) => (
             <tr key={item.id} style={editAccesseoriesId === item.id ? editableRowStyle : {}}>
+              <td><input type='checkbox' value={item.id} onChange={handleCheckboxChange} className='w-5 mr-3'/></td>
               <td style={Td}>{index + 1}</td>
               {Object.keys(newAccesseoriesRow).map((key) => (
                 <td key={key} style={Td}>
@@ -2048,15 +2218,15 @@ const handleAddSmartphoneandtabletRow = async() => {
                             ) : (
                                     <p className='flex justify-center'>クロックデータなし</p> //No clock data available
                                 )}
-                                                                    <div className='flex justify-center mt-3 mb-3' >
-                                        <button type="button" onClick={handleAddAccesseoriesRow}
+                                    <div className='flex justify-center mt-3 mb-3' >
+                                        {/* <button type="button" onClick={handleAddAccesseoriesRow}
                                             className="w-7 h-7 inline-flex items-center justify-center text-[#70685a] border border-[#70685a] outline-none hover:bg-purple-700 active:bg-purple-600">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="14px" fill="#70685a" className="inline" viewBox="0 0 512 512">
                                                 <path
                                                     d="M467 211H301V45c0-24.853-20.147-45-45-45s-45 20.147-45 45v166H45c-24.853 0-45 20.147-45 45s20.147 45 45 45h166v166c0 24.853 20.147 45 45 45s45-20.147 45-45V301h166c24.853 0 45-20.147 45-45s-20.147-45-45-45z"
                                                     data-original="#000000" />
                                             </svg>
-                                        </button>
+                                        </button> */}
                                     </div>
                             </div>
                             {/* camera */}
@@ -2065,6 +2235,7 @@ const handleAddSmartphoneandtabletRow = async() => {
                                 <table id="camera" style={Table}>
                                     <thead className='sticky top-0 bg-white z-10'>
                                         <tr>
+                                            <th></th>
                                             <th style={Th}>NO</th>
                                             <th style={Th}>発送日</th>
                                             <th style={Th}>番号</th>
@@ -2073,15 +2244,17 @@ const handleAddSmartphoneandtabletRow = async() => {
                                             <th style={Th}>買取額</th>
                                             <th style={Th}>ランク</th>
                                             <th style={Th}>査定日</th>
-                                            <th style={Th}>管弦屋</th>
-                                            <th style={Th}>ヤフオク卸</th>
+                                            {(cameraVendors && cameraVendors.length !== 0) && cameraVendors.map((vendor, index) => (
+                                                <th key={index} style={Th}>{vendor.vendor_name}</th>
+                                            ))}
                                             <th style={Th}>{editCameraId === null ? '編集' : 'セーブ'}</th>
                                             <th style={Th}>{editCameraId === null ? '削除' : 'キャンセル'}</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-          {cameraData.map((item, index) => (
+          {(cameraVendors && cameraVendors.length !== 0) && cameraData.map((item, index) => (
             <tr key={item.id} style={editCameraId === item.id ? editableRowStyle : {}}>
+               <td><input type='checkbox' value={item.id} onChange={handleCheckboxChange} className='w-5 mr-3'/></td>
               <td style={Td}>{index + 1}</td>
               {Object.keys(newCameraRow).map((key) => (
                 <td key={key} style={Td}>
@@ -2154,14 +2327,14 @@ const handleAddSmartphoneandtabletRow = async() => {
                                     <p className='flex justify-center'>クロックデータなし</p> //No clock data available
                                 )}
                                     <div className='flex justify-center mt-3 mb-3' >
-                                        <button type="button" onClick={handleAddCameraRow}
+                                        {/* <button type="button" onClick={handleAddCameraRow}
                                             className="w-7 h-7 inline-flex items-center justify-center text-[#70685a] border border-[#70685a] outline-none hover:bg-purple-700 active:bg-purple-600">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="14px" fill="#70685a" className="inline" viewBox="0 0 512 512">
                                                 <path
                                                     d="M467 211H301V45c0-24.853-20.147-45-45-45s-45 20.147-45 45v166H45c-24.853 0-45 20.147-45 45s20.147 45 45 45h166v166c0 24.853 20.147 45 45 45s45-20.147 45-45V301h166c24.853 0 45-20.147 45-45s-20.147-45-45-45z"
                                                     data-original="#000000" />
                                             </svg>
-                                        </button>
+                                        </button> */}
                                     </div>
                             </div>
                             {/* Antiques */}
@@ -2170,6 +2343,7 @@ const handleAddSmartphoneandtabletRow = async() => {
                                 <table id="antique" style={Table}>
                                     <thead className='h-11 sticky top-0 bg-white z-10'>
                                         <tr>
+                                            <th></th>
                                             <th style={Th}>NO</th>
                                             <th style={Th}>配送先</th>
                                             <th style={Th}>発送日2</th>
@@ -2177,18 +2351,17 @@ const handleAddSmartphoneandtabletRow = async() => {
                                             <th style={Th}>商品名</th>
                                             <th style={Th}>備考</th>
                                             <th style={Th}>査定日</th>
-                                            <th style={Th}>ひるねこ</th>
-                                            <th style={Th}>アート</th>
-                                            <th style={Th}>吉岡美術</th>
-                                            <th style={Th}>刀剣佐藤</th>
-                                            <th style={Th}>ヤフオク</th>
+                                            {(antiqueVendors && antiqueVendors.length !== 0) && antiqueVendors.map((vendor, index) => (
+                                                <th key={index} style={Th}>{vendor.vendor_name}</th>
+                                            ))}
                                             <th style={Th}>{editAntiqueId === null ? '編集' : 'セーブ'}</th>
                                             <th style={Th}>{editAntiqueId === null ? '削除' : 'キャンセル'}</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-          {antiqueData.map((item, index) => (
+          {(antiqueVendors && antiqueVendors.length !== 0) && antiqueData.map((item, index) => (
             <tr key={item.id} style={editAntiqueId === item.id ? editableRowStyle : {}}>
+              <td><input type='checkbox' value={item.id} onChange={handleCheckboxChange} className='w-5 mr-3'/></td>
               <td style={Td}>{index + 1}</td>
               {Object.keys(newAntiqueRow).map((key) => (
                 <td key={key} style={Td}>
@@ -2261,14 +2434,14 @@ const handleAddSmartphoneandtabletRow = async() => {
                                     <p className='flex justify-center'>クロックデータなし</p> //No clock data available
                                 )}
                                     <div className='flex justify-center mt-3 mb-3' >
-                                        <button type="button" onClick={handleAddAntiqueRow}
+                                        {/* <button type="button" onClick={handleAddAntiqueRow}
                                             className="w-7 h-7 inline-flex items-center justify-center text-[#70685a] border border-[#70685a] outline-none hover:bg-purple-700 active:bg-purple-600">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="14px" fill="#70685a" className="inline" viewBox="0 0 512 512">
                                                 <path
                                                     d="M467 211H301V45c0-24.853-20.147-45-45-45s-45 20.147-45 45v166H45c-24.853 0-45 20.147-45 45s20.147 45 45 45h166v166c0 24.853 20.147 45 45 45s45-20.147 45-45V301h166c24.853 0 45-20.147 45-45s-20.147-45-45-45z"
                                                     data-original="#000000" />
                                             </svg>
-                                        </button>
+                                        </button> */}
                                     </div>
                             </div>
                             {/* western liquor */}
@@ -2277,6 +2450,7 @@ const handleAddSmartphoneandtabletRow = async() => {
                                 <table id="westernliquor" style={Table}>
                                     <thead className='sticky top-0 bg-white z-10'>
                                         <tr>
+                                            <th></th>
                                             <th style={Th}>NO</th>
                                             <th style={Th}>配送先</th>
                                             <th style={Th}>発送日2</th>
@@ -2287,17 +2461,17 @@ const handleAddSmartphoneandtabletRow = async() => {
                                             <th style={Th}>容量</th>
                                             <th style={Th}>度数</th>
                                             <th style={Th}>査定日</th>
-                                            <th style={Th}>ヤフオク最高値</th>
-                                            <th style={Th}>オークションID</th>
-                                            <th style={Th}>ゴールドリカー</th>
-                                            <th style={Th}>リンクサス</th>
+                                            {(westernLiquorLiquorVendors && westernLiquorLiquorVendors.length !== 0) && westernLiquorLiquorVendors.map((vendor, index) => (
+                                                <th key={index} style={Th}>{vendor.vendor_name}</th>
+                                            ))}
                                             <th style={Th}>{editWesternliquorId === null ? '編集' : 'セーブ'}</th>
                                             <th style={Th}>{editWesternliquorId === null ? '削除' : 'キャンセル'}</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-          {westernliquorData.map((item, index) => (
+          {(westernLiquorLiquorVendors && westernLiquorLiquorVendors.length !== 0) && westernliquorData.map((item, index) => (
             <tr key={item.id} style={editWesternliquorId === item.id ? editableRowStyle : {}}>
+              <td><input type='checkbox' value={item.id} onChange={handleCheckboxChange} className='w-5 mr-3'/></td>
               <td style={Td}>{index + 1}</td>
               {Object.keys(newWesternliquorRow).map((key) => (
                 <td key={key} style={Td}>
@@ -2370,14 +2544,14 @@ const handleAddSmartphoneandtabletRow = async() => {
                                     <p className='flex justify-center'>クロックデータなし</p> //No clock data available
                                 )}
                                       <div className='flex justify-center mt-3 mb-3' >
-                                        <button type="button" onClick={handleAddWesternliquorRow}
+                                        {/* <button type="button" onClick={handleAddWesternliquorRow}
                                             className="w-7 h-7 inline-flex items-center justify-center text-[#70685a] border border-[#70685a] outline-none hover:bg-purple-700 active:bg-purple-600">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="14px" fill="#70685a" className="inline" viewBox="0 0 512 512">
                                                 <path
                                                     d="M467 211H301V45c0-24.853-20.147-45-45-45s-45 20.147-45 45v166H45c-24.853 0-45 20.147-45 45s20.147 45 45 45h166v166c0 24.853 20.147 45 45 45s45-20.147 45-45V301h166c24.853 0 45-20.147 45-45s-20.147-45-45-45z"
                                                     data-original="#000000" />
                                             </svg>
-                                        </button>
+                                        </button> */}
                                     </div>
                             </div>
                             {/* musical instrument */}
@@ -2386,21 +2560,24 @@ const handleAddSmartphoneandtabletRow = async() => {
                                 <table id="musicalinstrument" style={Table}>
                                     <thead className='sticky top-0 bg-white z-10'>
                                         <tr>
+                                            <th></th>
                                             <th style={Th}>NO</th>
                                             <th style={Th}>発送日</th>
                                             <th style={Th}>番号</th>
                                             <th style={Th}>商品名</th>
                                             <th style={Th}>備考</th>
                                             <th style={Th}>査定日</th>
-                                            <th style={Th}>管弦屋</th>
-                                            <th style={Th}>ヤフオク卸</th>
+                                            {(musicalInstrumentVendors && musicalInstrumentVendors.length !== 0) && musicalInstrumentVendors.map((vendor, index) => (
+                                                <th key={index} style={Th}>{vendor.vendor_name}</th>
+                                            ))}
                                             <th style={Th}>{editMusicalinstrumentId === null ? '編集' : 'セーブ'}</th>
                                             <th style={Th}>{editMusicalinstrumentId === null ? '削除' : 'キャンセル'}</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-          {musicalinstrumentData.map((item, index) => (
+          {(musicalInstrumentVendors && musicalInstrumentVendors.length !== 0) && musicalinstrumentData.map((item, index) => (
             <tr key={item.id} style={editMusicalinstrumentId === item.id ? editableRowStyle : {}}>
+              <td><input type='checkbox' value={item.id} onChange={handleCheckboxChange} className='w-5 mr-3'/></td>
               <td style={Td}>{index + 1}</td>
               {Object.keys(newMusicalinstrumentRow).map((key) => (
                 <td key={key} style={Td}>
@@ -2473,14 +2650,14 @@ const handleAddSmartphoneandtabletRow = async() => {
                                     <p className='flex justify-center'>クロックデータなし</p> //No clock data available
                                 )}
                                       <div className='flex justify-center mt-3 mb-3' >
-                                        <button type="button" onClick={handleAddMusicalinstrumentRow}
+                                        {/* <button type="button" onClick={handleAddMusicalinstrumentRow}
                                             className="w-7 h-7 inline-flex items-center justify-center text-[#70685a] border border-[#70685a] outline-none hover:bg-purple-700 active:bg-purple-600">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="14px" fill="#70685a" className="inline" viewBox="0 0 512 512">
                                                 <path
                                                     d="M467 211H301V45c0-24.853-20.147-45-45-45s-45 20.147-45 45v166H45c-24.853 0-45 20.147-45 45s20.147 45 45 45h166v166c0 24.853 20.147 45 45 45s45-20.147 45-45V301h166c24.853 0 45-20.147 45-45s-20.147-45-45-45z"
                                                     data-original="#000000" />
                                             </svg>
-                                        </button>
+                                        </button> */}
                                     </div>
                             </div>
                             {/* kimono */}
@@ -2489,20 +2666,24 @@ const handleAddSmartphoneandtabletRow = async() => {
                                 <table id="kimono" style={Table}>
                                     <thead className='sticky top-0 bg-white z-10'>
                                         <tr>
+                                            <th></th>
                                             <th style={Th}>NO</th>
                                             <th style={Th}>発送日</th>
                                             <th style={Th}>番号</th>
                                             <th style={Th}>商品名</th>
                                             <th style={Th}>備考</th>
                                             <th style={Th}>査定日</th>
-                                            <th style={Th}>はなもり</th>
+                                            {(kimonoVendors && kimonoVendors.length !== 0) && kimonoVendors.map((vendor, index) => (
+                                                <th key={index} style={Th}>{vendor.vendor_name}</th>
+                                            ))}
                                             <th style={Th}>{editKimonoId === null ? '編集' : 'セーブ'}</th>
                                             <th style={Th}>{editKimonoId === null ? '削除' : 'キャンセル'}</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-          {kimonoData.map((item, index) => (
+          {(kimonoVendors && kimonoVendors.length !== 0) && kimonoData.map((item, index) => (
             <tr key={item.id} style={editKimonoId === item.id ? editableRowStyle : {}}>
+              <td><input type='checkbox' value={item.id} onChange={handleCheckboxChange} className='w-5 mr-3'/></td>
               <td style={Td}>{index + 1}</td>
               {Object.keys(newKimonoRow).map((key) => (
                 <td key={key} style={Td}>
@@ -2575,14 +2756,14 @@ const handleAddSmartphoneandtabletRow = async() => {
                                     <p className='flex justify-center'>クロックデータなし</p> //No clock data available
                                 )}
                                     <div className='flex justify-center mt-3 mb-3' >
-                                        <button type="button" onClick={handleAddKimonoRow}
+                                        {/* <button type="button" onClick={handleAddKimonoRow}
                                             className="w-7 h-7 inline-flex items-center justify-center text-[#70685a] border border-[#70685a] outline-none hover:bg-purple-700 active:bg-purple-600">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="14px" fill="#70685a" className="inline" viewBox="0 0 512 512">
                                                 <path
                                                     d="M467 211H301V45c0-24.853-20.147-45-45-45s-45 20.147-45 45v166H45c-24.853 0-45 20.147-45 45s20.147 45 45 45h166v166c0 24.853 20.147 45 45 45s45-20.147 45-45V301h166c24.853 0 45-20.147 45-45s-20.147-45-45-45z"
                                                     data-original="#000000" />
                                             </svg>
-                                        </button>
+                                        </button> */}
                                     </div>
                             </div>
                             {/* smartphone and tablet */}
@@ -2591,20 +2772,24 @@ const handleAddSmartphoneandtabletRow = async() => {
                                 <table id="smartphoneandtablet" style={Table}>
                                     <thead className='sticky top-0 bg-white z-10'>
                                         <tr>
+                                            <th></th>
                                             <th style={Th}>NO</th>
                                             <th style={Th}>発送日</th>
                                             <th style={Th}>番号</th>
                                             <th style={Th}>商品名</th>
                                             <th style={Th}>備考</th>
                                             <th style={Th}>査定日</th>
-                                            <th style={Th}>はなもり</th>
+                                            {(smartphoneVendors && smartphoneVendors.length !== 0) && smartphoneVendors.map((vendor, index) => (
+                                                <th key={index} style={Th}>{vendor.vendor_name}</th>
+                                            ))}
                                             <th style={Th}>{editSmartphoneandtabletId === null ? '編集' : 'セーブ'}</th>
                                             <th style={Th}>{editSmartphoneandtabletId === null ? '削除' : 'キャンセル'}</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-          {smartphoneandtabletData.map((item, index) => (
+          {(smartphoneVendors && smartphoneVendors.length !== 0) && smartphoneandtabletData.map((item, index) => (
             <tr key={item.id} style={editSmartphoneandtabletId === item.id ? editableRowStyle : {}}>
+              <td><input type='checkbox' value={item.id} onChange={handleCheckboxChange} className='w-5 mr-3'/></td>
               <td style={Td}>{index + 1}</td>
               {Object.keys(newSmartphoneandtabletRow).map((key) => (
                 <td key={key} style={Td}>
@@ -2677,14 +2862,14 @@ const handleAddSmartphoneandtabletRow = async() => {
                                     <p className='flex justify-center'>クロックデータなし</p> //No clock data available
                                 )}
                                       <div className='flex justify-center mt-3 mb-3' >
-                                        <button type="button" onClick={handleAddSmartphoneandtabletRow}
+                                        {/* <button type="button" onClick={handleAddSmartphoneandtabletRow}
                                             className="w-7 h-7 inline-flex items-center justify-center text-[#70685a] border border-[#70685a] outline-none hover:bg-purple-700 active:bg-purple-600">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="14px" fill="#70685a" className="inline" viewBox="0 0 512 512">
                                                 <path
                                                     d="M467 211H301V45c0-24.853-20.147-45-45-45s-45 20.147-45 45v166H45c-24.853 0-45 20.147-45 45s20.147 45 45 45h166v166c0 24.853 20.147 45 45 45s45-20.147 45-45V301h166c24.853 0 45-20.147 45-45s-20.147-45-45-45z"
                                                     data-original="#000000" />
                                             </svg>
-                                        </button>
+                                        </button> */}
                                     </div>
                             </div>
                         </div>
