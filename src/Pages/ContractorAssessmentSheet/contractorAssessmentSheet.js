@@ -735,7 +735,7 @@ const handleAddWalletRow = async() => {
               shipping_date: '',
               wakaba_number: '',
               manufacturer: '',
-              product_details: '',
+              product_detail: '',
               model_number: '',
               rank: '',
               bb_skype_day: '',

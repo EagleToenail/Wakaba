@@ -14,6 +14,7 @@ import { setData } from '../../redux/sales/actions';
 
 import leftArrow from '../../Assets/img/right-arrow.png';
 import rightArrow from '../../Assets/img/left-arrow.png';
+import { MdOutlineAirlineSeatIndividualSuite } from 'react-icons/md';
 
 const InvoicePurchaseOfBrought = () => {
     // const title = 'タイトルタイトル';
@@ -45,6 +46,15 @@ const InvoicePurchaseOfBrought = () => {
         fontSize: '15px',
         whiteSpace: 'nowrap',
         height:'30px'
+    };
+    const Td1 = {
+        border: '1px solid #6e6e7c',
+        borderCollapse: 'collapse',
+        color: '#6e6e7c',
+        fontSize: '15px',
+        whiteSpace: 'nowrap',
+        height:'30px',
+        position:'relative'
     };
 
     const [customerPastVisitHistory, setCustomerPastVisitHistory] = useState([{
@@ -178,6 +188,7 @@ const InvoicePurchaseOfBrought = () => {
 
         product_photo:'',
         product_name: '',
+        comment:'',
         quantity: '',
         reason_application:'',
         interest_rate:'',
@@ -367,6 +378,7 @@ const InvoicePurchaseOfBrought = () => {
     
                 product_photo:'',
                 product_name: '',
+                comment:'',
                 quantity: '',
                 reason_application:'',
                 interest_rate:'',
@@ -450,6 +462,7 @@ const InvoicePurchaseOfBrought = () => {
     
             product_photo:'',
             product_name: '',
+            comment:'',
             quantity: '',
             reason_application:'',
             interest_rate:'',
@@ -509,6 +522,7 @@ const InvoicePurchaseOfBrought = () => {
     
             product_photo:'',
             product_name: '',
+            comment:'',
             quantity: '',
             reason_application:'',
             interest_rate:'',
@@ -701,6 +715,64 @@ const InvoicePurchaseOfBrought = () => {
     const allClear = ()=> {
         setTotalSalesSlipData([]);
     }
+
+    //product comment related content
+    const [selectedProduct, setSelectedProduct] = useState(null);
+    const [showModal, setShowModal] = useState(false);
+    const [editRow, setEditRow] = useState({comment:''});
+    const [modalValue,setModalValue] = useState('');
+  
+    const modalRef = useRef(null);
+  
+    const handleProductClick = (item) => {
+      setSelectedProduct(item);
+      setModalValue(item);
+      setShowModal(true);
+      setEditRow(totalSalesSlipData[item]);
+    };
+    const handleModalClose = () => {
+        setShowModal(false);
+        setEditRow('');
+      };
+
+    const handleCommentChange = (e) => {
+        const { name, value } = e.target;
+        setEditRow({ ...editRow, [name]: value });
+        console.log('comment',editRow.comment)
+    };
+
+    const handleMouseOver = (item) => {
+        const tooltip = document.getElementById(`tooltip-${item}`);
+        if (tooltip) {
+          tooltip.style.display = 'block';
+        }
+    };
+    const handleMouseOut = (item) => {
+        const tooltip = document.getElementById(`tooltip-${item}`);
+        if (tooltip) {
+            tooltip.style.display = 'none';
+        }
+    };
+
+    const handleCommentSave = () => {
+        const updatedData = totalSalesSlipData.map((row, index) =>
+            index === selectedProduct ? { ...row, ...editRow } : row
+        );
+        setTotalSalesSlipData(updatedData);
+        handleModalClose();
+
+      };
+
+      const handleKeyDown = (e) => {
+        if (e.key === 'Enter') {
+            // e.preventDefault(); // Prevent the default behavior (form submission)
+            setEditRow((prev) => ({
+                ...prev,
+                comment: prev.comment + '<br />' // Add a newline character
+            }));
+            return;
+        }
+    };
 
     return (<>
         {/* <Titlebar title={title} /> */}
@@ -955,45 +1027,45 @@ const InvoicePurchaseOfBrought = () => {
                                         <div className='ml-20'>
                                             {/* <InputComponent value={customer.item1 || ''} name='item1' onChange={handleCustomerChange} className="w-full text-[#70685a] text-[18px] mb-2 block text-left  mr-10 py-1 !mb-0 !h-10" /> */}
                                             <div className='flex gap-10'>
-                                                <div class="flex items-center">
+                                                <div className="flex items-center">
                                                     <input id="checkbox1" type="checkbox"
-                                                        class="w-4 h-4 mr-3" />
-                                                    <label for="checkbox1" class="text-[#70685a]"> 以前も利用したことがある</label>
+                                                        className="w-4 h-4 mr-3" />
+                                                    <label className="text-[#70685a]"> 以前も利用したことがある</label>
                                                 </div>
-                                                <div class="flex items-center">
+                                                <div className="flex items-center">
                                                     <input id="checkbox2" type="checkbox"
-                                                        class="w-4 h-4 mr-3" />
-                                                    <label for="checkbox2" class="text-[#70685a]">店舗を見て</label>
+                                                        className="w-4 h-4 mr-3" />
+                                                    <label className="text-[#70685a]">店舗を見て</label>
                                                 </div>
                                             </div>
-                                            <div class="flex items-center">
+                                            <div className="flex items-center">
                                                 <input id="checkbox3" type="checkbox"
-                                                    class="w-4 h-4 mr-3" />
-                                                <label for="checkbox3" class="text-[#70685a] mr-3"> 店舗以外の看板・広告を見て</label>
+                                                    className="w-4 h-4 mr-3" />
+                                                <label className="text-[#70685a] mr-3"> 店舗以外の看板・広告を見て</label>
                                                 <InputComponent className="w-40 text-[#70685a] mb-2 block text-left  mr-10 py-1 !mb-0 !h-8" placeholder={'広告を見た場所'}/>
                                             </div>
-                                            <div class="flex items-center">
+                                            <div className="flex items-center">
                                                 <input id="checkbox4" type="checkbox"
-                                                    class="w-4 h-4 mr-3" />
-                                                <label for="checkbox4" class="text-[#70685a] mr-3">折込チラシを見て</label>
+                                                    className="w-4 h-4 mr-3" />
+                                                <label className="text-[#70685a] mr-3">折込チラシを見て</label>
                                                 <InputComponent className="w-40 text-[#70685a] mb-2 block text-left  mr-10 py-1 !mb-0 !h-8" placeholder={'新聞銘柄'}/>
                                             </div>
                                             <div className='flex gap-10'>
-                                                <div class="flex items-center">
+                                                <div className="flex items-center">
                                                     <input id="checkbox5" type="checkbox"
-                                                        class="w-4 h-4 mr-3" />
-                                                    <label for="checkbox5" class="text-[#70685a]">インターネットを見て</label>
+                                                        className="w-4 h-4 mr-3" />
+                                                    <label className="text-[#70685a]">インターネットを見て</label>
                                                 </div>
-                                                <div class="flex items-center">
+                                                <div className="flex items-center">
                                                     <input id="checkbox6" type="checkbox"
-                                                        class="w-4 h-4 mr-3" />
-                                                    <label for="checkbox6" class="text-[#70685a]"> 紹介されて</label>
+                                                        className="w-4 h-4 mr-3" />
+                                                    <label className="text-[#70685a]"> 紹介されて</label>
                                                 </div>
                                             </div>
-                                            <div class="flex items-center">
+                                            <div className="flex items-center">
                                                 <input id="checkbox7" type="checkbox"
-                                                    class="w-4 h-4 mr-3" />
-                                                <label for="checkbox7" class="text-[#70685a] mr-3">その他</label>
+                                                    className="w-4 h-4 mr-3" />
+                                                <label className="text-[#70685a] mr-3">その他</label>
                                                 <InputComponent className="w-40 text-[#70685a] mb-2 block text-left  mr-10 py-1 !mb-0 !h-8" placeholder={'その他詳細'}/>
                                             </div>
                                         </div>
@@ -1006,83 +1078,83 @@ const InvoicePurchaseOfBrought = () => {
                                         <div className=' ml-20'>
                                             {/* <InputComponent value={customer.item2 || ''} name='item2' onChange={handleCustomerChange} className="w-full text-[#70685a] text-[18px] mb-2 block text-left  mr-10 py-1 !mb-0 !h-10" /> */}
                                             <div className='flex gap-10'>
-                                                <div class="flex items-center">
-                                                    <input id="checkbox8" type="checkbox" class="w-4 h-4 mr-3" />
-                                                    <label for="checkbox8" class="text-[#70685a]">ダイヤモンド</label>
+                                                <div className="flex items-center">
+                                                    <input id="checkbox8" type="checkbox" className="w-4 h-4 mr-3" />
+                                                    <label className="text-[#70685a]">ダイヤモンド</label>
                                                 </div>
-                                                <div class="flex items-center">
-                                                    <input id="checkbox9" type="checkbox"  class="w-4 h-4 mr-3" />
-                                                    <label for="checkbox9" class="text-[#70685a]">色石</label>
+                                                <div className="flex items-center">
+                                                    <input id="checkbox9" type="checkbox"  className="w-4 h-4 mr-3" />
+                                                    <label className="text-[#70685a]">色石</label>
                                                 </div>
-                                                <div class="flex items-center">
-                                                    <input id="checkbox10" type="checkbox"  class="w-4 h-4 mr-3" />
-                                                    <label for="checkbox10" class="text-[#70685a]">ネックレス</label>
-                                                </div>
-                                            </div>
-                                            <div className='flex gap-10'>
-                                                <div class="flex items-center">
-                                                    <input id="checkbox11" type="checkbox" class="w-4 h-4 mr-3" />
-                                                    <label for="checkbox11" class="text-[#70685a]">指輪</label>
-                                                </div>
-                                                <div class="flex items-center">
-                                                    <input id="checkbox12" type="checkbox"  class="w-4 h-4 mr-3" />
-                                                    <label for="checkbox12" class="text-[#70685a]">時計</label>
-                                                </div>
-                                                <div class="flex items-center">
-                                                    <input id="checkbox13" type="checkbox"  class="w-4 h-4 mr-3" />
-                                                    <label for="checkbox13" class="text-[#70685a]">ブランド品</label>
+                                                <div className="flex items-center">
+                                                    <input id="checkbox10" type="checkbox"  className="w-4 h-4 mr-3" />
+                                                    <label  className="text-[#70685a]">ネックレス</label>
                                                 </div>
                                             </div>
                                             <div className='flex gap-10'>
-                                                <div class="flex items-center">
-                                                    <input id="checkbox14" type="checkbox" class="w-4 h-4 mr-3" />
-                                                    <label for="checkbox15" class="text-[#70685a]">切手</label>
+                                                <div className="flex items-center">
+                                                    <input id="checkbox11" type="checkbox" className="w-4 h-4 mr-3" />
+                                                    <label  className="text-[#70685a]">指輪</label>
                                                 </div>
-                                                <div class="flex items-center">
-                                                    <input id="checkbox6" type="checkbox"  class="w-4 h-4 mr-3" />
-                                                    <label for="checkbox16" class="text-[#70685a]">中国切手</label>
+                                                <div className="flex items-center">
+                                                    <input id="checkbox12" type="checkbox"  className="w-4 h-4 mr-3" />
+                                                    <label  className="text-[#70685a]">時計</label>
                                                 </div>
-                                                <div class="flex items-center">
-                                                    <input id="checkbox17" type="checkbox"  class="w-4 h-4 mr-3" />
-                                                    <label for="checkbox17" class="text-[#70685a]">古銭</label>
-                                                </div>
-                                            </div>
-                                            <div className='flex gap-10'>
-                                                <div class="flex items-center">
-                                                    <input id="checkbox18" type="checkbox"  class="w-4 h-4 mr-3" />
-                                                    <label for="checkbox18" class="text-[#70685a]">金券</label>
-                                                </div>
-                                                <div class="flex items-center">
-                                                    <input id="checkbox19" type="checkbox"  class="w-4 h-4 mr-3" />
-                                                    <label for="checkbox19" class="text-[#70685a]">テレカ</label>
-                                                </div>
-                                                <div class="flex items-center">
-                                                    <input id="checkbox20" type="checkbox"   class="w-4 h-4 mr-3" />
-                                                    <label for="checkbox20" class="text-[#70685a]">カメラ</label>
+                                                <div className="flex items-center">
+                                                    <input id="checkbox13" type="checkbox"  className="w-4 h-4 mr-3" />
+                                                    <label  className="text-[#70685a]">ブランド品</label>
                                                 </div>
                                             </div>
                                             <div className='flex gap-10'>
-                                                <div class="flex items-center">
-                                                    <input id="checkbox21" type="checkbox" class="w-4 h-4 mr-3" />
-                                                    <label for="checkbox21" class="text-[#70685a]">スマートフォン</label>
+                                                <div className="flex items-center">
+                                                    <input id="checkbox14" type="checkbox" className="w-4 h-4 mr-3" />
+                                                    <label  className="text-[#70685a]">切手</label>
                                                 </div>
-                                                <div class="flex items-center">
-                                                    <input id="checkbox22" type="checkbox" class="w-4 h-4 mr-3" />
-                                                    <label for="checkbox22" class="text-[#70685a]">食器</label>
+                                                <div className="flex items-center">
+                                                    <input id="checkbox6" type="checkbox"  className="w-4 h-4 mr-3" />
+                                                    <label  className="text-[#70685a]">中国切手</label>
                                                 </div>
-                                                <div class="flex items-center">
-                                                    <input id="checkbox23" type="checkbox" class="w-4 h-4 mr-3" />
-                                                    <label for="checkbox23" class="text-[#70685a]">ホビー</label>
+                                                <div className="flex items-center">
+                                                    <input id="checkbox17" type="checkbox"  className="w-4 h-4 mr-3" />
+                                                    <label  className="text-[#70685a]">古銭</label>
                                                 </div>
                                             </div>
                                             <div className='flex gap-10'>
-                                                <div class="flex items-center">
-                                                    <input id="checkbox24" type="checkbox" class="w-4 h-4 mr-3" />
-                                                    <label for="checkbox24" class="text-[#70685a]">楽器</label>
+                                                <div className="flex items-center">
+                                                    <input id="checkbox18" type="checkbox"  className="w-4 h-4 mr-3" />
+                                                    <label  className="text-[#70685a]">金券</label>
                                                 </div>
-                                                <div class="flex items-center">
-                                                    <input id="checkbox25" type="checkbox" class="w-4 h-4 mr-3" />
-                                                    <label for="checkbox25" class="text-[#70685a] mr-3">その他</label>
+                                                <div className="flex items-center">
+                                                    <input id="checkbox19" type="checkbox"  className="w-4 h-4 mr-3" />
+                                                    <label  className="text-[#70685a]">テレカ</label>
+                                                </div>
+                                                <div className="flex items-center">
+                                                    <input id="checkbox20" type="checkbox"   className="w-4 h-4 mr-3" />
+                                                    <label  className="text-[#70685a]">カメラ</label>
+                                                </div>
+                                            </div>
+                                            <div className='flex gap-10'>
+                                                <div className="flex items-center">
+                                                    <input id="checkbox21" type="checkbox" className="w-4 h-4 mr-3" />
+                                                    <label  className="text-[#70685a]">スマートフォン</label>
+                                                </div>
+                                                <div className="flex items-center">
+                                                    <input id="checkbox22" type="checkbox" className="w-4 h-4 mr-3" />
+                                                    <label  className="text-[#70685a]">食器</label>
+                                                </div>
+                                                <div className="flex items-center">
+                                                    <input id="checkbox23" type="checkbox" className="w-4 h-4 mr-3" />
+                                                    <label  className="text-[#70685a]">ホビー</label>
+                                                </div>
+                                            </div>
+                                            <div className='flex gap-10'>
+                                                <div className="flex items-center">
+                                                    <input id="checkbox24" type="checkbox" className="w-4 h-4 mr-3" />
+                                                    <label  className="text-[#70685a]">楽器</label>
+                                                </div>
+                                                <div className="flex items-center">
+                                                    <input id="checkbox25" type="checkbox" className="w-4 h-4 mr-3" />
+                                                    <label  className="text-[#70685a] mr-3">その他</label>
                                                     <InputComponent className="w-40 text-[#70685a] mb-2 block text-left  mr-10 py-1 !mb-0 !h-8" placeholder={'その他詳細'}/>
                                                 </div>
                                             </div>
@@ -1096,13 +1168,13 @@ const InvoicePurchaseOfBrought = () => {
                                         <div className='ml-20  mb-10'>
                                             {/* <InputComponent value={customer.item3 || ''} name='item3' onChange={handleCustomerChange} className="w-full text-[#70685a] text-[18px] mb-2 block text-left  mr-10 py-1 !mb-0 !h-10" /> */}
                                             <div className='flex gap-10'>
-                                                <div class="flex items-center">
-                                                    <input id="checkbox26" type="checkbox" class="w-4 h-4 mr-3" />
-                                                    <label for="checkbox26" class="text-[#70685a]">可</label>
+                                                <div className="flex items-center">
+                                                    <input id="checkbox26" type="checkbox" className="w-4 h-4 mr-3" />
+                                                    <label  className="text-[#70685a]">可</label>
                                                 </div>
-                                                <div class="flex items-center">
-                                                    <input id="checkbox27" type="checkbox" class="w-4 h-4 mr-3" />
-                                                    <label for="checkbox27" class="text-[#70685a]">不可</label>
+                                                <div className="flex items-center">
+                                                    <input id="checkbox27" type="checkbox" className="w-4 h-4 mr-3" />
+                                                    <label  className="text-[#70685a]">不可</label>
                                                 </div>
                                             </div>
                                         </div>
@@ -1158,42 +1230,6 @@ const InvoicePurchaseOfBrought = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            <tr  style={{display:'none'}}>
-                                    <td><input type='checkbox' name='checkbox1'/></td>
-                                    <td style={Td}>qqq</td>
-                                    <td style={Td}>qqq</td>
-                                    <td style={Td} >qqq</td>
-                                    {isshow ? <td style={Td} >qq</td> :<td style={{display:'none'}}></td>}
-                                    {isshow ? <td style={Td} >qq</td> :<td style={{display:'none'}}></td>}
-                                    {isshow ? <td style={Td} >aa</td> :<td style={{display:'none'}}></td>}
-                                    <td style={Td}>
-                                        aa
-                                    </td>
-                                    <td style={Td}>aa</td>
-                                    <td style={Td}> aa </td>
-                                    <td style={Td}> aa </td>
-                                    <td style={Td}> aa </td>
-                                    <td style={Td}> aa </td>
-                                    <td style={Td}> aa </td>
-                                    <td style={Td}> aa</td>
-                                    <td style={Td}>aa</td>
-                                    {isvendorshow && allVendors.map((vendor, index) => (
-                                        <td key={index} style={Td}>aa</td>
-                                    ))}
-                                    <td style={Td}>aa</td>
-                                    <td style={Td}>aa</td>
-                                    <td style={Td}>aa</td>
-                                    <td style={Td} className='w-8 bg-transparent hover:bg-[#ebe6e0] transition-all duration-300'>
-                                        <div  className='w-7 ml-2'>
-                                            <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium  MuiSvgIcon-root MuiSvgIcon-fontSizeLarge  css-1hkft75" fill='#524c3b' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="EditCalendarOutlinedIcon" title="EditCalendarOutlined"><path d="M5 10h14v2h2V6c0-1.1-.9-2-2-2h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h7v-2H5zm0-4h14v2H5zm17.84 10.28-.71.71-2.12-2.12.71-.71c.39-.39 1.02-.39 1.41 0l.71.71c.39.39.39 1.02 0 1.41m-3.54-.7 2.12 2.12-5.3 5.3H14v-2.12z"></path></svg>
-                                        </div>
-                                    </td>
-                                    <td style={Td} className='w-8 bg-transparent hover:bg-[#ebe6e0] transition-all duration-300'>
-                                        <div  className='w-7 ml-2'>
-                                            <svg  focusable="false" aria-hidden="true" viewBox="0 0 23 23" fill='#524c3b' data-testid="CancelOutlinedIcon" title="CancelOutlined"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8m3.59-13L12 10.59 8.41 7 7 8.41 10.59 12 7 15.59 8.41 17 12 13.41 15.59 17 17 15.59 13.41 12 17 8.41z"></path></svg>
-                                        </div>
-                                    </td>
-                            </tr>
                             {( totalSalesSlipData && totalSalesSlipData.length !==0) && totalSalesSlipData.map((salesData, Index) => (
                                 <tr key={Index} >
                                     <td><input type='checkbox' name='checkbox1'/></td>
@@ -1206,7 +1242,27 @@ const InvoicePurchaseOfBrought = () => {
                                     <td style={Td}>
                                         {salesData.product_photo != '' ? <ButtonComponent children="写真" name='photo' className='w-max !px-5 rounded-lg' style={{  backgroundColor: '#ebe5e1', color: '#626373'}} /> : 'ファイルなし'}
                                     </td>
-                                    <td style={Td}>{salesData.product_name || ''}</td>
+                                    <td style={Td1} onClick={() => handleProductClick(Index)}
+                                                        onMouseOver={() => handleMouseOver(Index)}
+                                                        onMouseOut={() => handleMouseOut(Index)}>
+                                        {salesData.product_name || ''}
+                                        <div
+                                            id={`tooltip-${Index}`}
+                                            style={{
+                                                display: 'none',
+                                                position: 'absolute',
+                                                top:'40px',
+                                                left:'10px',
+                                                backgroundColor: 'white',
+                                                border: '2px solid #524c3b',
+                                                padding: '10px',
+                                                borderRadius:'5px'
+                                            }}
+                                            className="text-pre-wrap"
+                                            >
+                                            {salesData.comment}
+                                        </div>
+                                    </td>
                                     <td style={Td}> {salesData.quantity || ''} </td>
                                     <td style={Td}> {salesData.reason_application || ''} </td>
                                     <td style={Td}> {salesData.interest_rate || ''} </td>
@@ -1509,6 +1565,38 @@ const InvoicePurchaseOfBrought = () => {
                 </div>
             </div>
         </div>
+        {showModal && (
+            <div className="fixed inset-0 p-4 flex justify-center items-center w-full h-full z-[1000] before:fixed before:inset-0 before:w-full before:h-full before:bg-[rgba(0,0,0,0.5)] overflow-auto font-[sans-serif]">
+                <div className="w-full max-w-lg bg-white shadow-lg rounded-lg p-6 relative">
+                    <div className="flex items-center pb-3 border-b border-gray-300">
+                        <h3 className="text-gray-800 text-xl font-bold flex-1">商品コメント</h3>
+                        <svg onClick={handleModalClose} xmlns="http://www.w3.org/2000/svg" className="w-3 ml-2 cursor-pointer shrink-0 fill-gray-400 hover:fill-red-500"
+                            viewBox="0 0 320.591 320.591">
+                            <path
+                                d="M30.391 318.583a30.37 30.37 0 0 1-21.56-7.288c-11.774-11.844-11.774-30.973 0-42.817L266.643 10.665c12.246-11.459 31.462-10.822 42.921 1.424 10.362 11.074 10.966 28.095 1.414 39.875L51.647 311.295a30.366 30.366 0 0 1-21.256 7.288z"
+                                data-original="#000000"></path>
+                            <path
+                                d="M287.9 318.583a30.37 30.37 0 0 1-21.257-8.806L8.83 51.963C-2.078 39.225-.595 20.055 12.143 9.146c11.369-9.736 28.136-9.736 39.504 0l259.331 257.813c12.243 11.462 12.876 30.679 1.414 42.922-.456.487-.927.958-1.414 1.414a30.368 30.368 0 0 1-23.078 7.288z"
+                                data-original="#000000"></path>
+                        </svg>
+                    </div>
+
+                    <div className="my-6">
+                    <textarea placeholder='入力コメント' name='comment'
+                        onChange={handleCommentChange} onKeyDown={handleKeyDown}
+                        className="p-4 bg-white max-w-md mx-auto w-full block text-sm border border-gray-300 outline-[#007bff] rounded" rows="4">
+                    </textarea>
+                    </div>
+
+                    <div className="border-t border-gray-300 pt-6 flex justify-end gap-4">
+                        <button type="button" onClick={handleModalClose}
+                            className="px-4 py-2 rounded-lg text-gray-800 text-sm border-none outline-none tracking-wide bg-gray-200 hover:bg-gray-300 active:bg-gray-200">キャンセル</button>
+                        <button type="button" onClick={handleCommentSave}
+                            className="px-4 py-2 rounded-lg text-white text-sm border-none outline-none tracking-wide bg-blue-600 hover:bg-blue-700 active:bg-blue-600">保存</button>
+                    </div>
+                </div>
+            </div>
+        )}
     </>
     );
 };

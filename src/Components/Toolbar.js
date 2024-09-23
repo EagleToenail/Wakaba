@@ -1,29 +1,59 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom'
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import axios from 'axios';
 export default function Toolbar() {
 
   const [isOpen, setIsOpen] = useState(false);
-  const [inquiryphoneCount, setInquiryPhoneCount] = useState(1); // initial count is 10
-  const [inquiryvisitCount, setInquiryVisitCount] = useState(1); // initial count is 10
-
+  const [inquiryphoneCount, setInquiryPhoneCount] = useState(0); // initial count is 0
+  const [inquiryvisitCount, setInquiryVisitCount] = useState(0); // initial count is 0
+  const userId = localStorage.getItem('userId');
+  const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+  useEffect(() => {
+    handleReadInquiry(); // call the function when the component mounts
+  }, []);
   // Function to toggle menu visibility
   const handleClick = () => {
     setIsOpen(!isOpen);
   };
-  const incrementInquiryphoneCount=()=>{
+  const handleReadInquiry = async () => {
+    try {
+      const response = await axios.post(`${wakabaBaseUrl}/inquiry/read`, {
+        userId,
+      });
+      setInquiryPhoneCount(response.data.inquiryphoneCount);
+      setInquiryVisitCount(response.data.inquiryvisitCount);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  const updateInquiryCounts = async (userId, inquiryphoneCount, inquiryvisitCount) => {
+    try {
+      const response = await axios.post(`${wakabaBaseUrl}/inquiry/create`, {
+        userId,
+        inquiryphoneCount,
+        inquiryvisitCount
+      });
+      console.log(response.data);     
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  const incrementInquiryphoneCount = () => {
     setInquiryPhoneCount(inquiryphoneCount + 1);
-  };
-  const decrementInquiryphoneCount=()=>{
+    updateInquiryCounts(userId, inquiryphoneCount + 1, inquiryvisitCount);
+  };  
+  const decrementInquiryphoneCount = () => {
     setInquiryPhoneCount(inquiryphoneCount - 1);
-  };
-  const incrementInquiryVisitCount=()=>{
+    updateInquiryCounts(userId, inquiryphoneCount - 1, inquiryvisitCount);
+  };  
+  const incrementInquiryVisitCount = () => {
     setInquiryVisitCount(inquiryvisitCount + 1);
-
-  }
-  const decrementInquiryVisitCount=()=>{
+    updateInquiryCounts(userId, inquiryphoneCount, inquiryvisitCount + 1);
+  };  
+  const decrementInquiryVisitCount = () => {
     setInquiryVisitCount(inquiryvisitCount - 1);
-
-  }
+    updateInquiryCounts(userId, inquiryphoneCount, inquiryvisitCount - 1);
+  };
   return (
     <>
     <header className='flex  sm:px-3 bg-[#ebe6e0] font-[sans-serif] max-h-[50px] tracking-wide relative z-49 justify-end'>
