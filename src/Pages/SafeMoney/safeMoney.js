@@ -221,19 +221,19 @@ const SafeMoney = () => {
                     <div className='safe-money-search flex mt-3 justify-center'>
                         <div className='flex justify-center mt-5'>
                             <div className='mr-5'>
-                                <select name="status" value={searchParams.status || ''} onChange={handleSearchChange} className="w-40 text-[#70685a] font-bold border border-[#70685a] px-4 py-1 outline-[#70685a]">
+                                <select name="status" value={searchParams.status || ''} onChange={handleSearchChange} className="w-40 h-10 text-[#70685a] font-bold border border-[#70685a] px-4 py-1 outline-[#70685a]">
                                     <option value=""></option>
                                     <option value="保留中">保留中</option>
                                     <option value="利用可能">利用可能</option>
                                 </select>
                             </div>
                             <div className='mr-5'>
-                                <select name="type" value={searchParams.type || ''} onChange={handleSearchChange} className="w-40 text-[#70685a] font-bold border border-[#70685a] px-4 py-1 outline-[#70685a]">
+                                <select name="type" value={searchParams.type || ''} onChange={handleSearchChange} className="w-40 h-10 text-[#70685a] font-bold border border-[#70685a] px-4 py-1 outline-[#70685a]">
                                     <option value=""></option>
                                     <option value="銀行ATM引き出し">銀行ATM引き出し</option>
                                 </select>
                             </div>
-                            <div className='mr-5'>
+                            <div className='mr-5 flex flex-col justify-center'>
                                 <label className="text-[#70685a] font-bold mb-2 block text-center !mb-0">申請日</label>
                             </div>
                         </div>
@@ -269,15 +269,15 @@ const SafeMoney = () => {
                             </div>
                         </div>
                         <div className='flex justify-center mt-5'>
-                            <div className=' text-[#70685a] px-2 mr-5'>
+                            <div className=' text-[#70685a] px-2 mr-5 flex flex-col justify-center'>
                                 <label className="text-[#656565] text-[20px] mb-2 block text-center !mb-0">この条件で</label>
                             </div>
-                            <div className=' text-[#656565] px-2 mr-2'>
+                            <div className=' text-[#656565] px-2 mr-2 flex flex-col justify-center'>
                                 < button type="button" className="w-20 h-8 px-3 py-1 font-bold tracking-wide rounded-lg justify-center text-white text-[15px] bg-[#a3a1c8] hover:bg-blue-700 focus:outline-none">
                                     検索
                                 </button>
                             </div>
-                            <div className=' text-[#656565] px-2 mr-5'>
+                            <div className=' text-[#656565] px-2 mr-5 flex flex-col justify-center'>
                                 <label className="text-[#656565] mb-2 block text-center !mb-0">(and検索)</label>
                             </div>
                         </div>

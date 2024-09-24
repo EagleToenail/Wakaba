@@ -1,6 +1,8 @@
-import React from 'react';
-// import { Link } from 'react-router-dom';
+import { React, useState, useEffect } from 'react';
 // import Titlebar from '../../../Components/Common/Titlebar';
+import { useNavigate } from 'react-router-dom';
+import InputComponent from '../../../Components/Common/InputComponent';
+import axios from 'axios';
 import ButtonComponent from '../../../Components/Common/ButtonComponent';
 import DateAndTime from '../../../Components/Common/PickData';
 
@@ -15,18 +17,108 @@ const ManagementVariousMasterProductCategory2 = () => {
         width: '100%',
         alignItem: 'center'
     };
-
-    // const Th = {
-    //     border: '1px solid #70685a',
-    //     borderCollapse: 'collapse',
-    //     color: '#70685a',
-    //     fontSize: '15px'
-    // };
+    const Th = {
+        whiteSpace: 'nowrap',
+    };
     const Td = {
         border: '1px solid #6e6e7c',
         borderCollapse: 'collapse',
         color: '#6e6e7c',
         fontSize: '15px',
+    };
+    // State to track the value of the active button
+    const [activeValue, setActiveValue] = useState('');
+    // State to track if the select box is active
+    const [isSelectActive, setIsSelectActive] = useState(false);
+    const buttonValues = ['貴金属', '古銭等', 'バッグ', '時計',
+        '財布', 'アクセサリ', '骨董品', '洋酒', 'カメラ', '楽器', '着物', 'スマホ夕ブレット'];
+
+    const [category, setCategory] = useState([]);
+    const handleCategory = (value) => (e) => {
+        e.preventDefault();
+
+        // console.log('vlaue',value)
+        setActiveValue(value);
+        // console.log('activeValue',activeValue)
+        setIsSelectActive(false); // Deactivate select box
+
+        const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+        if (!wakabaBaseUrl) {
+            throw new Error('API base URL is not defined');
+        }
+
+        // console.log(`${wakabaBaseUrl}/sales/filter`);
+        axios.post(`${wakabaBaseUrl}/ProductType2sfilter`, { name: value })
+            .then(response => {
+                // console.log(response.data)
+                setCategory(response.data);
+            })
+            .catch(error => {
+                console.error("There was an error fetching the customer data!", error);
+            });
+    };
+    // edit part----------------------------------
+    const [editIndex, setEditIndex] = useState(-1);
+    const [editedRow, setEditedRow] = useState({
+        category: '',
+        remarks: ''
+    });
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setEditedRow({ ...editedRow, [name]: value });
+    };
+
+    const handleEditClick = (index) => {
+        setEditIndex(index);
+        setEditedRow(category[index]); // Populate the input fields with the selected row's data
+    };
+
+    const handleSaveClick = () => {
+        const updatedData = category.map((row, index) =>
+            index === editIndex ? { ...row, ...editedRow } : row
+        );
+        setCategory(updatedData);
+        setEditIndex(-1); // Exit edit mode
+        setEditedRow({
+            category: '',
+            remarks: ''
+        }); // Reset editedRow state
+    };
+
+    const handleCancelClick = () => {
+        setEditIndex(-1);
+        setEditedRow({
+            category: '',
+            remarks: ''
+        }); // Reset editedRow state
+    };
+
+    //delete one of tatalsaleSlipdata
+    const handleDeleteClick = (index) => {
+        setCategory(category.filter((_, i) => i !== index));
+    };
+    // add part--------------
+    const [inputSheetShow, setInputSheetShow] = useState(false);
+    const [newSheetRow, setNewSheetRow] = useState({
+        category: '',
+        remarks: '',
+    });
+    const handleSheetChange = (e) => {
+        const { name, value } = e.target;
+        setNewSheetRow((prevSheetRow) => ({
+            ...prevSheetRow,
+            [name]: value
+        }));
+    };
+    const handleAddSheetRow = () => {
+        if (inputSheetShow) {
+            setCategory((prevCategory) => [...prevCategory, { ...newSheetRow, id: Date.now() }]);
+            setNewSheetRow({
+                category: '',
+                remarks: '',
+            });
+        }
+        setInputSheetShow(!inputSheetShow);
     };
 
     return (
@@ -46,108 +138,118 @@ const ManagementVariousMasterProductCategory2 = () => {
                         </div>
                     </div>
                     <div className='flex justify-around pl-20 pr-20'>
-                        <ButtonComponent children={'貴金属'} className='py-1 text-[15px] !text-[#a0a0a0] border  border-[#a0a0a0] h-8 !px-3 w-max bg-[transparent]' />
-                        <ButtonComponent children={'ブランド'} className='py-1 text-[15px] !text-[#a0a0a0] border  border-[#a0a0a0] h-8 !px-3 w-max bg-[transparent]' />
-                        <ButtonComponent children={'バッグ'} className='py-1 text-[15px] !text-[#a0a0a0] border  border-[#a0a0a0] h-8 !px-3 w-max !bg-[#424242]' />
-                        <ButtonComponent children={'時計'} className='py-1 text-[15px] !text-[#a0a0a0] border  border-[#a0a0a0] h-8 !px-3 w-max bg-[transparent]' />
-                        <ButtonComponent children={'財布'} className='py-1 text-[15px] !text-[#a0a0a0] border  border-[#a0a0a0] h-8 !px-3 w-max bg-[transparent]' />
-                        <ButtonComponent children={'その他アクセサリ'} className='py-1 !text-[15px] !text-[#a0a0a0] border  border-[#a0a0a0] h-8 !px-3 w-max bg-[transparent]' />
-                        <ButtonComponent children={'骨董品'} className='py-1 text-[15px] !text-[#a0a0a0] border  border-[#a0a0a0] h-8 !px-3 w-max bg-[transparent]' />
-                        <ButtonComponent children={'洋酒'} className='py-1 text-[15px] !text-[#a0a0a0] border  border-[#a0a0a0] h-8 !px-3 w-max bg-[transparent]' />
-                        <ButtonComponent children={'カメラ'} className='py-1 text-[15px] !text-[#a0a0a0] border  border-[#a0a0a0] h-8 !px-3 w-max bg-[transparent]' />
-                        <ButtonComponent children={'楽器'} className='py-1 text-[15px] !text-[#a0a0a0] border  border-[#a0a0a0] h-8 !px-3 w-max bg-[transparent]' />
-                        <ButtonComponent children={'スマホ/タブレット'} className='py-1 !text-[15px] !text-[#a0a0a0] border  border-[#a0a0a0] h-8 !px-3 w-max bg-[transparent]' />
+                        <ButtonComponent children={'貴金属'} onClick={handleCategory('貴金属')} className="!px-3 bg-[transparent] border border-[#424242] text-[#70685a] h-8 rounded-lg !w-max" style={{ color: activeValue === buttonValues[0] ? 'white' : 'black', backgroundColor: activeValue === buttonValues[0] ? '#424242' : 'transparent' }} />
+                        <ButtonComponent children={'バッグ'} onClick={handleCategory('バッグ')} className="!px-3 bg-[transparent] border border-[#424242] text-[#70685a] h-8 rounded-lg !w-max" style={{ color: activeValue === buttonValues[2] ? 'white' : 'black', backgroundColor: activeValue === buttonValues[2] ? '#424242' : 'transparent' }} />
+                        <ButtonComponent children={'時計'} onClick={handleCategory('時計')} className="!px-3 bg-[transparent] border border-[#424242] text-[#70685a] h-8 rounded-lg !w-max" style={{ color: activeValue === buttonValues[3] ? 'white' : 'black', backgroundColor: activeValue === buttonValues[3] ? '#424242' : 'transparent' }} />
+                        <ButtonComponent children={'財布'} onClick={handleCategory('財布')} className="!px-3 bg-[transparent] border border-[#424242] text-[#70685a] h-8 rounded-lg !w-max" style={{ color: activeValue === buttonValues[4] ? 'white' : 'black', backgroundColor: activeValue === buttonValues[4] ? '#424242' : 'transparent' }} />
+                        <ButtonComponent children={'アクセサリ'} onClick={handleCategory('アクセサリ')} className="!px-3 bg-[transparent] border border-[#424242] text-[#70685a] h-8 rounded-lg !w-max" style={{ color: activeValue === buttonValues[5] ? 'white' : 'black', backgroundColor: activeValue === buttonValues[5] ? '#424242' : 'transparent' }} />
+                        <ButtonComponent children={'骨董品'} onClick={handleCategory('骨董品')} className="!px-3 bg-[transparent] border border-[#424242] text-[#70685a] h-8 rounded-lg !w-max" style={{ color: activeValue === buttonValues[6] ? 'white' : 'black', backgroundColor: activeValue === buttonValues[6] ? '#424242' : 'transparent' }} />
+                        <ButtonComponent children={'古銭等'} onClick={handleCategory('古銭等')} className="!px-3 bg-[transparent] border border-[#424242] text-[#70685a] h-8 rounded-lg !w-max" style={{ color: activeValue === buttonValues[1] ? 'white' : 'black', backgroundColor: activeValue === buttonValues[1] ? '#424242' : 'transparent' }} />
+                        <ButtonComponent children={'洋酒'} onClick={handleCategory('洋酒')} className="!px-3 bg-[transparent] border border-[#424242] text-[#70685a] h-8 rounded-lg !w-max" style={{ color: activeValue === buttonValues[7] ? 'white' : 'black', backgroundColor: activeValue === buttonValues[7] ? '#424242' : 'transparent' }} />
+                        <ButtonComponent children={'カメラ'} onClick={handleCategory('カメラ')} className="!px-3 bg-[transparent] border border-[#424242] text-[#70685a] h-8 rounded-lg !w-max" style={{ color: activeValue === buttonValues[8] ? 'white' : 'black', backgroundColor: activeValue === buttonValues[8] ? '#424242' : 'transparent' }} />
+                        <ButtonComponent children={'楽器'} onClick={handleCategory('楽器')} className="!px-3 bg-[transparent] border border-[#424242] text-[#70685a] h-8 rounded-lg !w-max" style={{ color: activeValue === buttonValues[9] ? 'white' : 'black', backgroundColor: activeValue === buttonValues[9] ? '#424242' : 'transparent' }} />
+                        <ButtonComponent children={'着物'} onClick={handleCategory('着物')} className="!px-3 bg-[transparent] border border-[#424242] text-[#70685a] h-8 rounded-lg !w-max" style={{ color: activeValue === buttonValues[10] ? 'white' : 'black', backgroundColor: activeValue === buttonValues[10] ? '#424242' : 'transparent' }} />
+                        <ButtonComponent children={'スマホ/夕ブレット'} onClick={handleCategory('スマホ夕ブレット')} className="!px-5 bg-[transparent] border border-[#424242] text-[#70685a] h-8 rounded-lg !w-max" style={{ color: activeValue === buttonValues[11] ? 'white' : 'black', backgroundColor: activeValue === buttonValues[11] ? '#424242' : 'transparent' }} />
                     </div>
 
                     {/*  Tabe*/}
                     <div className='mt-3 pl-10 pr-10 w-full flex justify-center'>
                         <div style={{ width: '60%', overflow: 'auto' }}>
-                            <ButtonComponent children={'削除'} className='py-1 text-[15px] text-[white] h-8 !px-3 w-max !bg-[#838383]' />
+                            {/* <ButtonComponent children={'削除'} className='py-1 text-[15px] text-[white] h-8 !px-3 w-max !bg-[#838383]' /> */}
                             <table className='text-center w-full' style={Table}>
                                 <thead>
                                     <tr>
-                                        <th></th>
+                                        {/* <th></th> */}
                                         <th width={'10%'}>ID</th>
                                         <th width='40%'>名称</th>
                                         <th width='40%'>備考</th>
+                                        <th style={Th}>{editIndex === -1 ? '編集する' : 'セーブ'}</th>
+                                        <th style={Th} className='whitespace-nowrap pl-3'>{editIndex === -1 ? '削除' : 'キャンセル'}</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td width={'5%'}><input type='checkbox' /></td>
-                                        <td width={'10%'} style={Td}>9999</td>
-                                        <td style={Td}>グッチOOOOOOOO</td>
-                                        <td style={Td}></td>
-                                    </tr>
-                                    <tr>
-                                        <td width={'5%'}><input type='checkbox' /></td>
-                                        <td width={'10%'} style={Td}>9999</td>
-                                        <td style={Td}>ティファニーOOOOOO</td>
-                                        <td style={Td}></td>
-                                    </tr>
-                                    <tr>
-                                        <td width={'5%'}><input type='checkbox' /></td>
-                                        <td width={'10%'} style={Td}>9999</td>
-                                        <td style={Td}>YSLOOOOOOOO</td>
-                                        <td style={Td}></td>
-                                    </tr>
-                                    <tr>
-                                        <td width={'5%'}><input type='checkbox' /></td>
-                                        <td width={'10%'} style={Td}>9999</td>
-                                        <td style={Td}></td>
-                                        <td style={Td}></td>
-                                    </tr>
-                                    <tr>
-                                        <td width={'5%'}><input type='checkbox' /></td>
-                                        <td width={'10%'} style={Td}>9999</td>
-                                        <td style={Td}></td>
-                                        <td style={Td}></td>
-                                    </tr>
-                                    <tr>
-                                        <td width={'5%'}><input type='checkbox' /></td>
-                                        <td width={'10%'} style={Td}>9999</td>
-                                        <td style={Td}></td>
-                                        <td style={Td}></td>
-                                    </tr>
-                                    <tr>
-                                        <td width={'5%'}><input type='checkbox' /></td>
-                                        <td width={'10%'} style={Td}>9999</td>
-                                        <td style={Td}></td>
-                                        <td style={Td}></td>
-                                    </tr>
-                                    <tr>
-                                        <td width={'5%'}><input type='checkbox' /></td>
-                                        <td width={'10%'} style={Td}>9999</td>
-                                        <td style={Td}></td>
-                                        <td style={Td}></td>
-                                    </tr>
-                                    <tr>
-                                        <td width={'5%'}><input type='checkbox' /></td>
-                                        <td width={'10%'} style={Td}>9999</td>
-                                        <td style={Td}></td>
-                                        <td style={Td}></td>
-                                    </tr>
-                                    <tr>
-                                        <td width={'5%'}><input type='checkbox' /></td>
-                                        <td width={'10%'} style={Td}>9999</td>
-                                        <td style={Td}></td>
-                                        <td style={Td}></td>
-                                    </tr>
-                                    <tr>
-                                        <td width={'5%'}><input type='checkbox' /></td>
-                                        <td width={'10%'} style={Td}>9999</td>
-                                        <td style={Td}></td>
-                                        <td style={Td}></td>
-                                    </tr>
-                                    <tr>
-                                        <td width={'5%'}><input type='checkbox' /></td>
-                                        <td width={'10%'} style={Td}>9999</td>
-                                        <td style={Td}> </td>
-                                        <td style={Td}></td>
-                                    </tr>
+                                    {(category && category.length !== 0) && category.map((data, Index) => (
+                                        <tr key={Index}>
+                                            {/* <td width={'5%'}><input type='checkbox' /></td> */}
+                                            <td width={'10%'} style={Td}>{Index + 1}</td>
+                                            <td style={Td}>
+                                                {editIndex === Index ? (
+                                                    <InputComponent name='category' value={editedRow.category || ''} onChange={handleInputChange} className='w-max h-8 text-[#70685a]' />
+                                                ) : (data.category || '   ')}
+                                            </td>
+                                            <td style={Td}>
+                                                {editIndex === Index ? (
+                                                    <InputComponent name='remarks' value={editedRow.remarks || ''} onChange={handleInputChange} className='w-max h-8 text-[#70685a]' />
+                                                ) : (data.remarks || '')}
+                                            </td>
+                                            <td style={Td}>
+                                                {editIndex === Index ? (
+                                                    <div>
+                                                        <button onClick={() => handleSaveClick(Index)} className='w-7'>
+                                                            <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium  MuiSvgIcon-root MuiSvgIcon-fontSizeLarge  css-1hkft75" fill='#524c3b' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckOutlinedIcon" title="CheckOutlined"><path d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
+                                                        </button>
+                                                    </div>
+                                                ) : (
+                                                    <div>
+                                                        <button onClick={() => handleEditClick(Index)} className='w-7'>
+                                                            <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium  MuiSvgIcon-root MuiSvgIcon-fontSizeLarge  css-1hkft75" fill='#524c3b' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="EditCalendarOutlinedIcon" title="EditCalendarOutlined"><path d="M5 10h14v2h2V6c0-1.1-.9-2-2-2h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h7v-2H5zm0-4h14v2H5zm17.84 10.28-.71.71-2.12-2.12.71-.71c.39-.39 1.02-.39 1.41 0l.71.71c.39.39.39 1.02 0 1.41m-3.54-.7 2.12 2.12-5.3 5.3H14v-2.12z"></path></svg>
+                                                        </button>
+                                                    </div>
+                                                )}
+                                            </td>
+                                            <td style={Td}>
+                                                {editIndex === Index ? (
+                                                    <div>
+                                                        <button onClick={() => handleCancelClick(Index)} className='w-7'>
+                                                            <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium  MuiSvgIcon-root MuiSvgIcon-fontSizeLarge  css-1hkft75" fill='#524c3b' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="KeyboardReturnOutlinedIcon" title="KeyboardReturnOutlined"><path d="M19 7v4H5.83l3.58-3.59L8 6l-6 6 6 6 1.41-1.41L5.83 13H21V7z"></path></svg>
+                                                        </button>
+                                                    </div>
+                                                ) : (
+                                                    <div>
+                                                        <button onClick={() => handleDeleteClick(Index)} className='w-7'>
+                                                            <svg className="flex flex-col justify-center" focusable="false" aria-hidden="true" viewBox="0 0 23 23" fill='#524c3b' data-testid="CancelOutlinedIcon" title="CancelOutlined"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8m3.59-13L12 10.59 8.41 7 7 8.41 10.59 12 7 15.59 8.41 17 12 13.41 15.59 17 17 15.59 13.41 12 17 8.41z"></path></svg>
+                                                        </button>
+                                                    </div>
+                                                )}
+                                            </td>
+                                        </tr>
+
+                                    ))}
+                                    {inputSheetShow ?
+                                        <tr>
+                                            <td></td>
+                                            <td style={Td}>
+                                                <input
+                                                    type="text"
+                                                    name="category"
+                                                    className='w-full'
+                                                    value={newSheetRow.category}
+                                                    onChange={handleSheetChange}
+                                                />
+                                            </td>
+                                            <td style={Td} >
+                                                <input
+                                                    type="text"
+                                                    name="remarks"
+                                                    className='w-full'
+                                                    value={newSheetRow.remarks}
+                                                    onChange={handleSheetChange}
+                                                />
+                                            </td>
+                                        </tr> : ''}
                                 </tbody>
 
                             </table>
+                            <div className='flex justify-center mt-2'>
+                                <button type="button" onClick={handleAddSheetRow}
+                                    className="w-7 h-7 inline-flex items-center justify-center text-[#70685a] border border-[#70685a] outline-none hover:bg-purple-700 active:bg-purple-600">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="14px" fill="#70685a" className="inline" viewBox="0 0 512 512">
+                                        <path
+                                            d="M467 211H301V45c0-24.853-20.147-45-45-45s-45 20.147-45 45v166H45c-24.853 0-45 20.147-45 45s20.147 45 45 45h166v166c0 24.853 20.147 45 45 45s45-20.147 45-45V301h166c24.853 0 45-20.147 45-45s-20.147-45-45-45z"
+                                            data-original="#000000" />
+                                    </svg>
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>

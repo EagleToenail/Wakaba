@@ -61,6 +61,18 @@ const OwnersTop = () => {
     const gotoOwnerManagementScreenArea = () =>{
         navigate('/admin/owneranalysisareaanalysis');
     }
+    //goto accounting infromation various number treding data
+    const gotoAccountingInfromationVariousNumberTredingData = () =>{
+        navigate('/admin/accountinginformationvarioustrenddata');
+    }
+    //goto accounting infromation various number reference data
+    const gotoAccountingInfromationVariousNumberReferenceData = () =>{
+        navigate('/admin/accountinginformationvariousreferencedata');
+    }
+    //goto customer visit rate trend
+    const gotoCustomerVisitTrend = () =>{
+        navigate('/admin/customervisitratetrend');
+    }
 
     return (
         <>
@@ -224,12 +236,12 @@ const OwnersTop = () => {
                                 </div>
                                 <div style={{width:'90%'}}>
                                     <div className=' text-[#70685a]'>
-                                        < button type="button" style={{width:'55%'}} className=" px-10 py-1 text-[#70685a] font-bold tracking-wide border border-[#70685a] justify-center  hover:bg-blue-700 focus:outline-none">
+                                        < button type="button" onClick={gotoAccountingInfromationVariousNumberTredingData} style={{width:'55%'}} className=" px-10 py-1 text-[#70685a] font-bold tracking-wide border border-[#70685a] justify-center  hover:bg-blue-700 focus:outline-none">
                                         店舗毎の経理情報推移 
                                         </button>
                                     </div>
                                     <div className=' text-[#70685a] pt-5'>
-                                        < button type="button" style={{width:'55%'}} className=" px-10 py-1 text-[#70685a] font-bold tracking-wide border border-[#70685a] justify-center  hover:bg-blue-700 focus:outline-none">
+                                        < button type="button" onClick={gotoAccountingInfromationVariousNumberReferenceData} style={{width:'55%'}} className=" px-10 py-1 text-[#70685a] font-bold tracking-wide border border-[#70685a] justify-center  hover:bg-blue-700 focus:outline-none">
                                         店舗毎の経理情報参考デ夕 
                                         </button>
                                     </div>
@@ -250,7 +262,7 @@ const OwnersTop = () => {
                                 <div style={{width:'90%'}}>
                                     <div className=' text-[#70685a] flex'>
                                         <div style={{width:'40%'}} className='pt-8'>
-                                            < button type="button" className="w-full px-10 py-1 text-[#70685a] font-bold tracking-wide border border-[#70685a] justify-center  hover:bg-blue-700 focus:outline-none">
+                                            < button type="button" onClick={gotoCustomerVisitTrend} className="w-full px-10 py-1 text-[#70685a] font-bold tracking-wide border border-[#70685a] justify-center  hover:bg-blue-700 focus:outline-none">
                                             顧客来店率推移
                                             </button>
                                         </div>

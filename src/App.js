@@ -89,6 +89,10 @@ import ManagementHQRankingFunction from './Pages/Admin/ManagementHQRankingFuncti
 import ManagementHQScoreCount from './Pages/Admin/ManagementHQScoreCount/managementHQScoreCount';
 import ManagementHeadquartersPurchaseItemCount from './Pages/Admin/ManagementHeadquartersPurchaseItemCount/managementHeadquartersPurchaseItemCount';
 import ManagementHeadquartersRepeaterAnalysis from './Pages/Admin/ManagementHeadquartersRepeaterAnalysis/managementHeadquartersRepeaterAnalysis';
+import AccountingInformationNumberVariousTrendData from './Pages/Admin/AccountingInformationVariousNumberTrendData/accountingInformationVariousNumberTrendData';//M23
+import AccountingInformationNumberVariousReferenceData from './Pages/Admin/AccountingInformationVariousNumberReferenceData/accountingInformationVariousNumberReferenceData';//M24
+import CustomerVisitRateTrend from './Pages/Admin/CustomerVisitRateTrend/customerVisitRateTrend';
+import ManagementHeadquarterAnalysisAndOthers from './Pages/Admin/ManagementHeadquartersAnalysisAndOthers/managementHeadquartersAnalysisAndOthers';//M19
 
 import Calendar from './Pages/Calendar/calendar'
 
@@ -176,6 +180,10 @@ function App() {
             <Route path='/admin/managementhqscorecount' element={<ManagementHQScoreCount/>}/>
             <Route path='/admin/managementheadquarterspurchaseitemcount' element={<ManagementHeadquartersPurchaseItemCount/>}/>
             <Route path='/admin/managementheadquartersrepeateranalysis' element={<ManagementHeadquartersRepeaterAnalysis/>}/>
+            <Route path='/admin/accountinginformationvarioustrenddata' element={<AccountingInformationNumberVariousTrendData/>}/>
+            <Route path='/admin/accountinginformationvariousreferencedata' element={<AccountingInformationNumberVariousReferenceData/>}/>
+            <Route path='/admin/customervisitratetrend' element={<CustomerVisitRateTrend/>}/>
+            <Route path='/admin/managementheadquarteranalysisandothers' element={<ManagementHeadquarterAnalysisAndOthers/>}/>
 
           </Route>
 
