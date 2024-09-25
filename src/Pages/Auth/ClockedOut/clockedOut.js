@@ -81,7 +81,7 @@ const ClockedOut = () => {
                                 </div>
                             </form>
                             {loading && <p>ローディング...</p>}
-                            {error && <p className="text-red-500">{error}</p>}
+                            {error && <p className="text-red-500 text-center">{error}</p>}
                         </div>
                     </div>
                 </div>
