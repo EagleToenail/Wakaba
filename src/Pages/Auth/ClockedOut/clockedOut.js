@@ -28,7 +28,7 @@ const ClockedOut = () => {
                 console.log('Success:', response.data);
                 navigate('/logout');
             } catch (err) {
-                setError(err.message || 'Something went wrong');
+                setError('この操作は許可されていません');
                 console.error('Error:', err);
             } finally {
                 setLoading(false);

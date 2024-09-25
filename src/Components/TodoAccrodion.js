@@ -7,6 +7,7 @@ const TodoMessageAccordion = ({ onSendIdData ,messages}) => {
 
   const [users, setUsers] = useState([]);
   useEffect(() => {
+    console.log(messages, "message contents")
     const fetchMessages = async () => {
       const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
       if (!wakabaBaseUrl) {

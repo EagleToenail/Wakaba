@@ -5,6 +5,20 @@ import TodoAccordion from '../../Components/TodoAccrodion';
 import axios from 'axios';
 
 export default function TODOList() {
+
+    const now = new Date();
+
+    // Format the date as YYYY-MM-DD
+    const optionsDate = { year: 'numeric', month: '2-digit', day: '2-digit', timeZone: 'Asia/Tokyo' };
+    const currentDay = new Intl.DateTimeFormat('ja-JP', optionsDate).format(now).replace(/\//g, '-');
+
+    // Format the time as HH:mm:ss
+    const optionsTime = { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false, timeZone: 'Asia/Tokyo' };
+    const currentTime = new Intl.DateTimeFormat('ja-JP', optionsTime).format(now);
+
+    // Combine date and time
+    const currentDateTime = `${currentDay} ${currentTime}`;
+
     //input tag color change function================
     const [textColor, setTextColor] = useState('black');
     // Handle button click
@@ -70,7 +84,7 @@ export default function TODOList() {
         setQuery(user.username); // Set the input field's value to the selected option's full_name
         setIsOpen(false);
         setSelectedCustomerId(user.id); // Update state with the selected customer's ID
-        setReply({ receiverId: user.id, senderId: userId, time: new Date().toISOString() });
+        setReply({ receiverId: user.id, senderId: userId, time: currentDateTime });
         // console.log('Selected Customer ID:', user.id);
     };
 
@@ -78,7 +92,7 @@ export default function TODOList() {
     const userId = localStorage.getItem('userId');
     // const [messages, setMessages] = useState([]);
     const [reply, setReply] = useState({
-        time: new Date().toISOString(),
+        time: currentDateTime,
         title: '',
         content: '',
         senderId: '',
@@ -123,7 +137,7 @@ export default function TODOList() {
         const userId = localStorage.getItem('userId');
         axios.get(`${wakabaBaseUrl}/todomessages/${userId}`)
           .then(response => {
-            // console.log("all message",response.data)
+            console.log("all message",response.data)
             setMessages(response.data);
           })
           .catch(error => {
@@ -168,10 +182,10 @@ export default function TODOList() {
                         'Content-Type': 'multipart/form-data'
                     }
                 }).then(response => {
-                    // console.log('get data',response.data)
+                    console.log('get data',response.data)
                     setMessages(response.data);
                     setReply({
-                        time: new Date().toISOString(),
+                        time: currentDateTime,
                         title: '',
                         content: '',
                         senderId: '',
@@ -208,14 +222,14 @@ export default function TODOList() {
             });
         }
 
-        setReply({ parentMessageId: data1, senderId: data2, receiverId: data3 ,time:new Date().toISOString()})
+        setReply({ parentMessageId: data1, senderId: data2, receiverId: data3 ,time:currentDateTime})
         console.log('Data received from child++++++++:', data1, data2, data3, userId);
     };
     // New post
     const newPost = () => {
         setQuery('');
         setReply({
-            time: new Date().toISOString(),
+            time: currentDateTime,
             title: '',
             content: '',
             senderId: '',

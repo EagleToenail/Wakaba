@@ -81,6 +81,8 @@ const CustomerIndividual = () => {
         item1: '',
         item2: '',
         item3: '',
+        item4: '',
+        item5: '',
     });
 
     const [customerPastVisitHistory, setCustomerPastVisitHistory] = useState([]);
@@ -121,6 +123,7 @@ const CustomerIndividual = () => {
                 .then(response => {
                     // console.log("data", response.data)
                     setCustomer(response.data);
+                    checkedFunction(response.data.item1, response.data.item2, response.data.item3, response.data.item4, response.data.item5)
                     setAvatarImagePreview(`${wakabaBaseUrl}/uploads/customer/${response.data.avatar_url}`);
                     setIdCardImagePreview(`${wakabaBaseUrl}/uploads/customer/${response.data.idCard_url}`);
                 })
@@ -209,6 +212,8 @@ const CustomerIndividual = () => {
         formDataObj.append('item1', customer.item1);
         formDataObj.append('item2', customer.item2);
         formDataObj.append('item3', customer.item3);
+        formDataObj.append('item4', customer.item4);
+        formDataObj.append('item5', customer.item5);
 
         if (avatarimageFile) formDataObj.append('avatarimage', avatarimageFile);
         if (idcardFile) formDataObj.append('idcard', idcardFile);
@@ -288,6 +293,104 @@ const CustomerIndividual = () => {
         calculateTotalGrossProfit();
     }, [customerPastVisitHistory]);
 
+    //---------------whole hearing control part---------------
+    const [pairs, setPairs] = useState([
+        { checked: false, value: '' },
+        { checked: false, value: '' },
+        { checked: false, value: '' },
+        { checked: false, value: '' },
+    ]);
+
+    const [additionalCheckboxes, setAdditionalCheckboxes] = useState(
+        Array(22).fill(false)
+    );
+
+    const handlePairCheckboxChange = (index) => {
+        const newPairs = [...pairs];
+        newPairs[index].checked = !newPairs[index].checked;
+        setPairs(newPairs);
+    };
+
+    const handleInputChange = (index, value) => {
+        const newPairs = [...pairs];
+        newPairs[index].value = value;
+        setPairs(newPairs);
+    };
+
+    const handleAdditionalCheckboxChange = (index) => {
+        const newCheckboxes = [...additionalCheckboxes];
+        newCheckboxes[index] = !newCheckboxes[index];
+        setAdditionalCheckboxes(newCheckboxes);
+    };
+
+    const handleSubmit = () => {
+        const checkedValues = [];
+        const updatedCustomer = { ...customer };
+
+        // Collect values for each pair
+        for (let i = 0; i < pairs.length; i++) {
+            if (pairs[i].checked) {
+                checkedValues.push({ value: pairs[i].value, index: i });
+
+                // Update customer state based on index
+                if (i === 0) {
+                    updatedCustomer.item2 = pairs[i].value;
+                    console.log('item2', pairs[i].value);
+                } else if (i === 1) {
+                    updatedCustomer.item3 = pairs[i].value;
+                    console.log('item3', pairs[i].value);
+                } else if (i === 2) {
+                    updatedCustomer.item4 = pairs[i].value;
+                    console.log('item4', pairs[i].value);
+                } else if (i === 3) {
+                    updatedCustomer.item5 = pairs[i].value;
+                    console.log('item5', pairs[i].value);
+                }
+            }
+        }
+
+        // Collect additional checked checkboxes
+        const additionalChecked = [];
+        for (let i = 0; i < additionalCheckboxes.length; i++) {
+            if (additionalCheckboxes[i]) {
+                additionalChecked.push(`${i + 1}`);
+            }
+        }
+
+        // Set additionalChecked in the customer state
+        updatedCustomer.item1 = additionalChecked;
+
+        // Finally, set the updated customer state
+        setCustomer(updatedCustomer);
+
+        // console.log('Checked Pair Values:', checkedValues);
+        // console.log('Additional Checked Values:', additionalChecked);
+        // console.log('customer Values:', updatedCustomer.item2, updatedCustomer.item3);
+    };
+
+    useEffect(() => {
+        handleSubmit();
+    }, [pairs, additionalCheckboxes]);
+    //---remake function
+    const checkedFunction = (item1, item2, item3, item4, item5) => {
+        const array = item1.split(',').map(Number);
+        setAdditionalCheckboxes(array);
+        updateValueAtIndex(2, item2);
+        updateValueAtIndex(3, item3);
+        updateValueAtIndex(4, item4);
+        updateValueAtIndex(5, item5);
+    }
+
+    const updateValueAtIndex = (index, newValue) => {
+        setPairs(prevPairs => {
+            const newPairs = [...prevPairs]; // Create a copy of the current pairs
+            newPairs[index] = { ...newPairs[index], checked: true, value: newValue }; // Update the value at the specified index
+            return newPairs; // Return the updated array
+        });
+    };
+    //--------------------------------------------------------
+
+
     return (<>
         <div className="bg-[trasparent] font-[sans-serif]">
             <div className='flex justify-center'>
@@ -312,6 +415,7 @@ const CustomerIndividual = () => {
                             </div>
                         </div>
                     </div>
+                    <button onClick={handleSubmit}>AAA</button>
                     <h2 className="text-[#70685a] text-center text-2xl font-bold flex justify-center !mt-0">顧客 個別情報(編集画面)</h2>
                     <div className='customer-edit w-full flex justify-center mt-10 gap-10' >
                         <div className='customer-edit-center flex gap-10'>
@@ -649,7 +753,7 @@ const CustomerIndividual = () => {
                                                     <td style={Td}>aa</td>
                                                     <td style={Td}>aa</td>
                                                 </tr>
-                                                {(customerPastVisitHistory && customerPastVisitHistory.length !== 0) && customerPastVisitHistory.map((pastVisit, Index) => (
+                                                {customerPastVisitHistory?.length > 0 && customerPastVisitHistory.map((pastVisit, Index) => (
                                                     <tr key={Index}>
                                                         <td>
                                                             <div className='flex justify-center'>
@@ -693,45 +797,45 @@ const CustomerIndividual = () => {
                                                 {/* <InputComponent value={customer.item1 || ''} name='item1' onChange={handleCustomerChange} className="w-full text-[#70685a] text-[18px] mb-2 block text-left  mr-10 py-1 !mb-0 !h-10" /> */}
                                                 <div className='flex gap-10'>
                                                     <div className="flex items-center">
-                                                        <input id="checkbox1" type="checkbox"
+                                                        <input type="checkbox" checked={additionalCheckboxes[0]} onChange={() => handleAdditionalCheckboxChange(0)}
                                                             className="w-4 h-4 mr-3" />
                                                         <label className="text-[#70685a]"> 以前も利用したことがある</label>
                                                     </div>
                                                     <div className="flex items-center">
-                                                        <input id="checkbox2" type="checkbox"
+                                                        <input type="checkbox" checked={additionalCheckboxes[1] || ''} onChange={() => handleAdditionalCheckboxChange(1)}
                                                             className="w-4 h-4 mr-3" />
                                                         <label className="text-[#70685a]">店舗を見て</label>
                                                     </div>
                                                 </div>
                                                 <div className="flex items-center">
-                                                    <input id="checkbox3" type="checkbox"
+                                                    <input type="checkbox" checked={pairs[0].checked} onChange={() => handlePairCheckboxChange(0)}
                                                         className="w-4 h-4 mr-3" />
                                                     <label className="text-[#70685a] mr-3"> 店舗以外の看板・広告を見て</label>
-                                                    <InputComponent className="w-40 text-[#70685a] mb-2 block text-left  mr-10 py-1 !mb-0 !h-8" placeholder={'広告を見た場所'} />
+                                                    <InputComponent value={pairs[0].value} onChange={(e) => handleInputChange(0, e.target.value)} disabled={!pairs[0].checked} className="w-40 text-[#70685a] mb-2 block text-left  mr-10 py-1 !mb-0 !h-8" placeholder={'広告を見た場所'} />
                                                 </div>
                                                 <div className="flex items-center">
-                                                    <input id="checkbox4" type="checkbox"
+                                                    <input type="checkbox" checked={pairs[1].checked} onChange={() => handlePairCheckboxChange(1)}
                                                         className="w-4 h-4 mr-3" />
                                                     <label className="text-[#70685a] mr-3">折込チラシを見て</label>
-                                                    <InputComponent className="w-40 text-[#70685a] mb-2 block text-left  mr-10 py-1 !mb-0 !h-8" placeholder={'新聞銘柄'} />
+                                                    <InputComponent value={pairs[1].value} onChange={(e) => handleInputChange(1, e.target.value)} disabled={!pairs[1].checked} className="w-40 text-[#70685a] mb-2 block text-left  mr-10 py-1 !mb-0 !h-8" placeholder={'新聞銘柄'} />
                                                 </div>
                                                 <div className='flex gap-10'>
                                                     <div className="flex items-center">
-                                                        <input id="checkbox5" type="checkbox"
+                                                        <input type="checkbox" checked={additionalCheckboxes[2] || ''} onChange={() => handleAdditionalCheckboxChange(2)}
                                                             className="w-4 h-4 mr-3" />
                                                         <label className="text-[#70685a]">インターネットを見て</label>
                                                     </div>
                                                     <div className="flex items-center">
-                                                        <input id="checkbox6" type="checkbox"
+                                                        <input type="checkbox" checked={additionalCheckboxes[3] || ''} onChange={() => handleAdditionalCheckboxChange(3)}
                                                             className="w-4 h-4 mr-3" />
                                                         <label className="text-[#70685a]"> 紹介されて</label>
                                                     </div>
                                                 </div>
                                                 <div className="flex items-center">
-                                                    <input id="checkbox7" type="checkbox"
+                                                    <input type="checkbox" checked={pairs[2].checked} onChange={() => handlePairCheckboxChange(2)}
                                                         className="w-4 h-4 mr-3" />
                                                     <label className="text-[#70685a] mr-3">その他</label>
-                                                    <InputComponent className="w-40 text-[#70685a] mb-2 block text-left  mr-10 py-1 !mb-0 !h-8" placeholder={'その他詳細'} />
+                                                    <InputComponent value={pairs[2].value} onChange={(e) => handleInputChange(2, e.target.value)} disabled={!pairs[2].checked} className="w-40 text-[#70685a] mb-2 block text-left  mr-10 py-1 !mb-0 !h-8" placeholder={'その他詳細'} />
                                                 </div>
                                             </div>
                                         </div>
@@ -744,83 +848,83 @@ const CustomerIndividual = () => {
                                                 {/* <InputComponent value={customer.item2 || ''} name='item2' onChange={handleCustomerChange} className="w-full text-[#70685a] text-[18px] mb-2 block text-left  mr-10 py-1 !mb-0 !h-10" /> */}
                                                 <div className='flex gap-10'>
                                                     <div className="flex items-center">
-                                                        <input id="checkbox8" type="checkbox" className="w-4 h-4 mr-3" />
+                                                        <input type="checkbox" className="w-4 h-4 mr-3" checked={additionalCheckboxes[4] || ''} onChange={() => handleAdditionalCheckboxChange(4)} />
                                                         <label className="text-[#70685a]">ダイヤモンド</label>
                                                     </div>
                                                     <div className="flex items-center">
-                                                        <input id="checkbox9" type="checkbox" className="w-4 h-4 mr-3" />
+                                                        <input type="checkbox" className="w-4 h-4 mr-3" checked={additionalCheckboxes[5] || ''} onChange={() => handleAdditionalCheckboxChange(5)} />
                                                         <label className="text-[#70685a]">色石</label>
                                                     </div>
                                                     <div className="flex items-center">
-                                                        <input id="checkbox10" type="checkbox" className="w-4 h-4 mr-3" />
-                                                        <label  className="text-[#70685a]">ネックレス</label>
+                                                        <input type="checkbox" className="w-4 h-4 mr-3" checked={additionalCheckboxes[6] || ''} onChange={() => handleAdditionalCheckboxChange(6)} />
+                                                        <label className="text-[#70685a]">ネックレス</label>
                                                     </div>
                                                 </div>
                                                 <div className='flex gap-10'>
                                                     <div className="flex items-center">
-                                                        <input id="checkbox11" type="checkbox" className="w-4 h-4 mr-3" />
-                                                        <label  className="text-[#70685a]">指輪</label>
+                                                        <input type="checkbox" className="w-4 h-4 mr-3" checked={additionalCheckboxes[7] || ''} onChange={() => handleAdditionalCheckboxChange(7)} />
+                                                        <label className="text-[#70685a]">指輪</label>
                                                     </div>
                                                     <div className="flex items-center">
-                                                        <input id="checkbox12" type="checkbox" className="w-4 h-4 mr-3" />
-                                                        <label  className="text-[#70685a]">時計</label>
+                                                        <input type="checkbox" className="w-4 h-4 mr-3" checked={additionalCheckboxes[8] || ''} onChange={() => handleAdditionalCheckboxChange(8)} />
+                                                        <label className="text-[#70685a]">時計</label>
                                                     </div>
                                                     <div className="flex items-center">
-                                                        <input id="checkbox13" type="checkbox" className="w-4 h-4 mr-3" />
-                                                        <label  className="text-[#70685a]">ブランド品</label>
-                                                    </div>
-                                                </div>
-                                                <div className='flex gap-10'>
-                                                    <div className="flex items-center">
-                                                        <input id="checkbox14" type="checkbox" className="w-4 h-4 mr-3" />
-                                                        <label  className="text-[#70685a]">切手</label>
-                                                    </div>
-                                                    <div className="flex items-center">
-                                                        <input id="checkbox6" type="checkbox" className="w-4 h-4 mr-3" />
-                                                        <label  className="text-[#70685a]">中国切手</label>
-                                                    </div>
-                                                    <div className="flex items-center">
-                                                        <input id="checkbox17" type="checkbox" className="w-4 h-4 mr-3" />
-                                                        <label  className="text-[#70685a]">古銭</label>
+                                                        <input type="checkbox" className="w-4 h-4 mr-3" checked={additionalCheckboxes[9] || ''} onChange={() => handleAdditionalCheckboxChange(9)} />
+                                                        <label className="text-[#70685a]">ブランド品</label>
                                                     </div>
                                                 </div>
                                                 <div className='flex gap-10'>
                                                     <div className="flex items-center">
-                                                        <input id="checkbox18" type="checkbox" className="w-4 h-4 mr-3" />
-                                                        <label  className="text-[#70685a]">金券</label>
+                                                        <input type="checkbox" className="w-4 h-4 mr-3" checked={additionalCheckboxes[10] || ''} onChange={() => handleAdditionalCheckboxChange(10)} />
+                                                        <label className="text-[#70685a]">切手</label>
                                                     </div>
                                                     <div className="flex items-center">
-                                                        <input id="checkbox19" type="checkbox" className="w-4 h-4 mr-3" />
-                                                        <label  className="text-[#70685a]">テレカ</label>
+                                                        <input type="checkbox" className="w-4 h-4 mr-3" checked={additionalCheckboxes[11] || ''} onChange={() => handleAdditionalCheckboxChange(11)} />
+                                                        <label className="text-[#70685a]">中国切手</label>
                                                     </div>
                                                     <div className="flex items-center">
-                                                        <input id="checkbox20" type="checkbox" className="w-4 h-4 mr-3" />
-                                                        <label  className="text-[#70685a]">カメラ</label>
-                                                    </div>
-                                                </div>
-                                                <div className='flex gap-10'>
-                                                    <div className="flex items-center">
-                                                        <input id="checkbox21" type="checkbox" className="w-4 h-4 mr-3" />
-                                                        <label  className="text-[#70685a]">スマートフォン</label>
-                                                    </div>
-                                                    <div className="flex items-center">
-                                                        <input id="checkbox22" type="checkbox" className="w-4 h-4 mr-3" />
-                                                        <label  className="text-[#70685a]">食器</label>
-                                                    </div>
-                                                    <div className="flex items-center">
-                                                        <input id="checkbox23" type="checkbox" className="w-4 h-4 mr-3" />
-                                                        <label  className="text-[#70685a]">ホビー</label>
+                                                        <input type="checkbox" className="w-4 h-4 mr-3" checked={additionalCheckboxes[12] || ''} onChange={() => handleAdditionalCheckboxChange(12)} />
+                                                        <label className="text-[#70685a]">古銭</label>
                                                     </div>
                                                 </div>
                                                 <div className='flex gap-10'>
                                                     <div className="flex items-center">
-                                                        <input id="checkbox24" type="checkbox" className="w-4 h-4 mr-3" />
-                                                        <label  className="text-[#70685a]">楽器</label>
+                                                        <input type="checkbox" className="w-4 h-4 mr-3" checked={additionalCheckboxes[13] || ''} onChange={() => handleAdditionalCheckboxChange(13)} />
+                                                        <label className="text-[#70685a]">金券</label>
                                                     </div>
                                                     <div className="flex items-center">
-                                                        <input id="checkbox25" type="checkbox" className="w-4 h-4 mr-3" />
-                                                        <label  className="text-[#70685a] mr-3">その他</label>
-                                                        <InputComponent className="w-40 text-[#70685a] mb-2 block text-left  mr-10 py-1 !mb-0 !h-8" placeholder={'その他詳細'} />
+                                                        <input type="checkbox" className="w-4 h-4 mr-3" checked={additionalCheckboxes[14] || ''} onChange={() => handleAdditionalCheckboxChange(14)} />
+                                                        <label className="text-[#70685a]">テレカ</label>
+                                                    </div>
+                                                    <div className="flex items-center">
+                                                        <input type="checkbox" className="w-4 h-4 mr-3" checked={additionalCheckboxes[15] || ''} onChange={() => handleAdditionalCheckboxChange(15)} />
+                                                        <label className="text-[#70685a]">カメラ</label>
+                                                    </div>
+                                                </div>
+                                                <div className='flex gap-10'>
+                                                    <div className="flex items-center">
+                                                        <input type="checkbox" className="w-4 h-4 mr-3" checked={additionalCheckboxes[16] || ''} onChange={() => handleAdditionalCheckboxChange(16)} />
+                                                        <label className="text-[#70685a]">スマートフォン</label>
+                                                    </div>
+                                                    <div className="flex items-center">
+                                                        <input type="checkbox" className="w-4 h-4 mr-3" checked={additionalCheckboxes[17] || ''} onChange={() => handleAdditionalCheckboxChange(17)} />
+                                                        <label className="text-[#70685a]">食器</label>
+                                                    </div>
+                                                    <div className="flex items-center">
+                                                        <input type="checkbox" className="w-4 h-4 mr-3" checked={additionalCheckboxes[18] || ''} onChange={() => handleAdditionalCheckboxChange(18)} />
+                                                        <label className="text-[#70685a]">ホビー</label>
+                                                    </div>
+                                                </div>
+                                                <div className='flex gap-10'>
+                                                    <div className="flex items-center">
+                                                        <input type="checkbox" className="w-4 h-4 mr-3" checked={additionalCheckboxes[19] || ''} onChange={() => handleAdditionalCheckboxChange(19)} />
+                                                        <label className="text-[#70685a]">楽器</label>
+                                                    </div>
+                                                    <div className="flex items-center">
+                                                        <input checked={pairs[3].checked} onChange={() => handlePairCheckboxChange(3)} type="checkbox" className="w-4 h-4 mr-3" />
+                                                        <label className="text-[#70685a] mr-3">その他</label>
+                                                        <InputComponent value={pairs[3].value} onChange={(e) => handleInputChange(3, e.target.value)} disabled={!pairs[3].checked} className="w-40 text-[#70685a] mb-2 block text-left  mr-10 py-1 !mb-0 !h-8" placeholder={'その他詳細'} />
                                                     </div>
                                                 </div>
                                             </div>
@@ -834,15 +938,16 @@ const CustomerIndividual = () => {
                                                 {/* <InputComponent value={customer.item3 || ''} name='item3' onChange={handleCustomerChange} className="w-full text-[#70685a] text-[18px] mb-2 block text-left  mr-10 py-1 !mb-0 !h-10" /> */}
                                                 <div className='flex gap-10'>
                                                     <div className="flex items-center">
-                                                        <input id="checkbox26" type="checkbox" className="w-4 h-4 mr-3" />
-                                                        <label  className="text-[#70685a]">可</label>
+                                                        <input type="checkbox" className="w-4 h-4 mr-3" checked={additionalCheckboxes[20] || ''} onChange={() => handleAdditionalCheckboxChange(20)} />
+                                                        <label className="text-[#70685a]">可</label>
                                                     </div>
                                                     <div className="flex items-center">
-                                                        <input id="checkbox27" type="checkbox" className="w-4 h-4 mr-3" />
-                                                        <label  className="text-[#70685a]">不可</label>
+                                                        <input type="checkbox" className="w-4 h-4 mr-3" checked={additionalCheckboxes[21] || ''} onChange={() => handleAdditionalCheckboxChange(21)} />
+                                                        <label className="text-[#70685a]">不可</label>
                                                     </div>
                                                 </div>
                                             </div>
+
                                         </div>
                                     </div>
                                 </div>

@@ -39,7 +39,7 @@ export default function SchedulerView( {events, timeFormatState, onDataUpdated} 
 				// if onDataUpdated changes returns a permanent id of the created item, you can return it from here so dhtmlxGantt could apply it
 				// return resolve({id: databaseId});
 				if (action === 'create') {
-
+					console.log("create schedule", item);
 					axios.post(`${wakabaBaseUrl}/scheduler/create`, {item:item,userId:userId,})
 					  .then(response => {
 						const eventId = response.data.id;

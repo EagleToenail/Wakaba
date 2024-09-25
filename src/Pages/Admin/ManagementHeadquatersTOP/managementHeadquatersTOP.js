@@ -1,12 +1,16 @@
 import React from 'react';
-// import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 // import Titlebar from '../../../Components/Common/Titlebar';
 import DateAndTime from '../../../Components/Common/PickData';
 
 
 const ManagementHeadqueatersTOP = () => {
     // const title = 'タイトルタイトル';
-
+    const navigate = useNavigate();
+    //goto owners list
+    const gotoStaffList = ()=> {
+        navigate('/admin/managementheadquartersownerlist');
+    }
 
     return (
         <>
@@ -46,7 +50,7 @@ const ManagementHeadqueatersTOP = () => {
                                 </div>
                                 <div style={{ width: '90%' }}>
                                     <div className=' text-[#70685a]'>
-                                        < button type="button" style={{ width: '40%' }} className=" px-10 py-1 text-[#70685a] font-bold tracking-wide border border-[#70685a] justify-center  hover:bg-blue-700 focus:outline-none">
+                                        < button type="button" onClick={gotoStaffList} style={{ width: '40%' }} className=" px-10 py-1 text-[#70685a] font-bold tracking-wide border border-[#70685a] justify-center  hover:bg-blue-700 focus:outline-none">
                                             オーナー 一覧
                                         </button>
                                     </div>

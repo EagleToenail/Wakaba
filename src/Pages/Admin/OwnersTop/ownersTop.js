@@ -89,7 +89,9 @@ const OwnersTop = () => {
     const gotoRepeatAnalysis = () =>{
         navigate('/admin/managementheadquartersrepeateranalysis');
     }
-
+    const gotoVariousSetting=()=>{
+        navigate('/admin/managementsettingsforowners');
+    }
     return (
         <>
             {/* <Titlebar title={title} /> */}
@@ -327,7 +329,7 @@ const OwnersTop = () => {
                                                 <div className='text-[#70685a] font-bold ml-3'>名種設定</div>
                                             </div>
                                         </div>
-                                        < button type="button" style={{width:'40%'}} className=" px-10 py-1 text-[#70685a] font-bold tracking-wide border border-[#70685a] justify-center  hover:bg-blue-700 focus:outline-none ml-10">
+                                        < button type="button" onClick={gotoVariousSetting} style={{width:'40%'}} className=" px-10 py-1 text-[#70685a] font-bold tracking-wide border border-[#70685a] justify-center  hover:bg-blue-700 focus:outline-none ml-10">
                                         各種設定
                                         </button>
                                     </div>

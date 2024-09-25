@@ -53,7 +53,6 @@ const PurchaseRequestFormForWholeSaler = () => {
     });
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-        setEditedRow({ ...editedRow, [name]: value });
     };
 
     const handleEditClick = (index) => {

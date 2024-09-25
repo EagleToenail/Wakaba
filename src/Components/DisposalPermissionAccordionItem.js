@@ -3,30 +3,31 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios'; // or use fetch
 
 const DisposalPermissionAccordionItem = ({ time, title, content, fileUrl, sender, receiver, children, parentMessageId, onSendData, users }) => {
+  const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
   const [isOpen, setIsOpen] = useState(false);
 
   const [receivedTime, setReceivedTime] = useState('');
   const [senderName, setSenderName] = useState('');
   const [receiverName, setReceiverName] = useState('');
 
-  const isoString = time;
-  const date = new Date(isoString);
+  // const isoString = time;
+  // const date = new Date(isoString);
 
-  // Extract components
-  const year = date.getUTCFullYear();
-  const month = date.getUTCMonth() + 1; // Months are zero-based
-  const day = date.getUTCDate();
-  const hours = date.getUTCHours();
-  const minutes = date.getUTCMinutes();
+  // // Extract components
+  // const year = date.getUTCFullYear();
+  // const month = date.getUTCMonth() + 1; // Months are zero-based
+  // const day = date.getUTCDate();
+  // const hours = date.getUTCHours();
+  // const minutes = date.getUTCMinutes();
 
-  // Format components to ensure two digits for month, day, hours, and minutes
-  const formattedMonth = month.toString().padStart(2, '0');
-  const formattedDay = day.toString().padStart(2, '0');
-  const formattedHours = hours.toString().padStart(2, '0');
-  const formattedMinutes = minutes.toString().padStart(2, '0');
+  // // Format components to ensure two digits for month, day, hours, and minutes
+  // const formattedMonth = month.toString().padStart(2, '0');
+  // const formattedDay = day.toString().padStart(2, '0');
+  // const formattedHours = hours.toString().padStart(2, '0');
+  // const formattedMinutes = minutes.toString().padStart(2, '0');
 
-  // Create formatted date string
-  const formattedDate = `${year}/${formattedMonth}/${formattedDay} ${formattedHours}:${formattedMinutes}`;
+  // // Create formatted date string
+  // const formattedDate = `${year}/${formattedMonth}/${formattedDay} ${formattedHours}:${formattedMinutes}`;
 
   //fetch message data related user
   useEffect(() => {
@@ -64,7 +65,7 @@ const DisposalPermissionAccordionItem = ({ time, title, content, fileUrl, sender
             <div className='flex'>
               <div>
                 <div className='w-30'>
-                  <label className="text-[black] font-bold block text-center">{formattedDate}</label>
+                  <label className="text-[black] font-bold block text-center">{time}</label>
                 </div>
                 <div className='border border-[#70685a] w-30'>
                   <label className="text-[#70685a] font-bold block text-center">ステー夕ス表示</label>
@@ -164,13 +165,13 @@ const DisposalPermissionAccordionItem = ({ time, title, content, fileUrl, sender
           </div>
           {/* <p>{content}</p> */}
           {fileUrl && isImageFile(fileUrl) ? (<div className='w-full h-[150px] flex justify-center' >
-            <img src={`http://3.14.245.186:8081/api/uploads/disposalpermission/${fileUrl}`} alt="Uploaded" style={styles.imagePreview} />
-            <a href={`http://3.14.245.186:8081/api/uploads/disposalpermission/${fileUrl}`} target="_blank">
+            <img src={`${wakabaBaseUrl}/uploads/disposalpermission/${fileUrl}`} alt="Uploaded" style={styles.imagePreview} />
+            <a href={`${wakabaBaseUrl}/uploads/disposalpermission/${fileUrl}`} target="_blank">
                 Open in Brosewer 
             </a>
           </div>
           ) : (<div className='w-full h-10 flex justify-center'>
-            <a href={`http://3.14.245.186:8081/api/uploads/disposalpermission/${fileUrl}`} download={fileUrl} target="_blank" rel="noopener noreferrer">
+            <a href={`${wakabaBaseUrl}/uploads/disposalpermission/${fileUrl}`} download={fileUrl} target="_blank" rel="noopener noreferrer">
               Download {fileUrl}
             </a>
           </div>
