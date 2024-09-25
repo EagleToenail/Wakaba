@@ -58,14 +58,10 @@ export default function TabContent1() {
                         </li>
                         <li className='flex py-1'>
                             <button type="button"
-                                className="w-6 h-6 rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none text-[15px]"></button>
-                            <button type="button"
-                                className="w-6 h-6 inline-flex items-center justify-center text-[10px] text-bold rounded-full border-none outline-none bg-[yellow] hover:bg-purple-700 active:bg-purple-600">
-                                99
-                            </button>
-                            <Link
-                                className="text-black font-bold  text-[15px] block rounded px-1 transition-all" to='/yahooauction'>
-                                ヤフオク
+                                className=" w-6 h-6 rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none text-[15px]"></button>
+                            <Link to="/stamprelatedinventorylist"
+                                className="text-black font-semibold  text-[15px] block rounded px-7 transition-all">
+                                スタンプ関連の在庫リスト
                             </Link>
                         </li>
                         <li className='flex py-1'>

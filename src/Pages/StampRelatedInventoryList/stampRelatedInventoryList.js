@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-// import { Link } from 'react-router-dom';
+import React, { useState, useEffect,useRef } from 'react';
+import { Link, useNavigate, useParams ,useLocation} from 'react-router-dom';
 // import Titlebar from '../../Components/Common/Titlebar';
 import StampSheet from '../../Assets/img/stampsheet.png'
 import LetterPack from '../../Assets/img/letterpack.png'
@@ -11,7 +11,7 @@ import DateAndTime from '../../Components/Common/PickData';
 
 const StampRelatedInventoryList = () => {
     // const title = 'タイトルタイトル';
-
+    const navigate = useNavigate();
     const Table = {
         borderCollapse: 'collapse',
         color: '#70685a',
@@ -221,8 +221,14 @@ const StampRelatedInventoryList = () => {
         }
         setInputCardShow(!inputCardShow);
     };
-
-
+// goto stamppurchaseinterestratechange page
+    const gotoStampPurchaseIntereStrateChange = ()=> {
+        navigate('/stamppurchaseinterestratechange');
+    }
+// goto create warehouse application page
+    const gotoStampCreateWarehouseApplication = ()=> {
+        navigate('/stamprelatedinventoryapplicationform');
+    }
 
     return (
         <>
@@ -233,22 +239,22 @@ const StampRelatedInventoryList = () => {
                     <h2 className="text-[#70685a] text-center text-2xl font-bold flex justify-center">日本の切手・ハガキ・レターパック 在庫リスト</h2>
                     <div className='flex justify-evenly mt-5 '>
                         <div>
-                            <div className='text-center' style={{visibility:'hidden'}}><LabelComponent value="abc" /></div>
-                            <button type="button"
-                                className="mr-3  py-1 w-max text-[#70685a] text-[15px] rounded-full tracking-wider font-bold outline-none border border-[#70685a] ">
+                            <div className='text-center' style={{visibility:'hidden'}}>abc</div>
+                            <button type="button" onClick={gotoStampCreateWarehouseApplication}
+                                className="mr-3  py-1 px-1 w-full text-[#70685a] text-[15px] rounded-full tracking-wider font-bold outline-none border border-[#70685a]">
                                 入庫申請書を作成
                             </button>
                         </div>
                         <div>
-                            <div className='text-center'><LabelComponent value="選択した項目の" /></div>
+                            <div className='text-center text-[#70685a]'>選択した項目の</div> 
                             < button type="button" className="w-max px-3 py-1 font-bold tracking-wide rounded-lg justify-center text-white bg-[#e87a00] hover:bg-blue-700 focus:outline-none">
                                 出庫申請書を作成
                             </button>
                         </div>
                         <div>
-                            <div className='text-center'><LabelComponent value="選択した項目の" /></div>
-                            <button type="button"
-                                className=" mr-3 py-1 w-max text-[#70685a] text-[15px] rounded-full tracking-wider font-bold outline-none border border-[#70685a] ">
+                            <div className='text-center text-[#70685a]'>選択した項目の</div>
+                            <button type="button" onClick={gotoStampPurchaseIntereStrateChange}
+                                className=" mr-3 py-1 px-1 w-full text-[#70685a] text-[15px] rounded-full tracking-wider font-bold outline-none border border-[#70685a] ">
                                 買取利率変更申請
                             </button>
                         </div>
@@ -261,7 +267,7 @@ const StampRelatedInventoryList = () => {
                             <div className='flex justify-center'>
                                 <div className='flex'>
                                     <div className='w-10'><img src={StampSheet} alt="aaa"></img></div>
-                                    <div className='flex flex-col justify-center'><LabelComponent value="切手シート" className='pl-5 !text-[20px] font-bold' /></div>
+                                    <div className='flex flex-col justify-center'><LabelComponent value="切手シート" className='!text-[20px] font-bold' /></div>
                                 </div>
                             </div>
                             {/* second */}

@@ -4,7 +4,34 @@ import axios from 'axios';
 export default function Header() {
 
   const [isOpen, setIsOpen] = useState(false);
+  const [data, setData] = useState([]);
+  useEffect(() => {
+    const url = "https://gold.tanaka.co.jp/retanaka/price/";
+    fetch(url)
+      .then(response => response.text())
+      .then(html => {
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, "text/html");
 
+        const priceTables = doc.querySelectorAll("table.price_table");
+        const data = [];
+
+        priceTables.forEach(table => {
+          const rows = table.querySelectorAll("tbody tr");
+          rows.forEach(row => {
+            const cols = row.querySelectorAll("th, td");
+            if (cols.length > 1) {
+              // const name = cols[0].textContent.trim();
+              const price = cols[1].textContent.trim();
+              data.push({ price });
+            }
+          });
+        });
+        console.log(data[0].price);
+        setData(data);
+      })
+      .catch(error => console.log(error));
+  }, []);
   // Function to toggle menu visibility
   const handleClick = () => {
     setIsOpen(!isOpen);
@@ -55,7 +82,7 @@ export default function Header() {
       });
   }, [userId]);
   const formattedDate = formatDate(date);
-  
+
   //go to admin top
   const gotoAdminTop = () => {
     navigate('/admin/ownerstop');
@@ -68,7 +95,7 @@ export default function Header() {
           <svg className=" h-10 px-3" fill="#655b4a" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path className='bg-white' fillRule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clipRule="evenodd"></path></svg>
         </div>
         <div className='flex flex-wrap items-center justify-between w-full'>
-          <div  className='text-[#655b4a] block font-semibold text-[20px] cursor-pointer'>WAKABA 業務システム&nbsp;<span className='text-[10px]'>ver0.1</span></div>
+          <div className='text-[#655b4a] block font-semibold text-[20px] cursor-pointer'>WAKABA 業務システム&nbsp;<span className='text-[10px]'>ver0.1</span></div>
           <div id="collapseMenu" style={{ display: isOpen ? 'block' : 'none' }}
             className='max-lg:hidden lg:!block max-lg:before:fixed max-lg:before:bg-black max-lg:before:opacity-50 max-lg:before:inset-0 max-lg:before:z-50'>
             <button id="toggleClose" className='lg:hidden fixed top-2 right-4 z-[100] rounded-full bg-white p-3' onClick={handleClick}>
@@ -111,14 +138,38 @@ export default function Header() {
                 <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-p79yt4" fill="#655b4a" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="KeyboardArrowRightIcon" title="KeyboardArrowRight"><path d="M8.59 16.59 13.17 12 8.59 7.41 10 6l6 6-6 6z"></path></svg>
               </Link>
               </li>
-              <li className='max-lg:border-b border-gray-300 max-lg:py-3 px-3'><Link
-                className='text-[#655b4a] block font-semibold text-[15px]'>Ag 99,000</Link>
+              <li className='max-lg:border-b border-gray-300 max-lg:py-3 px-3'>
+                {/* <Link
+                className='text-[#655b4a] block font-semibold text-[15px]'>Ag {data[17].price}</Link> */}
+                {data?.[0]?.price && (
+                  <Link
+                    className='text-[#655b4a] block font-semibold text-[15px]'
+                  >
+                    Au {data[0].price}
+                  </Link>
+                )}
               </li>
-              <li className='max-lg:border-b border-gray-300 max-lg:py-3 px-3'><Link
-                className='text-[#655b4a] block font-semibold text-[15px]'>Au 99,000</Link>
+              <li className='max-lg:border-b border-gray-300 max-lg:py-3 px-3'>
+                {/* <Link
+                className='text-[#655b4a] block font-semibold text-[15px]'>Au {data[0].price} 
+                </Link> */}
+                {data?.[17]?.price && (
+                  <Link
+                    className='text-[#655b4a] block font-semibold text-[15px]'
+                  >
+                    Ag {data[17].price}
+                  </Link>
+                )}
               </li>
-              <li className='max-lg:border-b border-gray-300 max-lg:py-3 px-3'><Link
-                className='text-[#655b4a] block font-semibold text-[15px]'>PT 99,000</Link>
+              <li className='max-lg:border-b border-gray-300 max-lg:py-3 px-3'>
+                {/* <Link  className='text-[#655b4a] block font-semibold text-[15px]'>PT {data[10].price}</Link> */}
+                {data?.[17]?.price && (
+                  <Link
+                    className='text-[#655b4a] block font-semibold text-[15px]'
+                  >
+                    Pt {data[10].price}
+                  </Link>
+                )}
               </li>
               <li className='max-lg:border-b border-gray-300 max-lg:py-3 px-3'><Link
                 className='text-[#655b4a] block font-semibold text-[15px]'>

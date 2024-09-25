@@ -73,6 +73,22 @@ const OwnersTop = () => {
     const gotoCustomerVisitTrend = () =>{
         navigate('/admin/customervisitratetrend');
     }
+    //goto ranking function
+    const gotoRankingFunction = () =>{
+        navigate('/admin/managementhqrankingfunction');
+    }
+    //goto Score tally
+    const gotoScoreTally = () =>{
+        navigate('/admin/managementhqscorecount');
+    }
+    //goto Purchase Item count
+    const gotoPurchaseItemCount = () =>{
+        navigate('/admin/managementheadquarterspurchaseitemcount');
+    }
+    //goto repeat analysis
+    const gotoRepeatAnalysis = () =>{
+        navigate('/admin/managementheadquartersrepeateranalysis');
+    }
 
     return (
         <>
@@ -94,7 +110,7 @@ const OwnersTop = () => {
                             <label className="w-max text-[#70685a] font-bold text-2xl mb-2 block text-center !mb-0">{year}年{month}月度</label>
                         </div>
                         <div className=' text-[#70685a] px-2 mr-5'>
-                            < button type="button" className="w-max px-10 py-1 text-[#70685a] font-bold tracking-wide border border-[#70685a] justify-center  hover:bg-blue-700 focus:outline-none">
+                            < button type="button" onClick={gotoComprehensiveAnalysis} className="w-max px-10 py-1 text-[#70685a] font-bold tracking-wide border border-[#70685a] justify-center  hover:bg-blue-700 focus:outline-none">
                             総合分析へ
                             </button>
                         </div>
@@ -277,7 +293,7 @@ const OwnersTop = () => {
                                         </div>
                                     </div>
                                     <div className=' text-[#70685a] pt-5'>
-                                        < button type="button" style={{width:'40%'}} className=" px-10 py-1 text-[#70685a] font-bold tracking-wide border border-[#70685a] justify-center  hover:bg-blue-700 focus:outline-none">
+                                        < button type="button" onClick={gotoRankingFunction} style={{width:'40%'}} className=" px-10 py-1 text-[#70685a] font-bold tracking-wide border border-[#70685a] justify-center  hover:bg-blue-700 focus:outline-none">
                                         ランキング機能 
                                         </button>
                                         < button type="button" onClick={gotoStaffIndividualResult} style={{width:'40%'}} className=" px-10 py-1 text-[#70685a] font-bold tracking-wide border border-[#70685a] justify-center  hover:bg-blue-700 focus:outline-none ml-10">
@@ -285,7 +301,7 @@ const OwnersTop = () => {
                                         </button>
                                     </div>
                                     <div className=' text-[#70685a] pt-5'>
-                                        < button type="button" style={{width:'40%'}} className=" px-10 py-1 text-[#70685a] font-bold tracking-wide border border-[#70685a] justify-center  hover:bg-blue-700 focus:outline-none">
+                                        < button type="button" onClick={gotoScoreTally} style={{width:'40%'}}  className=" px-10 py-1 text-[#70685a] font-bold tracking-wide border border-[#70685a] justify-center  hover:bg-blue-700 focus:outline-none">
                                         スコア集計
                                         </button>
                                         < button type="button" onClick={gotoOwnerManagementScreenArea} style={{width:'40%'}} className=" px-10 py-1 text-[#70685a] font-bold tracking-wide border border-[#70685a] justify-center  hover:bg-blue-700 focus:outline-none ml-10">
@@ -293,12 +309,12 @@ const OwnersTop = () => {
                                         </button>
                                     </div>
                                     <div className=' text-[#70685a] pt-5'>
-                                        < button type="button" style={{width:'40%'}} className=" px-10 py-1 text-[#70685a] font-bold tracking-wide border border-[#70685a] justify-center  hover:bg-blue-700 focus:outline-none">
+                                        < button type="button" onClick={gotoPurchaseItemCount} style={{width:'40%'}} className=" px-10 py-1 text-[#70685a] font-bold tracking-wide border border-[#70685a] justify-center  hover:bg-blue-700 focus:outline-none">
                                         買取商品集計 
                                         </button>
                                     </div>
                                     <div className=' text-[#70685a] pt-5'>
-                                        < button type="button" style={{width:'40%'}} className=" px-10 py-1 text-[#70685a] font-bold tracking-wide border border-[#70685a] justify-center  hover:bg-blue-700 focus:outline-none">
+                                        < button type="button" onClick={gotoRepeatAnalysis} style={{width:'40%'}} className=" px-10 py-1 text-[#70685a] font-bold tracking-wide border border-[#70685a] justify-center  hover:bg-blue-700 focus:outline-none">
                                         リピ一夕一分析 
                                         </button>
                                     </div>
