@@ -11,7 +11,50 @@ const ManagementHeadqueatersTOP = () => {
     const gotoStaffList = ()=> {
         navigate('/admin/managementheadquartersownerlist');
     }
-
+    //goto accounting infromation various number treding data
+    const gotoAccountingInfromationVariousNumberTredingData = () =>{
+        navigate('/admin/accountinginformationvarioustrenddata');
+    }
+    //goto accounting infromation various number reference data
+    const gotoAccountingInfromationVariousNumberReferenceData = () =>{
+        navigate('/admin/accountinginformationvariousreferencedata');
+    }
+     //goto customer visit rate trend
+     const gotoCustomerVisitTrend = () =>{
+        navigate('/admin/customervisitratetrend');
+    }
+     //goto Score tally
+     const gotoScoreTally = () =>{
+        navigate('/admin/managementhqscorecount');
+    }
+     //goto comprehensive analysis
+     const gotoComprehensiveAnalysis = () =>{
+        navigate('/admin/owneranalysiscomprehensiveanalysis');
+    }
+        //goto ranking function
+    const gotoRankingFunction = () =>{
+            navigate('/admin/managementhqrankingfunction');
+    }
+     //goto Purchase Item count
+     const gotoPurchaseItemCount = () =>{
+        navigate('/admin/managementheadquarterspurchaseitemcount');
+    }
+    //goto repeat analysis
+    const gotoRepeatAnalysis = () =>{
+        navigate('/admin/managementheadquartersrepeateranalysis');
+    }
+    //goto owner mangement screen area analysis
+    const gotoOwnerManagementScreenArea = () =>{
+        navigate('/admin/owneranalysisareaanalysis');
+    }
+     //goto staff individual results
+     const gotoStaffIndividualResult = () =>{
+        navigate('/admin/owneranalysisstaffindividualresults');
+    }
+        // goto various master lists
+     const gotoVariousMasterList=()=>{
+        navigate('/admin/managementmastertop');
+     }   
     return (
         <>
             {/* <Titlebar title={title} /> */}
@@ -67,12 +110,12 @@ const ManagementHeadqueatersTOP = () => {
                                 </div>
                                 <div style={{ width: '90%' }}>
                                     <div className=' text-[#70685a]'>
-                                        < button type="button" style={{ width: '60%' }} className=" px-10 py-1 text-[#70685a] font-bold tracking-wide border border-[#70685a] justify-center  hover:bg-blue-700 focus:outline-none">
+                                        < button type="button" onClick={gotoAccountingInfromationVariousNumberTredingData} style={{ width: '65%' }} className=" px-10 py-1 text-[#70685a] font-bold tracking-wide border border-[#70685a] justify-center  hover:bg-blue-700 focus:outline-none">
                                             店舗毎の経理情報推移
                                         </button>
                                     </div>
                                     <div className=' text-[#70685a] pt-5'>
-                                        < button type="button" style={{ width: '60%' }} className=" px-10 py-1 text-[#70685a] font-bold tracking-wide border border-[#70685a] justify-center  hover:bg-blue-700 focus:outline-none">
+                                        < button type="button" onClick={gotoAccountingInfromationVariousNumberReferenceData} style={{ width: '65%' }} className=" px-10 py-1 text-[#70685a] font-bold tracking-wide border border-[#70685a] justify-center  hover:bg-blue-700 focus:outline-none">
                                             店舗毎の経理情報参考データ
                                         </button>
                                     </div>
@@ -91,36 +134,36 @@ const ManagementHeadqueatersTOP = () => {
                                 </div>
                                 <div style={{ width: '90%' }}>
                                     <div className=' text-[#70685a]'>
-                                        < button type="button" style={{ width: '45%' }} className=" px-10 py-1 text-[#70685a] font-bold tracking-wide border border-[#70685a] justify-center  hover:bg-blue-700 focus:outline-none">
+                                        < button type="button" onClick={gotoCustomerVisitTrend} style={{ width: '45%' }} className=" px-10 py-1 text-[#70685a] font-bold tracking-wide border border-[#70685a] justify-center  hover:bg-blue-700 focus:outline-none">
                                             顧客来店率推移
                                         </button>
-                                        < button type="button" style={{ width: '45%' }} className=" px-10 py-1 text-[#70685a] font-bold tracking-wide border border-[#70685a] justify-center  hover:bg-blue-700 focus:outline-none ml-5">
+                                        < button type="button" onClick={gotoComprehensiveAnalysis} style={{ width: '45%' }} className=" px-10 py-1 text-[#70685a] font-bold tracking-wide border border-[#70685a] justify-center  hover:bg-blue-700 focus:outline-none ml-5">
                                             総合分析
                                         </button>
                                     </div>
                                     <div className=' text-[#70685a] pt-5'>
-                                        < button type="button" style={{ width: '45%' }} className=" px-10 py-1 text-[#70685a] font-bold tracking-wide border border-[#70685a] justify-center  hover:bg-blue-700 focus:outline-none">
+                                        < button type="button" onClick={gotoRankingFunction} style={{ width: '45%' }} className=" px-10 py-1 text-[#70685a] font-bold tracking-wide border border-[#70685a] justify-center  hover:bg-blue-700 focus:outline-none">
                                             ランキング機能
                                         </button>
-                                        < button type="button" style={{ width: '45%' }} className=" px-10 py-1 text-[#70685a] font-bold tracking-wide border border-[#70685a] justify-center  hover:bg-blue-700 focus:outline-none ml-5">
+                                        < button type="button" onClick={gotoStaffIndividualResult} style={{ width: '45%' }} className=" px-10 py-1 text-[#70685a] font-bold tracking-wide border border-[#70685a] justify-center  hover:bg-blue-700 focus:outline-none ml-5">
                                             スタッフ個人成績
                                         </button>
                                     </div>
                                     <div className=' text-[#70685a] pt-5'>
-                                        < button type="button" style={{ width: '45%' }} className=" px-10 py-1 text-[#70685a] font-bold tracking-wide border border-[#70685a] justify-center  hover:bg-blue-700 focus:outline-none">
+                                        < button type="button" onClick={gotoScoreTally} style={{ width: '45%' }} className=" px-10 py-1 text-[#70685a] font-bold tracking-wide border border-[#70685a] justify-center  hover:bg-blue-700 focus:outline-none">
                                             スコア集計
                                         </button>
-                                        < button type="button" style={{ width: '45%' }} className=" px-10 py-1 text-[#70685a] font-bold tracking-wide border border-[#70685a] justify-center  hover:bg-blue-700 focus:outline-none ml-5">
+                                        < button type="button" onClick={gotoOwnerManagementScreenArea} style={{ width: '45%' }} className=" px-10 py-1 text-[#70685a] font-bold tracking-wide border border-[#70685a] justify-center  hover:bg-blue-700 focus:outline-none ml-5">
                                             エリア分析
                                         </button>
                                     </div>
                                     <div className=' text-[#70685a] pt-5'>
-                                        < button type="button" style={{ width: '45%' }} className=" px-10 py-1 text-[#70685a] font-bold tracking-wide border border-[#70685a] justify-center  hover:bg-blue-700 focus:outline-none">
+                                        < button type="button" onClick={gotoPurchaseItemCount} style={{ width: '45%' }} className=" px-10 py-1 text-[#70685a] font-bold tracking-wide border border-[#70685a] justify-center  hover:bg-blue-700 focus:outline-none">
                                             買取商品集計
                                         </button>
                                     </div>
                                     <div className=' text-[#70685a] pt-5'>
-                                        < button type="button" style={{ width: '45%' }} className=" px-10 py-1 text-[#70685a] font-bold tracking-wide border border-[#70685a] justify-center  hover:bg-blue-700 focus:outline-none">
+                                        < button type="button"  onClick={gotoRepeatAnalysis} style={{ width: '45%' }} className=" px-10 py-1 text-[#70685a] font-bold tracking-wide border border-[#70685a] justify-center  hover:bg-blue-700 focus:outline-none">
                                             リピ一夕一分析
                                         </button>
                                     </div>
@@ -144,7 +187,7 @@ const ManagementHeadqueatersTOP = () => {
                                             < button type="button" className="w-full px-10 py-1 text-[#70685a] font-bold tracking-wide border border-[#70685a] justify-center  hover:bg-blue-700 focus:outline-none ml-10">
                                                 各種設定
                                             </button>
-                                            < button type="button" className="w-full mt-5 px-10 py-1 text-[#70685a] font-bold tracking-wide border border-[#70685a] justify-center  hover:bg-blue-700 focus:outline-none ml-10">
+                                            < button type="button"  onClick={gotoVariousMasterList} className="w-full mt-5 px-10 py-1 text-[#70685a] font-bold tracking-wide border border-[#70685a] justify-center  hover:bg-blue-700 focus:outline-none ml-10">
                                                 各種マスター一覧
                                             </button>
                                         </div>

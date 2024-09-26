@@ -206,7 +206,7 @@ const handleShowOldPackage = (ids)=> {
     setShowPackage(!showPackage);
     const arr = ids.split(','); // Split the string into an array
     const idArray = arr.map(Number); // Convert string elements to numbers
-    console.log('ids',idArray)
+    // console.log('ids',idArray)
     fetchOldSalesData(idArray);
 }
 // fetch data

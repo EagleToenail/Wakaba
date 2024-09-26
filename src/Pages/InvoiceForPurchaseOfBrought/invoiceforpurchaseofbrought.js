@@ -856,10 +856,10 @@ const InvoicePurchaseOfBrought = () => {
     const checkedFunction = (item1, item2, item3, item4, item5) => {
         const array = item1.split(',').map(Number);
         setAdditionalCheckboxes(array);
-        updateValueAtIndex(2, item2);
-        updateValueAtIndex(3, item3);
-        updateValueAtIndex(4, item4);
-        updateValueAtIndex(5, item5);
+        updateValueAtIndex(0, item2);
+        updateValueAtIndex(1, item3);
+        updateValueAtIndex(2, item4);
+        updateValueAtIndex(3, item5);
     }
 
     const updateValueAtIndex = (index, newValue) => {
@@ -869,6 +869,20 @@ const InvoicePurchaseOfBrought = () => {
             return newPairs; // Return the updated array
         });
     };
+    //save function
+    const itemsSave = ()=> {
+        const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+        if (!wakabaBaseUrl) {
+            throw new Error('API base URL is not defined');
+        }
+
+        axios.post(`${wakabaBaseUrl}/customer/updatecustomeritem`, customer)
+        .then(response => {
+        })
+        .catch(error => {
+            console.error("There was an error fetching the customer data!", error);
+        });
+    }
     //--------------------------------------------------------
     return (<>
         {/* <Titlebar title={title} /> */}
@@ -1611,7 +1625,7 @@ const InvoicePurchaseOfBrought = () => {
                                 </datalist>
                                 <InputComponent type='number' className='w-20 h-11 ' />
                                 <label className="text-[#70685a] font-bold mb-2 block text-left !mb-0 pt-2 ml-5" >To</label>
-                                <button type="button"
+                                <button type="button" onClick={itemsSave}
                                     className="!w-10 h-10 ml-5 inline-flex items-center justify-center text-[#70685a] border border-[#70685a] outline-none hover:bg-purple-700 active:bg-purple-600">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="14px" fill="#70685a" className="inline" viewBox="0 0 512 512">
                                         <path

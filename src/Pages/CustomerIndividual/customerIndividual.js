@@ -375,10 +375,10 @@ const CustomerIndividual = () => {
     const checkedFunction = (item1, item2, item3, item4, item5) => {
         const array = item1.split(',').map(Number);
         setAdditionalCheckboxes(array);
-        updateValueAtIndex(2, item2);
-        updateValueAtIndex(3, item3);
-        updateValueAtIndex(4, item4);
-        updateValueAtIndex(5, item5);
+        updateValueAtIndex(0, item2);
+        updateValueAtIndex(1, item3);
+        updateValueAtIndex(2, item4);
+        updateValueAtIndex(3, item5);
     }
 
     const updateValueAtIndex = (index, newValue) => {
@@ -705,7 +705,7 @@ const CustomerIndividual = () => {
                                         <div><span className='pl-1 text-[20px]'>追加</span></div>
                                     </button>
                                 </div>
-                                {customerPastVisitHistory.length !== 0 ?
+                                {customerPastVisitHistory ?.length > 0 ?
                                     <div style={{ width: '100%', }} >
                                         <table className='text-center w-full' style={Table}>
                                             <thead>

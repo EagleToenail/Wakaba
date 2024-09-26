@@ -85,11 +85,19 @@ export default function Header() {
 
   //go to admin top
   const gotoAdminTop = () => {
-    if(userData.role_flag==2){
+    if(userData.role_flag==4){
       navigate('/admin/ownerstop');
     }
-    if(userData.role_flag==1){
+    if(userData.role_flag==3){
       navigate('/admin/managementheadquaterstop');
+    }
+    
+    if(userData.role_flag==2){
+      navigate('/admin/managementSettingSuperAdministratorTOP');
+    }
+    
+    if(userData.role_flag==1){
+      // navigate('/admin/managementheadquaterstop');
     }
   }
 

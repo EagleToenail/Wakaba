@@ -38,7 +38,7 @@ const ManagementSettingsSuperAdministratorTOP = () => {
                 <h2 className="text-[#70685a] text-center text-2xl font-bold flex justify-center">ス一パー管理者用 管理画面</h2>
             </div>
             {/*  */}
-            <div className='flex mt-3 justify-center text-left'>
+            <div className='flex mt-5 justify-center text-left'>
                 <div className=' text-[#70685a] px-2 mr-2 flex flex-col justify-end'>
                     < button type="button" className="flex align-end w-40 px-3 py-1 font-bold tracking-wide justify-center text-white bg-[#665b4c] hover:bg-blue-700 focus:outline-none">
                     オーナー管理
@@ -189,18 +189,7 @@ const ManagementSettingsSuperAdministratorTOP = () => {
                             <td style={Td}></td>
                             <td style={Td}></td>
                         </tr>
-                        <tr>
-                            <td ><input type='checkbox' /></td>
-                            <td style={Td}>9999</td>
-                            <td style={Td}></td>
-                            <td style={Td}></td>
-                            <td style={Td}></td>
-                            <td style={Td}></td>
-                            <td style={Td}></td>
-                            <td style={Td}></td>
-                            <td style={Td}></td>
-                            <td style={Td}></td>
-                        </tr>
+                        
                     </tbody>
 
                     </table>

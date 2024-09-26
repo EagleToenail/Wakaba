@@ -1,11 +1,12 @@
-import React, { useState, useEffect,useRef } from 'react';
-import { Link, useNavigate, useParams ,useLocation} from 'react-router-dom';
+import React, { useState, useEffect, useRef } from 'react';
+import { Link, useNavigate, useParams, useLocation } from 'react-router-dom';
 // import Titlebar from '../../Components/Common/Titlebar';
 import StampSheet from '../../Assets/img/stampsheet.png'
 import LetterPack from '../../Assets/img/letterpack.png'
 import StampRose from '../../Assets/img/stamprose.png'
 import PostCard from '../../Assets/img/postcard.png'
 import LabelComponent from '../../Components/Common/LabelComponent';
+import InputComponent from '../../Components/Common/InputComponent';
 import DateAndTime from '../../Components/Common/PickData';
 
 
@@ -69,21 +70,68 @@ const StampRelatedInventoryList = () => {
         }
         setInputSheetShow(!inputSheetShow);
     };
+    //edit and delete
+    const [editSheetIndex, setEditSheetIndex] = useState(-1);
+    const [editedSheetRow, setEditedSheetRow] = useState({
+        stampValue: '',
+        numberOfSides: '',
+        sheetValue: '',
+        numberOfSheets: '',
+        totalFaceValue: ''
+    });
+    const handleSheetInputChange = (e) => {
+        const { name, value } = e.target;
+        setEditedSheetRow({ ...editedSheetRow, [name]: value });
+    };
+
+    const handleSheetEditClick = (index) => {
+        setEditSheetIndex(index);
+        setEditedSheetRow(sheetRows[index]); // Populate the input fields with the selected row's data
+    };
+
+    const handleSheetSaveClick = () => {
+        const updatedData = sheetRows.map((row, index) =>
+            index === editSheetIndex ? { ...row, ...editedSheetRow } : row
+        );
+        setSheetRows(updatedData);
+        setEditSheetIndex(-1); // Exit edit mode
+        setEditedSheetRow({
+            stampValue: '',
+            numberOfSides: '',
+            sheetValue: '',
+            numberOfSheets: '',
+            totalFaceValue: ''
+        }); // Reset editedRow state
+    };
+
+    const handleSheetCancelClick = () => {
+        setEditSheetIndex(-1);
+        setEditedSheetRow({
+            stampValue: '',
+            numberOfSides: '',
+            sheetValue: '',
+            numberOfSheets: '',
+            totalFaceValue: ''
+        }); // Reset editedRow state
+    };
+
+    //delete one of tatalsaleSlipdata
+    const handleSheetDeleteClick = (index) => {
+        setSheetRows(sheetRows.filter((_, i) => i !== index));
+    };
     //------------pasting---------------------------------
     const [pastingRows, setPastingRows] = useState([{
         id: '1',
         stampValue: '¥7',
-        numberOfSides: '20',
-        sheetValue: '¥100,000',
-        numberOfSheets: '1,000',
+        mountValue: '¥100,000',
+        numberOfMounts: '1,000',
         totalFaceValue: '¥1,000,000'
     }]);
     const [inputPastingShow, setInputPastingShow] = useState(false);
     const [newPastingRow, setNewPastingRow] = useState({
         stampValue: '',
-        numberOfSides: '',
-        sheetValue: '',
-        numberOfSheets: '',
+        mountValue: '',
+        numberOfMounts: '',
         totalFaceValue: ''
     });
     const handlePastingChange = (e) => {
@@ -99,29 +147,70 @@ const StampRelatedInventoryList = () => {
             setPastingRows((prevPastingRows) => [...prevPastingRows, { ...newPastingRow, id: Date.now() }]);
             setNewPastingRow({
                 stampValue: '',
-                numberOfSides: '',
-                sheetValue: '',
-                numberOfSheets: '',
+                mountValue: '',
+                numberOfMounts: '',
                 totalFaceValue: ''
             });
         }
         setInputPastingShow(!inputPastingShow);
     };
+    //edit and delete
+    const [editPastingIndex, setEditPastingIndex] = useState(-1);
+    const [editedPastingRow, setEditedPastingRow] = useState({
+        stampValue: '',
+        mountValue: '',
+        numberOfMounts: '',
+        totalFaceValue: ''
+    });
+    const handlePastingInputChange = (e) => {
+        const { name, value } = e.target;
+        setEditedPastingRow({ ...editedPastingRow, [name]: value });
+    };
+
+    const handlePastingEditClick = (index) => {
+        setEditPastingIndex(index);
+        setEditedPastingRow(pastingRows[index]); // Populate the input fields with the selected row's data
+    };
+
+    const handlePastingSaveClick = () => {
+        const updatedData = pastingRows.map((row, index) =>
+            index === editPastingIndex ? { ...row, ...editedPastingRow } : row
+        );
+        setPastingRows(updatedData);
+        setEditPastingIndex(-1); // Exit edit mode
+        setEditedPastingRow({
+            stampValue: '',
+            mountValue: '',
+            numberOfMounts: '',
+            totalFaceValue: ''
+        }); // Reset editedRow state
+    };
+
+    const handlePastingCancelClick = () => {
+        setEditPastingIndex(-1);
+        setEditedPastingRow({
+            stampValue: '',
+            mountValue: '',
+            numberOfMounts: '',
+            totalFaceValue: ''
+        }); // Reset editedRow state
+    };
+
+    //delete one of tatalsaleSlipdata
+    const handlePastingDeleteClick = (index) => {
+        setPastingRows(pastingRows.filter((_, i) => i !== index));
+    };
     //------------Rose---------------------------------
     const [roseRows, setRoseRows] = useState([{
         id: '1',
         stampValue: '¥7',
-        numberOfSides: '20',
-        sheetValue: '¥100,000',
-        numberOfSheets: '1,000',
+        numberOfStamps: '1,000',
         totalFaceValue: '¥1,000,000'
     }]);
     const [inputRoseShow, setInputRoseShow] = useState(false);
     const [newRoseRow, setNewRoseRow] = useState({
         stampValue: '',
-        numberOfSides: '',
-        sheetValue: '',
-        numberOfSheets: '',
+        numberOfStamps: '',
         totalFaceValue: ''
     });
     const handleRoseChange = (e) => {
@@ -137,29 +226,68 @@ const StampRelatedInventoryList = () => {
             setRoseRows((prevRoseRows) => [...prevRoseRows, { ...newRoseRow, id: Date.now() }]);
             setNewRoseRow({
                 stampValue: '',
-                numberOfSides: '',
-                sheetValue: '',
-                numberOfSheets: '',
+                numberOfStamps: '',
                 totalFaceValue: ''
             });
         }
         setInputRoseShow(!inputRoseShow);
     };
+    //edit and delete
+    const [editRoseIndex, setEditRoseIndex] = useState(-1);
+    const [editedRoseRow, setEditedRoseRow] = useState({
+        stampValue: '',
+        numberOfStamps: '',
+        totalFaceValue: ''
+    });
+    const handleRoseInputChange = (e) => {
+        const { name, value } = e.target;
+        setEditedRoseRow({ ...editedRoseRow, [name]: value });
+    };
+
+    const handleRoseEditClick = (index) => {
+        setEditRoseIndex(index);
+        setEditedRoseRow(roseRows[index]); // Populate the input fields with the selected row's data
+    };
+
+    const handleRoseSaveClick = () => {
+        const updatedData = roseRows.map((row, index) =>
+            index === editRoseIndex ? { ...row, ...editedRoseRow } : row
+        );
+        setRoseRows(updatedData);
+        setEditRoseIndex(-1); // Exit edit mode
+        setEditedRoseRow({
+            stampValue: '',
+            numberOfStamps: '',
+            totalFaceValue: ''
+        }); // Reset editedRow state
+    };
+
+    const handleRoseCancelClick = () => {
+        setEditRoseIndex(-1);
+        setEditedRoseRow({
+            stampValue: '',
+            numberOfStamps: '',
+            totalFaceValue: ''
+        }); // Reset editedRow state
+    };
+
+    //delete one of tatalsaleSlipdata
+    const handleRoseDeleteClick = (index) => {
+        setRoseRows(roseRows.filter((_, i) => i !== index));
+    };
     //------------Pack---------------------------------
     const [packRows, setPackRows] = useState([{
         id: '1',
-        stampValue: '¥7',
-        numberOfSides: '20',
-        sheetValue: '¥100,000',
-        numberOfSheets: '1,000',
+        type: 'ライト',
+        faceValue: '20',
+        quantity: '¥100,000',
         totalFaceValue: '¥1,000,000'
     }]);
     const [inputPackShow, setInputPackShow] = useState(false);
     const [newPackRow, setNewPackRow] = useState({
-        stampValue: '',
-        numberOfSides: '',
-        sheetValue: '',
-        numberOfSheets: '',
+        type: '',
+        faceValue: '',
+        quantity: '',
         totalFaceValue: ''
     });
     const handlePackChange = (e) => {
@@ -174,30 +302,71 @@ const StampRelatedInventoryList = () => {
         if (inputPackShow) {
             setPackRows((prevPackRows) => [...prevPackRows, { ...newPackRow, id: Date.now() }]);
             setNewPackRow({
-                stampValue: '',
-                numberOfSides: '',
-                sheetValue: '',
-                numberOfSheets: '',
+                type: '',
+                faceValue: '',
+                quantity: '',
                 totalFaceValue: ''
             });
         }
         setInputPackShow(!inputPackShow);
     };
+    //edit and delete
+    const [editPackIndex, setEditPackIndex] = useState(-1);
+    const [editedPackRow, setEditedPackRow] = useState({
+        type: '',
+        faceValue: '',
+        quantity: '',
+        totalFaceValue: ''
+    });
+    const handlePackInputChange = (e) => {
+        const { name, value } = e.target;
+        setEditedPackRow({ ...editedPackRow, [name]: value });
+    };
+
+    const handlePackEditClick = (index) => {
+        setEditPackIndex(index);
+        setEditedPackRow(packRows[index]); // Populate the input fields with the selected row's data
+    };
+
+    const handlePackSaveClick = () => {
+        const updatedData = packRows.map((row, index) =>
+            index === editPackIndex ? { ...row, ...editedPackRow } : row
+        );
+        setPackRows(updatedData);
+        setEditPackIndex(-1); // Exit edit mode
+        setEditedPackRow({
+            type: '',
+            faceValue: '',
+            quantity: '',
+            totalFaceValue: ''
+        }); // Reset editedRow state
+    };
+
+    const handlePackCancelClick = () => {
+        setEditPackIndex(-1);
+        setEditedPackRow({
+            type: '',
+            faceValue: '',
+            quantity: '',
+            totalFaceValue: ''
+        }); // Reset editedRow state
+    };
+
+    //delete one of tatalsaleSlipdata
+    const handlePackDeleteClick = (index) => {
+        setPackRows(packRows.filter((_, i) => i !== index));
+    };
     //------------Card---------------------------------
     const [cardRows, setCardRows] = useState([{
         id: '1',
-        stampValue: '¥7',
-        numberOfSides: '20',
-        sheetValue: '¥100,000',
-        numberOfSheets: '1,000',
+        faceValue: '¥100,000',
+        quantity: '1,000',
         totalFaceValue: '¥1,000,000'
     }]);
     const [inputCardShow, setInputCardShow] = useState(false);
     const [newCardRow, setNewCardRow] = useState({
-        stampValue: '',
-        numberOfSides: '',
-        sheetValue: '',
-        numberOfSheets: '',
+        faceValue: '',
+        quantity: '',
         totalFaceValue: ''
     });
     const handleCardChange = (e) => {
@@ -212,21 +381,66 @@ const StampRelatedInventoryList = () => {
         if (inputCardShow) {
             setCardRows((prevCardRows) => [...prevCardRows, { ...newCardRow, id: Date.now() }]);
             setNewCardRow({
-                stampValue: '',
-                numberOfSides: '',
-                sheetValue: '',
-                numberOfSheets: '',
+                faceValue: '',
+                quantity: '',
                 totalFaceValue: ''
             });
         }
         setInputCardShow(!inputCardShow);
     };
-// goto stamppurchaseinterestratechange page
-    const gotoStampPurchaseIntereStrateChange = ()=> {
+    //edit and delete
+    const [editCardIndex, setEditCardIndex] = useState(-1);
+    const [editedCardRow, setEditedCardRow] = useState({
+        type: '',
+        faceValue: '',
+        quantity: '',
+        totalFaceValue: ''
+    });
+    const handleCardInputChange = (e) => {
+        const { name, value } = e.target;
+        setEditedCardRow({ ...editedCardRow, [name]: value });
+    };
+
+    const handleCardEditClick = (index) => {
+        setEditCardIndex(index);
+        setEditedCardRow(cardRows[index]); // Populate the input fields with the selected row's data
+    };
+
+    const handleCardSaveClick = () => {
+        const updatedData = cardRows.map((row, index) =>
+            index === editCardIndex ? { ...row, ...editedCardRow } : row
+        );
+        setCardRows(updatedData);
+        setEditCardIndex(-1); // Exit edit mode
+        setEditedCardRow({
+            type: '',
+            faceValue: '',
+            quantity: '',
+            totalFaceValue: ''
+        }); // Reset editedRow state
+    };
+
+    const handleCardCancelClick = () => {
+        setEditCardIndex(-1);
+        setEditedCardRow({
+            type: '',
+            faceValue: '',
+            quantity: '',
+            totalFaceValue: ''
+        }); // Reset editedRow state
+    };
+
+    //delete one of tatalsaleSlipdata
+    const handleCardDeleteClick = (index) => {
+        setCardRows(cardRows.filter((_, i) => i !== index));
+    };
+    //-------------------------------------------------   
+    // goto stamppurchaseinterestratechange page
+    const gotoStampPurchaseIntereStrateChange = () => {
         navigate('/stamppurchaseinterestratechange');
     }
-// goto create warehouse application page
-    const gotoStampCreateWarehouseApplication = ()=> {
+    // goto create warehouse application page
+    const gotoStampCreateWarehouseApplication = () => {
         navigate('/stamprelatedinventoryapplicationform');
     }
 
@@ -239,14 +453,14 @@ const StampRelatedInventoryList = () => {
                     <h2 className="text-[#70685a] text-center text-2xl font-bold flex justify-center">日本の切手・ハガキ・レターパック 在庫リスト</h2>
                     <div className='flex justify-evenly mt-5 '>
                         <div>
-                            <div className='text-center' style={{visibility:'hidden'}}>abc</div>
+                            <div className='text-center' style={{ visibility: 'hidden' }}>abc</div>
                             <button type="button" onClick={gotoStampCreateWarehouseApplication}
                                 className="mr-3  py-1 px-1 w-full text-[#70685a] text-[15px] rounded-full tracking-wider font-bold outline-none border border-[#70685a]">
                                 入庫申請書を作成
                             </button>
                         </div>
                         <div>
-                            <div className='text-center text-[#70685a]'>選択した項目の</div> 
+                            <div className='text-center text-[#70685a]'>選択した項目の</div>
                             < button type="button" className="w-max px-3 py-1 font-bold tracking-wide rounded-lg justify-center text-white bg-[#e87a00] hover:bg-blue-700 focus:outline-none">
                                 出庫申請書を作成
                             </button>
@@ -261,23 +475,24 @@ const StampRelatedInventoryList = () => {
 
                     </div>
                     {/* mainpart */}
-                    <div className=' stamp-related-inventory-list flex'>
-                        <div className='stamp-related-inventory-list-one mt-10' style={{ width: '25%' }}>
+                    <div className=' stamp-related-inventory-list flex gap-5'>
+                        {/* -----stamp sheet------ */}
+                        <div className='stamp-related-inventory-list-one mt-10 w-full'>
                             {/* first */}
-                            <div className='flex justify-center'>
+                            <div className='flex justify-center h-11'>
                                 <div className='flex'>
                                     <div className='w-10'><img src={StampSheet} alt="aaa"></img></div>
-                                    <div className='flex flex-col justify-center'><LabelComponent value="切手シート" className='!text-[20px] font-bold' /></div>
+                                    <div className='flex flex-col justify-center'><LabelComponent value="切手シート" className='pl-5 !text-[20px] font-bold' /></div>
                                 </div>
                             </div>
                             {/* second */}
-                            <div className='flex justify-end w-full'>
+                            <div className='flex justify-end w-full h-30'>
                                 <div className='mt-5 flex flex-col justify-end' style={{ width: '70%' }}>
                                     <table className=' text-center w-full' style={Table}>
-                                        <thead className='sticky top-0 bg-white z-10'>
+                                        <thead className='sticky top-0 bg-white z-10 text-[14px]'>
                                             <tr>
                                                 <th ></th>
-                                                <th >台紙数合計</th>
+                                                <th >シート数合計</th>
                                                 <th >額面総額合計</th>
                                             </tr>
                                         </thead>
@@ -302,40 +517,82 @@ const StampRelatedInventoryList = () => {
                                 </div>
                             </div>
                             {/* third */}
-                            <div className='mt-5  ml-5 w-full'>
+                            <div className='mt-5 mr-5 w-full'>
                                 <div>
                                     <div>
                                         <table className=' text-center w-full' style={Table}>
-                                            <thead className='!h-8'>
+                                            <thead className='!h-8 text-[14px]'>
                                                 <tr>
                                                     <th style={Th} >選択</th>
-                                                    <th style={Th} >切手1枚の額面</th>
-                                                    <th style={Th} >面数</th>
-                                                    <th style={Th}  >シート額面</th>
-                                                    <th style={Th} >シート数</th>
+                                                    <th style={Th} className='pl-1'>切手1枚の額面</th>
+                                                    <th style={Th} className='pl-1 pr-1'>面数</th>
+                                                    <th style={Th} className='pl-1 pr-1' >シート額面</th>
+                                                    <th style={Th} className='pr-1'>シート数</th>
                                                     <th style={Th} >額面総額</th>
+                                                    <th style={Th}>{editSheetIndex === -1 ? '編集する' : 'セーブ'}</th>
+                                                    <th style={Th} className='whitespace-nowrap pl-3'>{editSheetIndex === -1 ? '削除' : '戻る'}</th>
                                                 </tr>
                                             </thead>
-                                            <tbody>
+                                            <tbody className='!h-8'>
 
-                                                {sheetRows.map((row, index) => (
-                                                    <tr
-                                                        key={row.id}
-                                                    // className={index === selectedRowIndex ? 'bg-gray-200' : ''}
-                                                    // onClick={() => handleSelectRow(index)}
-                                                    >
-                                                        <td>
-                                                            <input
-                                                                type="checkbox"
-                                                                // checked={index === selectedRowIndex}
-                                                                readOnly
-                                                            />
+                                                {sheetRows?.length > 0 && sheetRows.map((row, Index) => (
+                                                    <tr key={Index} >
+                                                        <td> <input type="checkbox" className='!h-6' /></td>
+                                                        <td style={Td}>
+                                                            {editSheetIndex === Index ? (
+                                                                <InputComponent name='stampValue' value={editedSheetRow.stampValue || ''} onChange={handleSheetInputChange} className='w-full h-8 text-[#70685a]' />
+                                                            ) : (row.stampValue || '')}
                                                         </td>
-                                                        <td style={Td}>{row.stampValue}</td>
-                                                        <td style={Td} >{row.numberOfSides}</td>
-                                                        <td style={Td} >{row.sheetValue}</td>
-                                                        <td style={Td} >{row.numberOfSheets}</td>
-                                                        <td style={Td} >{row.totalFaceValue}</td>
+                                                        <td style={Td}>
+                                                            {editSheetIndex === Index ? (
+                                                                <InputComponent name='numberOfSides' value={editedSheetRow.numberOfSides || ''} onChange={handleSheetInputChange} className='w-full h-8 text-[#70685a]' />
+                                                            ) : (row.numberOfSides || '')}
+                                                        </td>
+                                                        <td style={Td}>
+                                                            {editSheetIndex === Index ? (
+                                                                <InputComponent name='sheetValue' value={editedSheetRow.sheetValue || ''} onChange={handleSheetInputChange} className='w-full h-8 text-[#70685a]' />
+                                                            ) : (row.sheetValue || '')}
+                                                        </td>
+                                                        <td style={Td}>
+                                                            {editSheetIndex === Index ? (
+                                                                <InputComponent name='numberOfSheets' value={editedSheetRow.numberOfSheets || ''} onChange={handleSheetInputChange} className='w-full h-8 text-[#70685a]' />
+                                                            ) : (row.numberOfSheets || '')}
+                                                        </td>
+                                                        <td style={Td}>
+                                                            {editSheetIndex === Index ? (
+                                                                <InputComponent name='totalFaceValue' value={editedSheetRow.totalFaceValue || ''} onChange={handleSheetInputChange} className='w-full h-8 text-[#70685a]' />
+                                                            ) : (row.totalFaceValue || '')}
+                                                        </td>
+                                                        <td style={Td}>
+                                                            {editSheetIndex === Index ? (
+                                                                <div>
+                                                                    <button onClick={() => handleSheetSaveClick(Index)} className='w-7'>
+                                                                        <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium  MuiSvgIcon-root MuiSvgIcon-fontSizeLarge  css-1hkft75" fill='#524c3b' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckOutlinedIcon" title="CheckOutlined"><path d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
+                                                                    </button>
+                                                                </div>
+                                                            ) : (
+                                                                <div>
+                                                                    <button onClick={() => handleSheetEditClick(Index)} className='w-7'>
+                                                                        <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium  MuiSvgIcon-root MuiSvgIcon-fontSizeLarge  css-1hkft75" fill='#524c3b' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="EditCalendarOutlinedIcon" title="EditCalendarOutlined"><path d="M5 10h14v2h2V6c0-1.1-.9-2-2-2h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h7v-2H5zm0-4h14v2H5zm17.84 10.28-.71.71-2.12-2.12.71-.71c.39-.39 1.02-.39 1.41 0l.71.71c.39.39.39 1.02 0 1.41m-3.54-.7 2.12 2.12-5.3 5.3H14v-2.12z"></path></svg>
+                                                                    </button>
+                                                                </div>
+                                                            )}
+                                                        </td>
+                                                        <td style={Td}>
+                                                            {editSheetIndex === Index ? (
+                                                                <div>
+                                                                    <button onClick={() => handleSheetCancelClick(Index)} className='w-7'>
+                                                                        <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium  MuiSvgIcon-root MuiSvgIcon-fontSizeLarge  css-1hkft75" fill='#524c3b' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="KeyboardReturnOutlinedIcon" title="KeyboardReturnOutlined"><path d="M19 7v4H5.83l3.58-3.59L8 6l-6 6 6 6 1.41-1.41L5.83 13H21V7z"></path></svg>
+                                                                    </button>
+                                                                </div>
+                                                            ) : (
+                                                                <div>
+                                                                    <button onClick={() => handleSheetDeleteClick(Index)} className='w-7'>
+                                                                        <svg className="flex flex-col justify-center" focusable="false" aria-hidden="true" viewBox="0 0 23 23" fill='#524c3b' data-testid="CancelOutlinedIcon" title="CancelOutlined"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8m3.59-13L12 10.59 8.41 7 7 8.41 10.59 12 7 15.59 8.41 17 12 13.41 15.59 17 17 15.59 13.41 12 17 8.41z"></path></svg>
+                                                                    </button>
+                                                                </div>
+                                                            )}
+                                                        </td>
                                                     </tr>
                                                 ))}
                                                 {inputSheetShow ?
@@ -346,7 +603,7 @@ const StampRelatedInventoryList = () => {
                                                                 type="text"
                                                                 name="stampValue"
                                                                 className='w-full'
-                                                                value={newSheetRow.stampValue}
+                                                                value={newSheetRow.stampValue || ''}
                                                                 onChange={handleSheetChange}
                                                             />
                                                         </td>
@@ -355,7 +612,7 @@ const StampRelatedInventoryList = () => {
                                                                 type="text"
                                                                 name="numberOfSides"
                                                                 className='w-full'
-                                                                value={newSheetRow.numberOfSides}
+                                                                value={newSheetRow.numberOfSides || ''}
                                                                 onChange={handleSheetChange}
                                                             />
                                                         </td>
@@ -364,7 +621,7 @@ const StampRelatedInventoryList = () => {
                                                                 type="text"
                                                                 name="sheetValue"
                                                                 className='w-full'
-                                                                value={newSheetRow.sheetValue}
+                                                                value={newSheetRow.sheetValue || ''}
                                                                 onChange={handleSheetChange}
                                                             />
                                                         </td>
@@ -373,7 +630,7 @@ const StampRelatedInventoryList = () => {
                                                                 type="text"
                                                                 name="numberOfSheets"
                                                                 className='w-full'
-                                                                value={newSheetRow.numberOfSheets}
+                                                                value={newSheetRow.numberOfSheets || ''}
                                                                 onChange={handleSheetChange}
                                                             />
                                                         </td>
@@ -382,7 +639,7 @@ const StampRelatedInventoryList = () => {
                                                                 type="text"
                                                                 name="totalFaceValue"
                                                                 className='w-full'
-                                                                value={newSheetRow.totalFaceValue}
+                                                                value={newSheetRow.totalFaceValue || ''}
                                                                 onChange={handleSheetChange}
 
                                                             />
@@ -404,19 +661,20 @@ const StampRelatedInventoryList = () => {
                                 </div>
                             </div>
                         </div>
-                        <div className='stamp-related-inventory-list-one mt-10' style={{ width: '25%' }}>
+                        {/* ------stamp mounting past----- */}
+                        <div className='stamp-related-inventory-list-one mt-10 w-full'>
                             {/* first */}
-                            <div className='flex justify-center'>
+                            <div className='flex justify-center h-11'>
                                 <div className='flex'>
                                     <div className='w-10'><img src={StampSheet} alt="aaa"></img></div>
                                     <div className='flex flex-col justify-center'><LabelComponent value="切手台紙貼り" className='pl-5 !text-[20px] font-bold' /></div>
                                 </div>
                             </div>
                             {/* second */}
-                            <div className='flex justify-end w-full'>
+                            <div className='flex justify-end w-full h-30'>
                                 <div className='mt-5 flex flex-col justify-end' style={{ width: '70%' }}>
                                     <table className=' text-center w-full' style={Table}>
-                                        <thead className='sticky top-0 bg-white z-10'>
+                                        <thead className='sticky top-0 bg-white z-10 text-[14px]'>
                                             <tr>
                                                 <th ></th>
                                                 <th >台紙数合計</th>
@@ -444,39 +702,75 @@ const StampRelatedInventoryList = () => {
                                 </div>
                             </div>
                             {/* third */}
-                            <div className='mt-5  ml-5 w-full'>
+                            <div className='mt-5 w-full'>
                                 <div>
                                     <div>
                                         <table className=' text-center w-full' style={Table}>
-                                            <thead>
+                                            <thead className='!h-8 text-[14px]'>
                                                 <tr>
                                                     <th style={Th} >選択</th>
-                                                    <th style={Th} >切手1枚の額面</th>
-                                                    <th style={Th} >面数</th>
-                                                    <th style={Th}  >シート額面</th>
-                                                    <th style={Th} >シート数</th>
+                                                    <th style={Th} className='pl-1'>切手1枚の額面</th>
+                                                    <th style={Th} className='pl-1 pr-1'>台紙額面</th>
+                                                    <th style={Th} className='pr-1'>台紙数</th>
                                                     <th style={Th} >額面総額</th>
+                                                    <th style={Th}>{editPastingIndex === -1 ? '編集する' : 'セーブ'}</th>
+                                                    <th style={Th} className='whitespace-nowrap pl-3'>{editPastingIndex === -1 ? '削除' : '戻る'}</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                {pastingRows.map((row, index) => (
-                                                    <tr
-                                                        key={row.id}
-                                                    // className={index === selectedRowIndex ? 'bg-gray-200' : ''}
-                                                    // onClick={() => handleSelectRow(index)}
-                                                    >
-                                                        <td>
-                                                            <input
-                                                                type="checkbox"
-                                                                // checked={index === selectedRowIndex}
-                                                                readOnly
-                                                            />
+                                                {pastingRows?.length > 0 && pastingRows.map((row, Index) => (
+                                                    <tr key={Index} >
+                                                        <td> <input type="checkbox" className='!h-6' /></td>
+                                                        <td style={Td}>
+                                                            {editPastingIndex === Index ? (
+                                                                <InputComponent name='stampValue' value={editedPastingRow.stampValue || ''} onChange={handlePastingInputChange} className='w-full h-8 text-[#70685a]' />
+                                                            ) : (row.stampValue || '')}
                                                         </td>
-                                                        <td style={Td}>{row.stampValue}</td>
-                                                        <td style={Td} >{row.numberOfSides}</td>
-                                                        <td style={Td} >{row.sheetValue}</td>
-                                                        <td style={Td} >{row.numberOfSheets}</td>
-                                                        <td style={Td} >{row.totalFaceValue}</td>
+                                                        <td style={Td}>
+                                                            {editPastingIndex === Index ? (
+                                                                <InputComponent name='mountValue' value={editedPastingRow.mountValue || ''} onChange={handlePastingInputChange} className='w-full h-8 text-[#70685a]' />
+                                                            ) : (row.mountValue || '')}
+                                                        </td>
+                                                        <td style={Td}>
+                                                            {editPastingIndex === Index ? (
+                                                                <InputComponent name='numberOfMounts' value={editedPastingRow.numberOfMounts || ''} onChange={handlePastingInputChange} className='w-full h-8 text-[#70685a]' />
+                                                            ) : (row.numberOfMounts || '')}
+                                                        </td>
+                                                        <td style={Td}>
+                                                            {editPastingIndex === Index ? (
+                                                                <InputComponent name='totalFaceValue' value={editedPastingRow.totalFaceValue || ''} onChange={handlePastingInputChange} className='w-full h-8 text-[#70685a]' />
+                                                            ) : (row.totalFaceValue || '')}
+                                                        </td>
+                                                        <td style={Td}>
+                                                            {editPastingIndex === Index ? (
+                                                                <div>
+                                                                    <button onClick={() => handlePastingSaveClick(Index)} className='w-7'>
+                                                                        <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium  MuiSvgIcon-root MuiSvgIcon-fontSizeLarge  css-1hkft75" fill='#524c3b' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckOutlinedIcon" title="CheckOutlined"><path d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
+                                                                    </button>
+                                                                </div>
+                                                            ) : (
+                                                                <div>
+                                                                    <button onClick={() => handlePastingEditClick(Index)} className='w-7'>
+                                                                        <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium  MuiSvgIcon-root MuiSvgIcon-fontSizeLarge  css-1hkft75" fill='#524c3b' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="EditCalendarOutlinedIcon" title="EditCalendarOutlined"><path d="M5 10h14v2h2V6c0-1.1-.9-2-2-2h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h7v-2H5zm0-4h14v2H5zm17.84 10.28-.71.71-2.12-2.12.71-.71c.39-.39 1.02-.39 1.41 0l.71.71c.39.39.39 1.02 0 1.41m-3.54-.7 2.12 2.12-5.3 5.3H14v-2.12z"></path></svg>
+                                                                    </button>
+                                                                </div>
+                                                            )}
+                                                        </td>
+                                                        <td style={Td}>
+                                                            {editPastingIndex === Index ? (
+                                                                <div>
+                                                                    <button onClick={() => handlePastingCancelClick(Index)} className='w-7'>
+                                                                        <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium  MuiSvgIcon-root MuiSvgIcon-fontSizeLarge  css-1hkft75" fill='#524c3b' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="KeyboardReturnOutlinedIcon" title="KeyboardReturnOutlined"><path d="M19 7v4H5.83l3.58-3.59L8 6l-6 6 6 6 1.41-1.41L5.83 13H21V7z"></path></svg>
+                                                                    </button>
+                                                                </div>
+                                                            ) : (
+                                                                <div>
+                                                                    <button onClick={() => handlePastingDeleteClick(Index)} className='w-7'>
+                                                                        <svg className="flex flex-col justify-center" focusable="false" aria-hidden="true" viewBox="0 0 23 23" fill='#524c3b' data-testid="CancelOutlinedIcon" title="CancelOutlined"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8m3.59-13L12 10.59 8.41 7 7 8.41 10.59 12 7 15.59 8.41 17 12 13.41 15.59 17 17 15.59 13.41 12 17 8.41z"></path></svg>
+                                                                    </button>
+                                                                </div>
+                                                            )}
+                                                        </td>
                                                     </tr>
                                                 ))}
                                                 {inputPastingShow ?
@@ -487,34 +781,25 @@ const StampRelatedInventoryList = () => {
                                                                 type="text"
                                                                 name="stampValue"
                                                                 className='w-full'
-                                                                value={newPastingRow.stampValue}
+                                                                value={newPastingRow.stampValue || ''}
                                                                 onChange={handlePastingChange}
                                                             />
                                                         </td>
                                                         <td style={Td} >
                                                             <input
                                                                 type="text"
-                                                                name="numberOfSides"
+                                                                name="mountValue"
                                                                 className='w-full'
-                                                                value={newPastingRow.numberOfSides}
+                                                                value={newPastingRow.mountValue || ''}
                                                                 onChange={handlePastingChange}
                                                             />
                                                         </td>
                                                         <td style={Td} >
                                                             <input
                                                                 type="text"
-                                                                name="sheetValue"
+                                                                name=" numberOfMounts"
                                                                 className='w-full'
-                                                                value={newPastingRow.sheetValue}
-                                                                onChange={handlePastingChange}
-                                                            />
-                                                        </td>
-                                                        <td style={Td} >
-                                                            <input
-                                                                type="text"
-                                                                name="numberOfSheets"
-                                                                className='w-full'
-                                                                value={newPastingRow.numberOfSheets}
+                                                                value={newPastingRow.numberOfMounts || ''}
                                                                 onChange={handlePastingChange}
                                                             />
                                                         </td>
@@ -523,7 +808,7 @@ const StampRelatedInventoryList = () => {
                                                                 type="text"
                                                                 name="totalFaceValue"
                                                                 className='w-full'
-                                                                value={newPastingRow.totalFaceValue}
+                                                                value={newPastingRow.totalFaceValue || ''}
                                                                 onChange={handlePastingChange}
 
                                                             />
@@ -545,19 +830,19 @@ const StampRelatedInventoryList = () => {
                                 </div>
                             </div>
                         </div>
-
-                        <div className='stamp-related-inventory-list-one mt-10' style={{ width: '25%' }}>
+                        {/* -----stamp rose------ */}
+                        <div className='stamp-related-inventory-list-one mt-10 w-full'>
                             {/* first */}
-                            <div className='flex justify-center'>
+                            <div className='flex justify-center h-11'>
                                 <div className='flex'>
                                     <div className='w-10'><img src={StampRose} alt="aaa"></img></div>
                                     <div className='flex flex-col justify-center'><LabelComponent value="切手バラ" className='pl-5 !text-[20px] font-bold' /></div>
                                 </div>
                             </div>
                             {/* second */}
-                            <div className='flex justify-end w-full' >
+                            <div className='flex justify-end w-full h-30' >
                                 <div className='mt-5 flex flex-col justify-end' style={{ width: '70%' }}>
-                                    <table className=' text-center w-full' style={Table}>
+                                    <table className=' text-center w-full text-[14px]' style={Table}>
                                         <thead>
                                             <tr>
                                                 <th ></th>
@@ -586,40 +871,70 @@ const StampRelatedInventoryList = () => {
                                 </div>
                             </div>
                             {/* third */}
-                            <div className='mt-5 ml-5 w-full'>
+                            <div className='mt-5 w-full'>
 
                                 <div>
                                     <div>
                                         <table className=' text-center w-full' style={Table}>
-                                            <thead>
+                                            <thead className='!h-8 text-[14px]'>
                                                 <tr>
                                                     <th style={Th} >選択</th>
                                                     <th style={Th}>切手1枚の額面</th>
-                                                    <th style={Th}>面数</th>
-                                                    <th style={Th} >シート額面</th>
-                                                    <th style={Th}>シート数</th>
+                                                    <th style={Th}>枚数</th>
                                                     <th style={Th}>額面総額</th>
+                                                    <th style={Th}>{editRoseIndex === -1 ? '編集する' : 'セーブ'}</th>
+                                                    <th style={Th} className='whitespace-nowrap pl-3'>{editRoseIndex === -1 ? '削除' : '戻る'}</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                {roseRows.map((row, index) => (
-                                                    <tr
-                                                        key={row.id}
-                                                    // className={index === selectedRowIndex ? 'bg-gray-200' : ''}
-                                                    // onClick={() => handleSelectRow(index)}
-                                                    >
-                                                        <td>
-                                                            <input
-                                                                type="checkbox"
-                                                                // checked={index === selectedRowIndex}
-                                                                readOnly
-                                                            />
+                                                {roseRows?.length > 0 && roseRows.map((row, Index) => (
+                                                    <tr key={Index} >
+                                                        <td> <input type="checkbox" className='!h-6' /></td>
+                                                        <td style={Td}>
+                                                            {editRoseIndex === Index ? (
+                                                                <InputComponent name='stampValue' value={editedRoseRow.stampValue || ''} onChange={handleRoseInputChange} className='w-full h-8 text-[#70685a]' />
+                                                            ) : (row.stampValue || '')}
                                                         </td>
-                                                        <td style={Td}>{row.stampValue}</td>
-                                                        <td style={Td} >{row.numberOfSides}</td>
-                                                        <td style={Td} >{row.sheetValue}</td>
-                                                        <td style={Td} >{row.numberOfSheets}</td>
-                                                        <td style={Td} >{row.totalFaceValue}</td>
+                                                        <td style={Td}>
+                                                            {editRoseIndex === Index ? (
+                                                                <InputComponent name='numberOfStamps' value={editedRoseRow.numberOfStamps || ''} onChange={handleRoseInputChange} className='w-full h-8 text-[#70685a]' />
+                                                            ) : (row.numberOfStamps || '')}
+                                                        </td>
+                                                        <td style={Td}>
+                                                            {editRoseIndex === Index ? (
+                                                                <InputComponent name='totalFaceValue' value={editedRoseRow.totalFaceValue || ''} onChange={handleRoseInputChange} className='w-full h-8 text-[#70685a]' />
+                                                            ) : (row.totalFaceValue || '')}
+                                                        </td>
+                                                        <td style={Td}>
+                                                            {editRoseIndex === Index ? (
+                                                                <div>
+                                                                    <button onClick={() => handleRoseSaveClick(Index)} className='w-7'>
+                                                                        <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium  MuiSvgIcon-root MuiSvgIcon-fontSizeLarge  css-1hkft75" fill='#524c3b' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckOutlinedIcon" title="CheckOutlined"><path d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
+                                                                    </button>
+                                                                </div>
+                                                            ) : (
+                                                                <div>
+                                                                    <button onClick={() => handleRoseEditClick(Index)} className='w-7'>
+                                                                        <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium  MuiSvgIcon-root MuiSvgIcon-fontSizeLarge  css-1hkft75" fill='#524c3b' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="EditCalendarOutlinedIcon" title="EditCalendarOutlined"><path d="M5 10h14v2h2V6c0-1.1-.9-2-2-2h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h7v-2H5zm0-4h14v2H5zm17.84 10.28-.71.71-2.12-2.12.71-.71c.39-.39 1.02-.39 1.41 0l.71.71c.39.39.39 1.02 0 1.41m-3.54-.7 2.12 2.12-5.3 5.3H14v-2.12z"></path></svg>
+                                                                    </button>
+                                                                </div>
+                                                            )}
+                                                        </td>
+                                                        <td style={Td}>
+                                                            {editRoseIndex === Index ? (
+                                                                <div>
+                                                                    <button onClick={() => handleRoseCancelClick(Index)} className='w-7'>
+                                                                        <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium  MuiSvgIcon-root MuiSvgIcon-fontSizeLarge  css-1hkft75" fill='#524c3b' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="KeyboardReturnOutlinedIcon" title="KeyboardReturnOutlined"><path d="M19 7v4H5.83l3.58-3.59L8 6l-6 6 6 6 1.41-1.41L5.83 13H21V7z"></path></svg>
+                                                                    </button>
+                                                                </div>
+                                                            ) : (
+                                                                <div>
+                                                                    <button onClick={() => handleRoseDeleteClick(Index)} className='w-7'>
+                                                                        <svg className="flex flex-col justify-center" focusable="false" aria-hidden="true" viewBox="0 0 23 23" fill='#524c3b' data-testid="CancelOutlinedIcon" title="CancelOutlined"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8m3.59-13L12 10.59 8.41 7 7 8.41 10.59 12 7 15.59 8.41 17 12 13.41 15.59 17 17 15.59 13.41 12 17 8.41z"></path></svg>
+                                                                    </button>
+                                                                </div>
+                                                            )}
+                                                        </td>
                                                     </tr>
                                                 ))}
                                                 {inputRoseShow ?
@@ -630,34 +945,16 @@ const StampRelatedInventoryList = () => {
                                                                 type="text"
                                                                 name="stampValue"
                                                                 className='w-full'
-                                                                value={newRoseRow.stampValue}
+                                                                value={newRoseRow.stampValue || ''}
                                                                 onChange={handleRoseChange}
                                                             />
                                                         </td>
                                                         <td style={Td} >
                                                             <input
                                                                 type="text"
-                                                                name="numberOfSides"
+                                                                name=" numberOfStamps"
                                                                 className='w-full'
-                                                                value={newRoseRow.numberOfSides}
-                                                                onChange={handleRoseChange}
-                                                            />
-                                                        </td>
-                                                        <td style={Td} >
-                                                            <input
-                                                                type="text"
-                                                                name="sheetValue"
-                                                                className='w-full'
-                                                                value={newRoseRow.sheetValue}
-                                                                onChange={handleRoseChange}
-                                                            />
-                                                        </td>
-                                                        <td style={Td} >
-                                                            <input
-                                                                type="text"
-                                                                name="numberOfSheets"
-                                                                className='w-full'
-                                                                value={newRoseRow.numberOfSheets}
+                                                                value={newRoseRow.numberOfStamps || ''}
                                                                 onChange={handleRoseChange}
                                                             />
                                                         </td>
@@ -666,7 +963,7 @@ const StampRelatedInventoryList = () => {
                                                                 type="text"
                                                                 name="totalFaceValue"
                                                                 className='w-full'
-                                                                value={newRoseRow.totalFaceValue}
+                                                                value={newRoseRow.totalFaceValue || ''}
                                                                 onChange={handleRoseChange}
 
                                                             />
@@ -688,80 +985,109 @@ const StampRelatedInventoryList = () => {
                                 </div>
                             </div>
                         </div>
-                        <div className='stamp-related-inventory-list-one mt-10' style={{ width: '25%' }}>
+                        {/* ------Letter pack----- */}
+                        <div className='stamp-related-inventory-list-one mt-10 w-fll mr-10'>
                             {/* first */}
-                            <div className='flex justify-center'>
+                            <div className='flex justify-center h-11'>
                                 <div className='flex'>
                                     <div className='w-10'><img src={LetterPack} alt="aaa"></img></div>
                                     <div className='flex flex-col justify-center'><LabelComponent value="レ夕一パック" className='pl-5 !text-[20px] font-bold' /></div>
                                 </div>
                             </div>
                             {/* second */}
-                            <div className='flex justify-end w-full' >
+                            <div className='flex justify-end w-full h-[120px]' >
                                 <div className='mt-5 flex flex-col justify-end' style={{ width: '70%' }}>
-                                    <table className=' text-center w-full' style={Table}>
-                                        <thead>
-                                            <tr>
-                                                <th ></th>
-                                                <th style={Th}>台紙数合計</th>
-                                                <th style={Th}>額面総額合計</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>下記合計</td>
-                                                <td style={Td}>1000</td>
-                                                <td style={Td}>¥1,000,000</td>
-                                            </tr>
-                                            <tr>
-                                                <td>50円以上</td>
-                                                <td style={Td}>1000</td>
-                                                <td style={Td}>¥1,000,000</td>
-                                            </tr>
-                                            <tr>
-                                                <td>50円未満</td>
-                                                <td style={Td}>1000</td>
-                                                <td style={Td}>¥1,000,000</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
+                                    <div className='flex flex-col justify-end'>
+                                        <table className=' text-center w-full' style={Table}>
+                                            <thead className='!h-8 text-[14px]'>
+                                                <tr>
+                                                    <th ></th>
+                                                    <th style={Th}>枚数合計</th>
+                                                    <th style={Th}>額面総額合計</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>下記合計</td>
+                                                    <td style={Td}>1000</td>
+                                                    <td style={Td}>¥1,000,000</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
                             {/* third */}
-                            <div className='mt-5 ml-5 w-full' >
+                            <div className='mt-5 w-full' >
 
                                 <div>
                                     <div>
                                         <table className=' text-center w-full' style={Table}>
-                                            <thead>
+                                            <thead className='!h-8 text-[14px]'>
                                                 <tr>
                                                     <th style={Th} >選択</th>
-                                                    <th style={Th}>切手1枚の額面</th>
+                                                    <th style={Th}>額面</th>
                                                     <th style={Th}>面数</th>
-                                                    <th style={Th} >シート額面</th>
-                                                    <th style={Th}>シート数</th>
+                                                    <th style={Th} >枚数</th>
                                                     <th style={Th}>額面総額</th>
+                                                    <th style={Th}>{editPackIndex === -1 ? '編集する' : 'セーブ'}</th>
+                                                    <th style={Th} className='whitespace-nowrap pl-3'>{editPackIndex === -1 ? '削除' : '戻る'}</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                {packRows.map((row, index) => (
-                                                    <tr
-                                                        key={row.id}
-                                                    // className={index === selectedRowIndex ? 'bg-gray-200' : ''}
-                                                    // onClick={() => handleSelectRow(index)}
-                                                    >
-                                                        <td>
-                                                            <input
-                                                                type="checkbox"
-                                                                // checked={index === selectedRowIndex}
-                                                                readOnly
-                                                            />
+                                                {packRows?.length > 0 && packRows.map((row, Index) => (
+                                                    <tr key={Index} >
+                                                        <td> <input type="checkbox" className='!h-6' /></td>
+                                                        <td style={Td}>
+                                                            {editPackIndex === Index ? (
+                                                                <InputComponent name='type' value={editedPackRow.type || ''} onChange={handlePackInputChange} className='w-full h-8 text-[#70685a]' />
+                                                            ) : (row.type || '')}
                                                         </td>
-                                                        <td style={Td}>{row.stampValue}</td>
-                                                        <td style={Td} >{row.numberOfSides}</td>
-                                                        <td style={Td} >{row.sheetValue}</td>
-                                                        <td style={Td} >{row.numberOfSheets}</td>
-                                                        <td style={Td} >{row.totalFaceValue}</td>
+                                                        <td style={Td}>
+                                                            {editPackIndex === Index ? (
+                                                                <InputComponent name='faceValue' value={editedPackRow.faceValue || ''} onChange={handlePackInputChange} className='w-full h-8 text-[#70685a]' />
+                                                            ) : (row.faceValue || '')}
+                                                        </td>
+                                                        <td style={Td}>
+                                                            {editPackIndex === Index ? (
+                                                                <InputComponent name='quantity' value={editedPackRow.quantity || ''} onChange={handlePackInputChange} className='w-full h-8 text-[#70685a]' />
+                                                            ) : (row.quantity || '')}
+                                                        </td>
+                                                        <td style={Td}>
+                                                            {editPackIndex === Index ? (
+                                                                <InputComponent name='totalFaceValue' value={editedPackRow.totalFaceValue || ''} onChange={handlePackInputChange} className='w-full h-8 text-[#70685a]' />
+                                                            ) : (row.totalFaceValue || '')}
+                                                        </td>
+                                                        <td style={Td}>
+                                                            {editPackIndex === Index ? (
+                                                                <div>
+                                                                    <button onClick={() => handlePackSaveClick(Index)} className='w-7'>
+                                                                        <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium  MuiSvgIcon-root MuiSvgIcon-fontSizeLarge  css-1hkft75" fill='#524c3b' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckOutlinedIcon" title="CheckOutlined"><path d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
+                                                                    </button>
+                                                                </div>
+                                                            ) : (
+                                                                <div>
+                                                                    <button onClick={() => handlePackEditClick(Index)} className='w-7'>
+                                                                        <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium  MuiSvgIcon-root MuiSvgIcon-fontSizeLarge  css-1hkft75" fill='#524c3b' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="EditCalendarOutlinedIcon" title="EditCalendarOutlined"><path d="M5 10h14v2h2V6c0-1.1-.9-2-2-2h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h7v-2H5zm0-4h14v2H5zm17.84 10.28-.71.71-2.12-2.12.71-.71c.39-.39 1.02-.39 1.41 0l.71.71c.39.39.39 1.02 0 1.41m-3.54-.7 2.12 2.12-5.3 5.3H14v-2.12z"></path></svg>
+                                                                    </button>
+                                                                </div>
+                                                            )}
+                                                        </td>
+                                                        <td style={Td}>
+                                                            {editPackIndex === Index ? (
+                                                                <div>
+                                                                    <button onClick={() => handlePackCancelClick(Index)} className='w-7'>
+                                                                        <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium  MuiSvgIcon-root MuiSvgIcon-fontSizeLarge  css-1hkft75" fill='#524c3b' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="KeyboardReturnOutlinedIcon" title="KeyboardReturnOutlined"><path d="M19 7v4H5.83l3.58-3.59L8 6l-6 6 6 6 1.41-1.41L5.83 13H21V7z"></path></svg>
+                                                                    </button>
+                                                                </div>
+                                                            ) : (
+                                                                <div>
+                                                                    <button onClick={() => handlePackDeleteClick(Index)} className='w-7'>
+                                                                        <svg className="flex flex-col justify-center" focusable="false" aria-hidden="true" viewBox="0 0 23 23" fill='#524c3b' data-testid="CancelOutlinedIcon" title="CancelOutlined"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8m3.59-13L12 10.59 8.41 7 7 8.41 10.59 12 7 15.59 8.41 17 12 13.41 15.59 17 17 15.59 13.41 12 17 8.41z"></path></svg>
+                                                                    </button>
+                                                                </div>
+                                                            )}
+                                                        </td>
                                                     </tr>
                                                 ))}
                                                 {inputPackShow ?
@@ -770,37 +1096,29 @@ const StampRelatedInventoryList = () => {
                                                         <td style={Td}>
                                                             <input
                                                                 type="text"
-                                                                name="stampValue"
+                                                                name="type"
                                                                 className='w-full'
-                                                                value={newPackRow.stampValue}
+                                                                value={newPackRow.type || ''}
                                                                 onChange={handlePackChange}
                                                             />
                                                         </td>
                                                         <td style={Td} >
                                                             <input
                                                                 type="text"
-                                                                name="numberOfSides"
+                                                                name=" faceValue"
                                                                 className='w-full'
-                                                                value={newPackRow.numberOfSides}
+                                                                value={newPackRow.faceValue || ''}
                                                                 onChange={handlePackChange}
                                                             />
                                                         </td>
                                                         <td style={Td} >
                                                             <input
                                                                 type="text"
-                                                                name="sheetValue"
+                                                                name="quantity"
                                                                 className='w-full'
-                                                                value={newPackRow.sheetValue}
+                                                                value={newPackRow.quantity || ''}
                                                                 onChange={handlePackChange}
-                                                            />
-                                                        </td>
-                                                        <td style={Td} >
-                                                            <input
-                                                                type="text"
-                                                                name="numberOfSheets"
-                                                                className='w-full'
-                                                                value={newPackRow.numberOfSheets}
-                                                                onChange={handlePackChange}
+
                                                             />
                                                         </td>
                                                         <td style={Td} >
@@ -808,7 +1126,7 @@ const StampRelatedInventoryList = () => {
                                                                 type="text"
                                                                 name="totalFaceValue"
                                                                 className='w-full'
-                                                                value={newPackRow.totalFaceValue}
+                                                                value={newPackRow.totalFaceValue || ''}
                                                                 onChange={handlePackChange}
 
                                                             />
@@ -844,7 +1162,7 @@ const StampRelatedInventoryList = () => {
                                                 <thead>
                                                     <tr>
                                                         <th ></th>
-                                                        <th style={Th}>台紙数合計</th>
+                                                        <th style={Th}>枚数計</th>
                                                         <th style={Th}>額面総額合計</th>
                                                     </tr>
                                                 </thead>
@@ -876,33 +1194,62 @@ const StampRelatedInventoryList = () => {
                                                     <thead>
                                                         <tr>
                                                             <th style={Th}>選択</th>
-                                                            <th style={Th}>切手1枚の額面</th>
-                                                            <th style={Th}>面数</th>
-                                                            <th style={Th} >シート額面</th>
-                                                            <th style={Th}>シート数</th>
+                                                            <th style={Th}>額面</th>
+                                                            <th style={Th} >枚数</th>
                                                             <th style={Th}>額面総額</th>
+                                                            <th style={Th}>{editCardIndex === -1 ? '編集する' : 'セーブ'}</th>
+                                                            <th style={Th} className='whitespace-nowrap pl-3'>{editCardIndex === -1 ? '削除' : '戻る'}</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-
-                                                        {cardRows.map((row, index) => (
-                                                            <tr
-                                                                key={row.id}
-                                                            // className={index === selectedRowIndex ? 'bg-gray-200' : ''}
-                                                            // onClick={() => handleSelectRow(index)}
-                                                            >
-                                                                <td>
-                                                                    <input
-                                                                        type="checkbox"
-                                                                        // checked={index === selectedRowIndex}
-                                                                        readOnly
-                                                                    />
+                                                        {cardRows?.length > 0 && cardRows.map((row, Index) => (
+                                                            <tr key={Index} >
+                                                                <td> <input type="checkbox" className='!h-6' /></td>
+                                                                <td style={Td}>
+                                                                    {editCardIndex === Index ? (
+                                                                        <InputComponent name='type' value={editedCardRow.type || ''} onChange={handleCardInputChange} className='w-full h-8 text-[#70685a]' />
+                                                                    ) : (row.type || '')}
                                                                 </td>
-                                                                <td style={Td}>{row.stampValue}</td>
-                                                                <td style={Td} >{row.numberOfSides}</td>
-                                                                <td style={Td} >{row.sheetValue}</td>
-                                                                <td style={Td} >{row.numberOfSheets}</td>
-                                                                <td style={Td} >{row.totalFaceValue}</td>
+                                                                <td style={Td}>
+                                                                    {editCardIndex === Index ? (
+                                                                        <InputComponent name='quantity' value={editedCardRow.quantity || ''} onChange={handleCardInputChange} className='w-full h-8 text-[#70685a]' />
+                                                                    ) : (row.quantity || '')}
+                                                                </td>
+                                                                <td style={Td}>
+                                                                    {editCardIndex === Index ? (
+                                                                        <InputComponent name='totalFaceValue' value={editedCardRow.totalFaceValue || ''} onChange={handleCardInputChange} className='w-full h-8 text-[#70685a]' />
+                                                                    ) : (row.totalFaceValue || '')}
+                                                                </td>
+                                                                <td style={Td}>
+                                                                    {editCardIndex === Index ? (
+                                                                        <div>
+                                                                            <button onClick={() => handleCardSaveClick(Index)} className='w-7'>
+                                                                                <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium  MuiSvgIcon-root MuiSvgIcon-fontSizeLarge  css-1hkft75" fill='#524c3b' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckOutlinedIcon" title="CheckOutlined"><path d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
+                                                                            </button>
+                                                                        </div>
+                                                                    ) : (
+                                                                        <div>
+                                                                            <button onClick={() => handleCardEditClick(Index)} className='w-7'>
+                                                                                <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium  MuiSvgIcon-root MuiSvgIcon-fontSizeLarge  css-1hkft75" fill='#524c3b' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="EditCalendarOutlinedIcon" title="EditCalendarOutlined"><path d="M5 10h14v2h2V6c0-1.1-.9-2-2-2h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h7v-2H5zm0-4h14v2H5zm17.84 10.28-.71.71-2.12-2.12.71-.71c.39-.39 1.02-.39 1.41 0l.71.71c.39.39.39 1.02 0 1.41m-3.54-.7 2.12 2.12-5.3 5.3H14v-2.12z"></path></svg>
+                                                                            </button>
+                                                                        </div>
+                                                                    )}
+                                                                </td>
+                                                                <td style={Td}>
+                                                                    {editCardIndex === Index ? (
+                                                                        <div>
+                                                                            <button onClick={() => handleCardCancelClick(Index)} className='w-7'>
+                                                                                <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium  MuiSvgIcon-root MuiSvgIcon-fontSizeLarge  css-1hkft75" fill='#524c3b' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="KeyboardReturnOutlinedIcon" title="KeyboardReturnOutlined"><path d="M19 7v4H5.83l3.58-3.59L8 6l-6 6 6 6 1.41-1.41L5.83 13H21V7z"></path></svg>
+                                                                            </button>
+                                                                        </div>
+                                                                    ) : (
+                                                                        <div>
+                                                                            <button onClick={() => handleCardDeleteClick(Index)} className='w-7'>
+                                                                                <svg className="flex flex-col justify-center" focusable="false" aria-hidden="true" viewBox="0 0 23 23" fill='#524c3b' data-testid="CancelOutlinedIcon" title="CancelOutlined"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8m3.59-13L12 10.59 8.41 7 7 8.41 10.59 12 7 15.59 8.41 17 12 13.41 15.59 17 17 15.59 13.41 12 17 8.41z"></path></svg>
+                                                                            </button>
+                                                                        </div>
+                                                                    )}
+                                                                </td>
                                                             </tr>
                                                         ))}
                                                         {inputCardShow ?
@@ -911,37 +1258,20 @@ const StampRelatedInventoryList = () => {
                                                                 <td style={Td}>
                                                                     <input
                                                                         type="text"
-                                                                        name="stampValue"
+                                                                        name="type"
                                                                         className='w-full'
-                                                                        value={newCardRow.stampValue}
-                                                                        onChange={handleCardChange}
+                                                                        value={newCardRow.type}
+                                                                        onChange={handleCardChange || ''}
                                                                     />
                                                                 </td>
                                                                 <td style={Td} >
                                                                     <input
                                                                         type="text"
-                                                                        name="numberOfSides"
+                                                                        name="quantity"
                                                                         className='w-full'
-                                                                        value={newCardRow.numberOfSides}
+                                                                        value={newCardRow.quantity || ''}
                                                                         onChange={handleCardChange}
-                                                                    />
-                                                                </td>
-                                                                <td style={Td} >
-                                                                    <input
-                                                                        type="text"
-                                                                        name="sheetValue"
-                                                                        className='w-full'
-                                                                        value={newCardRow.sheetValue}
-                                                                        onChange={handleCardChange}
-                                                                    />
-                                                                </td>
-                                                                <td style={Td} >
-                                                                    <input
-                                                                        type="text"
-                                                                        name="numberOfSheets"
-                                                                        className='w-full'
-                                                                        value={newCardRow.numberOfSheets}
-                                                                        onChange={handleCardChange}
+
                                                                     />
                                                                 </td>
                                                                 <td style={Td} >
@@ -949,7 +1279,7 @@ const StampRelatedInventoryList = () => {
                                                                         type="text"
                                                                         name="totalFaceValue"
                                                                         className='w-full'
-                                                                        value={newCardRow.totalFaceValue}
+                                                                        value={newCardRow.totalFaceValue || ''}
                                                                         onChange={handleCardChange}
 
                                                                     />
