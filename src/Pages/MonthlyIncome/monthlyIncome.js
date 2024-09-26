@@ -120,22 +120,51 @@ const MonthlyIncome = () => {
         }); // Reset editedRow state
     };
 
-    useEffect( () => {
+    const [userData, setUserData] = useState([]);
+    const userId = localStorage.getItem('userId');
+    if (!userId) {
+      navigate('/');
+    }
+    useEffect(() => {
+  
+      const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+  
+      if (!wakabaBaseUrl) {
+        throw new Error('API base URL is not defined');
+      }
+  
+      axios.post(`${wakabaBaseUrl}/user/getUserById`, { userId })
+        .then(response => {
+          console.log("dataMonthly", response.data.store_name)
+          setUserData(response.data);
+          getMonthlyData(response.data.store_name);
+          if (!response.data) {
+            navigate('/');
+          }
+        })
+        .catch(error => {
+          console.error("There was an error fetching the customer data!", error);
+        });
+    }, [userId]);
+  const getMonthlyData = (storename) => {
+    // useEffect( () => {
         const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
         if (!wakabaBaseUrl) {
             throw new Error('API base URL is not defined');
         }
 
-        // console.log(`${wakabaBaseUrl}/sales/getSalesList`);
-         axios.get(`${wakabaBaseUrl}/monthlyincome`)
+        const storeName = storename;
+         axios.post(`${wakabaBaseUrl}/monthlyincome`,{storeName})
             .then(response => {
                 // console.log(response.data)
                 setMonthlyIncome(response.data);
+                console.log('monthy income',response.data)
             })
             .catch(error => {
                 console.error("There was an error fetching the customer data!", error);
             });
-    }, []);
+    // }, []);
+    }
 //send data to backend
     const sendMonthlyIncomeData = () =>{
         const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
@@ -145,7 +174,7 @@ const MonthlyIncome = () => {
         console.log('monthlyIncome',monthlyIncome);
         axios.post(`${wakabaBaseUrl}/monthlyincome/update`, {payload:monthlyIncome})
         .then(response => {
-
+            setMonthlyIncome(response.data);
         })
         .catch(error => {
             console.error("There was an error fetching the customer data!", error);
@@ -157,23 +186,27 @@ const MonthlyIncome = () => {
         if (!wakabaBaseUrl) {
             throw new Error('API base URL is not defined');
         }
-        axios.post(`${wakabaBaseUrl}/monthlyincome`, {payload:date})
+        axios.post(`${wakabaBaseUrl}/monthlyincomefordate`, {payload:date, storeName:userData.store_name})
         .then(response => {
-
+            setMonthlyIncome(response.data);
         })
         .catch(error => {
             console.error("There was an error fetching the customer data!", error);
         });
     }
 
-    // Current year, month, and day
     const date = new Date();
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const day = String(date.getDate()).padStart(2, '0');
+    // Convert to Japanese time zone (UTC+9)
+    const options = { timeZone: 'Asia/Tokyo', year: 'numeric', month: '2-digit', day: '2-digit' };
+    const jpDate = new Date(date.toLocaleString('en-US', options));
+
+    // Get year, month, and day in Japanese time zone
+    const year = jpDate.getFullYear();
+    const month = String(jpDate.getMonth() + 1).padStart(2, '0');
+    const day = String(jpDate.getDate()).padStart(2, '0');
 
     // Calculate last month
-    const lastMonthDate = new Date(date);
+    const lastMonthDate = new Date(jpDate);
     lastMonthDate.setMonth(lastMonthDate.getMonth() - 1); // Go to the last month
     const lastYear = lastMonthDate.getFullYear();
     const lastMonth = String(lastMonthDate.getMonth() + 1).padStart(2, '0');
@@ -183,6 +216,7 @@ const MonthlyIncome = () => {
     const yearMonthFormat = `${year}-${month}`;      // Format: Y-M
     const yearMonthDayFormat = `${year}-${month}-${day}`; // Format: Y-M-D
     const lastYearMonthFormat = `${lastYear}-${lastMonth}`; // Last month: Y-M
+
 
     const getTodayData = ()=> {
         getMonthlyIncomeData(yearMonthDayFormat);
@@ -202,9 +236,9 @@ const MonthlyIncome = () => {
         if (!wakabaBaseUrl) {
             throw new Error('API base URL is not defined');
         }
-        axios.post(`${wakabaBaseUrl}/monthlyincomeperiod`, {start:startdate,end:enddate})
+        axios.post(`${wakabaBaseUrl}/monthlyincomeperiod`, {start:startdate,end:enddate , storeName:userData.store_name})
         .then(response => {
-
+            setMonthlyIncome(response.data);
         })
         .catch(error => {
             console.error("There was an error fetching the customer data!", error);
@@ -216,18 +250,18 @@ const MonthlyIncome = () => {
             {/* <Titlebar title={title} /> */}
                 <div className='monthly-income flex justify-around mt-10'>
                     <div className='monthly-income-first flex'>
-                        <button type="button"
+                        <button type="button" onClick={()=>getThisMonthData()}
                             className="mr-10  py-1 min-w-[160px] text-[#70685a] rounded-full tracking-wider font-bold outline-none border border-[#70685a] ">当月分表示</button>
-                        <button type="button"
+                        <button type="button" onClick={()=>getTodayData()}
                             className=" mr-3 py-1 min-w-[160px] text-[#70685a] rounded-full tracking-wider font-bold outline-none border border-[#70685a] ">本日分表示</button>
                     </div>
                     <div className='flex justify-center'>
                         <h2 className="text-[#656565] text-center text-2xl font-bold flex justify-center">月次収支報告書&nbsp;一覧</h2>
                     </div>
                     <div className='monthly-income-second flex justify-around' style={{display:'none'}}>
-                        <button type="button"
+                        <button type="button" 
                             className="  py-1 min-w-[160px] text-[#70685a] rounded-full tracking-wider font-bold outline-none border border-[#70685a] ">当月分表示</button>
-                        <button type="button"
+                        <button type="button" 
                             className="ml-10 py-1 min-w-[160px] text-[#70685a] rounded-full tracking-wider font-bold outline-none border border-[#70685a] ">本日分表示</button>
                     </div>
                     <div className='flex justify-around'>
@@ -346,7 +380,7 @@ const MonthlyIncome = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {(monthlyIncome && monthlyIncome.length !==0) && monthlyIncome.map((Data,Index) => (
+                            {monthlyIncome?.length>0 && monthlyIncome.map((Data,Index) => (
                                 <tr key={Data.id}>
                                     <td style={Td}>{Data.date || ''}</td>
                                     <td style={Td}>
@@ -360,7 +394,7 @@ const MonthlyIncome = () => {
                                         ):(Data.total_purchase_price || '')}
                                     </td>
                                     <td style={Td}>
-                                        {parseFloat(Data.total_withdrawal || '') - parseFloat(Data.total_purchase_price || '')}
+                                        {parseFloat(Data.total_withdrawal || '') - parseFloat(Data.total_purchase_price || '') || ''}
                                     </td>
                                     <td style={Td}>
                                         {editIndex === Index ?(
@@ -421,7 +455,7 @@ const MonthlyIncome = () => {
                                                 + 10*parseFloat(Data.ten)
                                                 + 5*parseFloat(Data.five)
                                                 + 1*parseFloat(Data.one)
-                                                }
+                                                || ''}
                                     </td>
                                     <td style={Td}>{Data.sales_balance}</td>
                                     <td style={Td}>{Data.sales_variance}</td>

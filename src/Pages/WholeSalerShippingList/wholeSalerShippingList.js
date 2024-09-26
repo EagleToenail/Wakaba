@@ -131,6 +131,20 @@ const WholeSalerShippingList = () => {
             } catch (error) {
               console.error("There was an error fetching the customer data!", error);
             }
+          } else {
+                const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+                if (!wakabaBaseUrl) {
+                    throw new Error('API base URL is not defined');
+                }
+                axios.post(`${wakabaBaseUrl}/sales/wholelist`, { params: searchParams })
+                .then(response => {
+                    setShowShippingHistory(true);
+                    setShowPackage(false);
+                    setWholeSalesPurchase(response.data);
+                })
+                .catch(error => {
+                    console.error("There was an error searching for customers!", error);
+                });
           }
         };
     
@@ -203,11 +217,14 @@ const WholeSalerShippingList = () => {
     }
 // need for old package
 const handleShowOldPackage = (ids)=> {
-    setShowPackage(!showPackage);
-    const arr = ids.split(','); // Split the string into an array
-    const idArray = arr.map(Number); // Convert string elements to numbers
-    // console.log('ids',idArray)
-    fetchOldSalesData(idArray);
+    if(ids?.length > 0){
+        setShowPackage(!showPackage);
+        const arr = ids.split(','); // Split the string into an array
+        const idArray = arr.map(Number); // Convert string elements to numbers
+        // console.log('ids',idArray)
+        fetchOldSalesData(idArray);
+    }
+
 }
 // fetch data
 const fetchOldSalesData = async (ids) => {

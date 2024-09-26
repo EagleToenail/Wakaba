@@ -459,7 +459,7 @@ const SalesSlipUpdate = () => {
                                         <div style={{ width: '40px', height: '30px', cursor: 'pointer' }}>
                                             <div style={{ position: 'relative' }}>
                                                 <img src={dateimage} style={{ width: '40px', height: '30px', position: 'absolute', cursor: 'pointer' }} alt='calendar'></img>
-                                                <input type="date" id="wholesale_date" name="wholesale_date" onChange={handleChange} style={{ position: 'absolute', left: '0', width: '40px', height: '30px', background: 'transparent', border: 'none', opacity: '0', cursor: 'pointer' }} />
+                                                <input type="date" name="shipping_date" onChange={handleChange} style={{ position: 'absolute', left: '0', width: '40px', height: '30px', background: 'transparent', border: 'none', opacity: '0', cursor: 'pointer' }} />
                                             </div>
                                         </div>
                                     </div>
