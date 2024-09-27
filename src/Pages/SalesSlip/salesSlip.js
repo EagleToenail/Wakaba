@@ -307,8 +307,8 @@ const SalesSlip = () => {
                                                 <td style={Td}>{sale.shipping_cost}</td>
                                                 <td style={Td}>{sale.gross_profit}</td>
                                                 <td style={Td}>{sale.shipping_address}</td>
-                                                <td style={Td}>{sale.wholesale_date}</td>
-                                                <td style={Td}>{sale.payment_date}</td>
+                                                <td style={Td}>{sale.shipping_date}</td>
+                                                <td style={Td}>{sale.deposit_date}</td>
                                                 <td  onClick={() => handleSalesEditClick(sale.id)}>
                                                     <svg className="w-5 h-5 ml-5" fill='#70685a' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="ContentCopyIcon" title="ContentCopy">
                                                         <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2m0 16H8V7h11z"></path>

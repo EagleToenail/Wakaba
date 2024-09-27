@@ -34,7 +34,7 @@ const SalesSlipUpdate = () => {
         shipping_cost:'',
         shipping_address:'',
         shipping_date:'',
-        payment_date:'',
+        deposit_date:'',
         // ----yahooacution
         successful_bider:'',
         auction_purchase_price: '',
@@ -471,13 +471,13 @@ const SalesSlipUpdate = () => {
                                     </div>
 
                                     <div style={{ width: '35%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                        <input name="payment_date" type="text" value={salesSlipData.payment_date || ''} required className="w-full text-[#70685a] border border-[#70685a] px-4 py-1 text-[20px] outline-[#70685a]" readOnly />
+                                        <input name="deposit_date" type="text" value={salesSlipData.deposit_date || ''} required className="w-full text-[#70685a] border border-[#70685a] px-4 py-1 text-[20px] outline-[#70685a]" readOnly />
                                     </div>
                                     <div style={{ width: '5%', flexDirection: 'column', }} className='flex flex-col justify-center pl-3'>
                                         <div style={{ width: '40px', height: '30px', cursor: 'pointer' }}>
                                             <div style={{ position: 'relative' }}>
                                                 <img src={dateimage} style={{ width: '40px', height: '30px', position: 'absolute', cursor: 'pointer' }} alt='calendar'></img>
-                                                <input type="date" id="payment_date" name="payment_date" onChange={handleChange} style={{ position: 'absolute', left: '0', width: '40px', height: '30px', background: 'transparent', border: 'none', opacity: '0', cursor: 'pointer' }} />
+                                                <input type="date" id="deposit_date" name="deposit_date" onChange={handleChange} style={{ position: 'absolute', left: '0', width: '40px', height: '30px', background: 'transparent', border: 'none', opacity: '0', cursor: 'pointer' }} />
                                             </div>
                                         </div>
                                     </div>
