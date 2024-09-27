@@ -841,18 +841,18 @@ const InvoicePurchaseOfBroughtBlank = () => {
         });
     };
     //save function
-    const itemsSave = ()=> {
+    const itemsSave = () => {
         const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
         if (!wakabaBaseUrl) {
             throw new Error('API base URL is not defined');
         }
 
         axios.post(`${wakabaBaseUrl}/customer/updatecustomeritem`, customer)
-        .then(response => {
-        })
-        .catch(error => {
-            console.error("There was an error fetching the customer data!", error);
-        });
+            .then(response => {
+            })
+            .catch(error => {
+                console.error("There was an error fetching the customer data!", error);
+            });
     }
     //--------------------------------------------------------
     return (<>
@@ -1508,7 +1508,7 @@ const InvoicePurchaseOfBroughtBlank = () => {
                                 </datalist>
                                 <InputComponent type='number' className='w-20 h-11 ' />
                                 <label className="text-[#70685a] font-bold mb-2 block text-left !mb-0 pt-2 ml-5" >To</label>
-                                <button type="button" 
+                                <button type="button"
                                     className="!w-10 h-10 ml-5 inline-flex items-center justify-center text-[#70685a] border border-[#70685a] outline-none hover:bg-purple-700 active:bg-purple-600">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="14px" fill="#70685a" className="inline" viewBox="0 0 512 512">
                                         <path

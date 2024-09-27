@@ -149,7 +149,7 @@ const WholeSalerShippingList = () => {
         };
     
         fetchSalesData();
-      }, [salesDataIds]);
+    }, [salesDataIds]);
 
     const [date, setDate] = useState('');
     const handleDateChange = (event) => {

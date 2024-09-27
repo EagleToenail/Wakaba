@@ -870,18 +870,18 @@ const InvoicePurchaseOfBrought = () => {
         });
     };
     //save function
-    const itemsSave = ()=> {
+    const itemsSave = () => {
         const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
         if (!wakabaBaseUrl) {
             throw new Error('API base URL is not defined');
         }
 
         axios.post(`${wakabaBaseUrl}/customer/updatecustomeritem`, customer)
-        .then(response => {
-        })
-        .catch(error => {
-            console.error("There was an error fetching the customer data!", error);
-        });
+            .then(response => {
+            })
+            .catch(error => {
+                console.error("There was an error fetching the customer data!", error);
+            });
     }
     //--------------------------------------------------------
     return (<>

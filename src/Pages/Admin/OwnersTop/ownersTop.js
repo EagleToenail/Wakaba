@@ -2,6 +2,7 @@ import React, { useState, useEffect,useRef } from 'react';
 import { Link, useNavigate, useParams ,useLocation} from 'react-router-dom';
 // import Titlebar from '../../../Components/Common/Titlebar';
 import DateAndTime from '../../../Components/Common/PickData';
+import axios from 'axios';
 
 const OwnersTop = () => {
     // const title = 'タイトルタイトル';
@@ -92,6 +93,59 @@ const OwnersTop = () => {
     const gotoVariousSetting=()=>{
         navigate('/admin/managementsettingsforowners');
     }
+
+    //fetch data
+    const [storeData, setStoreData] = useState([]);
+    // Fetch sales data
+    useEffect( () => {
+        const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+        if (!wakabaBaseUrl) {
+            throw new Error('API base URL is not defined');
+        }
+        // console.log(`${wakabaBaseUrl}/sales/getSalesList`);
+        axios.get(`${wakabaBaseUrl}/ownertop/getdata`)
+            .then(response => {
+                //  console.log(response.data)
+                setStoreData(response.data);
+                totalAndAverage(response.data);
+            })
+            .catch(error => {
+                console.error("There was an error fetching the customer data!", error);
+            });
+    }, []);
+    // get tatal and average
+    const [sums, setSums] = useState({ 
+        customer_count: 0,
+        product_count : 0,
+        total_gross_profit: 0,
+        total_purchase_price:0,
+        total_sales_amount:0, 
+    });
+    const totalAndAverage = (data) => {
+        const newSums = {
+            customer_count: 0,
+            product_count : 0,
+            total_gross_profit: 0,
+            total_purchase_price:0,
+            total_sales_amount:0, 
+        };
+        const counts = {
+            customer_count: 0,
+            product_count : 0,
+            total_gross_profit: 0,
+            total_purchase_price:0,
+            total_sales_amount:0, 
+         };
+        data.forEach(item => {
+            for (const key in item) {
+                newSums[key] += item[key];
+                counts[key] += 1;
+            }
+        });
+
+        setSums(newSums);
+    }
+    const dataCount = storeData.length;
     return (
         <>
             {/* <Titlebar title={title} /> */}
@@ -151,53 +205,55 @@ const OwnersTop = () => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td style={Td}>OOOOOOOOOOOO</td>
-                                        <td style={Td}>9,999,999</td>
-                                        <td style={Td}>9,999,999</td>
-                                        <td style={Td}>9,999,999</td>
-                                        <td style={Td}>9,999,999</td>
-                                        <td style={Td}>99,9</td>
-                                        <td style={Td}>9,999,999</td>
-                                        <td style={Td}>99,9</td>
-                                        <td style={Td}>9,999,999</td>
-                                        <td style={Td}>9,999,999</td>
-                                        <td style={Td}>99,9</td>
-                                        <td style={Td}>9,999,999</td>
-                                        <td style={Td}>9,999,999</td>
-                                        <td style={Td}>9,999,999</td>
-                                    </tr>
+                                    { storeData?.length>0 && storeData.map((data,Index)=> (
+                                        <tr key={Index}>
+                                            <td style={Td}>{data.store_name || ''}</td>
+                                            <td style={Td}>{data.customer_count || ''}</td>
+                                            <td style={Td}>---</td>
+                                            <td style={Td}>---</td>
+                                            <td style={Td}>---</td>
+                                            <td style={Td}>{data.product_count || ''}</td>
+                                            <td style={Td}>---</td>
+                                            <td style={Td}>{data.total_purchase_price || ''}</td>
+                                            <td style={Td}>---</td>
+                                            <td style={Td}>{data.total_gross_profit || ''}</td>
+                                            <td style={Td}>---</td>
+                                            <td style={Td}>{data.total_sales_amount || ''}</td>
+                                            <td style={Td}>---</td>
+                                            <td style={Td}>---</td>
+                                        </tr>
+                                    ))}
                                     <tr>
                                         <td>全店舗合計</td>
-                                        <td>9,999,999</td>
-                                        <td>9,999,999</td>
-                                        <td>9,999,999</td>
-                                        <td></td>
-                                        <td>9,999,999</td>
-                                        <td></td>
-                                        <td>9,999,999</td>
-                                        <td>9,999,999</td>
-                                        <td>9,999,999</td>
-                                        <td></td>
-                                        <td>9,999,999</td>
-                                        <td>9,999,999</td>
-                                        <td>9,999,999</td>
+                                        <td>{sums.customer_count || ''}</td>
+                                        <td>---</td>
+                                        <td>---</td>
+                                        <td>---</td>
+                                        <td>{sums.product_count || ''}</td>
+                                        <td>---</td>
+                                        <td>{sums.total_purchase_price/1 || ''}</td>
+                                        <td>---</td>
+                                        <td>{sums.total_gross_profit/1 || ''}</td>
+                                        <td>---</td>
+                                        <td>{sums.total_sales_amount/1 || ''}</td>
+                                        <td>---</td>
+                                        <td>---</td>
                                     </tr>
                                     <tr>
                                         <td>全店舗平均</td>
-                                        <td>9,999,999</td>
-                                        <td>9,999,999</td>
-                                        <td>9,999,999</td>
-                                        <td>99,9</td>
-                                        <td>9,999,999</td>
-                                        <td>99,9</td>
-                                        <td>9,999,999</td>
-                                        <td>9,999,999</td>
-                                        <td>9,999,999</td>
-                                        <td>99,9</td>
-                                        <td>9,999,999</td>
-                                        <td>9,999,999</td>
-                                        <td>9,999,999</td>
+                                        <td>{sums.customer_count/dataCount || ''}</td>
+                                        <td>---</td>
+                                        <td>---</td>
+                                        <td>---</td>
+                                        <td>{sums.product_count/dataCount || ''}</td>
+                                        <td>---</td>
+                                        <td>{sums.total_purchase_price/dataCount || ''}</td>
+                                        <td>---</td>
+                                        <td>{sums.total_gross_profit/dataCount || ''}</td>
+                                        <td>---</td>
+                                        <td>{sums.total_sales_amount/dataCount || ''}</td>
+                                        <td>---</td>
+                                        <td>---</td>
                                     </tr>
 
                                 </tbody>

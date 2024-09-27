@@ -1522,9 +1522,9 @@ const handleAddSmartphoneandtabletRow = async() => {
                                 <div className='flex justify-center mt-10 w-full' >
                                     <ButtonComponent className='!w-[200px] !bg-[transparent] border border-[#424242] !text-[#424242] h-11 !text-2xl !px-0 ' ><Link to="/salesslip">売上表</Link></ButtonComponent>
                                     <ButtonComponent children={'業者査定シート'} className='!w-[350px] h-11 !bg-[#424242] border border-[#424242] !text-2xl !px-0' style={{ marginLeft: '30px' }} />
-                                    <ButtonComponent className='!w-[200px] h-11 !bg-[transparent] border border-[#424242] !text-[#424242] !text-2xl !px-0' style={{ marginLeft: '30px' }} >
+                                    {/* <ButtonComponent className='!w-[200px] h-11 !bg-[transparent] border border-[#424242] !text-[#424242] !text-2xl !px-0' style={{ marginLeft: '30px' }} >
                                         <Link to="/yahooauction">ヤフオク</Link>
-                                    </ButtonComponent>
+                                    </ButtonComponent> */}
                                 </div>
                                 <div className='flex justify-center mt-10 w-full' >
                                     <div>

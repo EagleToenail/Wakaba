@@ -53,8 +53,17 @@ const OwnersStaffList = () => {
         // console.log(`${wakabaBaseUrl}/customer/getCustomerList`);
         axios.get(`${wakabaBaseUrl}/admin/user/getUserList`)
             .then(response => {
-                // console.log(response.data)
-                setUsers(response.data);
+                const stafflist =[];
+                 response.data.map((item) => {
+                    console.log(item.User.role_flag)
+                    if (item.User.role_flag == 4) {
+                        stafflist.push(item);
+                    } else {
+                      return null;
+                    }
+                  }).filter((item) => item !== null);
+
+                  setUsers(stafflist);
             })
             .catch(error => {
                 console.error("There was an error fetching the customer data!", error);
