@@ -53,8 +53,8 @@ const StampRelatedPurchaseStatement = () => {
     //------------Sheet---------------------------------
     const [sheetRows, setSheetRows] = useState([]);
 
-    const [totalNumberOfSheet1, setTotalNumberofShee1 ] = useState('');
-    const [totalNumberOfSheet2, setTotalNumberofShee2 ] = useState('');
+    const [totalNumberOfSheet1, setTotalNumberofSheet1 ] = useState('');
+    const [totalNumberOfSheet2, setTotalNumberofSheet2 ] = useState('');
     const [totalFaceValue1, setFaceValue1 ] = useState('');
     const [totalFaceValue2, setFacevalue2 ] = useState('');
 
@@ -247,43 +247,43 @@ const StampRelatedPurchaseStatement = () => {
      const calculateSheetTotal = ()=>{
             // Calculate the sum
             const totalnumberofsheet1 = sheetRows.reduce((sum, item) => {
-                if (item.numberOfSides > 50) { 
+                if (item.stampValue > 50) { 
                     return parseFloat(sum) + parseFloat(item.numberOfSheets);
                 }
                 return sum; 
             }, 0);
-            setTotalNumberofShee1(totalnumberofsheet1);
+            setTotalNumberofSheet1(totalnumberofsheet1);
             const totalnumberofsheet2 = sheetRows.reduce((sum, item) => {
-                if (item.numberOfSides < 50) { 
+                if (item.stampValue < 50) { 
                     return parseFloat(sum) + parseFloat(item.numberOfSheets);
                 }
                 return sum; 
             }, 0);
             console.log('sum of totalnumberofsheet',totalnumberofsheet2)
-            setTotalNumberofShee2(totalnumberofsheet2);
+            setTotalNumberofSheet2(totalnumberofsheet2);
             const facevalue1 = sheetRows.reduce((sum, item) => {
-                if (item.numberOfSides > 50) { 
+                if (item.stampValue > 50) { 
                     return parseFloat(sum) + parseFloat(item.totalFaceValue);
                 }
                 return sum; 
             }, 0);
             setFaceValue1(facevalue1);
             const facevalue2 = sheetRows.reduce((sum, item) => {
-                if (item.numberOfSides < 50) { 
+                if (item.stampValue < 50) { 
                     return parseFloat(sum) + parseFloat(item.totalFaceValue);
                 }
                 return sum; 
             }, 0);
             setFacevalue2(facevalue2);
             const purchaseprice1 = sheetRows.reduce((sum, item) => {
-                if (item.numberOfSides > 50) { 
+                if (item.stampValue > 50) { 
                     return parseFloat(sum) + parseFloat(item.purchasePrice);
                 }
                 return sum; 
             }, 0);
             setTotalPurchaseOfSheet1(purchaseprice1);
             const purchaseprice2 = sheetRows.reduce((sum, item) => {
-                if (item.numberOfSides < 50) { 
+                if (item.stampValue < 50) { 
                     return parseFloat(sum) + parseFloat(item.purchasePrice);
                 }
                 return sum; 
@@ -310,14 +310,14 @@ const StampRelatedPurchaseStatement = () => {
           if (!wakabaBaseUrl) {
               throw new Error('API base URL is not defined');
           }
-            const response = await axios.get(`${wakabaBaseUrl}/stampsheet`);
-            initialRosetData(response.data);
-          console.log('setSheetRows',response.data);
+            const response = await axios.get(`${wakabaBaseUrl}/stamprose`);
+            initialRoseData(response.data);
+          console.log('setRoseRows',response.data);
         };
         fetchData();
       }, []);
           // clear other three data 
-    const initialRosetData =(rosetData) => {
+    const initialRoseData =(rosetData) => {
         const updatedData = rosetData.map(data => ({
             ...data,
             numberOfSheets: 0,
@@ -342,16 +342,32 @@ const StampRelatedPurchaseStatement = () => {
         }));
     };
     // Add a new row to the table
-    const handleAddRoseRow = () => {
+    const handleAddRoseRow = async() => {
         if (inputRoseShow) {
-            
-            setRoseRows((prevRoseRows) => [...prevRoseRows, { ...newRoseRow, id: Date.now() }]);
-            setNewRoseRow({
-                stampValue: '',
-                numberOfSheets: '',
-                totalFaceValue: '',
-                purchasePrice: ''
-            });
+            try {
+                const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+                if (!wakabaBaseUrl) {
+                    throw new Error('API base URL is not defined');
+                }
+                await axios.post(`${wakabaBaseUrl}/stamprose/create`, newRoseRow)
+                .then(response => {
+                    // console.log('success',response.data)
+                    // setSheetRows(response.data);
+                    initialRoseData(response.data);
+                })
+                .catch(error => {
+                    console.error("There was an error fetching the customer data!", error);
+                }); // Send newRow data to the server
+                //setRoseRows((prevRoseRows) => [...prevRoseRows, { ...newRoseRow, id: Date.now() }]);
+                setNewRoseRow({
+                    stampValue: '',
+                    numberOfSheets: '',
+                    totalFaceValue: '',
+                    purchasePrice: ''
+                });
+              } catch (error) {
+                console.error('Error adding row:', error);
+              }
         }
         setInputRoseShow(!inputRoseShow);
     };
@@ -366,6 +382,9 @@ const StampRelatedPurchaseStatement = () => {
     const handleRoseInputChange = (e) => {
         const { name, value } = e.target;
         setEditedRoseRow({ ...editedRoseRow, [name]: value });
+        if(name === 'numberOfSheets') {
+            calculateRose(value);
+        }
     };
 
     const handleRoseEditClick = (index) => {
@@ -401,6 +420,70 @@ const StampRelatedPurchaseStatement = () => {
     const handleRoseDeleteClick = (index) => {
         setRoseRows(roseRows.filter((_, i) => i !== index));
     };
+    //calculate
+    const calculateRose = (numberofsheets) => {
+        const { stampValue } = editedRoseRow;
+        // console.log('shetValue',sheetValue)
+        if (stampValue) {
+            const calculatedProduct = Number(stampValue) * Number(numberofsheets);
+            setEditedRoseRow((prev) => ({ ...prev, totalFaceValue: calculatedProduct }));
+            const caluclatePruchase =  Number(calculatedProduct) * (1 - Number(stampRate.roserate)/100);
+            setEditedRoseRow((prev) => ({ ...prev, purchasePrice: caluclatePruchase }));
+            // console.log('multiply---------', calculatedProduct,caluclatePruchase)              
+        } else {
+            setNewRoseRow((prev) => ({ ...prev, stampValue: '' }));
+        }
+    }
+         //calculate second table
+         const calculateRoseTotal = ()=>{
+            // Calculate the sum
+            const totalnumberofrose1 = roseRows.reduce((sum, item) => {
+                if (item.stampValue > 50) { 
+                    return parseFloat(sum) + parseFloat(item.numberOfSheets);
+                }
+                return sum; 
+            }, 0);
+            setTotalNumberofRose1(totalnumberofrose1);
+            const totalnumberofrose2 = roseRows.reduce((sum, item) => {
+                if (item.stampValue < 50) { 
+                    return parseFloat(sum) + parseFloat(item.numberOfSheets);
+                }
+                return sum; 
+            }, 0);
+            console.log('sum of totalnumberofsheet',totalnumberofrose2)
+            setTotalNumberofRose2(totalnumberofrose2);
+            const rosefacevalue1 = roseRows.reduce((sum, item) => {
+                if (item.stampValue > 50) { 
+                    return parseFloat(sum) + parseFloat(item.totalFaceValue);
+                }
+                return sum; 
+            }, 0);
+            setRoseFaceValue1(rosefacevalue1);
+            const rosefacevalue2 = roseRows.reduce((sum, item) => {
+                if (item.stampValue < 50) { 
+                    return parseFloat(sum) + parseFloat(item.totalFaceValue);
+                }
+                return sum; 
+            }, 0);
+            setRoseFacevalue2(rosefacevalue2);
+            const rosepurchaseprice1 = roseRows.reduce((sum, item) => {
+                if (item.stampValue > 50) { 
+                    return parseFloat(sum) + parseFloat(item.purchasePrice);
+                }
+                return sum; 
+            }, 0);
+            setTotalPurchaseOfRose1(rosepurchaseprice1);
+            const rosepurchaseprice2 = roseRows.reduce((sum, item) => {
+                if (item.stampValue < 50) { 
+                    return parseFloat(sum) + parseFloat(item.purchasePrice);
+                }
+                return sum; 
+            }, 0);
+            setTotalPurchaseOfRose2(rosepurchaseprice2);
+     }
+    useEffect(() => {
+        calculateRoseTotal();
+    }, [roseRows]);
     //------------Pack---------------------------------
     const [packRows, setPackRows] = useState([{
         id: '1',
@@ -1329,98 +1412,4 @@ const StampRelatedPurchaseStatement = () => {
                                                                     ) : (
                                                                         <div>
                                                                             <button onClick={() => handleCardEditClick(Index)} className='w-7'>
-                                                                                <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium  MuiSvgIcon-root MuiSvgIcon-fontSizeLarge  css-1hkft75" fill='#524c3b' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="EditCalendarOutlinedIcon" title="EditCalendarOutlined"><path d="M5 10h14v2h2V6c0-1.1-.9-2-2-2h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h7v-2H5zm0-4h14v2H5zm17.84 10.28-.71.71-2.12-2.12.71-.71c.39-.39 1.02-.39 1.41 0l.71.71c.39.39.39 1.02 0 1.41m-3.54-.7 2.12 2.12-5.3 5.3H14v-2.12z"></path></svg>
-                                                                            </button>
-                                                                        </div>
-                                                                    )}
-                                                                </td>
-                                                                <td style={Td}>
-                                                                    {editCardIndex === Index ? (
-                                                                        <div>
-                                                                            <button onClick={() => handleCardCancelClick(Index)} className='w-7'>
-                                                                                <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium  MuiSvgIcon-root MuiSvgIcon-fontSizeLarge  css-1hkft75" fill='#524c3b' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="KeyboardReturnOutlinedIcon" title="KeyboardReturnOutlined"><path d="M19 7v4H5.83l3.58-3.59L8 6l-6 6 6 6 1.41-1.41L5.83 13H21V7z"></path></svg>
-                                                                            </button>
-                                                                        </div>
-                                                                    ) : (
-                                                                        <div>
-                                                                            <button onClick={() => handleCardDeleteClick(Index)} className='w-7'>
-                                                                                <svg className="flex flex-col justify-center" focusable="false" aria-hidden="true" viewBox="0 0 23 23" fill='#524c3b' data-testid="CancelOutlinedIcon" title="CancelOutlined"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8m3.59-13L12 10.59 8.41 7 7 8.41 10.59 12 7 15.59 8.41 17 12 13.41 15.59 17 17 15.59 13.41 12 17 8.41z"></path></svg>
-                                                                            </button>
-                                                                        </div>
-                                                                    )}
-                                                                </td>
-                                                            </tr>
-                                                        ))}
-                                                        {inputCardShow ?
-                                                            <tr>
-                                                                <td style={Td}>
-                                                                    <input
-                                                                        type="number"
-                                                                        name="type"
-                                                                        className='w-full !border-[red]'
-                                                                        value={newCardRow.type}
-                                                                        onChange={handleCardChange || ''}
-                                                                    />
-                                                                </td>
-                                                                <td style={Td} >
-                                                                    <input
-                                                                        type="text"
-                                                                        name="quantity"
-                                                                        className='w-full'
-                                                                        disabled={true}
-                                                                        value={newCardRow.quantity || ''}
-                                                                        onChange={handleCardChange}
-
-                                                                    />
-                                                                </td>
-                                                                <td style={Td} >
-                                                                    <input
-                                                                        type="text"
-                                                                        name="totalFaceValue"
-                                                                        className='w-full'
-                                                                        disabled={true}
-                                                                        value={newCardRow.totalFaceValue || ''}
-                                                                        onChange={handleCardChange}
-
-                                                                    />
-                                                                </td>
-                                                                <td style={Td} >
-                                                                    <input
-                                                                        type="text"
-                                                                        name="purchasePrice"
-                                                                        className='w-full'
-                                                                        disabled={true}
-                                                                        value={newCardRow.purchasePrice || ''}
-                                                                        onChange={handleCardChange}
-
-                                                                    />
-                                                                </td>
-                                                            </tr> : ''}
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                        <div className='flex justify-center mt-2'>
-                                            <button type="button" onClick={handleAddCardRow}
-                                                className="w-5 h-5 inline-flex items-center justify-center text-[#70685a] border border-[#70685a] outline-none hover:bg-purple-700 active:bg-purple-600">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="14px" fill="#70685a" className="inline" viewBox="0 0 512 512">
-                                                    <path
-                                                        d="M467 211H301V45c0-24.853-20.147-45-45-45s-45 20.147-45 45v166H45c-24.853 0-45 20.147-45 45s20.147 45 45 45h166v166c0 24.853 20.147 45 45 45s45-20.147 45-45V301h166c24.853 0 45-20.147 45-45s-20.147-45-45-45z"
-                                                        data-original="#000000" />
-                                                </svg>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </>
-    );
-};
-
-export default StampRelatedPurchaseStatement;
+                                                                                <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium  MuiSvgIcon-root MuiSvgIcon-fontSiz
