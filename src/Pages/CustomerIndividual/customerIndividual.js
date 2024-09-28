@@ -335,16 +335,12 @@ const CustomerIndividual = () => {
                 // Update customer state based on index
                 if (i === 0) {
                     updatedCustomer.item2 = pairs[i].value;
-                    console.log('item2', pairs[i].value);
                 } else if (i === 1) {
                     updatedCustomer.item3 = pairs[i].value;
-                    console.log('item3', pairs[i].value);
                 } else if (i === 2) {
                     updatedCustomer.item4 = pairs[i].value;
-                    console.log('item4', pairs[i].value);
                 } else if (i === 3) {
                     updatedCustomer.item5 = pairs[i].value;
-                    console.log('item5', pairs[i].value);
                 }
             }
         }

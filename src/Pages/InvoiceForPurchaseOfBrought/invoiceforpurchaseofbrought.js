@@ -816,16 +816,12 @@ const InvoicePurchaseOfBrought = () => {
                 // Update customer state based on index
                 if (i === 0) {
                     updatedCustomer.item2 = pairs[i].value;
-                    console.log('item2', pairs[i].value);
                 } else if (i === 1) {
                     updatedCustomer.item3 = pairs[i].value;
-                    console.log('item3', pairs[i].value);
                 } else if (i === 2) {
                     updatedCustomer.item4 = pairs[i].value;
-                    console.log('item4', pairs[i].value);
                 } else if (i === 3) {
                     updatedCustomer.item5 = pairs[i].value;
-                    console.log('item5', pairs[i].value);
                 }
             }
         }
@@ -884,6 +880,11 @@ const InvoicePurchaseOfBrought = () => {
             });
     }
     //--------------------------------------------------------
+    //go to stamps related page #62(stamp related purchase statement)
+    const gotoStampsPurchase = ()=> {
+        navigate('/stamprelatedpurchasestatement');
+    }
+
     return (<>
         {/* <Titlebar title={title} /> */}
         <div className="bg-[trasparent] font-[sans-serif] w-full">
@@ -1296,11 +1297,19 @@ const InvoicePurchaseOfBrought = () => {
                     </div>
                 </div>
             </div>
-            <div className='w-full flex justify-end mt-3'>
-                <button type="button" onClick={() => allClear()}
-                    className="px-5 py-2.5 rounded-lg text-sm tracking-wider font-medium border border-[#70685a] outline-none bg-transparent hover:bg-[#524c3b] text-[#70685a] hover:text-white transition-all duration-300">
-                    すべてクリア
-                </button>
+            <div className='w-full flex justify-between mt-3'>
+                <div>
+                    <button type="button" onClick={gotoStampsPurchase}
+                        className="px-5 py-2.5 rounded-lg text-sm tracking-wider font-bold border border-[#70685a] outline-none bg-transparent hover:bg-[#524c3b] text-[#70685a] hover:text-white transition-all duration-300">
+                        切手
+                    </button>
+                </div>
+                <div>
+                    <button type="button" onClick={() => allClear()}
+                        className="px-5 py-2.5 rounded-lg text-sm tracking-wider font-bold border border-[#70685a] outline-none bg-transparent hover:bg-[#524c3b] text-[#70685a] hover:text-white transition-all duration-300">
+                        すべてクリア
+                    </button>
+                </div>
             </div>
             {/* table */}
             <div className="flex justify-center mt-2">

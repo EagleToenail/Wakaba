@@ -1,7 +1,18 @@
 import React from 'react';
 
-const InputComponent = ({value,name, onChange,className, placeholder, type = 'text', style = {}, ...props }) => {
+const InputComponent = ({
+    value,
+    name,
+    onChange,
+    className,
+    placeholder,
+    type = 'text',
+    style = {},
+    disabled = false,  // Add disabled prop here
+    ...props
+}) => {
     const defaultStyle = {
+        // You can define default styles if needed
     };
 
     return (
@@ -13,7 +24,7 @@ const InputComponent = ({value,name, onChange,className, placeholder, type = 'te
             onChange={onChange}
             placeholder={placeholder}
             style={{ ...defaultStyle, ...style }}
-            
+            disabled={disabled}  // Pass disabled prop to the input
             {...props}
         />
     );

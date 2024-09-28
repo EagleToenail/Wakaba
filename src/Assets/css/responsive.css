@@ -272,6 +272,14 @@
       margin-top: 15px;
     }
   }
+  @media screen and (max-width: 700px) {
+
+    .stamp-purchase {
+      display: block !important;
+      width: 100%;
+      margin-top: 5px;
+    }
+  }
   /* //------------------------------------------admin----------------------------------------------- */
   @media screen and (max-width: 1040px) {
     .owner-top {
