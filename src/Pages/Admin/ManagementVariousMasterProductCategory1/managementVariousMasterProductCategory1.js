@@ -143,7 +143,7 @@ const ManagementVariousMasterProductCategory1 = () => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {(category && category.length !== 0) && category.map((data, Index) => (
+                                    {category?.length >0 && category.map((data, Index) => (
                                         <tr key={Index}>
                                             {/* <td width={'5%'}><input type='checkbox' /></td> */}
                                             <td width={'10%'} style={Td}>{Index + 1}</td>

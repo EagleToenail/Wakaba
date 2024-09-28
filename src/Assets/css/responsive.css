@@ -280,6 +280,22 @@
       margin-top: 5px;
     }
   }
+  @media screen and (max-width: 1050px) {
+
+    .stamp-rate {
+      width: 100% !important;
+    }
+  }
+  @media screen and (max-width: 1050px) {
+
+    .stamp-rate-one {
+      display: block !important;
+      width: 100% !important;
+    }
+    .stamp-rate-two {
+      width: 100% !important;
+    }
+  }
   /* //------------------------------------------admin----------------------------------------------- */
   @media screen and (max-width: 1040px) {
     .owner-top {

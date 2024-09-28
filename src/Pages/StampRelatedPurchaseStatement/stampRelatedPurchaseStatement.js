@@ -47,6 +47,7 @@ const StampRelatedPurchaseStatement = () => {
                 throw new Error('API base URL is not defined');
             }
             const response = await axios.get(`${wakabaBaseUrl}/stamprate`);
+            console.log('stampRate',response.data);
             setStampRate(response.data);
             // console.log('stampRate',response.data);
         };
@@ -95,9 +96,9 @@ const StampRelatedPurchaseStatement = () => {
         stampValue: '',
         numberOfSides: '',
         sheetValue: '',
-        numberOfSheets: '',
-        totalFaceValue: '',
-        purchasePrice: ''
+        numberOfSheets: '0',
+        totalFaceValue: '0',
+        purchasePrice: '0'
     });
     const handleSheetChange = (e) => {
         const { name, value } = e.target;
@@ -141,9 +142,9 @@ const StampRelatedPurchaseStatement = () => {
                     stampValue: '',
                     numberOfSides: '',
                     sheetValue: '',
-                    numberOfSheets: '',
-                    totalFaceValue: '',
-                    purchasePrice: ''
+                    numberOfSheets: '0',
+                    totalFaceValue: '0',
+                    purchasePrice: '0'
                 });
               } catch (error) {
                 console.error('Error adding row:', error);
@@ -157,9 +158,9 @@ const StampRelatedPurchaseStatement = () => {
         stampValue: '',
         numberOfSides: '',
         sheetValue: '',
-        numberOfSheets: '',
-        totalFaceValue: '',
-        purchasePrice: ''
+        numberOfSheets: '0',
+        totalFaceValue: '0',
+        purchasePrice: '0'
     });
     const handleSheetInputChange = (e) => {
         const { name, value } = e.target;
@@ -210,9 +211,9 @@ const StampRelatedPurchaseStatement = () => {
             stampValue: '',
             numberOfSides: '',
             sheetValue: '',
-            numberOfSheets: '',
-            totalFaceValue: '',
-            purchasePrice: ''
+            numberOfSheets: '0',
+            totalFaceValue: '0',
+            purchasePrice: '0'
         }); // Reset editedRow state
     };
 
@@ -222,9 +223,9 @@ const StampRelatedPurchaseStatement = () => {
             stampValue: '',
             numberOfSides: '',
             sheetValue: '',
-            numberOfSheets: '',
-            totalFaceValue: '',
-            purchasePrice: ''
+            numberOfSheets: '0',
+            totalFaceValue: '0',
+            purchasePrice: '0'
         }); // Reset editedRow state
     };
 
@@ -239,7 +240,7 @@ const StampRelatedPurchaseStatement = () => {
         if (sheetValue) {
             const calculatedProduct = Number(sheetValue) * Number(numberofsheets);
             setEditedSheetRow((prev) => ({ ...prev, totalFaceValue: calculatedProduct }));
-            const caluclatePruchase =  (Number(calculatedProduct) * (1 - Number(stampRate.sheetrate)/100)).toFixed(2);
+            const caluclatePruchase =  (Number(calculatedProduct) * (1 - Number(stampRate[0].percent)/100)).toFixed(2);
             setEditedSheetRow((prev) => ({ ...prev, purchasePrice: caluclatePruchase }));
             // console.log('multiply---------', calculatedProduct,caluclatePruchase)              
         } else {
@@ -250,7 +251,7 @@ const StampRelatedPurchaseStatement = () => {
      const calculateSheetTotal = ()=>{
             // Calculate the sum
             const totalnumberofsheet1 = sheetRows.reduce((sum, item) => {
-                if (item.stampValue > 50) { 
+                if (item.stampValue >= 50) { 
                     return parseFloat(sum) + parseFloat(item.numberOfSheets);
                 }
                 return sum; 
@@ -265,7 +266,7 @@ const StampRelatedPurchaseStatement = () => {
             // console.log('sum of totalnumberofsheet',totalnumberofsheet2)
             setTotalNumberofSheet2(totalnumberofsheet2);
             const facevalue1 = sheetRows.reduce((sum, item) => {
-                if (item.stampValue > 50) { 
+                if (item.stampValue >= 50) { 
                     return parseFloat(sum) + parseFloat(item.totalFaceValue);
                 }
                 return sum; 
@@ -279,7 +280,7 @@ const StampRelatedPurchaseStatement = () => {
             }, 0);
             setFacevalue2(facevalue2);
             const purchaseprice1 = sheetRows.reduce((sum, item) => {
-                if (item.stampValue > 50) { 
+                if (item.stampValue >= 50) { 
                     return parseFloat(sum) + parseFloat(item.purchasePrice);
                 }
                 return sum; 
@@ -333,9 +334,9 @@ const StampRelatedPurchaseStatement = () => {
     const [inputRoseShow, setInputRoseShow] = useState(false);
     const [newRoseRow, setNewRoseRow] = useState({
         stampValue: '',
-        numberOfSheets: '',
-        totalFaceValue: '',
-        purchasePrice: ''
+        numberOfSheets: '0',
+        totalFaceValue: '0',
+        purchasePrice: '0'
     });
     const handleRoseChange = (e) => {
         const { name, value } = e.target;
@@ -364,9 +365,9 @@ const StampRelatedPurchaseStatement = () => {
                 //setRoseRows((prevRoseRows) => [...prevRoseRows, { ...newRoseRow, id: Date.now() }]);
                 setNewRoseRow({
                     stampValue: '',
-                    numberOfSheets: '',
-                    totalFaceValue: '',
-                    purchasePrice: ''
+                    numberOfSheets: '0',
+                    totalFaceValue: '0',
+                    purchasePrice: '0'
                 });
               } catch (error) {
                 console.error('Error adding row:', error);
@@ -378,9 +379,9 @@ const StampRelatedPurchaseStatement = () => {
     const [editRoseIndex, setEditRoseIndex] = useState(-1);
     const [editedRoseRow, setEditedRoseRow] = useState({
         stampValue: '',
-        numberOfSheets: '',
-        totalFaceValue: '',
-        purchasePrice: ''
+        numberOfSheets: '0',
+        totalFaceValue: '0',
+        purchasePrice: '0'
     });
     const handleRoseInputChange = (e) => {
         const { name, value } = e.target;
@@ -403,9 +404,9 @@ const StampRelatedPurchaseStatement = () => {
         setEditRoseIndex(-1); // Exit edit mode
         setEditedRoseRow({
             stampValue: '',
-            numberOfSheets: '',
-            totalFaceValue: '',
-            purchasePrice: ''
+            numberOfSheets: '0',
+            totalFaceValue: '0',
+            purchasePrice: '0'
         }); // Reset editedRow state
     };
 
@@ -413,9 +414,9 @@ const StampRelatedPurchaseStatement = () => {
         setEditRoseIndex(-1);
         setEditedRoseRow({
             stampValue: '',
-            numberOfSheets: '',
-            totalFaceValue: '',
-            purchasePrice: ''
+            numberOfSheets: '0',
+            totalFaceValue: '0',
+            purchasePrice: '0'
         }); // Reset editedRow state
     };
 
@@ -430,7 +431,7 @@ const StampRelatedPurchaseStatement = () => {
         if (stampValue) {
             const calculatedProduct = Number(stampValue) * Number(numberofsheets);
             setEditedRoseRow((prev) => ({ ...prev, totalFaceValue: calculatedProduct }));
-            const caluclatePruchase =  (Number(calculatedProduct) * (1 - Number(stampRate.roserate)/100)).toFixed(2);
+            const caluclatePruchase =  (Number(calculatedProduct) * (1 - Number(stampRate[2].percentnt)/100)).toFixed(2);
             setEditedRoseRow((prev) => ({ ...prev, purchasePrice: caluclatePruchase }));
             // console.log('multiply---------', calculatedProduct,caluclatePruchase)              
         } else {
@@ -441,7 +442,7 @@ const StampRelatedPurchaseStatement = () => {
          const calculateRoseTotal = ()=>{
             // Calculate the sum
             const totalnumberofrose1 = roseRows.reduce((sum, item) => {
-                if (item.stampValue > 50) { 
+                if (item.stampValue >= 50) { 
                     return parseFloat(sum) + parseFloat(item.numberOfSheets);
                 }
                 return sum; 
@@ -456,7 +457,7 @@ const StampRelatedPurchaseStatement = () => {
             console.log('sum of totalnumberofsheet',totalnumberofrose2)
             setTotalNumberofRose2(totalnumberofrose2);
             const rosefacevalue1 = roseRows.reduce((sum, item) => {
-                if (item.stampValue > 50) { 
+                if (item.stampValue >= 50) { 
                     return parseFloat(sum) + parseFloat(item.totalFaceValue);
                 }
                 return sum; 
@@ -470,7 +471,7 @@ const StampRelatedPurchaseStatement = () => {
             }, 0);
             setRoseFacevalue2(rosefacevalue2);
             const rosepurchaseprice1 = roseRows.reduce((sum, item) => {
-                if (item.stampValue > 50) { 
+                if (item.stampValue >= 50) { 
                     return parseFloat(sum) + parseFloat(item.purchasePrice);
                 }
                 return sum; 
@@ -525,9 +526,9 @@ const StampRelatedPurchaseStatement = () => {
     const [newPackRow, setNewPackRow] = useState({
         type: '',
         stampValue: '',
-        numberOfSheets: '',
-        totalFaceValue: '',
-        purchasePrice: ''
+        numberOfSheets: '0',
+        totalFaceValue: '0',
+        purchasePrice: '0'
     });
     const handlePackChange = (e) => {
         const { name, value } = e.target;
@@ -557,9 +558,9 @@ const StampRelatedPurchaseStatement = () => {
                 setNewPackRow({
                     type: '',
                     stampValue: '',
-                    numberOfSheets: '',
-                    totalFaceValue: '',
-                    purchasePrice: ''
+                    numberOfSheets: '0',
+                    totalFaceValue: '0',
+                    purchasePrice: '0'
                 });
               } catch (error) {
                 console.error('Error adding row:', error);
@@ -573,9 +574,9 @@ const StampRelatedPurchaseStatement = () => {
     const [editedPackRow, setEditedPackRow] = useState({
         type: '',
         stampValue: '',
-        numberOfSheets: '',
-        totalFaceValue: '',
-        purchasePrice: ''
+        numberOfSheets: '0',
+        totalFaceValue: '0',
+        purchasePrice: '0'
     });
     const handlePackInputChange = (e) => {
         const { name, value } = e.target;
@@ -599,9 +600,9 @@ const StampRelatedPurchaseStatement = () => {
         setEditedPackRow({
             type: '',
             stampValue: '',
-            numberOfSheets: '',
-            totalFaceValue: '',
-            purchasePrice: ''
+            numberOfSheets: '0',
+            totalFaceValue: '0',
+            purchasePrice: '0'
         }); // Reset editedRow state
     };
 
@@ -610,9 +611,9 @@ const StampRelatedPurchaseStatement = () => {
         setEditedPackRow({
             type: '',
             stampValue: '',
-            numberOfSheets: '',
-            totalFaceValue: '',
-            purchasePrice: ''
+            numberOfSheets: '0',
+            totalFaceValue: '0',
+            purchasePrice: '0'
         }); // Reset editedRow state
     };
 
@@ -627,7 +628,7 @@ const StampRelatedPurchaseStatement = () => {
         if (stampValue) {
             const calculatedProduct = Number(stampValue) * Number(numberofsheets);
             setEditedPackRow((prev) => ({ ...prev, totalFaceValue: calculatedProduct }));
-            const caluclatePruchase =  (Number(calculatedProduct) * (1 - Number(stampRate.packrate)/100)).toFixed(2);
+            const caluclatePruchase =  (Number(calculatedProduct) * (1 - Number(stampRate[2].percent)/100)).toFixed(2);
             setEditedPackRow((prev) => ({ ...prev, purchasePrice: caluclatePruchase }));
             // console.log('multiply---------', calculatedProduct,caluclatePruchase)              
         } else {
@@ -638,7 +639,7 @@ const StampRelatedPurchaseStatement = () => {
         const calculatePackTotal = ()=>{
             // Calculate the sum
             const totalnumberofpack1 = packRows.reduce((sum, item) => {
-                if (item.stampValue > 50) { 
+                if (item.stampValue >= 50) { 
                     return parseFloat(sum) + parseFloat(item.numberOfSheets);
                 }
                 return sum; 
@@ -653,7 +654,7 @@ const StampRelatedPurchaseStatement = () => {
             console.log('sum of totalnumberofsheet',totalnumberofpack2)
             setTotalNumberofPack2(totalnumberofpack2);
             const packfacevalue1 = packRows.reduce((sum, item) => {
-                if (item.stampValue > 50) { 
+                if (item.stampValue >= 50) { 
                     return parseFloat(sum) + parseFloat(item.totalFaceValue);
                 }
                 return sum; 
@@ -667,7 +668,7 @@ const StampRelatedPurchaseStatement = () => {
             }, 0);
             setPackFacevalue2(packfacevalue2);
             const packpurchaseprice1 = packRows.reduce((sum, item) => {
-                if (item.stampValue > 50) { 
+                if (item.stampValue >= 50) { 
                     return parseFloat(sum) + parseFloat(item.purchasePrice);
                 }
                 return sum; 
@@ -721,9 +722,9 @@ const StampRelatedPurchaseStatement = () => {
     const [inputCardShow, setInputCardShow] = useState(false);
     const [newCardRow, setNewCardRow] = useState({
         stampValue: '',
-        numberOfSheets: '',
-        totalFaceValue: '',
-        purchasePrice: ''
+        numberOfSheets: '0',
+        totalFaceValue: '0',
+        purchasePrice: '0'
     });
     const handleCardChange = (e) => {
         const { name, value } = e.target;
@@ -752,9 +753,9 @@ const StampRelatedPurchaseStatement = () => {
                 //setCardRows((prevCardRows) => [...prevCardRows, { ...newCardRow, id: Date.now() }]);
                 setNewCardRow({
                     stampValue: '',
-                    numberOfSheets: '',
-                    totalFaceValue: '',
-                    purchasePrice: ''
+                    numberOfSheets: '0',
+                    totalFaceValue: '0',
+                    purchasePrice: '0'
                 });
               } catch (error) {
                 console.error('Error adding row:', error);
@@ -766,9 +767,9 @@ const StampRelatedPurchaseStatement = () => {
     const [editCardIndex, setEditCardIndex] = useState(-1);
     const [editedCardRow, setEditedCardRow] = useState({
         stampValue: '',
-        numberOfSheets: '',
-        totalFaceValue: '',
-        purchasePrice: ''
+        numberOfSheets: '0',
+        totalFaceValue: '0',
+        purchasePrice: '0'
     });
     const handleCardInputChange = (e) => {
         const { name, value } = e.target;
@@ -791,9 +792,9 @@ const StampRelatedPurchaseStatement = () => {
         setEditCardIndex(-1); // Exit edit mode
         setEditedCardRow({
             stampValue: '',
-            numberOfSheets: '',
-            totalFaceValue: '',
-            purchasePrice: ''
+            numberOfSheets: '0',
+            totalFaceValue: '0',
+            purchasePrice: '0'
         }); // Reset editedRow state
     };
 
@@ -801,9 +802,9 @@ const StampRelatedPurchaseStatement = () => {
         setEditCardIndex(-1);
         setEditedCardRow({
             stampValue: '',
-            numberOfSheets: '',
-            totalFaceValue: '',
-            purchasePrice: ''
+            numberOfSheets: '0',
+            totalFaceValue: '0',
+            purchasePrice: '0'
         }); // Reset editedRow state
     };
 
@@ -818,7 +819,7 @@ const StampRelatedPurchaseStatement = () => {
         if (stampValue) {
             const calculatedProduct = Number(stampValue) * Number(numberofsheets);
             setEditedCardRow((prev) => ({ ...prev, totalFaceValue: calculatedProduct }));
-            const caluclatePruchase =  (Number(calculatedProduct) * (1 - Number(stampRate.cardrate)/100)).toFixed(2);
+            const caluclatePruchase =  (Number(calculatedProduct) * (1 - Number(stampRate[3].percent)/100)).toFixed(2);
             setEditedCardRow((prev) => ({ ...prev, purchasePrice: caluclatePruchase }));
             // console.log('multiply---------', calculatedProduct,caluclatePruchase)              
         } else {
@@ -829,7 +830,7 @@ const StampRelatedPurchaseStatement = () => {
             const calculateCardTotal = ()=>{
                 // Calculate the sum
                 const totalnumberofcard1 = cardRows.reduce((sum, item) => {
-                    if (item.stampValue > 50) { 
+                    if (item.stampValue >= 50) { 
                         return parseFloat(sum) + parseFloat(item.numberOfSheets);
                     }
                     return sum; 
@@ -844,7 +845,7 @@ const StampRelatedPurchaseStatement = () => {
                 console.log('sum of totalnumberofsheet',totalnumberofcard2)
                 setTotalNumberofCard2(totalnumberofcard2);
                 const cardfacevalue1 = cardRows.reduce((sum, item) => {
-                    if (item.stampValue > 50) { 
+                    if (item.stampValue >= 50) { 
                         return parseFloat(sum) + parseFloat(item.totalFaceValue);
                     }
                     return sum; 
@@ -858,7 +859,7 @@ const StampRelatedPurchaseStatement = () => {
                 }, 0);
                 setCardFacevalue2(cardfacevalue2);
                 const cardpurchaseprice1 = cardRows.reduce((sum, item) => {
-                    if (item.stampValue > 50) { 
+                    if (item.stampValue >= 50) { 
                         return parseFloat(sum) + parseFloat(item.purchasePrice);
                     }
                     return sum; 
@@ -910,10 +911,27 @@ const StampRelatedPurchaseStatement = () => {
         dispatch(setStampsData(data));
     };
 
-    const sendStampData = () => {
+    const sendStampData = async() => {
         const purchaseStampData = {totalNumberOfStamp,totalStampFaceValue,totalStampPurchasePrice}
         updateData(purchaseStampData);
-        navigate('/invoiceforpurchaseofbrought/1');
+        
+        console.log('result data', sheetRows)
+        try {
+            const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+            if (!wakabaBaseUrl) {
+                throw new Error('API base URL is not defined');
+            }
+            await axios.post(`${wakabaBaseUrl}/stamp/update`, {sheetRows,roseRows,packRows,cardRows})
+            .then(response => {
+            })
+            .catch(error => {
+                console.error("There was an error fetching the customer data!", error);
+            }); // Send newRow data to the server
+          } catch (error) {
+            console.error('Error adding row:', error);
+          }
+
+        // navigate('/invoiceforpurchaseofbrought/1');
     }
 //------------------------------------
     // return stamp inventory list page
@@ -987,7 +1005,7 @@ const StampRelatedPurchaseStatement = () => {
                                             <div className='text-center flex justify-center'>
                                                 <LabelComponent value="買取利率(%)" className='text-center flex justify-center' style={{ width: '100px', fontWeight: 'bold' }} />
                                             </div>
-                                            <InputComponent  value={stampRate.sheetrate || ''}  type="number" style={{ width: '100px', height: '30px' }} disabled={true}/>
+                                            <InputComponent  value={stampRate[0].percent || ''}  type="number" style={{ width: '100px', height: '30px' }} disabled={true}/>
                                         </div>
                                     </div>
                                 </div>
@@ -1205,7 +1223,7 @@ const StampRelatedPurchaseStatement = () => {
                                             <div>
                                                 <LabelComponent value="買取利率(%)" className='text-center flex justify-center' style={{ width: '100px', fontWeight: 'bold' }} />
                                             </div>
-                                            <InputComponent value={stampRate.roserate || ''} type='number' style={{ width: '100px', height: '30px' }} disabled={true}/>
+                                            <InputComponent value={stampRate[1].percent || ''} type='number' style={{ width: '100px', height: '30px' }} disabled={true}/>
                                         </div>
                                     </div>
                                 </div>
@@ -1391,7 +1409,7 @@ const StampRelatedPurchaseStatement = () => {
                                             <div className='text-center flex justify-center'>
                                                 <LabelComponent value="買取利率(%)" style={{ width: '100px', fontWeight: 'bold' }} />
                                             </div>
-                                            <InputComponent value={stampRate.packrate || ''} tylpe='number' style={{ width: '100px', height: '30px' }} disabled={true}/>
+                                            <InputComponent value={stampRate[2].percent || ''} tylpe='number' style={{ width: '100px', height: '30px' }} disabled={true}/>
                                         </div>
                                     </div>
                                 </div>
@@ -1585,7 +1603,7 @@ const StampRelatedPurchaseStatement = () => {
                                                         <div >
                                                             <LabelComponent value="買取利率(%)" className='text-center flex justify-center' style={{ width: '100px', fontWeight: 'bold' }} />
                                                         </div>
-                                                        <InputComponent value={stampRate.cardrate || ''} type='number' style={{ width: '100px', height: '30px' }} disabled={true}/>
+                                                        <InputComponent value={stampRate[3].percent || ''} type='number' style={{ width: '100px', height: '30px' }} disabled={true}/>
                                                     </div>
                                                 </div>
                                             </div>
