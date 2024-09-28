@@ -9,8 +9,9 @@ import dateimage from '../../Assets/img/datepicker.png';
 import DateAndTime from '../../Components/Common/PickData';
 import axios from 'axios';
 
-import { useDispatch } from 'react-redux';
+import { useDispatch,useSelector  } from 'react-redux';
 import { setData } from '../../redux/sales/actions';
+import { setClearData } from '../../redux/sales/actions';
 
 import leftArrow from '../../Assets/img/right-arrow.png';
 import rightArrow from '../../Assets/img/left-arrow.png';
@@ -356,8 +357,6 @@ const InvoicePurchaseOfBrought = () => {
         // }, []);
     }
     // Filter the options based on the query
-
-
     const [showInputPurchase, setShowInputPurchase] = useState(false);
     const addSlesItem = () => {
 
@@ -422,9 +421,7 @@ const InvoicePurchaseOfBrought = () => {
             });
             console.log('purchase data1', totalSalesSlipData);
             calculateTotalQuantity();
-            console.log('ok1');
             calculateTotalPrice();
-            console.log('ok2');
             setShowInputPurchase(false);
         } else {
 
@@ -575,13 +572,33 @@ const InvoicePurchaseOfBrought = () => {
 
     };
 
-    const dispatch = useDispatch();
+      //send data using redux
+      const dispatch = useDispatch();
 
-    const updateData = (data) => {
-        dispatch(setData(data));
-    };
-    // send data
+      const updateData = (data) => {
+          dispatch(setData(data));
+      };
+  //received data using redux
+    const data = useSelector((state) => state.data);
+    const StampData = data.data;
+    const clearReduxData = () => {
+        dispatch(setClearData());
+    }
+    if(data.data !== 'Initial Data') {
+        console.log('ok')
+        setTotalSalesSlipData((prevSalesSlipDatas) => [...prevSalesSlipDatas, { ...salesSlipData, 
+            id: Date.now(), trading_date: new Date().toISOString().split('T')[0], purchase_staff: userData.username, 
+            store_name: userData.store_name, customer_id: id, product_photo: '',
+            product_type_one:'切手',quanitity:StampData.totalNumberOfStamp, purchase_price: StampData.totalStampPurchasePrice
+         }]);
+        clearReduxData();
+    }
+    console.log('stamp received data1',StampData)
+    console.log('stamp received data2',data.data)
+
+    // send Purchase data
     const sendPurchaseDataToReceipt = () => {
+        clearReduxData();//clear redux state
         const numberOfInvoice = customerPastVisitHistory.length;
         const purchaseData = { deadline, numberOfInvoice, totalSalesSlipData };
         // console.log('send purchase data',purchaseData,id);

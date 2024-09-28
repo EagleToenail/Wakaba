@@ -10,7 +10,7 @@ import ButtonComponent from '../../Components/Common/ButtonComponent';
 
 const CustomerIndividual = () => {
     // const title = 'タイトルタイトル';
-
+    const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
     // State to store the current date and time
     const [dateTime, setDateTime] = useState(new Date());
 
@@ -598,10 +598,10 @@ const CustomerIndividual = () => {
                                 <div style={{ width: '75%', flexDirection: 'column', }} className='flex h-full felx-col justify-center'>
                                     <div className='flex justify-between w-full h-[100px]'>
                                         <div style={{ width: '60%' }} className='border border-[#70685a] rounded-lg flex justify-center'>
-                                            {imageIdCardPreview == "http:///172.31.0.201:8081/api/uploads/customer/" ? "" : <img src={imageIdCardPreview} alt="Image Preview" className='h-[100px] p-1 rounded-lg' />}
+                                            {imageIdCardPreview == `${wakabaBaseUrl}/uploads/customer/` ? "" : <img src={imageIdCardPreview} alt="Image Preview" className='h-[100px] p-1 rounded-lg' />}
                                         </div>
                                         <div style={{ width: '35%', display: 'none' }} className='border border-[#70685a] rounded-full flex justify-center'>
-                                            {imageIdCardPreview == "http:///172.31.0.201:8081/api/uploads/customer/" ? "" : <img src={imageIdCardPreview} alt="Image Preview" className='h-[100px] p-1 rounded-full' />}
+                                            {imageIdCardPreview == `${wakabaBaseUrl}/uploads/customer/` ? "" : <img src={imageIdCardPreview} alt="Image Preview" className='h-[100px] p-1 rounded-full' />}
                                         </div>
                                     </div>
 

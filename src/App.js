@@ -49,11 +49,11 @@ import OnSitePurchase from './Pages/OnSitePurchase/onSitePurchase';//On-site pur
 import ApplicationForDisposalPermission from './Pages/ApplicationForDisposalPermission/applicationForDisposalPermission';//Application ofr disposal permisssion
 import MultiRowShowSalesSlip from './Pages/ApplicationForDisposalPermission/multiRowShowSalesSlip';//show salesSlip data that you want to show row
 import EndOfWorkReportToOwner from './Pages/EndOfWorkReportToOwner/endOfWorkReportToOwner';//End of workd report to onwer etc./headquarters
-import StampRelatedInventoryList from './Pages/StampRelatedInventoryList/stampRelatedInventoryList';//stamp-related inventory application form
+import StampRelatedInventoryList from './Pages/StampRelatedInventoryList/stampRelatedInventoryList';//stamp-related inventory application form #58
 import StampRelatedInventoryApplicationForm from './Pages/StampRelatedInventoryApplicationForm/stampRelatedInventoryApplicationForm';
-import StampRelatedReceiptAndIssueHistory from './Pages/StampRelatedReceiptAndIssueHistory/stampRelatedReceiptAndIssueHistory';//stamp related receipt and issue history
+import StampRelatedReceiptAndIssueHistory from './Pages/StampRelatedReceiptAndIssueHistory/stampRelatedReceiptAndIssueHistory';//stamp related receipt and issue history #61
 import StampRelatedPurchaseStatement from './Pages/StampRelatedPurchaseStatement/stampRelatedPurchaseStatement'//stamp related purcase statement #62
-import StampPurchaseListCustomerConfirmation from './Pages/StampPurchaseListCustomerConfirmation/stampPurchaseListCustomerConfirmation';//stamp purchase list customer cnfirmation screen
+import StampPurchaseListCustomerConfirmation from './Pages/StampPurchaseListCustomerConfirmation/stampPurchaseListCustomerConfirmation';//stamp purchase list customer cnfirmation screen #63
 import StampPurchaseInterestRateChange from './Pages/StampPurchaseInterestRateChange/stampPurchaseInterestRateChange';//stamp purchase interest rate change application screen//#64
 import CommemorativeCoinHistoryList from './Pages/CommemorativeCoinHistoryList/commemorativeCoinHistoryList';// commermorative coin history list
 import CommemorativeCoinExchange from './Pages/CommemorativeCoinExchange/commemorativeCoinExchange';// Commermorative coin exchange application

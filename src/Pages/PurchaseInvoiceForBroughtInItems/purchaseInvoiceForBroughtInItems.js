@@ -7,7 +7,8 @@ import axios from 'axios';
 // import InputComponent from '../../Components/Common/InputComponent';
 import ButtonComponent from '../../Components/Common/ButtonComponent';
 // import LabelComponent from '../../Components/Common/LabelComponent';
-import { useSelector } from 'react-redux';
+import { useDispatch,useSelector } from 'react-redux';
+import { setClearData } from '../../redux/sales/actions';
 import SignatureCanvas from 'react-signature-canvas';
 import html2canvas from 'html2canvas';
 import { jsPDF } from 'jspdf';
@@ -28,8 +29,16 @@ const PurchaseInvoiceForBroughtInItems = () => {
 
     const sigCanvas = useRef(null);
     const navigate = useNavigate();
+
     const data = useSelector(state => state.data);
     const purchaseData = data.data;
+    const dispatch = useDispatch();
+    const clearReduxData = () => {
+        dispatch(setClearData());
+    }
+    if(data.data !== 'Initial Data') {
+        clearReduxData();
+    }
 
     const [totalQuantity, setTotalQuantity] = useState('');
     const [totalPrice, setTotalPrice] = useState('');
