@@ -8,6 +8,7 @@ import PostCard from '../../Assets/img/postcard.png'
 import LabelComponent from '../../Components/Common/LabelComponent';
 import InputComponent from '../../Components/Common/InputComponent';
 import DateAndTime from '../../Components/Common/PickData';
+import axios from 'axios';
 
 
 const StampRelatedInventoryList = () => {
@@ -33,21 +34,39 @@ const StampRelatedInventoryList = () => {
     };
     //dynamic Table operation
     //------------Sheet---------------------------------
-    const [sheetRows, setSheetRows] = useState([{
-        id: '1',
-        stampValue: '¥7',
-        numberOfSides: '20',
-        sheetValue: '¥100,000',
-        numberOfSheets: '1,000',
-        totalFaceValue: '¥1,000,000'
-    }]);
+    const [sheetRows, setSheetRows] = useState([]);
+    const [totalNumberOfSheet1, setTotalNumberofSheet1 ] = useState('');
+    const [totalNumberOfSheet2, setTotalNumberofSheet2 ] = useState('');
+    const [totalFaceValue1, setFaceValue1 ] = useState('');
+    const [totalFaceValue2, setFacevalue2 ] = useState('');
+
+    //fetch sheet data
+    useEffect(() => {
+        const fetchData = async () => {
+    
+            const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+            if (!wakabaBaseUrl) {
+                throw new Error('API base URL is not defined');
+            }
+            const response = await axios.get(`${wakabaBaseUrl}/stampsheet`);
+            initialSheetData(response.data);
+            console.log('setSheetRows',response.data);
+        };
+        fetchData();
+        }, []);
+    // clear other three data 
+    const initialSheetData =(sheetData) => {
+        setSheetRows(sheetData);
+        // console.log('updated data',updatedData)
+    }    
+
     const [inputSheetShow, setInputSheetShow] = useState(false);
     const [newSheetRow, setNewSheetRow] = useState({
         stampValue: '',
         numberOfSides: '',
         sheetValue: '',
-        numberOfSheets: '',
-        totalFaceValue: ''
+        numberOfSheets: '0',
+        totalFaceValue: '0'
     });
     const handleSheetChange = (e) => {
         const { name, value } = e.target;
@@ -56,17 +75,46 @@ const StampRelatedInventoryList = () => {
             [name]: value
         }));
     };
+    // multiply
+    useEffect(() => {
+        // Calculate product when sheetValue and numberOfSides are both filled
+        const { stampValue, numberOfSides } = newSheetRow;
+        if (stampValue && numberOfSides) {
+            const calculatedProduct = Number(stampValue) * Number(numberOfSides);
+            setNewSheetRow((prev) => ({ ...prev, sheetValue: calculatedProduct }));
+            // console.log('multiply', calculatedProduct)
+        } else {
+            setNewSheetRow((prev) => ({ ...prev, sheetValue: '' }));
+        }
+    }, [newSheetRow.stampValue, newSheetRow.numberOfSides]);
     // Add a new row to the table
-    const handleAddSheetRow = () => {
+    const handleAddSheetRow = async() => {
         if (inputSheetShow) {
-            setSheetRows((prevSheetRows) => [...prevSheetRows, { ...newSheetRow, id: Date.now() }]);
-            setNewSheetRow({
-                stampValue: '',
-                numberOfSides: '',
-                sheetValue: '',
-                numberOfSheets: '',
-                totalFaceValue: ''
-            });
+            try {
+                const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+                if (!wakabaBaseUrl) {
+                    throw new Error('API base URL is not defined');
+                }
+                await axios.post(`${wakabaBaseUrl}/stampsheet/create`, newSheetRow)
+                .then(response => {
+                    // console.log('success',response.data)
+                    // setSheetRows(response.data);
+                    initialSheetData(response.data);
+                })
+                .catch(error => {
+                    console.error("There was an error fetching the customer data!", error);
+                }); // Send newRow data to the server
+                // setSheetRows((prevSheetRows) => [...prevSheetRows, { ...newSheetRow, id: Date.now() }]);
+                setNewSheetRow({
+                    stampValue: '',
+                    numberOfSides: '',
+                    sheetValue: '',
+                    numberOfSheets: '0',
+                    totalFaceValue: '0',
+                });
+              } catch (error) {
+                console.error('Error adding row:', error);
+              }
         }
         setInputSheetShow(!inputSheetShow);
     };
@@ -82,6 +130,9 @@ const StampRelatedInventoryList = () => {
     const handleSheetInputChange = (e) => {
         const { name, value } = e.target;
         setEditedSheetRow({ ...editedSheetRow, [name]: value });
+        if(name === 'numberOfSheets') {
+            calculateSheet(value);
+        }
     };
 
     const handleSheetEditClick = (index) => {
@@ -89,11 +140,28 @@ const StampRelatedInventoryList = () => {
         setEditedSheetRow(sheetRows[index]); // Populate the input fields with the selected row's data
     };
 
-    const handleSheetSaveClick = () => {
+    const handleSheetSaveClick = async() => {
         const updatedData = sheetRows.map((row, index) =>
             index === editSheetIndex ? { ...row, ...editedSheetRow } : row
         );
-        setSheetRows(updatedData);
+        try {
+            const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+            if (!wakabaBaseUrl) {
+                throw new Error('API base URL is not defined');
+            }
+            await axios.post(`${wakabaBaseUrl}/stampsheet/update`, editedSheetRow)
+            .then(response => {
+                // console.log('success',response.data)
+                // setSheetRows(response.data);
+                initialSheetData(response.data);
+            })
+            .catch(error => {
+                console.error("There was an error fetching the customer data!", error);
+            }); // Send newRow data to the server
+          } catch (error) {
+            console.error('Error adding row:', error);
+          }
+        // setSheetRows(updatedData);
         setEditSheetIndex(-1); // Exit edit mode
         setEditedSheetRow({
             stampValue: '',
@@ -119,6 +187,53 @@ const StampRelatedInventoryList = () => {
     const handleSheetDeleteClick = (index) => {
         setSheetRows(sheetRows.filter((_, i) => i !== index));
     };
+    //calculate
+    const calculateSheet = (numberofsheets) => {
+        const { sheetValue } = editedSheetRow;
+        // console.log('shetValue',sheetValue)
+        if (sheetValue) {
+            const calculatedProduct = Number(sheetValue) * Number(numberofsheets);
+            setEditedSheetRow((prev) => ({ ...prev, totalFaceValue: calculatedProduct }));           
+        } else {
+            setNewSheetRow((prev) => ({ ...prev, sheetValue: '' }));
+        }
+    }
+         //calculate second table
+         const calculateSheetTotal = ()=>{
+            // Calculate the sum
+            const totalnumberofsheet1 = sheetRows.reduce((sum, item) => {
+                if (item.stampValue >= 50) { 
+                    return parseFloat(sum) + parseFloat(item.numberOfSheets);
+                }
+                return sum; 
+            }, 0);
+            setTotalNumberofSheet1(totalnumberofsheet1);
+            const totalnumberofsheet2 = sheetRows.reduce((sum, item) => {
+                if (item.stampValue < 50) { 
+                    return parseFloat(sum) + parseFloat(item.numberOfSheets);
+                }
+                return sum; 
+            }, 0);
+            // console.log('sum of totalnumberofsheet',totalnumberofsheet2)
+            setTotalNumberofSheet2(totalnumberofsheet2);
+            const facevalue1 = sheetRows.reduce((sum, item) => {
+                if (item.stampValue >= 50) { 
+                    return parseFloat(sum) + parseFloat(item.totalFaceValue);
+                }
+                return sum; 
+            }, 0);
+            setFaceValue1(facevalue1);
+            const facevalue2 = sheetRows.reduce((sum, item) => {
+                if (item.stampValue < 50) { 
+                    return parseFloat(sum) + parseFloat(item.totalFaceValue);
+                }
+                return sum; 
+            }, 0);
+            setFacevalue2(facevalue2);
+     }
+    useEffect(() => {
+        calculateSheetTotal();
+    }, [sheetRows]);
     //------------pasting---------------------------------
     const [pastingRows, setPastingRows] = useState([{
         id: '1',
@@ -201,17 +316,34 @@ const StampRelatedInventoryList = () => {
         setPastingRows(pastingRows.filter((_, i) => i !== index));
     };
     //------------Rose---------------------------------
-    const [roseRows, setRoseRows] = useState([{
-        id: '1',
-        stampValue: '¥7',
-        numberOfStamps: '1,000',
-        totalFaceValue: '¥1,000,000'
-    }]);
+    const [roseRows, setRoseRows] = useState([]);
+    const [totalNumberOfRose1, setTotalNumberofRose1 ] = useState('');
+    const [totalNumberOfRose2, setTotalNumberofRose2 ] = useState('');
+    const [totalRoseFaceValue1, setRoseFaceValue1 ] = useState('');
+    const [totalRoseFaceValue2, setRoseFacevalue2 ] = useState('');
+    //fetch Rose data
+    useEffect(() => {
+        const fetchData = async () => {
+  
+          const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+          if (!wakabaBaseUrl) {
+              throw new Error('API base URL is not defined');
+          }
+            const response = await axios.get(`${wakabaBaseUrl}/stamprose`);
+            initialRoseData(response.data);
+        };
+        fetchData();
+      }, []);
+    // clear other three data 
+    const initialRoseData =(roseData) => {
+    setRoseRows(roseData);
+}
+
     const [inputRoseShow, setInputRoseShow] = useState(false);
     const [newRoseRow, setNewRoseRow] = useState({
         stampValue: '',
-        numberOfStamps: '',
-        totalFaceValue: ''
+        numberOfSheets: '',
+        totalFaceValue: '0'
     });
     const handleRoseChange = (e) => {
         const { name, value } = e.target;
@@ -221,14 +353,31 @@ const StampRelatedInventoryList = () => {
         }));
     };
     // Add a new row to the table
-    const handleAddRoseRow = () => {
+    const handleAddRoseRow = async() => {
         if (inputRoseShow) {
-            setRoseRows((prevRoseRows) => [...prevRoseRows, { ...newRoseRow, id: Date.now() }]);
-            setNewRoseRow({
-                stampValue: '',
-                numberOfStamps: '',
-                totalFaceValue: ''
-            });
+            try {
+                const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+                if (!wakabaBaseUrl) {
+                    throw new Error('API base URL is not defined');
+                }
+                await axios.post(`${wakabaBaseUrl}/stamprose/create`, newRoseRow)
+                .then(response => {
+                    // console.log('success',response.data)
+                    // setSheetRows(response.data);
+                    initialRoseData(response.data);
+                })
+                .catch(error => {
+                    console.error("There was an error fetching the customer data!", error);
+                }); // Send newRow data to the server
+                //setRoseRows((prevRoseRows) => [...prevRoseRows, { ...newRoseRow, id: Date.now() }]);
+                setNewRoseRow({
+                    stampValue: '',
+                    numberOfSheets: '0',
+                    totalFaceValue: '0',
+                });
+              } catch (error) {
+                console.error('Error adding row:', error);
+              }
         }
         setInputRoseShow(!inputRoseShow);
     };
@@ -236,12 +385,15 @@ const StampRelatedInventoryList = () => {
     const [editRoseIndex, setEditRoseIndex] = useState(-1);
     const [editedRoseRow, setEditedRoseRow] = useState({
         stampValue: '',
-        numberOfStamps: '',
+        numberOfSheets: '',
         totalFaceValue: ''
     });
     const handleRoseInputChange = (e) => {
         const { name, value } = e.target;
         setEditedRoseRow({ ...editedRoseRow, [name]: value });
+        if(name === 'numberOfSheets') {
+            calculateRose(value);
+        }
     };
 
     const handleRoseEditClick = (index) => {
@@ -249,15 +401,32 @@ const StampRelatedInventoryList = () => {
         setEditedRoseRow(roseRows[index]); // Populate the input fields with the selected row's data
     };
 
-    const handleRoseSaveClick = () => {
+    const handleRoseSaveClick = async() => {
         const updatedData = roseRows.map((row, index) =>
             index === editRoseIndex ? { ...row, ...editedRoseRow } : row
         );
-        setRoseRows(updatedData);
+        try {
+            const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+            if (!wakabaBaseUrl) {
+                throw new Error('API base URL is not defined');
+            }
+            await axios.post(`${wakabaBaseUrl}/stamprose/update`, editedRoseRow)
+            .then(response => {
+                // console.log('success',response.data)
+                // setSheetRows(response.data);
+                initialRoseData(response.data);
+            })
+            .catch(error => {
+                console.error("There was an error fetching the customer data!", error);
+            }); // Send newRow data to the server
+          } catch (error) {
+            console.error('Error adding row:', error);
+          }
+        //setRoseRows(updatedData);
         setEditRoseIndex(-1); // Exit edit mode
         setEditedRoseRow({
             stampValue: '',
-            numberOfStamps: '',
+            numberOfSheets: '',
             totalFaceValue: ''
         }); // Reset editedRow state
     };
@@ -266,7 +435,7 @@ const StampRelatedInventoryList = () => {
         setEditRoseIndex(-1);
         setEditedRoseRow({
             stampValue: '',
-            numberOfStamps: '',
+            numberOfSheets: '',
             totalFaceValue: ''
         }); // Reset editedRow state
     };
@@ -275,20 +444,83 @@ const StampRelatedInventoryList = () => {
     const handleRoseDeleteClick = (index) => {
         setRoseRows(roseRows.filter((_, i) => i !== index));
     };
+    //calculate
+    const calculateRose = (numberofsheets) => {
+        const { stampValue } = editedRoseRow;
+        if (stampValue) {
+            const calculatedProduct = Number(stampValue) * Number(numberofsheets);
+            setEditedRoseRow((prev) => ({ ...prev, totalFaceValue: calculatedProduct }));             
+        } else {
+            setNewRoseRow((prev) => ({ ...prev, stampValue: '' }));
+        }
+    }
+    //      //calculate second table
+    const calculateRoseTotal = ()=>{
+        // Calculate the sum
+        const totalnumberofrose1 = roseRows.reduce((sum, item) => {
+            if (item.stampValue >= 50) { 
+                return parseFloat(sum) + parseFloat(item.numberOfSheets);
+            }
+            return sum; 
+        }, 0);
+        setTotalNumberofRose1(totalnumberofrose1);
+        const totalnumberofrose2 = roseRows.reduce((sum, item) => {
+            if (item.stampValue < 50) { 
+                return parseFloat(sum) + parseFloat(item.numberOfSheets);
+            }
+            return sum; 
+        }, 0);
+        console.log('sum of totalnumberofsheet',totalnumberofrose2)
+        setTotalNumberofRose2(totalnumberofrose2);
+        const rosefacevalue1 = roseRows.reduce((sum, item) => {
+            if (item.stampValue >= 50) { 
+                return parseFloat(sum) + parseFloat(item.totalFaceValue);
+            }
+            return sum; 
+        }, 0);
+        setRoseFaceValue1(rosefacevalue1);
+        const rosefacevalue2 = roseRows.reduce((sum, item) => {
+            if (item.stampValue < 50) { 
+                return parseFloat(sum) + parseFloat(item.totalFaceValue);
+            }
+            return sum; 
+        }, 0);
+        setRoseFacevalue2(rosefacevalue2);
+    }
+    useEffect(() => {
+        calculateRoseTotal();
+    }, [roseRows]);    
     //------------Pack---------------------------------
-    const [packRows, setPackRows] = useState([{
-        id: '1',
-        type: 'ライト',
-        faceValue: '20',
-        quantity: '¥100,000',
-        totalFaceValue: '¥1,000,000'
-    }]);
+    const [packRows, setPackRows] = useState([]);
+    const [totalNumberOfPack1, setTotalNumberofPack1 ] = useState('');
+    const [totalNumberOfPack2, setTotalNumberofPack2 ] = useState('');
+    const [totalPackFaceValue1, setPackFaceValue1 ] = useState('');
+    const [totalPackFaceValue2, setPackFacevalue2 ] = useState('');
+    //fetch Rose data
+    useEffect(() => {
+        const fetchData = async () => {
+    
+            const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+            if (!wakabaBaseUrl) {
+                throw new Error('API base URL is not defined');
+            }
+            const response = await axios.get(`${wakabaBaseUrl}/stamppack`);
+            initialPackData(response.data);
+        };
+        fetchData();
+        }, []);
+    // clear other three data 
+    const initialPackData =(packData) => {
+        setPackRows(packData);
+        // console.log('updated data',updatedData)
+    }
+
     const [inputPackShow, setInputPackShow] = useState(false);
     const [newPackRow, setNewPackRow] = useState({
         type: '',
-        faceValue: '',
-        quantity: '',
-        totalFaceValue: ''
+        stampValue: '',
+        numberOfSheets: '0',
+        totalFaceValue: '0'
     });
     const handlePackChange = (e) => {
         const { name, value } = e.target;
@@ -298,15 +530,32 @@ const StampRelatedInventoryList = () => {
         }));
     };
     // Add a new row to the table
-    const handleAddPackRow = () => {
+    const handleAddPackRow = async() => {
         if (inputPackShow) {
-            setPackRows((prevPackRows) => [...prevPackRows, { ...newPackRow, id: Date.now() }]);
-            setNewPackRow({
-                type: '',
-                faceValue: '',
-                quantity: '',
-                totalFaceValue: ''
-            });
+            try {
+                const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+                if (!wakabaBaseUrl) {
+                    throw new Error('API base URL is not defined');
+                }
+                await axios.post(`${wakabaBaseUrl}/stamppack/create`, newPackRow)
+                .then(response => {
+                    // console.log('success',response.data)
+                    // setSheetRows(response.data);
+                    initialPackData(response.data);
+                })
+                .catch(error => {
+                    console.error("There was an error fetching the customer data!", error);
+                }); // Send newRow data to the server
+                //setPackRows((prevPackRows) => [...prevPackRows, { ...newPackRow, id: Date.now() }]);
+                setNewPackRow({
+                    type: '',
+                    stampValue: '',
+                    numberOfSheets: '0',
+                    totalFaceValue: '0',
+                });
+              } catch (error) {
+                console.error('Error adding row:', error);
+              }
         }
         setInputPackShow(!inputPackShow);
     };
@@ -314,13 +563,16 @@ const StampRelatedInventoryList = () => {
     const [editPackIndex, setEditPackIndex] = useState(-1);
     const [editedPackRow, setEditedPackRow] = useState({
         type: '',
-        faceValue: '',
-        quantity: '',
-        totalFaceValue: ''
+        stampValue: '',
+        numberOfSheets: '0',
+        totalFaceValue: '0'
     });
     const handlePackInputChange = (e) => {
         const { name, value } = e.target;
         setEditedPackRow({ ...editedPackRow, [name]: value });
+        if(name === 'numberOfSheets') {
+            calculatePack(value);
+        }
     };
 
     const handlePackEditClick = (index) => {
@@ -328,17 +580,34 @@ const StampRelatedInventoryList = () => {
         setEditedPackRow(packRows[index]); // Populate the input fields with the selected row's data
     };
 
-    const handlePackSaveClick = () => {
+    const handlePackSaveClick = async() => {
         const updatedData = packRows.map((row, index) =>
             index === editPackIndex ? { ...row, ...editedPackRow } : row
         );
-        setPackRows(updatedData);
+        try {
+            const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+            if (!wakabaBaseUrl) {
+                throw new Error('API base URL is not defined');
+            }
+            await axios.post(`${wakabaBaseUrl}/stamppack/update`, editedPackRow)
+            .then(response => {
+                // console.log('success',response.data)
+                // setSheetRows(response.data);
+                initialSheetData(response.data);
+            })
+            .catch(error => {
+                console.error("There was an error fetching the customer data!", error);
+            }); // Send newRow data to the server
+          } catch (error) {
+            console.error('Error adding row:', error);
+          }
+        // setPackRows(updatedData);
         setEditPackIndex(-1); // Exit edit mode
         setEditedPackRow({
             type: '',
-            faceValue: '',
-            quantity: '',
-            totalFaceValue: ''
+            stampValue: '',
+            numberOfSheets: '0',
+            totalFaceValue: '0'
         }); // Reset editedRow state
     };
 
@@ -346,9 +615,9 @@ const StampRelatedInventoryList = () => {
         setEditPackIndex(-1);
         setEditedPackRow({
             type: '',
-            faceValue: '',
-            quantity: '',
-            totalFaceValue: ''
+            stampValue: '',
+            numberOfSheets: '0',
+            totalFaceValue: '0'
         }); // Reset editedRow state
     };
 
@@ -356,18 +625,82 @@ const StampRelatedInventoryList = () => {
     const handlePackDeleteClick = (index) => {
         setPackRows(packRows.filter((_, i) => i !== index));
     };
+    //calculate
+    const calculatePack = (numberofsheets) => {
+        const { stampValue } = editedPackRow;
+        // console.log('shetValue',sheetValue)
+        if (stampValue) {
+            const calculatedProduct = Number(stampValue) * Number(numberofsheets);
+            setEditedPackRow((prev) => ({ ...prev, totalFaceValue: calculatedProduct }));            
+        } else {
+            setNewPackRow((prev) => ({ ...prev, stampValue: '' }));
+        }
+    }
+    //calculate second table
+    const calculatePackTotal = ()=>{
+        // Calculate the sum
+        const totalnumberofpack1 = packRows.reduce((sum, item) => {
+            if (item.stampValue >= 50) { 
+                return parseFloat(sum) + parseFloat(item.numberOfSheets);
+            }
+            return sum; 
+        }, 0);
+        setTotalNumberofPack1(totalnumberofpack1);
+        const totalnumberofpack2 = packRows.reduce((sum, item) => {
+            if (item.stampValue < 50) { 
+                return parseFloat(sum) + parseFloat(item.numberOfSheets);
+            }
+            return sum; 
+        }, 0);
+        console.log('sum of totalnumberofsheet',totalnumberofpack2)
+        setTotalNumberofPack2(totalnumberofpack2);
+        const packfacevalue1 = packRows.reduce((sum, item) => {
+            if (item.stampValue >= 50) { 
+                return parseFloat(sum) + parseFloat(item.totalFaceValue);
+            }
+            return sum; 
+        }, 0);
+        setPackFaceValue1(packfacevalue1);
+        const packfacevalue2 = packRows.reduce((sum, item) => {
+            if (item.stampValue < 50) { 
+                return parseFloat(sum) + parseFloat(item.totalFaceValue);
+            }
+            return sum; 
+        }, 0);
+        setPackFacevalue2(packfacevalue2);
+    }
+    useEffect(() => {
+        calculatePackTotal();
+    }, [packRows]);
     //------------Card---------------------------------
-    const [cardRows, setCardRows] = useState([{
-        id: '1',
-        faceValue: '¥100,000',
-        quantity: '1,000',
-        totalFaceValue: '¥1,000,000'
-    }]);
+    const [cardRows, setCardRows] = useState([]);
+    const [totalNumberOfCard1, setTotalNumberofCard1 ] = useState('');
+    const [totalNumberOfCard2, setTotalNumberofCard2 ] = useState('');
+    const [totalCardFaceValue1, setCardFaceValue1 ] = useState('');
+    const [totalCardFaceValue2, setCardFacevalue2 ] = useState('');
+    //fetch Rose data
+    useEffect(() => {
+    const fetchData = async () => {
+
+        const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+        if (!wakabaBaseUrl) {
+            throw new Error('API base URL is not defined');
+        }
+        const response = await axios.get(`${wakabaBaseUrl}/stampcard`);
+        initialCardData(response.data);
+    };
+    fetchData();
+    }, []); 
+        // clear other three data 
+        const initialCardData =(cardData) => {
+        setCardRows(cardData);
+        // console.log('updated data',updatedData)
+    }
     const [inputCardShow, setInputCardShow] = useState(false);
     const [newCardRow, setNewCardRow] = useState({
-        faceValue: '',
-        quantity: '',
-        totalFaceValue: ''
+        stampValue: '',
+        numberOfSheets: '',
+        totalFaceValue: '0'
     });
     const handleCardChange = (e) => {
         const { name, value } = e.target;
@@ -377,28 +710,48 @@ const StampRelatedInventoryList = () => {
         }));
     };
     // Add a new row to the table
-    const handleAddCardRow = () => {
+    const handleAddCardRow = async() => {
         if (inputCardShow) {
-            setCardRows((prevCardRows) => [...prevCardRows, { ...newCardRow, id: Date.now() }]);
-            setNewCardRow({
-                faceValue: '',
-                quantity: '',
-                totalFaceValue: ''
-            });
+            try {
+                const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+                if (!wakabaBaseUrl) {
+                    throw new Error('API base URL is not defined');
+                }
+                await axios.post(`${wakabaBaseUrl}/stampcard/create`, newCardRow)
+                .then(response => {
+                    // console.log('success',response.data)
+                    // setSheetRows(response.data);
+                    initialCardData(response.data);
+                })
+                .catch(error => {
+                    console.error("There was an error fetching the customer data!", error);
+                }); // Send newRow data to the server
+                //setCardRows((prevCardRows) => [...prevCardRows, { ...newCardRow, id: Date.now() }]);
+                setNewCardRow({
+                    stampValue: '',
+                    numberOfSheets: '0',
+                    totalFaceValue: '0',
+                    purchasePrice: '0'
+                });
+              } catch (error) {
+                console.error('Error adding row:', error);
+              }
         }
         setInputCardShow(!inputCardShow);
     };
     //edit and delete
     const [editCardIndex, setEditCardIndex] = useState(-1);
     const [editedCardRow, setEditedCardRow] = useState({
-        type: '',
-        faceValue: '',
-        quantity: '',
-        totalFaceValue: ''
+        stampValue: '',
+        numberOfSheets: '',
+        totalFaceValue: '0'
     });
     const handleCardInputChange = (e) => {
         const { name, value } = e.target;
         setEditedCardRow({ ...editedCardRow, [name]: value });
+        if(name === 'numberOfSheets') {
+            calculateCard(value);
+        }
     };
 
     const handleCardEditClick = (index) => {
@@ -406,27 +759,42 @@ const StampRelatedInventoryList = () => {
         setEditedCardRow(cardRows[index]); // Populate the input fields with the selected row's data
     };
 
-    const handleCardSaveClick = () => {
+    const handleCardSaveClick = async() => {
         const updatedData = cardRows.map((row, index) =>
             index === editCardIndex ? { ...row, ...editedCardRow } : row
         );
-        setCardRows(updatedData);
+        try {
+            const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+            if (!wakabaBaseUrl) {
+                throw new Error('API base URL is not defined');
+            }
+            await axios.post(`${wakabaBaseUrl}/stampcard/update`, editedCardRow)
+            .then(response => {
+                // console.log('success',response.data)
+                // setSheetRows(response.data);
+                initialSheetData(response.data);
+            })
+            .catch(error => {
+                console.error("There was an error fetching the customer data!", error);
+            }); // Send newRow data to the server
+          } catch (error) {
+            console.error('Error adding row:', error);
+          }
+        // setCardRows(updatedData);
         setEditCardIndex(-1); // Exit edit mode
         setEditedCardRow({
-            type: '',
-            faceValue: '',
-            quantity: '',
-            totalFaceValue: ''
+            stampValue: '',
+            numberOfSheets: '',
+            totalFaceValue: '0'
         }); // Reset editedRow state
     };
 
     const handleCardCancelClick = () => {
         setEditCardIndex(-1);
         setEditedCardRow({
-            type: '',
-            faceValue: '',
-            quantity: '',
-            totalFaceValue: ''
+            stampValue: '',
+            numberOfSheets: '',
+            totalFaceValue: '0'
         }); // Reset editedRow state
     };
 
@@ -434,6 +802,53 @@ const StampRelatedInventoryList = () => {
     const handleCardDeleteClick = (index) => {
         setCardRows(cardRows.filter((_, i) => i !== index));
     };
+    //calculate
+    const calculateCard = (numberofsheets) => {
+        const { stampValue } = editedCardRow;
+        // console.log('shetValue',sheetValue)
+        if (stampValue) {
+            const calculatedProduct = Number(stampValue) * Number(numberofsheets);
+            setEditedCardRow((prev) => ({ ...prev, totalFaceValue: calculatedProduct }));            
+        } else {
+            setNewPackRow((prev) => ({ ...prev, stampValue: '' }));
+        }
+    }
+    //calculate second table
+    const calculateCardTotal = ()=>{
+        // Calculate the sum
+        const totalnumberofcard1 = cardRows.reduce((sum, item) => {
+            if (item.stampValue >= 50) { 
+                return parseFloat(sum) + parseFloat(item.numberOfSheets);
+            }
+            return sum; 
+        }, 0);
+        setTotalNumberofCard1(totalnumberofcard1);
+        const totalnumberofcard2 = cardRows.reduce((sum, item) => {
+            if (item.stampValue < 50) { 
+                return parseFloat(sum) + parseFloat(item.numberOfSheets);
+            }
+            return sum; 
+        }, 0);
+        console.log('sum of totalnumberofsheet',totalnumberofcard2)
+        setTotalNumberofCard2(totalnumberofcard2);
+        const cardfacevalue1 = cardRows.reduce((sum, item) => {
+            if (item.stampValue >= 50) { 
+                return parseFloat(sum) + parseFloat(item.totalFaceValue);
+            }
+            return sum; 
+        }, 0);
+        setCardFaceValue1(cardfacevalue1);
+        const cardfacevalue2 = cardRows.reduce((sum, item) => {
+            if (item.stampValue < 50) { 
+                return parseFloat(sum) + parseFloat(item.totalFaceValue);
+            }
+            return sum; 
+        }, 0);
+        setCardFacevalue2(cardfacevalue2);
+    }
+    useEffect(() => {
+        calculateCardTotal();
+    }, [cardRows]);
     //-------------------------------------------------   
     // goto stamppurchaseinterestratechange page
     const gotoStampPurchaseIntereStrateChange = () => {
@@ -443,7 +858,7 @@ const StampRelatedInventoryList = () => {
     const gotoStampCreateWarehouseApplication = () => {
         navigate('/stamprelatedinventoryapplicationform');
     }
-
+    // goto 
     return (
         <>
             {/* <Titlebar title={title} /> */}
@@ -499,18 +914,18 @@ const StampRelatedInventoryList = () => {
                                         <tbody>
                                             <tr>
                                                 <td>下記合計</td>
-                                                <td style={Td}>1000</td>
-                                                <td style={Td}>¥1,000,000</td>
+                                                <td style={Td}>{parseFloat(totalNumberOfSheet1) + parseFloat(totalNumberOfSheet2) || ''}</td>
+                                                <td style={Td}>{parseFloat(totalFaceValue1) + parseFloat(totalFaceValue2) || ''}</td>
                                             </tr>
                                             <tr>
                                                 <td>50円以上</td>
-                                                <td style={Td}>1000</td>
-                                                <td style={Td}>¥1,000,000</td>
+                                                <td style={Td}>{parseFloat(totalNumberOfSheet1) || ''}</td>
+                                                <td style={Td}>{parseFloat(totalFaceValue1) || ''}</td>
                                             </tr>
                                             <tr>
                                                 <td>50円未満</td>
-                                                <td style={Td}>1000</td>
-                                                <td style={Td}>¥1,000,000</td>
+                                                <td style={Td}>{parseFloat(totalNumberOfSheet2) || ''}</td>
+                                                <td style={Td}>{parseFloat(totalFaceValue2) || ''}</td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -524,11 +939,11 @@ const StampRelatedInventoryList = () => {
                                             <thead className='!h-8 text-[14px]'>
                                                 <tr>
                                                     <th style={Th} >選択</th>
-                                                    <th style={Th} className='pl-1'>切手1枚の額面</th>
+                                                    <th style={Th} className='pl-1'>切手1枚の額面(￥)</th>
                                                     <th style={Th} className='pl-1 pr-1'>面数</th>
-                                                    <th style={Th} className='pl-1 pr-1' >シート額面</th>
+                                                    <th style={Th} className='pl-1 pr-1' >シート額面(￥)</th>
                                                     <th style={Th} className='pr-1'>シート数</th>
-                                                    <th style={Th} >額面総額</th>
+                                                    <th style={Th} >額面総額(￥)</th>
                                                     <th style={Th}>{editSheetIndex === -1 ? '編集する' : 'セーブ'}</th>
                                                     <th style={Th} className='whitespace-nowrap pl-3'>{editSheetIndex === -1 ? '削除' : '戻る'}</th>
                                                 </tr>
@@ -540,27 +955,27 @@ const StampRelatedInventoryList = () => {
                                                         <td> <input type="checkbox" className='!h-6' /></td>
                                                         <td style={Td}>
                                                             {editSheetIndex === Index ? (
-                                                                <InputComponent name='stampValue' value={editedSheetRow.stampValue || ''} onChange={handleSheetInputChange} className='w-full h-8 text-[#70685a]' />
+                                                                <InputComponent disabled={true} name='stampValue' value={editedSheetRow.stampValue || ''} onChange={handleSheetInputChange} className='w-full h-8 text-[#70685a]' />
                                                             ) : (row.stampValue || '')}
                                                         </td>
                                                         <td style={Td}>
                                                             {editSheetIndex === Index ? (
-                                                                <InputComponent name='numberOfSides' value={editedSheetRow.numberOfSides || ''} onChange={handleSheetInputChange} className='w-full h-8 text-[#70685a]' />
+                                                                <InputComponent disabled={true} name='numberOfSides' value={editedSheetRow.numberOfSides || ''} onChange={handleSheetInputChange} className='w-full h-8 text-[#70685a]' />
                                                             ) : (row.numberOfSides || '')}
                                                         </td>
                                                         <td style={Td}>
                                                             {editSheetIndex === Index ? (
-                                                                <InputComponent name='sheetValue' value={editedSheetRow.sheetValue || ''} onChange={handleSheetInputChange} className='w-full h-8 text-[#70685a]' />
+                                                                <InputComponent disabled={true} name='sheetValue' value={editedSheetRow.sheetValue || ''} onChange={handleSheetInputChange} className='w-full h-8 text-[#70685a]' />
                                                             ) : (row.sheetValue || '')}
                                                         </td>
                                                         <td style={Td}>
                                                             {editSheetIndex === Index ? (
-                                                                <InputComponent name='numberOfSheets' value={editedSheetRow.numberOfSheets || ''} onChange={handleSheetInputChange} className='w-full h-8 text-[#70685a]' />
+                                                                <InputComponent name='numberOfSheets' value={editedSheetRow.numberOfSheets || ''} onChange={handleSheetInputChange} className='w-20 h-8 text-[#70685a] !border-[red]' />
                                                             ) : (row.numberOfSheets || '')}
                                                         </td>
                                                         <td style={Td}>
                                                             {editSheetIndex === Index ? (
-                                                                <InputComponent name='totalFaceValue' value={editedSheetRow.totalFaceValue || ''} onChange={handleSheetInputChange} className='w-full h-8 text-[#70685a]' />
+                                                                <InputComponent disabled={true} name='totalFaceValue' value={editedSheetRow.totalFaceValue || ''} onChange={handleSheetInputChange} className='w-full h-8 text-[#70685a]' />
                                                             ) : (row.totalFaceValue || '')}
                                                         </td>
                                                         <td style={Td}>
@@ -602,7 +1017,7 @@ const StampRelatedInventoryList = () => {
                                                             <input
                                                                 type="text"
                                                                 name="stampValue"
-                                                                className='w-full'
+                                                                className='w-full border-[red]'
                                                                 value={newSheetRow.stampValue || ''}
                                                                 onChange={handleSheetChange}
                                                             />
@@ -611,7 +1026,7 @@ const StampRelatedInventoryList = () => {
                                                             <input
                                                                 type="text"
                                                                 name="numberOfSides"
-                                                                className='w-full'
+                                                                className='w-20 border-[red]'
                                                                 value={newSheetRow.numberOfSides || ''}
                                                                 onChange={handleSheetChange}
                                                             />
@@ -853,18 +1268,18 @@ const StampRelatedInventoryList = () => {
                                         <tbody>
                                             <tr>
                                                 <td>下記合計</td>
-                                                <td style={Td}>1000</td>
-                                                <td style={Td}>¥1,000,000</td>
+                                                <td style={Td}>{parseFloat(totalNumberOfRose1) + parseFloat(totalNumberOfRose2) || ''}</td>
+                                                <td style={Td}>{parseFloat(totalRoseFaceValue1) + parseFloat(totalRoseFaceValue2) || ''}</td>
                                             </tr>
                                             <tr>
                                                 <td>50円以上</td>
-                                                <td style={Td}>1000</td>
-                                                <td style={Td}>¥1,000,000</td>
+                                                <td style={Td}>{parseFloat(totalNumberOfRose1) || ''}</td>
+                                                <td style={Td}>{parseFloat(totalRoseFaceValue1) || ''}</td>
                                             </tr>
                                             <tr>
                                                 <td>50円未満</td>
-                                                <td style={Td}>1000</td>
-                                                <td style={Td}>¥1,000,000</td>
+                                                <td style={Td}>{parseFloat(totalNumberOfRose2) || ''}</td>
+                                                <td style={Td}>{parseFloat(totalRoseFaceValue2) || ''}</td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -879,9 +1294,9 @@ const StampRelatedInventoryList = () => {
                                             <thead className='!h-8 text-[14px]'>
                                                 <tr>
                                                     <th style={Th} >選択</th>
-                                                    <th style={Th}>切手1枚の額面</th>
+                                                    <th style={Th}>切手1枚の額面(￥)</th>
                                                     <th style={Th}>枚数</th>
-                                                    <th style={Th}>額面総額</th>
+                                                    <th style={Th}>額面総額(￥)</th>
                                                     <th style={Th}>{editRoseIndex === -1 ? '編集する' : 'セーブ'}</th>
                                                     <th style={Th} className='whitespace-nowrap pl-3'>{editRoseIndex === -1 ? '削除' : '戻る'}</th>
                                                 </tr>
@@ -892,17 +1307,17 @@ const StampRelatedInventoryList = () => {
                                                         <td> <input type="checkbox" className='!h-6' /></td>
                                                         <td style={Td}>
                                                             {editRoseIndex === Index ? (
-                                                                <InputComponent name='stampValue' value={editedRoseRow.stampValue || ''} onChange={handleRoseInputChange} className='w-full h-8 text-[#70685a]' />
+                                                                <InputComponent disabled={true} name='stampValue' value={editedRoseRow.stampValue || ''} onChange={handleRoseInputChange} className='w-full h-8 text-[#70685a]' />
                                                             ) : (row.stampValue || '')}
                                                         </td>
                                                         <td style={Td}>
                                                             {editRoseIndex === Index ? (
-                                                                <InputComponent name='numberOfStamps' value={editedRoseRow.numberOfStamps || ''} onChange={handleRoseInputChange} className='w-full h-8 text-[#70685a]' />
-                                                            ) : (row.numberOfStamps || '')}
+                                                                <InputComponent  name='numberOfSheets' value={editedRoseRow.numberOfSheets || ''} onChange={handleRoseInputChange} className='w-20 h-8 text-[#70685a] border-[red]' />
+                                                            ) : (row.numberOfSheets || '')}
                                                         </td>
                                                         <td style={Td}>
                                                             {editRoseIndex === Index ? (
-                                                                <InputComponent name='totalFaceValue' value={editedRoseRow.totalFaceValue || ''} onChange={handleRoseInputChange} className='w-full h-8 text-[#70685a]' />
+                                                                <InputComponent disabled={true} name='totalFaceValue' value={editedRoseRow.totalFaceValue || ''} onChange={handleRoseInputChange} className='w-full h-8 text-[#70685a]' />
                                                             ) : (row.totalFaceValue || '')}
                                                         </td>
                                                         <td style={Td}>
@@ -944,7 +1359,7 @@ const StampRelatedInventoryList = () => {
                                                             <input
                                                                 type="text"
                                                                 name="stampValue"
-                                                                className='w-full'
+                                                                className='w-full border-[red]'
                                                                 value={newRoseRow.stampValue || ''}
                                                                 onChange={handleRoseChange}
                                                             />
@@ -952,9 +1367,9 @@ const StampRelatedInventoryList = () => {
                                                         <td style={Td} >
                                                             <input
                                                                 type="text"
-                                                                name=" numberOfStamps"
-                                                                className='w-full'
-                                                                value={newRoseRow.numberOfStamps || ''}
+                                                                name=" numberOfSheets"
+                                                                className='w-20'
+                                                                value={newRoseRow.numberOfSheets || ''}
                                                                 onChange={handleRoseChange}
                                                             />
                                                         </td>
@@ -1009,8 +1424,8 @@ const StampRelatedInventoryList = () => {
                                             <tbody>
                                                 <tr>
                                                     <td>下記合計</td>
-                                                    <td style={Td}>1000</td>
-                                                    <td style={Td}>¥1,000,000</td>
+                                                    <td style={Td}>{parseFloat(totalNumberOfPack1) + parseFloat(totalNumberOfPack2) || ''}</td>
+                                                    <td style={Td}>{parseFloat(totalPackFaceValue1) + parseFloat(totalPackFaceValue2) || ''}</td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -1026,10 +1441,10 @@ const StampRelatedInventoryList = () => {
                                             <thead className='!h-8 text-[14px]'>
                                                 <tr>
                                                     <th style={Th} >選択</th>
-                                                    <th style={Th}>額面</th>
-                                                    <th style={Th}>面数</th>
+                                                    <th style={Th}>種別</th>
+                                                    <th style={Th}>額面(￥)</th>
                                                     <th style={Th} >枚数</th>
-                                                    <th style={Th}>額面総額</th>
+                                                    <th style={Th}>額面総額(￥)</th>
                                                     <th style={Th}>{editPackIndex === -1 ? '編集する' : 'セーブ'}</th>
                                                     <th style={Th} className='whitespace-nowrap pl-3'>{editPackIndex === -1 ? '削除' : '戻る'}</th>
                                                 </tr>
@@ -1040,22 +1455,22 @@ const StampRelatedInventoryList = () => {
                                                         <td> <input type="checkbox" className='!h-6' /></td>
                                                         <td style={Td}>
                                                             {editPackIndex === Index ? (
-                                                                <InputComponent name='type' value={editedPackRow.type || ''} onChange={handlePackInputChange} className='w-full h-8 text-[#70685a]' />
+                                                                <InputComponent disabled={true} name='type' value={editedPackRow.type || ''} onChange={handlePackInputChange} className='w-full h-8 text-[#70685a]' />
                                                             ) : (row.type || '')}
                                                         </td>
                                                         <td style={Td}>
                                                             {editPackIndex === Index ? (
-                                                                <InputComponent name='faceValue' value={editedPackRow.faceValue || ''} onChange={handlePackInputChange} className='w-full h-8 text-[#70685a]' />
-                                                            ) : (row.faceValue || '')}
+                                                                <InputComponent disabled={true} name='stampValue' value={editedPackRow.stampValue || ''} onChange={handlePackInputChange} className='w-full h-8 text-[#70685a]' />
+                                                            ) : (row.stampValue || '')}
                                                         </td>
                                                         <td style={Td}>
                                                             {editPackIndex === Index ? (
-                                                                <InputComponent name='quantity' value={editedPackRow.quantity || ''} onChange={handlePackInputChange} className='w-full h-8 text-[#70685a]' />
-                                                            ) : (row.quantity || '')}
+                                                                <InputComponent name='numberOfSheets' value={editedPackRow.numberOfSheets || ''} onChange={handlePackInputChange} className='w-20 h-8 text-[#70685a] border-[red]' />
+                                                            ) : (row.numberOfSheets || '')}
                                                         </td>
                                                         <td style={Td}>
                                                             {editPackIndex === Index ? (
-                                                                <InputComponent name='totalFaceValue' value={editedPackRow.totalFaceValue || ''} onChange={handlePackInputChange} className='w-full h-8 text-[#70685a]' />
+                                                                <InputComponent disabled={true} name='totalFaceValue' value={editedPackRow.totalFaceValue || ''} onChange={handlePackInputChange} className='w-full h-8 text-[#70685a]' />
                                                             ) : (row.totalFaceValue || '')}
                                                         </td>
                                                         <td style={Td}>
@@ -1097,7 +1512,7 @@ const StampRelatedInventoryList = () => {
                                                             <input
                                                                 type="text"
                                                                 name="type"
-                                                                className='w-full'
+                                                                className='w-20 border-[red]'
                                                                 value={newPackRow.type || ''}
                                                                 onChange={handlePackChange}
                                                             />
@@ -1105,18 +1520,18 @@ const StampRelatedInventoryList = () => {
                                                         <td style={Td} >
                                                             <input
                                                                 type="text"
-                                                                name=" faceValue"
-                                                                className='w-full'
-                                                                value={newPackRow.faceValue || ''}
+                                                                name=" stampValue"
+                                                                className='w-20 border-[red]'
+                                                                value={newPackRow.stampValue || ''}
                                                                 onChange={handlePackChange}
                                                             />
                                                         </td>
                                                         <td style={Td} >
                                                             <input
                                                                 type="text"
-                                                                name="quantity"
+                                                                name="numberOfSheets"
                                                                 className='w-full'
-                                                                value={newPackRow.quantity || ''}
+                                                                value={newPackRow.numberOfSheets || ''}
                                                                 onChange={handlePackChange}
 
                                                             />
@@ -1146,7 +1561,7 @@ const StampRelatedInventoryList = () => {
                                         </svg>
                                     </button>
                                 </div>
-                                {/* fifthtable */}
+                                {/* Post Card ------------------------------------------------------- */}
                                 <div>
                                     <div className='mt-10'>
                                         <div className='flex justify-center'>
@@ -1169,18 +1584,18 @@ const StampRelatedInventoryList = () => {
                                                 <tbody>
                                                     <tr>
                                                         <td>下記合計</td>
-                                                        <td style={Td}>1000</td>
-                                                        <td style={Td}>¥1,000,000</td>
+                                                        <td style={Td}>{parseFloat(totalNumberOfCard1) + parseFloat(totalNumberOfCard2) || ''}</td>
+                                                        <td style={Td}>{parseFloat(totalCardFaceValue1) + parseFloat(totalCardFaceValue2) || ''}</td>
                                                     </tr>
                                                     <tr>
                                                         <td>50円以上</td>
-                                                        <td style={Td}>1000</td>
-                                                        <td style={Td}>¥1,000,000</td>
+                                                        <td style={Td}>{parseFloat(totalNumberOfCard1) || ''}</td>
+                                                        <td style={Td}>{parseFloat(totalCardFaceValue1) || ''}</td>
                                                     </tr>
                                                     <tr>
                                                         <td>50円未満</td>
-                                                        <td style={Td}>1000</td>
-                                                        <td style={Td}>¥1,000,000</td>
+                                                        <td style={Td}>{parseFloat(totalNumberOfCard2) || ''}</td>
+                                                        <td style={Td}>{parseFloat(totalCardFaceValue2) || ''}</td>
                                                     </tr>
                                                 </tbody>
                                             </table>
@@ -1194,9 +1609,9 @@ const StampRelatedInventoryList = () => {
                                                     <thead>
                                                         <tr>
                                                             <th style={Th}>選択</th>
-                                                            <th style={Th}>額面</th>
+                                                            <th style={Th}>額面(￥)</th>
                                                             <th style={Th} >枚数</th>
-                                                            <th style={Th}>額面総額</th>
+                                                            <th style={Th}>額面総額(￥)</th>
                                                             <th style={Th}>{editCardIndex === -1 ? '編集する' : 'セーブ'}</th>
                                                             <th style={Th} className='whitespace-nowrap pl-3'>{editCardIndex === -1 ? '削除' : '戻る'}</th>
                                                         </tr>
@@ -1207,17 +1622,17 @@ const StampRelatedInventoryList = () => {
                                                                 <td> <input type="checkbox" className='!h-6' /></td>
                                                                 <td style={Td}>
                                                                     {editCardIndex === Index ? (
-                                                                        <InputComponent name='type' value={editedCardRow.type || ''} onChange={handleCardInputChange} className='w-full h-8 text-[#70685a]' />
-                                                                    ) : (row.type || '')}
+                                                                        <InputComponent disabled={true} name='stampValue' value={editedCardRow.stampValue || ''} onChange={handleCardInputChange} className='w-full h-8 text-[#70685a]' />
+                                                                    ) : (row.stampValue || '')}
                                                                 </td>
                                                                 <td style={Td}>
                                                                     {editCardIndex === Index ? (
-                                                                        <InputComponent name='quantity' value={editedCardRow.quantity || ''} onChange={handleCardInputChange} className='w-full h-8 text-[#70685a]' />
-                                                                    ) : (row.quantity || '')}
+                                                                        <InputComponent name='numberOfSheets' value={editedCardRow.numberOfSheets || ''} onChange={handleCardInputChange} className='w-20 h-8 text-[#70685a] border-[red]' />
+                                                                    ) : (row.numberOfSheets || '')}
                                                                 </td>
                                                                 <td style={Td}>
                                                                     {editCardIndex === Index ? (
-                                                                        <InputComponent name='totalFaceValue' value={editedCardRow.totalFaceValue || ''} onChange={handleCardInputChange} className='w-full h-8 text-[#70685a]' />
+                                                                        <InputComponent disabled={true} name='totalFaceValue' value={editedCardRow.totalFaceValue || ''} onChange={handleCardInputChange} className='w-full h-8 text-[#70685a]' />
                                                                     ) : (row.totalFaceValue || '')}
                                                                 </td>
                                                                 <td style={Td}>
@@ -1258,18 +1673,18 @@ const StampRelatedInventoryList = () => {
                                                                 <td style={Td}>
                                                                     <input
                                                                         type="text"
-                                                                        name="type"
-                                                                        className='w-full'
-                                                                        value={newCardRow.type}
+                                                                        name="stampValue"
+                                                                        className='w-20 border-[red]'
+                                                                        value={newCardRow.stampValue}
                                                                         onChange={handleCardChange || ''}
                                                                     />
                                                                 </td>
                                                                 <td style={Td} >
                                                                     <input
                                                                         type="text"
-                                                                        name="quantity"
+                                                                        name="numberOfSheets"
                                                                         className='w-full'
-                                                                        value={newCardRow.quantity || ''}
+                                                                        value={newCardRow.numberOfSheets || ''}
                                                                         onChange={handleCardChange}
 
                                                                     />

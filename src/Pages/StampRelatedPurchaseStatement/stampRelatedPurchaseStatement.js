@@ -37,7 +37,7 @@ const StampRelatedPurchaseStatement = () => {
         whiteSpace: 'nowrap'
     };
 
-    const [stampRate, setStampRate] = useState('');
+    const [stampRate, setStampRate] = useState([]);
     //fetch data
     useEffect(() => {
         const fetchData = async () => {
@@ -635,8 +635,8 @@ const StampRelatedPurchaseStatement = () => {
             setNewPackRow((prev) => ({ ...prev, stampValue: '' }));
         }
     }
-        //      //calculate second table
-        const calculatePackTotal = ()=>{
+    //calculate second table
+    const calculatePackTotal = ()=>{
             // Calculate the sum
             const totalnumberofpack1 = packRows.reduce((sum, item) => {
                 if (item.stampValue >= 50) { 
@@ -826,8 +826,8 @@ const StampRelatedPurchaseStatement = () => {
             setNewPackRow((prev) => ({ ...prev, stampValue: '' }));
         }
     }
-            //      //calculate second table
-            const calculateCardTotal = ()=>{
+        //calculate second table
+         const calculateCardTotal = ()=>{
                 // Calculate the sum
                 const totalnumberofcard1 = cardRows.reduce((sum, item) => {
                     if (item.stampValue >= 50) { 
@@ -931,7 +931,7 @@ const StampRelatedPurchaseStatement = () => {
             console.error('Error adding row:', error);
           }
 
-        // navigate('/invoiceforpurchaseofbrought/1');
+        navigate('/invoiceforpurchaseofbrought/1');
     }
 //------------------------------------
     // return stamp inventory list page
@@ -1005,7 +1005,7 @@ const StampRelatedPurchaseStatement = () => {
                                             <div className='text-center flex justify-center'>
                                                 <LabelComponent value="買取利率(%)" className='text-center flex justify-center' style={{ width: '100px', fontWeight: 'bold' }} />
                                             </div>
-                                            <InputComponent  value={stampRate[0].percent || ''}  type="number" style={{ width: '100px', height: '30px' }} disabled={true}/>
+                                            <InputComponent  value={stampRate?.length>0 && stampRate[0].percent || ''}  type="number" style={{ width: '100px', height: '30px' }} disabled={true}/>
                                         </div>
                                     </div>
                                 </div>
@@ -1223,7 +1223,7 @@ const StampRelatedPurchaseStatement = () => {
                                             <div>
                                                 <LabelComponent value="買取利率(%)" className='text-center flex justify-center' style={{ width: '100px', fontWeight: 'bold' }} />
                                             </div>
-                                            <InputComponent value={stampRate[1].percent || ''} type='number' style={{ width: '100px', height: '30px' }} disabled={true}/>
+                                            <InputComponent value={stampRate?.length>0 && stampRate[1].percent || ''} type='number' style={{ width: '100px', height: '30px' }} disabled={true}/>
                                         </div>
                                     </div>
                                 </div>
@@ -1409,7 +1409,7 @@ const StampRelatedPurchaseStatement = () => {
                                             <div className='text-center flex justify-center'>
                                                 <LabelComponent value="買取利率(%)" style={{ width: '100px', fontWeight: 'bold' }} />
                                             </div>
-                                            <InputComponent value={stampRate[2].percent || ''} tylpe='number' style={{ width: '100px', height: '30px' }} disabled={true}/>
+                                            <InputComponent value={stampRate?.length>0 && stampRate[2].percent || ''} tylpe='number' style={{ width: '100px', height: '30px' }} disabled={true}/>
                                         </div>
                                     </div>
                                 </div>
@@ -1603,7 +1603,7 @@ const StampRelatedPurchaseStatement = () => {
                                                         <div >
                                                             <LabelComponent value="買取利率(%)" className='text-center flex justify-center' style={{ width: '100px', fontWeight: 'bold' }} />
                                                         </div>
-                                                        <InputComponent value={stampRate[3].percent || ''} type='number' style={{ width: '100px', height: '30px' }} disabled={true}/>
+                                                        <InputComponent value={stampRate?.length>0 && stampRate[3].percent || ''} type='number' style={{ width: '100px', height: '30px' }} disabled={true}/>
                                                     </div>
                                                 </div>
                                             </div>

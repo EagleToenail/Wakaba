@@ -98,39 +98,45 @@ const CustomerIndividual = () => {
     // Fetch customerPastVisitHistory data
     useEffect(() => {
         const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
-
-        if (!wakabaBaseUrl) {
-            throw new Error('API base URL is not defined');
-        }
-        axios.get(`${wakabaBaseUrl}/customer/customerpastvisithistory/${id}`)
-            .then(response => {
-                console.log("historydata", response.data)
-                setCustomerPastVisitHistory(response.data || []);
-            })
-            .catch(error => {
-                console.error("There was an error fetching the customer data!", error);
-            });
-    }, []);
-
-    useEffect(() => {
-        const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
-
-        if (!wakabaBaseUrl) {
-            throw new Error('API base URL is not defined');
-        }
-        if (id) {
-            axios.get(`${wakabaBaseUrl}/customer/getCustomerById/${id}`)
+        const fetch = async() =>{
+            if (!wakabaBaseUrl) {
+                throw new Error('API base URL is not defined');
+            }
+           await axios.get(`${wakabaBaseUrl}/customer/customerpastvisithistory/${id}`)
                 .then(response => {
-                    // console.log("data", response.data)
-                    setCustomer(response.data);
-                    checkedFunction(response.data.item1, response.data.item2, response.data.item3, response.data.item4, response.data.item5)
-                    setAvatarImagePreview(`${wakabaBaseUrl}/uploads/customer/${response.data.avatar_url}`);
-                    setIdCardImagePreview(`${wakabaBaseUrl}/uploads/customer/${response.data.idCard_url}`);
+                    console.log("historydata", response.data)
+                    setCustomerPastVisitHistory(response.data || []);
                 })
                 .catch(error => {
                     console.error("There was an error fetching the customer data!", error);
                 });
         }
+
+        fetch();
+
+    }, []);
+
+    useEffect(() => {
+        const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+        const fetch = async() => {
+            if (!wakabaBaseUrl) {
+                throw new Error('API base URL is not defined');
+            }
+            if (id) {
+               await  axios.get(`${wakabaBaseUrl}/customer/getCustomerById/${id}`)
+                    .then(response => {
+                        // console.log("data", response.data)
+                        setCustomer(response.data);
+                        checkedFunction(response.data.item1, response.data.item2, response.data.item3, response.data.item4, response.data.item5)
+                        setAvatarImagePreview(`${wakabaBaseUrl}/uploads/customer/${response.data.avatar_url}`);
+                        setIdCardImagePreview(`${wakabaBaseUrl}/uploads/customer/${response.data.idCard_url}`);
+                    })
+                    .catch(error => {
+                        console.error("There was an error fetching the customer data!", error);
+                    });
+            }
+        }
+        fetch();
 
     }, [id]);
 

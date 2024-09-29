@@ -9,7 +9,7 @@ import dateimage from '../../Assets/img/datepicker.png';
 import DateAndTime from '../../Components/Common/PickData';
 import axios from 'axios';
 
-import { useDispatch,useSelector  } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setData } from '../../redux/sales/actions';
 import { setClearData } from '../../redux/sales/actions';
 
@@ -77,19 +77,21 @@ const InvoicePurchaseOfBrought = () => {
     // Fetch customerPastVisitHistory data
     useEffect(() => {
         const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
-
-        if (!wakabaBaseUrl) {
-            throw new Error('API base URL is not defined');
+        const fetch = async () => {
+            if (!wakabaBaseUrl) {
+                throw new Error('API base URL is not defined');
+            }
+            if (id) {
+                await axios.get(`${wakabaBaseUrl}/customer/customerpastvisithistory/${id}`)
+                    .then(response => {
+                        setCustomerPastVisitHistory(response.data);
+                    })
+                    .catch(error => {
+                        console.error("There was an error fetching the customer data!", error);
+                    });
+            }
         }
-        if (id) {
-            axios.get(`${wakabaBaseUrl}/customer/customerpastvisithistory/${id}`)
-                .then(response => {
-                    setCustomerPastVisitHistory(response.data);
-                })
-                .catch(error => {
-                    console.error("There was an error fetching the customer data!", error);
-                });
-        }
+        fetch();
 
     }, []);
 
@@ -126,21 +128,23 @@ const InvoicePurchaseOfBrought = () => {
     useEffect(() => {
 
         const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
-
-        if (!wakabaBaseUrl) {
-            throw new Error('API base URL is not defined');
+        const fetch = async () => {
+            if (!wakabaBaseUrl) {
+                throw new Error('API base URL is not defined');
+            }
+            if (id) {
+                await axios.get(`${wakabaBaseUrl}/customer/getCustomerById/${id}`)
+                    .then(response => {
+                        //console.log("data", response.data)
+                        checkedFunction(response.data.item1, response.data.item2, response.data.item3, response.data.item4, response.data.item5)
+                        setCustomer(response.data);
+                    })
+                    .catch(error => {
+                        console.error("There was an error fetching the customer data!", error);
+                    });
+            }
         }
-        if (id) {
-            axios.get(`${wakabaBaseUrl}/customer/getCustomerById/${id}`)
-                .then(response => {
-                    //console.log("data", response.data)
-                    checkedFunction(response.data.item1, response.data.item2, response.data.item3, response.data.item4, response.data.item5)
-                    setCustomer(response.data);
-                })
-                .catch(error => {
-                    console.error("There was an error fetching the customer data!", error);
-                });
-        }
+        fetch();
 
     }, [id]);
 
@@ -191,17 +195,17 @@ const InvoicePurchaseOfBrought = () => {
         product_photo: '',
         product_name: '',
         comment: '',
-        quantity: '',
+        quantity: '0',
         reason_application: '',
-        interest_rate: '',
-        product_price: '',
+        interest_rate: '0',
+        product_price: '0',
         highest_estimate_vendor: '',
-        highest_estimate_price: '',
+        highest_estimate_price: '0',
         number_of_vendor: '',
         supervisor_direction: '',
         purchase_result: '',
 
-        purchase_price: '',
+        purchase_price: '0',
 
         本査定ネットジャパン: '',
         LINE色石バンク: '',
@@ -461,17 +465,17 @@ const InvoicePurchaseOfBrought = () => {
             product_photo: '',
             product_name: '',
             comment: '',
-            quantity: '',
+            quantity: '0',
             reason_application: '',
             interest_rate: '',
-            product_price: '',
+            product_price: '0',
             highest_estimate_vendor: '',
-            highest_estimate_price: '',
-            number_of_vendor: '',
+            highest_estimate_price: '0',
+            number_of_vendor: '0',
             supervisor_direction: '',
             purchase_result: '',
 
-            purchase_price: '',
+            purchase_price: '0',
 
             本査定ネットジャパン: '',
             LINE色石バンク: '',
@@ -501,6 +505,9 @@ const InvoicePurchaseOfBrought = () => {
             はなもり: '',
             バステック: '',
         }); // Reset editedRow state
+
+        calculateTotalQuantity();
+        calculateTotalPrice();
 
     };
     //Cancel one of tatalsalesSlipdata
@@ -572,29 +579,30 @@ const InvoicePurchaseOfBrought = () => {
 
     };
 
-      //send data using redux
-      const dispatch = useDispatch();
+    //send data using redux
+    const dispatch = useDispatch();
 
-      const updateData = (data) => {
-          dispatch(setData(data));
-      };
-  //received data using redux
+    const updateData = (data) => {
+        dispatch(setData(data));
+    };
+    //received data using redux
     const data = useSelector((state) => state.data);
     const StampData = data.data;
     const clearReduxData = () => {
         dispatch(setClearData());
     }
-    if(data.data !== 'Initial Data') {
-        console.log('ok')
-        setTotalSalesSlipData((prevSalesSlipDatas) => [...prevSalesSlipDatas, { ...salesSlipData, 
-            id: Date.now(), trading_date: new Date().toISOString().split('T')[0], purchase_staff: userData.username, 
+    if (data.data !== 'Initial Data') {
+        // console.log('ok')
+        setTotalSalesSlipData((prevSalesSlipDatas) => [...prevSalesSlipDatas, {
+            ...salesSlipData,
+            id: Date.now(), trading_date: new Date().toISOString().split('T')[0], purchase_staff: userData.username,
             store_name: userData.store_name, customer_id: id, product_photo: '',
-            product_type_one:'切手',quanitity:StampData.totalNumberOfStamp, purchase_price: StampData.totalStampPurchasePrice
-         }]);
+            product_type_one: '切手', quanitity: StampData.totalNumberOfStamp, purchase_price: StampData.totalStampPurchasePrice
+        }]);
         clearReduxData();
     }
-    console.log('stamp received data1',StampData)
-    console.log('stamp received data2',data.data)
+    // console.log('stamp received data1',StampData)
+    // console.log('stamp received data2',data.data)
 
     // send Purchase data
     const sendPurchaseDataToReceipt = () => {
@@ -612,20 +620,12 @@ const InvoicePurchaseOfBrought = () => {
         if (!wakabaBaseUrl) {
             throw new Error('API base URL is not defined');
         }
-        const customerId = customer.id;
-        const item1 = customer.item1;
-        const item2 = customer.item2;
-        const item3 = customer.item3;
-        axios.post(`${wakabaBaseUrl}/customer/customerItem`, { customerId, item1, item2, item3 })
-            .then(response => {
-            })
-            .catch(error => {
-                console.error("There was an error fetching the customer data!", error);
-            });
+
         //---------
         const numberOfInvoice = customerPastVisitHistory.length;
 
         if (totalSalesSlipData.length != 0 && totalSalesSlipData != null) {
+            itemsSave();
             const purchaseData = { deadline, numberOfInvoice, totalSalesSlipData };
             console.log('send purchase data', purchaseData, id);
             updateData(purchaseData);
@@ -898,7 +898,7 @@ const InvoicePurchaseOfBrought = () => {
     }
     //--------------------------------------------------------
     //go to stamps related page #62(stamp related purchase statement)
-    const gotoStampsPurchase = ()=> {
+    const gotoStampsPurchase = () => {
         navigate('/stamprelatedpurchasestatement');
     }
 
@@ -1433,7 +1433,7 @@ const InvoicePurchaseOfBrought = () => {
                             <thead className='sticky top-0 bg-white z-10 h-11'>
                                 <tr>
                                     <th style={{ whiteSpace: 'nowrap', paddingLeft: '10px', paddingRight: '10px', visibility: 'hidden' }}>選択</th>
-                                    <th style={Th} width='2%'>商品番号</th>
+                                    <th style={Th} >商品番号</th>
                                     <th style={Th} >ヒアリング</th>
                                     <th style={Th} >
                                         力テゴリ-1
@@ -1444,10 +1444,10 @@ const InvoicePurchaseOfBrought = () => {
                                     {isshow ? <th style={Th} >力テゴリ-4</th> : <th style={{ display: 'none' }}></th>}
                                     <th style={Th} >画像</th>
                                     <th style={Th} width='10%'>商品名</th>
-                                    <th style={Th} >個数</th>
+                                    <th style={Th} className='!w-40'>個数</th>
                                     <th style={Th} width='10%'>申請の根拠</th>
                                     <th style={Th} >利率(%)</th>
-                                    <th style={Th} >申請額</th>
+                                    <th style={Th} className='!w-20'>申請額</th>
                                     <th style={Th} >最高査定業者</th>
                                     <th style={Th} >最高査定額</th>
                                     <th style={Th} >
@@ -1468,7 +1468,7 @@ const InvoicePurchaseOfBrought = () => {
                                     <td style={Td}>
                                         <InputComponent name='number' onChange={handleChange} value={salesSlipData.number || ''} className='w-full h-8 text-[#70685a]' />
                                     </td>
-                                    <td style={Td} className='!w-[20px]'>
+                                    <td style={Td} >
                                         <select name="hearing" value={salesSlipData.hearing || ''} onChange={(e) => setSalesSlipData({ hearing: e.target.value })} className="w-full h-8 text-[#70685a] font-bold outline-[#70685a]">
                                             <option value="" disabled></option>
                                             <option value="済">済</option>
@@ -1548,16 +1548,16 @@ const InvoicePurchaseOfBrought = () => {
                                         <InputComponent name='product_name' onChange={handleChange} value={salesSlipData.product_name || ''} className='w-full h-8 text-[#70685a]' />
                                     </td>
                                     <td style={Td}>
-                                        <InputComponent name='quantity' type='number' onChange={handleChange} value={salesSlipData.quantity || ''} className='w-full h-8 text-[#70685a]' />
+                                        <InputComponent name='quantity' type='number' onChange={handleChange} value={salesSlipData.quantity || ''} className='w-20 h-8 text-[#70685a]' />
                                     </td>
                                     <td style={Td}>
                                         <InputComponent name='reason_application' onChange={handleChange} value={salesSlipData.reason_application || ''} className='w-full h-8 text-[#70685a]' />
                                     </td>
                                     <td style={Td}>
-                                        <InputComponent name='interest_rate' type='number' onChange={handleChange} value={salesSlipData.interest_rate || ''} className='w-full h-8 text-[#70685a]' />
+                                        <InputComponent name='interest_rate' type='number' onChange={handleChange} value={salesSlipData.interest_rate || ''} className='w-20 h-8 text-[#70685a]' />
                                     </td>
                                     <td style={Td}>
-                                        <InputComponent name='product_price' type='number' onChange={handleChange} value={salesSlipData.product_price || ''} className='w-full h-8 text-[#70685a]' />
+                                        <InputComponent name='product_price' type='number' onChange={handleChange} value={salesSlipData.product_price || ''} className='w-20 h-8 text-[#70685a]' />
                                     </td>
                                     <td style={Td}>
                                         <InputComponent name='highest_estimate_vendor' onChange={handleChange} value={salesSlipData.highest_estimate_vendor || ''} className='w-full h-8 text-[#70685a]' />
@@ -1566,7 +1566,7 @@ const InvoicePurchaseOfBrought = () => {
                                         <InputComponent name='highest_estimate_price' type='number' onChange={handleChange} value={salesSlipData.highest_estimate_price || ''} className='w-full h-8 text-[#70685a]' />
                                     </td>
                                     <td style={Td}>
-                                        <InputComponent name='number_of_vendor' type='number' onChange={handleChange} value={salesSlipData.number_of_vendor || ''} className='w-full h-8 text-[#70685a]' />
+                                        <InputComponent name='number_of_vendor' type='number' onChange={handleChange} value={salesSlipData.number_of_vendor || ''} className='w-20 h-8 text-[#70685a]' />
                                     </td>
                                     {isvendorshow && vendors.map((vendor, index) => (
                                         <td style={Td} key={index}>
@@ -1577,7 +1577,7 @@ const InvoicePurchaseOfBrought = () => {
                                         <InputComponent name='supervisor_direction' onChange={handleChange} value={salesSlipData.supervisor_direction || ''} className='w-full h-8 text-[#70685a]' />
                                     </td>
                                     <td style={Td}>
-                                        <select name="purchase_result" value={salesSlipData.purchase_result || ''} onChange={handleChange} className="w-full h-8 text-[#70685a] font-bold border border-[#70685a] outline-[#70685a]">
+                                        <select name="purchase_result" value={salesSlipData.purchase_result || ''} onChange={handleChange} className="w-full h-10 text-[#70685a] font-bold border border-[#70685a] outline-[#70685a]">
                                             <option value="" disabled></option>
                                             <option value="賛成">賛成</option>
                                             <option value="反対">反対</option>
@@ -1585,7 +1585,7 @@ const InvoicePurchaseOfBrought = () => {
                                     </td>
                                     <td style={Td}>
                                         <div className='w-full flex justify-center'>
-                                            <InputComponent name='purchase_price' onChange={handleChange} type='number' value={salesSlipData.purchase_price || ''} className='w-full h-8 text-[#70685a]' />
+                                            <InputComponent name='purchase_price' onChange={handleChange} type='number' value={salesSlipData.purchase_price || ''} className='w-40 h-8 text-[#70685a]' />
                                         </div>
                                     </td>
                                 </tr>
@@ -1651,7 +1651,7 @@ const InvoicePurchaseOfBrought = () => {
                                 </datalist>
                                 <InputComponent type='number' className='w-20 h-11 ' />
                                 <label className="text-[#70685a] font-bold mb-2 block text-left !mb-0 pt-2 ml-5" >To</label>
-                                <button type="button" onClick={itemsSave}
+                                <button type="button"
                                     className="!w-10 h-10 ml-5 inline-flex items-center justify-center text-[#70685a] border border-[#70685a] outline-none hover:bg-purple-700 active:bg-purple-600">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="14px" fill="#70685a" className="inline" viewBox="0 0 512 512">
                                         <path

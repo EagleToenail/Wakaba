@@ -562,20 +562,21 @@ const InvoicePurchaseOfBroughtBlank = () => {
         if (childData) {
             const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
             //send customer item data
-            if (!wakabaBaseUrl) {
-                throw new Error('API base URL is not defined');
-            }
-            const customerId = customer.id;
-            const item1 = customer.item1;
-            const item2 = customer.item2;
-            const item3 = customer.item3;
-            axios.post(`${wakabaBaseUrl}/customer/customerItem`, customerId, item1, item2, item3)
-                .then(response => {
-                })
-                .catch(error => {
-                    console.error("There was an error fetching the customer data!", error);
-                });
+            // if (!wakabaBaseUrl) {
+            //     throw new Error('API base URL is not defined');
+            // }
+            // const customerId = customer.id;
+            // const item1 = customer.item1;
+            // const item2 = customer.item2;
+            // const item3 = customer.item3;
+            // axios.post(`${wakabaBaseUrl}/customer/customerItem`, customerId, item1, item2, item3)
+            //     .then(response => {
+            //     })
+            //     .catch(error => {
+            //         console.error("There was an error fetching the customer data!", error);
+            //     });
             //---------
+            itemsSave();
             const numberOfInvoice = 1;
             const purchaseData = { deadline, numberOfInvoice, totalSalesSlipData };
             // console.log('send purchase data',purchaseData,id);
@@ -1324,8 +1325,10 @@ const InvoicePurchaseOfBroughtBlank = () => {
                             <tbody>
                                 <tr className='!h-8'>
                                     <td style={{ visibility: 'hidden' }}>as</td>
-                                    <td style={Td}> <InputComponent name='number' onChange={handleChange} value={salesSlipData.number || ''} className='w-full h-8 text-[#70685a]' /></td>
                                     <td style={Td}>
+                                        <InputComponent name='number' onChange={handleChange} value={salesSlipData.number || ''} className='w-full h-8 text-[#70685a]' />
+                                    </td>
+                                    <td style={Td} >
                                         <select name="hearing" value={salesSlipData.hearing || ''} onChange={(e) => setSalesSlipData({ hearing: e.target.value })} className="w-full h-8 text-[#70685a] font-bold outline-[#70685a]">
                                             <option value="" disabled></option>
                                             <option value="済">済</option>
@@ -1402,19 +1405,19 @@ const InvoicePurchaseOfBroughtBlank = () => {
                                         </div>
                                     </td>
                                     <td style={Td}>
-                                        <InputComponent name='product' onChange={handleChange} value={salesSlipData.product || ''} className='w-full h-8 text-[#70685a]' />
+                                        <InputComponent name='product_name' onChange={handleChange} value={salesSlipData.product_name || ''} className='w-full h-8 text-[#70685a]' />
                                     </td>
                                     <td style={Td}>
-                                        <InputComponent name='quantity' type='number' onChange={handleChange} value={salesSlipData.quantity || ''} className='w-full h-8 text-[#70685a]' />
+                                        <InputComponent name='quantity' type='number' onChange={handleChange} value={salesSlipData.quantity || ''} className='w-20 h-8 text-[#70685a]' />
                                     </td>
                                     <td style={Td}>
                                         <InputComponent name='reason_application' onChange={handleChange} value={salesSlipData.reason_application || ''} className='w-full h-8 text-[#70685a]' />
                                     </td>
                                     <td style={Td}>
-                                        <InputComponent name='interest_rate' type='number' onChange={handleChange} value={salesSlipData.interest_rate || ''} className='w-full h-8 text-[#70685a]' />
+                                        <InputComponent name='interest_rate' type='number' onChange={handleChange} value={salesSlipData.interest_rate || ''} className='w-20 h-8 text-[#70685a]' />
                                     </td>
                                     <td style={Td}>
-                                        <InputComponent name='product_price' type='number' onChange={handleChange} value={salesSlipData.product_price || ''} className='w-full h-8 text-[#70685a]' />
+                                        <InputComponent name='product_price' type='number' onChange={handleChange} value={salesSlipData.product_price || ''} className='w-20 h-8 text-[#70685a]' />
                                     </td>
                                     <td style={Td}>
                                         <InputComponent name='highest_estimate_vendor' onChange={handleChange} value={salesSlipData.highest_estimate_vendor || ''} className='w-full h-8 text-[#70685a]' />
@@ -1423,7 +1426,7 @@ const InvoicePurchaseOfBroughtBlank = () => {
                                         <InputComponent name='highest_estimate_price' type='number' onChange={handleChange} value={salesSlipData.highest_estimate_price || ''} className='w-full h-8 text-[#70685a]' />
                                     </td>
                                     <td style={Td}>
-                                        <InputComponent name='number_of_vendor' type='number' onChange={handleChange} value={salesSlipData.number_of_vendor || ''} className='w-full h-8 text-[#70685a]' />
+                                        <InputComponent name='number_of_vendor' type='number' onChange={handleChange} value={salesSlipData.number_of_vendor || ''} className='w-20 h-8 text-[#70685a]' />
                                     </td>
                                     {isvendorshow && vendors.map((vendor, index) => (
                                         <td style={Td} key={index}>
@@ -1434,7 +1437,7 @@ const InvoicePurchaseOfBroughtBlank = () => {
                                         <InputComponent name='supervisor_direction' onChange={handleChange} value={salesSlipData.supervisor_direction || ''} className='w-full h-8 text-[#70685a]' />
                                     </td>
                                     <td style={Td}>
-                                        <select name="purchase_result" value={salesSlipData.purchase_result || ''} onChange={handleChange} className="w-full h-8 text-[#70685a] font-bold border border-[#70685a] outline-[#70685a]">
+                                        <select name="purchase_result" value={salesSlipData.purchase_result || ''} onChange={handleChange} className="w-full h-10 text-[#70685a] font-bold border border-[#70685a] outline-[#70685a]">
                                             <option value="" disabled></option>
                                             <option value="賛成">賛成</option>
                                             <option value="反対">反対</option>
@@ -1442,7 +1445,7 @@ const InvoicePurchaseOfBroughtBlank = () => {
                                     </td>
                                     <td style={Td}>
                                         <div className='w-full flex justify-center'>
-                                            <InputComponent name='purchase_price' onChange={handleChange} type='number' value={salesSlipData.purchase_price || ''} className='w-full h-8 text-[#70685a]' />
+                                            <InputComponent name='purchase_price' onChange={handleChange} type='number' value={salesSlipData.purchase_price || ''} className='w-40 h-8 text-[#70685a]' />
                                         </div>
                                     </td>
                                 </tr>

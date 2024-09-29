@@ -36,23 +36,29 @@ const PurchaseInvoiceForBroughtInItems = () => {
     const clearReduxData = () => {
         dispatch(setClearData());
     }
-    if(data.data !== 'Initial Data') {
-        clearReduxData();
-    }
+    console.log('data---------',purchaseData.totalSalesSlipData);
+    // if(data.data !== 'Initial Data') {
+    //     clearReduxData();
+    // }
 
     const [totalQuantity, setTotalQuantity] = useState('');
     const [totalPrice, setTotalPrice] = useState('');
 
     // Calculate total quantity
     const calculateTotalQuantity = () => {
-        const total = purchaseData.totalSalesSlipData.reduce((sum, item) => parseInt(sum) + (parseInt(item.quantity) || 0), 0);
-        setTotalQuantity(total);
+        if(purchaseData.totalSalesSlipData?.length>0) {
+            const total = purchaseData.totalSalesSlipData.reduce((sum, item) => parseInt(sum) + (parseInt(item.quantity) || 0), 0);
+            setTotalQuantity(total);
+        }
+
     };
 
     // Calculate total price
     const calculateTotalPrice = () => {
-        const total = purchaseData.totalSalesSlipData.reduce((sum, item) => parseFloat(sum) + (parseFloat(parseFloat(item.purchase_price) * parseFloat(item.quantity)) || 0), 0);
-        setTotalPrice(total);
+        if(purchaseData.totalSalesSlipData?.length>0) {
+            const total = purchaseData.totalSalesSlipData.reduce((sum, item) => parseFloat(sum) + (parseFloat(parseFloat(item.purchase_price) * parseFloat(item.quantity)) || 0), 0);
+            setTotalPrice(total);
+        }
     };
 
     const formatQuantityForDisplay = (quantity) => {
@@ -79,7 +85,7 @@ const PurchaseInvoiceForBroughtInItems = () => {
             axios.get(`${wakabaBaseUrl}/customer/getCustomerById/${customerId}`)
                 .then(response => {
                     setCustomer(response.data);
-                    console.log('customerdata', response.data);
+                    // console.log('customerdata', response.data);
                 })
                 .catch(error => {
                     console.error("There was an error fetching the customer data!", error);
@@ -231,7 +237,7 @@ const PurchaseInvoiceForBroughtInItems = () => {
 
     }
     return (<>
-        {purchaseData && (
+        {purchaseData.totalSalesSlipData?.length>0 && (
             <div >
                 <Titlebar title={title} />
                 <div id='purchaseInvoice' className="bg-[trasparent] font-[sans-serif]">
@@ -360,18 +366,10 @@ const PurchaseInvoiceForBroughtInItems = () => {
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                {purchaseData.totalSalesSlipData.map((purchase, Index) => (
+                                                {purchaseData.totalSalesSlipData?.length>0 && purchaseData.totalSalesSlipData.map((purchase, Index) => (
                                                     <tr key={Index}>
                                                         <td >{Index + 1}.</td>
-                                                        <td style={Td}>
-                                                            {/* <select id="gender" name="gender" className="w-full text-[#70685a] font-bold  px-4 py-1 outline-[#70685a]">
-                                                <option value="1">種別</option>
-                                                <option value="2">Afg</option>
-                                                <option value="3">Åland</option>
-                                                <option value="4">Albania</option>
-                                            </select> */}
-                                                            {purchase.product_type_one}
-                                                        </td>
+                                                        <td style={Td}>{purchase.product_type_one}</td>
                                                         <td style={Td}>{purchase.product}</td>
                                                         <td style={Td}>{purchase.quantity}</td>
                                                         <td style={Td}>{purchase.purchase_price}</td>
