@@ -167,8 +167,8 @@ const StampRelatedInventoryList = () => {
             stampValue: '',
             numberOfSides: '',
             sheetValue: '',
-            numberOfSheets: '',
-            totalFaceValue: ''
+            numberOfSheets: '0',
+            totalFaceValue: '0'
         }); // Reset editedRow state
     };
 
@@ -235,19 +235,38 @@ const StampRelatedInventoryList = () => {
         calculateSheetTotal();
     }, [sheetRows]);
     //------------pasting---------------------------------
-    const [pastingRows, setPastingRows] = useState([{
-        id: '1',
-        stampValue: '¥7',
-        mountValue: '¥100,000',
-        numberOfMounts: '1,000',
-        totalFaceValue: '¥1,000,000'
-    }]);
+    const [pastingRows, setPastingRows] = useState([]);
+    const [totalNumberOfPasting1, setTotalNumberofPasting1 ] = useState('');
+    const [totalNumberOfPasting2, setTotalNumberofPasting2 ] = useState('');
+    const [totalPastingFaceValue1, setPastingFaceValue1 ] = useState('');
+    const [totalPastingFaceValue2, setPastingFacevalue2 ] = useState('');
+
+    //fetch sheet data
+    useEffect(() => {
+        const fetchData = async () => {
+    
+            const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+            if (!wakabaBaseUrl) {
+                throw new Error('API base URL is not defined');
+            }
+            const response = await axios.get(`${wakabaBaseUrl}/stamppasting`);
+            initialPastingData(response.data);
+            console.log('setPastingRows',response.data);
+        };
+        fetchData();
+        }, []);
+    // clear other three data 
+    const initialPastingData =(pastingData) => {
+        setPastingRows(pastingData);
+        // console.log('updated data',updatedData)
+    } 
+
     const [inputPastingShow, setInputPastingShow] = useState(false);
     const [newPastingRow, setNewPastingRow] = useState({
         stampValue: '',
         mountValue: '',
         numberOfMounts: '',
-        totalFaceValue: ''
+        totalFaceValue: '0'
     });
     const handlePastingChange = (e) => {
         const { name, value } = e.target;
@@ -256,16 +275,45 @@ const StampRelatedInventoryList = () => {
             [name]: value
         }));
     };
+    // multiply
+    useEffect(() => {
+        // Calculate product when sheetValue and numberOfSides are both filled
+        const { stampValue } = newPastingRow;
+        if (stampValue) {
+            const calculatedProduct = Number(stampValue) * Number(25);
+            setNewPastingRow((prev) => ({ ...prev, mountValue: calculatedProduct }));
+            // console.log('multiply', calculatedProduct)
+        } else {
+            setNewPastingRow((prev) => ({ ...prev, mountValue: '' }));
+        }
+    }, [newPastingRow.stampValue]);
     // Add a new row to the table
-    const handleAddPastingRow = () => {
+    const handleAddPastingRow = async() => {
         if (inputPastingShow) {
-            setPastingRows((prevPastingRows) => [...prevPastingRows, { ...newPastingRow, id: Date.now() }]);
-            setNewPastingRow({
-                stampValue: '',
-                mountValue: '',
-                numberOfMounts: '',
-                totalFaceValue: ''
-            });
+            try {
+                const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+                if (!wakabaBaseUrl) {
+                    throw new Error('API base URL is not defined');
+                }
+                await axios.post(`${wakabaBaseUrl}/stamppasting/create`, newPastingRow)
+                .then(response => {
+                    // console.log('success',response.data)
+                    setPastingRows(response.data);
+                    initialPastingData(response.data);
+                })
+                .catch(error => {
+                    console.error("There was an error fetching the customer data!", error);
+                }); // Send newRow data to the server
+                //setPastingRows((prevPastingRows) => [...prevPastingRows, { ...newPastingRow, id: Date.now() }]);
+                setNewPastingRow({
+                    stampValue: '',
+                    mountValue: '',
+                    numberOfMounts: '',
+                    totalFaceValue: '0'
+                });
+              } catch (error) {
+                console.error('Error adding row:', error);
+              }
         }
         setInputPastingShow(!inputPastingShow);
     };
@@ -274,12 +322,15 @@ const StampRelatedInventoryList = () => {
     const [editedPastingRow, setEditedPastingRow] = useState({
         stampValue: '',
         mountValue: '',
-        numberOfMounts: '',
-        totalFaceValue: ''
+        numberOfMounts: '0',
+        totalFaceValue: '0'
     });
     const handlePastingInputChange = (e) => {
         const { name, value } = e.target;
         setEditedPastingRow({ ...editedPastingRow, [name]: value });
+        if(name === 'numberOfMounts') {
+            calculatePasting(value);
+        }
     };
 
     const handlePastingEditClick = (index) => {
@@ -287,17 +338,32 @@ const StampRelatedInventoryList = () => {
         setEditedPastingRow(pastingRows[index]); // Populate the input fields with the selected row's data
     };
 
-    const handlePastingSaveClick = () => {
+    const handlePastingSaveClick = async() => {
         const updatedData = pastingRows.map((row, index) =>
             index === editPastingIndex ? { ...row, ...editedPastingRow } : row
         );
-        setPastingRows(updatedData);
+        try {
+            const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+            if (!wakabaBaseUrl) {
+                throw new Error('API base URL is not defined');
+            }
+            await axios.post(`${wakabaBaseUrl}/stamppasting/update`, editedPastingRow)
+            .then(response => {
+                initialPastingData(response.data);
+            })
+            .catch(error => {
+                console.error("There was an error fetching the customer data!", error);
+            }); // Send newRow data to the server
+          } catch (error) {
+            console.error('Error adding row:', error);
+          }
+        // setPastingRows(updatedData);
         setEditPastingIndex(-1); // Exit edit mode
         setEditedPastingRow({
             stampValue: '',
             mountValue: '',
-            numberOfMounts: '',
-            totalFaceValue: ''
+            numberOfMounts: '0',
+            totalFaceValue: '0'
         }); // Reset editedRow state
     };
 
@@ -315,6 +381,53 @@ const StampRelatedInventoryList = () => {
     const handlePastingDeleteClick = (index) => {
         setPastingRows(pastingRows.filter((_, i) => i !== index));
     };
+    //calculate
+    const calculatePasting = (numberofmounts) => {
+        const { mountValue } = editedSheetRow;
+        // console.log('shetValue',sheetValue)
+        if (mountValue) {
+            const calculatedProduct = Number(mountValue) * Number(numberofmounts);
+            setEditedPastingRow((prev) => ({ ...prev, totalFaceValue: calculatedProduct }));           
+        } else {
+            setNewPastingRow((prev) => ({ ...prev, sheetValue: '' }));
+        }
+    }
+        //calculate second table
+        const calculatePastingTotal = ()=>{
+        // Calculate the sum
+            const totalnumberofsheet1 = pastingRows.reduce((sum, item) => {
+                if (item.stampValue >= 50) { 
+                    return parseFloat(sum) + parseFloat(item.numberOfMounts);
+                }
+                return sum; 
+            }, 0);
+            setTotalNumberofPasting1(totalnumberofsheet1);
+            const totalnumberofsheet2 = pastingRows.reduce((sum, item) => {
+                if (item.stampValue < 50) { 
+                    return parseFloat(sum) + parseFloat(item.numberOfMounts);
+                }
+                return sum; 
+            }, 0);
+            // console.log('sum of totalnumberofsheet',totalnumberofsheet2)
+            setTotalNumberofPasting2(totalnumberofsheet2);
+            const facevalue1 = pastingRows.reduce((sum, item) => {
+                if (item.stampValue >= 50) { 
+                    return parseFloat(sum) + parseFloat(item.totalFaceValue);
+                }
+                return sum; 
+            }, 0);
+            setPastingFaceValue1(facevalue1);
+            const facevalue2 = pastingRows.reduce((sum, item) => {
+                if (item.stampValue < 50) { 
+                    return parseFloat(sum) + parseFloat(item.totalFaceValue);
+                }
+                return sum; 
+            }, 0);
+            setPastingFacevalue2(facevalue2);
+        }
+        useEffect(() => {
+            calculatePastingTotal();
+        }, [pastingRows]);
     //------------Rose---------------------------------
     const [roseRows, setRoseRows] = useState([]);
     const [totalNumberOfRose1, setTotalNumberofRose1 ] = useState('');
@@ -1099,18 +1212,18 @@ const StampRelatedInventoryList = () => {
                                         <tbody>
                                             <tr>
                                                 <td>下記合計</td>
-                                                <td style={Td}>1000</td>
-                                                <td style={Td}>¥1,000,000</td>
+                                                <td style={Td}>{parseFloat(totalNumberOfPasting1) + parseFloat(totalNumberOfPasting2) || ''}</td>
+                                                <td style={Td}>{parseFloat(totalPastingFaceValue1) + parseFloat(totalPastingFaceValue2) || ''}</td>
                                             </tr>
                                             <tr>
                                                 <td>50円以上</td>
-                                                <td style={Td}>1000</td>
-                                                <td style={Td}>¥1,000,000</td>
+                                                <td style={Td}>{parseFloat(totalNumberOfPasting1) || ''}</td>
+                                                <td style={Td}>{parseFloat(totalPastingFaceValue1) || ''}</td>
                                             </tr>
                                             <tr>
                                                 <td>50円未満</td>
-                                                <td style={Td}>1000</td>
-                                                <td style={Td}>¥1,000,000</td>
+                                                <td style={Td}>{parseFloat(totalNumberOfPasting2) || ''}</td>
+                                                <td style={Td}>{parseFloat(totalPastingFaceValue2) || ''}</td>
                                             </tr>
                                         </tbody>
                                     </table>

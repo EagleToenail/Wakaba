@@ -1383,7 +1383,7 @@ const StampRelatedPurchaseStatement = () => {
                             </div>
                         </div>
                         {/* ----------------------Letter pack--------------- */}
-                        <div className='stamp-related-inventory-list-one mt-5 w-fll ml-5 mr-10'>
+                        <div className='stamp-related-inventory-list-one mt-5 w-fll ml-5 '>
                             {/* first */}
                             <div className='flex justify-center h-30 mb-2'>
                                 <div className='flex w-full'>
@@ -1405,7 +1405,7 @@ const StampRelatedPurchaseStatement = () => {
                             </div>
                             {/* second */}
                             <div className='flex justify-end w-full h-[120px]' >
-                                <div className='mt-5 flex flex-col justify-end' style={{ width: '70%' }}>
+                                <div className='mt-5 flex flex-col justify-end' style={{ width: '80%' }}>
                                     <div className='flex flex-col justify-end'>
                                         <table className=' text-center w-full' style={Table}>
                                             <thead className='!h-8 text-[14px]'>
