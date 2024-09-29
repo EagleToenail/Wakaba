@@ -375,12 +375,14 @@ const CustomerIndividual = () => {
     }, [pairs, additionalCheckboxes]);
     //---remake function
     const checkedFunction = (item1, item2, item3, item4, item5) => {
-        const array = item1.split(',').map(Number);
-        setAdditionalCheckboxes(array);
-        updateValueAtIndex(0, item2);
-        updateValueAtIndex(1, item3);
-        updateValueAtIndex(2, item4);
-        updateValueAtIndex(3, item5);
+        if(item1?.length>0) {
+            const array = item1.split(',').map(Number);
+            setAdditionalCheckboxes(array);
+            updateValueAtIndex(0, item2);
+            updateValueAtIndex(1, item3);
+            updateValueAtIndex(2, item4);
+            updateValueAtIndex(3, item5);
+        }
     }
 
     const updateValueAtIndex = (index, newValue) => {

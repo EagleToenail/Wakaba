@@ -98,7 +98,7 @@ const StampRelatedInventoryList = () => {
                 await axios.post(`${wakabaBaseUrl}/stampsheet/create`, newSheetRow)
                 .then(response => {
                     // console.log('success',response.data)
-                    // setSheetRows(response.data);
+                    setSheetRows(response.data);
                     initialSheetData(response.data);
                 })
                 .catch(error => {
@@ -720,7 +720,7 @@ const StampRelatedInventoryList = () => {
                 await axios.post(`${wakabaBaseUrl}/stampcard/create`, newCardRow)
                 .then(response => {
                     // console.log('success',response.data)
-                    // setSheetRows(response.data);
+                    setCardRows(response.data);
                     initialCardData(response.data);
                 })
                 .catch(error => {
@@ -771,8 +771,8 @@ const StampRelatedInventoryList = () => {
             await axios.post(`${wakabaBaseUrl}/stampcard/update`, editedCardRow)
             .then(response => {
                 // console.log('success',response.data)
-                // setSheetRows(response.data);
-                initialSheetData(response.data);
+                setCardRows(response.data);
+                initialCardData(response.data);
             })
             .catch(error => {
                 console.error("There was an error fetching the customer data!", error);

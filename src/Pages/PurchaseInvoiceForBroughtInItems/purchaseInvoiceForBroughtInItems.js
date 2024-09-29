@@ -14,6 +14,14 @@ import html2canvas from 'html2canvas';
 import { jsPDF } from 'jspdf';
 
 
+import StampSheet from '../../Assets/img/stampsheet.png'
+import LetterPack from '../../Assets/img/letterpack.png'
+import StampRose from '../../Assets/img/stamprose.png'
+import PostCard from '../../Assets/img/postcard.png'
+import LabelComponent from '../../Components/Common/LabelComponent';
+import InputComponent from '../../Components/Common/InputComponent';
+
+
 const PurchaseInvoiceForBroughtInItems = () => {
     const title = 'タイトルタイトル';
 
@@ -36,7 +44,15 @@ const PurchaseInvoiceForBroughtInItems = () => {
     const clearReduxData = () => {
         dispatch(setClearData());
     }
-    console.log('data---------',purchaseData.totalSalesSlipData);
+    const [purchaseInformation, setPurchaseInformation] = useState({});
+    useEffect(() => {
+        if (data.data !== 'Initial Data') {
+            setPurchaseInformation(purchaseData);
+            // clearReduxData();
+        }
+    }, [data.data]);
+
+    console.log('data---------',purchaseData);
     // if(data.data !== 'Initial Data') {
     //     clearReduxData();
     // }
@@ -46,8 +62,8 @@ const PurchaseInvoiceForBroughtInItems = () => {
 
     // Calculate total quantity
     const calculateTotalQuantity = () => {
-        if(purchaseData.totalSalesSlipData?.length>0) {
-            const total = purchaseData.totalSalesSlipData.reduce((sum, item) => parseInt(sum) + (parseInt(item.quantity) || 0), 0);
+        if(purchaseInformation.totalSalesSlipData?.length>0) {
+            const total = purchaseInformation.totalSalesSlipData.reduce((sum, item) => parseInt(sum) + (parseInt(item.quantity) || 0), 0);
             setTotalQuantity(total);
         }
 
@@ -55,8 +71,8 @@ const PurchaseInvoiceForBroughtInItems = () => {
 
     // Calculate total price
     const calculateTotalPrice = () => {
-        if(purchaseData.totalSalesSlipData?.length>0) {
-            const total = purchaseData.totalSalesSlipData.reduce((sum, item) => parseFloat(sum) + (parseFloat(parseFloat(item.purchase_price) * parseFloat(item.quantity)) || 0), 0);
+        if(purchaseInformation.totalSalesSlipData?.length>0) {
+            const total = purchaseInformation.totalSalesSlipData.reduce((sum, item) => parseFloat(sum) + (parseFloat(parseFloat(item.purchase_price) * parseFloat(item.quantity)) || 0), 0);
             setTotalPrice(total);
         }
     };
@@ -69,12 +85,12 @@ const PurchaseInvoiceForBroughtInItems = () => {
     useEffect(() => {
         calculateTotalQuantity();
         calculateTotalPrice();
-    }, [purchaseData]); // Recalculate whenever purchaseData changes
+    }, [purchaseInformation]); // Recalculate whenever purchaseInformation changes
 
     const [customer, setCustomer] = useState([]);
 
     useEffect(() => {
-        const customerId = data.data.totalSalesSlipData[0].customer_id;
+        const customerId = purchaseData.totalSalesSlipData[0].customer_id;
         if (customerId !== '' && customerId !== null) {
             const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
             if (!wakabaBaseUrl) {
@@ -114,17 +130,15 @@ const PurchaseInvoiceForBroughtInItems = () => {
         alignItem: 'center'
     };
 
-    // const Th = {
-    //     border: '1px solid #70685a',
-    //     borderCollapse: 'collapse',
-    //     color: '#70685a',
-    //     fontSize: '15px'
-    // };
+    const Th = {
+        whiteSpace: 'nowrap'
+    };
     const Td = {
-        border: '1px solid #6e6e7c',
+        border: '1px solid #70685a',
         borderCollapse: 'collapse',
-        color: '#6e6e7c',
+        color: '#70685a',
         fontSize: '15px',
+        whiteSpace: 'nowrap'
     };
 
     const [dateTime, setDateTime] = useState(new Date());
@@ -221,7 +235,7 @@ const PurchaseInvoiceForBroughtInItems = () => {
                 if (!wakabaBaseUrl) {
                     throw new Error('API base URL is not defined');
                 }
-                const payload = purchaseData.totalSalesSlipData;
+                const payload = purchaseInformation.totalSalesSlipData;
                 const response = await  axios.post(`${wakabaBaseUrl}/purchaseinvoice`,{dataUrl, payload});
                 console.log('Response:', response.data);
 
@@ -236,8 +250,16 @@ const PurchaseInvoiceForBroughtInItems = () => {
         }
 
     }
+    //show modal
+    const [showStampModal , setShowStampModal] = useState(false);
+    const closeModal = () => {
+        setShowStampModal(false);
+    }
+    const openModal = () => {
+        setShowStampModal(true);
+    }
     return (<>
-        {purchaseData.totalSalesSlipData?.length>0 && (
+        {purchaseInformation.totalSalesSlipData?.length>0 && (
             <div >
                 <Titlebar title={title} />
                 <div id='purchaseInvoice' className="bg-[trasparent] font-[sans-serif]">
@@ -247,7 +269,7 @@ const PurchaseInvoiceForBroughtInItems = () => {
                             {/* header */}
                             <div className='flex justify-between'>
                                 <div className='' style={{ width: '25%' }}>
-                                    <label className="text-[#70685a] font-bold mb-2 block text-left mr-10 !mb-0">買取計算書No.{purchaseData.numberOfInvoice || ''}</label>
+                                    <label className="text-[#70685a] font-bold mb-2 block text-left mr-10 !mb-0">買取計算書No.{purchaseInformation.numberOfInvoice || ''}</label>
                                     <div className='flex'>
                                         <label className="text-[#70685a] font-bold mb-2 block text-left mr-3 !mb-0">事業者名</label>
                                         <div>
@@ -258,7 +280,7 @@ const PurchaseInvoiceForBroughtInItems = () => {
                                     <div className='flex'>
                                         <label className="text-[#70685a] font-bold mb-2 block text-left mr-3 !mb-0">店舗名</label>
                                         <div>
-                                            <label className="text-[#70685a] font-bold mb-2 block text-left !mb-0">{data.data.totalSalesSlipData[0].store_name || ''}</label>
+                                            <label className="text-[#70685a] font-bold mb-2 block text-left !mb-0">{purchaseInformation.totalSalesSlipData[0].store_name || ''}</label>
                                         </div>
                                     </div>
                                 </div>
@@ -366,10 +388,14 @@ const PurchaseInvoiceForBroughtInItems = () => {
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                {purchaseData.totalSalesSlipData?.length>0 && purchaseData.totalSalesSlipData.map((purchase, Index) => (
+                                                {purchaseInformation.totalSalesSlipData?.length>0 && purchaseInformation.totalSalesSlipData.map((purchase, Index) => (
                                                     <tr key={Index}>
                                                         <td >{Index + 1}.</td>
-                                                        <td style={Td}>{purchase.product_type_one}</td>
+                                                        <td style={Td}>
+                                                            {purchase.product_type_one === '切手' ? (
+                                                                <div className='w-full text-[#70685a] font-bold cursor-pointer' onClick={openModal}>切手</div>
+                                                            ) : (purchase.product_type_one || '')}
+                                                        </td>
                                                         <td style={Td}>{purchase.product}</td>
                                                         <td style={Td}>{purchase.quantity}</td>
                                                         <td style={Td}>{purchase.purchase_price}</td>
@@ -510,6 +536,392 @@ const PurchaseInvoiceForBroughtInItems = () => {
             </div>
         )}
         {error && <div className="text-red-500 flex justify-center pb-20">{error}</div>}
+        {/* --Modal-- */}
+        {showStampModal &&
+        <div
+            className="fixed inset-0 p-4 flex flex-wrap justify-center items-center w-full h-full z-[1000] before:fixed before:inset-0 before:w-full before:h-full before:bg-[rgba(0,0,0,0.5)] overflow-auto font-[sans-serif]">
+            <div className="w-full max-w-full h-full bg-white shadow-lg rounded-lg p-8 relative overflow-y-auto">
+                <div className="flex items-center">
+                    <h3 className="text-blue-600 text-xl font-bold flex-1"></h3>
+                    <svg onClick={closeModal} xmlns="http://www.w3.org/2000/svg" className="w-3 ml-2 cursor-pointer shrink-0 fill-gray-400 hover:fill-red-500"
+                        viewBox="0 0 320.591 320.591">
+                        <path
+                            d="M30.391 318.583a30.37 30.37 0 0 1-21.56-7.288c-11.774-11.844-11.774-30.973 0-42.817L266.643 10.665c12.246-11.459 31.462-10.822 42.921 1.424 10.362 11.074 10.966 28.095 1.414 39.875L51.647 311.295a30.366 30.366 0 0 1-21.256 7.288z"
+                            data-original="#000000"></path>
+                        <path
+                            d="M287.9 318.583a30.37 30.37 0 0 1-21.257-8.806L8.83 51.963C-2.078 39.225-.595 20.055 12.143 9.146c11.369-9.736 28.136-9.736 39.504 0l259.331 257.813c12.243 11.462 12.876 30.679 1.414 42.922-.456.487-.927.958-1.414 1.414a30.368 30.368 0 0 1-23.078 7.288z"
+                            data-original="#000000"></path>
+                    </svg>
+                </div>
+                <h2 className="text-[#70685a] text-center text-2xl font-bold flex justify-center">日本の切手 買取 印刷確認画面</h2>
+                <div className='mt-8'>
+                    {/* ------------------------ */}
+                        <div className=" flex flex-col items-center justify-center py-3 px-4">
+                            <div className="w-full ">
+                                {/* totoal data */}
+                                <div className='flex justify-around mt-5'>
+                                    <div className='flex'>
+                                        <LabelComponent value="枚数合計" className='w-full font-bold text-right pr-3' />
+                                        <InputComponent value={purchaseData.stamps.totalNumberOfStamp || ''} className='w-full h-10' disabled={true}/>
+                                    </div>
+                                    <div className='flex'>
+                                        <LabelComponent value="額面総額合計(￥)"  className='w-full font-bold text-right pr-3'/>
+                                        <InputComponent value={purchaseData.stamps.totalStampFaceValue || ''} className='w-full h-10' disabled={true}/>
+                                    </div>
+                                    <div className='flex'>
+                                        <LabelComponent value="買取額合計(￥)" className='w-full font-bold text-right pr-3' />
+                                        <InputComponent value={purchaseData.stamps.totalStampPurchasePrice || ''} className='w-full h-10' disabled={true}/>
+                                    </div>
+
+                                </div>
+                                {/* ------------------------------------------------------------------------------------------------------------------------------------- */}
+                                {/* mainpart */}
+                                <div className='w-full stamp-related-inventory-list flex gap-5'>
+                                    {/* ---------------------stamp sheet-------------------------- */}
+                                    <div className='stamp-related-inventory-list-one mt-5 mb-10 w-1/3'>
+                                        {/* first */}
+                                        <div className='flex justify-center h-20 w-full'>
+                                            <div className='flex w-full justify-center'>
+                                                <div className='flex'>
+                                                    <div className='w-10 flex flex-col justify-center'><img src={StampSheet} alt="aaa"></img></div>
+                                                    <div className='flex flex-col justify-center'><LabelComponent value="切手シート" className='pl-5 !text-[20px] font-bold' /></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {/* second */}
+                                        <div className='flex justify-end w-full h-30 w-full'>
+                                            <div className='mt-5 flex flex-col justify-end' style={{ width: '80%' }}>
+                                                <table className=' text-center w-full' style={Table}>
+                                                    <thead className='sticky top-0 bg-white z-10 text-[14px]'>
+                                                        <tr>
+                                                            <th ></th>
+                                                            <th >シート数合計</th>
+                                                            <th >額面総額合計(￥)</th>
+                                                            <th >買取額合計(￥)</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>下記合計</td>
+                                                            <td style={Td}>{parseFloat(purchaseData.stamps.totalNumberOfSheet1) + parseFloat(purchaseData.stamps.totalNumberOfSheet2) || ''}</td>
+                                                            <td style={Td}>{parseFloat(purchaseData.stamps.totalFaceValue1) + parseFloat(purchaseData.stamps.totalFaceValue2) || ''}</td>
+                                                            <td style={Td}>{parseFloat(purchaseData.stamps.totalPurchaseOfSheet1) + parseFloat(purchaseData.stamps.totalPurchaseOfSheet2) || ''}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>50円以上</td>
+                                                            <td style={Td}>{parseFloat(purchaseData.stamps.totalNumberOfSheet1) || ''}</td>
+                                                            <td style={Td}>{parseFloat(purchaseData.stamps.totalFaceValue1) || ''}</td>
+                                                            <td style={Td}>{parseFloat(purchaseData.stamps.totalPurchaseOfSheet1) || ''}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>50円未満</td>
+                                                            <td style={Td}>{parseFloat(purchaseData.stamps.totalNumberOfSheet2) || ''}</td>
+                                                            <td style={Td}>{parseFloat(purchaseData.stamps.totalFaceValue2) || ''}</td>
+                                                            <td style={Td}>{parseFloat(purchaseData.stamps.totalPurchaseOfSheet2) || ''}</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        {/* third */}
+                                        <div className='mt-5 mr-5 w-full'>
+                                            <div>
+                                                <div>
+                                                    <table className=' text-center w-full' style={Table}>
+                                                        <thead className='!h-8 text-[14px]'>
+                                                            <tr>
+                                                                <th style={Th} className='pl-1'>切手1枚の額面(￥)</th>
+                                                                <th style={Th} className='pl-1 pr-1'>面数</th>
+                                                                <th style={Th}  >シート額面(￥)</th>
+                                                                <th style={Th} className='pl-1 pr-1'>シート数</th>
+                                                                <th style={Th} >額面総額(￥)</th>
+                                                                <th style={Th} className='pl-1 pr-1'>買取額(￥)</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody className='!h-8'>
+
+                                                            {purchaseData.stamps.sheetRows?.length > 0 && purchaseData.stamps.sheetRows.map((row, Index) => (
+                                                                <tr key={Index}  className='!h-6'>
+                                                                    <td style={Td}>{row.stampValue || ''}</td>
+                                                                    <td style={Td}>{row.numberOfSides || ''}</td>
+                                                                    <td style={Td}>{row.sheetValue || ''}</td>
+                                                                    <td style={Td}>
+                                                                        {row.numberOfSheets || ''}
+                                                                    </td>
+                                                                    <td style={Td}>
+                                                                        {row.totalFaceValue || ''}
+                                                                    </td>
+                                                                    <td style={Td}>
+                                                                        {row.purchasePrice || ''}
+                                                                    </td>
+                                                                </tr>
+                                                            ))}
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {/* --------------------stamp rose------------------- */}
+                                    <div className='stamp-related-inventory-list-one mt-5 w-1/3'>
+                                        {/* first */}
+                                        <div className='flex justify-center h-20 w-full'>
+                                            <div className='flex w-full justify-center'>
+                                                <div className='flex'>
+                                                    <div className='w-10 flex flex-col justify-center'><img src={StampRose} alt="aaa"></img></div>
+                                                    <div className='flex flex-col justify-center'><LabelComponent value="切手バラ" className='pl-5 !text-[20px] font-bold' /></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {/* second */}
+                                        <div className='flex justify-end w-full h-30 mt-2' >
+                                            <div className='mt-5 flex flex-col justify-end' style={{ width: '80%' }}>
+                                                <table className=' text-center w-full text-[14px]' style={Table}>
+                                                    <thead>
+                                                        <tr>
+                                                            <th ></th>
+                                                            <th style={Th}>台紙数合計</th>
+                                                            <th style={Th}>額面総額合計(￥)</th>
+                                                            <th style={Th}>買取額合計(￥)</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>下記合計</td>
+                                                            <td style={Td}>{parseFloat(purchaseData.stamps.totalNumberOfRose1) + parseFloat(purchaseData.stamps.totalNumberOfRose2) || ''}</td>
+                                                            <td style={Td}>{parseFloat(purchaseData.stamps.totalRoseFaceValue1) + parseFloat(purchaseData.stamps.totalRoseFaceValue2) || ''}</td>
+                                                            <td style={Td}>{parseFloat(purchaseData.stamps.totalPurchaseOfRose1) + parseFloat(purchaseData.stamps.totalPurchaseOfRose2) || ''}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>50円以上</td>
+                                                            <td style={Td}>{parseFloat(purchaseData.stamps.totalNumberOfRose1) || ''}</td>
+                                                            <td style={Td}>{parseFloat(purchaseData.stamps.totalRoseFaceValue1) || ''}</td>
+                                                            <td style={Td}>{parseFloat(purchaseData.stamps.totalPurchaseOfRose1) || ''}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>50円未満</td>
+                                                            <td style={Td}>{parseFloat(purchaseData.stamps.totalNumberOfRose2) || ''}</td>
+                                                            <td style={Td}>{parseFloat(purchaseData.stamps.totalRoseFaceValue2) || ''}</td>
+                                                            <td style={Td}>{parseFloat(purchaseData.stamps.totalPurchaseOfRose2) || ''}</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        {/* third */}
+                                        <div className='mt-5 w-full'>
+                                            <div>
+                                                <div>
+                                                    <table className=' text-center w-full' style={Table}>
+                                                        <thead className='!h-8 text-[14px]'>
+                                                            <tr>
+                                                                <th style={Th}>切手1枚の額面(￥)</th>
+                                                                <th style={Th}>枚数</th>
+                                                                <th style={Th}>額面総額(￥)</th>
+                                                                <th style={Th}>買取額(￥)</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            {purchaseData.stamps.roseRows?.length > 0 && purchaseData.stamps.roseRows.map((row, Index) => (
+                                                                <tr key={Index} className='!h-6'>
+                                                                    <td style={Td}>
+                                                                        {row.stampValue || ''}
+                                                                    </td>
+                                                                    <td style={Td}>
+                                                                        {row.numberOfSheets || ''}
+                                                                    </td>
+                                                                    <td style={Td}>
+                                                                        {row.totalFaceValue || ''}
+                                                                    </td>
+                                                                    <td style={Td}>
+                                                                        {row.purchasePrice || ''}
+                                                                    </td>
+                                                                </tr>
+                                                            ))}
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {/* ----------------------Letter pack--------------- */}
+                                    <div className='stamp-related-inventory-list-one mt-5 w-1/3 ml-5'>
+                                        {/* first */}
+                                        <div className='flex justify-center h-20 mb-2'>
+                                            <div className='flex w-full justify-center'>
+                                                <div className='flex'>
+                                                    <div className='w-10 flex flex-col justify-center'><img src={LetterPack} alt="aaa"></img></div>
+                                                    <div className='flex flex-col justify-center'><LabelComponent value="レ夕一パック" className='pl-5 !text-[20px] font-bold whitespace-nowrap' /></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {/* second */}
+                                        <div className='flex justify-end w-full h-[120px]' >
+                                            <div className='mt-5 flex flex-col justify-end' style={{ width: '80%' }}>
+                                                <div className='flex flex-col justify-end'>
+                                                    <table className=' text-center w-full' style={Table}>
+                                                        <thead className='!h-8 text-[14px]'>
+                                                            <tr>
+                                                                <th ></th>
+                                                                <th style={Th}>枚数合計</th>
+                                                                <th style={Th}>額面総額合計(￥)</th>
+                                                                <th style={Th}>買取額合計(￥)</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>下記合計</td>
+                                                                <td style={Td}>{parseFloat(purchaseData.stamps.totalNumberOfPack1) + parseFloat(purchaseData.stamps.totalNumberOfPack2) || ''}</td>
+                                                                <td style={Td}>{parseFloat(purchaseData.stamps.totalPackFaceValue1) + parseFloat(purchaseData.stamps.totalPackFaceValue2) || ''}</td>
+                                                                <td style={Td}>{parseFloat(purchaseData.stamps.totalPurchaseOfPack1) + parseFloat(purchaseData.stamps.totalPurchaseOfPack2) || ''}</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {/* third */}
+                                        <div className='mt-5 w-full' >
+                                            <div>
+                                                <div>
+                                                    <table className=' text-center w-full' style={Table}>
+                                                        <thead className='!h-8 text-[14px]'>
+                                                            <tr>
+                                                                <th style={Th} className='p1-1 pr-1 !w-20'>種別</th>
+                                                                <th style={Th} >額面(￥)</th>
+                                                                <th style={Th} className='pl-1 pr-1'>枚数</th>
+                                                                <th style={Th} >額面総額(￥)</th>
+                                                                <th style={Th} className='pr-1'>買取額(￥)</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            {purchaseData.stamps.packRows?.length > 0 && purchaseData.stamps.packRows.map((row, Index) => (
+                                                                <tr key={Index} className='!h-6'>
+                                                                    <td style={Td} >
+                                                                        <div className='w-20'>
+                                                                            {row.type || ''}
+                                                                        </div>
+                                                                    </td>
+                                                                    <td style={Td} >
+                                                                        <div className='w-20'>
+                                                                            {row.stampValue || ''}
+                                                                        </div>
+                                                                    </td>
+                                                                    <td style={Td}>
+                                                                        {row.numberOfSheets || ''}
+                                                                    </td>
+                                                                    <td style={Td}>
+                                                                        {row.totalFaceValue || ''}
+                                                                    </td>
+                                                                    <td style={Td}>
+                                                                        {row.purchasePrice || ''}
+                                                                    </td>
+                                                                </tr>
+                                                            ))}
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                            {/* -----------------------------------------------------Postcard------------------------------------------ */}
+                                            <div>
+                                                <div className='mt-10'>
+                                                    <div className='flex justify-center'>
+                                                        <div className='flex w-full justify-center'>
+                                                            <div className='flex'>
+                                                                <div className='w-10 flex flex-col justify-center'><img src={PostCard} alt="aaa"></img></div>
+                                                                <div className='flex flex-col justify-center'><LabelComponent value="ハガキ" className='pl-5 !text-[20px] font-bold' /></div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div className='flex justify-end'>
+                                                    <div className='mt-5 flex flex-col justify-end' style={{ width: '70%' }}>
+                                                        <table className=' text-center w-full' style={Table}>
+                                                            <thead className='text-[14px]'>
+                                                                <tr>
+                                                                    <th></th>
+                                                                    <th style={Th}>枚数計</th>
+                                                                    <th style={Th}>額面総額合計(￥)</th>
+                                                                    <th style={Th}>買取額合計(￥)</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td>下記合計</td>
+                                                                    <td style={Td}>{parseFloat(purchaseData.stamps.totalNumberOfCard1) + parseFloat(purchaseData.stamps.totalNumberOfCard2) || ''}</td>
+                                                                    <td style={Td}>{parseFloat(purchaseData.stamps.totalCardFaceValue1) + parseFloat(purchaseData.stamps.totalCardFaceValue2) || ''}</td>
+                                                                    <td style={Td}>{parseFloat(purchaseData.stamps.totalPurchaseOfCard1) + parseFloat(purchaseData.stamps.totalPurchaseOfCard2) || ''}</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>50円以上</td>
+                                                                    <td style={Td}>{parseFloat(purchaseData.stamps.totalNumberOfCard1) || ''}</td>
+                                                                    <td style={Td}>{parseFloat(purchaseData.stamps.totalCardFaceValue1) || ''}</td>
+                                                                    <td style={Td}>{parseFloat(purchaseData.stamps.totalPurchaseOfCard1) || ''}</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>50円未満</td>
+                                                                    <td style={Td}>{parseFloat(purchaseData.stamps.totalNumberOfCard2) || ''}</td>
+                                                                    <td style={Td}>{parseFloat(purchaseData.stamps.totalCardFaceValue2) || ''}</td>
+                                                                    <td style={Td}>{parseFloat(purchaseData.stamps.totalPurchaseOfCard2) || ''}</td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                                <div className='mt-5 ml-5'>
+
+                                                    <div>
+                                                        <div>
+                                                            <table className=' text-center w-full' style={Table}>
+                                                                <thead className='text-[14px]'>
+                                                                    <tr>
+                                                                        <th style={Th} className='pl-1 pr-1'>額面(￥)</th>
+                                                                        <th style={Th} className='w-20' >枚数</th>
+                                                                        <th style={Th} className='pl-1 pr-1'>額面総額(￥)</th>
+                                                                        <th style={Th} className='pl-1 pr-1'>買取額(￥)</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    {purchaseData.stamps.cardRows?.length > 0 && purchaseData.stamps.cardRows.map((row, Index) => (
+                                                                        <tr key={Index} >
+                                                                            <td style={Td}>
+                                                                                {row.stampValue || ''}
+                                                                            </td>
+                                                                            <td style={Td}>
+                                                                                {row.numberOfSheets || ''}
+                                                                            </td>
+                                                                            <td style={Td}>
+                                                                                {row.totalFaceValue || ''}
+                                                                            </td>
+                                                                            <td style={Td}>
+                                                                                {row.purchasePrice || ''}
+                                                                            </td>
+                                                                        </tr>
+                                                                    ))}
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                            </div>
+                        </div>
+                    </div>
+                    {/* ------------------------ */}
+                    <div className="flex justify-end gap-4 !mt-8">
+                        {/* <button type="button"
+                            className="px-6 py-3 rounded-lg text-gray-800 text-sm border-none outline-none tracking-wide bg-gray-200 hover:bg-gray-300">Cancel</button> */}
+                        <button type="button" onClick={closeModal}
+                            className="px-6 py-3 rounded-lg text-white text-sm border-none outline-none tracking-wide bg-blue-600 hover:bg-blue-700">閉じる</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+         }
+
     </>
     );
 };

@@ -12,6 +12,7 @@ import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { setData } from '../../redux/sales/actions';
 import { setClearData } from '../../redux/sales/actions';
+import { setCustomerID } from '../../redux/sales/actions';
 
 import leftArrow from '../../Assets/img/right-arrow.png';
 import rightArrow from '../../Assets/img/left-arrow.png';
@@ -135,7 +136,7 @@ const InvoicePurchaseOfBrought = () => {
             if (id) {
                 await axios.get(`${wakabaBaseUrl}/customer/getCustomerById/${id}`)
                     .then(response => {
-                        //console.log("data", response.data)
+                        //console.log("customerdata", response.data)
                         checkedFunction(response.data.item1, response.data.item2, response.data.item3, response.data.item4, response.data.item5)
                         setCustomer(response.data);
                     })
@@ -585,23 +586,30 @@ const InvoicePurchaseOfBrought = () => {
     const updateData = (data) => {
         dispatch(setData(data));
     };
+    const sendCustomerId = (data) => {
+        dispatch(setCustomerID(data));
+    };
     //received data using redux
     const data = useSelector((state) => state.data);
     const StampData = data.data;
     const clearReduxData = () => {
         dispatch(setClearData());
     }
-    if (data.data !== 'Initial Data') {
-        // console.log('ok')
-        setTotalSalesSlipData((prevSalesSlipDatas) => [...prevSalesSlipDatas, {
-            ...salesSlipData,
-            id: Date.now(), trading_date: new Date().toISOString().split('T')[0], purchase_staff: userData.username,
-            store_name: userData.store_name, customer_id: id, product_photo: '',
-            product_type_one: '切手', quanitity: StampData.totalNumberOfStamp, purchase_price: StampData.totalStampPurchasePrice
-        }]);
-        clearReduxData();
-    }
-    // console.log('stamp received data1',StampData)
+    const [stamps, setStamps] = useState({});
+    useEffect(() => {
+        if (data.data !== 'Initial Data') {
+            setTotalSalesSlipData((prevSalesSlipDatas) => [...prevSalesSlipDatas, {
+                ...salesSlipData,
+                id: Date.now(), trading_date: new Date().toISOString().split('T')[0], purchase_staff: userData.username,
+                store_name: userData.store_name, customer_id: id, product_photo: '',
+                product_type_one: '切手', quantity: StampData.totalNumberOfStamp, purchase_price: StampData.totalStampPurchasePrice
+            }]);
+            setStamps(StampData);
+            clearReduxData();
+        }
+    }, [data.data]);
+
+    console.log('stamp received data------------',StampData)
     // console.log('stamp received data2',data.data)
 
     // send Purchase data
@@ -626,9 +634,9 @@ const InvoicePurchaseOfBrought = () => {
 
         if (totalSalesSlipData.length != 0 && totalSalesSlipData != null) {
             itemsSave();
-            const purchaseData = { deadline, numberOfInvoice, totalSalesSlipData };
+            const purchaseData = { deadline, numberOfInvoice, totalSalesSlipData ,stamps};
             console.log('send purchase data', purchaseData, id);
-            updateData(purchaseData);
+            updateData(purchaseData);// to sign page using redux
             navigate('/purchaseinvoiceforbroughtinitems');
         }
 
@@ -867,12 +875,14 @@ const InvoicePurchaseOfBrought = () => {
     }, [pairs, additionalCheckboxes]);
     //---remake function
     const checkedFunction = (item1, item2, item3, item4, item5) => {
-        const array = item1.split(',').map(Number);
-        setAdditionalCheckboxes(array);
-        updateValueAtIndex(0, item2);
-        updateValueAtIndex(1, item3);
-        updateValueAtIndex(2, item4);
-        updateValueAtIndex(3, item5);
+        if(item1?.length>0){
+            const array = item1.split(',').map(Number);
+            setAdditionalCheckboxes(array);
+            updateValueAtIndex(0, item2);
+            updateValueAtIndex(1, item3);
+            updateValueAtIndex(2, item4);
+            updateValueAtIndex(3, item5);
+        }
     }
 
     const updateValueAtIndex = (index, newValue) => {
@@ -899,6 +909,7 @@ const InvoicePurchaseOfBrought = () => {
     //--------------------------------------------------------
     //go to stamps related page #62(stamp related purchase statement)
     const gotoStampsPurchase = () => {
+        sendCustomerId(id);//send customerId
         navigate('/stamprelatedpurchasestatement');
     }
 
