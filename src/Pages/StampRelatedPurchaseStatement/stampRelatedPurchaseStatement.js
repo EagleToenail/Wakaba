@@ -942,7 +942,7 @@ const StampRelatedPurchaseStatement = () => {
                     <div className='stamp-purchase flex justify-evenly '>
                         <div className='w-full flex justify-center mt-5'>
                             <button type="button" onClick={gotoStampRelatedInventory}
-                                className=" py-1 min-w-[160px] text-[#70685a] text-[15px] rounded-full font-bold outline-none border border-[#70685a]">
+                                className=" py-1 min-w-[160px] text-[#70685a] text-[15px] rounded-full font-bold outline-none border border-[#70685a] hover:bg-[#524c3b] hover:text-white transition-all duration-300">
                                 買取計算書へ戻る
                             </button>
                         </div>
@@ -954,7 +954,7 @@ const StampRelatedPurchaseStatement = () => {
                         </div>
                         <div className='w-full flex justify-center mt-5'>
                             <button type="button" onClick={gotoStampPurchaseInterestChange}
-                                className=" py-1 min-w-[160px] text-[#70685a] text-[15px] rounded-full font-bold outline-none border border-[#70685a]">
+                                className=" py-1 min-w-[160px] text-[#70685a] text-[15px] rounded-full font-bold outline-none border border-[#70685a] hover:bg-[#524c3b] hover:text-white transition-all duration-300">
                                 買取利率変更申請
                             </button>
                         </div>

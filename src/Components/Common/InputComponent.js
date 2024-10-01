@@ -8,7 +8,8 @@ const InputComponent = ({
     placeholder,
     type = 'text',
     style = {},
-    disabled = false,  // Add disabled prop here
+    disabled = false,  // Existing disabled prop
+    readOnly = false,  // Add readOnly prop here
     ...props
 }) => {
     const defaultStyle = {
@@ -25,6 +26,7 @@ const InputComponent = ({
             placeholder={placeholder}
             style={{ ...defaultStyle, ...style }}
             disabled={disabled}  // Pass disabled prop to the input
+            readOnly={readOnly}  // Pass readOnly prop to the input
             {...props}
         />
     );

@@ -59,6 +59,7 @@ import StampPurchaseListCustomerConfirmation from './Pages/StampPurchaseListCust
 import StampPurchaseInterestRateChange from './Pages/StampPurchaseInterestRateChange/stampPurchaseInterestRateChange';//stamp purchase interest rate change application screen//#64
 import CommemorativeCoinHistoryList from './Pages/CommemorativeCoinHistoryList/commemorativeCoinHistoryList';// commermorative coin history list
 import CommemorativeCoinExchange from './Pages/CommemorativeCoinExchange/commemorativeCoinExchange';// Commermorative coin exchange application
+import CommemorativeCoinChangeDetail from './Pages/CommemorativeCoinChangeDetail/commemorativeCoinChangeDetail';//commemorative coin exchange detail
 import PreciousMetalsPrices from './Pages/PreciousMetalsPrices/preciousMetalsPrices';//precious Metals Prices
 import CustomerReceipt from './Pages/CustomerReceipt/customerReceipt';//Customer receipt
 
@@ -145,6 +146,7 @@ function App() {
             <Route path='/stamppurchaselistcustomerconfirmation' element={<StampPurchaseListCustomerConfirmation/>}/>
             <Route path='/stamppurchaseinterestratechange' element={<StampPurchaseInterestRateChange/>}/>
             <Route path='/commemorativecoinhistorylist' element={<CommemorativeCoinHistoryList/>}/>
+            <Route path='/commemorativecoinchangedetail/:id' element={<CommemorativeCoinChangeDetail/>}/>
             <Route path='/commemorativecoinexchange' element={<CommemorativeCoinExchange/>}/>
             <Route path='/preciousmetalsprices' element={<PreciousMetalsPrices/>}/>
             <Route path='/customerreceipt' element={<CustomerReceipt/>}/>  

@@ -187,9 +187,9 @@ const SafeMoney = () => {
                         <div className='safe-money-first flex '>
                             <div className='flex'>
                                 <button type="button" onClick={gotoMonthlyIncome}
-                                    className="mr-10 px-3  py-1 min-w-[160px] text-[#70685a] rounded-full tracking-wider font-bold outline-none border border-[#70685a] ">月次収支報告書一覧</button>
+                                    className="mr-10 px-3  py-1 min-w-[160px] text-[#70685a] rounded-full tracking-wider font-bold outline-none border border-[#70685a] hover:bg-[#524c3b] hover:text-white transition-all duration-300">月次収支報告書一覧</button>
                                 <button type="button" onClick={gotoDepositeAndWithdrawl}
-                                    className=" mr-3 py-1 min-w-[160px] text-[#70685a] rounded-full tracking-wider font-bold outline-none border border-[#70685a] ">入出金申請</button>
+                                    className=" mr-3 py-1 min-w-[160px] text-[#70685a] rounded-full tracking-wider font-bold outline-none border border-[#70685a] hover:bg-[#524c3b] hover:text-white transition-all duration-300">入出金申請</button>
                             </div>
                         </div>
                         <div >
@@ -212,10 +212,10 @@ const SafeMoney = () => {
                     </div>
                     {/*  */}
                     <div className='flex justify-center mt-5' >
-                        <button className='border border-[#6e6e7c] text-[#6e6e7c] px-2 mr-3 h-8 text-[18px]'>今年</button>
-                        <button className='border border-[#6e6e7c] text-[#6e6e7c] px-2 mr-3 text-[18px]'>今月</button>
-                        <button className='border border-[#6e6e7c] text-[#6e6e7c] px-2 mr-3 text-[18px]'>前月</button>
-                        <button className='border border-[#6e6e7c] text-[#6e6e7c] px-2 mr-3 text-[18px]'>今日まで</button>
+                        <button className='border border-[#6e6e7c] text-[#6e6e7c] px-2 mr-3 h-8 text-[18px] hover:bg-[#524c3b] hover:text-white transition-all duration-300'>今年</button>
+                        <button className='border border-[#6e6e7c] text-[#6e6e7c] px-2 mr-3 text-[18px] hover:bg-[#524c3b] hover:text-white transition-all duration-300'>今月</button>
+                        <button className='border border-[#6e6e7c] text-[#6e6e7c] px-2 mr-3 text-[18px] hover:bg-[#524c3b] hover:text-white transition-all duration-300'>前月</button>
+                        <button className='border border-[#6e6e7c] text-[#6e6e7c] px-2 mr-3 text-[18px] hover:bg-[#524c3b] hover:text-white transition-all duration-300'>今日まで</button>
                     </div>
                     {/*  */}
                     <div className='safe-money-search flex mt-3 justify-center'>

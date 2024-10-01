@@ -1050,7 +1050,7 @@ const StampRelatedInventoryList = () => {
                         <div>
                             <div className='text-center' style={{ visibility: 'hidden' }}>abc</div>
                             <button type="button" onClick={gotoStampInboundApplication}
-                                className="mr-3  py-1 px-1 w-full text-[#70685a] text-[15px] rounded-full tracking-wider font-bold outline-none border border-[#70685a]">
+                                className="mr-3  py-1 px-1 w-full text-[#70685a] text-[15px] rounded-full tracking-wider font-bold outline-none border border-[#70685a] hover:bg-[#524c3b] hover:text-white transition-all duration-300">
                                 入庫申請書を作成
                             </button>
                         </div>
@@ -1063,7 +1063,7 @@ const StampRelatedInventoryList = () => {
                         <div>
                             <div className='text-center text-[#70685a]'>選択した項目の</div>
                             <button type="button" onClick={gotoStampPurchaseIntereStrateChange}
-                                className=" mr-3 py-1 px-1 w-full text-[#70685a] text-[15px] rounded-full tracking-wider font-bold outline-none border border-[#70685a] ">
+                                className=" mr-3 py-1 px-1 w-full text-[#70685a] text-[15px] rounded-full tracking-wider font-bold outline-none border border-[#70685a] hover:bg-[#524c3b] hover:text-white transition-all duration-300">
                                 買取利率変更申請
                             </button>
                         </div>

@@ -251,9 +251,9 @@ const MonthlyIncome = () => {
                 <div className='monthly-income flex justify-around mt-10'>
                     <div className='monthly-income-first flex'>
                         <button type="button" onClick={()=>getThisMonthData()}
-                            className="mr-10  py-1 min-w-[160px] text-[#70685a] rounded-full tracking-wider font-bold outline-none border border-[#70685a] ">当月分表示</button>
+                            className="mr-10  py-1 min-w-[160px] text-[#70685a] rounded-full tracking-wider font-bold outline-none border border-[#70685a] hover:bg-[#524c3b] hover:text-white transition-all duration-300">当月分表示</button>
                         <button type="button" onClick={()=>getTodayData()}
-                            className=" mr-3 py-1 min-w-[160px] text-[#70685a] rounded-full tracking-wider font-bold outline-none border border-[#70685a] ">本日分表示</button>
+                            className=" mr-3 py-1 min-w-[160px] text-[#70685a] rounded-full tracking-wider font-bold outline-none border border-[#70685a] hover:bg-[#524c3b] hover:text-white transition-all duration-300">本日分表示</button>
                     </div>
                     <div className='flex justify-center'>
                         <h2 className="text-[#656565] text-center text-2xl font-bold flex justify-center">月次収支報告書&nbsp;一覧</h2>
@@ -266,17 +266,17 @@ const MonthlyIncome = () => {
                     </div>
                     <div className='flex justify-around'>
                         <button type="button" onClick={gotoCashBook}
-                            className=" py-1 min-w-[160px] text-[#70685a] rounded-full tracking-wider font-bold outline-none border border-[#70685a] ">金銭出納帳</button>
+                            className=" py-1 min-w-[160px] text-[#70685a] rounded-full tracking-wider font-bold outline-none border border-[#70685a] hover:bg-[#524c3b] hover:text-white transition-all duration-300">金銭出納帳</button>
                         <button type="button" onClick={gotoDepositeAndWithdrawl}
-                            className="ml-10 py-1 min-w-[160px] text-[#70685a] rounded-full tracking-wider font-bold outline-none border border-[#70685a] ">入出金申請</button>
+                            className="ml-10 py-1 min-w-[160px] text-[#70685a] rounded-full tracking-wider font-bold outline-none border border-[#70685a] hover:bg-[#524c3b] hover:text-white transition-all duration-300">入出金申請</button>
                     </div>
                 </div>
                 {/*  */}
                 <div className='flex justify-center mt-5'>
-                    <button onClick={()=>getThisYearData()} className='border border-[#6e6e7c] text-[#6e6e7c] px-2 mr-3 h-8 text-[18px] cursor-pointer'>今年</button>
-                    <button onClick={()=>getLastMonthData()} className='border border-[#6e6e7c] text-[#6e6e7c] px-2 mr-3 text-[18px] cursor-pointer'>今月</button>
-                    <button onClick={()=>getThisMonthData()} className='border border-[#6e6e7c] text-[#6e6e7c] px-2 mr-3 text-[18px] cursor-pointer'>前月</button>
-                    <button onClick={()=>getTodayData()} className='border border-[#6e6e7c] text-[#6e6e7c] px-2 mr-3 text-[18px] cursor-pointer'>今日まで</button>
+                    <button onClick={()=>getThisYearData()} className='border border-[#6e6e7c] text-[#6e6e7c] px-2 mr-3 h-8 text-[18px] cursor-pointer hover:bg-[#524c3b] hover:text-white transition-all duration-300'>今年</button>
+                    <button onClick={()=>getLastMonthData()} className='border border-[#6e6e7c] text-[#6e6e7c] px-2 mr-3 text-[18px] cursor-pointer hover:bg-[#524c3b] hover:text-white transition-all duration-300'>今月</button>
+                    <button onClick={()=>getThisMonthData()} className='border border-[#6e6e7c] text-[#6e6e7c] px-2 mr-3 text-[18px] cursor-pointer hover:bg-[#524c3b] hover:text-white transition-all duration-300'>前月</button>
+                    <button onClick={()=>getTodayData()} className='border border-[#6e6e7c] text-[#6e6e7c] px-2 mr-3 text-[18px] cursor-pointer hover:bg-[#524c3b] hover:text-white transition-all duration-300'>今日まで</button>
                 </div>
                 {/*  */}
                 <div className='monthly-income-date flex mt-3 justify-center'>

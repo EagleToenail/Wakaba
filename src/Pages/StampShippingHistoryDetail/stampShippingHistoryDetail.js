@@ -95,6 +95,7 @@ const StampShippingDetail = () => {
         const updatedData = objData.map((data,Index) => ({
             ...data,
             numberOfSheets: values[Index],
+            totalFaceValue: Number(values[Index]) * Number(data.sheetValue),
         })); 
         setSheetRows(updatedData);
     }
@@ -160,6 +161,7 @@ const StampShippingDetail = () => {
         const updatedData = objData.map((data,Index) => ({
             ...data,
             numberOfMounts: values[Index],
+            totalFaceValue: Number(values[Index]) * Number(data.mountValue),
         })); 
         setPastingRows(updatedData);
         // console.log('updated data',updatedData)
@@ -223,6 +225,7 @@ const StampShippingDetail = () => {
         const updatedData = objData.map((data,Index) => ({
             ...data,
             numberOfSheets: values[Index],
+            totalFaceValue: Number(values[Index]) * Number(data.stampValue),
         })); 
         setRoseRows(updatedData);
     }
@@ -283,6 +286,7 @@ const StampShippingDetail = () => {
         const updatedData = objData.map((data,Index) => ({
             ...data,
             numberOfSheets: values[Index],
+            totalFaceValue: Number(values[Index]) * Number(data.stampValue),
         })); 
         setPackRows(updatedData);
         // console.log('updated data',updatedData)
@@ -344,6 +348,7 @@ const StampShippingDetail = () => {
         const updatedData = objData.map((data,Index) => ({
             ...data,
             numberOfSheets: values[Index],
+            totalFaceValue: Number(values[Index]) * Number(data.stampValue),
         })); 
         setCardRows(updatedData);
         // console.log('updated data',updatedData)
@@ -412,8 +417,24 @@ const StampShippingDetail = () => {
         navigate('/stamprelatedreceiptandissuehistory');
     }
     // allow function
-    const handleAllow = () => {
-        navigate('/stamprelatedreceiptandissuehistory');
+    const handleAllow = async() => {
+            // console.log('result data', purchaseStampData,customerId)
+            try {
+                const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+                if (!wakabaBaseUrl) {
+                    throw new Error('API base URL is not defined');
+                }
+
+                await axios.post(`${wakabaBaseUrl}/stamp/update`, {id,inorout,sheetRows,roseRows,packRows,cardRows})
+                .then(response => {
+                    navigate('/stamprelatedreceiptandissuehistory');
+                })
+                .catch(error => {
+                    console.error("There was an error fetching the customer data!", error);
+                }); // Send newRow data to the server
+              } catch (error) {
+                console.error('Error adding row:', error);
+              }
     }
 
     const [outBound, setOutBound] = useState({

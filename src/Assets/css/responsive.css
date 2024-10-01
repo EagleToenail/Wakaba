@@ -322,6 +322,27 @@
         display: flex !important;
     }
   }
+  @media screen and (max-width: 1300px) {
+    .commemorative-coin {
+        display: block !important;
+    }
+    .commemorative-coin-one {
+        display: flex !important;
+        width: 100% !important;
+        justify-content: center;
+    }
+  }
+  @media screen and (max-width: 1300px) {
+    .coin-bill {
+        display: block !important;
+        width: 100% !important;
+    }
+    .coin-bill-one {
+        display: flex !important;
+        width: 100% !important;
+        justify-content: center;
+    }
+  }
   /* //------------------------------------------admin----------------------------------------------- */
   @media screen and (max-width: 1040px) {
     .owner-top {

@@ -163,18 +163,18 @@ const StampRelatedReceiptAndIssueHistory = () => {
                         <div className='stamp-inventory-second flex justify-center mt-5' >
                             <div className='flex'>
                                 <button type="button" onClick={gotoInboundPage}
-                                    className="mr-10 px-3  py-1 min-w-[160px] text-[#70685a] rounded-full tracking-wider font-bold outline-none border border-[#70685a] ">入庫申請</button>
+                                    className="mr-10 px-3  py-1 min-w-[160px] text-[#70685a] rounded-full tracking-wider font-bold outline-none border border-[#70685a] hover:bg-[#524c3b] hover:text-white transition-all duration-300">入庫申請</button>
                                 <button type="button" onClick={gotoOutboundPage}
-                                    className=" mr-3 py-1 min-w-[160px] text-[#70685a] rounded-full tracking-wider font-bold outline-none border border-[#70685a] ">出庫申請</button>
+                                    className=" mr-3 py-1 min-w-[160px] text-[#70685a] rounded-full tracking-wider font-bold outline-none border border-[#70685a] hover:bg-[#524c3b] hover:text-white transition-all duration-300">出庫申請</button>
                             </div>
                         </div>
                     </div>
                     {/*  */}
                     <div className='flex justify-center mt-5' >
-                        <button onClick={getTodayData} className='border border-[#6e6e7c] text-[#6e6e7c] px-2 mr-3 h-8 text-[18px]'>今年</button>
-                        <button onClick={getThisMonthData}  className='border border-[#6e6e7c] text-[#6e6e7c] px-2 mr-3 text-[18px]'>今月</button>
-                        <button onClick={getLastMonthData}  className='border border-[#6e6e7c] text-[#6e6e7c] px-2 mr-3 text-[18px]'>前月</button>
-                        <button onClick={getThisYearData}  className='border border-[#6e6e7c] text-[#6e6e7c] px-2 mr-3 text-[18px]'>今日まで</button>
+                        <button onClick={getThisYearData} className='border border-[#6e6e7c] text-[#6e6e7c] px-2 mr-3 h-8 text-[18px] hover:bg-[#524c3b] hover:text-white transition-all duration-300'>今年</button>
+                        <button onClick={getThisMonthData}  className='border border-[#6e6e7c] text-[#6e6e7c] px-2 mr-3 text-[18px] hover:bg-[#524c3b] hover:text-white transition-all duration-300'>今月</button>
+                        <button onClick={getLastMonthData}  className='border border-[#6e6e7c] text-[#6e6e7c] px-2 mr-3 text-[18px] hover:bg-[#524c3b] hover:text-white transition-all duration-300'>前月</button>
+                        <button onClick={getTodayData}  className='border border-[#6e6e7c] text-[#6e6e7c] px-2 mr-3 text-[18px] hover:bg-[#524c3b] hover:text-white transition-all duration-300'>今日まで</button>
                     </div>
                     {/*  */}
                     <div className='safe-money-search flex mt-3 justify-center'>
