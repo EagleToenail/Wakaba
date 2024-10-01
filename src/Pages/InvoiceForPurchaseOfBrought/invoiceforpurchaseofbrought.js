@@ -605,7 +605,7 @@ const InvoicePurchaseOfBrought = () => {
                 product_type_one: '切手', quantity: StampData.totalNumberOfStamp, purchase_price: StampData.totalStampPurchasePrice
             }]);
             setStamps(StampData);
-            clearReduxData();
+            // clearReduxData();
         }
     }, [data.data]);
 
@@ -614,7 +614,6 @@ const InvoicePurchaseOfBrought = () => {
 
     // send Purchase data
     const sendPurchaseDataToReceipt = () => {
-        clearReduxData();//clear redux state
         const numberOfInvoice = customerPastVisitHistory.length;
         const purchaseData = { deadline, numberOfInvoice, totalSalesSlipData };
         // console.log('send purchase data',purchaseData,id);
@@ -1678,6 +1677,7 @@ const InvoicePurchaseOfBrought = () => {
                             <input type='checkbox' name='google_review' className='mr-3' />
                             <label className="text-[#70685a] font-bold mb-2 block text-left !mb-0 mr-10 pt-2" >Google口コミしたか？</label>
                             <label className="text-[#70685a] font-bold mb-2 block text-left !mb-0 mr-5 pt-2" >ク一ポンのご利用はあったか？</label>
+
                         </div>
                         <div className='invoice-purchase-brought-one flex justify-center w-[40%]'>
                             <input

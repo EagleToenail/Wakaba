@@ -296,6 +296,32 @@
       width: 100% !important;
     }
   }
+  @media screen and (max-width: 1050px) {
+
+    .stamp-inbound {
+      width: 70% !important;
+    }
+  }
+
+  @media screen and (max-width: 1390px) {
+    .stamp-inventory {
+        display: block !important;
+    }
+  }
+  /* @media screen and (min-width: 1390px) {
+    .stamp-inventory {
+        display: block !important;
+    }
+  } */
+
+  @media screen and (max-width: 1390px) {
+    .stamp-inventory-first {
+        display: none !important;
+    }
+    .stamp-inventory-second {
+        display: flex !important;
+    }
+  }
   /* //------------------------------------------admin----------------------------------------------- */
   @media screen and (max-width: 1040px) {
     .owner-top {

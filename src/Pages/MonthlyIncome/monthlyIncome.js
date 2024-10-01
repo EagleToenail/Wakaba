@@ -274,8 +274,8 @@ const MonthlyIncome = () => {
                 {/*  */}
                 <div className='flex justify-center mt-5'>
                     <button onClick={()=>getThisYearData()} className='border border-[#6e6e7c] text-[#6e6e7c] px-2 mr-3 h-8 text-[18px] cursor-pointer'>今年</button>
-                    <button onClick={()=>getThisMonthData()} className='border border-[#6e6e7c] text-[#6e6e7c] px-2 mr-3 text-[18px] cursor-pointer'>今月</button>
-                    <button onClick={()=>getLastMonthData()} className='border border-[#6e6e7c] text-[#6e6e7c] px-2 mr-3 text-[18px] cursor-pointer'>前月</button>
+                    <button onClick={()=>getLastMonthData()} className='border border-[#6e6e7c] text-[#6e6e7c] px-2 mr-3 text-[18px] cursor-pointer'>今月</button>
+                    <button onClick={()=>getThisMonthData()} className='border border-[#6e6e7c] text-[#6e6e7c] px-2 mr-3 text-[18px] cursor-pointer'>前月</button>
                     <button onClick={()=>getTodayData()} className='border border-[#6e6e7c] text-[#6e6e7c] px-2 mr-3 text-[18px] cursor-pointer'>今日まで</button>
                 </div>
                 {/*  */}

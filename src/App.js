@@ -50,8 +50,10 @@ import ApplicationForDisposalPermission from './Pages/ApplicationForDisposalPerm
 import MultiRowShowSalesSlip from './Pages/ApplicationForDisposalPermission/multiRowShowSalesSlip';//show salesSlip data that you want to show row
 import EndOfWorkReportToOwner from './Pages/EndOfWorkReportToOwner/endOfWorkReportToOwner';//End of workd report to onwer etc./headquarters
 import StampRelatedInventoryList from './Pages/StampRelatedInventoryList/stampRelatedInventoryList';//stamp-related inventory application form #58
-import StampRelatedInventoryApplicationForm from './Pages/StampRelatedInventoryApplicationForm/stampRelatedInventoryApplicationForm';
+import StampRelatedInboundApplicationForm from './Pages/StampRelatedInboundApplicationForm/stampRelatedInboundApplicationForm';//inbound #59
+import StampRelatedOutboundApplicationForm from './Pages/StampRelatedOutboundApplicationForm/stampRelatedOutboundApplicationForm';//outbound #60
 import StampRelatedReceiptAndIssueHistory from './Pages/StampRelatedReceiptAndIssueHistory/stampRelatedReceiptAndIssueHistory';//stamp related receipt and issue history #61
+import StampShippingHistoryDetail from './Pages/StampShippingHistoryDetail/stampShippingHistoryDetail';//#history detail
 import StampRelatedPurchaseStatement from './Pages/StampRelatedPurchaseStatement/stampRelatedPurchaseStatement'//stamp related purcase statement #62
 import StampPurchaseListCustomerConfirmation from './Pages/StampPurchaseListCustomerConfirmation/stampPurchaseListCustomerConfirmation';//stamp purchase list customer cnfirmation screen #63
 import StampPurchaseInterestRateChange from './Pages/StampPurchaseInterestRateChange/stampPurchaseInterestRateChange';//stamp purchase interest rate change application screen//#64
@@ -135,8 +137,10 @@ function App() {
             <Route path='/yahooauction' element={<YahooAuction/>}/>
             <Route path='/saleslist' element={<SalesList/>}/>
             <Route path='/stamprelatedinventorylist' element={<StampRelatedInventoryList/>}/>
-            <Route path='/stamprelatedinventoryapplicationform' element={<StampRelatedInventoryApplicationForm/>}/>
+            <Route path='/stamprelatedinboundapplicationform' element={<StampRelatedInboundApplicationForm/>}/>
+            <Route path='/stamprelatedoutboundapplicationform' element={<StampRelatedOutboundApplicationForm/>}/>
             <Route path='/stamprelatedreceiptandissuehistory' element={<StampRelatedReceiptAndIssueHistory/>}/>
+            <Route path='/stampshippinghistorydetail/:id' element={<StampShippingHistoryDetail/>}/>
             <Route path='/stamprelatedpurchasestatement' element={<StampRelatedPurchaseStatement/>}/>
             <Route path='/stamppurchaselistcustomerconfirmation' element={<StampPurchaseListCustomerConfirmation/>}/>
             <Route path='/stamppurchaseinterestratechange' element={<StampPurchaseInterestRateChange/>}/>

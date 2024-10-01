@@ -3,6 +3,7 @@ import { SET_SHIPPING_DATA } from './actions';
 import { CLEAR_DATA } from './actions';
 import { SET_STAMPS_DATA } from './actions';
 import { SET_CUSTOMER_ID } from './actions';
+import { SET_OUTBOUND_STAMP } from './actions';
 
 const initialState = {
   data: 'Initial Data',
@@ -19,6 +20,8 @@ const dataReducer = (state = initialState, action) => {
     case SET_STAMPS_DATA:
       return {...state, data: action.payload };
     case SET_CUSTOMER_ID:
+      return {...state, data: action.payload };  
+    case SET_OUTBOUND_STAMP:
       return {...state, data: action.payload };  
     default:
       return state;

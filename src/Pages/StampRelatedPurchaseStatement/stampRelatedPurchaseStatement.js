@@ -1003,7 +1003,7 @@ const StampRelatedPurchaseStatement = () => {
                             <div className='flex justify-end w-full h-30 w-full'>
                                 <div className='mt-5 flex flex-col justify-end' style={{ width: '70%' }}>
                                     <table className=' text-center w-full' style={Table}>
-                                        <thead className='sticky top-0 bg-white z-10 text-[14px]'>
+                                        <thead className='bg-white z-10 text-[14px]'>
                                             <tr>
                                                 <th ></th>
                                                 <th >シート数合計</th>

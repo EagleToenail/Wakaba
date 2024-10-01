@@ -190,7 +190,7 @@ const WholeSalerShippingList = () => {
 
     const [showShippingHistory, setShowShippingHistory] = useState(false);
     //search function
-    const handleSearch = (e) => {
+    const handleSearch = async(e) => {
         e.preventDefault();
         console.log('searchValues',searchParams)
         console.log('wholeSalesPurchase',wholeSalesPurchase)
@@ -202,7 +202,7 @@ const WholeSalerShippingList = () => {
         if (!wakabaBaseUrl) {
             throw new Error('API base URL is not defined');
         }
-        axios.post(`${wakabaBaseUrl}/sales/wholelist`, { params: searchParams })
+        await axios.post(`${wakabaBaseUrl}/sales/wholelist`, { params: searchParams })
         .then(response => {
             setWholeSalesPurchase(response.data);
         })
