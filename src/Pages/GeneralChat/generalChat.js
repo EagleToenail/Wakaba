@@ -1,10 +1,60 @@
 import React, { useState, useEffect, useRef } from 'react'
+import {useLocation } from 'react-router-dom';
 import InputComponent from '../../Components/Common/InputComponent';
 import LabelComponent from '../../Components/Common/LabelComponent';
-import WithdrawalVariousPurchaseAccordion from '../../Components/WithdrawalVariousPurchaseAccordion';
+import GeneralAccordion from '../../Components/GeneralAccordion';
 import axios from 'axios';
 
-export default function TODOList() {
+export default function GeneralChat() {
+
+    const location = useLocation();
+    // Get the full URL
+    const pathname = location.pathname; // Just the path
+    const parts = pathname.split('/'); // Split the path by "/"
+    const destinationURL = parts[2]; // 
+
+    const [generalTitle, setGeneralTitle] = useState('');
+
+    useEffect(() => {
+      switch (destinationURL) {
+        case 'allgeneral':
+          setGeneralTitle('一般');
+          break;
+        case 'allforall':
+          setGeneralTitle('全体周知');
+          break;
+        case 'wakabapassword':
+          setGeneralTitle('WAKABA パスワード');
+          break;
+        case 'yahooauction':
+          setGeneralTitle('ヤフオク');
+          break;
+        case 'executemeeting':
+          setGeneralTitle('幹部会議連絡');
+          break;
+        case 'standardout':
+          setGeneralTitle('基準外');
+          break;
+        case 'basereport':
+          setGeneralTitle('基者卸報告');
+          break;
+        case 'training':
+          setGeneralTitle('研修');
+          break;
+        case 'storecommunication':
+          setGeneralTitle('店舗間連絡');
+          break;
+        case 'monthlycampaign':
+          setGeneralTitle('月毎のキャンペーン');
+          break;
+        case 'purchaseperformanceblog':
+          setGeneralTitle('買取実績ブ口グ');
+          break;
+        default:
+          setGeneralTitle('一般');
+      }
+    }, [location.pathname]); // Update effect to listen for pathname changes
+
     const now = new Date();
 
     // Format the date as YYYY-MM-DD
@@ -29,64 +79,6 @@ export default function TODOList() {
     const handleMessageColorChange = (color) => {
         setTextMessageColor(color);
     };
-    // search selectbox================
-
-    const [users, setUsers] = useState([]);
-    const [query, setQuery] = useState('');
-    const [isOpen, setIsOpen] = useState(false);
-    const [selectedCustomerId, setSelectedCustomerId] = useState(null);
-    const [filteredOptions, setFilteredOptions] = useState([]);
-    const dropdownRef = useRef(null);
-    // Fetch customer data
-    useEffect(() => {
-        const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
-        if (!wakabaBaseUrl) {
-            throw new Error('API base URL is not defined');
-        }
-
-        axios.get(`${wakabaBaseUrl}/user/getUserList`)
-            .then(response => {
-                const data = response.data;
-                setUsers(data);
-                setFilteredOptions(data);
-            })
-            .catch(error => {
-                console.error("There was an error fetching the customer data!", error);
-            });
-    }, []);
-    // Filter the options based on the query
-    useEffect(() => {
-        setFilteredOptions(
-            users.filter(user =>
-                user.username.toLowerCase().includes(query.toLowerCase())
-            )
-        );
-    }, [query, users]);
-    // Handle click outside to close dropdown
-    useEffect(() => {
-        const handleClickOutside = (event) => {
-            if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-                setIsOpen(false);
-            }
-        };
-
-        document.addEventListener('mousedown', handleClickOutside);
-        return () => document.removeEventListener('mousedown', handleClickOutside);
-    }, []);
-
-    const handleInputChange = (event) => {
-        setQuery(event.target.value);
-        setIsOpen(true);
-    };
-
-    const handleOptionClick = (user) => {
-        setQuery(user.username); // Set the input field's value to the selected option's full_name
-        setIsOpen(false);
-        setSelectedCustomerId(user.id); // Update state with the selected customer's ID
-        setReply({ receiverId: user.id, senderId: userId, time: currentDateTime });
-        // console.log('Selected Customer ID:', user.id);
-    };
-
     //==============post function=========
     const userId = localStorage.getItem('userId');
     // const [messages, setMessages] = useState([]);
@@ -94,7 +86,7 @@ export default function TODOList() {
         time: currentDateTime,
         title: '',
         content: '',
-        senderId: '',
+        senderId: userId,
         receiverId: '',
         fileUrl: null,
         parentMessageId: null
@@ -134,7 +126,9 @@ export default function TODOList() {
   
         // console.log(`${wakabaBaseUrl}/customer/getCustomerList`);
         const userId = localStorage.getItem('userId');
-        axios.get(`${wakabaBaseUrl}/withdrawalvariouspurchasemessages/${userId}`)
+        const threadName = destinationURL;
+        console.log('destinationURL',threadName);
+        await axios.post(`${wakabaBaseUrl}/generalchat`,{threadName:threadName})
           .then(response => {
             // console.log("all message",response.data)
             setMessages(response.data);
@@ -152,18 +146,19 @@ export default function TODOList() {
   
       // // Clean up on unmount
       // return () => clearInterval(intervalId);
-    }, []);
+    }, [destinationURL]);
     
     // send message and file to other user 
-    const sendWithdrawalVariousPurchaseMessage = async () => {
-        // console.log('sendtododata', reply);
-        if (reply.title != '' && reply.content != '' && reply.senderId != '' && reply.receiverId != '') {
+    const sendGeneralChatMessage = async () => {
+        console.log('sendtododata', reply);
+        if (reply.title !== '' && reply.content !== '' && reply.senderId !== '' ) {
             const formData = new FormData();
+            formData.append('thread_name', destinationURL);
             formData.append('time', reply.time);
             formData.append('title', reply.title);
             formData.append('content', reply.content);
             formData.append('senderId', reply.senderId);
-            formData.append('receiverId', reply.receiverId);
+            // formData.append('receiverId', reply.receiverId);
             formData.append('parentMessageId', reply.parentMessageId || '');
 
             if (sendFile) formData.append('fileUrl', sendFile);
@@ -176,18 +171,18 @@ export default function TODOList() {
                     throw new Error('API base URL is not defined');
                 }
 
-                await axios.post(`${wakabaBaseUrl}/withdrawalvariouspurchasemessages/getmessagelist`, formData, {
+                await axios.post(`${wakabaBaseUrl}/generalchat/getmessagelist`, formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data'
                     }
                 }).then(response => {
-                    // console.log('get data',response.data)
+                    console.log('get data',response.data)
                     setMessages(response.data);
                     setReply({
                         time: currentDateTime,
                         title: '',
                         content: '',
-                        senderId: '',
+                        senderId: userId,
                         receiverId: '',
                         file: null,
                         parentId: null
@@ -205,33 +200,16 @@ export default function TODOList() {
     // Callback function to handle data from child
     const handleDataFromChildAccordion = (data1, data2, data3) => {
         const userId = localStorage.getItem('userId');
-        if (data3 === userId) {
-            users.forEach(user => {
-                if (user.id === parseInt(data2)) {
-                    setQuery(user.username); // Assuming 'username' is a property in the message object
-                    // console.log('ReceiverName')
-                }
-            });
-        } else {
-            users.forEach(user => {
-                if (user.id === parseInt(data3)) {
-                    setQuery(user.username); // Assuming 'username' is a property in the message object
-                    // console.log('ReceiverName')
-                }
-            });
-        }
-
-        setReply({ parentMessageId: data1, senderId: data2, receiverId: data3 ,time:currentDateTime})
+        setReply({ parentMessageId: data1, senderId: data2 ,time:currentDateTime})
         console.log('Data received from child++++++++:', data1, data2, data3, userId);
     };
     // New post
     const newPost = () => {
-        setQuery('');
         setReply({
             time: currentDateTime,
             title: '',
             content: '',
-            senderId: '',
+            senderId: userId,
             receiverId: '',
             file: null,
             parentId: null
@@ -245,7 +223,7 @@ export default function TODOList() {
                     <div className='w-full'>
                         {/* received message */}
                         <div className='w-full h-[400px]'>
-                            <WithdrawalVariousPurchaseAccordion onSendIdData={handleDataFromChildAccordion} messages={messages}/>
+                            <GeneralAccordion onSendIdData={handleDataFromChildAccordion} messages={messages} title = {generalTitle}/>
                         </div>
                     </div>
                     {/* new post */}
@@ -262,64 +240,6 @@ export default function TODOList() {
                     <div className='flex'>
                         <LabelComponent value={'新規投稿'} style={{ marginTop: '5px', width: '10%', marginRight: '15px' }} />
                         <div style={{ width: '90%', height: '50px' }} className='text-center'>
-                            {/* firstline */}
-                            <div className='withdrawal-various-purchase w-full flex justify-between'>
-                                <div style={{ position: 'relative'}} className='mt-3 w-[250px]' ref={dropdownRef}>
-                                    <input
-                                        type="text"
-                                        placeholder=""
-                                        className='border border-[#70685a] outline-[#70685a]'
-                                        value={query || ''}
-                                        onChange={handleInputChange}
-                                        onClick={() => setIsOpen(!isOpen)}
-                                        style={{ padding: '10px', width: '100%', boxSizing: 'border-box' }}
-                                    />
-                                    {isOpen && (
-                                        <ul style={{
-                                            marginTop: '5px',
-                                            padding: '0',
-                                            listStyleType: 'none',
-                                            border: '1px solid #ddd',
-                                            borderRadius: '4px',
-                                            maxHeight: '200px',
-                                            overflowY: 'auto',
-                                            position: 'absolute',
-                                            backgroundColor: 'white',
-                                            width: '100%',
-                                            zIndex: 1
-                                        }}>
-                                            {filteredOptions.length > 0 ? (
-                                                filteredOptions.map((user) => (
-                                                    <li
-                                                        key={user.id}
-                                                        onClick={() => handleOptionClick(user)}
-                                                        style={{
-                                                            padding: '10px',
-                                                            cursor: 'pointer',
-                                                            backgroundColor: '#fff'
-                                                        }}
-                                                        onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#f1f1f1'}
-                                                        onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#fff'}
-                                                    >
-                                                        {user.username}
-                                                    </li>
-                                                ))
-                                            ) : (
-                                                <li style={{ padding: '10px' }}>No results found.</li>
-                                            )}
-                                        </ul>
-                                    )}
-                                </div>
-                                <div className='flex justify-end mr-10 ml-10 mt-3'>
-                                    <LabelComponent value={'様'} style={{ marginTop: '5px', marginLeft: '15px' }} />
-                                    <InputComponent style={{ height: '40px' }} className='w-[150px]' />
-                                </div>
-                                <div className='flex justify-end mt-3'>
-                                    <LabelComponent value={'総額'} style={{ marginTop: '5px', marginLeft: '15px' }} />
-                                    <InputComponent style={{ height: '40px' }} className='w-40' />
-                                    <LabelComponent value={'円'} style={{ marginTop: '5px', marginLeft: '15px' }} />
-                                </div>
-                            </div>
                             {/* secondline */}
                             <div className='new-post-operation-second flex !mt-2' style={{ height: '40px' }}>
                                 <div className='w-full flex'>
@@ -363,7 +283,7 @@ export default function TODOList() {
 
                                 </div>
                                 <div className='ml-10 flex flex-col justify-center'>
-                                    < button type="button" onClick={() => sendWithdrawalVariousPurchaseMessage()} className=" w-max px-10 py-1 font-blod rounded-lg justify-center text-[#70685a] text-[18px] bg-[#ebe6e0] hover:bg-blue-700 focus:outline-none">
+                                    < button type="button" onClick={() => sendGeneralChatMessage()} className=" w-max px-10 py-1 font-blod rounded-lg justify-center text-[#70685a] text-[18px] bg-[#ebe6e0] hover:bg-blue-700 focus:outline-none">
                                         送信
                                     </button>
                                 </div>
@@ -377,5 +297,4 @@ export default function TODOList() {
         </>
     )
 }
-
 

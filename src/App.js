@@ -45,6 +45,8 @@ import ContractorAssessmentSheet from './Pages/ContractorAssessmentSheet/contrac
 import YahooAuction from './Pages/YahooAuctions/yahooAuction';//Yahoo Auctions
 import SalesList from './Pages/SalesList/salesList';//Sales List
 import TODOList from './Pages/TODOList/todoList';//ToDo List
+import GeneralChat from './Pages/GeneralChat/generalChat';//GenealChat
+import StoreChat from './Pages/StoreChat/storeChat';
 import OnSitePurchase from './Pages/OnSitePurchase/onSitePurchase';//On-site purchase
 import ApplicationForDisposalPermission from './Pages/ApplicationForDisposalPermission/applicationForDisposalPermission';//Application ofr disposal permisssion
 import MultiRowShowSalesSlip from './Pages/ApplicationForDisposalPermission/multiRowShowSalesSlip';//show salesSlip data that you want to show row
@@ -115,7 +117,30 @@ function App() {
             <Route path='/onsitepurchase' element={<OnSitePurchase/>}/>
             <Route path='/applicationfordisposalpermission' element={<ApplicationForDisposalPermission/>}/>
             <Route path='/endofworkreporttoowner' element={<EndOfWorkReportToOwner/>}/>
-          {/*  */}
+
+            <Route path='/generalchat/allgeneral' element={<GeneralChat/>}/>
+            <Route path='/generalchat/allforall' element={<GeneralChat/>}/>
+            <Route path='/generalchat/wakabapassword' element={<GeneralChat/>}/>
+            <Route path='/generalchat/yahooauction' element={<GeneralChat/>}/>
+            <Route path='/generalchat/executemeeting' element={<GeneralChat/>}/>
+            <Route path='/generalchat/standardout' element={<GeneralChat/>}/>
+            <Route path='/generalchat/basereport' element={<GeneralChat/>}/>
+            <Route path='/generalchat/training' element={<GeneralChat/>}/>
+            <Route path='/generalchat/storecommunication' element={<GeneralChat/>}/>
+            <Route path='/generalchat/monthlycampaign' element={<GeneralChat/>}/>
+            <Route path='/generalchat/purchaseperformanceblog' element={<GeneralChat/>}/>
+            {/* ---in store chat---- */}
+            <Route path='/storechat/allgeneral' element={<StoreChat/>}/>
+            <Route path='/storechat/businesscommunication' element={<StoreChat/>}/>
+            <Route path='/storechat/approval' element={<StoreChat/>}/>
+            <Route path='/storechat/wholesalerreport' element={<StoreChat/>}/>
+            <Route path='/storechat/orderrequest' element={<StoreChat/>}/>
+            <Route path='/storechat/vendorvisit' element={<StoreChat/>}/>
+            <Route path='/storechat/shift' element={<StoreChat/>}/>
+            <Route path='/storechat/businessreporthandover' element={<StoreChat/>}/>
+            <Route path='/storechat/yetanothertashifmeeting' element={<StoreChat/>}/>
+            
+          {/* ------- */}
             <Route path='/startingwork' element={<StartingWork/>}/>
             <Route path='/closingwork' element={<ClosingWork/>}/>
             <Route path='/monthlyincome' element={<MonthlyIncome/>}/>

@@ -1,9 +1,9 @@
 
 import React, { useEffect, useState } from 'react';
 import axios from 'axios'; // or use fetch
-import TodoAccordionItem from './TodoAccordionItem';
+import StoreAccordionItem from './StoreAccordionItem';
 
-const TodoMessageAccordion = ({ onSendIdData ,messages}) => {
+const StoreAccordion = ({ onSendIdData ,messages,title}) => {
 
   const [users, setUsers] = useState([]);
   useEffect(() => {
@@ -38,7 +38,7 @@ const TodoMessageAccordion = ({ onSendIdData ,messages}) => {
 
   const renderMessages = (messages) => {
     return messages.map(message => (
-      <TodoAccordionItem
+      <StoreAccordionItem
         key={message.id}
         time={message.time}
         title={message.title || 'Message'}
@@ -51,17 +51,17 @@ const TodoMessageAccordion = ({ onSendIdData ,messages}) => {
         users={users}
       >
         {message.replies && message.replies.length > 0 && renderMessages(message.replies)}
-      </TodoAccordionItem>
+      </StoreAccordionItem>
     ));
   };
 
   return (
     <div className='h-full overflow-auto'>
-      <h2 className="text-[#70685a] text-center text-2xl font-bold flex justify-center !mt-0">TODO メッセージ</h2>
+      <h2 className="text-[#70685a] text-center text-2xl font-bold flex justify-center !mt-0">{title}&nbsp;メッセージ</h2>
       {renderMessages(messages)}
     </div>
   );
 };
 
-export default TodoMessageAccordion;
+export default StoreAccordion;
 

@@ -34,11 +34,6 @@ export default function Navbar() {
                 </Link>
             </li>
             <li className='max-lg:border-b border-gray-300 max-lg:py-4 px-2'>
-                <Link className='text-[#655b4a] block font-semibold text-[15px]' to='/todolist'>
-                        <button type="button" className="inline-block whitespace-nowrap overflow-hidden text-ellipsis px-5 text-[15px] font-semibold  text-[#655b4a] text-sm tracking-wider  outline-none bg-white hover:bg-[#222] active:bg-[#333]">TODO</button>
-                </Link>
-            </li>
-            <li className='max-lg:border-b border-gray-300 max-lg:py-4 px-2'>
                 <Link className='text-[#655b4a] block font-semibold text-[15px]' to='/invoiceforpurchaselist'>
                         <button type="button" className="inline-block whitespace-nowrap overflow-hidden text-ellipsis px-5 text-[15px] font-semibold  text-[#655b4a] text-sm tracking-wider  outline-none bg-white hover:bg-[#222] active:bg-[#333]">買取計算</button>
                 </Link>
