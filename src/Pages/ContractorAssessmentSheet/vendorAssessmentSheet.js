@@ -318,7 +318,7 @@ const VendorAssementSheet = () => {
                         {/*  Tabe*/}
                         <div className='mt-10 pb-20 w-full h-full flex'>
                             {/* precious metal */}
-                            <div className='h-[400px]' style={{ width: '100%', overflow: 'auto'}} >
+                            <div style={{ width: '100%', overflow: 'auto'}} >
                                 {data?.length > 0 ? (
                                     <table id="" style={Table}>
                                         <thead className='sticky top-0 bg-white z-10 h-11'>

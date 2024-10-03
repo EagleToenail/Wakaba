@@ -10,8 +10,10 @@ import DateAndTime from '../../Components/Common/PickData';
 import axios from 'axios';
 import CustomerRegister from './customerregister';
 
-import { useDispatch } from 'react-redux';
+import { useDispatch ,useSelector} from 'react-redux';
 import { setData } from '../../redux/sales/actions';
+import { setClearData } from '../../redux/sales/actions';
+import { setCustomerID } from '../../redux/sales/actions';
 
 import leftArrow from '../../Assets/img/right-arrow.png';
 import rightArrow from '../../Assets/img/left-arrow.png';
@@ -61,6 +63,12 @@ const InvoicePurchaseOfBroughtBlank = () => {
 
     // Fetch customer data
     const { id } = useParams();
+
+    const now = new Date();
+
+    // Format the date as YYYY-MM-DD
+    const optionsDate = { year: 'numeric', month: '2-digit', day: '2-digit', timeZone: 'Asia/Tokyo' };
+    const currentDay = new Intl.DateTimeFormat('ja-JP', optionsDate).format(now).replace(/\//g, '-');
 
     const [customer, setCustomer] = useState({
         id: '',
@@ -146,61 +154,37 @@ const InvoicePurchaseOfBroughtBlank = () => {
                 console.error("There was an error fetching the customer data!", error);
             });
     }, [userId]);
-    //fetch salesSlipData
+    //salesSlipData
     const [salesSlipData, setSalesSlipData] = useState({
-        trading_date: '',
+        trading_date: currentDay,
         number: '',
-        purchase_staff: '',
-        customer_id: '',
-        store_name: '',
+        purchase_staff: userData.fullname,
+        customer_id: id,
+        store_name: userData.store_name,
         hearing: '',
         product_type_one: '',
         product_type_two: '',
         product_type_three: '',
         product_type_four: '',
 
+        gold_type:'-',
+        gross_weight:'-',
+
         product_photo: '',
-        product: '',
-        quantity: '',
+        product_name: '',
+        comment: '',
+        quantity: '0',
         reason_application: '',
-        interest_rate: '',
-        product_price: '',
+        interest_rate: '0',
+        product_price: '0',
         highest_estimate_vendor: '',
-        highest_estimate_price: '',
+        highest_estimate_price: '0',
         number_of_vendor: '',
         supervisor_direction: '',
         purchase_result: '',
+        purchase_price: '0',
 
-        purchase_price: '',
-
-        本査定ネットジャパン: '',
-        LINE色石バンク: '',
-        本査定色石バンク: '',
-        LINEフォーナイン: '',
-        本査定フォーナイン: '',
-        カイマナ査定日: '',
-        LINEカイマナ: '',
-        本査定カイマナ: '',
-        LINE査定日相場: '',
-        ワタル商事: '',
-        近江屋: '',
-        ヤフオク: '',//yahoo auction
-        BB: '',
-        GA: '',
-        ベルモンド: '',
-        ホームコム: '',
-        カイマナ: '',
-        フォーナイン: '',
-        ひるねこ: '',
-        アート: '',
-        吉岡美術: '',
-        刀剣佐藤: '',
-        ゴールドリカー: '',
-        リンクサス: '',
-        管弦屋: '',
-        はなもり: '',
-        バステック: '',
-
+        estimate_wholesaler:'',
     });
     //total data:
     const [totalSalesSlipData, setTotalSalesSlipData] = useState([]);
@@ -211,10 +195,6 @@ const InvoicePurchaseOfBroughtBlank = () => {
             ...salesSlipData,
             [e.target.name]: e.target.value,
         });
-        // if (e.target.name == 'product_type_one') {
-        //     getVendorList(e.target.value);
-        //     fetchProduct2(e.target.value);
-        // }
     };
 
     //category1 select
@@ -228,12 +208,22 @@ const InvoicePurchaseOfBroughtBlank = () => {
         });
         getVendorList(selectedResult.id);
         fetchProduct2(selectedResult.id);
+        setEstimateValues({});
+    };
+    //estimate for wholesaler
+    const [estimateValues, setEstimateValues] = useState({});
+    const handleEstimateChange = (vendorname, value) => {
+        setEstimateValues((prev) => ({
+            ...prev,
+            [vendorname]: value,
+        }));
     };
     // search selectbox product1================
 
     const [product1s, setProduct1s] = useState([]);
     // Fetch product1 data
     useEffect(() => {
+    const fetchCategory1 = async() => {
         const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
         if (!wakabaBaseUrl) {
             throw new Error('API base URL is not defined');
@@ -246,6 +236,8 @@ const InvoicePurchaseOfBroughtBlank = () => {
             .catch(error => {
                 console.error("There was an error fetching the customer data!", error);
             });
+    }
+    fetchCategory1();
     }, []);
 
     //get  vendor list form vendor table
@@ -254,33 +246,39 @@ const InvoicePurchaseOfBroughtBlank = () => {
 
 
     const getVendorList = async (id) => {
-        const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
-        if (!wakabaBaseUrl) {
-            throw new Error('API base URL is not defined');
+        const fetchVendorList = async() =>{
+            const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+            if (!wakabaBaseUrl) {
+                throw new Error('API base URL is not defined');
+            }
+            await axios.post(`${wakabaBaseUrl}/vendor/getVendorList`, { id: id })
+                .then(response => {
+                    setVendors(response.data);
+                    // console.log('vendrList',response.data)
+                })
+                .catch(error => {
+                    console.error("There was an error fetching the customer data!", error);
+                });
         }
-        axios.post(`${wakabaBaseUrl}/vendor/getVendorList`, { id: id })
-            .then(response => {
-                setVendors(response.data);
-                console.log('vendrList', response.data)
-            })
-            .catch(error => {
-                console.error("There was an error fetching the customer data!", error);
-            });
+        fetchVendorList();
     }
 
     useEffect(() => {
-        const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
-        if (!wakabaBaseUrl) {
-            throw new Error('API base URL is not defined');
+        const fetchAllVendor = async() =>{
+            const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+            if (!wakabaBaseUrl) {
+                throw new Error('API base URL is not defined');
+            }
+            axios.get(`${wakabaBaseUrl}/vendor/getVendorListAll`)
+                .then(response => {
+                    setAllVendors(response.data);
+                    // console.log('vendrListAll',response.data)
+                })
+                .catch(error => {
+                    console.error("There was an error fetching the customer data!", error);
+                });
         }
-        axios.get(`${wakabaBaseUrl}/vendor/getVendorListAll`)
-            .then(response => {
-                setAllVendors(response.data);
-                console.log('vendrListAll', response.data)
-            })
-            .catch(error => {
-                console.error("There was an error fetching the customer data!", error);
-            });
+        fetchAllVendor();
     }, []);
     // search selectbox product3================
 
@@ -344,76 +342,130 @@ const InvoicePurchaseOfBroughtBlank = () => {
 
 
     const [showInputPurchase, setShowInputPurchase] = useState(false);
-    const addSlesItem = () => {
+    //add Data
+    const addSlesItem = async() => {
 
         if (showInputPurchase) {
-            console.log('purchase data', salesSlipData);
-            // setSalesSlipData({trading_date:new Date().toISOString().split('T')[0], purchase_staff:userData.username, store_name:userData.store_name,customer_id:id});
-            setTotalSalesSlipData((prevSalesSlipDatas) => [...prevSalesSlipDatas, { ...salesSlipData, id: Date.now(), trading_date: new Date().toISOString().split('T')[0], purchase_staff: userData.username, store_name: userData.store_name, customer_id: id, product_photo: '' }]);
+            console.log('purchase data', salesSlipData,estimateValues);
+
+            const formData = new FormData();
+            formData.append('trading_date', salesSlipData.trading_date);
+            formData.append('number', salesSlipData.number);
+            formData.append('purchase_staff', salesSlipData.purchase_staff);
+            formData.append('customer_id', salesSlipData.customer_id);
+            formData.append('store_name', salesSlipData.store_name);
+            formData.append('hearing', salesSlipData.hearing);
+            formData.append('product_type_one', salesSlipData.product_type_one);
+            formData.append('product_type_two', salesSlipData.product_type_two);
+            formData.append('product_type_three', salesSlipData.product_type_three);
+            formData.append('product_type_four', salesSlipData.product_type_four);
+            formData.append('product_name', salesSlipData.product_name);
+            formData.append('comment', salesSlipData.comment);
+            formData.append('quantity', salesSlipData.quantity);
+            formData.append('reason_application', salesSlipData.reason_application);
+            formData.append('interest_rate', salesSlipData.interest_rate);
+            formData.append('product_price', salesSlipData.product_price);
+            formData.append('highest_estimate_vendor', salesSlipData.highest_estimate_vendor);
+            formData.append('highest_estimate_price', salesSlipData.highest_estimate_price);
+            formData.append('number_of_vendor', salesSlipData.number_of_vendor);
+            formData.append('supervisor_direction', salesSlipData.supervisor_direction);
+            formData.append('purchase_result', salesSlipData.purchase_result);
+            formData.append('purchase_price', salesSlipData.purchase_price);
+
+            formData.append('estimate_wholesaler', JSON.stringify(estimateValues));
+
+            if (sendFile) formData.append('product_photo', sendFile);
+            try {
+                const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+
+                if (!wakabaBaseUrl) {
+                    throw new Error('API base URL is not defined');
+                }
+
+                await axios.post(`${wakabaBaseUrl}/purchaseinvoice/create`, formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                }).then(response => {
+                    const invoiceData = response.data;
+                    if(invoiceData?.length>0) {
+                        const updatedData111 = invoiceData.map((data,Index) => ({
+                            ...data,
+                            estimate_wholesaler: JSON.parse(data.estimate_wholesaler),
+                        })); 
+                        setTotalSalesSlipData(updatedData111);
+                    }
+                    setShowInputPurchase(false);
+                    setSalesSlipData({
+                        trading_date: salesSlipData.trading_date,
+                        number: '',
+                        purchase_staff: salesSlipData.purchase_staff,
+                        customer_id: salesSlipData.customer_id,
+                        store_name: salesSlipData.store_name,
+                        hearing: salesSlipData.hearing,
+                        product_type_one: '',
+                        product_type_two: '',
+                        product_type_three: '',
+                        product_type_four: '',
+
+                        gold_type:'-',
+                        gross_weight:'-',
+        
+                        product_photo: '',
+                        product_name: '',
+                        comment: '',
+                        quantity: '0',
+                        reason_application: '',
+                        interest_rate: '0',
+                        product_price: '0',
+                        highest_estimate_vendor: '',
+                        highest_estimate_price: '0',
+                        number_of_vendor: '',
+                        supervisor_direction: '',
+                        purchase_result: '',
+                        purchase_price: '0',
+                        estimate_wholesaler:'',
+                    });
+                    setEstimateValues({});
+                })
+                    .catch(error => {
+                        console.error("There was an error fetching the customer data!", error);
+                    });
+            } catch (error) {
+                console.error('Error sending message:', error);
+            }
+
+        } else {
             setSalesSlipData({
-                trading_date: salesSlipData.trading_date,
+                trading_date: currentDay,
                 number: '',
-                purchase_staff: salesSlipData.purchase_staff,
-                customer_id: salesSlipData.customer_id,
-                store_name: salesSlipData.store_name,
-                hearing: salesSlipData.hearing,
+                purchase_staff: userData.fullname,
+                customer_id: id,
+                store_name: userData.store_name,
+                hearing: '',
                 product_type_one: '',
                 product_type_two: '',
                 product_type_three: '',
                 product_type_four: '',
 
+                gold_type:'-',
+                gross_weight:'-',
+
                 product_photo: '',
-                product: '',
-                quantity: '',
+                product_name: '',
+                comment: '',
+                quantity: '0',
                 reason_application: '',
-                interest_rate: '',
-                product_price: '',
+                interest_rate: '0',
+                product_price: '0',
                 highest_estimate_vendor: '',
-                highest_estimate_price: '',
+                highest_estimate_price: '0',
                 number_of_vendor: '',
                 supervisor_direction: '',
                 purchase_result: '',
-
-                purchase_price: '',
-
-                本査定ネットジャパン: '',
-                LINE色石バンク: '',
-                本査定色石バンク: '',
-                LINEフォーナイン: '',
-                本査定フォーナイン: '',
-                カイマナ査定日: '',
-                LINEカイマナ: '',
-                本査定カイマナ: '',
-                LINE査定日相場: '',
-                ワタル商事: '',
-                近江屋: '',
-                ヤフオク: '',//yahoo auction
-                BB: '',
-                GA: '',
-                ベルモンド: '',
-                ホームコム: '',
-                カイマナ: '',
-                フォーナイン: '',
-                ひるねこ: '',
-                アート: '',
-                吉岡美術: '',
-                刀剣佐藤: '',
-                ゴールドリカー: '',
-                リンクサス: '',
-                管弦屋: '',
-                はなもり: '',
-                バステック: '',
+                purchase_price: '0',
+                estimate_wholesaler:'',
             });
-
-            calculateTotalQuantity();
-            calculateTotalPrice();
-
-            setShowInputPurchase(false);
-        } else {
-
-            calculateTotalQuantity();
-            calculateTotalPrice();
-
             setShowInputPurchase(true);
         }
 
@@ -424,137 +476,204 @@ const InvoicePurchaseOfBroughtBlank = () => {
         setShowInputPurchase(!showInputPurchase);
         setEditIndex(index);
         setSalesSlipData(totalSalesSlipData[index]); // Populate the input fields with the selected row's data
+        setEstimateValues(totalSalesSlipData[index].estimate_wholesaler);
+        const selectedResult = product1s.find(product => product.category === totalSalesSlipData[index].product_type_one);
+        getVendorList(selectedResult.id);
 
     };
     //Save one of tatalsalesSlipdata
-    const saveSalesItem = () => {
+    const saveSalesItem = async() => {
         setShowInputPurchase(!showInputPurchase);
-        const updatedData = totalSalesSlipData.map((row, index) =>
-            index === editIndex ? { ...row, ...salesSlipData } : row
-        );
-        setTotalSalesSlipData(updatedData);
+        // const updatedData = totalSalesSlipData.map((row, index) =>
+        //     index === editIndex ? { ...row, ...salesSlipData } : row
+        // );
+        // setTotalSalesSlipData(updatedData);
+
+            const formData = new FormData();
+            formData.append('id', salesSlipData.id);
+            formData.append('trading_date', salesSlipData.trading_date);
+            formData.append('number', salesSlipData.number);
+            formData.append('purchase_staff', salesSlipData.purchase_staff);
+            formData.append('customer_id', salesSlipData.customer_id);
+            formData.append('store_name', salesSlipData.store_name);
+            formData.append('hearing', salesSlipData.hearing);
+            formData.append('product_type_one', salesSlipData.product_type_one);
+            formData.append('product_type_two', salesSlipData.product_type_two);
+            formData.append('product_type_three', salesSlipData.product_type_three);
+            formData.append('product_type_four', salesSlipData.product_type_four);
+            formData.append('product_name', salesSlipData.product_name);
+            formData.append('comment', salesSlipData.comment);
+            formData.append('quantity', salesSlipData.quantity);
+            formData.append('reason_application', salesSlipData.reason_application);
+            formData.append('interest_rate', salesSlipData.interest_rate);
+            formData.append('product_price', salesSlipData.product_price);
+            formData.append('highest_estimate_vendor', salesSlipData.highest_estimate_vendor);
+            formData.append('highest_estimate_price', salesSlipData.highest_estimate_price);
+            formData.append('number_of_vendor', salesSlipData.number_of_vendor);
+            formData.append('supervisor_direction', salesSlipData.supervisor_direction);
+            formData.append('purchase_result', salesSlipData.purchase_result);
+            formData.append('purchase_price', salesSlipData.purchase_price);
+
+            formData.append('estimate_wholesaler', JSON.stringify(estimateValues));
+
+            if (sendFile) formData.append('product_photo', sendFile);
+                try {
+                    const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+
+                    if (!wakabaBaseUrl) {
+                        throw new Error('API base URL is not defined');
+                    }
+
+                    await axios.post(`${wakabaBaseUrl}/purchaseinvoice/update`, formData, {
+                        headers: {
+                            'Content-Type': 'multipart/form-data'
+                        }
+                    }).then(response => {
+                        const invoiceData = response.data;
+                        if(invoiceData?.length>0) {
+                            const updatedData111 = invoiceData.map((data,Index) => ({
+                                ...data,
+                                estimate_wholesaler: JSON.parse(data.estimate_wholesaler),
+                            })); 
+                            setTotalSalesSlipData(updatedData111);
+                        }
+                        setShowInputPurchase(false);
+                        setSalesSlipData({
+                            trading_date: salesSlipData.trading_date,
+                            number: '',
+                            purchase_staff: salesSlipData.purchase_staff,
+                            customer_id: salesSlipData.customer_id,
+                            store_name: salesSlipData.store_name,
+                            hearing: salesSlipData.hearing,
+                            product_type_one: '',
+                            product_type_two: '',
+                            product_type_three: '',
+                            product_type_four: '',
+
+                            gold_type:'-',
+                            gross_weight:'-',
+            
+                            product_photo: '',
+                            product_name: '',
+                            comment: '',
+                            quantity: '0',
+                            reason_application: '',
+                            interest_rate: '0',
+                            product_price: '0',
+                            highest_estimate_vendor: '',
+                            highest_estimate_price: '0',
+                            number_of_vendor: '',
+                            supervisor_direction: '',
+                            purchase_result: '',
+                            purchase_price: '0',
+                            estimate_wholesaler:'',
+                        });
+                        setEstimateValues({});
+                        setEditIndex(-1); // Exit edit mode
+                    })
+                        .catch(error => {
+                            console.error("There was an error fetching the customer data!", error);
+                        });
+                } catch (error) {
+                    console.error('Error sending message:', error);
+                }
+
         setEditIndex(-1); // Exit edit mode
-        setSalesSlipData({
-            trading_date: '',
-            purchase_staff: '',
-            customer_id: '',
-            store_name: '',
-            hearing: '',
-            product_type_one: '',
-            product_type_two: '',
-            product_type_three: '',
-            product_type_four: '',
-
-            product_photo: '',
-            product: '',
-            quantity: '',
-            reason_application: '',
-            interest_rate: '',
-            product_price: '',
-            highest_estimate_vendor: '',
-            highest_estimate_price: '',
-            number_of_vendor: '',
-            supervisor_direction: '',
-            purchase_result: '',
-
-            purchase_price: '',
-
-            本査定ネットジャパン: '',
-            LINE色石バンク: '',
-            本査定色石バンク: '',
-            LINEフォーナイン: '',
-            本査定フォーナイン: '',
-            カイマナ査定日: '',
-            LINEカイマナ: '',
-            本査定カイマナ: '',
-            LINE査定日相場: '',
-            ワタル商事: '',
-            近江屋: '',
-            ヤフオク: '',//yahoo auction
-            BB: '',
-            GA: '',
-            ベルモンド: '',
-            ホームコム: '',
-            カイマナ: '',
-            フォーナイン: '',
-            ひるねこ: '',
-            アート: '',
-            吉岡美術: '',
-            刀剣佐藤: '',
-            ゴールドリカー: '',
-            リンクサス: '',
-            管弦屋: '',
-            はなもり: '',
-            バステック: '',
-        }); // Reset editedRow state
-
     };
     //Cancel one of tatalsalesSlipdata
     const cancelSalesItem = () => {
         setShowInputPurchase(!showInputPurchase);
         setEditIndex(-1);
         setSalesSlipData({
-            trading_date: '',
-            purchase_staff: '',
-            customer_id: '',
-            store_name: '',
-            hearing: '',
+            trading_date: salesSlipData.trading_date,
+            number: '',
+            purchase_staff: salesSlipData.purchase_staff,
+            customer_id: salesSlipData.customer_id,
+            store_name: salesSlipData.store_name,
+            hearing: salesSlipData.hearing,
             product_type_one: '',
             product_type_two: '',
             product_type_three: '',
             product_type_four: '',
 
+            gold_type:'-',
+            gross_weight:'-',
+
             product_photo: '',
-            product: '',
-            quantity: '',
+            product_name: '',
+            comment: '',
+            quantity: '0',
             reason_application: '',
-            interest_rate: '',
-            product_price: '',
+            interest_rate: '0',
+            product_price: '0',
             highest_estimate_vendor: '',
-            highest_estimate_price: '',
+            highest_estimate_price: '0',
             number_of_vendor: '',
             supervisor_direction: '',
             purchase_result: '',
-
-            purchase_price: '',
-
-            本査定ネットジャパン: '',
-            LINE色石バンク: '',
-            本査定色石バンク: '',
-            LINEフォーナイン: '',
-            本査定フォーナイン: '',
-            カイマナ査定日: '',
-            LINEカイマナ: '',
-            本査定カイマナ: '',
-            LINE査定日相場: '',
-            ワタル商事: '',
-            近江屋: '',
-            ヤフオク: '',//yahoo auction
-            BB: '',
-            GA: '',
-            ベルモンド: '',
-            ホームコム: '',
-            カイマナ: '',
-            フォーナイン: '',
-            ひるねこ: '',
-            アート: '',
-            吉岡美術: '',
-            刀剣佐藤: '',
-            ゴールドリカー: '',
-            リンクサス: '',
-            管弦屋: '',
-            はなもり: '',
-            バステック: '',
+            purchase_price: '0',
+            estimate_wholesaler:'',
         });
-
     };
     //delete one of tatalsaleSlipdata
-    const removeSalesItem = (index) => {
-        setTotalSalesSlipData(totalSalesSlipData.filter((_, i) => i !== index));
+    const removeSalesItem = async(id) => {
+        // setTotalSalesSlipData(totalSalesSlipData.filter((_, i) => i !== index));
+        try {
+            const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
 
-        calculateTotalQuantity();
-        calculateTotalPrice();
+            if (!wakabaBaseUrl) {
+                throw new Error('API base URL is not defined');
+            }
+            await axios.post(`${wakabaBaseUrl}/purchaseinvoice/delete`, {id:id})
+            .then(response => {
+                const invoiceData = response.data;
+                if(invoiceData?.length>0) {
+                    const updatedData111 = invoiceData.map((data,Index) => ({
+                        ...data,
+                        estimate_wholesaler: JSON.parse(data.estimate_wholesaler),
+                    })); 
+                    setTotalSalesSlipData(updatedData111);
+                }
+                setShowInputPurchase(false);
+                setSalesSlipData({
+                    trading_date: salesSlipData.trading_date,
+                    number: '',
+                    purchase_staff: salesSlipData.purchase_staff,
+                    customer_id: salesSlipData.customer_id,
+                    store_name: salesSlipData.store_name,
+                    hearing: salesSlipData.hearing,
+                    product_type_one: '',
+                    product_type_two: '',
+                    product_type_three: '',
+                    product_type_four: '',
 
+                    gold_type:'-',
+                    gross_weight:'-',
+    
+                    product_photo: '',
+                    product_name: '',
+                    comment: '',
+                    quantity: '0',
+                    reason_application: '',
+                    interest_rate: '0',
+                    product_price: '0',
+                    highest_estimate_vendor: '',
+                    highest_estimate_price: '0',
+                    number_of_vendor: '',
+                    supervisor_direction: '',
+                    purchase_result: '',
+                    purchase_price: '0',
+                    estimate_wholesaler:'',
+                });
+                setEstimateValues({});
+                setEditIndex(-1); // Exit edit mode
+            })
+            .catch(error => {
+                console.error("There was an error fetching the customer data!", error);
+            });
+        } catch (error) {
+            console.error('Error sending message:', error);
+        }
     };
 
     const dispatch = useDispatch();
@@ -562,6 +681,30 @@ const InvoicePurchaseOfBroughtBlank = () => {
     const updateData = (data) => {
         dispatch(setData(data));
     };
+    const sendCustomerId = (data) => {
+        dispatch(setCustomerID(data));
+    };
+    //received data using redux
+    const data = useSelector((state) => state.data);
+    const StampData = data.data;
+    const clearReduxData = () => {
+        dispatch(setClearData());
+    }
+    const [stamps, setStamps] = useState({});
+    useEffect(() => {
+        if (data.data !== 'Initial Data') {
+            setTotalSalesSlipData((prevSalesSlipDatas) => [...prevSalesSlipDatas, {
+                ...salesSlipData,
+                id: Date.now(), trading_date: new Date().toISOString().split('T')[0], purchase_staff: userData.username,
+                store_name: userData.store_name, customer_id: id, product_photo: '',
+                product_type_one: '切手', quantity: StampData.totalNumberOfStamp, purchase_price: StampData.totalStampPurchasePrice
+            }]);
+            setStamps(StampData);
+            // clearReduxData();
+        }
+    }, [data.data]);
+    // console.log('stamp received data------------',StampData)
+    // console.log('stamp received data2',data.data)
     // send data
     const sendPurchaseDataToReceipt = () => {
         const numberOfInvoice = 1;
@@ -574,27 +717,20 @@ const InvoicePurchaseOfBroughtBlank = () => {
     const sendPurchaseData = () => {
         if (childData) {
             const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
-            //send customer item data
-            // if (!wakabaBaseUrl) {
-            //     throw new Error('API base URL is not defined');
-            // }
-            // const customerId = customer.id;
-            // const item1 = customer.item1;
-            // const item2 = customer.item2;
-            // const item3 = customer.item3;
-            // axios.post(`${wakabaBaseUrl}/customer/customerItem`, customerId, item1, item2, item3)
-            //     .then(response => {
-            //     })
-            //     .catch(error => {
-            //         console.error("There was an error fetching the customer data!", error);
-            //     });
-            //---------
-            itemsSave();
+            if (!wakabaBaseUrl) {
+                throw new Error('API base URL is not defined');
+            }
+                    //---------
             const numberOfInvoice = 1;
-            const purchaseData = { deadline, numberOfInvoice, totalSalesSlipData };
-            // console.log('send purchase data',purchaseData,id);
-            updateData(purchaseData);
-            navigate('/purchaseinvoiceforbroughtinitems');
+
+            if (totalSalesSlipData.length != 0 && totalSalesSlipData != null) {
+                itemsSave();
+                const purchaseData = {id,deadline, numberOfInvoice, totalSalesSlipData ,stamps};
+                console.log('send purchase data', purchaseData, id);
+                updateData(purchaseData);// to sign page using redux
+                navigate('/purchaseinvoiceforbroughtinitems');
+            }
+
         } else {
             setIsExistCustomerModalOpen(true);
         }
@@ -702,7 +838,7 @@ const InvoicePurchaseOfBroughtBlank = () => {
         setTotalSalesSlipData([]);
     }
 
-    //product comment related content
+//-----------product comment related content
     const [selectedProduct, setSelectedProduct] = useState(null);
     const [showModal, setShowModal] = useState(false);
     const [editRow, setEditRow] = useState({ comment: '' });
@@ -754,7 +890,7 @@ const InvoicePurchaseOfBroughtBlank = () => {
             // e.preventDefault(); // Prevent the default behavior (form submission)
             setEditRow((prev) => ({
                 ...prev,
-                comment: prev.comment + '<br />' // Add a newline character
+                comment: prev.comment // Add a newline character
             }));
             return;
         }

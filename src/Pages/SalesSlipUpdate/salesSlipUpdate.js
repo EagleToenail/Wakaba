@@ -47,26 +47,27 @@ const SalesSlipUpdate = () => {
 
     const { id } = useParams();
 
+    //get sales Data
     useEffect(() => {
-        const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
-        if (!wakabaBaseUrl) {
-            throw new Error('API base URL is not defined');
-        }
+        const fetchSalesData = async(categoryOne) => {
+            const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+            if (!wakabaBaseUrl) {
+                throw new Error('API base URL is not defined');
+            }
 
-        // console.log(`${wakabaBaseUrl}/sales/getSalesById`);
-        axios.get(`${wakabaBaseUrl}/sales/getSalesById/${id}`)
-            .then(response => {
-                // console.log("123",response.data)
-                setSalesSlipData(response.data);
-                if(response.data){
-                    fetchCategoryVendors(response.data.product_type_one);
-                    fetchProduct2(response.data.product_type_one);
-                }
-            })
-            .catch(error => {
-                console.error("There was an error fetching the customer data!", error);
-            });
-    }, [id]);
+            // console.log(`${wakabaBaseUrl}/sales/getSalesById`);
+            await axios.get(`${wakabaBaseUrl}/sales/getSalesById/${id}`)
+                .then(response => {
+                    // console.log("123",response.data)
+                    const salesData = response.data;
+                    setSalesSlipData(salesData);
+                })
+                .catch(error => {
+                    console.error("There was an error fetching the customer data!", error);
+                });
+        }
+        fetchSalesData();
+    }, []);
 
     const navigate = useNavigate();
 
@@ -75,10 +76,6 @@ const SalesSlipUpdate = () => {
             ...salesSlipData,
             [e.target.name]: e.target.value,
         });
-        if(e.target.name == 'product_type_one') {
-            fetchCategoryVendors(e.target.value);
-            fetchProduct2(e.target.value);
-        }
 
     };
 
@@ -126,61 +123,6 @@ const SalesSlipUpdate = () => {
         }
     };
     
-    const [product1s, setProduct1s] = useState([]);
-    // Fetch product1 data
-    useEffect(() => {
-        const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
-        if (!wakabaBaseUrl) {
-            throw new Error('API base URL is not defined');
-        }
-
-        axios.get(`${wakabaBaseUrl}/ProductType1s`)
-            .then(response => {
-                setProduct1s(response.data);
-            })
-            .catch(error => {
-                console.error("There was an error fetching the customer data!", error);
-            });
-    }, []);
-
-    const [product2s, setProduct2s] = useState([]);
-    // Fetch product1 data
-    const fetchProduct2 = (item)=> {
-        // useEffect(() => {
-            const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
-            if (!wakabaBaseUrl) {
-                throw new Error('API base URL is not defined');
-            }
-    
-            axios.post(`${wakabaBaseUrl}/ProductType2sfilter`,{name:item})
-                .then(response => {
-                    setProduct2s(response.data);
-                })
-                .catch(error => {
-                    console.error("There was an error fetching the customer data!", error);
-                });
-        // }, []);
-    }
-    //fetch vendors form category
-    const [categoryVendors , setCategoryVendors] = useState([]);
-    const fetchCategoryVendors = (item)=>{
-    // useEffect(() => {
-        const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
-        if (!wakabaBaseUrl) {
-            throw new Error('API base URL is not defined');
-        }
-
-            axios.post(`${wakabaBaseUrl}/vendor/getVendorList`,{type:item})
-            .then(response => {
-                setCategoryVendors(response.data);
-                // console.log('vendrListAll',response.data)
-            })
-            .catch(error => {
-                console.error("There was an error fetching the customer data!", error);
-            });
-
-    // }, []);
-    }
     return (
         <>
             <DateAndTime />
@@ -232,7 +174,7 @@ const SalesSlipUpdate = () => {
                                         <div style={{ width: '40px', height: '30px', cursor: 'pointer' }}>
                                             <div style={{ position: 'relative' }}>
                                                 <img src={dateimage} style={{ width: '40px', height: '30px', position: 'absolute', cursor: 'pointer' }} alt='calendar'></img>
-                                                <input type="date" id="trading_date" name="trading_date" onChange={handleChange} style={{ position: 'absolute', left: '0', width: '40px', height: '30px', background: 'transparent', border: 'none', opacity: '0', cursor: 'pointer' }} />
+                                                <input type="date" id="trading_date" name="trading_date" onChange={handleChange} style={{ position: 'absolute', left: '0', width: '40px', height: '30px', background: 'transparent', border: 'none', opacity: '0', cursor: 'pointer' }} readOnly/>
                                             </div>
                                         </div>
                                     </div>
@@ -262,12 +204,12 @@ const SalesSlipUpdate = () => {
                                         <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">商品種別1 </label>
                                     </div>
                                     <div style={{ width: '50%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                        <select id="product_type_one" name="product_type_one" onChange={handleChange} value={salesSlipData.product_type_one || ''} required className="w-full text-[#70685a] font-bold border border-[#70685a] px-4 py-2 outline-[#70685a]">
-                                            <option value="" ></option>
+                                        <input name="product_type_one" onChange={handleChange} value={salesSlipData.product_type_one || ''} required className="w-full text-[#70685a] font-bold border border-[#70685a] px-4 py-2 outline-[#70685a]" readOnly/>
+                                            {/* <option value="" ></option>
                                             {(product1s && product1s.length !== 0) && product1s.map((product,Index) => (
                                                 <option key={Index} value={product.category}>{product.category}</option>
                                             ))}
-                                        </select>
+                                        </select> */}
                                     </div>
                                 </div>
                                 {/* new */}
@@ -276,12 +218,12 @@ const SalesSlipUpdate = () => {
                                         <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">商品種別2</label>
                                     </div>
                                     <div style={{ width: '50%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                        <select id="product_type_two" name="product_type_two" onChange={handleChange} value={salesSlipData.product_type_two || ''} required className="w-full text-[#70685a] font-bold border border-[#70685a] px-4 py-2 outline-[#70685a]">
-                                        <option value="" ></option>
+                                        <input name="product_type_two" onChange={handleChange} value={salesSlipData.product_type_two || ''} required className="w-full text-[#70685a] font-bold border border-[#70685a] px-4 py-2 outline-[#70685a]" readOnly/>
+                                        {/* <option value="" ></option>
                                             {(product2s && product2s !== 0 ) && product2s.map((product,Index) => (
                                                 <option key={Index} value={product.category}>{product.category}</option>
                                             ))}
-                                        </select>
+                                        </select> */}
                                     </div>
                                 </div>
                                 {/* new */}
@@ -290,7 +232,7 @@ const SalesSlipUpdate = () => {
                                         <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">買取額</label>
                                     </div>
                                     <div style={{ width: '50%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                        <input name="purchase_price" onChange={handleChange} value={salesSlipData.purchase_price || ''} required type="number" className="w-full text-[#70685a] border border-[#70685a] px-4 py-2 outline-[#70685a]" />
+                                        <input name="purchase_price" onChange={handleChange} value={salesSlipData.purchase_price || ''} required type="number" className="w-full text-[#70685a] border border-[#70685a] px-4 py-2 outline-[#70685a]" readOnly/>
                                     </div>
                                 </div>
                                 {(salesSlipData.product_type_one === "貴金属") && (
@@ -300,7 +242,7 @@ const SalesSlipUpdate = () => {
                                                 <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">金種</label>
                                             </div>
                                             <div style={{ width: '45%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                                <input name="metal_type" onChange={handleChange} value={salesSlipData.metal_type || ''} type="text" className="w-full text-[#70685a] border border-[#70685a] px-4 py-2 outline-[#70685a]" />
+                                                <input name="metal_type" onChange={handleChange} value={salesSlipData.metal_type || ''} type="text" className="w-full text-[#70685a] border border-[#70685a] px-4 py-2 outline-[#70685a]" readOnly/>
                                             </div>
                                             <div style={{ width: '25%', flexDirection: 'column', }} className='ml-5'>
                                                 <label className="text-[#70685a] font-bold mb-2 block text-left ml-10 py-1 !mb-0">*(貴金属)</label>
@@ -312,7 +254,7 @@ const SalesSlipUpdate = () => {
                                                 <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">g/額面</label>
                                             </div>
                                             <div style={{ width: '45%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                                <input name="price_per_gram" onChange={handleChange} value={salesSlipData.price_per_gram || ''} type="number" className="w-full text-[#70685a] border border-[#70685a] px-4 py-2 outline-[#70685a]" />
+                                                <input name="price_per_gram" onChange={handleChange} value={salesSlipData.price_per_gram || ''} type="number" className="w-full text-[#70685a] border border-[#70685a] px-4 py-2 outline-[#70685a]" readOnly/>
                                             </div>
                                             <div style={{ width: '25%', flexDirection: 'column', }} className='ml-5'>
                                                 <label className="text-[#70685a] font-bold mb-2 block text-left ml-10 py-1 !mb-0">*(貴金属)</label>
@@ -326,7 +268,7 @@ const SalesSlipUpdate = () => {
                                         <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">商品</label>
                                     </div>
                                     <div style={{ width: '60%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                        <input name="product" onChange={handleChange} value={salesSlipData.product || ''} type="text" required className="w-full text-[#70685a] border border-[#70685a] px-4 py-2 outline-[#70685a]" />
+                                        <input name="product" onChange={handleChange} value={salesSlipData.product || ''} type="text" required className="w-full text-[#70685a] border border-[#70685a] px-4 py-2 outline-[#70685a]" readOnly/>
                                     </div>
                                 </div>
                                 {/* new */}
@@ -335,7 +277,7 @@ const SalesSlipUpdate = () => {
                                         <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">数</label>
                                     </div>
                                     <div style={{ width: '35%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                        <input name="quantity" onChange={handleChange} value={salesSlipData.quantity || ''} type="number" required className="w-full text-[#70685a] border border-[#70685a] px-4 py-2 outline-[#70685a]" />
+                                        <input name="quantity" onChange={handleChange} value={salesSlipData.quantity || ''} type="number" required className="w-full text-[#70685a] border border-[#70685a] px-4 py-2 outline-[#70685a]" readOnly/>
                                     </div>
                                     {/* <div style={{ width: '35%'}} className='flex justify-center'>
                                             <button name='add_item' type="button" onClick={addItem} className="w-[150px] !px-3 h-11 font-bold text-[white] border border-[#70685a] tracking-wide rounded-lg justify-center t bg-[#a3a1c8] hover:bg-blue-700 focus:outline-none">
@@ -438,12 +380,12 @@ const SalesSlipUpdate = () => {
                                         <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">卸し先 </label>
                                     </div>
                                     <div style={{ width: '60%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                        <select name="shipping_address" onChange={handleChange} value={salesSlipData.shipping_address || ''} required className="w-full text-[#70685a] font-bold border border-[#70685a] px-4 py-2 outline-[#70685a]">
-                                            <option value="" ></option>
+                                        <input name="shipping_address" onChange={handleChange} value={salesSlipData.shipping_address || ''} required className="w-full text-[#70685a] font-bold border border-[#70685a] px-4 py-2 outline-[#70685a]" readOnly/>
+                                            {/* <option value="" ></option>
                                             {(categoryVendors && categoryVendors !== 0 ) && categoryVendors.map((vendor,Index) => (
                                                 <option key={Index} value={vendor.vendor_name}>{vendor.vendor_name}</option>
                                             ))}
-                                        </select>
+                                        </select> */}
                                     </div>
                                 </div>
                                 {/* new */}

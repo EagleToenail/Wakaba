@@ -6,7 +6,10 @@ import '../../Assets/css/showtable.css';
 import ButtonComponent from '../../Components/Common/ButtonComponent';
 import LabelComponent from '../../Components/Common/LabelComponent';
 import InputComponent from '../../Components/Common/InputComponent';
-import { useSelector } from 'react-redux';
+import {useDispatch, useSelector } from 'react-redux';
+import { setClearData } from '../../redux/sales/actions';
+import html2canvas from 'html2canvas';
+import { jsPDF } from 'jspdf';
 
 
 const PurchaseRequestFormForWholeSaler = () => {
@@ -42,9 +45,6 @@ const PurchaseRequestFormForWholeSaler = () => {
 
     const [editIndex, setEditIndex] = useState(-1);
     const [editedRow, setEditedRow] = useState({ 
-        product_status:'',
-        shipper: '',
-        shipper_manager: '',
         rank: '',
         assessment_date: '',
         product_price: '',
@@ -67,9 +67,6 @@ const PurchaseRequestFormForWholeSaler = () => {
         setWholeSalesPurchase(updatedData);
         setEditIndex(-1); // Exit edit mode
         setEditedRow({ 
-            product_status:'',
-            shipper: '',
-            shipper_manager: '',
             rank: '',
             assessment_date: '',
             product_price: '',
@@ -81,9 +78,6 @@ const PurchaseRequestFormForWholeSaler = () => {
     const handleCancelClick = () => {
         setEditIndex(-1);
         setEditedRow({ 
-            product_status:'',
-            shipper: '',
-            shipper_manager: '',
             rank: '',
             assessment_date: '',
             product_price: '',
@@ -92,8 +86,50 @@ const PurchaseRequestFormForWholeSaler = () => {
          }); // Reset editedRow state
     };
 
+    const [allVendors, setAllVendors] = useState([]);
     useEffect(() => {
-      const fetchSalesData = async () => {
+        const fetchAllVendor = async() =>{
+            const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+            if (!wakabaBaseUrl) {
+                throw new Error('API base URL is not defined');
+            }
+            axios.get(`${wakabaBaseUrl}/vendor/getVendorListAll`)
+                .then(response => {
+                    setAllVendors(response.data);
+                    // console.log('vendrListAll',response.data)
+                })
+                .catch(error => {
+                    console.error("There was an error fetching the customer data!", error);
+                });
+        }
+        fetchAllVendor();
+
+    }, []);
+
+    // search selectbox product1================
+
+    const [product1s, setProduct1s] = useState([]);
+    // Fetch product1 data
+    useEffect(() => {
+        const fetchCategory1 = async() => {
+            const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+            if (!wakabaBaseUrl) {
+                throw new Error('API base URL is not defined');
+            }
+    
+            axios.get(`${wakabaBaseUrl}/ProductType1s`)
+                .then(response => {
+                    setProduct1s(response.data);
+                    fetchSalesData(response.data);
+                })
+                .catch(error => {
+                    console.error("There was an error fetching the customer data!", error);
+                });
+        }
+        fetchCategory1();
+    }, []);
+
+      const fetchSalesData = async (category1) => {
         if (salesDataIds !== 'Initial Data' && salesDataIds.length !== 0) {
           const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
           
@@ -114,7 +150,8 @@ const PurchaseRequestFormForWholeSaler = () => {
             const salesData = responses.map(response => response.data);
             setWholeSalesPurchase(salesData);
             if(salesData[0].product_type_one) {
-                fetchCategoryVendors(salesData[0].product_type_one);
+                const product1 = category1.filter(item => item.category === salesData[0].product_type_one);
+                fetchCategoryVendors(product1[0].id);
             }
             // console.log('salesdata========', salesData);
           } catch (error) {
@@ -122,36 +159,18 @@ const PurchaseRequestFormForWholeSaler = () => {
           }
         }
       };
-  
-      fetchSalesData();
-    }, [salesDataIds]);
 
     // fetch vendor names
-    const [allVendors , setAllVendors] = useState([]);
-    useEffect(() => {
-        const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
-        if (!wakabaBaseUrl) {
-            throw new Error('API base URL is not defined');
-        }
-        axios.get(`${wakabaBaseUrl}/vendor/getVendorListAll`)
-        .then(response => {
-            setAllVendors(response.data);
-            // console.log('vendrListAll',response.data)
-        })
-        .catch(error => {
-            console.error("There was an error fetching the customer data!", error);
-        });
-    }, []);
-    // fetch vendor names
     const [categoryVendors , setCategoryVendors] = useState([]);
-    const fetchCategoryVendors = (item)=>{
+
+    const fetchCategoryVendors = (id)=>{
     // useEffect(() => {
         const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
         if (!wakabaBaseUrl) {
             throw new Error('API base URL is not defined');
         }
 
-            axios.post(`${wakabaBaseUrl}/vendor/getVendorList`,{type:item})
+            axios.post(`${wakabaBaseUrl}/vendor/getVendorList`,{id:id})
             .then(response => {
                 setCategoryVendors(response.data);
                 // console.log('vendrListAll',response.data)
@@ -162,10 +181,20 @@ const PurchaseRequestFormForWholeSaler = () => {
 
     // }, []);
     }
-    const handleVendorChange = (e) => {
+
+    const [shipData,setShipData] = useState({
+        product_status:'',
+        shipper:'',
+        shipping_date:'',
+        shipping_address:'',
+    });
+    const handleShipChange = (e) => {
         const { name, value } = e.target;
-        updateShippingAddress(value);
-        
+        setShipData((prevData) => ({
+            ...prevData,
+            [name]: value,
+        }));
+        updateShippingData(name,value);
     };
 
     const [users, setUsers] = useState([]);
@@ -186,48 +215,114 @@ const PurchaseRequestFormForWholeSaler = () => {
             });
     }, []);
 
-    const sendShippingData = () =>{
+    //create pdf
+    const handleSavePageAsPDF = async (e) => {
+        const element = document.getElementById('shipping');
+        if (!element) {
+            console.error('Element not found');
+            return;
+        }
+
+        try {
+            // Capture the content of the element
+            const canvas = await html2canvas(element, {
+                scale: 2, // Higher scale for better resolution
+                useCORS: true // Handle CORS for external resources
+            });
+
+            const imgData = canvas.toDataURL('image/png');
+
+            // Create a PDF with dimensions matching the captured image
+            const imgWidth = canvas.width * 0.75 / 96 * 25.4; // Convert pixels to mm
+            const imgHeight = canvas.height * 0.75 / 96 * 25.4; // Convert pixels to mm
+
+            // Create a new jsPDF instance
+            const pdf = new jsPDF({
+                orientation: imgWidth > imgHeight ? 'l' : 'p', // Landscape or Portrait
+                unit: 'mm',
+                format: [imgWidth, imgHeight] // Set PDF format to the dimensions of the captured content
+            });
+
+            // Add image to PDF
+            pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
+
+            // Save the PDF to the user's device
+            const pdfBlob = pdf.output('blob');
+            const url = URL.createObjectURL(pdfBlob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = 'page-content.pdf';
+            link.click();
+            URL.revokeObjectURL(url);
+
+        } catch (error) {
+            console.error('Error generating PDF:', error);
+        }
+    };
+
+    const dispatch = useDispatch();
+    const clearReduxData = () => {
+        dispatch(setClearData());
+    }
+
+    const sendShippingData = async() =>{
+        clearReduxData();
+        console.log('wholeSalesPurchase',wholeSalesPurchase)
+        handleSavePageAsPDF();
         const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
         if (!wakabaBaseUrl) {
             throw new Error('API base URL is not defined');
         }
         wholeSalesPurchase[0].shipping_ids = salesDataIds.toString();
         console.log('shipping data',wholeSalesPurchase);
-        axios.post(`${wakabaBaseUrl}/sales/purchaserequestfromwholesaler`, {payload:wholeSalesPurchase})
+        await axios.post(`${wakabaBaseUrl}/sales/purchaserequestfromwholesaler`, {payload:wholeSalesPurchase})
         .then(response => {
-
+            navigate('/wholesalershippinglist');
         })
         .catch(error => {
             console.error("There was an error fetching the customer data!", error);
         });
-
-        navigate('/wholesalershippinglist');
     }
 
-    // update shipping address
-        const updateShippingAddress = (vendor) => {
-            console.log('updateVendor',vendor)
-            const updatedData = wholeSalesPurchase.map(data => ({
-                ...data,
-                shipping_address: vendor // Replace with your desired value or logic
-            }));
-        
-              setWholeSalesPurchase(updatedData);
+    // update shipping data
+        const updateShippingData = (name,value) => {
+            console.log('updateVendor',value)
+            if(name === 'product_status') {
+                const updatedData = wholeSalesPurchase.map(data => ({
+                    ...data,
+                    product_status: value // Replace with your desired value or logic
+                }));
+                  setWholeSalesPurchase(updatedData);
+            }
+            if(name === 'shipper') {
+                const updatedData = wholeSalesPurchase.map(data => ({
+                    ...data,
+                    shipper: value // Replace with your desired value or logic
+                }));
+                  setWholeSalesPurchase(updatedData);
+            }
+            if(name === 'shipping_address') {
+                const updatedData = wholeSalesPurchase.map(data => ({
+                    ...data,
+                    shipping_address: value // Replace with your desired value or logic
+                }));
+                  setWholeSalesPurchase(updatedData);
+            }
         }
 
     return (
         <>
             {/* <Titlebar title={title} /> */}
-
+        <div id='shipping'>
             <div className='flex justify-around' >
                 <h2 className="text-[#70685a] text-center text-2xl font-bold flex justify-center">業者卸依頼書</h2>
             </div>
 
             {/*  */}
-            <div className='w-full flex justify-center mt-5'>
+            <div className='purchase-request-wholesaler w-full flex justify-center mt-5'>
                 <div className='flex justify-center'>
                     <div className='mr-5'>
-                        <select name="inorout" className="w-60 h-10 text-[#70685a] font-bold border border-[#70685a] px-4 py-1 outline-[#70685a]">
+                        <select name="product_status" onChange={handleShipChange} className="w-60 h-10 text-[#70685a] font-bold border border-[#70685a] px-4 py-1 outline-[#70685a]">
                             <option value=""></option>
                             <option value="発送中">発送中</option>
                             <option value="約定済">約定済</option>
@@ -239,7 +334,7 @@ const PurchaseRequestFormForWholeSaler = () => {
                         </select>
                     </div>
                     <div className='mr-5'>
-                        <select name="stamp_type"   className="w-40 h-10 text-[#70685a] font-bold border border-[#70685a] px-4 py-1 outline-[#70685a]">
+                        <select name="shipper" onChange={handleShipChange}   className="w-40 h-10 text-[#70685a] font-bold border border-[#70685a] px-4 py-1 outline-[#70685a]">
                             <option value=""></option>
                             {users?.length>0 && users.map((user, index) => (
                                 <option key={index} value={user.username}>{user.username || ''}</option>
@@ -253,7 +348,7 @@ const PurchaseRequestFormForWholeSaler = () => {
                             <label className='w-max flex flex-col justify-center h-10' >卸業者</label>
                         </div>
                         <div>
-                            <select name="shipping_address" onChange={handleVendorChange} className="w-40 h-10 text-[#70685a] font-bold border border-[#70685a] px-4 py-1 outline-[#70685a]">
+                            <select name="shipping_address" onChange={handleShipChange} className="w-40 h-10 text-[#70685a] font-bold border border-[#70685a] px-4 py-1 outline-[#70685a]">
                                 <option value=""></option>
                                 {(categoryVendors && categoryVendors.length !== 0) && categoryVendors.map((vendor, index) => (
                                     <option key={index} value={vendor.vendor_name}>{vendor.vendor_name}</option>
@@ -305,40 +400,6 @@ const PurchaseRequestFormForWholeSaler = () => {
                             {(wholeSalesPurchase && wholeSalesPurchase.length !==0) && wholeSalesPurchase.map((saleData,Index) => (
                                 <tr key={saleData.id}>
                                     <td>{Index + 1}</td>
-                                    {/* <td style={Td}>
-                                    {editIndex === Index ?(
-                                        <select name="product_status" value={editedRow.product_status || ''} onChange={handleInputChange} className="w-max h-11 text-[#70685a] text-[15px] font-bold  px-4 py-1 outline-[#70685a]">
-                                            <option value=""></option>
-                                            <option value="申請中">申請中</option>
-                                            <option value="発送中">発送中</option>
-                                            <option value="約定済">約定済</option>
-                                            <option value="約定済＋返送依頼">約定済＋返送依頼</option>
-                                            <option value="返送依頼">返送依頼</option>
-                                            <option value="入金待ち" disabled>入金待ち</option>
-                                            <option value="入金済" disabled>入金済</option>
-                                        </select>
-                                        ):(saleData.product_status)}
-                                    </td>
-                                    <td style={Td}>
-                                        {editIndex === Index ?(
-                                            <select name="shipper" value={editedRow.shipper} onChange={handleInputChange} className="w-max h-11 text-[#70685a] text-[15px] font-bold  px-4 py-1 outline-[#70685a]">
-                                                <option value=""></option>
-                                                {users && users.map((user, index) => (
-                                                    <option key={index} value={user.username}>{user.username || ''}</option>
-                                                ))}
-                                            </select>
-                                         ):(saleData.shipper)}
-                                    </td>
-                                    <td style={Td}>
-                                        {editIndex === Index ?(
-                                            <select name="shipper_manager" value={editedRow.shipper_manager} onChange={handleInputChange} className="w-max h-11 text-[#70685a] text-[15px] font-bold  px-4 py-1 outline-[#70685a]">
-                                                <option value=""></option>
-                                                {users && users.map((user, index) => (
-                                                    <option key={index} value={user.username}>{user.username || ''}</option>
-                                                ))}
-                                            </select>
-                                        ):(saleData.shipper_manager)}
-                                    </td> */}
                                     <td style={Td}>{saleData.id || ''}</td>
                                     <td style={Td}>{saleData.product_type_one || ''}</td>
                                     <td style={Td}>{saleData.product_type_two || ''}</td>
@@ -398,11 +459,6 @@ const PurchaseRequestFormForWholeSaler = () => {
                                             </button>
                                         </div>
                                         ) : (''
-                                        // <div>
-                                        //     <button className='w-7'>
-                                        //     <svg className="flex flex-col justify-center" focusable="false" aria-hidden="true" viewBox="0 0 23 23" fill='#524c3b' data-testid="CancelOutlinedIcon" title="CancelOutlined"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8m3.59-13L12 10.59 8.41 7 7 8.41 10.59 12 7 15.59 8.41 17 12 13.41 15.59 17 17 15.59 13.41 12 17 8.41z"></path></svg>
-                                        //     </button>
-                                        // </div>
                                         )}
                                     </td>
                                 </tr>
@@ -413,6 +469,7 @@ const PurchaseRequestFormForWholeSaler = () => {
                     </table>
                 </div>
             </div>
+        </div>    
         </>
     );
 };

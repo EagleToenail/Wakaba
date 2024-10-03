@@ -217,7 +217,7 @@ useEffect(() => {
         }
        fetchUserData();
     }, [userId]);
-    //fetch salesSlipData
+    //salesSlipData
     const [salesSlipData, setSalesSlipData] = useState({
         trading_date: currentDay,
         number: '',
@@ -895,7 +895,7 @@ useEffect(() => {
         setTotalSalesSlipData([]);
     }
 
-    //product comment related content
+    //---------product comment related content
     const [selectedProduct, setSelectedProduct] = useState(null);
     const [showModal, setShowModal] = useState(false);
     const [editRow, setEditRow] = useState({ comment: '' });
@@ -946,7 +946,7 @@ useEffect(() => {
             // e.preventDefault(); // Prevent the default behavior (form submission)
             setEditRow((prev) => ({
                 ...prev,
-                comment: prev.comment + '<br />' // Add a newline character
+                comment: prev.comment // Add a newline character
             }));
             return;
         }
