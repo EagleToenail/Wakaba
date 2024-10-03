@@ -9,13 +9,13 @@ export default function TabContent1() {
                     <li className='flex px-3 py-2'>
                         <div 
                             className="w-6 h-6 rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none text-[15px]"></div>&nbsp;
-                        <div 
+                        {/* <div 
                             className="w-6 h-6 inline-flex items-center justify-center text-[10px] text-bold rounded-full border-none outline-none bg-[yellow] hover:bg-purple-700 active:bg-purple-600">
                             99
-                        </div>
+                        </div> */}
                         <Link
                             className="text-[black] font-bold text-[15px] block rounded px-1 hover:text-red-500 transition-all duration-300" to='/todolist'>
-                            99 TODO
+                             TODO
                         </Link>
                     </li>
                 </ul>

@@ -28,6 +28,17 @@ const InvoicePurchaseOfBrought = () => {
 
     };
 
+    const navigate = useNavigate();
+
+    // Fetch customer data
+    const { id } = useParams();
+
+    const now = new Date();
+
+    // Format the date as YYYY-MM-DD
+    const optionsDate = { year: 'numeric', month: '2-digit', day: '2-digit', timeZone: 'Asia/Tokyo' };
+    const currentDay = new Intl.DateTimeFormat('ja-JP', optionsDate).format(now).replace(/\//g, '-');
+
     const Table = {
         borderCollapse: 'collapse',
         color: '#70685a',
@@ -59,6 +70,35 @@ const InvoicePurchaseOfBrought = () => {
         position: 'relative'
     };
 
+// fetch registered product
+useEffect(() => {
+    const fetch = async () => {
+        const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+
+        if (!wakabaBaseUrl) {
+            throw new Error('API base URL is not defined');
+        }
+
+        await axios.post(`${wakabaBaseUrl}/purchaseinvoice/getregistereddata`,{id:id})
+            .then(response => {
+                const invoiceData = response.data;
+                if(invoiceData?.length>0) {
+                    const updatedData111 = invoiceData.map((data,Index) => ({
+                        ...data,
+                        estimate_wholesaler: JSON.parse(data.estimate_wholesaler),
+                    })); 
+                    setTotalSalesSlipData(updatedData111);
+                    console.log('updatedData----------',updatedData111);
+                }
+                setShowInputPurchase(false);
+            })
+            .catch(error => {
+                console.error("There was an error fetching the customer data!", error);
+            });
+    }
+    fetch();
+}, []);
+
     const [customerPastVisitHistory, setCustomerPastVisitHistory] = useState([{
         visit_date: '',
         applicable: '',
@@ -69,11 +109,6 @@ const InvoicePurchaseOfBrought = () => {
         total_gross_profit: '',
         total_purchase_price: ''
     }]);
-
-    const navigate = useNavigate();
-
-    // Fetch customer data
-    const { id } = useParams();
 
     // Fetch customerPastVisitHistory data
     useEffect(() => {
@@ -160,38 +195,43 @@ const InvoicePurchaseOfBrought = () => {
     const userId = localStorage.getItem('userId');
     const [userData, setUserData] = useState([]);
     useEffect(() => {
+        const fetchUserData = async() => {
+            const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
 
-        const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
-
-        if (!wakabaBaseUrl) {
-            throw new Error('API base URL is not defined');
+            if (!wakabaBaseUrl) {
+                throw new Error('API base URL is not defined');
+            }
+    
+            await axios.post(`${wakabaBaseUrl}/profile/getProfileById`, { userId })
+                .then(response => {
+                    const user = response.data;
+                    // console.log('user profile',user)
+                    setUserData(response.data);
+                    if (!response.data) {
+                        navigate('/');
+                    }
+                })
+                .catch(error => {
+                    console.error("There was an error fetching the customer data!", error);
+                });
         }
-
-        axios.post(`${wakabaBaseUrl}/profile/getProfileById`, { userId })
-            .then(response => {
-                const user = response.data;
-                // console.log('user profile',user)
-                setUserData(response.data);
-                if (!response.data) {
-                    navigate('/');
-                }
-            })
-            .catch(error => {
-                console.error("There was an error fetching the customer data!", error);
-            });
+       fetchUserData();
     }, [userId]);
     //fetch salesSlipData
     const [salesSlipData, setSalesSlipData] = useState({
-        trading_date: '',
+        trading_date: currentDay,
         number: '',
-        purchase_staff: '',
-        customer_id: '',
-        store_name: '',
+        purchase_staff: userData.fullname,
+        customer_id: id,
+        store_name: userData.store_name,
         hearing: '',
         product_type_one: '',
         product_type_two: '',
         product_type_three: '',
         product_type_four: '',
+
+        gold_type:'-',
+        gross_weight:'-',
 
         product_photo: '',
         product_name: '',
@@ -205,37 +245,9 @@ const InvoicePurchaseOfBrought = () => {
         number_of_vendor: '',
         supervisor_direction: '',
         purchase_result: '',
-
         purchase_price: '0',
 
-        本査定ネットジャパン: '',
-        LINE色石バンク: '',
-        本査定色石バンク: '',
-        LINEフォーナイン: '',
-        本査定フォーナイン: '',
-        カイマナ査定日: '',
-        LINEカイマナ: '',
-        本査定カイマナ: '',
-        LINE査定日相場: '',
-        ワタル商事: '',
-        近江屋: '',
-        ヤフオク: '',//yahoo auction
-        BB: '',
-        GA: '',
-        ベルモンド: '',
-        ホームコム: '',
-        カイマナ: '',
-        フォーナイン: '',
-        ひるねこ: '',
-        アート: '',
-        吉岡美術: '',
-        刀剣佐藤: '',
-        ゴールドリカー: '',
-        リンクサス: '',
-        管弦屋: '',
-        はなもり: '',
-        バステック: '',
-
+        estimate_wholesaler:'',
     });
     //total data:
     const [totalSalesSlipData, setTotalSalesSlipData] = useState([]);
@@ -246,62 +258,88 @@ const InvoicePurchaseOfBrought = () => {
             ...salesSlipData,
             [e.target.name]: e.target.value,
         });
-        if (e.target.name == 'product_type_one') {
-            getVendorList(e.target.value);
-            fetchProduct2(e.target.value);
-        }
+    };
+    //category1 select
+    const handleCategory1Change = (e,productList) => {
+        const selectedCategory = e.target.value; // Get the selected category
+        const selectedResult = productList.find(product => product.category === selectedCategory);
+        setSalesSlipData({
+            ...salesSlipData,
+            product_type_one: selectedCategory, // Store the selected category
+        });
+        getVendorList(selectedResult.id);
+        fetchProduct2(selectedResult.id);
+        setEstimateValues({});
+    };
+    //estimate for wholesaler
+    const [estimateValues, setEstimateValues] = useState({});
+    const handleEstimateChange = (vendorname, value) => {
+        setEstimateValues((prev) => ({
+            ...prev,
+            [vendorname]: value,
+        }));
     };
     // search selectbox product1================
 
     const [product1s, setProduct1s] = useState([]);
     // Fetch product1 data
     useEffect(() => {
-        const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
-        if (!wakabaBaseUrl) {
-            throw new Error('API base URL is not defined');
+        const fetchCategory1 = async() => {
+            const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+            if (!wakabaBaseUrl) {
+                throw new Error('API base URL is not defined');
+            }
+    
+            axios.get(`${wakabaBaseUrl}/ProductType1s`)
+                .then(response => {
+                    setProduct1s(response.data);
+                })
+                .catch(error => {
+                    console.error("There was an error fetching the customer data!", error);
+                });
         }
-
-        axios.get(`${wakabaBaseUrl}/ProductType1s`)
-            .then(response => {
-                setProduct1s(response.data);
-            })
-            .catch(error => {
-                console.error("There was an error fetching the customer data!", error);
-            });
+        fetchCategory1();
     }, []);
 
     //get  vendor list form vendor table
     const [vendors, setVendors] = useState([]);
     const [allVendors, setAllVendors] = useState([]);
 
-    const getVendorList = async (type) => {
-        const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
-        if (!wakabaBaseUrl) {
-            throw new Error('API base URL is not defined');
+    const getVendorList = async (id) => {
+        const fetchVendorList = async() =>{
+            const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+            if (!wakabaBaseUrl) {
+                throw new Error('API base URL is not defined');
+            }
+            await axios.post(`${wakabaBaseUrl}/vendor/getVendorList`, { id: id })
+                .then(response => {
+                    setVendors(response.data);
+                    // console.log('vendrList',response.data)
+                })
+                .catch(error => {
+                    console.error("There was an error fetching the customer data!", error);
+                });
         }
-        axios.post(`${wakabaBaseUrl}/vendor/getVendorList`, { type: type })
-            .then(response => {
-                setVendors(response.data);
-                // console.log('vendrList',response.data)
-            })
-            .catch(error => {
-                console.error("There was an error fetching the customer data!", error);
-            });
+        fetchVendorList();
     }
 
     useEffect(() => {
-        const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
-        if (!wakabaBaseUrl) {
-            throw new Error('API base URL is not defined');
+        const fetchAllVendor = async() =>{
+            const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+            if (!wakabaBaseUrl) {
+                throw new Error('API base URL is not defined');
+            }
+            axios.get(`${wakabaBaseUrl}/vendor/getVendorListAll`)
+                .then(response => {
+                    setAllVendors(response.data);
+                    // console.log('vendrListAll',response.data)
+                })
+                .catch(error => {
+                    console.error("There was an error fetching the customer data!", error);
+                });
         }
-        axios.get(`${wakabaBaseUrl}/vendor/getVendorListAll`)
-            .then(response => {
-                setAllVendors(response.data);
-                // console.log('vendrListAll',response.data)
-            })
-            .catch(error => {
-                console.error("There was an error fetching the customer data!", error);
-            });
+        fetchAllVendor();
+
     }, []);
     // search selectbox product3================
 
@@ -345,14 +383,14 @@ const InvoicePurchaseOfBrought = () => {
 
     const [product2s, setProduct2s] = useState([]);
     // Fetch product1 data
-    const fetchProduct2 = (item) => {
+    const fetchProduct2 = (id) => {
         // useEffect(() => {
         const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
         if (!wakabaBaseUrl) {
             throw new Error('API base URL is not defined');
         }
 
-        axios.post(`${wakabaBaseUrl}/ProductType2sfilter`, { name: item })
+        axios.post(`${wakabaBaseUrl}/ProductType2sfilter`, { id: id })
             .then(response => {
                 setProduct2s(response.data);
             })
@@ -363,76 +401,130 @@ const InvoicePurchaseOfBrought = () => {
     }
     // Filter the options based on the query
     const [showInputPurchase, setShowInputPurchase] = useState(false);
-    const addSlesItem = () => {
+    //add Data
+    const addSlesItem = async() => {
 
         if (showInputPurchase) {
-            console.log('purchase data', salesSlipData);
-            // setSalesSlipData({trading_date:new Date().toISOString().split('T')[0], purchase_staff:userData.username, store_name:userData.store_name,customer_id:id});
-            setTotalSalesSlipData((prevSalesSlipDatas) => [...prevSalesSlipDatas, { ...salesSlipData, id: Date.now(), trading_date: new Date().toISOString().split('T')[0], purchase_staff: userData.username, store_name: userData.store_name, customer_id: id, product_photo: '' }]);
+            console.log('purchase data', salesSlipData,estimateValues);
+
+            const formData = new FormData();
+            formData.append('trading_date', salesSlipData.trading_date);
+            formData.append('number', salesSlipData.number);
+            formData.append('purchase_staff', salesSlipData.purchase_staff);
+            formData.append('customer_id', salesSlipData.customer_id);
+            formData.append('store_name', salesSlipData.store_name);
+            formData.append('hearing', salesSlipData.hearing);
+            formData.append('product_type_one', salesSlipData.product_type_one);
+            formData.append('product_type_two', salesSlipData.product_type_two);
+            formData.append('product_type_three', salesSlipData.product_type_three);
+            formData.append('product_type_four', salesSlipData.product_type_four);
+            formData.append('product_name', salesSlipData.product_name);
+            formData.append('comment', salesSlipData.comment);
+            formData.append('quantity', salesSlipData.quantity);
+            formData.append('reason_application', salesSlipData.reason_application);
+            formData.append('interest_rate', salesSlipData.interest_rate);
+            formData.append('product_price', salesSlipData.product_price);
+            formData.append('highest_estimate_vendor', salesSlipData.highest_estimate_vendor);
+            formData.append('highest_estimate_price', salesSlipData.highest_estimate_price);
+            formData.append('number_of_vendor', salesSlipData.number_of_vendor);
+            formData.append('supervisor_direction', salesSlipData.supervisor_direction);
+            formData.append('purchase_result', salesSlipData.purchase_result);
+            formData.append('purchase_price', salesSlipData.purchase_price);
+
+            formData.append('estimate_wholesaler', JSON.stringify(estimateValues));
+
+            if (sendFile) formData.append('product_photo', sendFile);
+            try {
+                const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+
+                if (!wakabaBaseUrl) {
+                    throw new Error('API base URL is not defined');
+                }
+
+                await axios.post(`${wakabaBaseUrl}/purchaseinvoice/create`, formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                }).then(response => {
+                    const invoiceData = response.data;
+                    if(invoiceData?.length>0) {
+                        const updatedData111 = invoiceData.map((data,Index) => ({
+                            ...data,
+                            estimate_wholesaler: JSON.parse(data.estimate_wholesaler),
+                        })); 
+                        setTotalSalesSlipData(updatedData111);
+                    }
+                    setShowInputPurchase(false);
+                    setSalesSlipData({
+                        trading_date: salesSlipData.trading_date,
+                        number: '',
+                        purchase_staff: salesSlipData.purchase_staff,
+                        customer_id: salesSlipData.customer_id,
+                        store_name: salesSlipData.store_name,
+                        hearing: salesSlipData.hearing,
+                        product_type_one: '',
+                        product_type_two: '',
+                        product_type_three: '',
+                        product_type_four: '',
+
+                        gold_type:'-',
+                        gross_weight:'-',
+        
+                        product_photo: '',
+                        product_name: '',
+                        comment: '',
+                        quantity: '0',
+                        reason_application: '',
+                        interest_rate: '0',
+                        product_price: '0',
+                        highest_estimate_vendor: '',
+                        highest_estimate_price: '0',
+                        number_of_vendor: '',
+                        supervisor_direction: '',
+                        purchase_result: '',
+                        purchase_price: '0',
+                        estimate_wholesaler:'',
+                    });
+                    setEstimateValues({});
+                })
+                    .catch(error => {
+                        console.error("There was an error fetching the customer data!", error);
+                    });
+            } catch (error) {
+                console.error('Error sending message:', error);
+            }
+
+        } else {
             setSalesSlipData({
-                trading_date: salesSlipData.trading_date,
+                trading_date: currentDay,
                 number: '',
-                purchase_staff: salesSlipData.purchase_staff,
-                customer_id: salesSlipData.customer_id,
-                store_name: salesSlipData.store_name,
-                hearing: salesSlipData.hearing,
+                purchase_staff: userData.fullname,
+                customer_id: id,
+                store_name: userData.store_name,
+                hearing: '',
                 product_type_one: '',
                 product_type_two: '',
                 product_type_three: '',
                 product_type_four: '',
 
+                gold_type:'-',
+                gross_weight:'-',
+
                 product_photo: '',
                 product_name: '',
                 comment: '',
-                quantity: '',
+                quantity: '0',
                 reason_application: '',
-                interest_rate: '',
-                product_price: '',
+                interest_rate: '0',
+                product_price: '0',
                 highest_estimate_vendor: '',
-                highest_estimate_price: '',
+                highest_estimate_price: '0',
                 number_of_vendor: '',
                 supervisor_direction: '',
                 purchase_result: '',
-
-                purchase_price: '',
-
-                本査定ネットジャパン: '',
-                LINE色石バンク: '',
-                本査定色石バンク: '',
-                LINEフォーナイン: '',
-                本査定フォーナイン: '',
-                カイマナ査定日: '',
-                LINEカイマナ: '',
-                本査定カイマナ: '',
-                LINE査定日相場: '',
-                ワタル商事: '',
-                近江屋: '',
-                ヤフオク: '',//yahoo auction
-                BB: '',
-                GA: '',
-                ベルモンド: '',
-                ホームコム: '',
-                カイマナ: '',
-                フォーナイン: '',
-                ひるねこ: '',
-                アート: '',
-                吉岡美術: '',
-                刀剣佐藤: '',
-                ゴールドリカー: '',
-                リンクサス: '',
-                管弦屋: '',
-                はなもり: '',
-                バステック: '',
+                purchase_price: '0',
+                estimate_wholesaler:'',
             });
-            console.log('purchase data1', totalSalesSlipData);
-            calculateTotalQuantity();
-            calculateTotalPrice();
-            setShowInputPurchase(false);
-        } else {
-
-            calculateTotalQuantity();
-            calculateTotalPrice();
-
             setShowInputPurchase(true);
         }
 
@@ -442,142 +534,204 @@ const InvoicePurchaseOfBrought = () => {
         setShowInputPurchase(!showInputPurchase);
         setEditIndex(index);
         setSalesSlipData(totalSalesSlipData[index]); // Populate the input fields with the selected row's data
+        setEstimateValues(totalSalesSlipData[index].estimate_wholesaler);
+        const selectedResult = product1s.find(product => product.category === totalSalesSlipData[index].product_type_one);
+        getVendorList(selectedResult.id);
 
     };
     //Save one of tatalsalesSlipdata
-    const saveSalesItem = () => {
+    const saveSalesItem = async() => {
         setShowInputPurchase(!showInputPurchase);
-        const updatedData = totalSalesSlipData.map((row, index) =>
-            index === editIndex ? { ...row, ...salesSlipData } : row
-        );
-        setTotalSalesSlipData(updatedData);
+        // const updatedData = totalSalesSlipData.map((row, index) =>
+        //     index === editIndex ? { ...row, ...salesSlipData } : row
+        // );
+        // setTotalSalesSlipData(updatedData);
+
+            const formData = new FormData();
+            formData.append('id', salesSlipData.id);
+            formData.append('trading_date', salesSlipData.trading_date);
+            formData.append('number', salesSlipData.number);
+            formData.append('purchase_staff', salesSlipData.purchase_staff);
+            formData.append('customer_id', salesSlipData.customer_id);
+            formData.append('store_name', salesSlipData.store_name);
+            formData.append('hearing', salesSlipData.hearing);
+            formData.append('product_type_one', salesSlipData.product_type_one);
+            formData.append('product_type_two', salesSlipData.product_type_two);
+            formData.append('product_type_three', salesSlipData.product_type_three);
+            formData.append('product_type_four', salesSlipData.product_type_four);
+            formData.append('product_name', salesSlipData.product_name);
+            formData.append('comment', salesSlipData.comment);
+            formData.append('quantity', salesSlipData.quantity);
+            formData.append('reason_application', salesSlipData.reason_application);
+            formData.append('interest_rate', salesSlipData.interest_rate);
+            formData.append('product_price', salesSlipData.product_price);
+            formData.append('highest_estimate_vendor', salesSlipData.highest_estimate_vendor);
+            formData.append('highest_estimate_price', salesSlipData.highest_estimate_price);
+            formData.append('number_of_vendor', salesSlipData.number_of_vendor);
+            formData.append('supervisor_direction', salesSlipData.supervisor_direction);
+            formData.append('purchase_result', salesSlipData.purchase_result);
+            formData.append('purchase_price', salesSlipData.purchase_price);
+
+            formData.append('estimate_wholesaler', JSON.stringify(estimateValues));
+
+            if (sendFile) formData.append('product_photo', sendFile);
+                try {
+                    const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+
+                    if (!wakabaBaseUrl) {
+                        throw new Error('API base URL is not defined');
+                    }
+
+                    await axios.post(`${wakabaBaseUrl}/purchaseinvoice/update`, formData, {
+                        headers: {
+                            'Content-Type': 'multipart/form-data'
+                        }
+                    }).then(response => {
+                        const invoiceData = response.data;
+                        if(invoiceData?.length>0) {
+                            const updatedData111 = invoiceData.map((data,Index) => ({
+                                ...data,
+                                estimate_wholesaler: JSON.parse(data.estimate_wholesaler),
+                            })); 
+                            setTotalSalesSlipData(updatedData111);
+                        }
+                        setShowInputPurchase(false);
+                        setSalesSlipData({
+                            trading_date: salesSlipData.trading_date,
+                            number: '',
+                            purchase_staff: salesSlipData.purchase_staff,
+                            customer_id: salesSlipData.customer_id,
+                            store_name: salesSlipData.store_name,
+                            hearing: salesSlipData.hearing,
+                            product_type_one: '',
+                            product_type_two: '',
+                            product_type_three: '',
+                            product_type_four: '',
+
+                            gold_type:'-',
+                            gross_weight:'-',
+            
+                            product_photo: '',
+                            product_name: '',
+                            comment: '',
+                            quantity: '0',
+                            reason_application: '',
+                            interest_rate: '0',
+                            product_price: '0',
+                            highest_estimate_vendor: '',
+                            highest_estimate_price: '0',
+                            number_of_vendor: '',
+                            supervisor_direction: '',
+                            purchase_result: '',
+                            purchase_price: '0',
+                            estimate_wholesaler:'',
+                        });
+                        setEstimateValues({});
+                        setEditIndex(-1); // Exit edit mode
+                    })
+                        .catch(error => {
+                            console.error("There was an error fetching the customer data!", error);
+                        });
+                } catch (error) {
+                    console.error('Error sending message:', error);
+                }
+
         setEditIndex(-1); // Exit edit mode
-        setSalesSlipData({
-            trading_date: '',
-            purchase_staff: '',
-            customer_id: '',
-            store_name: '',
-            hearing: '',
-            product_type_one: '',
-            product_type_two: '',
-            product_type_three: '',
-            product_type_four: '',
-
-            product_photo: '',
-            product_name: '',
-            comment: '',
-            quantity: '0',
-            reason_application: '',
-            interest_rate: '',
-            product_price: '0',
-            highest_estimate_vendor: '',
-            highest_estimate_price: '0',
-            number_of_vendor: '0',
-            supervisor_direction: '',
-            purchase_result: '',
-
-            purchase_price: '0',
-
-            本査定ネットジャパン: '',
-            LINE色石バンク: '',
-            本査定色石バンク: '',
-            LINEフォーナイン: '',
-            本査定フォーナイン: '',
-            カイマナ査定日: '',
-            LINEカイマナ: '',
-            本査定カイマナ: '',
-            LINE査定日相場: '',
-            ワタル商事: '',
-            近江屋: '',
-            ヤフオク: '',//yahoo auction
-            BB: '',
-            GA: '',
-            ベルモンド: '',
-            ホームコム: '',
-            カイマナ: '',
-            フォーナイン: '',
-            ひるねこ: '',
-            アート: '',
-            吉岡美術: '',
-            刀剣佐藤: '',
-            ゴールドリカー: '',
-            リンクサス: '',
-            管弦屋: '',
-            はなもり: '',
-            バステック: '',
-        }); // Reset editedRow state
-
-        calculateTotalQuantity();
-        calculateTotalPrice();
-
     };
     //Cancel one of tatalsalesSlipdata
     const cancelSalesItem = () => {
         setShowInputPurchase(!showInputPurchase);
         setEditIndex(-1);
         setSalesSlipData({
-            trading_date: '',
-            purchase_staff: '',
-            customer_id: '',
-            store_name: '',
-            hearing: '',
+            trading_date: salesSlipData.trading_date,
+            number: '',
+            purchase_staff: salesSlipData.purchase_staff,
+            customer_id: salesSlipData.customer_id,
+            store_name: salesSlipData.store_name,
+            hearing: salesSlipData.hearing,
             product_type_one: '',
             product_type_two: '',
             product_type_three: '',
             product_type_four: '',
 
+            gold_type:'-',
+            gross_weight:'-',
+
             product_photo: '',
             product_name: '',
             comment: '',
-            quantity: '',
+            quantity: '0',
             reason_application: '',
-            interest_rate: '',
-            product_price: '',
+            interest_rate: '0',
+            product_price: '0',
             highest_estimate_vendor: '',
-            highest_estimate_price: '',
+            highest_estimate_price: '0',
             number_of_vendor: '',
             supervisor_direction: '',
             purchase_result: '',
-
-            purchase_price: '',
-
-            本査定ネットジャパン: '',
-            LINE色石バンク: '',
-            本査定色石バンク: '',
-            LINEフォーナイン: '',
-            本査定フォーナイン: '',
-            カイマナ査定日: '',
-            LINEカイマナ: '',
-            本査定カイマナ: '',
-            LINE査定日相場: '',
-            ワタル商事: '',
-            近江屋: '',
-            ヤフオク: '',//yahoo auction
-            BB: '',
-            GA: '',
-            ベルモンド: '',
-            ホームコム: '',
-            カイマナ: '',
-            フォーナイン: '',
-            ひるねこ: '',
-            アート: '',
-            吉岡美術: '',
-            刀剣佐藤: '',
-            ゴールドリカー: '',
-            リンクサス: '',
-            管弦屋: '',
-            はなもり: '',
-            バステック: '',
+            purchase_price: '0',
+            estimate_wholesaler:'',
         });
-
     };
     //delete one of tatalsaleSlipdata
-    const removeSalesItem = (index) => {
-        setTotalSalesSlipData(totalSalesSlipData.filter((_, i) => i !== index));
+    const removeSalesItem = async(id) => {
+        // setTotalSalesSlipData(totalSalesSlipData.filter((_, i) => i !== index));
+        try {
+            const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
 
-        calculateTotalQuantity();
-        calculateTotalPrice();
+            if (!wakabaBaseUrl) {
+                throw new Error('API base URL is not defined');
+            }
+            await axios.post(`${wakabaBaseUrl}/purchaseinvoice/delete`, {id:id})
+            .then(response => {
+                const invoiceData = response.data;
+                if(invoiceData?.length>0) {
+                    const updatedData111 = invoiceData.map((data,Index) => ({
+                        ...data,
+                        estimate_wholesaler: JSON.parse(data.estimate_wholesaler),
+                    })); 
+                    setTotalSalesSlipData(updatedData111);
+                }
+                setShowInputPurchase(false);
+                setSalesSlipData({
+                    trading_date: salesSlipData.trading_date,
+                    number: '',
+                    purchase_staff: salesSlipData.purchase_staff,
+                    customer_id: salesSlipData.customer_id,
+                    store_name: salesSlipData.store_name,
+                    hearing: salesSlipData.hearing,
+                    product_type_one: '',
+                    product_type_two: '',
+                    product_type_three: '',
+                    product_type_four: '',
 
+                    gold_type:'-',
+                    gross_weight:'-',
+    
+                    product_photo: '',
+                    product_name: '',
+                    comment: '',
+                    quantity: '0',
+                    reason_application: '',
+                    interest_rate: '0',
+                    product_price: '0',
+                    highest_estimate_vendor: '',
+                    highest_estimate_price: '0',
+                    number_of_vendor: '',
+                    supervisor_direction: '',
+                    purchase_result: '',
+                    purchase_price: '0',
+                    estimate_wholesaler:'',
+                });
+                setEstimateValues({});
+                setEditIndex(-1); // Exit edit mode
+            })
+            .catch(error => {
+                console.error("There was an error fetching the customer data!", error);
+            });
+        } catch (error) {
+            console.error('Error sending message:', error);
+        }
     };
 
     //send data using redux
@@ -609,7 +763,7 @@ const InvoicePurchaseOfBrought = () => {
         }
     }, [data.data]);
 
-    console.log('stamp received data------------',StampData)
+    // console.log('stamp received data------------',StampData)
     // console.log('stamp received data2',data.data)
 
     // send Purchase data
@@ -633,7 +787,7 @@ const InvoicePurchaseOfBrought = () => {
 
         if (totalSalesSlipData.length != 0 && totalSalesSlipData != null) {
             itemsSave();
-            const purchaseData = { deadline, numberOfInvoice, totalSalesSlipData ,stamps};
+            const purchaseData = {id,deadline, numberOfInvoice, totalSalesSlipData ,stamps};
             console.log('send purchase data', purchaseData, id);
             updateData(purchaseData);// to sign page using redux
             navigate('/purchaseinvoiceforbroughtinitems');
@@ -763,7 +917,6 @@ const InvoicePurchaseOfBrought = () => {
     const handleCommentChange = (e) => {
         const { name, value } = e.target;
         setEditRow({ ...editRow, [name]: value });
-        console.log('comment', editRow.comment)
     };
 
     const handleMouseOver = (item) => {
@@ -1342,7 +1495,7 @@ const InvoicePurchaseOfBrought = () => {
             <div className="flex justify-center mt-2">
                 <div className='' style={{ width: '100%' }}>
                     <table className='text-center w-full' style={Table}>
-                        <thead className='sticky top-0 bg-white z-10 h-11'>
+                        <thead className='bg-white z-10 h-11'>
                             <tr>
                                 <th style={Th} width='1%'>選択</th>
                                 <th style={Th} width='2%'>商品番号</th>
@@ -1418,7 +1571,7 @@ const InvoicePurchaseOfBrought = () => {
                                     <td style={Td}> {salesData.highest_estimate_price || ''} </td>
                                     <td style={Td}>{salesData.number_of_vendor || ''}</td>
                                     {isvendorshow && allVendors.map((vendor, index) => (
-                                        <td key={index} style={Td}> {salesData[vendor.vendor_name] || ''} </td>
+                                        <td key={index} style={Td}> {salesData.estimate_wholesaler[vendor.vendor_name] || ''} </td>
                                     ))}
                                     <td style={Td}>{salesData.supervisor_direction || ''}</td>
                                     <td style={Td}>{salesData.purchase_result || ''}</td>
@@ -1429,7 +1582,7 @@ const InvoicePurchaseOfBrought = () => {
                                         </div>
                                     </td>
                                     <td style={Td} className='w-8 bg-transparent hover:bg-[#ebe6e0] transition-all duration-300'>
-                                        <div onClick={() => removeSalesItem(Index)} className='w-7 ml-2'>
+                                        <div onClick={() => removeSalesItem(salesData.id)} className='w-7 ml-2'>
                                             <svg focusable="false" aria-hidden="true" viewBox="0 0 23 23" fill='#524c3b' data-testid="CancelOutlinedIcon" title="CancelOutlined"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8m3.59-13L12 10.59 8.41 7 7 8.41 10.59 12 7 15.59 8.41 17 12 13.41 15.59 17 17 15.59 13.41 12 17 8.41z"></path></svg>
                                         </div>
                                     </td>
@@ -1440,9 +1593,9 @@ const InvoicePurchaseOfBrought = () => {
                     </table>
                     {showInputPurchase ?
                         <table className='text-center w-full mt-10' style={Table}>
-                            <thead className='sticky top-0 bg-white z-10 h-11'>
+                            <thead className='bg-white z-10 h-11 w-full'>
                                 <tr>
-                                    <th style={{ whiteSpace: 'nowrap', paddingLeft: '10px', paddingRight: '10px', visibility: 'hidden' }}>選択</th>
+                                    {/* <th style={{ whiteSpace: 'nowrap', paddingLeft: '10px', paddingRight: '10px', visibility: 'hidden' }}>選択</th> */}
                                     <th style={Th} >商品番号</th>
                                     <th style={Th} >ヒアリング</th>
                                     <th style={Th} >
@@ -1474,18 +1627,18 @@ const InvoicePurchaseOfBrought = () => {
                             </thead>
                             <tbody>
                                 <tr className='!h-8'>
-                                    <td style={{ visibility: 'hidden' }}>as</td>
+                                    {/* <td style={{ visibility: 'hidden' }}>as</td> */}
                                     <td style={Td}>
                                         <InputComponent name='number' onChange={handleChange} value={salesSlipData.number || ''} className='w-full h-8 text-[#70685a]' />
                                     </td>
                                     <td style={Td} >
-                                        <select name="hearing" value={salesSlipData.hearing || ''} onChange={(e) => setSalesSlipData({ hearing: e.target.value })} className="w-full h-8 text-[#70685a] font-bold outline-[#70685a]">
+                                        <select name="hearing" value={salesSlipData.hearing || ''} onChange={handleChange} className="w-full h-8 text-[#70685a] font-bold outline-[#70685a]">
                                             <option value="" disabled></option>
                                             <option value="済">済</option>
                                         </select>
                                     </td>
                                     <td style={Td}>
-                                        <input
+                                        {/* <input
                                             list="product1s"
                                             id="product_type_one"
                                             name="product_type_one"
@@ -1497,10 +1650,23 @@ const InvoicePurchaseOfBrought = () => {
                                             {product1s.map((option, index) => (
                                                 <option key={index} value={option.category || ''} />
                                             ))}
-                                        </datalist>
+                                        </datalist> */}
+                                        <select
+                                            name="product_type_one"
+                                            value={salesSlipData.product_type_one || ''}
+                                            onChange={(e) => handleCategory1Change(e, product1s)}
+                                            className='h-8 w-full'
+                                        >
+                                            <option value="" disabled>商品タイプ1</option>
+                                            {product1s.map((option, index) => (
+                                                <option key={option.id} value={option.category || ''}>
+                                                    {option.category || ''}
+                                                </option>
+                                            ))}
+                                        </select>
                                     </td>
                                     {isshow ? <td style={Td}>
-                                        <input
+                                        {/* <input
                                             list="product2s"
                                             id="product_type_two"
                                             name="product_type_two"
@@ -1512,7 +1678,20 @@ const InvoicePurchaseOfBrought = () => {
                                             {product2s.map((option, index) => (
                                                 <option key={index} value={option.category || ''} />
                                             ))}
-                                        </datalist>
+                                        </datalist> */}
+                                        <select
+                                            name="product_type_two"
+                                            value={salesSlipData.product_type_two || ''}
+                                            onChange={handleChange}
+                                            className='h-8 w-full'
+                                        >
+                                            <option value="" disabled>商品タイプ2</option>
+                                            {product2s.map((option, index) => (
+                                                <option key={index} value={option.category || ''}>
+                                                    {option.category || ''}
+                                                </option>
+                                            ))}
+                                        </select>
                                     </td> : <td style={{ display: 'none' }}></td>}
                                     {isshow ? <td style={Td}>
                                         <input
@@ -1580,7 +1759,7 @@ const InvoicePurchaseOfBrought = () => {
                                     </td>
                                     {isvendorshow && vendors.map((vendor, index) => (
                                         <td style={Td} key={index}>
-                                            <InputComponent name={vendor.vendor_name} onChange={handleChange} value={salesSlipData[vendor.vendor_name] || ''} className='w-full h-8 text-[#70685a] border border-[red]' />
+                                            <InputComponent name={vendor.vendor_name} onChange={(e) => handleEstimateChange(vendor.vendor_name, e.target.value)} value={estimateValues[vendor.vendor_name] || ''} className='w-full h-8 text-[#70685a] border border-[red]' />
                                         </td>
                                     ))}
                                     <td style={Td}>
@@ -1629,7 +1808,7 @@ const InvoicePurchaseOfBrought = () => {
                     </div>
                 </div>
             </div>
-            <div className='flex justify-between'>
+            <div className='flex justify-between mt-5'>
                 <label className="text-[#70685a] font-bold mb-2 block text-left !mb-0" style={{ visibility: 'hidden' }}>Total purchase price 999,999,999 yen</label>
                 <label className="text-[#70685a] font-bold mb-2 block text-left !mb-0">買取点数&nbsp;{totalQuantity || ''}点</label>
                 <label className="text-[#70685a] font-bold mb-2 block text-left !mb-0">買取合計&nbsp;&nbsp;{totalPrice || ''}円</label>

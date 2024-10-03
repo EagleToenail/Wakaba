@@ -92,11 +92,6 @@ const PurchaseRequestFormForWholeSaler = () => {
          }); // Reset editedRow state
     };
 
-    //delete one of tatalsaleSlipdata
-    const handleDeleteClick = (index) => {
-        setWholeSalesPurchase(wholeSalesPurchase.filter((_, i) => i !== index));
-    };
-
     useEffect(() => {
       const fetchSalesData = async () => {
         if (salesDataIds !== 'Initial Data' && salesDataIds.length !== 0) {
@@ -224,33 +219,59 @@ const PurchaseRequestFormForWholeSaler = () => {
         <>
             {/* <Titlebar title={title} /> */}
 
-            <div className='flex justify-around mt-10' >
+            <div className='flex justify-around' >
                 <h2 className="text-[#70685a] text-center text-2xl font-bold flex justify-center">業者卸依頼書</h2>
             </div>
 
             {/*  */}
-            <div className='flex mt-10 justify-center'>
-                <div className=' text-[#70685a] px-2 mr-2 font-bold flex'>
-                    <div className='text-center flex flex-col justify-center'>
-                        <LabelComponent value={'卸業者'} className='w-max' />
+            <div className='w-full flex justify-center mt-5'>
+                <div className='flex justify-center'>
+                    <div className='mr-5'>
+                        <select name="inorout" className="w-60 h-10 text-[#70685a] font-bold border border-[#70685a] px-4 py-1 outline-[#70685a]">
+                            <option value=""></option>
+                            <option value="発送中">発送中</option>
+                            <option value="約定済">約定済</option>
+                            <option value="オークション出品済">オークション出品済</option>
+                            <option value="オークション発送済">オークション発送済</option>
+                            <option value="廃棄">廃棄</option>
+                            <option value="基準外">基準外</option>
+                            <option value="返品・返金">返品・返金</option>
+                        </select>
                     </div>
-
-                    <select name="shipping_address" onChange={handleVendorChange} className="w-full h-11 text-[#70685a] text-[15px] font-bold border border-[#70685a] px-4 py-1 outline-[#70685a]">
-                        <option value=""></option>
-                        {(categoryVendors && categoryVendors.length !== 0) && categoryVendors.map((vendor, index) => (
-                            <option key={index} value={vendor.vendor_name}>{vendor.vendor_name}</option>
-                        ))}
-                    </select>
+                    <div className='mr-5'>
+                        <select name="stamp_type"   className="w-40 h-10 text-[#70685a] font-bold border border-[#70685a] px-4 py-1 outline-[#70685a]">
+                            <option value=""></option>
+                            {users?.length>0 && users.map((user, index) => (
+                                <option key={index} value={user.username}>{user.username || ''}</option>
+                            ))}
+                        </select>
+                    </div>
                 </div>
-                <div className=' text-[#70685a] px-2 mr-3 flex flex-col justify-end'>
-                    <label className="text-[#70685a] text-[20px] block text-center pb-2">用伝表を</label>
-                </div>
-                <div className=' text-[#70685a] px-2 mr-2 flex flex-col justify-end'>
-                    < button type="button" onClick={sendShippingData} style={{ display: 'flex', alignItem: 'end' }} className="flex align-end w-20 px-3 py-2 font-bold rounded-md tracking-wide text-[#665b4c] justify-center text-white bg-[#a3a1c8] hover:bg-blue-700 focus:outline-none">
-                        作成
-                    </button>
+                <div className='flex justify-center'>
+                    <div className=' text-[#70685a] px-2 mr-2 font-bold flex'>
+                        <div className='text-center flex flex-col justify-center pr-1'>
+                            <label className='w-max flex flex-col justify-center h-10' >卸業者</label>
+                        </div>
+                        <div>
+                            <select name="shipping_address" onChange={handleVendorChange} className="w-40 h-10 text-[#70685a] font-bold border border-[#70685a] px-4 py-1 outline-[#70685a]">
+                                <option value=""></option>
+                                {(categoryVendors && categoryVendors.length !== 0) && categoryVendors.map((vendor, index) => (
+                                    <option key={index} value={vendor.vendor_name}>{vendor.vendor_name}</option>
+                                ))}
+                            </select>
+                        </div>
+                    </div>
+                    <div className=' text-[#70685a] px-2 mr-3 flex flex-col justify-end'>
+                        <label className="text-[#70685a] text-[18px] block text-center pb-2">用伝表を</label>
+                    </div>
+                    <div className=' text-[#70685a] px-2 mr-2 flex flex-col justify-end'>
+                        < button type="button" onClick={sendShippingData} style={{ display: 'flex', alignItem: 'end' }} className="flex align-end w-20 px-3 py-2 font-bold rounded-md tracking-wide text-[#665b4c] justify-center text-white bg-[#a3a1c8] hover:bg-blue-700 focus:outline-none">
+                            作成
+                        </button>
+                    </div>
                 </div>
             </div>
+ 
 
             {/*  Tabe*/}
             <div className='mt-10 pb-20 w-full flex'>
@@ -259,9 +280,9 @@ const PurchaseRequestFormForWholeSaler = () => {
                         <thead className='sticky top-0 bg-white z-10'> 
                             <tr>
                                 <th className='px-2' style={Th}></th>
-                                <th  style={Th} >ステー夕ス</th>
+                                {/* <th  style={Th} >ステー夕ス</th>
                                 <th  style={Th} >発送予定者</th>
-                                <th  style={Th} >発送担当者</th>
+                                <th  style={Th} >発送担当者</th> */}
                                 <th style={Th} >わかばNo.</th>
                                 <th style={Th} >カテゴリ一1</th>
                                 <th style={Th} >カテゴリ一2</th>
@@ -284,7 +305,7 @@ const PurchaseRequestFormForWholeSaler = () => {
                             {(wholeSalesPurchase && wholeSalesPurchase.length !==0) && wholeSalesPurchase.map((saleData,Index) => (
                                 <tr key={saleData.id}>
                                     <td>{Index + 1}</td>
-                                    <td style={Td}>
+                                    {/* <td style={Td}>
                                     {editIndex === Index ?(
                                         <select name="product_status" value={editedRow.product_status || ''} onChange={handleInputChange} className="w-max h-11 text-[#70685a] text-[15px] font-bold  px-4 py-1 outline-[#70685a]">
                                             <option value=""></option>
@@ -317,7 +338,7 @@ const PurchaseRequestFormForWholeSaler = () => {
                                                 ))}
                                             </select>
                                         ):(saleData.shipper_manager)}
-                                    </td>
+                                    </td> */}
                                     <td style={Td}>{saleData.id || ''}</td>
                                     <td style={Td}>{saleData.product_type_one || ''}</td>
                                     <td style={Td}>{saleData.product_type_two || ''}</td>

@@ -211,10 +211,23 @@ const InvoicePurchaseOfBroughtBlank = () => {
             ...salesSlipData,
             [e.target.name]: e.target.value,
         });
-        if (e.target.name == 'product_type_one') {
-            getVendorList(e.target.value);
-            fetchProduct2(e.target.value);
-        }
+        // if (e.target.name == 'product_type_one') {
+        //     getVendorList(e.target.value);
+        //     fetchProduct2(e.target.value);
+        // }
+    };
+
+    //category1 select
+    const handleCategory1Change = (e,productList) => {
+        const selectedCategory = e.target.value; // Get the selected category
+        const selectedResult = productList.find(product => product.category === selectedCategory);
+        console.log('selectedCategory',selectedCategory,selectedResult.id)
+        setSalesSlipData({
+            ...salesSlipData,
+            product_type_one: selectedCategory, // Store the selected category
+        });
+        getVendorList(selectedResult.id);
+        fetchProduct2(selectedResult.id);
     };
     // search selectbox product1================
 
@@ -240,12 +253,12 @@ const InvoicePurchaseOfBroughtBlank = () => {
     const [allVendors, setAllVendors] = useState([]);
 
 
-    const getVendorList = async (type) => {
+    const getVendorList = async (id) => {
         const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
         if (!wakabaBaseUrl) {
             throw new Error('API base URL is not defined');
         }
-        axios.post(`${wakabaBaseUrl}/vendor/getVendorList`, { type: type })
+        axios.post(`${wakabaBaseUrl}/vendor/getVendorList`, { id: id })
             .then(response => {
                 setVendors(response.data);
                 console.log('vendrList', response.data)
@@ -311,14 +324,14 @@ const InvoicePurchaseOfBroughtBlank = () => {
 
     const [product2s, setProduct2s] = useState([]);
     // Fetch product2 data
-    const fetchProduct2 = (item) => {
+    const fetchProduct2 = (id) => {
         // useEffect(() => {
         const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
         if (!wakabaBaseUrl) {
             throw new Error('API base URL is not defined');
         }
 
-        axios.post(`${wakabaBaseUrl}/ProductType2sfilter`, { name: item })
+        axios.post(`${wakabaBaseUrl}/ProductType2sfilter`, { id: id })
             .then(response => {
                 setProduct2s(response.data);
             })
@@ -1337,34 +1350,34 @@ const InvoicePurchaseOfBroughtBlank = () => {
                                         </select>
                                     </td>
                                     <td style={Td}>
-                                        <input
-                                            list="product1s"
-                                            id="product_type_one"
+                                        <select
                                             name="product_type_one"
                                             value={salesSlipData.product_type_one || ''}
-                                            onChange={handleChange}
+                                            onChange={(e) => handleCategory1Change(e, product1s)}
                                             className='h-8 w-full'
-                                        />
-                                        <datalist id="product1s">
+                                        >
+                                            <option value="" disabled>商品タイプ1</option>
                                             {product1s.map((option, index) => (
-                                                <option key={index} value={option.category || ''} />
+                                                <option key={option.id} value={option.category || ''}>
+                                                    {option.category || ''}
+                                                </option>
                                             ))}
-                                        </datalist>
+                                        </select>
                                     </td>
                                     {isshow ? <td style={Td}>
-                                        <input
-                                            list="product2s"
-                                            id="product_type_two"
+                                        <select
                                             name="product_type_two"
                                             value={salesSlipData.product_type_two || ''}
                                             onChange={handleChange}
                                             className='h-8 w-full'
-                                        />
-                                        <datalist id="product2s">
+                                        >
+                                            <option value="" disabled>商品タイプ2</option>
                                             {product2s.map((option, index) => (
-                                                <option key={index} value={option.category || ''} />
+                                                <option key={index} value={option.category || ''}>
+                                                    {option.category || ''}
+                                                </option>
                                             ))}
-                                        </datalist>
+                                        </select>
                                     </td> : <td style={{ display: 'none' }}></td>}
                                     {isshow ? <td style={Td}>
                                         <input

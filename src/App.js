@@ -42,6 +42,7 @@ import SalesSlip from './Pages/SalesSlip/salesSlip';//Sales slip
 import SalesSlipCreate from './Pages/SalesSlipCreate/salesSlipCreate';//SalesSlipCreate//no need
 import SalesSlipUpdate from './Pages/SalesSlipUpdate/salesSlipUpdate';//SalesSlipUpdate
 import ContractorAssessmentSheet from './Pages/ContractorAssessmentSheet/contractorAssessmentSheet';//Contractor assessment sheet
+import VendorAssessmentSheet from './Pages/ContractorAssessmentSheet/vendorAssessmentSheet';// Vendor assessment sheet
 import YahooAuction from './Pages/YahooAuctions/yahooAuction';//Yahoo Auctions
 import SalesList from './Pages/SalesList/salesList';//Sales List
 import TODOList from './Pages/TODOList/todoList';//ToDo List
@@ -160,6 +161,7 @@ function App() {
             <Route path='/salesslipcreate' element={<SalesSlipCreate/>}/>
             <Route path='/salesslipupdate/:id' element={<SalesSlipUpdate/>}/>
             <Route path='/contractorassessmentsheet' element={<ContractorAssessmentSheet/>}/>
+            <Route path='/vendorassessmentsheet' element={<VendorAssessmentSheet/>}/>
             <Route path='/yahooauction' element={<YahooAuction/>}/>
             <Route path='/saleslist' element={<SalesList/>}/>
             <Route path='/stamprelatedinventorylist' element={<StampRelatedInventoryList/>}/>

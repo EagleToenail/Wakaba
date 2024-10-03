@@ -56,7 +56,7 @@ const PurchaseInvoiceForBroughtInItems = () => {
 
     }, [data.data]);
 
-    // console.log('data---------',purchaseData);
+    console.log('purchasedata---------',purchaseData);
     // if(data.data !== 'Initial Data') {
     //     clearReduxData();
     // }
@@ -94,7 +94,7 @@ const PurchaseInvoiceForBroughtInItems = () => {
     const [customer, setCustomer] = useState([]);
 
     useEffect(() => {
-        const customerId = purchaseData.totalSalesSlipData[0].customer_id;
+        const customerId = purchaseData.id;
         if (customerId !== '' && customerId !== null) {
             const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
             if (!wakabaBaseUrl) {
@@ -184,7 +184,6 @@ const PurchaseInvoiceForBroughtInItems = () => {
 
     //create pdf
     const handleSavePageAsPDF = async (e) => {
-        e.preventDefault();
         const element = document.getElementById('purchaseInvoice');
         if (!element) {
             console.error('Element not found');
@@ -231,8 +230,8 @@ const PurchaseInvoiceForBroughtInItems = () => {
     const confirmAgree = async () => {
         handleSavePageAsPDF();
         const dataUrl = sigCanvas.current.toDataURL();
-        console.log('Signature Data URL:', dataUrl);
         if (checked === 'agree' && dataUrl != null) {
+           
             try {
                 const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
 
@@ -240,11 +239,14 @@ const PurchaseInvoiceForBroughtInItems = () => {
                     throw new Error('API base URL is not defined');
                 }
                 const payload = purchaseInformation.totalSalesSlipData;
-                const response = await axios.post(`${wakabaBaseUrl}/purchaseinvoice`, { dataUrl, payload });
-                console.log('Response:', response.data);
-
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-                navigate('/salesslip');
+                const response = await axios.post(`${wakabaBaseUrl}/purchaseinvoice`, { dataUrl, payload })
+                .then(response => {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                    navigate('/salesslip');
+                })
+                .catch(error => {
+                    console.error("There was an error fetching the customer data!", error);
+                });
             } catch (error) {
                 console.error('Error submitting form:', error);
                 // Handle error here
@@ -489,8 +491,8 @@ const PurchaseInvoiceForBroughtInItems = () => {
 
                                     <div style={{ width: '55%', paddingLeft: '6.3%' }} className='flex'>
                                         <div className='flex'>
-                                            <input type='checkbox' style={{ marginTop: '5px' }} name='agree' checked={checked === 'agree'} onChange={() => handleCheckboxChange('agree')} />
-                                            <label className="text-[#70685a] font-bold mb-2 block text-left mr-3 pt-1 mr-30 ml-2 !mb-0"> 規約を熟読して了承しました。</label>
+                                            <input type='checkbox' className='flex flex-col justify-center'  name='agree' checked={checked === 'agree'} onChange={() => handleCheckboxChange('agree')} />
+                                            <label className="text-[#70685a] font-bold mb-2 block text-left mr-3 pt-1 mr-30 ml-2 !mb-0 flex flex-col justify-center"> 規約を熟読して了承しました。</label>
                                         </div>
 
                                     </div>

@@ -170,7 +170,6 @@ const ContractorAssementSheet = () => {
                 };
 
                 setPreciousMetalInitialValue(updatedPreciousMetalRow);
-                setNewPreciousMetalRow(updatedPreciousMetalRow); // Ensure this is updated with the correct initial values
 
             } catch (error) {
                 console.error("There was an error fetching the vendor data!", error);
@@ -182,21 +181,16 @@ const ContractorAssementSheet = () => {
     const [preciousMetalData, setPreciousMetalData] = useState();
 
     const [editPreciousMetalId, setEditPreciousMetalId] = useState(null);
-    const [newPreciousMetalRow, setNewPreciousMetalRow] = useState(preciousMetalInitialValue);
     //console.log('newprciousMetalRow',preciousMetalInitialValue,newPreciousMetalRow)
 
 
-    const handlePreciousMetalChange = (e, id = null) => {
+    const handlePreciousMetalChange = (e, id) => {
         const { name, value } = e.target;
-        if (id === null) {
-            setNewPreciousMetalRow((prev) => ({ ...prev, [name]: value }));
-        } else {
-            setPreciousMetalData((prevData) =>
+        setPreciousMetalData((prevData) =>
             prevData.map((row) =>
             row.id === id ? { ...row, [name]: value } : row
             )
         );
-        }
     };
 
     const handlePreciousMetalEdit = (id) => {
@@ -231,26 +225,6 @@ const ContractorAssementSheet = () => {
           } catch (error) {
             console.error('Error deleting row:', error);
           }
-    };
-    const [inputPreciousMetalShow, setInputPreciousMetalShow] = useState(false);
-    const handleAddPreciousMetalRow = async() => {
-        if (inputPreciousMetalShow) {
-            try {
-                const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
-                if (!wakabaBaseUrl) {
-                    throw new Error('API base URL is not defined');
-                }
-                const response = await axios.post(`${wakabaBaseUrl}/contractorassessments/preciousmetaladd`, newPreciousMetalRow); // Send newRow data to the server
-                setPreciousMetalData((prevData) => [
-                  ...prevData,
-                  { id: response.data.id, ...newPreciousMetalRow } // Assuming server returns the new row with an id
-                ]);
-                setNewPreciousMetalRow(preciousMetalInitialValue);
-              } catch (error) {
-                console.error('Error adding row:', error);
-              }
-        }
-        setInputPreciousMetalShow(!inputPreciousMetalShow);
     };
  //----------------------------- old Coin--------------------------------------------------------
      //get  vendor list form vendor table
@@ -1508,7 +1482,35 @@ const handleAddSmartphoneandtabletRow = async() => {
     setInputSmartphoneandtabletShow(!inputKimonoShow);
 };
 
-//  --------------------------------------------------------------
+//  -------------------------------select box-------------------------------
+    const [product1s, setProduct1s] = useState([]);
+    // Fetch product1 data
+    useEffect(() => {
+        const fetchCategory1 = async() => {
+            const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+            if (!wakabaBaseUrl) {
+                throw new Error('API base URL is not defined');
+            }
+
+            axios.get(`${wakabaBaseUrl}/ProductType1s`)
+                .then(response => {
+                    setProduct1s(response.data);
+                })
+                .catch(error => {
+                    console.error("There was an error fetching the customer data!", error);
+                });
+        }
+        fetchCategory1();
+    }, []);
+      
+    const [category1,setCategory1] = useState('1');
+
+    const handleCategory1Change = (e,productList) => {
+      const selectedCategory = e.target.value; // Get the selected category
+      const selectedResult = productList.find(product => product.category === selectedCategory);//need id
+      setCategory1(selectedCategory);
+      console.log('category1',selectedCategory, selectedResult.id)
+    };
 
     return (
         <>
@@ -1569,6 +1571,17 @@ const handleAddSmartphoneandtabletRow = async() => {
                                 </div>
                             </div>
                         </div>
+                        {/* second button line  */}
+                        <div className='w-full flex justify-center mt-5'>
+                          <select name="category1" value={category1} onChange={(e) => handleCategory1Change(e, product1s)} className='w-max h-11 text-[#70685a] text-[15px] font-bold border border-[#70685a] px-4 py-1 outline-[#70685a]' >
+                              <option value="" disabled>商品タイプ1</option>
+                              {product1s.map((option, index) => (
+                                  <option key={option.id} value={option.category || ''}>
+                                      {option.category || ''}
+                                  </option>
+                              ))}
+                          </select>
+                        </div>
                         {/*  Tabe*/}
                         <div className='mt-10 pb-20 w-full h-full flex'>
                             {/* precious metal */}
@@ -1592,7 +1605,7 @@ const handleAddSmartphoneandtabletRow = async() => {
                                                 <th key={index} style={Th}>{vendor.vendor_name}</th>
                                             ))}
                                             <th style={Th}>{editPreciousMetalId === null ? '編集する' : 'セーブ'}</th>
-                                            <th style={Th}>{editPreciousMetalId === null ? '削除' : 'キャンセル'}</th>
+                                            <th>{editPreciousMetalId === null ? '' : 'キャンセル'}</th>
                                         </tr>
                                     </thead>
         <tbody>
@@ -1600,7 +1613,7 @@ const handleAddSmartphoneandtabletRow = async() => {
             <tr key={item.id} style={editPreciousMetalId === item.id ? editableRowStyle : {}}>
               <td><input type='checkbox' value={item.id} onChange={handleCheckboxChange} className='w-5 mr-3'/></td>
               <td style={Td}>{index + 1}</td>
-              {Object.keys(newPreciousMetalRow).map((key) => (
+              {Object.keys(preciousMetalInitialValue).map((key) => (
                 <td key={key} style={Td}>
                   {editPreciousMetalId === item.id ? (
                     <input
@@ -1631,40 +1644,17 @@ const handleAddSmartphoneandtabletRow = async() => {
                   </div>
                 )}
               </td>
-              <td style={Td}>
+              <td>
                 {editPreciousMetalId === item.id ? (
                   <div>
                     <button onClick={handlePreciousMetalCancel} className='w-7'>
                         <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium  MuiSvgIcon-root MuiSvgIcon-fontSizeLarge  css-1hkft75" fill='#524c3b' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="KeyboardReturnOutlinedIcon" title="KeyboardReturnOutlined"><path d="M19 7v4H5.83l3.58-3.59L8 6l-6 6 6 6 1.41-1.41L5.83 13H21V7z"></path></svg>
                     </button>
                   </div>
-                ) : (
-                  <div>
-                    <button onClick={() => handlePreciousMetalDelete(item.id)} className='w-7'>
-                    <svg className="flex flex-col justify-center" focusable="false" aria-hidden="true" viewBox="0 0 23 23" fill='#524c3b' data-testid="CancelOutlinedIcon" title="CancelOutlined"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8m3.59-13L12 10.59 8.41 7 7 8.41 10.59 12 7 15.59 8.41 17 12 13.41 15.59 17 17 15.59 13.41 12 17 8.41z"></path></svg>
-                    </button>
-                  </div>
-                )}
+                ) : ('')}
               </td>
             </tr>
           ))}
-        { inputPreciousMetalShow ?(
-          <tr>
-            <td style={Td}></td>
-            {Object.keys(newPreciousMetalRow).map((key) => (
-            <td key={key} style={Td}>
-                <input
-                    key={key}
-                    type="text"
-                    name={key}
-                    value={newPreciousMetalRow[key]}
-                    onChange={handlePreciousMetalChange}
-                    placeholder={key.replace(/_/g, ' ')}
-                />
-            </td>
-            ))}
-        </tr>
-        ):''}
         </tbody>
                                 </table>
                                 ) : (

@@ -204,7 +204,7 @@ const CommemorativeCoinHistoryList = () => {
                                 <select name="staff_name" value={searchParams.staff_name || ''} onChange={handleSearchChange} className="w-40 h-10 text-[#70685a] font-bold border border-[#70685a] px-4 py-1 outline-[#70685a]">
                                     <option value=""></option>
                                     {users?.length >0 && users.map((user) => (
-                                        <option value={user.username}>{user.username}</option>
+                                        <option key={user.id} value={user.username}>{user.username}</option>
                                     ))}
                                 </select>
                             </div>
