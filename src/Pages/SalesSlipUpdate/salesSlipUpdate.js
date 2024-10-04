@@ -104,23 +104,29 @@ const SalesSlipUpdate = () => {
 
     }, [customerId]);
 
-    const handlePurchaseSubmit = async (e) => {
-        e.preventDefault();
 
-        try {
-            const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
-
-            if (!wakabaBaseUrl) {
-                throw new Error('API base URL is not defined');
+    const [error, setError] = useState(null);
+    const handlePurchaseSubmit = async () => {
+        if(salesSlipData && salesSlipData.product_status === '約定済' || salesSlipData.product_status === 'オークション発送済') {
+            setError('このデータにはアクセスできません.');
+        } else {
+            console.log('success',salesSlipData.product_status)
+            try {
+                const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+    
+                if (!wakabaBaseUrl) {
+                    throw new Error('API base URL is not defined');
+                }
+                await axios.post(`${wakabaBaseUrl}/sales/updateSales`,{id,salesSlipData});
+                //console.log('Response:', response.data);
+                // Handle successful response here
+                navigate('/salesslip'); // Navigate to the profile page after closing the modal
+            } catch (error) {
+                console.error('Error submitting form:', error);
+                // Handle error here
             }
-            await axios.post(`${wakabaBaseUrl}/sales/updateSales`,{id,salesSlipData});
-            //console.log('Response:', response.data);
-            // Handle successful response here
-            navigate('/salesslip'); // Navigate to the profile page after closing the modal
-        } catch (error) {
-            console.error('Error submitting form:', error);
-            // Handle error here
         }
+
     };
     
     return (
@@ -425,7 +431,7 @@ const SalesSlipUpdate = () => {
                                     </div>
                                 </div>
                                 {/* /==========================================/ */}
-                                <div className='flex justify-between !mt-5 pb-10' >
+                                <div className='flex justify-between !mt-5 pb-5' >
 
                                     <div className="!mt-5  flex" style={{ marginBottom: '10px', width: '80%', paddingLeft: '20%' }}>
                                         <div className='w-full flex justify-center text-[18px]'>
@@ -436,6 +442,7 @@ const SalesSlipUpdate = () => {
                                     </div>
                                     <label className="text-[#70685a] font-bold mb-2 block text-left flex justify-end" style={{ flexDirection: 'column', width: '20%' }}><u> <Link to='/salesslip'>キャンセル</Link></u></label>
                                 </div>
+                                {error && <div className="text-red-500 flex justify-center">{error}</div>}
                             </div>
                         </div>
                     </div>

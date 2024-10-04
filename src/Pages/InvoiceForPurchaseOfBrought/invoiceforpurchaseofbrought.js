@@ -531,12 +531,16 @@ useEffect(() => {
     }
     //Edit one of tatalsalesSlipdata
     const editSalesItem = (index) => {
+        
         setShowInputPurchase(!showInputPurchase);
         setEditIndex(index);
         setSalesSlipData(totalSalesSlipData[index]); // Populate the input fields with the selected row's data
         setEstimateValues(totalSalesSlipData[index].estimate_wholesaler);
-        const selectedResult = product1s.find(product => product.category === totalSalesSlipData[index].product_type_one);
-        getVendorList(selectedResult.id);
+        if(totalSalesSlipData[index].product_type_one){
+            const selectedResult = product1s.find(product => product.category === totalSalesSlipData[index].product_type_one);
+            getVendorList(selectedResult.id);
+        }
+        
 
     };
     //Save one of tatalsalesSlipdata
@@ -672,6 +676,7 @@ useEffect(() => {
             purchase_price: '0',
             estimate_wholesaler:'',
         });
+        setVendors([]);
     };
     //delete one of tatalsaleSlipdata
     const removeSalesItem = async(id) => {
@@ -769,7 +774,7 @@ useEffect(() => {
     // send Purchase data
     const sendPurchaseDataToReceipt = () => {
         const numberOfInvoice = customerPastVisitHistory.length;
-        const purchaseData = { deadline, numberOfInvoice, totalSalesSlipData };
+        const purchaseData = { deadline, numberOfInvoice, totalSalesSlipData,id};
         // console.log('send purchase data',purchaseData,id);
         updateData(purchaseData);
         navigate('/customerreceipt');
@@ -854,7 +859,7 @@ useEffect(() => {
 
     // Calculate total price
     const calculateTotalPrice = () => {
-        const total = totalSalesSlipData.reduce((sum, item) => parseFloat(sum) + (parseFloat(parseFloat(item.purchase_price) * parseFloat(item.quantity)) || 0), 0);
+        const total = totalSalesSlipData.reduce((sum, item) => parseInt(sum) + (parseInt(parseInt(item.purchase_price) * parseInt(item.quantity)) || 0), 0);
         setTotalPrice(total);
     };
 

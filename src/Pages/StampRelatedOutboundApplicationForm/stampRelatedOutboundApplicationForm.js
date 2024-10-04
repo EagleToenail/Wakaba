@@ -105,7 +105,7 @@ const StampRelatedOutventoryApplicationForm = () => {
         // Calculate product when sheetValue and numberOfSides are both filled
         const { stampValue, numberOfSides } = newSheetRow;
         if (stampValue && numberOfSides) {
-            const calculatedProduct = Number(stampValue) * Number(numberOfSides);
+            const calculatedProduct = parseInt(stampValue) * parseInt(numberOfSides);
             setNewSheetRow((prev) => ({ ...prev, sheetValue: calculatedProduct }));
             // console.log('multiply', calculatedProduct)
         } else {
@@ -204,7 +204,7 @@ const StampRelatedOutventoryApplicationForm = () => {
         const { sheetValue } = editedSheetRow;
         // console.log('shetValue',sheetValue)
         if (sheetValue) {
-            const calculatedProduct = Number(sheetValue) * Number(numberofsheets);
+            const calculatedProduct = parseInt(sheetValue) * parseInt(numberofsheets);
             setEditedSheetRow((prev) => ({ ...prev, totalFaceValue: calculatedProduct }));           
         } else {
             setNewSheetRow((prev) => ({ ...prev, sheetValue: '' }));
@@ -215,14 +215,14 @@ const StampRelatedOutventoryApplicationForm = () => {
             // Calculate the sum
             const totalnumberofsheet1 = sheetRows.reduce((sum, item) => {
                 if (item.stampValue >= 50) { 
-                    return parseFloat(sum) + parseFloat(item.numberOfSheets);
+                    return parseInt(sum) + parseInt(item.numberOfSheets);
                 }
                 return sum; 
             }, 0);
             setTotalNumberofSheet1(totalnumberofsheet1);
             const totalnumberofsheet2 = sheetRows.reduce((sum, item) => {
                 if (item.stampValue < 50) { 
-                    return parseFloat(sum) + parseFloat(item.numberOfSheets);
+                    return parseInt(sum) + parseInt(item.numberOfSheets);
                 }
                 return sum; 
             }, 0);
@@ -230,14 +230,14 @@ const StampRelatedOutventoryApplicationForm = () => {
             setTotalNumberofSheet2(totalnumberofsheet2);
             const facevalue1 = sheetRows.reduce((sum, item) => {
                 if (item.stampValue >= 50) { 
-                    return parseFloat(sum) + parseFloat(item.totalFaceValue);
+                    return parseInt(sum) + parseInt(item.totalFaceValue);
                 }
                 return sum; 
             }, 0);
             setFaceValue1(facevalue1);
             const facevalue2 = sheetRows.reduce((sum, item) => {
                 if (item.stampValue < 50) { 
-                    return parseFloat(sum) + parseFloat(item.totalFaceValue);
+                    return parseInt(sum) + parseInt(item.totalFaceValue);
                 }
                 return sum; 
             }, 0);
@@ -303,7 +303,7 @@ const StampRelatedOutventoryApplicationForm = () => {
         // Calculate product when sheetValue and numberOfSides are both filled
         const { stampValue } = newPastingRow;
         if (stampValue) {
-            const calculatedProduct = Number(stampValue) * Number(25);
+            const calculatedProduct = parseInt(stampValue) * parseInt(25);
             setNewPastingRow((prev) => ({ ...prev, mountValue: calculatedProduct }));
             // console.log('multiply', calculatedProduct)
         } else {
@@ -398,7 +398,7 @@ const StampRelatedOutventoryApplicationForm = () => {
         const { mountValue } = editedPastingRow;
         // console.log('shetValue',sheetValue)
         if (mountValue) {
-            const calculatedProduct = Number(mountValue) * Number(numberofmounts);
+            const calculatedProduct = parseInt(mountValue) * parseInt(numberofmounts);
             setEditedPastingRow((prev) => ({ ...prev, totalFaceValue: calculatedProduct }));           
         } else {
             setNewPastingRow((prev) => ({ ...prev, sheetValue: '' }));
@@ -409,14 +409,14 @@ const StampRelatedOutventoryApplicationForm = () => {
         // Calculate the sum
             const totalnumberofsheet1 = pastingRows.reduce((sum, item) => {
                 if (item.stampValue >= 50) { 
-                    return parseFloat(sum) + parseFloat(item.numberOfMounts);
+                    return parseInt(sum) + parseInt(item.numberOfMounts);
                 }
                 return sum; 
             }, 0);
             setTotalNumberofPasting1(totalnumberofsheet1);
             const totalnumberofsheet2 = pastingRows.reduce((sum, item) => {
                 if (item.stampValue < 50) { 
-                    return parseFloat(sum) + parseFloat(item.numberOfMounts);
+                    return parseInt(sum) + parseInt(item.numberOfMounts);
                 }
                 return sum; 
             }, 0);
@@ -424,14 +424,14 @@ const StampRelatedOutventoryApplicationForm = () => {
             setTotalNumberofPasting2(totalnumberofsheet2);
             const facevalue1 = pastingRows.reduce((sum, item) => {
                 if (item.stampValue >= 50) { 
-                    return parseFloat(sum) + parseFloat(item.totalFaceValue);
+                    return parseInt(sum) + parseInt(item.totalFaceValue);
                 }
                 return sum; 
             }, 0);
             setPastingFaceValue1(facevalue1);
             const facevalue2 = pastingRows.reduce((sum, item) => {
                 if (item.stampValue < 50) { 
-                    return parseFloat(sum) + parseFloat(item.totalFaceValue);
+                    return parseInt(sum) + parseInt(item.totalFaceValue);
                 }
                 return sum; 
             }, 0);
@@ -571,7 +571,7 @@ const StampRelatedOutventoryApplicationForm = () => {
     const calculateRose = (numberofsheets) => {
         const { stampValue } = editedRoseRow;
         if (stampValue) {
-            const calculatedProduct = Number(stampValue) * Number(numberofsheets);
+            const calculatedProduct = parseInt(stampValue) * parseInt(numberofsheets);
             setEditedRoseRow((prev) => ({ ...prev, totalFaceValue: calculatedProduct }));             
         } else {
             setNewRoseRow((prev) => ({ ...prev, stampValue: '' }));
@@ -582,28 +582,28 @@ const StampRelatedOutventoryApplicationForm = () => {
         // Calculate the sum
         const totalnumberofrose1 = roseRows.reduce((sum, item) => {
             if (item.stampValue >= 50) { 
-                return parseFloat(sum) + parseFloat(item.numberOfSheets);
+                return parseInt(sum) + parseInt(item.numberOfSheets);
             }
             return sum; 
         }, 0);
         setTotalNumberofRose1(totalnumberofrose1);
         const totalnumberofrose2 = roseRows.reduce((sum, item) => {
             if (item.stampValue < 50) { 
-                return parseFloat(sum) + parseFloat(item.numberOfSheets);
+                return parseInt(sum) + parseInt(item.numberOfSheets);
             }
             return sum; 
         }, 0);
         setTotalNumberofRose2(totalnumberofrose2);
         const rosefacevalue1 = roseRows.reduce((sum, item) => {
             if (item.stampValue >= 50) { 
-                return parseFloat(sum) + parseFloat(item.totalFaceValue);
+                return parseInt(sum) + parseInt(item.totalFaceValue);
             }
             return sum; 
         }, 0);
         setRoseFaceValue1(rosefacevalue1);
         const rosefacevalue2 = roseRows.reduce((sum, item) => {
             if (item.stampValue < 50) { 
-                return parseFloat(sum) + parseFloat(item.totalFaceValue);
+                return parseInt(sum) + parseInt(item.totalFaceValue);
             }
             return sum; 
         }, 0);
@@ -748,7 +748,7 @@ const StampRelatedOutventoryApplicationForm = () => {
         const { stampValue } = editedPackRow;
         // console.log('shetValue',sheetValue)
         if (stampValue) {
-            const calculatedProduct = Number(stampValue) * Number(numberofsheets);
+            const calculatedProduct = parseInt(stampValue) * parseInt(numberofsheets);
             setEditedPackRow((prev) => ({ ...prev, totalFaceValue: calculatedProduct }));            
         } else {
             setNewPackRow((prev) => ({ ...prev, stampValue: '' }));
@@ -759,28 +759,28 @@ const StampRelatedOutventoryApplicationForm = () => {
         // Calculate the sum
         const totalnumberofpack1 = packRows.reduce((sum, item) => {
             if (item.stampValue >= 50) { 
-                return parseFloat(sum) + parseFloat(item.numberOfSheets);
+                return parseInt(sum) + parseInt(item.numberOfSheets);
             }
             return sum; 
         }, 0);
         setTotalNumberofPack1(totalnumberofpack1);
         const totalnumberofpack2 = packRows.reduce((sum, item) => {
             if (item.stampValue < 50) { 
-                return parseFloat(sum) + parseFloat(item.numberOfSheets);
+                return parseInt(sum) + parseInt(item.numberOfSheets);
             }
             return sum; 
         }, 0);
         setTotalNumberofPack2(totalnumberofpack2);
         const packfacevalue1 = packRows.reduce((sum, item) => {
             if (item.stampValue >= 50) { 
-                return parseFloat(sum) + parseFloat(item.totalFaceValue);
+                return parseInt(sum) + parseInt(item.totalFaceValue);
             }
             return sum; 
         }, 0);
         setPackFaceValue1(packfacevalue1);
         const packfacevalue2 = packRows.reduce((sum, item) => {
             if (item.stampValue < 50) { 
-                return parseFloat(sum) + parseFloat(item.totalFaceValue);
+                return parseInt(sum) + parseInt(item.totalFaceValue);
             }
             return sum; 
         }, 0);
@@ -922,7 +922,7 @@ const StampRelatedOutventoryApplicationForm = () => {
         const { stampValue } = editedCardRow;
         // console.log('shetValue',sheetValue)
         if (stampValue) {
-            const calculatedProduct = Number(stampValue) * Number(numberofsheets);
+            const calculatedProduct = parseInt(stampValue) * parseInt(numberofsheets);
             setEditedCardRow((prev) => ({ ...prev, totalFaceValue: calculatedProduct }));            
         } else {
             setNewPackRow((prev) => ({ ...prev, stampValue: '' }));
@@ -933,28 +933,28 @@ const StampRelatedOutventoryApplicationForm = () => {
         // Calculate the sum
         const totalnumberofcard1 = cardRows.reduce((sum, item) => {
             if (item.stampValue >= 50) { 
-                return parseFloat(sum) + parseFloat(item.numberOfSheets);
+                return parseInt(sum) + parseInt(item.numberOfSheets);
             }
             return sum; 
         }, 0);
         setTotalNumberofCard1(totalnumberofcard1);
         const totalnumberofcard2 = cardRows.reduce((sum, item) => {
             if (item.stampValue < 50) { 
-                return parseFloat(sum) + parseFloat(item.numberOfSheets);
+                return parseInt(sum) + parseInt(item.numberOfSheets);
             }
             return sum; 
         }, 0);
         setTotalNumberofCard2(totalnumberofcard2);
         const cardfacevalue1 = cardRows.reduce((sum, item) => {
             if (item.stampValue >= 50) { 
-                return parseFloat(sum) + parseFloat(item.totalFaceValue);
+                return parseInt(sum) + parseInt(item.totalFaceValue);
             }
             return sum; 
         }, 0);
         setCardFaceValue1(cardfacevalue1);
         const cardfacevalue2 = cardRows.reduce((sum, item) => {
             if (item.stampValue < 50) { 
-                return parseFloat(sum) + parseFloat(item.totalFaceValue);
+                return parseInt(sum) + parseInt(item.totalFaceValue);
             }
             return sum; 
         }, 0);
@@ -1001,15 +1001,15 @@ const StampRelatedOutventoryApplicationForm = () => {
     const [totalNumberOfStamp, setTotalNumberOfStamp] = useState('');
     const [totalStampFaceValue, setTotalStampFaceValue] = useState('');
     const calculateTotalResult =()=>{
-        setTotalNumberOfStamp(Number(totalNumberOfSheet1) + Number(totalNumberOfSheet2) 
-         +Number(totalNumberOfRose1) + Number(totalNumberOfRose2)
-         +Number(totalNumberOfPack1) + Number(totalNumberOfPack2)
-         +Number(totalNumberOfCard1) + Number(totalNumberOfCard2)
+        setTotalNumberOfStamp(parseInt(totalNumberOfSheet1) + parseInt(totalNumberOfSheet2) 
+         +parseInt(totalNumberOfRose1) + parseInt(totalNumberOfRose2)
+         +parseInt(totalNumberOfPack1) + parseInt(totalNumberOfPack2)
+         +parseInt(totalNumberOfCard1) + parseInt(totalNumberOfCard2)
         );
-        setTotalStampFaceValue(Number(totalFaceValue1) + Number(totalFaceValue2) 
-         +Number(totalRoseFaceValue1) + Number(totalRoseFaceValue2)
-         +Number(totalPackFaceValue1) + Number(totalPackFaceValue2)
-         +Number(totalCardFaceValue1) + Number(totalCardFaceValue2)
+        setTotalStampFaceValue(parseInt(totalFaceValue1) + parseInt(totalFaceValue2) 
+         +parseInt(totalRoseFaceValue1) + parseInt(totalRoseFaceValue2)
+         +parseInt(totalPackFaceValue1) + parseInt(totalPackFaceValue2)
+         +parseInt(totalCardFaceValue1) + parseInt(totalCardFaceValue2)
         );
     }
     useEffect(() => {
@@ -1152,18 +1152,18 @@ const [outBound, setOutBound] = useState({
                                         <tbody>
                                             <tr>
                                                 <td>下記合計</td>
-                                                <td style={Td}>{parseFloat(totalNumberOfSheet1) + parseFloat(totalNumberOfSheet2) || ''}</td>
-                                                <td style={Td}>{parseFloat(totalFaceValue1) + parseFloat(totalFaceValue2) || ''}</td>
+                                                <td style={Td}>{parseInt(totalNumberOfSheet1) + parseInt(totalNumberOfSheet2) || ''}</td>
+                                                <td style={Td}>{parseInt(totalFaceValue1) + parseInt(totalFaceValue2) || ''}</td>
                                             </tr>
                                             <tr>
                                                 <td>50円以上</td>
-                                                <td style={Td}>{parseFloat(totalNumberOfSheet1) || ''}</td>
-                                                <td style={Td}>{parseFloat(totalFaceValue1) || ''}</td>
+                                                <td style={Td}>{parseInt(totalNumberOfSheet1) || ''}</td>
+                                                <td style={Td}>{parseInt(totalFaceValue1) || ''}</td>
                                             </tr>
                                             <tr>
                                                 <td>50円未満</td>
-                                                <td style={Td}>{parseFloat(totalNumberOfSheet2) || ''}</td>
-                                                <td style={Td}>{parseFloat(totalFaceValue2) || ''}</td>
+                                                <td style={Td}>{parseInt(totalNumberOfSheet2) || ''}</td>
+                                                <td style={Td}>{parseInt(totalFaceValue2) || ''}</td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -1337,18 +1337,18 @@ const [outBound, setOutBound] = useState({
                                         <tbody>
                                             <tr>
                                                 <td>下記合計</td>
-                                                <td style={Td}>{parseFloat(totalNumberOfPasting1) + parseFloat(totalNumberOfPasting2) || ''}</td>
-                                                <td style={Td}>{parseFloat(totalPastingFaceValue1) + parseFloat(totalPastingFaceValue2) || ''}</td>
+                                                <td style={Td}>{parseInt(totalNumberOfPasting1) + parseInt(totalNumberOfPasting2) || ''}</td>
+                                                <td style={Td}>{parseInt(totalPastingFaceValue1) + parseInt(totalPastingFaceValue2) || ''}</td>
                                             </tr>
                                             <tr>
                                                 <td>50円以上</td>
-                                                <td style={Td}>{parseFloat(totalNumberOfPasting1) || ''}</td>
-                                                <td style={Td}>{parseFloat(totalPastingFaceValue1) || ''}</td>
+                                                <td style={Td}>{parseInt(totalNumberOfPasting1) || ''}</td>
+                                                <td style={Td}>{parseInt(totalPastingFaceValue1) || ''}</td>
                                             </tr>
                                             <tr>
                                                 <td>50円未満</td>
-                                                <td style={Td}>{parseFloat(totalNumberOfPasting2) || ''}</td>
-                                                <td style={Td}>{parseFloat(totalPastingFaceValue2) || ''}</td>
+                                                <td style={Td}>{parseInt(totalNumberOfPasting2) || ''}</td>
+                                                <td style={Td}>{parseInt(totalPastingFaceValue2) || ''}</td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -1506,18 +1506,18 @@ const [outBound, setOutBound] = useState({
                                         <tbody>
                                             <tr>
                                                 <td>下記合計</td>
-                                                <td style={Td}>{parseFloat(totalNumberOfRose1) + parseFloat(totalNumberOfRose2) || ''}</td>
-                                                <td style={Td}>{parseFloat(totalRoseFaceValue1) + parseFloat(totalRoseFaceValue2) || ''}</td>
+                                                <td style={Td}>{parseInt(totalNumberOfRose1) + parseInt(totalNumberOfRose2) || ''}</td>
+                                                <td style={Td}>{parseInt(totalRoseFaceValue1) + parseInt(totalRoseFaceValue2) || ''}</td>
                                             </tr>
                                             <tr>
                                                 <td>50円以上</td>
-                                                <td style={Td}>{parseFloat(totalNumberOfRose1) || ''}</td>
-                                                <td style={Td}>{parseFloat(totalRoseFaceValue1) || ''}</td>
+                                                <td style={Td}>{parseInt(totalNumberOfRose1) || ''}</td>
+                                                <td style={Td}>{parseInt(totalRoseFaceValue1) || ''}</td>
                                             </tr>
                                             <tr>
                                                 <td>50円未満</td>
-                                                <td style={Td}>{parseFloat(totalNumberOfRose2) || ''}</td>
-                                                <td style={Td}>{parseFloat(totalRoseFaceValue2) || ''}</td>
+                                                <td style={Td}>{parseInt(totalNumberOfRose2) || ''}</td>
+                                                <td style={Td}>{parseInt(totalRoseFaceValue2) || ''}</td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -1661,8 +1661,8 @@ const [outBound, setOutBound] = useState({
                                             <tbody>
                                                 <tr>
                                                     <td>下記合計</td>
-                                                    <td style={Td}>{parseFloat(totalNumberOfPack1) + parseFloat(totalNumberOfPack2) || ''}</td>
-                                                    <td style={Td}>{parseFloat(totalPackFaceValue1) + parseFloat(totalPackFaceValue2) || ''}</td>
+                                                    <td style={Td}>{parseInt(totalNumberOfPack1) + parseInt(totalNumberOfPack2) || ''}</td>
+                                                    <td style={Td}>{parseInt(totalPackFaceValue1) + parseInt(totalPackFaceValue2) || ''}</td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -1820,18 +1820,18 @@ const [outBound, setOutBound] = useState({
                                                 <tbody>
                                                     <tr>
                                                         <td>下記合計</td>
-                                                        <td style={Td}>{parseFloat(totalNumberOfCard1) + parseFloat(totalNumberOfCard2) || ''}</td>
-                                                        <td style={Td}>{parseFloat(totalCardFaceValue1) + parseFloat(totalCardFaceValue2) || ''}</td>
+                                                        <td style={Td}>{parseInt(totalNumberOfCard1) + parseInt(totalNumberOfCard2) || ''}</td>
+                                                        <td style={Td}>{parseInt(totalCardFaceValue1) + parseInt(totalCardFaceValue2) || ''}</td>
                                                     </tr>
                                                     <tr>
                                                         <td>50円以上</td>
-                                                        <td style={Td}>{parseFloat(totalNumberOfCard1) || ''}</td>
-                                                        <td style={Td}>{parseFloat(totalCardFaceValue1) || ''}</td>
+                                                        <td style={Td}>{parseInt(totalNumberOfCard1) || ''}</td>
+                                                        <td style={Td}>{parseInt(totalCardFaceValue1) || ''}</td>
                                                     </tr>
                                                     <tr>
                                                         <td>50円未満</td>
-                                                        <td style={Td}>{parseFloat(totalNumberOfCard2) || ''}</td>
-                                                        <td style={Td}>{parseFloat(totalCardFaceValue2) || ''}</td>
+                                                        <td style={Td}>{parseInt(totalNumberOfCard2) || ''}</td>
+                                                        <td style={Td}>{parseInt(totalCardFaceValue2) || ''}</td>
                                                     </tr>
                                                 </tbody>
                                             </table>
@@ -2049,57 +2049,57 @@ const [outBound, setOutBound] = useState({
                                                 <td style={Td}>手数料</td>
                                                 <td style={Td}>{''}</td>
                                                 <td style={Td}>1枚5円</td>
-                                                <td style={Td}>{5 * Number(totalNumberOfStamp)}</td>
+                                                <td style={Td}>{5 * parseInt(totalNumberOfStamp)}</td>
                                             </tr>
                                             <tr className='bg-[#a2d97a]'>
                                                 <td style={Td}>合計金額</td>
                                                 <td style={Td}>{''}</td>
                                                 <td style={Td}>{''}</td>
-                                                <td style={Td}>{Number(totalStampFaceValue) - 5 * Number(totalNumberOfStamp)}</td>
+                                                <td style={Td}>{parseInt(totalStampFaceValue) - 5 * parseInt(totalNumberOfStamp)}</td>
                                             </tr>
                                             <tr>
                                                 <td style={Td}>レ夕一パック</td>
                                                 <td style={Td}>
                                                     <InputComponent value={outBound.letterPack.pack1 || ''} 
-                                                        onChange={e => handleOutBoundChange('letterPack', 'pack1', Number(e.target.value))} 
+                                                        onChange={e => handleOutBoundChange('letterPack', 'pack1', parseInt(e.target.value))} 
                                                         type='number' className='w-full !h-8 text-[#70685a]' />
                                                 </td>
                                                 <td style={Td}>
                                                     <InputComponent value={outBound.letterPack.pack11 || ''} 
-                                                    onChange={e => handleOutBoundChange('letterPack', 'pack11', Number(e.target.value))} 
+                                                    onChange={e => handleOutBoundChange('letterPack', 'pack11', parseInt(e.target.value))} 
                                                     type='number' className='w-full !h-8 text-[#70685a]' />
                                                 </td>
-                                                <td style={Td}>{Number(outBound.letterPack.pack1) * Number(outBound.letterPack.pack11)}</td>
+                                                <td style={Td}>{parseInt(outBound.letterPack.pack1) * parseInt(outBound.letterPack.pack11)}</td>
                                             </tr>
                                             <tr>
                                                 <td style={Td}>レ夕一パック</td>
                                                 <td style={Td}>
                                                     <InputComponent value={outBound.letterPack.pack2 || ''} 
-                                                        onChange={e => handleOutBoundChange('letterPack', 'pack2', Number(e.target.value))} 
+                                                        onChange={e => handleOutBoundChange('letterPack', 'pack2', parseInt(e.target.value))} 
                                                         type='number' className='w-full !h-8 text-[#70685a]' />
                                                 </td>
                                                 <td style={Td}>
                                                     <InputComponent value={outBound.letterPack.pack22 || ''} 
-                                                    onChange={e => handleOutBoundChange('letterPack', 'pack22', Number(e.target.value))} 
+                                                    onChange={e => handleOutBoundChange('letterPack', 'pack22', parseInt(e.target.value))} 
                                                     type='number' className='w-full !h-8 text-[#70685a]' />
                                                 </td>
-                                                <td style={Td}>{Number(outBound.letterPack.pack2) * Number(outBound.letterPack.pack22)}</td>
+                                                <td style={Td}>{parseInt(outBound.letterPack.pack2) * parseInt(outBound.letterPack.pack22)}</td>
                                             </tr>
                                             <tr className='bg-[#d9af7a]'>
                                                 <td style={Td}>レターパ合計</td>
                                                 <td style={Td}>合計枚数</td>
-                                                <td style={Td}>{Number(outBound.letterPack.pack11) + Number(outBound.letterPack.pack22)}</td>
-                                                <td style={Td}>{Number(outBound.letterPack.pack1) * Number(outBound.letterPack.pack11) +
-                                                                Number(outBound.letterPack.pack2) * Number(outBound.letterPack.pack22) }
+                                                <td style={Td}>{parseInt(outBound.letterPack.pack11) + parseInt(outBound.letterPack.pack22)}</td>
+                                                <td style={Td}>{parseInt(outBound.letterPack.pack1) * parseInt(outBound.letterPack.pack11) +
+                                                                parseInt(outBound.letterPack.pack2) * parseInt(outBound.letterPack.pack22) }
                                                 </td>
                                             </tr>
                                             <tr className='bg-[#d9af7a]'>
                                                 <td style={Td}>切手お釣り</td>
                                                 <td style={Td}>{}</td>
                                                 <td style={Td}>{}</td>
-                                                <td style={Td}>{Number(totalStampFaceValue) - 5 * Number(totalNumberOfStamp) -
-                                                                Number(outBound.letterPack.pack1) * Number(outBound.letterPack.pack11) -
-                                                                Number(outBound.letterPack.pack2) * Number(outBound.letterPack.pack22) }
+                                                <td style={Td}>{parseInt(totalStampFaceValue) - 5 * parseInt(totalNumberOfStamp) -
+                                                                parseInt(outBound.letterPack.pack1) * parseInt(outBound.letterPack.pack11) -
+                                                                parseInt(outBound.letterPack.pack2) * parseInt(outBound.letterPack.pack22) }
                                                 </td>
                                             </tr>
                                             <tr>
@@ -2113,89 +2113,89 @@ const [outBound, setOutBound] = useState({
                                                 <td style={Td}>500</td>
                                                 <td style={Td}>
                                                     <InputComponent value={outBound.looseStamps.stamp1 || ''} 
-                                                    onChange={e => handleOutBoundChange('looseStamps', 'stamp1',  Number(e.target.value))} 
+                                                    onChange={e => handleOutBoundChange('looseStamps', 'stamp1',  parseInt(e.target.value))} 
                                                     type='number' className='w-full !h-8 text-[#70685a]' />
                                                 </td>
-                                                <td style={Td}>{500 * Number(outBound.looseStamps.stamp1)}</td>
+                                                <td style={Td}>{500 * parseInt(outBound.looseStamps.stamp1)}</td>
                                             </tr>
                                             <tr>
                                                 <td style={Td}>100円切手</td>
                                                 <td style={Td}>100</td>
                                                 <td style={Td}>
                                                     <InputComponent value={outBound.looseStamps.stamp2 || ''} 
-                                                    onChange={e => handleOutBoundChange('looseStamps', 'stamp2',  Number(e.target.value))} 
+                                                    onChange={e => handleOutBoundChange('looseStamps', 'stamp2',  parseInt(e.target.value))} 
                                                     type='number' className='w-full !h-8 text-[#70685a]' />
                                                 </td>
-                                                <td style={Td}>{100 * Number(outBound.looseStamps.stamp2)}</td>
+                                                <td style={Td}>{100 * parseInt(outBound.looseStamps.stamp2)}</td>
                                             </tr>
                                             <tr>
                                                 <td style={Td}>50円切手</td>
                                                 <td style={Td}>50</td>
                                                 <td style={Td}>
                                                     <InputComponent value={outBound.looseStamps.stamp3 || ''} 
-                                                    onChange={e => handleOutBoundChange('looseStamps', 'stamp3',  Number(e.target.value))} 
+                                                    onChange={e => handleOutBoundChange('looseStamps', 'stamp3',  parseInt(e.target.value))} 
                                                     type='number' className='w-full !h-8 text-[#70685a]' />
                                                 </td>
-                                                <td style={Td}>{50 * Number(outBound.looseStamps.stamp3)}</td>
+                                                <td style={Td}>{50 * parseInt(outBound.looseStamps.stamp3)}</td>
                                             </tr>
                                             <tr>
                                                 <td style={Td}>20円切手</td>
                                                 <td style={Td}>20</td>
                                                 <td style={Td}>
                                                     <InputComponent value={outBound.looseStamps.stamp4 || ''} 
-                                                    onChange={e => handleOutBoundChange('looseStamps', 'stamp4',  Number(e.target.value))} 
+                                                    onChange={e => handleOutBoundChange('looseStamps', 'stamp4',  parseInt(e.target.value))} 
                                                     type='number' className='w-full !h-8 text-[#70685a]' />
                                                 </td>
-                                                <td style={Td}>{20 * Number(outBound.looseStamps.stamp4)}</td>
+                                                <td style={Td}>{20 * parseInt(outBound.looseStamps.stamp4)}</td>
                                             </tr>
                                             <tr>
                                                 <td style={Td}>10円切手</td>
                                                 <td style={Td}>10</td>
                                                 <td style={Td}>
                                                     <InputComponent value={outBound.looseStamps.stamp5 || ''} 
-                                                    onChange={e => handleOutBoundChange('looseStamps', 'stamp5',  Number(e.target.value))} 
+                                                    onChange={e => handleOutBoundChange('looseStamps', 'stamp5',  parseInt(e.target.value))} 
                                                     type='number' className='w-full !h-8 text-[#70685a]' />
                                                 </td>
-                                                <td style={Td}>{10 * Number(outBound.looseStamps.stamp5)}</td>
+                                                <td style={Td}>{10 * parseInt(outBound.looseStamps.stamp5)}</td>
                                             </tr>
                                             <tr>
                                                 <td style={Td}>5円切手</td>
                                                 <td style={Td}>5</td>
                                                 <td style={Td}>
                                                     <InputComponent value={outBound.looseStamps.stamp6 || ''} 
-                                                    onChange={e => handleOutBoundChange('looseStamps', 'stamp6',  Number(e.target.value))} 
+                                                    onChange={e => handleOutBoundChange('looseStamps', 'stamp6',  parseInt(e.target.value))} 
                                                     type='number' className='w-full !h-8 text-[#70685a]' />
                                                 </td>
-                                                <td style={Td}>{5 * Number(outBound.looseStamps.stamp6)}</td>
+                                                <td style={Td}>{5 * parseInt(outBound.looseStamps.stamp6)}</td>
                                             </tr>
                                             <tr>
                                                 <td style={Td}>1円切手</td>
                                                 <td style={Td}>1</td>
                                                 <td style={Td}>
                                                     <InputComponent value={outBound.looseStamps.stamp7 || ''} 
-                                                    onChange={e => handleOutBoundChange('looseStamps', 'stamp7',  Number(e.target.value))} 
+                                                    onChange={e => handleOutBoundChange('looseStamps', 'stamp7',  parseInt(e.target.value))} 
                                                     type='number' className='w-full !h-8 text-[#70685a]' />
                                                 </td>
-                                                <td style={Td}>{Number(outBound.looseStamps.stamp7)}</td>
+                                                <td style={Td}>{parseInt(outBound.looseStamps.stamp7)}</td>
                                             </tr>
                                             <tr className='bg-[#d9af7a]'>
                                                 <td style={Td}>合計返金切手</td>
                                                 <td style={Td}>{}</td>
                                                 <td style={Td}>{}</td>
-                                                <td style={Td}>{Number(outBound.looseStamps.stamp1) * 500 + Number(outBound.looseStamps.stamp2) * 100 +
-                                                Number(outBound.looseStamps.stamp3) * 50 + Number(outBound.looseStamps.stamp4) * 20 +
-                                                Number(outBound.looseStamps.stamp5) * 10 + Number(outBound.looseStamps.stamp6) * 5 +
-                                                Number(outBound.looseStamps.stamp7)}</td>
+                                                <td style={Td}>{parseInt(outBound.looseStamps.stamp1) * 500 + parseInt(outBound.looseStamps.stamp2) * 100 +
+                                                parseInt(outBound.looseStamps.stamp3) * 50 + parseInt(outBound.looseStamps.stamp4) * 20 +
+                                                parseInt(outBound.looseStamps.stamp5) * 10 + parseInt(outBound.looseStamps.stamp6) * 5 +
+                                                parseInt(outBound.looseStamps.stamp7)}</td>
                                             </tr>
                                             <tr className='bg-[#d9af7a]'>
                                                 <td style={Td}>残差異</td>
                                                 <td style={Td}>{}</td>
                                                 <td style={Td}>{}</td>
-                                                <td style={Td}>{Number(totalStampFaceValue) - 5 * Number(totalNumberOfStamp) - 
-                                                (Number(outBound.looseStamps.stamp1) * 500 + Number(outBound.looseStamps.stamp2) * 100 +
-                                                Number(outBound.looseStamps.stamp3) * 50 + Number(outBound.looseStamps.stamp4) * 20 +
-                                                Number(outBound.looseStamps.stamp5) * 10 + Number(outBound.looseStamps.stamp6) * 5 +
-                                                Number(outBound.looseStamps.stamp7))}</td>
+                                                <td style={Td}>{parseInt(totalStampFaceValue) - 5 * parseInt(totalNumberOfStamp) - 
+                                                (parseInt(outBound.looseStamps.stamp1) * 500 + parseInt(outBound.looseStamps.stamp2) * 100 +
+                                                parseInt(outBound.looseStamps.stamp3) * 50 + parseInt(outBound.looseStamps.stamp4) * 20 +
+                                                parseInt(outBound.looseStamps.stamp5) * 10 + parseInt(outBound.looseStamps.stamp6) * 5 +
+                                                parseInt(outBound.looseStamps.stamp7))}</td>
                                             </tr>
                                         </tbody>
 

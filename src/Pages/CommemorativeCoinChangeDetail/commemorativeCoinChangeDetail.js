@@ -85,7 +85,7 @@ const CommemorativeCoinchangeDetail = () => {
         const updatedData = objData.map((data,Index) => ({
             ...data,
             numberOfCoins: values[Index],
-            totalCoinValue: Number(data.coinValue) * Number( values[Index])
+            totalCoinValue: parseInt(data.coinValue) * parseInt( values[Index])
         })); 
         setCoinRows(updatedData);
     }
@@ -95,14 +95,14 @@ const CommemorativeCoinchangeDetail = () => {
         // Calculate the sum
         const totalnumberofCoin = coinRows.reduce((sum, item) => {
             if (item.coinValue) {
-                return parseFloat(sum) + parseFloat(item.numberOfCoins);
+                return parseInt(sum) + parseInt(item.numberOfCoins);
             }
             return sum;
         }, 0);
         setTotalNumberofCoin(totalnumberofCoin);
         const facevalue1 = coinRows.reduce((sum, item) => {
             if (item.coinValue) {
-                return parseFloat(sum) + parseFloat(item.totalCoinValue);
+                return parseInt(sum) + parseInt(item.totalCoinValue);
             }
             return sum;
         }, 0);
@@ -132,7 +132,7 @@ const CommemorativeCoinchangeDetail = () => {
         const updatedData = objData.map((data,Index) => ({
             ...data,
             numberOfBills: values[Index],
-            totalBillValue: Number(data.billValue) * Number( values[Index])
+            totalBillValue: parseInt(data.billValue) * parseInt( values[Index])
         })); 
         setBillRows(updatedData);
     }
@@ -142,14 +142,14 @@ const CommemorativeCoinchangeDetail = () => {
         // Calculate the sum
         const totalnumberofBill = billRows.reduce((sum, item) => {
             if (item.billValue) {
-                return parseFloat(sum) + parseFloat(item.numberOfBills);
+                return parseInt(sum) + parseInt(item.numberOfBills);
             }
             return sum;
         }, 0);
         setTotalNumberofBill(totalnumberofBill);
         const facevalue1 = billRows.reduce((sum, item) => {
             if (item.billValue) {
-                return parseFloat(sum) + parseFloat(item.totalBillValue);
+                return parseInt(sum) + parseInt(item.totalBillValue);
             }
             return sum;
         }, 0);
@@ -259,7 +259,7 @@ const CommemorativeCoinchangeDetail = () => {
                                 <div>合計枚数 </div>
                             </div>
                             <div className='ml-5 text-left text-[#70685a]' >
-                                <div>{Number(totalNumberOfCoin) + Number(totalNumberOfBill)}</div>
+                                <div>{parseInt(totalNumberOfCoin) + parseInt(totalNumberOfBill)}</div>
                             </div>
                         </div>
                         <div className='flex ml-12'>
@@ -267,7 +267,7 @@ const CommemorativeCoinchangeDetail = () => {
                                 <div>合計金額</div>
                             </div>
                             <div className='ml-5 text-left text-[#70685a]' >
-                                <div>¥{Number(totalCoinValue) + Number(totalBillValue)}</div>
+                                <div>¥{parseInt(totalCoinValue) + parseInt(totalBillValue)}</div>
                             </div>
                         </div>
                     </div>

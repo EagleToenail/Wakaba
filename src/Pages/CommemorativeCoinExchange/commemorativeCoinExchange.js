@@ -155,7 +155,7 @@ const CommemorativeCoinExchange = () => {
         const { coinValue } = editedCoinRow;
         // console.log('shetValue',sheetValue)
         if (coinValue) {
-            const calculatedProduct = Number(coinValue) * Number(numberofcoins);
+            const calculatedProduct = parseInt(coinValue) * parseInt(numberofcoins);
             setEditedCoinRow((prev) => ({ ...prev, totalCoinValue: calculatedProduct }));
         } else {
             setNewCoinRow((prev) => ({ ...prev, coinValue: '' }));
@@ -166,14 +166,14 @@ const CommemorativeCoinExchange = () => {
         // Calculate the sum
         const totalnumberofCoin = coinRows.reduce((sum, item) => {
             if (item.coinValue) {
-                return parseFloat(sum) + parseFloat(item.numberOfCoins);
+                return parseInt(sum) + parseInt(item.numberOfCoins);
             }
             return sum;
         }, 0);
         setTotalNumberofCoin(totalnumberofCoin);
         const facevalue1 = coinRows.reduce((sum, item) => {
             if (item.coinValue) {
-                return parseFloat(sum) + parseFloat(item.totalCoinValue);
+                return parseInt(sum) + parseInt(item.totalCoinValue);
             }
             return sum;
         }, 0);
@@ -304,7 +304,7 @@ const CommemorativeCoinExchange = () => {
         const { billValue } = editedBillRow;
         // console.log('shetValue',sheetValue)
         if (billValue) {
-            const calculatedProduct = Number(billValue) * Number(numberofBills);
+            const calculatedProduct = parseInt(billValue) * parseInt(numberofBills);
             setEditedBillRow((prev) => ({ ...prev, totalBillValue: calculatedProduct }));
         } else {
             setNewBillRow((prev) => ({ ...prev, billValue: '' }));
@@ -315,14 +315,14 @@ const CommemorativeCoinExchange = () => {
         // Calculate the sum
         const totalnumberofBill = billRows.reduce((sum, item) => {
             if (item.billValue) {
-                return parseFloat(sum) + parseFloat(item.numberOfBills);
+                return parseInt(sum) + parseInt(item.numberOfBills);
             }
             return sum;
         }, 0);
         setTotalNumberofBill(totalnumberofBill);
         const facevalue1 = billRows.reduce((sum, item) => {
             if (item.billValue) {
-                return parseFloat(sum) + parseFloat(item.totalBillValue);
+                return parseInt(sum) + parseInt(item.totalBillValue);
             }
             return sum;
         }, 0);
@@ -420,15 +420,15 @@ const CommemorativeCoinExchange = () => {
                         <div className='commemorative-coin-one flex w-[40%] mt-5'>
                             <div className='flex ml-10'>
                                 <div className='text-right font-bold text-[#70685a] w-40'>
-                                    <div className=''>担当</div>
-                                    <div className='mt-1'>TEL</div>
-                                    <div className='mt-1 h-10'>実行予定日</div>
-                                    <div className='mt-1 h-10'>銀行名</div>
+                                    <div className='h-8 flex flex-col justify-center'>担当</div>
+                                    <div className='h-8 flex flex-col justify-center'>TEL</div>
+                                    <div className='h-10 flex flex-col justify-center'>実行予定日</div>
+                                    <div className='mt-2 h-10 flex flex-col justify-center'>銀行名</div>
                                 </div>
                                 <div className='ml-5 text-left text-[#70685a]'>
-                                    <div>{userData.username}</div>
-                                    <div className='mt-1'>{userData.phone}</div>
-                                    <div className='mt-1'>
+                                    <div className='h-8 flex flex-col justify-center'>{userData.username || '---'}</div>
+                                    <div className='h-8 flex flex-col justify-center'>{userData.phone || '---'}</div>
+                                    <div className='flex flex-col justify-center'>
                                         <div className='flex'>
                                             <div style={{ flexDirection: 'column', }} className='flex align-center justify-around'>
                                                 <input name="exchange_date" value={otherData.exchange_date || ''} type="text" required className="w-[170px] h-8 text-[#6e6e7c] border border-[#6e6e7c] text-[20px] px-4 py-1 outline-[#70685a]" readOnly />
@@ -443,7 +443,7 @@ const CommemorativeCoinExchange = () => {
                                             </div>
                                         </div>
                                     </div>
-                                    <div className='mt-1'><InputComponent className='w-60 h-10' name='bank_name' value={otherData.bank_name} onChange={handleOtherDataChange}/></div>
+                                    <div className='mt-2 flex flex-col justify-center'><InputComponent className='w-60 h-10' name='bank_name' value={otherData.bank_name} onChange={handleOtherDataChange}/></div>
                                 </div>
                             </div>
                         </div>
@@ -469,7 +469,7 @@ const CommemorativeCoinExchange = () => {
                                 <div>合計枚数 </div>
                             </div>
                             <div className='ml-5 text-left text-[#70685a]' >
-                                <div>{Number(totalNumberOfCoin) + Number(totalNumberOfBill)}</div>
+                                <div>{parseInt(totalNumberOfCoin) + parseInt(totalNumberOfBill)}</div>
                             </div>
                         </div>
                         <div className='flex ml-12'>
@@ -477,7 +477,7 @@ const CommemorativeCoinExchange = () => {
                                 <div>合計金額</div>
                             </div>
                             <div className='ml-5 text-left text-[#70685a]' >
-                                <div>¥{Number(totalCoinValue) + Number(totalBillValue)}</div>
+                                <div>¥{parseInt(totalCoinValue) + parseInt(totalBillValue)}</div>
                             </div>
                         </div>
                     </div>

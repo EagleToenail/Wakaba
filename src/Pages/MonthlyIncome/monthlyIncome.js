@@ -394,7 +394,7 @@ const MonthlyIncome = () => {
                                         ):(Data.total_purchase_price || '')}
                                     </td>
                                     <td style={Td}>
-                                        {parseFloat(Data.total_withdrawal || '') - parseFloat(Data.total_purchase_price || '') || ''}
+                                        {parseInt(Data.total_withdrawal || '') - parseInt(Data.total_purchase_price || '') || ''}
                                     </td>
                                     <td style={Td}>
                                         {editIndex === Index ?(
@@ -446,15 +446,15 @@ const MonthlyIncome = () => {
                                             <InputComponent type="number" name='one' value={editedRow.one || ''} onChange={handleInputChange} className='w-max h-8 text-[#70685a]' />
                                         ):(Data.one || '')}
                                     </td>
-                                    <td style={Td}>{10000*parseFloat(Data.ten_thousand)
-                                                + 5000*parseFloat(Data.five_thousand)
-                                                + 1000*parseFloat(Data.one_thousand)
-                                                + 500*parseFloat(Data.five_hundred)
-                                                + 100*parseFloat(Data.one_hundred)
-                                                + 50*parseFloat(Data.fifty)
-                                                + 10*parseFloat(Data.ten)
-                                                + 5*parseFloat(Data.five)
-                                                + 1*parseFloat(Data.one)
+                                    <td style={Td}>{10000*parseInt(Data.ten_thousand)
+                                                + 5000*parseInt(Data.five_thousand)
+                                                + 1000*parseInt(Data.one_thousand)
+                                                + 500*parseInt(Data.five_hundred)
+                                                + 100*parseInt(Data.one_hundred)
+                                                + 50*parseInt(Data.fifty)
+                                                + 10*parseInt(Data.ten)
+                                                + 5*parseInt(Data.five)
+                                                + 1*parseInt(Data.one)
                                                 || ''}
                                     </td>
                                     <td style={Td}>{Data.sales_balance}</td>

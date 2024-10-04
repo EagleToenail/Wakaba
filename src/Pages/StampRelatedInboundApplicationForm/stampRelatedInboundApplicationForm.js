@@ -89,7 +89,7 @@ const StampRelatedInventoryApplicationForm = () => {
         // Calculate product when sheetValue and numberOfSides are both filled
         const { stampValue, numberOfSides } = newSheetRow;
         if (stampValue && numberOfSides) {
-            const calculatedProduct = Number(stampValue) * Number(numberOfSides);
+            const calculatedProduct = parseInt(stampValue) * parseInt(numberOfSides);
             setNewSheetRow((prev) => ({ ...prev, sheetValue: calculatedProduct }));
             // console.log('multiply', calculatedProduct)
         } else {
@@ -188,7 +188,7 @@ const StampRelatedInventoryApplicationForm = () => {
         const { sheetValue } = editedSheetRow;
         // console.log('shetValue',sheetValue)
         if (sheetValue) {
-            const calculatedProduct = Number(sheetValue) * Number(numberofsheets);
+            const calculatedProduct = parseInt(sheetValue) * parseInt(numberofsheets);
             setEditedSheetRow((prev) => ({ ...prev, totalFaceValue: calculatedProduct }));           
         } else {
             setNewSheetRow((prev) => ({ ...prev, sheetValue: '' }));
@@ -199,14 +199,14 @@ const StampRelatedInventoryApplicationForm = () => {
             // Calculate the sum
             const totalnumberofsheet1 = sheetRows.reduce((sum, item) => {
                 if (item.stampValue >= 50) { 
-                    return parseFloat(sum) + parseFloat(item.numberOfSheets);
+                    return parseInt(sum) + parseInt(item.numberOfSheets);
                 }
                 return sum; 
             }, 0);
             setTotalNumberofSheet1(totalnumberofsheet1);
             const totalnumberofsheet2 = sheetRows.reduce((sum, item) => {
                 if (item.stampValue < 50) { 
-                    return parseFloat(sum) + parseFloat(item.numberOfSheets);
+                    return parseInt(sum) + parseInt(item.numberOfSheets);
                 }
                 return sum; 
             }, 0);
@@ -214,14 +214,14 @@ const StampRelatedInventoryApplicationForm = () => {
             setTotalNumberofSheet2(totalnumberofsheet2);
             const facevalue1 = sheetRows.reduce((sum, item) => {
                 if (item.stampValue >= 50) { 
-                    return parseFloat(sum) + parseFloat(item.totalFaceValue);
+                    return parseInt(sum) + parseInt(item.totalFaceValue);
                 }
                 return sum; 
             }, 0);
             setFaceValue1(facevalue1);
             const facevalue2 = sheetRows.reduce((sum, item) => {
                 if (item.stampValue < 50) { 
-                    return parseFloat(sum) + parseFloat(item.totalFaceValue);
+                    return parseInt(sum) + parseInt(item.totalFaceValue);
                 }
                 return sum; 
             }, 0);
@@ -283,7 +283,7 @@ const StampRelatedInventoryApplicationForm = () => {
         // Calculate product when sheetValue and numberOfSides are both filled
         const { stampValue } = newPastingRow;
         if (stampValue) {
-            const calculatedProduct = Number(stampValue) * Number(25);
+            const calculatedProduct = parseInt(stampValue) * parseInt(25);
             setNewPastingRow((prev) => ({ ...prev, mountValue: calculatedProduct }));
             // console.log('multiply', calculatedProduct)
         } else {
@@ -378,7 +378,7 @@ const StampRelatedInventoryApplicationForm = () => {
         const { mountValue } = editedPastingRow;
         // console.log('shetValue',sheetValue)
         if (mountValue) {
-            const calculatedProduct = Number(mountValue) * Number(numberofmounts);
+            const calculatedProduct = parseInt(mountValue) * parseInt(numberofmounts);
             setEditedPastingRow((prev) => ({ ...prev, totalFaceValue: calculatedProduct }));           
         } else {
             setNewPastingRow((prev) => ({ ...prev, sheetValue: '' }));
@@ -389,14 +389,14 @@ const StampRelatedInventoryApplicationForm = () => {
         // Calculate the sum
             const totalnumberofsheet1 = pastingRows.reduce((sum, item) => {
                 if (item.stampValue >= 50) { 
-                    return parseFloat(sum) + parseFloat(item.numberOfMounts);
+                    return parseInt(sum) + parseInt(item.numberOfMounts);
                 }
                 return sum; 
             }, 0);
             setTotalNumberofPasting1(totalnumberofsheet1);
             const totalnumberofsheet2 = pastingRows.reduce((sum, item) => {
                 if (item.stampValue < 50) { 
-                    return parseFloat(sum) + parseFloat(item.numberOfMounts);
+                    return parseInt(sum) + parseInt(item.numberOfMounts);
                 }
                 return sum; 
             }, 0);
@@ -404,14 +404,14 @@ const StampRelatedInventoryApplicationForm = () => {
             setTotalNumberofPasting2(totalnumberofsheet2);
             const facevalue1 = pastingRows.reduce((sum, item) => {
                 if (item.stampValue >= 50) { 
-                    return parseFloat(sum) + parseFloat(item.totalFaceValue);
+                    return parseInt(sum) + parseInt(item.totalFaceValue);
                 }
                 return sum; 
             }, 0);
             setPastingFaceValue1(facevalue1);
             const facevalue2 = pastingRows.reduce((sum, item) => {
                 if (item.stampValue < 50) { 
-                    return parseFloat(sum) + parseFloat(item.totalFaceValue);
+                    return parseInt(sum) + parseInt(item.totalFaceValue);
                 }
                 return sum; 
             }, 0);
@@ -547,7 +547,7 @@ const StampRelatedInventoryApplicationForm = () => {
     const calculateRose = (numberofsheets) => {
         const { stampValue } = editedRoseRow;
         if (stampValue) {
-            const calculatedProduct = Number(stampValue) * Number(numberofsheets);
+            const calculatedProduct = parseInt(stampValue) * parseInt(numberofsheets);
             setEditedRoseRow((prev) => ({ ...prev, totalFaceValue: calculatedProduct }));             
         } else {
             setNewRoseRow((prev) => ({ ...prev, stampValue: '' }));
@@ -558,14 +558,14 @@ const StampRelatedInventoryApplicationForm = () => {
         // Calculate the sum
         const totalnumberofrose1 = roseRows.reduce((sum, item) => {
             if (item.stampValue >= 50) { 
-                return parseFloat(sum) + parseFloat(item.numberOfSheets);
+                return parseInt(sum) + parseInt(item.numberOfSheets);
             }
             return sum; 
         }, 0);
         setTotalNumberofRose1(totalnumberofrose1);
         const totalnumberofrose2 = roseRows.reduce((sum, item) => {
             if (item.stampValue < 50) { 
-                return parseFloat(sum) + parseFloat(item.numberOfSheets);
+                return parseInt(sum) + parseInt(item.numberOfSheets);
             }
             return sum; 
         }, 0);
@@ -573,14 +573,14 @@ const StampRelatedInventoryApplicationForm = () => {
         setTotalNumberofRose2(totalnumberofrose2);
         const rosefacevalue1 = roseRows.reduce((sum, item) => {
             if (item.stampValue >= 50) { 
-                return parseFloat(sum) + parseFloat(item.totalFaceValue);
+                return parseInt(sum) + parseInt(item.totalFaceValue);
             }
             return sum; 
         }, 0);
         setRoseFaceValue1(rosefacevalue1);
         const rosefacevalue2 = roseRows.reduce((sum, item) => {
             if (item.stampValue < 50) { 
-                return parseFloat(sum) + parseFloat(item.totalFaceValue);
+                return parseInt(sum) + parseInt(item.totalFaceValue);
             }
             return sum; 
         }, 0);
@@ -722,7 +722,7 @@ const StampRelatedInventoryApplicationForm = () => {
         const { stampValue } = editedPackRow;
         // console.log('shetValue',sheetValue)
         if (stampValue) {
-            const calculatedProduct = Number(stampValue) * Number(numberofsheets);
+            const calculatedProduct = parseInt(stampValue) * parseInt(numberofsheets);
             setEditedPackRow((prev) => ({ ...prev, totalFaceValue: calculatedProduct }));            
         } else {
             setNewPackRow((prev) => ({ ...prev, stampValue: '' }));
@@ -733,14 +733,14 @@ const StampRelatedInventoryApplicationForm = () => {
         // Calculate the sum
         const totalnumberofpack1 = packRows.reduce((sum, item) => {
             if (item.stampValue >= 50) { 
-                return parseFloat(sum) + parseFloat(item.numberOfSheets);
+                return parseInt(sum) + parseInt(item.numberOfSheets);
             }
             return sum; 
         }, 0);
         setTotalNumberofPack1(totalnumberofpack1);
         const totalnumberofpack2 = packRows.reduce((sum, item) => {
             if (item.stampValue < 50) { 
-                return parseFloat(sum) + parseFloat(item.numberOfSheets);
+                return parseInt(sum) + parseInt(item.numberOfSheets);
             }
             return sum; 
         }, 0);
@@ -748,14 +748,14 @@ const StampRelatedInventoryApplicationForm = () => {
         setTotalNumberofPack2(totalnumberofpack2);
         const packfacevalue1 = packRows.reduce((sum, item) => {
             if (item.stampValue >= 50) { 
-                return parseFloat(sum) + parseFloat(item.totalFaceValue);
+                return parseInt(sum) + parseInt(item.totalFaceValue);
             }
             return sum; 
         }, 0);
         setPackFaceValue1(packfacevalue1);
         const packfacevalue2 = packRows.reduce((sum, item) => {
             if (item.stampValue < 50) { 
-                return parseFloat(sum) + parseFloat(item.totalFaceValue);
+                return parseInt(sum) + parseInt(item.totalFaceValue);
             }
             return sum; 
         }, 0);
@@ -892,7 +892,7 @@ const StampRelatedInventoryApplicationForm = () => {
         const { stampValue } = editedCardRow;
         // console.log('shetValue',sheetValue)
         if (stampValue) {
-            const calculatedProduct = Number(stampValue) * Number(numberofsheets);
+            const calculatedProduct = parseInt(stampValue) * parseInt(numberofsheets);
             setEditedCardRow((prev) => ({ ...prev, totalFaceValue: calculatedProduct }));            
         } else {
             setNewPackRow((prev) => ({ ...prev, stampValue: '' }));
@@ -903,14 +903,14 @@ const StampRelatedInventoryApplicationForm = () => {
         // Calculate the sum
         const totalnumberofcard1 = cardRows.reduce((sum, item) => {
             if (item.stampValue >= 50) { 
-                return parseFloat(sum) + parseFloat(item.numberOfSheets);
+                return parseInt(sum) + parseInt(item.numberOfSheets);
             }
             return sum; 
         }, 0);
         setTotalNumberofCard1(totalnumberofcard1);
         const totalnumberofcard2 = cardRows.reduce((sum, item) => {
             if (item.stampValue < 50) { 
-                return parseFloat(sum) + parseFloat(item.numberOfSheets);
+                return parseInt(sum) + parseInt(item.numberOfSheets);
             }
             return sum; 
         }, 0);
@@ -918,14 +918,14 @@ const StampRelatedInventoryApplicationForm = () => {
         setTotalNumberofCard2(totalnumberofcard2);
         const cardfacevalue1 = cardRows.reduce((sum, item) => {
             if (item.stampValue >= 50) { 
-                return parseFloat(sum) + parseFloat(item.totalFaceValue);
+                return parseInt(sum) + parseInt(item.totalFaceValue);
             }
             return sum; 
         }, 0);
         setCardFaceValue1(cardfacevalue1);
         const cardfacevalue2 = cardRows.reduce((sum, item) => {
             if (item.stampValue < 50) { 
-                return parseFloat(sum) + parseFloat(item.totalFaceValue);
+                return parseInt(sum) + parseInt(item.totalFaceValue);
             }
             return sum; 
         }, 0);
@@ -1076,18 +1076,18 @@ const StampRelatedInventoryApplicationForm = () => {
                                         <tbody>
                                             <tr>
                                                 <td>下記合計</td>
-                                                <td style={Td}>{parseFloat(totalNumberOfSheet1) + parseFloat(totalNumberOfSheet2) || ''}</td>
-                                                <td style={Td}>{parseFloat(totalFaceValue1) + parseFloat(totalFaceValue2) || ''}</td>
+                                                <td style={Td}>{parseInt(totalNumberOfSheet1) + parseInt(totalNumberOfSheet2) || ''}</td>
+                                                <td style={Td}>{parseInt(totalFaceValue1) + parseInt(totalFaceValue2) || ''}</td>
                                             </tr>
                                             <tr>
                                                 <td>50円以上</td>
-                                                <td style={Td}>{parseFloat(totalNumberOfSheet1) || ''}</td>
-                                                <td style={Td}>{parseFloat(totalFaceValue1) || ''}</td>
+                                                <td style={Td}>{parseInt(totalNumberOfSheet1) || ''}</td>
+                                                <td style={Td}>{parseInt(totalFaceValue1) || ''}</td>
                                             </tr>
                                             <tr>
                                                 <td>50円未満</td>
-                                                <td style={Td}>{parseFloat(totalNumberOfSheet2) || ''}</td>
-                                                <td style={Td}>{parseFloat(totalFaceValue2) || ''}</td>
+                                                <td style={Td}>{parseInt(totalNumberOfSheet2) || ''}</td>
+                                                <td style={Td}>{parseInt(totalFaceValue2) || ''}</td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -1261,18 +1261,18 @@ const StampRelatedInventoryApplicationForm = () => {
                                         <tbody>
                                             <tr>
                                                 <td>下記合計</td>
-                                                <td style={Td}>{parseFloat(totalNumberOfPasting1) + parseFloat(totalNumberOfPasting2) || ''}</td>
-                                                <td style={Td}>{parseFloat(totalPastingFaceValue1) + parseFloat(totalPastingFaceValue2) || ''}</td>
+                                                <td style={Td}>{parseInt(totalNumberOfPasting1) + parseInt(totalNumberOfPasting2) || ''}</td>
+                                                <td style={Td}>{parseInt(totalPastingFaceValue1) + parseInt(totalPastingFaceValue2) || ''}</td>
                                             </tr>
                                             <tr>
                                                 <td>50円以上</td>
-                                                <td style={Td}>{parseFloat(totalNumberOfPasting1) || ''}</td>
-                                                <td style={Td}>{parseFloat(totalPastingFaceValue1) || ''}</td>
+                                                <td style={Td}>{parseInt(totalNumberOfPasting1) || ''}</td>
+                                                <td style={Td}>{parseInt(totalPastingFaceValue1) || ''}</td>
                                             </tr>
                                             <tr>
                                                 <td>50円未満</td>
-                                                <td style={Td}>{parseFloat(totalNumberOfPasting2) || ''}</td>
-                                                <td style={Td}>{parseFloat(totalPastingFaceValue2) || ''}</td>
+                                                <td style={Td}>{parseInt(totalNumberOfPasting2) || ''}</td>
+                                                <td style={Td}>{parseInt(totalPastingFaceValue2) || ''}</td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -1430,18 +1430,18 @@ const StampRelatedInventoryApplicationForm = () => {
                                         <tbody>
                                             <tr>
                                                 <td>下記合計</td>
-                                                <td style={Td}>{parseFloat(totalNumberOfRose1) + parseFloat(totalNumberOfRose2) || ''}</td>
-                                                <td style={Td}>{parseFloat(totalRoseFaceValue1) + parseFloat(totalRoseFaceValue2) || ''}</td>
+                                                <td style={Td}>{parseInt(totalNumberOfRose1) + parseInt(totalNumberOfRose2) || ''}</td>
+                                                <td style={Td}>{parseInt(totalRoseFaceValue1) + parseInt(totalRoseFaceValue2) || ''}</td>
                                             </tr>
                                             <tr>
                                                 <td>50円以上</td>
-                                                <td style={Td}>{parseFloat(totalNumberOfRose1) || ''}</td>
-                                                <td style={Td}>{parseFloat(totalRoseFaceValue1) || ''}</td>
+                                                <td style={Td}>{parseInt(totalNumberOfRose1) || ''}</td>
+                                                <td style={Td}>{parseInt(totalRoseFaceValue1) || ''}</td>
                                             </tr>
                                             <tr>
                                                 <td>50円未満</td>
-                                                <td style={Td}>{parseFloat(totalNumberOfRose2) || ''}</td>
-                                                <td style={Td}>{parseFloat(totalRoseFaceValue2) || ''}</td>
+                                                <td style={Td}>{parseInt(totalNumberOfRose2) || ''}</td>
+                                                <td style={Td}>{parseInt(totalRoseFaceValue2) || ''}</td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -1585,8 +1585,8 @@ const StampRelatedInventoryApplicationForm = () => {
                                             <tbody>
                                                 <tr>
                                                     <td>下記合計</td>
-                                                    <td style={Td}>{parseFloat(totalNumberOfPack1) + parseFloat(totalNumberOfPack2) || ''}</td>
-                                                    <td style={Td}>{parseFloat(totalPackFaceValue1) + parseFloat(totalPackFaceValue2) || ''}</td>
+                                                    <td style={Td}>{parseInt(totalNumberOfPack1) + parseInt(totalNumberOfPack2) || ''}</td>
+                                                    <td style={Td}>{parseInt(totalPackFaceValue1) + parseInt(totalPackFaceValue2) || ''}</td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -1744,18 +1744,18 @@ const StampRelatedInventoryApplicationForm = () => {
                                                 <tbody>
                                                     <tr>
                                                         <td>下記合計</td>
-                                                        <td style={Td}>{parseFloat(totalNumberOfCard1) + parseFloat(totalNumberOfCard2) || ''}</td>
-                                                        <td style={Td}>{parseFloat(totalCardFaceValue1) + parseFloat(totalCardFaceValue2) || ''}</td>
+                                                        <td style={Td}>{parseInt(totalNumberOfCard1) + parseInt(totalNumberOfCard2) || ''}</td>
+                                                        <td style={Td}>{parseInt(totalCardFaceValue1) + parseInt(totalCardFaceValue2) || ''}</td>
                                                     </tr>
                                                     <tr>
                                                         <td>50円以上</td>
-                                                        <td style={Td}>{parseFloat(totalNumberOfCard1) || ''}</td>
-                                                        <td style={Td}>{parseFloat(totalCardFaceValue1) || ''}</td>
+                                                        <td style={Td}>{parseInt(totalNumberOfCard1) || ''}</td>
+                                                        <td style={Td}>{parseInt(totalCardFaceValue1) || ''}</td>
                                                     </tr>
                                                     <tr>
                                                         <td>50円未満</td>
-                                                        <td style={Td}>{parseFloat(totalNumberOfCard2) || ''}</td>
-                                                        <td style={Td}>{parseFloat(totalCardFaceValue2) || ''}</td>
+                                                        <td style={Td}>{parseInt(totalNumberOfCard2) || ''}</td>
+                                                        <td style={Td}>{parseInt(totalCardFaceValue2) || ''}</td>
                                                     </tr>
                                                 </tbody>
                                             </table>

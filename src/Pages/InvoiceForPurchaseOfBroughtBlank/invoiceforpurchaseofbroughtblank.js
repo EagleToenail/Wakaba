@@ -796,7 +796,7 @@ const InvoicePurchaseOfBroughtBlank = () => {
 
     // Calculate total price
     const calculateTotalPrice = () => {
-        const total = totalSalesSlipData.reduce((sum, item) => parseFloat(sum) + (parseFloat(parseFloat(item.purchase_price) * parseFloat(item.quantity)) || 0), 0);
+        const total = totalSalesSlipData.reduce((sum, item) => parseInt(sum) + (parseInt(parseInt(item.purchase_price) * parseInt(item.quantity)) || 0), 0);
         setTotalPrice(total);
     };
     //get total quantity and price

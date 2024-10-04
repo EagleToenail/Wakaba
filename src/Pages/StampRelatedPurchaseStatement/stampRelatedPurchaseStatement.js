@@ -112,7 +112,7 @@ const StampRelatedPurchaseStatement = () => {
         // Calculate product when sheetValue and numberOfSides are both filled
         const { stampValue, numberOfSides } = newSheetRow;
         if (stampValue && numberOfSides) {
-            const calculatedProduct = Number(stampValue) * Number(numberOfSides);
+            const calculatedProduct = parseInt(stampValue) * parseInt(numberOfSides);
             setNewSheetRow((prev) => ({ ...prev, sheetValue: calculatedProduct }));
             // console.log('multiply', calculatedProduct)
         } else {
@@ -213,9 +213,9 @@ const StampRelatedPurchaseStatement = () => {
         const { sheetValue } = editedSheetRow;
         // console.log('shetValue',sheetValue)
         if (sheetValue) {
-            const calculatedProduct = Number(sheetValue) * Number(numberofsheets);
+            const calculatedProduct = parseInt(sheetValue) * parseInt(numberofsheets);
             setEditedSheetRow((prev) => ({ ...prev, totalFaceValue: calculatedProduct }));
-            const caluclatePruchase =  (Number(calculatedProduct) * (1 - Number(stampRate[0].percent)/100)).toFixed(2);
+            const caluclatePruchase =  (parseInt(calculatedProduct) * (1 - parseInt(stampRate[0].percent)/100));
             setEditedSheetRow((prev) => ({ ...prev, purchasePrice: caluclatePruchase }));
             // console.log('multiply---------', calculatedProduct,caluclatePruchase)              
         } else {
@@ -227,14 +227,14 @@ const StampRelatedPurchaseStatement = () => {
             // Calculate the sum
             const totalnumberofsheet1 = sheetRows.reduce((sum, item) => {
                 if (item.stampValue >= 50) { 
-                    return parseFloat(sum) + parseFloat(item.numberOfSheets);
+                    return parseInt(sum) + parseInt(item.numberOfSheets);
                 }
                 return sum; 
             }, 0);
             setTotalNumberofSheet1(totalnumberofsheet1);
             const totalnumberofsheet2 = sheetRows.reduce((sum, item) => {
                 if (item.stampValue < 50) { 
-                    return parseFloat(sum) + parseFloat(item.numberOfSheets);
+                    return parseInt(sum) + parseInt(item.numberOfSheets);
                 }
                 return sum; 
             }, 0);
@@ -242,28 +242,28 @@ const StampRelatedPurchaseStatement = () => {
             setTotalNumberofSheet2(totalnumberofsheet2);
             const facevalue1 = sheetRows.reduce((sum, item) => {
                 if (item.stampValue >= 50) { 
-                    return parseFloat(sum) + parseFloat(item.totalFaceValue);
+                    return parseInt(sum) + parseInt(item.totalFaceValue);
                 }
                 return sum; 
             }, 0);
             setFaceValue1(facevalue1);
             const facevalue2 = sheetRows.reduce((sum, item) => {
                 if (item.stampValue < 50) { 
-                    return parseFloat(sum) + parseFloat(item.totalFaceValue);
+                    return parseInt(sum) + parseInt(item.totalFaceValue);
                 }
                 return sum; 
             }, 0);
             setFacevalue2(facevalue2);
             const purchaseprice1 = sheetRows.reduce((sum, item) => {
                 if (item.stampValue >= 50) { 
-                    return parseFloat(sum) + parseFloat(item.purchasePrice);
+                    return parseInt(sum) + parseInt(item.purchasePrice);
                 }
                 return sum; 
             }, 0);
             setTotalPurchaseOfSheet1(purchaseprice1);
             const purchaseprice2 = sheetRows.reduce((sum, item) => {
                 if (item.stampValue < 50) { 
-                    return parseFloat(sum) + parseFloat(item.purchasePrice);
+                    return parseInt(sum) + parseInt(item.purchasePrice);
                 }
                 return sum; 
             }, 0);
@@ -404,9 +404,9 @@ const StampRelatedPurchaseStatement = () => {
         const { stampValue } = editedRoseRow;
         // console.log('shetValue',sheetValue)
         if (stampValue) {
-            const calculatedProduct = Number(stampValue) * Number(numberofsheets);
+            const calculatedProduct = parseInt(stampValue) * parseInt(numberofsheets);
             setEditedRoseRow((prev) => ({ ...prev, totalFaceValue: calculatedProduct }));
-            const caluclatePruchase =  (Number(calculatedProduct) * (1 - Number(stampRate[2].percent)/100)).toFixed(2);
+            const caluclatePruchase =  (parseInt(calculatedProduct) * (1 - parseInt(stampRate[2].percent)/100));
             setEditedRoseRow((prev) => ({ ...prev, purchasePrice: caluclatePruchase }));
             // console.log('multiply---------', calculatedProduct,caluclatePruchase)              
         } else {
@@ -418,42 +418,42 @@ const StampRelatedPurchaseStatement = () => {
             // Calculate the sum
             const totalnumberofrose1 = roseRows.reduce((sum, item) => {
                 if (item.stampValue >= 50) { 
-                    return parseFloat(sum) + parseFloat(item.numberOfSheets);
+                    return parseInt(sum) + parseInt(item.numberOfSheets);
                 }
                 return sum; 
             }, 0);
             setTotalNumberofRose1(totalnumberofrose1);
             const totalnumberofrose2 = roseRows.reduce((sum, item) => {
                 if (item.stampValue < 50) { 
-                    return parseFloat(sum) + parseFloat(item.numberOfSheets);
+                    return parseInt(sum) + parseInt(item.numberOfSheets);
                 }
                 return sum; 
             }, 0);
             setTotalNumberofRose2(totalnumberofrose2);
             const rosefacevalue1 = roseRows.reduce((sum, item) => {
                 if (item.stampValue >= 50) { 
-                    return parseFloat(sum) + parseFloat(item.totalFaceValue);
+                    return parseInt(sum) + parseInt(item.totalFaceValue);
                 }
                 return sum; 
             }, 0);
             setRoseFaceValue1(rosefacevalue1);
             const rosefacevalue2 = roseRows.reduce((sum, item) => {
                 if (item.stampValue < 50) { 
-                    return parseFloat(sum) + parseFloat(item.totalFaceValue);
+                    return parseInt(sum) + parseInt(item.totalFaceValue);
                 }
                 return sum; 
             }, 0);
             setRoseFacevalue2(rosefacevalue2);
             const rosepurchaseprice1 = roseRows.reduce((sum, item) => {
                 if (item.stampValue >= 50) { 
-                    return parseFloat(sum) + parseFloat(item.purchasePrice);
+                    return parseInt(sum) + parseInt(item.purchasePrice);
                 }
                 return sum; 
             }, 0);
             setTotalPurchaseOfRose1(rosepurchaseprice1);
             const rosepurchaseprice2 = roseRows.reduce((sum, item) => {
                 if (item.stampValue < 50) { 
-                    return parseFloat(sum) + parseFloat(item.purchasePrice);
+                    return parseInt(sum) + parseInt(item.purchasePrice);
                 }
                 return sum; 
             }, 0);
@@ -600,9 +600,9 @@ const StampRelatedPurchaseStatement = () => {
         const { stampValue } = editedPackRow;
         // console.log('shetValue',sheetValue)
         if (stampValue) {
-            const calculatedProduct = Number(stampValue) * Number(numberofsheets);
+            const calculatedProduct = parseInt(stampValue) * parseInt(numberofsheets);
             setEditedPackRow((prev) => ({ ...prev, totalFaceValue: calculatedProduct }));
-            const caluclatePruchase =  (Number(calculatedProduct) * (1 - Number(stampRate[2].percent)/100)).toFixed(2);
+            const caluclatePruchase =  (parseInt(calculatedProduct) * (1 - parseInt(stampRate[2].percent)/100));
             setEditedPackRow((prev) => ({ ...prev, purchasePrice: caluclatePruchase }));
             // console.log('multiply---------', calculatedProduct,caluclatePruchase)              
         } else {
@@ -614,42 +614,42 @@ const StampRelatedPurchaseStatement = () => {
             // Calculate the sum
             const totalnumberofpack1 = packRows.reduce((sum, item) => {
                 if (item.stampValue >= 50) { 
-                    return parseFloat(sum) + parseFloat(item.numberOfSheets);
+                    return parseInt(sum) + parseInt(item.numberOfSheets);
                 }
                 return sum; 
             }, 0);
             setTotalNumberofPack1(totalnumberofpack1);
             const totalnumberofpack2 = packRows.reduce((sum, item) => {
                 if (item.stampValue < 50) { 
-                    return parseFloat(sum) + parseFloat(item.numberOfSheets);
+                    return parseInt(sum) + parseInt(item.numberOfSheets);
                 }
                 return sum; 
             }, 0);
             setTotalNumberofPack2(totalnumberofpack2);
             const packfacevalue1 = packRows.reduce((sum, item) => {
                 if (item.stampValue >= 50) { 
-                    return parseFloat(sum) + parseFloat(item.totalFaceValue);
+                    return parseInt(sum) + parseInt(item.totalFaceValue);
                 }
                 return sum; 
             }, 0);
             setPackFaceValue1(packfacevalue1);
             const packfacevalue2 = packRows.reduce((sum, item) => {
                 if (item.stampValue < 50) { 
-                    return parseFloat(sum) + parseFloat(item.totalFaceValue);
+                    return parseInt(sum) + parseInt(item.totalFaceValue);
                 }
                 return sum; 
             }, 0);
             setPackFacevalue2(packfacevalue2);
             const packpurchaseprice1 = packRows.reduce((sum, item) => {
                 if (item.stampValue >= 50) { 
-                    return parseFloat(sum) + parseFloat(item.purchasePrice);
+                    return parseInt(sum) + parseInt(item.purchasePrice);
                 }
                 return sum; 
             }, 0);
             setTotalPurchaseOfPack1(packpurchaseprice1);
             const packpurchaseprice2 = packRows.reduce((sum, item) => {
                 if (item.stampValue < 50) { 
-                    return parseFloat(sum) + parseFloat(item.purchasePrice);
+                    return parseInt(sum) + parseInt(item.purchasePrice);
                 }
                 return sum; 
             }, 0);
@@ -790,9 +790,9 @@ const StampRelatedPurchaseStatement = () => {
         const { stampValue } = editedCardRow;
         // console.log('shetValue',sheetValue)
         if (stampValue) {
-            const calculatedProduct = Number(stampValue) * Number(numberofsheets);
+            const calculatedProduct = parseInt(stampValue) * parseInt(numberofsheets);
             setEditedCardRow((prev) => ({ ...prev, totalFaceValue: calculatedProduct }));
-            const caluclatePruchase =  (Number(calculatedProduct) * (1 - Number(stampRate[3].percent)/100)).toFixed(2);
+            const caluclatePruchase =  (parseInt(calculatedProduct) * (1 - parseInt(stampRate[3].percent)/100));
             setEditedCardRow((prev) => ({ ...prev, purchasePrice: caluclatePruchase }));
             // console.log('multiply---------', calculatedProduct,caluclatePruchase)              
         } else {
@@ -804,42 +804,42 @@ const StampRelatedPurchaseStatement = () => {
                 // Calculate the sum
                 const totalnumberofcard1 = cardRows.reduce((sum, item) => {
                     if (item.stampValue >= 50) { 
-                        return parseFloat(sum) + parseFloat(item.numberOfSheets);
+                        return parseInt(sum) + parseInt(item.numberOfSheets);
                     }
                     return sum; 
                 }, 0);
                 setTotalNumberofCard1(totalnumberofcard1);
                 const totalnumberofcard2 = cardRows.reduce((sum, item) => {
                     if (item.stampValue < 50) { 
-                        return parseFloat(sum) + parseFloat(item.numberOfSheets);
+                        return parseInt(sum) + parseInt(item.numberOfSheets);
                     }
                     return sum; 
                 }, 0);
                 setTotalNumberofCard2(totalnumberofcard2);
                 const cardfacevalue1 = cardRows.reduce((sum, item) => {
                     if (item.stampValue >= 50) { 
-                        return parseFloat(sum) + parseFloat(item.totalFaceValue);
+                        return parseInt(sum) + parseInt(item.totalFaceValue);
                     }
                     return sum; 
                 }, 0);
                 setCardFaceValue1(cardfacevalue1);
                 const cardfacevalue2 = cardRows.reduce((sum, item) => {
                     if (item.stampValue < 50) { 
-                        return parseFloat(sum) + parseFloat(item.totalFaceValue);
+                        return parseInt(sum) + parseInt(item.totalFaceValue);
                     }
                     return sum; 
                 }, 0);
                 setCardFacevalue2(cardfacevalue2);
                 const cardpurchaseprice1 = cardRows.reduce((sum, item) => {
                     if (item.stampValue >= 50) { 
-                        return parseFloat(sum) + parseFloat(item.purchasePrice);
+                        return parseInt(sum) + parseInt(item.purchasePrice);
                     }
                     return sum; 
                 }, 0);
                 setTotalPurchaseOfCard1(cardpurchaseprice1);
                 const cardpurchaseprice2 = cardRows.reduce((sum, item) => {
                     if (item.stampValue < 50) { 
-                        return parseFloat(sum) + parseFloat(item.purchasePrice);
+                        return parseInt(sum) + parseInt(item.purchasePrice);
                     }
                     return sum; 
                 }, 0);
@@ -853,20 +853,20 @@ const StampRelatedPurchaseStatement = () => {
     const [totalStampFaceValue, setTotalStampFaceValue] = useState('');
     const [totalStampPurchasePrice, setTotalStampPurchasePrice] = useState('');
     const calculateTotalResult =()=>{
-        setTotalNumberOfStamp(Number(totalNumberOfSheet1) + Number(totalNumberOfSheet2) 
-         +Number(totalNumberOfRose1) + Number(totalNumberOfRose2)
-         +Number(totalNumberOfPack1) + Number(totalNumberOfPack2)
-         +Number(totalNumberOfCard1) + Number(totalNumberOfCard2)
+        setTotalNumberOfStamp(parseInt(totalNumberOfSheet1) + parseInt(totalNumberOfSheet2) 
+         +parseInt(totalNumberOfRose1) + parseInt(totalNumberOfRose2)
+         +parseInt(totalNumberOfPack1) + parseInt(totalNumberOfPack2)
+         +parseInt(totalNumberOfCard1) + parseInt(totalNumberOfCard2)
         );
-        setTotalStampFaceValue(Number(totalFaceValue1) + Number(totalFaceValue2) 
-         +Number(totalRoseFaceValue1) + Number(totalRoseFaceValue2)
-         +Number(totalPackFaceValue1) + Number(totalPackFaceValue2)
-         +Number(totalCardFaceValue1) + Number(totalCardFaceValue2)
+        setTotalStampFaceValue(parseInt(totalFaceValue1) + parseInt(totalFaceValue2) 
+         +parseInt(totalRoseFaceValue1) + parseInt(totalRoseFaceValue2)
+         +parseInt(totalPackFaceValue1) + parseInt(totalPackFaceValue2)
+         +parseInt(totalCardFaceValue1) + parseInt(totalCardFaceValue2)
         );
-        setTotalStampPurchasePrice((Number(totalPurchaseOfSheet1) + Number(totalPurchaseOfSheet2) 
-         +Number(totalPurchaseOfRose1) + Number(totalPurchaseOfRose2)
-         +Number(totalPurchaseOfPack1) + Number(totalPurchaseOfPack2)
-         +Number(totalPurchaseOfCard1) + Number(totalPurchaseOfCard2)).toFixed(2)
+        setTotalStampPurchasePrice((parseInt(totalPurchaseOfSheet1) + parseInt(totalPurchaseOfSheet2) 
+         +parseInt(totalPurchaseOfRose1) + parseInt(totalPurchaseOfRose2)
+         +parseInt(totalPurchaseOfPack1) + parseInt(totalPurchaseOfPack2)
+         +parseInt(totalPurchaseOfCard1) + parseInt(totalPurchaseOfCard2))
         );
     }
     useEffect(() => {
@@ -1014,21 +1014,21 @@ const StampRelatedPurchaseStatement = () => {
                                         <tbody>
                                             <tr>
                                                 <td>下記合計</td>
-                                                <td style={Td}>{parseFloat(totalNumberOfSheet1) + parseFloat(totalNumberOfSheet2) || ''}</td>
-                                                <td style={Td}>{parseFloat(totalFaceValue1) + parseFloat(totalFaceValue2) || ''}</td>
-                                                <td style={Td}>{parseFloat(totalPurchaseOfSheet1) + parseFloat(totalPurchaseOfSheet2) || ''}</td>
+                                                <td style={Td}>{parseInt(totalNumberOfSheet1) + parseInt(totalNumberOfSheet2) || ''}</td>
+                                                <td style={Td}>{parseInt(totalFaceValue1) + parseInt(totalFaceValue2) || ''}</td>
+                                                <td style={Td}>{parseInt(totalPurchaseOfSheet1) + parseInt(totalPurchaseOfSheet2) || ''}</td>
                                             </tr>
                                             <tr>
                                                 <td>50円以上</td>
-                                                <td style={Td}>{parseFloat(totalNumberOfSheet1) || ''}</td>
-                                                <td style={Td}>{parseFloat(totalFaceValue1) || ''}</td>
-                                                <td style={Td}>{parseFloat(totalPurchaseOfSheet1) || ''}</td>
+                                                <td style={Td}>{parseInt(totalNumberOfSheet1) || ''}</td>
+                                                <td style={Td}>{parseInt(totalFaceValue1) || ''}</td>
+                                                <td style={Td}>{parseInt(totalPurchaseOfSheet1) || ''}</td>
                                             </tr>
                                             <tr>
                                                 <td>50円未満</td>
-                                                <td style={Td}>{parseFloat(totalNumberOfSheet2) || ''}</td>
-                                                <td style={Td}>{parseFloat(totalFaceValue2) || ''}</td>
-                                                <td style={Td}>{parseFloat(totalPurchaseOfSheet2) || ''}</td>
+                                                <td style={Td}>{parseInt(totalNumberOfSheet2) || ''}</td>
+                                                <td style={Td}>{parseInt(totalFaceValue2) || ''}</td>
+                                                <td style={Td}>{parseInt(totalPurchaseOfSheet2) || ''}</td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -1232,21 +1232,21 @@ const StampRelatedPurchaseStatement = () => {
                                         <tbody>
                                             <tr>
                                                 <td>下記合計</td>
-                                                <td style={Td}>{parseFloat(totalNumberOfRose1) + parseFloat(totalNumberOfRose2) || ''}</td>
-                                                <td style={Td}>{parseFloat(totalRoseFaceValue1) + parseFloat(totalRoseFaceValue2) || ''}</td>
-                                                <td style={Td}>{parseFloat(totalPurchaseOfRose1) + parseFloat(totalPurchaseOfRose2) || ''}</td>
+                                                <td style={Td}>{parseInt(totalNumberOfRose1) + parseInt(totalNumberOfRose2) || ''}</td>
+                                                <td style={Td}>{parseInt(totalRoseFaceValue1) + parseInt(totalRoseFaceValue2) || ''}</td>
+                                                <td style={Td}>{parseInt(totalPurchaseOfRose1) + parseInt(totalPurchaseOfRose2) || ''}</td>
                                             </tr>
                                             <tr>
                                                 <td>50円以上</td>
-                                                <td style={Td}>{parseFloat(totalNumberOfRose1) || ''}</td>
-                                                <td style={Td}>{parseFloat(totalRoseFaceValue1) || ''}</td>
-                                                <td style={Td}>{parseFloat(totalPurchaseOfRose1) || ''}</td>
+                                                <td style={Td}>{parseInt(totalNumberOfRose1) || ''}</td>
+                                                <td style={Td}>{parseInt(totalRoseFaceValue1) || ''}</td>
+                                                <td style={Td}>{parseInt(totalPurchaseOfRose1) || ''}</td>
                                             </tr>
                                             <tr>
                                                 <td>50円未満</td>
-                                                <td style={Td}>{parseFloat(totalNumberOfRose2) || ''}</td>
-                                                <td style={Td}>{parseFloat(totalRoseFaceValue2) || ''}</td>
-                                                <td style={Td}>{parseFloat(totalPurchaseOfRose2) || ''}</td>
+                                                <td style={Td}>{parseInt(totalNumberOfRose2) || ''}</td>
+                                                <td style={Td}>{parseInt(totalRoseFaceValue2) || ''}</td>
+                                                <td style={Td}>{parseInt(totalPurchaseOfRose2) || ''}</td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -1419,9 +1419,9 @@ const StampRelatedPurchaseStatement = () => {
                                             <tbody>
                                                 <tr>
                                                     <td>下記合計</td>
-                                                    <td style={Td}>{parseFloat(totalNumberOfPack1) + parseFloat(totalNumberOfPack2) || ''}</td>
-                                                    <td style={Td}>{parseFloat(totalPackFaceValue1) + parseFloat(totalPackFaceValue2) || ''}</td>
-                                                    <td style={Td}>{parseFloat(totalPurchaseOfPack1) + parseFloat(totalPurchaseOfPack2) || ''}</td>
+                                                    <td style={Td}>{parseInt(totalNumberOfPack1) + parseInt(totalNumberOfPack2) || ''}</td>
+                                                    <td style={Td}>{parseInt(totalPackFaceValue1) + parseInt(totalPackFaceValue2) || ''}</td>
+                                                    <td style={Td}>{parseInt(totalPurchaseOfPack1) + parseInt(totalPurchaseOfPack2) || ''}</td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -1612,21 +1612,21 @@ const StampRelatedPurchaseStatement = () => {
                                                 <tbody>
                                                     <tr>
                                                         <td>下記合計</td>
-                                                        <td style={Td}>{parseFloat(totalNumberOfCard1) + parseFloat(totalNumberOfCard2) || ''}</td>
-                                                        <td style={Td}>{parseFloat(totalCardFaceValue1) + parseFloat(totalCardFaceValue2) || ''}</td>
-                                                        <td style={Td}>{parseFloat(totalPurchaseOfCard1) + parseFloat(totalPurchaseOfCard2) || ''}</td>
+                                                        <td style={Td}>{parseInt(totalNumberOfCard1) + parseInt(totalNumberOfCard2) || ''}</td>
+                                                        <td style={Td}>{parseInt(totalCardFaceValue1) + parseInt(totalCardFaceValue2) || ''}</td>
+                                                        <td style={Td}>{parseInt(totalPurchaseOfCard1) + parseInt(totalPurchaseOfCard2) || ''}</td>
                                                     </tr>
                                                     <tr>
                                                         <td>50円以上</td>
-                                                        <td style={Td}>{parseFloat(totalNumberOfCard1) || ''}</td>
-                                                        <td style={Td}>{parseFloat(totalCardFaceValue1) || ''}</td>
-                                                        <td style={Td}>{parseFloat(totalPurchaseOfCard1) || ''}</td>
+                                                        <td style={Td}>{parseInt(totalNumberOfCard1) || ''}</td>
+                                                        <td style={Td}>{parseInt(totalCardFaceValue1) || ''}</td>
+                                                        <td style={Td}>{parseInt(totalPurchaseOfCard1) || ''}</td>
                                                     </tr>
                                                     <tr>
                                                         <td>50円未満</td>
-                                                        <td style={Td}>{parseFloat(totalNumberOfCard2) || ''}</td>
-                                                        <td style={Td}>{parseFloat(totalCardFaceValue2) || ''}</td>
-                                                        <td style={Td}>{parseFloat(totalPurchaseOfCard2) || ''}</td>
+                                                        <td style={Td}>{parseInt(totalNumberOfCard2) || ''}</td>
+                                                        <td style={Td}>{parseInt(totalCardFaceValue2) || ''}</td>
+                                                        <td style={Td}>{parseInt(totalPurchaseOfCard2) || ''}</td>
                                                     </tr>
                                                 </tbody>
                                             </table>

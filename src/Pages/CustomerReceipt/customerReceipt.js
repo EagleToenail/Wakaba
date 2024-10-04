@@ -5,7 +5,11 @@ import '../../Assets/css/showtable.css';
 import axios from 'axios';
 import ButtonComponent from '../../Components/Common/ButtonComponent';
 import DateAndTime from '../../Components/Common/PickData';
-import { useSelector } from 'react-redux';
+import dateimage from '../../Assets/img/datepicker.png';
+import html2canvas from 'html2canvas';
+import { jsPDF } from 'jspdf';
+import {useDispatch, useSelector } from 'react-redux';
+import { setClearData } from '../../redux/sales/actions';
 
 
 const CustomerReceipt = () => {
@@ -31,6 +35,7 @@ const CustomerReceipt = () => {
     const navigate = useNavigate();
     const data = useSelector(state => state.data);
     const purchaseData = data.data;
+    const customerId = purchaseData.id;
 
     const [customer, setCustomer] = useState([]);
 
@@ -74,12 +79,74 @@ const CustomerReceipt = () => {
   };
 
   // Extract the date parts
-  const { year, month, day } = extractDateParts(purchaseData.deadline);
+  const [timeline, setTimeline] = useState('');
+
+  const handleDateChange = (event) => {
+      setTimeline(event.target.value); // Update the date state with the selected date
+
+  };
+  const { year, month, day } = extractDateParts(timeline);
+
+
+    //create pdf
+    const handleSavePageAsPDF = async (e) => {
+    const element = document.getElementById('purchaserecipt');
+    if (!element) {
+        console.error('Element not found');
+        return;
+    }
+
+    try {
+        // Capture the content of the element
+        const canvas = await html2canvas(element, {
+            scale: 2, // Higher scale for better resolution
+            useCORS: true // Handle CORS for external resources
+        });
+
+        const imgData = canvas.toDataURL('image/png');
+
+        // Create a PDF with dimensions matching the captured image
+        const imgWidth = canvas.width * 0.75 / 96 * 25.4; // Convert pixels to mm
+        const imgHeight = canvas.height * 0.75 / 96 * 25.4; // Convert pixels to mm
+
+        // Create a new jsPDF instance
+        const pdf = new jsPDF({
+            orientation: imgWidth > imgHeight ? 'l' : 'p', // Landscape or Portrait
+            unit: 'mm',
+            format: [imgWidth, imgHeight] // Set PDF format to the dimensions of the captured content
+        });
+
+        // Add image to PDF
+        pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
+
+        // Save the PDF to the user's device
+        const pdfBlob = pdf.output('blob');
+        const url = URL.createObjectURL(pdfBlob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'page-content.pdf';
+        link.click();
+        URL.revokeObjectURL(url);
+
+    } catch (error) {
+        console.error('Error generating PDF:', error);
+    }
+    };
+    //---------------------
+    const dispatch = useDispatch();
+    const clearReduxData = () => {
+        dispatch(setClearData());
+    }
+    const clickConfirm = () => {
+        handleSavePageAsPDF();
+        clearReduxData();
+        navigate(`/invoiceforpurchaseofbrought/${customerId}`);
+    }
 
     return (
         <>
             {/* <Titlebar title={title} /> */}
-            <div className=" flex flex-col items-center justify-center py-3 px-4">
+            <div id='purchaserecipt' className=" flex flex-col items-center justify-center py-3 px-4">
                 <div className="w-full " style={{ maxWidth: '90em' }}>
                     <div className='customer-receipt flex justify-around mt-5 '>
                         <div className='flex mt-5' style={{ visibility: 'hidden' }}>
@@ -88,7 +155,7 @@ const CustomerReceipt = () => {
                         </div>
                         <h2 className="mt-5 text-[#70685a] text-center text-2xl font-bold flex justify-center">お客様   預かり証   印 刷確認画面</h2>
                         <div className='flex justify-center mt-5'>
-                            <ButtonComponent children={'印刷'} className='h-11 py-2' />
+                            <ButtonComponent onClick={clickConfirm} children={'印刷'} className='h-11 py-2' />
                         </div>
                     </div>
                     {/*  */}
@@ -128,8 +195,8 @@ const CustomerReceipt = () => {
                         </div>
                     </div>
                     {/*  */}
-                    <div className='customer-receipt-three flex'>
-                        <div className='customer-receipt-four' style={{ width: '25%' }}>
+                    <div className='customer-receipt-three flex '>
+                        <div className='customer-receipt-four mt-5' style={{ width: '25%' }}>
                             <div className='flex justify-center text-[#70685a] ml-5'>
                                 <div className='flex jsutify-center'>
                                     <div className='text-right font-bold'>
@@ -151,12 +218,26 @@ const CustomerReceipt = () => {
                                 </div>
                             </div>
                         </div>
-                        <div className='customer-receipt-deadline' style={{ width: '50%' }}>
-                            <div className='flex justify-center pt-3 text-[#70685a] text-[20px] font-bold' >
+                        <div className='customer-receipt-deadline mt-5' style={{ width: '50%' }}>
+                            <div className='flex justify-center text-[#70685a] text-[20px] font-bold' >
                                 <div className='text-[#70685a]'>下記商品を、令和{year||''}年{month||''}月{day||''}日までお預かり致します</div>
                             </div>
                         </div>
-                        <div className='customer-receipt-two' style={{ width: '25%' }}></div>
+                        <div className='customer-receipt-two mt-5' style={{ width: '25%' }}>
+                            <div className='flex'>
+                                <div style={{ flexDirection: 'column', }} className='flex align-center justify-around'>
+                                    <input name="timeline" type="text" value={timeline || ''} required className="w-40 h-8 text-[#6e6e7c] border border-[#6e6e7c] text-[20px] px-4 py-1 outline-[#70685a]" readOnly />
+                                </div>
+                                <div style={{ flexDirection: 'column', }} className='flex flex-col justify-center pl-3'>
+                                    <div style={{ width: '40px', height: '30px', cursor: 'pointer' }}>
+                                        <div style={{ position: 'relative' }}>
+                                            <img src={dateimage} style={{ width: '40px', height: '30px', position: 'absolute', cursor: 'pointer' }} alt='calendar'></img>
+                                            <input type="date" name="timeline" onChange={handleDateChange} style={{ position: 'absolute', left: '0', width: '40px', height: '30px', background: 'transparent', border: 'none', opacity: '0', cursor: 'pointer' }} />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     {/*  Tabe*/}
                     <div className=' pb-20 flex justify-center mt-10' >
@@ -170,7 +251,7 @@ const CustomerReceipt = () => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {purchaseData.totalSalesSlipData.map((data,Index)=>(
+                                    {purchaseData.totalSalesSlipData?.length >0 && purchaseData.totalSalesSlipData.map((data,Index)=>(
                                         <tr key={Index}>
                                             <td>{Index+1}.</td>
                                             <td style={Td}>{data.product}</td>

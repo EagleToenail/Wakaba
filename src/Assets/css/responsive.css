@@ -227,7 +227,9 @@
       width:100% !important;
     }
     .customer-receipt-two{
-      display: none !important;
+      display: flex !important;
+      justify-content: center;
+      width:100% !important;
     }
     .customer-receipt-three{
       display: block !important;

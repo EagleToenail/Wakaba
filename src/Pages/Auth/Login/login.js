@@ -60,7 +60,7 @@ const Login = () => {
 
         } catch (error) {
             console.error('There was an error!', error);
-            setError('リクエストの処理にエラーが発生しました。もう一度お試しください。');//There was an error processing your request. Please try again.
+            setError('無効なユーザー名またはパスワードです。再試行してください。');//There was an error processing your request. Please try again.
         }
     };
 
