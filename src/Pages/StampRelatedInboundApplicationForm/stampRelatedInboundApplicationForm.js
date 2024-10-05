@@ -1562,7 +1562,7 @@ const StampRelatedInventoryApplicationForm = () => {
                             </div>
                         </div>
                         {/* ------Letter pack----- */}
-                        <div className='stamp-related-inventory-list-one mt-10 w-fll mr-10'>
+                        <div className='stamp-related-inventory-list-one mt-10 w-full mr-10'>
                             {/* first */}
                             <div className='flex justify-center h-11'>
                                 <div className='flex'>

@@ -36,11 +36,11 @@ const CustomerReceipt = () => {
     const data = useSelector(state => state.data);
     const purchaseData = data.data;
     const customerId = purchaseData.id;
+    console.log('purchase data',purchaseData)
 
     const [customer, setCustomer] = useState([]);
 
     useEffect(() => {
-        const customerId = purchaseData.totalSalesSlipData[0].customer_id;
         // console.log('redux data', customerId)
         if(customerId !== '' && customerId !==null){
             const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
@@ -203,7 +203,7 @@ const CustomerReceipt = () => {
                                         <div>店舗名</div>
                                     </div>
                                     <div className='ml-5 text-left'>
-                                        <div>{purchaseData.totalSalesSlipData[0].store_name || ''}</div>
+                                        <div>{purchaseData.totalSalesSlipData?.lenght >0 && purchaseData.totalSalesSlipData[0].store_name || 'OOO'}</div>
                                     </div>
                                 </div>
                             </div>
@@ -220,7 +220,7 @@ const CustomerReceipt = () => {
                         </div>
                         <div className='customer-receipt-deadline mt-5' style={{ width: '50%' }}>
                             <div className='flex justify-center text-[#70685a] text-[20px] font-bold' >
-                                <div className='text-[#70685a]'>下記商品を、令和{year||''}年{month||''}月{day||''}日までお預かり致します</div>
+                                <div className='text-[#70685a]'>下記商品を、{year||''}年{month||''}月{day||''}日までお預かり致します</div>
                             </div>
                         </div>
                         <div className='customer-receipt-two mt-5' style={{ width: '25%' }}>
@@ -254,7 +254,7 @@ const CustomerReceipt = () => {
                                     {purchaseData.totalSalesSlipData?.length >0 && purchaseData.totalSalesSlipData.map((data,Index)=>(
                                         <tr key={Index}>
                                             <td>{Index+1}.</td>
-                                            <td style={Td}>{data.product}</td>
+                                            <td style={Td}>{data.product_name}</td>
                                             <td style={Td}>{data.quantity}</td>
                                         </tr>
                                     ))}

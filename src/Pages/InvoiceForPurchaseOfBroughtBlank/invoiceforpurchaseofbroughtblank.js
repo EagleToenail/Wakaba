@@ -59,10 +59,10 @@ const InvoicePurchaseOfBroughtBlank = () => {
         position: 'relative'
     };
 
-    const navigate = useNavigate();
+    const userStoreName = localStorage.getItem('storename');
+    const userId = localStorage.getItem('userId');
 
-    // Fetch customer data
-    const { id } = useParams();
+    const navigate = useNavigate();
 
     const now = new Date();
 
@@ -101,28 +101,6 @@ const InvoicePurchaseOfBroughtBlank = () => {
         cupon_item_number: '',
     });
 
-    //fetch customer data
-    useEffect(() => {
-
-        const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
-
-        if (!wakabaBaseUrl) {
-            throw new Error('API base URL is not defined');
-        }
-        if (id) {
-            axios.get(`${wakabaBaseUrl}/customer/getCustomerById/${id}`)
-                .then(response => {
-                    // console.log("customerdata", response.data)
-                    checkedFunction(response.data.item1, response.data.item2, response.data.item3, response.data.item4, response.data.item5)
-                    setCustomer(response.data);
-                })
-                .catch(error => {
-                    console.error("There was an error fetching the customer data!", error);
-                });
-        }
-
-    }, [id]);
-
     const handleCustomerChange = (e) => {
         setCustomer({
             ...customer,
@@ -130,36 +108,39 @@ const InvoicePurchaseOfBroughtBlank = () => {
         });
     };
     //fetch user(profile) data
+    const [childData, setChildData] = useState('0');//customerId important
 
-    const userId = localStorage.getItem('userId');
     const [userData, setUserData] = useState([]);
     useEffect(() => {
+         const fetchUserData = async() => {
+            const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
 
-        const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
-
-        if (!wakabaBaseUrl) {
-            throw new Error('API base URL is not defined');
-        }
-
-        axios.post(`${wakabaBaseUrl}/profile/getProfileById`, { userId })
-            .then(response => {
-                const user = response.data;
-                // console.log('user profile',user)
-                setUserData(response.data);
-                if (!response.data) {
-                    navigate('/');
-                }
-            })
-            .catch(error => {
-                console.error("There was an error fetching the customer data!", error);
-            });
+            if (!wakabaBaseUrl) {
+                throw new Error('API base URL is not defined');
+            }
+    
+            axios.post(`${wakabaBaseUrl}/profile/getProfileById`, { userId })
+                .then(response => {
+                    const user = response.data;
+                    // console.log('user profile',user)
+                    setUserData(response.data);
+                    if (!response.data) {
+                        navigate('/');
+                    }
+                })
+                .catch(error => {
+                    console.error("There was an error fetching the customer data!", error);
+                });
+         }
+            fetchUserData()
     }, [userId]);
     //salesSlipData
     const [salesSlipData, setSalesSlipData] = useState({
         trading_date: currentDay,
         number: '',
         purchase_staff: userData.fullname,
-        customer_id: id,
+        purchase_staff_id: userId,
+        customer_id: childData,
         store_name: userData.store_name,
         hearing: '',
         product_type_one: '',
@@ -269,7 +250,7 @@ const InvoicePurchaseOfBroughtBlank = () => {
             if (!wakabaBaseUrl) {
                 throw new Error('API base URL is not defined');
             }
-            axios.get(`${wakabaBaseUrl}/vendor/getVendorListAll`)
+            await axios.get(`${wakabaBaseUrl}/vendor/getVendorListAll`)
                 .then(response => {
                     setAllVendors(response.data);
                     // console.log('vendrListAll',response.data)
@@ -349,9 +330,11 @@ const InvoicePurchaseOfBroughtBlank = () => {
             console.log('purchase data', salesSlipData,estimateValues);
 
             const formData = new FormData();
+            formData.append('userStoreName', userStoreName);
             formData.append('trading_date', salesSlipData.trading_date);
             formData.append('number', salesSlipData.number);
             formData.append('purchase_staff', salesSlipData.purchase_staff);
+            formData.append('purchase_staff_id', salesSlipData.purchase_staff_id);
             formData.append('customer_id', salesSlipData.customer_id);
             formData.append('store_name', salesSlipData.store_name);
             formData.append('hearing', salesSlipData.hearing);
@@ -397,12 +380,13 @@ const InvoicePurchaseOfBroughtBlank = () => {
                     }
                     setShowInputPurchase(false);
                     setSalesSlipData({
-                        trading_date: salesSlipData.trading_date,
+                        trading_date: currentDay,
                         number: '',
-                        purchase_staff: salesSlipData.purchase_staff,
-                        customer_id: salesSlipData.customer_id,
-                        store_name: salesSlipData.store_name,
-                        hearing: salesSlipData.hearing,
+                        purchase_staff: userData.fullname,
+                        purchase_staff_id: userId,
+                        customer_id: childData,
+                        store_name: userData.store_name,
+                        hearing: '',
                         product_type_one: '',
                         product_type_two: '',
                         product_type_three: '',
@@ -440,7 +424,8 @@ const InvoicePurchaseOfBroughtBlank = () => {
                 trading_date: currentDay,
                 number: '',
                 purchase_staff: userData.fullname,
-                customer_id: id,
+                purchase_staff_id: userId,
+                customer_id: childData,
                 store_name: userData.store_name,
                 hearing: '',
                 product_type_one: '',
@@ -490,10 +475,12 @@ const InvoicePurchaseOfBroughtBlank = () => {
         // setTotalSalesSlipData(updatedData);
 
             const formData = new FormData();
+            formData.append('userStoreName', userStoreName);
             formData.append('id', salesSlipData.id);
             formData.append('trading_date', salesSlipData.trading_date);
             formData.append('number', salesSlipData.number);
             formData.append('purchase_staff', salesSlipData.purchase_staff);
+            formData.append('purchase_staff_id', salesSlipData.purchase_staff_id);
             formData.append('customer_id', salesSlipData.customer_id);
             formData.append('store_name', salesSlipData.store_name);
             formData.append('hearing', salesSlipData.hearing);
@@ -539,12 +526,13 @@ const InvoicePurchaseOfBroughtBlank = () => {
                         }
                         setShowInputPurchase(false);
                         setSalesSlipData({
-                            trading_date: salesSlipData.trading_date,
+                            trading_date: currentDay,
                             number: '',
-                            purchase_staff: salesSlipData.purchase_staff,
-                            customer_id: salesSlipData.customer_id,
-                            store_name: salesSlipData.store_name,
-                            hearing: salesSlipData.hearing,
+                            purchase_staff: userData.fullname,
+                            purchase_staff_id: userId,
+                            customer_id: childData,
+                            store_name: userData.store_name,
+                            hearing: '',
                             product_type_one: '',
                             product_type_two: '',
                             product_type_three: '',
@@ -585,12 +573,13 @@ const InvoicePurchaseOfBroughtBlank = () => {
         setShowInputPurchase(!showInputPurchase);
         setEditIndex(-1);
         setSalesSlipData({
-            trading_date: salesSlipData.trading_date,
+            trading_date: currentDay,
             number: '',
-            purchase_staff: salesSlipData.purchase_staff,
-            customer_id: salesSlipData.customer_id,
-            store_name: salesSlipData.store_name,
-            hearing: salesSlipData.hearing,
+            purchase_staff: userData.fullname,
+            purchase_staff_id: userId,
+            customer_id: childData,
+            store_name: userData.store_name,
+            hearing: '',
             product_type_one: '',
             product_type_two: '',
             product_type_three: '',
@@ -624,7 +613,7 @@ const InvoicePurchaseOfBroughtBlank = () => {
             if (!wakabaBaseUrl) {
                 throw new Error('API base URL is not defined');
             }
-            await axios.post(`${wakabaBaseUrl}/purchaseinvoice/delete`, {id:id})
+            await axios.post(`${wakabaBaseUrl}/purchaseinvoice/delete`, {id:id, userId:userId, userStoreName:userStoreName})
             .then(response => {
                 const invoiceData = response.data;
                 if(invoiceData?.length>0) {
@@ -636,12 +625,13 @@ const InvoicePurchaseOfBroughtBlank = () => {
                 }
                 setShowInputPurchase(false);
                 setSalesSlipData({
-                    trading_date: salesSlipData.trading_date,
+                    trading_date: currentDay,
                     number: '',
-                    purchase_staff: salesSlipData.purchase_staff,
-                    customer_id: salesSlipData.customer_id,
-                    store_name: salesSlipData.store_name,
-                    hearing: salesSlipData.hearing,
+                    purchase_staff: userData.fullname,
+                    purchase_staff_id: userId,
+                    customer_id: childData,
+                    store_name: userData.store_name,
+                    hearing: '',
                     product_type_one: '',
                     product_type_two: '',
                     product_type_three: '',
@@ -691,22 +681,24 @@ const InvoicePurchaseOfBroughtBlank = () => {
         dispatch(setClearData());
     }
     const [stamps, setStamps] = useState({});
-    useEffect(() => {
-        if (data.data !== 'Initial Data') {
-            setTotalSalesSlipData((prevSalesSlipDatas) => [...prevSalesSlipDatas, {
-                ...salesSlipData,
-                id: Date.now(), trading_date: new Date().toISOString().split('T')[0], purchase_staff: userData.username,
-                store_name: userData.store_name, customer_id: id, product_photo: '',
-                product_type_one: '切手', quantity: StampData.totalNumberOfStamp, purchase_price: StampData.totalStampPurchasePrice
-            }]);
-            setStamps(StampData);
-            // clearReduxData();
-        }
-    }, [data.data]);
+    // useEffect(() => {
+    //     if (data.data !== 'Initial Data') {
+    //         setTotalSalesSlipData((prevSalesSlipDatas) => [...prevSalesSlipDatas, {
+    //             ...salesSlipData,
+    //             id: Date.now(), trading_date: new Date().toISOString().split('T')[0], purchase_staff: userData.username,
+    //             purchase_staff_id: userId,store_name: userData.store_name, customer_id: childData, product_photo
+    //             : '',
+    //             product_type_one: '切手', quantity: StampData.totalNumberOfStamp, purchase_price: StampData.totalStampPurchasePrice
+    //         }]);
+    //         setStamps(StampData);
+    //         // clearReduxData();
+    //     }
+    // }, [data.data]);
     // console.log('stamp received data------------',StampData)
     // console.log('stamp received data2',data.data)
     // send data
     const sendPurchaseDataToReceipt = () => {
+        itemsSave();
         const numberOfInvoice = 1;
         const purchaseData = { deadline, numberOfInvoice, totalSalesSlipData };
         // console.log('send purchase data',purchaseData,id);
@@ -716,6 +708,7 @@ const InvoicePurchaseOfBroughtBlank = () => {
     }
     const sendPurchaseData = () => {
         if (childData) {
+            itemsSave();
             const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
             if (!wakabaBaseUrl) {
                 throw new Error('API base URL is not defined');
@@ -724,9 +717,8 @@ const InvoicePurchaseOfBroughtBlank = () => {
             const numberOfInvoice = 1;
 
             if (totalSalesSlipData.length != 0 && totalSalesSlipData != null) {
-                itemsSave();
-                const purchaseData = {id,deadline, numberOfInvoice, totalSalesSlipData ,stamps};
-                console.log('send purchase data', purchaseData, id);
+                const purchaseData = {childData ,deadline, numberOfInvoice, totalSalesSlipData ,stamps};
+                console.log('send purchase data', purchaseData, childData);
                 updateData(purchaseData);// to sign page using redux
                 navigate('/purchaseinvoiceforbroughtinitems');
             }
@@ -816,7 +808,6 @@ const InvoicePurchaseOfBroughtBlank = () => {
 
         setTotalSalesSlipData(updatedData);
     }
-    const [childData, setChildData] = useState(null);//customerId
     // get customer id from childcomponent.
     const handleDataFromChild = (customerId) => {
         updatecustomerId(customerId);
@@ -829,13 +820,29 @@ const InvoicePurchaseOfBroughtBlank = () => {
         setIsExistCustomerModalOpen(false);
     }
 
-    const aaa = () => {
-        updatecustomerId(childData);
-    }
-
     //click all clear button
-    const allClear = () => {
+    //click all clear button
+    const allClear = async() => {
         setTotalSalesSlipData([]);
+        try {
+            const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+
+            if (!wakabaBaseUrl) {
+                throw new Error('API base URL is not defined');
+            }
+            const payload = totalSalesSlipData;
+            await axios.post(`${wakabaBaseUrl}/purchaseinvoice/alldelete`, {payload:payload})
+            .then(response => {
+                setShowInputPurchase(false);
+                setEstimateValues({});
+                setEditIndex(-1); // Exit edit mode
+            })
+            .catch(error => {
+                console.error("There was an error fetching the customer data!", error);
+            });
+        } catch (error) {
+            console.error('Error sending message:', error);
+        }
     }
 
 //-----------product comment related content
@@ -876,11 +883,63 @@ const InvoicePurchaseOfBroughtBlank = () => {
         }
     };
 
-    const handleCommentSave = () => {
-        const updatedData = totalSalesSlipData.map((row, index) =>
-            index === selectedProduct ? { ...row, ...editRow } : row
-        );
-        setTotalSalesSlipData(updatedData);
+    const handleCommentSave = async() => {
+        // const updatedData = totalSalesSlipData.map((row, index) =>
+        //     index === selectedProduct ? { ...row, ...editRow } : row
+        // );
+        // setTotalSalesSlipData(updatedData);
+        console.log('editRow',editRow)
+        try {
+            const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+
+            if (!wakabaBaseUrl) {
+                throw new Error('API base URL is not defined');
+            }
+            const payload = editRow;
+            await axios.post(`${wakabaBaseUrl}/purchaseinvoice/commentsave`, {userId:userId,payload:payload, userStoreName:userStoreName})
+            .then(response => {
+                setTotalSalesSlipData(response.data);
+                setSalesSlipData({
+                    trading_date: salesSlipData.trading_date,
+                    number: '',
+                    purchase_staff: salesSlipData.purchase_staff,
+                    purchase_staff_id: userId,
+                    customer_id: salesSlipData.customer_id,
+                    store_name: salesSlipData.store_name,
+                    hearing: salesSlipData.hearing,
+                    product_type_one: '',
+                    product_type_two: '',
+                    product_type_three: '',
+                    product_type_four: '',
+
+                    gold_type:'-',
+                    gross_weight:'-',
+    
+                    product_photo: '',
+                    product_name: '',
+                    comment: '',
+                    quantity: '0',
+                    reason_application: '',
+                    interest_rate: '0',
+                    product_price: '0',
+                    highest_estimate_vendor: '',
+                    highest_estimate_price: '0',
+                    number_of_vendor: '',
+                    supervisor_direction: '',
+                    purchase_result: '',
+                    purchase_price: '0',
+                    estimate_wholesaler:'',
+                });
+                setShowInputPurchase(false);
+                setEstimateValues({});
+                setEditIndex(-1); // Exit edit mode
+            })
+            .catch(error => {
+                console.error("There was an error fetching the customer data!", error);
+            });
+        } catch (error) {
+            console.error('Error sending message:', error);
+        }
         handleModalClose();
 
     };
@@ -993,13 +1052,13 @@ const InvoicePurchaseOfBroughtBlank = () => {
         });
     };
     //save function
-    const itemsSave = () => {
+    const itemsSave = async() => {
         const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
         if (!wakabaBaseUrl) {
             throw new Error('API base URL is not defined');
         }
 
-        axios.post(`${wakabaBaseUrl}/customer/updatecustomeritem`, customer)
+       await axios.post(`${wakabaBaseUrl}/customer/updatecustomeritem`, customer)
             .then(response => {
             })
             .catch(error => {
@@ -1007,6 +1066,12 @@ const InvoicePurchaseOfBroughtBlank = () => {
             });
     }
     //--------------------------------------------------------
+    //go to stamps related page #62(stamp related purchase statement)
+    const gotoStampsPurchase = () => {
+        sendCustomerId(childData);//send customerId
+        navigate('/stamprelatedpurchasestatement');
+    }
+
     return (<>
         {/* <Titlebar title={title} /> */}
         <div className="bg-[trasparent] font-[sans-serif] w-full">
@@ -1297,7 +1362,13 @@ const InvoicePurchaseOfBroughtBlank = () => {
                     </div>
                 </div>
             </div>
-            <div className='w-full flex justify-end mt-3'>
+            <div className='w-full flex justify-between mt-3'>
+                <div>
+                    <button type="button" onClick={gotoStampsPurchase}
+                        className="px-5 py-2.5 rounded-lg text-sm tracking-wider font-bold border border-[#70685a] outline-none bg-transparent hover:bg-[#524c3b] text-[#70685a] hover:text-white transition-all duration-300">
+                        切手
+                    </button>
+                </div>
                 <button type="button" onClick={() => allClear()}
                     className="px-5 py-2.5 rounded-lg text-sm tracking-wider font-medium border border-[#70685a] outline-none bg-transparent hover:bg-[#524c3b] text-[#70685a] hover:text-white transition-all duration-300">
                     すべてクリア

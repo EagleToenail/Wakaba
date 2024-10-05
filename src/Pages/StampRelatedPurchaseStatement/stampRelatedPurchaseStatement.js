@@ -215,7 +215,7 @@ const StampRelatedPurchaseStatement = () => {
         if (sheetValue) {
             const calculatedProduct = parseInt(sheetValue) * parseInt(numberofsheets);
             setEditedSheetRow((prev) => ({ ...prev, totalFaceValue: calculatedProduct }));
-            const caluclatePruchase =  (parseInt(calculatedProduct) * (1 - parseInt(stampRate[0].percent)/100));
+            const caluclatePruchase =  parseInt(parseInt(calculatedProduct) * (1 - (stampRate[0].percent)/100));
             setEditedSheetRow((prev) => ({ ...prev, purchasePrice: caluclatePruchase }));
             // console.log('multiply---------', calculatedProduct,caluclatePruchase)              
         } else {
@@ -406,7 +406,7 @@ const StampRelatedPurchaseStatement = () => {
         if (stampValue) {
             const calculatedProduct = parseInt(stampValue) * parseInt(numberofsheets);
             setEditedRoseRow((prev) => ({ ...prev, totalFaceValue: calculatedProduct }));
-            const caluclatePruchase =  (parseInt(calculatedProduct) * (1 - parseInt(stampRate[2].percent)/100));
+            const caluclatePruchase =  parseInt(parseInt(calculatedProduct) * (1 - parseInt(stampRate[2].percent)/100));
             setEditedRoseRow((prev) => ({ ...prev, purchasePrice: caluclatePruchase }));
             // console.log('multiply---------', calculatedProduct,caluclatePruchase)              
         } else {
@@ -602,7 +602,7 @@ const StampRelatedPurchaseStatement = () => {
         if (stampValue) {
             const calculatedProduct = parseInt(stampValue) * parseInt(numberofsheets);
             setEditedPackRow((prev) => ({ ...prev, totalFaceValue: calculatedProduct }));
-            const caluclatePruchase =  (parseInt(calculatedProduct) * (1 - parseInt(stampRate[2].percent)/100));
+            const caluclatePruchase =  parseInt(parseInt(calculatedProduct) * (1 - parseInt(stampRate[2].percent)/100));
             setEditedPackRow((prev) => ({ ...prev, purchasePrice: caluclatePruchase }));
             // console.log('multiply---------', calculatedProduct,caluclatePruchase)              
         } else {
@@ -792,7 +792,7 @@ const StampRelatedPurchaseStatement = () => {
         if (stampValue) {
             const calculatedProduct = parseInt(stampValue) * parseInt(numberofsheets);
             setEditedCardRow((prev) => ({ ...prev, totalFaceValue: calculatedProduct }));
-            const caluclatePruchase =  (parseInt(calculatedProduct) * (1 - parseInt(stampRate[3].percent)/100));
+            const caluclatePruchase =  parseInt(parseInt(calculatedProduct) * (1 - parseInt(stampRate[3].percent)/100));
             setEditedCardRow((prev) => ({ ...prev, purchasePrice: caluclatePruchase }));
             // console.log('multiply---------', calculatedProduct,caluclatePruchase)              
         } else {
@@ -924,8 +924,8 @@ const StampRelatedPurchaseStatement = () => {
     }
 //------------------------------------
     // return stamp inventory list page
-    const gotoStampRelatedInventory = () => {
-        navigate('/stamprelatedinventorylist');
+    const gotoInvoicePurchase = () => {
+        navigate(`/invoiceforpurchaseofbrought/${customerId}`);
     }
     // goto stamp purchase interest starage change
     const gotoStampPurchaseInterestChange = () => {
@@ -941,7 +941,7 @@ const StampRelatedPurchaseStatement = () => {
                     <h2 className="text-[#70685a] text-center text-2xl font-bold flex justify-center">日本の切手・ハガキ・レ夕一パック 買取計算書</h2>
                     <div className='stamp-purchase flex justify-evenly '>
                         <div className='w-full flex justify-center mt-5'>
-                            <button type="button" onClick={gotoStampRelatedInventory}
+                            <button type="button" onClick={gotoInvoicePurchase}
                                 className=" py-1 min-w-[160px] text-[#70685a] text-[15px] rounded-full font-bold outline-none border border-[#70685a] hover:bg-[#524c3b] hover:text-white transition-all duration-300">
                                 買取計算書へ戻る
                             </button>

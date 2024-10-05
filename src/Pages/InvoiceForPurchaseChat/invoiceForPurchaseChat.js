@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import InputComponent from '../../Components/Common/InputComponent';
 import LabelComponent from '../../Components/Common/LabelComponent';
-import TodoAccordion from '../../Components/TodoAccrodion';
+import InvoiceForPurchaseAccordion from '../../Components/InvoiceForPurchaseAccordion';
 import axios from 'axios';
 
 export default function InvoiceForPurchaseChat() {
@@ -246,7 +246,7 @@ export default function InvoiceForPurchaseChat() {
                     <div className='w-full'>
                         {/* received message */}
                         <div className='w-full h-[400px]'>
-                            <TodoAccordion onSendIdData={handleDataFromChildAccordion} messages={messages}/>
+                            <InvoiceForPurchaseAccordion onSendIdData={handleDataFromChildAccordion} messages={messages}/>
                         </div>
                     </div>
                     {/* new post */}

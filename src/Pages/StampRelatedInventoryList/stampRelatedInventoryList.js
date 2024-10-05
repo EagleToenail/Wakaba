@@ -42,6 +42,7 @@ const StampRelatedInventoryList = () => {
     dispatch(setOutboundStamp(data));
     };
 
+    const userRole = localStorage.getItem('role');
     //dynamic Table operation
     //------------Sheet---------------------------------
     const [sheetRows, setSheetRows] = useState([]);
@@ -1124,8 +1125,12 @@ const StampRelatedInventoryList = () => {
                                                     <th style={Th} className='pl-1 pr-1' >シート額面(￥)</th>
                                                     <th style={Th} className='pr-1'>シート数</th>
                                                     <th style={Th} >額面総額(￥)</th>
-                                                    <th style={Th}>{editSheetIndex === -1 ? '編集する' : 'セーブ'}</th>
+                                                    {userRole === '3' &&
+                                                        <th style={Th}>{editSheetIndex === -1 ? '編集する' : 'セーブ'}</th>
+                                                    }
+                                                    {userRole === '3' &&    
                                                     <th style={Th} className='whitespace-nowrap pl-3'>{editSheetIndex === -1 ? '削除' : '戻る'}</th>
+                                                    }
                                                 </tr>
                                             </thead>
                                             <tbody className='!h-8'>
@@ -1158,6 +1163,7 @@ const StampRelatedInventoryList = () => {
                                                                 <InputComponent disabled={true} name='totalFaceValue' value={editedSheetRow.totalFaceValue || ''} onChange={handleSheetInputChange} className='w-full h-8 text-[#70685a]' />
                                                             ) : (row.totalFaceValue || '')}
                                                         </td>
+                                                        {userRole === '3' &&
                                                         <td style={Td}>
                                                             {editSheetIndex === Index ? (
                                                                 <div>
@@ -1173,6 +1179,8 @@ const StampRelatedInventoryList = () => {
                                                                 </div>
                                                             )}
                                                         </td>
+                                                        }
+                                                        {userRole === '3' &&
                                                         <td style={Td}>
                                                             {editSheetIndex === Index ? (
                                                                 <div>
@@ -1188,6 +1196,7 @@ const StampRelatedInventoryList = () => {
                                                                 </div>
                                                             )}
                                                         </td>
+                                                        }               
                                                     </tr>
                                                 ))}
                                                 {inputSheetShow ?
@@ -1311,8 +1320,12 @@ const StampRelatedInventoryList = () => {
                                                     <th style={Th} className='pl-1 pr-1'>台紙額面</th>
                                                     <th style={Th} className='pr-1'>台紙数</th>
                                                     <th style={Th} >額面総額</th>
+                                                    {userRole === '3' &&  
                                                     <th style={Th}>{editPastingIndex === -1 ? '編集する' : 'セーブ'}</th>
+                                                    }                                                       
+                                                    {userRole === '3' &&  
                                                     <th style={Th} className='whitespace-nowrap pl-3'>{editPastingIndex === -1 ? '削除' : '戻る'}</th>
+                                                    }
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -1339,6 +1352,7 @@ const StampRelatedInventoryList = () => {
                                                                 <InputComponent disabled={true} name='totalFaceValue' value={editedPastingRow.totalFaceValue || ''} onChange={handlePastingInputChange} className='w-full h-8 text-[#70685a]' />
                                                             ) : (row.totalFaceValue || '')}
                                                         </td>
+                                                        {userRole === '3' &&  
                                                         <td style={Td}>
                                                             {editPastingIndex === Index ? (
                                                                 <div>
@@ -1354,6 +1368,8 @@ const StampRelatedInventoryList = () => {
                                                                 </div>
                                                             )}
                                                         </td>
+                                                        }
+                                                        {userRole === '3' &&  
                                                         <td style={Td}>
                                                             {editPastingIndex === Index ? (
                                                                 <div>
@@ -1369,6 +1385,7 @@ const StampRelatedInventoryList = () => {
                                                                 </div>
                                                             )}
                                                         </td>
+                                                        }
                                                     </tr>
                                                 ))}
                                                 {inputPastingShow ?
@@ -1483,8 +1500,12 @@ const StampRelatedInventoryList = () => {
                                                     <th style={Th}>切手1枚の額面(￥)</th>
                                                     <th style={Th}>枚数</th>
                                                     <th style={Th}>額面総額(￥)</th>
+                                                    {userRole === '3' &&  
                                                     <th style={Th}>{editRoseIndex === -1 ? '編集する' : 'セーブ'}</th>
+                                                    }
+                                                    {userRole === '3' &&  
                                                     <th style={Th} className='whitespace-nowrap pl-3'>{editRoseIndex === -1 ? '削除' : '戻る'}</th>
+                                                    }
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -1506,6 +1527,7 @@ const StampRelatedInventoryList = () => {
                                                                 <InputComponent disabled={true} name='totalFaceValue' value={editedRoseRow.totalFaceValue || ''} onChange={handleRoseInputChange} className='w-full h-8 text-[#70685a]' />
                                                             ) : (row.totalFaceValue || '')}
                                                         </td>
+                                                        {userRole === '3' &&  
                                                         <td style={Td}>
                                                             {editRoseIndex === Index ? (
                                                                 <div>
@@ -1521,6 +1543,8 @@ const StampRelatedInventoryList = () => {
                                                                 </div>
                                                             )}
                                                         </td>
+                                                        }
+                                                        {userRole === '3' &&  
                                                         <td style={Td}>
                                                             {editRoseIndex === Index ? (
                                                                 <div>
@@ -1536,6 +1560,7 @@ const StampRelatedInventoryList = () => {
                                                                 </div>
                                                             )}
                                                         </td>
+                                                        }
                                                     </tr>
                                                 ))}
                                                 {inputRoseShow ?
@@ -1589,7 +1614,7 @@ const StampRelatedInventoryList = () => {
                             </div>
                         </div>
                         {/* ------Letter pack----- */}
-                        <div className='stamp-related-inventory-list-one mt-10 w-fll mr-10'>
+                        <div className='stamp-related-inventory-list-one mt-10 w-full mr-10 '>
                             {/* first */}
                             <div className='flex justify-center h-11'>
                                 <div className='flex'>
@@ -1611,7 +1636,7 @@ const StampRelatedInventoryList = () => {
                                             </thead>
                                             <tbody>
                                                 <tr>
-                                                    <td>下記合計</td>
+                                                    <td className='whitespace-nowrap'>下記合計</td>
                                                     <td style={Td}>{parseInt(totalNumberOfPack1) + parseInt(totalNumberOfPack2) || ''}</td>
                                                     <td style={Td}>{parseInt(totalPackFaceValue1) + parseInt(totalPackFaceValue2) || ''}</td>
                                                 </tr>
@@ -1633,8 +1658,12 @@ const StampRelatedInventoryList = () => {
                                                     <th style={Th}>額面(￥)</th>
                                                     <th style={Th} >枚数</th>
                                                     <th style={Th}>額面総額(￥)</th>
+                                                    {userRole === '3' &&  
                                                     <th style={Th}>{editPackIndex === -1 ? '編集する' : 'セーブ'}</th>
+                                                    }
+                                                    {userRole === '3' &&  
                                                     <th style={Th} className='whitespace-nowrap pl-3'>{editPackIndex === -1 ? '削除' : '戻る'}</th>
+                                                    }       
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -1661,6 +1690,7 @@ const StampRelatedInventoryList = () => {
                                                                 <InputComponent disabled={true} name='totalFaceValue' value={editedPackRow.totalFaceValue || ''} onChange={handlePackInputChange} className='w-full h-8 text-[#70685a]' />
                                                             ) : (row.totalFaceValue || '')}
                                                         </td>
+                                                        {userRole === '3' &&  
                                                         <td style={Td}>
                                                             {editPackIndex === Index ? (
                                                                 <div>
@@ -1676,6 +1706,8 @@ const StampRelatedInventoryList = () => {
                                                                 </div>
                                                             )}
                                                         </td>
+                                                        }
+                                                        {userRole === '3' &&  
                                                         <td style={Td}>
                                                             {editPackIndex === Index ? (
                                                                 <div>
@@ -1691,6 +1723,7 @@ const StampRelatedInventoryList = () => {
                                                                 </div>
                                                             )}
                                                         </td>
+                                                        }
                                                     </tr>
                                                 ))}
                                                 {inputPackShow ?
@@ -1773,17 +1806,17 @@ const StampRelatedInventoryList = () => {
                                                 </thead>
                                                 <tbody>
                                                     <tr>
-                                                        <td>下記合計</td>
+                                                        <td className='whitespace-nowrap'>下記合計</td>
                                                         <td style={Td}>{parseInt(totalNumberOfCard1) + parseInt(totalNumberOfCard2) || ''}</td>
                                                         <td style={Td}>{parseInt(totalCardFaceValue1) + parseInt(totalCardFaceValue2) || ''}</td>
                                                     </tr>
                                                     <tr>
-                                                        <td>50円以上</td>
+                                                        <td className='whitespace-nowrap'>50円以上</td>
                                                         <td style={Td}>{parseInt(totalNumberOfCard1) || ''}</td>
                                                         <td style={Td}>{parseInt(totalCardFaceValue1) || ''}</td>
                                                     </tr>
                                                     <tr>
-                                                        <td>50円未満</td>
+                                                        <td className='whitespace-nowrap'>50円未満</td>
                                                         <td style={Td}>{parseInt(totalNumberOfCard2) || ''}</td>
                                                         <td style={Td}>{parseInt(totalCardFaceValue2) || ''}</td>
                                                     </tr>
@@ -1802,8 +1835,12 @@ const StampRelatedInventoryList = () => {
                                                             <th style={Th}>額面(￥)</th>
                                                             <th style={Th} >枚数</th>
                                                             <th style={Th}>額面総額(￥)</th>
+                                                            {userRole === '3' &&  
                                                             <th style={Th}>{editCardIndex === -1 ? '編集する' : 'セーブ'}</th>
+                                                            }
+                                                            {userRole === '3' &&  
                                                             <th style={Th} className='whitespace-nowrap pl-3'>{editCardIndex === -1 ? '削除' : '戻る'}</th>
+                                                            }
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -1825,6 +1862,7 @@ const StampRelatedInventoryList = () => {
                                                                         <InputComponent disabled={true} name='totalFaceValue' value={editedCardRow.totalFaceValue || ''} onChange={handleCardInputChange} className='w-full h-8 text-[#70685a]' />
                                                                     ) : (row.totalFaceValue || '')}
                                                                 </td>
+                                                                {userRole === '3' &&  
                                                                 <td style={Td}>
                                                                     {editCardIndex === Index ? (
                                                                         <div>
@@ -1840,6 +1878,8 @@ const StampRelatedInventoryList = () => {
                                                                         </div>
                                                                     )}
                                                                 </td>
+                                                                }
+                                                                {userRole === '3' &&  
                                                                 <td style={Td}>
                                                                     {editCardIndex === Index ? (
                                                                         <div>
@@ -1855,6 +1895,7 @@ const StampRelatedInventoryList = () => {
                                                                         </div>
                                                                     )}
                                                                 </td>
+                                                                }
                                                             </tr>
                                                         ))}
                                                         {inputCardShow ?

@@ -70,6 +70,9 @@ const InvoicePurchaseOfBrought = () => {
         position: 'relative'
     };
 
+    const userStoreName = localStorage.getItem('storename');
+    const userId = localStorage.getItem('userId');
+
 // fetch registered product
 useEffect(() => {
     const fetch = async () => {
@@ -79,7 +82,7 @@ useEffect(() => {
             throw new Error('API base URL is not defined');
         }
 
-        await axios.post(`${wakabaBaseUrl}/purchaseinvoice/getregistereddata`,{id:id})
+        await axios.post(`${wakabaBaseUrl}/purchaseinvoice/getregistereddata`,{id:id,userStoreName:userStoreName,userId:userId})
             .then(response => {
                 const invoiceData = response.data;
                 if(invoiceData?.length>0) {
@@ -191,8 +194,6 @@ useEffect(() => {
         });
     };
     //fetch user(profile) data
-
-    const userId = localStorage.getItem('userId');
     const [userData, setUserData] = useState([]);
     useEffect(() => {
         const fetchUserData = async() => {
@@ -222,6 +223,7 @@ useEffect(() => {
         trading_date: currentDay,
         number: '',
         purchase_staff: userData.fullname,
+        purchase_staff_id:userId,
         customer_id: id,
         store_name: userData.store_name,
         hearing: '',
@@ -230,8 +232,8 @@ useEffect(() => {
         product_type_three: '',
         product_type_four: '',
 
-        gold_type:'-',
-        gross_weight:'-',
+        metal_type:'',
+        price_per_gram:'',
 
         product_photo: '',
         product_name: '',
@@ -329,7 +331,9 @@ useEffect(() => {
             if (!wakabaBaseUrl) {
                 throw new Error('API base URL is not defined');
             }
-            axios.get(`${wakabaBaseUrl}/vendor/getVendorListAll`)
+            const payload = totalSalesSlipData;
+            // await axios.post(`${wakabaBaseUrl}/vendor/getVendorListselected`, {payload:payload})
+            await axios.get(`${wakabaBaseUrl}/vendor/getVendorListAll`)
                 .then(response => {
                     setAllVendors(response.data);
                     // console.log('vendrListAll',response.data)
@@ -340,7 +344,7 @@ useEffect(() => {
         }
         fetchAllVendor();
 
-    }, []);
+    }, [totalSalesSlipData]);
     // search selectbox product3================
 
     const [product3s, setProduct3s] = useState([]);
@@ -408,9 +412,11 @@ useEffect(() => {
             console.log('purchase data', salesSlipData,estimateValues);
 
             const formData = new FormData();
+            formData.append('userStoreName', userStoreName);
             formData.append('trading_date', salesSlipData.trading_date);
             formData.append('number', salesSlipData.number);
             formData.append('purchase_staff', salesSlipData.purchase_staff);
+            formData.append('purchase_staff_id', salesSlipData.purchase_staff_id);
             formData.append('customer_id', salesSlipData.customer_id);
             formData.append('store_name', salesSlipData.store_name);
             formData.append('hearing', salesSlipData.hearing);
@@ -459,6 +465,7 @@ useEffect(() => {
                         trading_date: salesSlipData.trading_date,
                         number: '',
                         purchase_staff: salesSlipData.purchase_staff,
+                        purchase_staff_id:userId,
                         customer_id: salesSlipData.customer_id,
                         store_name: salesSlipData.store_name,
                         hearing: salesSlipData.hearing,
@@ -467,8 +474,8 @@ useEffect(() => {
                         product_type_three: '',
                         product_type_four: '',
 
-                        gold_type:'-',
-                        gross_weight:'-',
+                        metal_type:'',
+                        price_per_gram:'',
         
                         product_photo: '',
                         product_name: '',
@@ -499,6 +506,7 @@ useEffect(() => {
                 trading_date: currentDay,
                 number: '',
                 purchase_staff: userData.fullname,
+                purchase_staff_id:userId,
                 customer_id: id,
                 store_name: userData.store_name,
                 hearing: '',
@@ -507,8 +515,8 @@ useEffect(() => {
                 product_type_three: '',
                 product_type_four: '',
 
-                gold_type:'-',
-                gross_weight:'-',
+                metal_type:'',
+                price_per_gram:'',
 
                 product_photo: '',
                 product_name: '',
@@ -552,10 +560,12 @@ useEffect(() => {
         // setTotalSalesSlipData(updatedData);
 
             const formData = new FormData();
+            formData.append('userStoreName', userStoreName);
             formData.append('id', salesSlipData.id);
             formData.append('trading_date', salesSlipData.trading_date);
             formData.append('number', salesSlipData.number);
             formData.append('purchase_staff', salesSlipData.purchase_staff);
+            formData.append('purchase_staff_id', salesSlipData.purchase_staff_id);
             formData.append('customer_id', salesSlipData.customer_id);
             formData.append('store_name', salesSlipData.store_name);
             formData.append('hearing', salesSlipData.hearing);
@@ -604,6 +614,7 @@ useEffect(() => {
                             trading_date: salesSlipData.trading_date,
                             number: '',
                             purchase_staff: salesSlipData.purchase_staff,
+                            purchase_staff_id:userId,
                             customer_id: salesSlipData.customer_id,
                             store_name: salesSlipData.store_name,
                             hearing: salesSlipData.hearing,
@@ -612,8 +623,8 @@ useEffect(() => {
                             product_type_three: '',
                             product_type_four: '',
 
-                            gold_type:'-',
-                            gross_weight:'-',
+                            metal_type:'',
+                            price_per_gram:'',
             
                             product_photo: '',
                             product_name: '',
@@ -650,6 +661,7 @@ useEffect(() => {
             trading_date: salesSlipData.trading_date,
             number: '',
             purchase_staff: salesSlipData.purchase_staff,
+            purchase_staff_id:userId,
             customer_id: salesSlipData.customer_id,
             store_name: salesSlipData.store_name,
             hearing: salesSlipData.hearing,
@@ -658,8 +670,8 @@ useEffect(() => {
             product_type_three: '',
             product_type_four: '',
 
-            gold_type:'-',
-            gross_weight:'-',
+            metal_type:'',
+            price_per_gram:'',
 
             product_photo: '',
             product_name: '',
@@ -687,7 +699,7 @@ useEffect(() => {
             if (!wakabaBaseUrl) {
                 throw new Error('API base URL is not defined');
             }
-            await axios.post(`${wakabaBaseUrl}/purchaseinvoice/delete`, {id:id})
+            await axios.post(`${wakabaBaseUrl}/purchaseinvoice/delete`, {id:id,userId:userId, userStoreName:userStoreName})
             .then(response => {
                 const invoiceData = response.data;
                 if(invoiceData?.length>0) {
@@ -702,6 +714,7 @@ useEffect(() => {
                     trading_date: salesSlipData.trading_date,
                     number: '',
                     purchase_staff: salesSlipData.purchase_staff,
+                    purchase_staff_id:userId,
                     customer_id: salesSlipData.customer_id,
                     store_name: salesSlipData.store_name,
                     hearing: salesSlipData.hearing,
@@ -710,8 +723,8 @@ useEffect(() => {
                     product_type_three: '',
                     product_type_four: '',
 
-                    gold_type:'-',
-                    gross_weight:'-',
+                    metal_type:'',
+                    price_per_gram:'',
     
                     product_photo: '',
                     product_name: '',
@@ -739,6 +752,29 @@ useEffect(() => {
         }
     };
 
+    //click all clear button
+    const allClear = async() => {
+        try {
+            const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+
+            if (!wakabaBaseUrl) {
+                throw new Error('API base URL is not defined');
+            }
+            const payload = totalSalesSlipData;
+            await axios.post(`${wakabaBaseUrl}/purchaseinvoice/alldelete`, {payload:payload})
+            .then(response => {
+                setTotalSalesSlipData([]);
+                setShowInputPurchase(false);
+                setEstimateValues({});
+                setEditIndex(-1); // Exit edit mode
+            })
+            .catch(error => {
+                console.error("There was an error fetching the customer data!", error);
+            });
+        } catch (error) {
+            console.error('Error sending message:', error);
+        }
+    }
     //send data using redux
     const dispatch = useDispatch();
 
@@ -755,20 +791,20 @@ useEffect(() => {
         dispatch(setClearData());
     }
     const [stamps, setStamps] = useState({});
-    useEffect(() => {
-        if (data.data !== 'Initial Data') {
-            setTotalSalesSlipData((prevSalesSlipDatas) => [...prevSalesSlipDatas, {
-                ...salesSlipData,
-                id: Date.now(), trading_date: new Date().toISOString().split('T')[0], purchase_staff: userData.username,
-                store_name: userData.store_name, customer_id: id, product_photo: '',
-                product_type_one: '切手', quantity: StampData.totalNumberOfStamp, purchase_price: StampData.totalStampPurchasePrice
-            }]);
-            setStamps(StampData);
-            // clearReduxData();
-        }
-    }, [data.data]);
+    // useEffect(() => {
+    //     if (data.data !== 'Initial Data') {
+    //         setTotalSalesSlipData((prevSalesSlipDatas) => [...prevSalesSlipDatas, {
+    //             ...salesSlipData,
+    //             id: Date.now(), trading_date: new Date().toISOString().split('T')[0], purchase_staff: userData.username,
+    // purchase_staff_id:userId,//             store_name: userData.store_name, customer_id: id, pro
+    // duct_photo: '',
+    //             product_type_one: '切手', quantity: StampData.totalNumberOfStamp, purchase_price: StampData.totalStampPurchasePrice
+    //         }]);
+    //         setStamps(StampData);
+    //         // clearReduxData();
+    //     }
+    // }, [data.data]);
 
-    // console.log('stamp received data------------',StampData)
     // console.log('stamp received data2',data.data)
 
     // send Purchase data
@@ -776,6 +812,7 @@ useEffect(() => {
         const numberOfInvoice = customerPastVisitHistory.length;
         const purchaseData = { deadline, numberOfInvoice, totalSalesSlipData,id};
         // console.log('send purchase data',purchaseData,id);
+        clearReduxData();
         updateData(purchaseData);
         navigate('/customerreceipt');
 
@@ -794,6 +831,7 @@ useEffect(() => {
             itemsSave();
             const purchaseData = {id,deadline, numberOfInvoice, totalSalesSlipData ,stamps};
             console.log('send purchase data', purchaseData, id);
+            clearReduxData();
             updateData(purchaseData);// to sign page using redux
             navigate('/purchaseinvoiceforbroughtinitems');
         }
@@ -895,11 +933,6 @@ useEffect(() => {
         calculateTotalGrossProfit();
     }, [customerPastVisitHistory]);
 
-    //click all clear button
-    const allClear = () => {
-        setTotalSalesSlipData([]);
-    }
-
     //---------product comment related content
     const [selectedProduct, setSelectedProduct] = useState(null);
     const [showModal, setShowModal] = useState(false);
@@ -937,11 +970,63 @@ useEffect(() => {
         }
     };
 
-    const handleCommentSave = () => {
-        const updatedData = totalSalesSlipData.map((row, index) =>
-            index === selectedProduct ? { ...row, ...editRow } : row
-        );
-        setTotalSalesSlipData(updatedData);
+    const handleCommentSave = async() => {
+        // const updatedData = totalSalesSlipData.map((row, index) =>
+        //     index === selectedProduct ? { ...row, ...editRow } : row
+        // );
+        // setTotalSalesSlipData(updatedData);
+        console.log('editRow',editRow)
+        try {
+            const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+
+            if (!wakabaBaseUrl) {
+                throw new Error('API base URL is not defined');
+            }
+            const payload = editRow;
+            await axios.post(`${wakabaBaseUrl}/purchaseinvoice/commentsave`, {payload:payload,userStoreName:userStoreName})
+            .then(response => {
+                setTotalSalesSlipData(response.data);
+                setSalesSlipData({
+                    trading_date: salesSlipData.trading_date,
+                    number: '',
+                    purchase_staff: salesSlipData.purchase_staff,
+                    purchase_staff_id:userId,
+                    customer_id: salesSlipData.customer_id,
+                    store_name: salesSlipData.store_name,
+                    hearing: salesSlipData.hearing,
+                    product_type_one: '',
+                    product_type_two: '',
+                    product_type_three: '',
+                    product_type_four: '',
+
+                    metal_type:'',
+                    price_per_gram:'',
+    
+                    product_photo: '',
+                    product_name: '',
+                    comment: '',
+                    quantity: '0',
+                    reason_application: '',
+                    interest_rate: '0',
+                    product_price: '0',
+                    highest_estimate_vendor: '',
+                    highest_estimate_price: '0',
+                    number_of_vendor: '',
+                    supervisor_direction: '',
+                    purchase_result: '',
+                    purchase_price: '0',
+                    estimate_wholesaler:'',
+                });
+                setShowInputPurchase(false);
+                setEstimateValues({});
+                setEditIndex(-1); // Exit edit mode
+            })
+            .catch(error => {
+                console.error("There was an error fetching the customer data!", error);
+            });
+        } catch (error) {
+            console.error('Error sending message:', error);
+        }
         handleModalClose();
 
     };
@@ -1515,6 +1600,8 @@ useEffect(() => {
                                 <th style={Th} >画像</th>
                                 <th style={Th} width='10%'>商品名</th>
                                 <th style={Th} >個数</th>
+                                <th style={Th}>金種</th>
+                                <th style={Th}>g/額面</th>
                                 <th style={Th} width='10%'>申請の根拠</th>
                                 <th style={Th} >利率(%)</th>
                                 <th style={Th} >申請額</th>
@@ -1569,6 +1656,12 @@ useEffect(() => {
                                         </div>
                                     </td>
                                     <td style={Td}> {salesData.quantity || ''} </td>
+                                    {salesData.product_type_one === '貴金属' ? 
+                                        <td style={Td}> {salesData.metal_type || ''} </td> : <td style={Td}> {''} </td>
+                                    }
+                                    {salesData.product_type_one === '貴金属' ? 
+                                        <td style={Td}> {salesData.price_per_gram || ''} </td> :<td style={Td}> {''} </td>
+                                    }
                                     <td style={Td}> {salesData.reason_application || ''} </td>
                                     <td style={Td}> {salesData.interest_rate || ''} </td>
                                     <td style={Td}> {salesData.product_price || ''} </td>
@@ -1613,6 +1706,12 @@ useEffect(() => {
                                     <th style={Th} >画像</th>
                                     <th style={Th} width='10%'>商品名</th>
                                     <th style={Th} className='!w-40'>個数</th>
+                                    {salesSlipData.product_type_one === '貴金属' &&
+                                        <th style={Th} >金種</th>
+                                    }
+                                     {salesSlipData.product_type_one === '貴金属' &&
+                                        <th style={Th} className='!w-20'>g/額面</th>
+                                     }
                                     <th style={Th} width='10%'>申請の根拠</th>
                                     <th style={Th} >利率(%)</th>
                                     <th style={Th} className='!w-20'>申請額</th>
@@ -1643,19 +1742,6 @@ useEffect(() => {
                                         </select>
                                     </td>
                                     <td style={Td}>
-                                        {/* <input
-                                            list="product1s"
-                                            id="product_type_one"
-                                            name="product_type_one"
-                                            value={salesSlipData.product_type_one || ''}
-                                            onChange={handleChange}
-                                            className='h-8 w-full'
-                                        />
-                                        <datalist id="product1s">
-                                            {product1s.map((option, index) => (
-                                                <option key={index} value={option.category || ''} />
-                                            ))}
-                                        </datalist> */}
                                         <select
                                             name="product_type_one"
                                             value={salesSlipData.product_type_one || ''}
@@ -1671,19 +1757,6 @@ useEffect(() => {
                                         </select>
                                     </td>
                                     {isshow ? <td style={Td}>
-                                        {/* <input
-                                            list="product2s"
-                                            id="product_type_two"
-                                            name="product_type_two"
-                                            value={salesSlipData.product_type_two || ''}
-                                            onChange={handleChange}
-                                            className='h-8 w-full'
-                                        />
-                                        <datalist id="product2s">
-                                            {product2s.map((option, index) => (
-                                                <option key={index} value={option.category || ''} />
-                                            ))}
-                                        </datalist> */}
                                         <select
                                             name="product_type_two"
                                             value={salesSlipData.product_type_two || ''}
@@ -1742,8 +1815,18 @@ useEffect(() => {
                                         <InputComponent name='product_name' onChange={handleChange} value={salesSlipData.product_name || ''} className='w-full h-8 text-[#70685a]' />
                                     </td>
                                     <td style={Td}>
-                                        <InputComponent name='quantity' type='number' onChange={handleChange} value={salesSlipData.quantity || ''} className='w-20 h-8 text-[#70685a]' />
+                                        <InputComponent name='quantity' type='number' onChange={handleChange} value={salesSlipData.quantity || ''} className='w-full h-8 text-[#70685a]' />
                                     </td>
+                                    {salesSlipData.product_type_one === '貴金属' &&
+                                        <td style={Td}>
+                                            <InputComponent name='metal_type' type='text' onChange={handleChange} value={salesSlipData.metal_type || ''} className='w-20 h-8 text-[#70685a]' />
+                                        </td>
+                                    }
+                                     {salesSlipData.product_type_one === '貴金属' &&
+                                        <td style={Td}>
+                                            <InputComponent name='price_per_gram' type='number' onChange={handleChange} value={salesSlipData.price_per_gram || ''} className='w-20 h-8 text-[#70685a]' />
+                                        </td>
+                                    }
                                     <td style={Td}>
                                         <InputComponent name='reason_application' onChange={handleChange} value={salesSlipData.reason_application || ''} className='w-full h-8 text-[#70685a]' />
                                     </td>

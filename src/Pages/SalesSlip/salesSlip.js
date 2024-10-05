@@ -164,23 +164,13 @@ const SalesSlip = () => {
             <div className="w-full flex flex-col items-center justify-center py-3 px-4">
                 <div className="w-full flex justify-center">
                     <div className='w-full'>
-                        <div className='sales-slip-top-button flex justify-center'>
-                            <div className='sales-slip-next-button1 flex mt-5 w-1/3' >
+                        <div className='sales-slip-top-button flex justify-center gap-10'>
+                            <div className='sales-slip-next-button1 flex mt-5 w-max'>
                                 <div className='flex justify-center'>
                                     <div>
                                         <button onClick={handleSendCheckedValues} 
-                                                 className='h-10 px-5 text-2xl font-bold rounded-md bg-[#9bd195] text-[white] hover:bg-[#524c3b] hover:text-white transition-all duration-300'>
-                                             業者への買取依書へ
-                                        </button>
-                                        <div className='flex justify-center'>
-                                            <LabelComponent value={'行を選択してください'} />
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className='flex justify-center ml-20'>
-                                    <div className=''>
-                                        <button onClick={sendToDisposalPermission} className='h-10  px-5 text-2xl font-bold rounded-md bg-[#9bd195] text-[white] hover:bg-[#524c3b] hover:text-white transition-all duration-300' >
-                                            廃棄申請
+                                            className='w-max h-10 px-5 text-2xl font-bold rounded-md bg-[#9bd195] text-[white] hover:bg-[#524c3b] hover:text-white transition-all duration-300'>
+                                             リサイクルショップへの買取依頼
                                         </button>
                                         <div className='flex justify-center'>
                                             <LabelComponent value={'行を選択してください'} />
@@ -188,11 +178,23 @@ const SalesSlip = () => {
                                     </div>
                                 </div>
                             </div>
-                            <div className='sales-slip-next-button2 flex mt-5 w-1/2' >
-                                <ButtonComponent children={'売上表'} className='!px-5 text-2xl ml-5 ' style={{ backgroundColor: '#424242', height: '40px' }} />
-                                <button className='h-10 ml-10 px-5 text-2xl font-bold rounded-md border border-[#424242] bg-[transparent] text-[#424242] hover:bg-[#524c3b] hover:text-white transition-all duration-300' >
+                            <div className='sales-slip-next-button2 flex justify-between w-max mt-5'>
+                                <div className=''>
+                                    <div className='flex justify-center'>
+                                        <button onClick={sendToDisposalPermission} className='h-10  px-5 text-2xl font-bold rounded-md bg-[#9bd195] text-[white] hover:bg-[#524c3b] hover:text-white transition-all duration-300' >
+                                            廃棄申請
+                                        </button>
+                                    </div>
+                                    <div className='flex justify-center'>
+                                        <LabelComponent value={'行を選択してください'} />
+                                    </div>
+                                </div>
+                                <ButtonComponent children={'売上表'} className='!px-5 text-2xl ml-5 whitespace-nowrap' style={{ backgroundColor: '#424242', height: '40px' }} />
+                            </div>
+                            <div className='sales-slip-next-button2 flex mt-5 w-max gap-5' >    
+                                <button className='h-10 px-5 text-2xl font-bold rounded-md border border-[#424242] bg-[transparent] text-[#424242] hover:bg-[#524c3b] hover:text-white transition-all duration-300 whitespace-nowrap' >
                                     <Link to='/vendorassessmentsheet'>業者査定シート</Link></button>
-                                <button onClick={handleYahooAuction} className='h-10 ml-10 px-5 text-2xl font-bold rounded-md border border-[#424242] bg-[transparent] text-[#424242] hover:bg-[#524c3b] hover:text-white transition-all duration-300 ' 
+                                <button onClick={handleYahooAuction} className='h-10 px-5 text-2xl font-bold rounded-md border border-[#424242] bg-[transparent] text-[#424242] hover:bg-[#524c3b] hover:text-white transition-all duration-300 whitespace-nowrap' 
                                             style={{backgroundColor:showYahoo === true ? '#424242' : 'transparent', color:showYahoo === true ? 'white' : 'black'}} >
                                      オークション
                                 </button>

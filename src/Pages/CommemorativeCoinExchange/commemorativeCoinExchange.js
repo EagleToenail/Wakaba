@@ -426,8 +426,8 @@ const CommemorativeCoinExchange = () => {
                                     <div className='mt-2 h-10 flex flex-col justify-center'>銀行名</div>
                                 </div>
                                 <div className='ml-5 text-left text-[#70685a]'>
-                                    <div className='h-8 flex flex-col justify-center'>{userData.username || '---'}</div>
-                                    <div className='h-8 flex flex-col justify-center'>{userData.phone || '---'}</div>
+                                    <div className='h-8 flex flex-col justify-center'>{userData.username || '000-000-0000'}</div>
+                                    <div className='h-8 flex flex-col justify-center'>{userData.phone || '000-000-0000'}</div>
                                     <div className='flex flex-col justify-center'>
                                         <div className='flex'>
                                             <div style={{ flexDirection: 'column', }} className='flex align-center justify-around'>

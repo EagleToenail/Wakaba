@@ -402,7 +402,7 @@ const PurchaseInvoiceForBroughtInItems = () => {
                                                                 <div className='w-full text-[#70685a] font-bold cursor-pointer' onClick={openModal}>切手</div>
                                                             ) : (purchase.product_type_one || '')}
                                                         </td>
-                                                        <td style={Td}>{purchase.product}</td>
+                                                        <td style={Td}>{purchase.product_name}</td>
                                                         <td style={Td}>{purchase.quantity}</td>
                                                         <td style={Td}>{purchase.purchase_price}</td>
                                                     </tr>

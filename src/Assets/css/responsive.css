@@ -28,13 +28,13 @@
         margin-left: 0px !important;
     }
   }
-@media screen and (max-width: 1400px) {
+@media screen and (max-width: 1450px) {
     .sales-slip-top-button {
         display: block !important;
         width:100% !important;
     }
   }
-@media screen and (max-width: 1100px) {
+@media screen and (max-width: 1450px) {
     .sales-slip-next-button1 {
         display: block !important;
         width:100% !important;
@@ -43,7 +43,7 @@
         width:100% !important;
     }
   }
-@media screen and (max-width: 1100px) {
+@media screen and (max-width: 1450px) {
     .sales-slip-next-button2 {
         width:100% !important;
         justify-content: center !important;

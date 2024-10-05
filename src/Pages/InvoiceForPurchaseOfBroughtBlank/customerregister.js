@@ -117,16 +117,20 @@ const CustomerIndividualCreate = ({ onSendData }) => {
         const numStr = number.toString();
 
         // Extract parts of the string
-        const part1 = numStr.slice(0, 3);    // First 3 digits
-        const part2 = numStr.slice(3, 7);    // Next 4 digits
-        const part3 = numStr.slice(7);       // Last 4 digits
+        if (numStr.length >= 7) {
+            const part1 = numStr.slice(0, 3);   // First 3 digits
+            const part2 = numStr.slice(3, 7);   // Next 4 digits
+            const part3 = numStr.slice(7);      // Remaining digits (if any)
+            
+            // Combine parts with dashes
+            return part3 ? `${part1}-${part2}-${part3}` : `${part1}-${part2}`;
+        } else {
+            return numStr; // Return the original string if less than 7 digits
+        }
 
-        // Combine parts with dashes
-        return `${part1}-${part2}-${part3}`;
     };
     const [customerId, setCustomerId] = useState('');
-    const handleCreateSubmit = async (e) => {
-        e.preventDefault();
+    const handleCreateSubmit = async () => {
         setIsCreateModalOpen(false);
 
         const formattedNumber = formatPhoneNumber(customer.phone_number);
@@ -153,7 +157,7 @@ const CustomerIndividualCreate = ({ onSendData }) => {
 
         if (avatarimageFile) formDataObj.append('avatarimage', avatarimageFile);
         if (idcardFile) formDataObj.append('idcard', idcardFile);
-
+        console.log('cutomerData',customer)
 
         try {
             const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
@@ -263,7 +267,7 @@ const CustomerIndividualCreate = ({ onSendData }) => {
                                     <label className="text-[#70685a] font-bold mb-2 block text-right py-1 !mb-0 mr-3">性別</label>
                                 </div>
                                 <div style={{ width: '15%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <select id="gender" name="gender" required onChange={handleCustomerChange} value={customer.gender} className="w-full text-[#70685a] font-bold border border-[#70685a] px-4 py-2 outline-[#70685a]">
+                                    <select name="gender" required onChange={handleCustomerChange} value={customer.gender} className="w-full text-[#70685a] font-bold border border-[#70685a] px-4 py-2 outline-[#70685a]">
                                         <option value="" disabled></option>
                                         <option value="男">男</option>
                                         <option value="女">女</option>
