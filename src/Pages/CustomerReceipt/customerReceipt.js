@@ -11,6 +11,8 @@ import { jsPDF } from 'jspdf';
 import {useDispatch, useSelector } from 'react-redux';
 import { setClearData } from '../../redux/sales/actions';
 
+import ConfirmationModal from '../../Components/Modal/SuccessModal';
+
 
 const CustomerReceipt = () => {
     // const title = 'タイトルタイトル';
@@ -37,6 +39,11 @@ const CustomerReceipt = () => {
     const purchaseData = data.data;
     const customerId = purchaseData.id;
     console.log('purchase data',purchaseData)
+
+
+    const userStoreName = localStorage.getItem('storename');
+    const userId = localStorage.getItem('userId');
+    const role = localStorage.getItem('role')
 
     const [customer, setCustomer] = useState([]);
 
@@ -66,8 +73,11 @@ const CustomerReceipt = () => {
     const [totalQuantity, setTotalQuantity] = useState('');
     // Calculate total quantity
     const calculateTotalQuantity = () => {
-        const total = purchaseData.totalSalesSlipData.reduce((sum, item) => parseInt(sum) + (parseInt(item.quantity) || 0), 0);
-        setTotalQuantity(total);
+        if(purchaseData.totalSalesSlipData?.length > 0) {
+            const total = purchaseData.totalSalesSlipData.reduce((sum, item) => parseInt(sum) + (parseInt(item.quantity) || 0), 0);
+            setTotalQuantity(total);
+        }
+       
     };
     useEffect(() => {
         calculateTotalQuantity();
@@ -137,12 +147,32 @@ const CustomerReceipt = () => {
     const clearReduxData = () => {
         dispatch(setClearData());
     }
-    const clickConfirm = () => {
-        handleSavePageAsPDF();
-        clearReduxData();
-        navigate(`/invoiceforpurchaseofbrought/${customerId}`);
-    }
+    const clickConfirm = async() => {
+        // handleSavePageAsPDF();
+        try {
+            const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+            if (!wakabaBaseUrl) {
+                throw new Error('API base URL is not defined');
+            }
+            const ids = purchaseData.totalSalesSlipData.map(obj => obj.id);
+            console.log('ids',ids,customerId,userId,userStoreName)
+            await axios.post(`${wakabaBaseUrl}/purchaseinvoice/customerreceiptpermit`, {ids:ids})
+                .then(response => {
 
+                    navigate(`/invoiceforpurchaseofbrought/${customerId}`);
+                })
+                .catch(error => {
+                    console.error("There was an error fetching the customer data!", error);
+                }); // Send newRow data to the server
+        } catch (error) {
+            console.error('Error adding row:', error);
+        }
+    }
+    // message related data success modal
+        const [storeSuccess, setStoreSuccess] = useState(false);
+        const closeStoreSuccess = () => {
+            setStoreSuccess(false);
+        }
     return (
         <>
             {/* <Titlebar title={title} /> */}
@@ -269,6 +299,7 @@ const CustomerReceipt = () => {
                     </div>
                 </div>
             </div>
+            {storeSuccess && <ConfirmationModal title = {'レシートが正常に処理されました'} onClose={closeStoreSuccess} />}
         </>
     );
 };

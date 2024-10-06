@@ -9,6 +9,7 @@ import dateimage from '../../Assets/img/datepicker.png';
 import DateAndTime from '../../Components/Common/PickData';
 import axios from 'axios';
 import CustomerRegister from './customerregister';
+import ConfirmationModal from '../../Components/Modal/SuccessModal';
 
 import { useDispatch ,useSelector} from 'react-redux';
 import { setData } from '../../redux/sales/actions';
@@ -20,6 +21,8 @@ import rightArrow from '../../Assets/img/left-arrow.png';
 
 const InvoicePurchaseOfBroughtBlank = () => {
     // const title = 'タイトルタイトル';
+
+    const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
 
     const [deadline, setDeadline] = useState('');
 
@@ -59,8 +62,25 @@ const InvoicePurchaseOfBroughtBlank = () => {
         position: 'relative'
     };
 
+    const dispatch = useDispatch();
+
+    const updateData = (data) => {
+        dispatch(setData(data));
+    };
+    const sendCustomerId = (data) => {
+        dispatch(setCustomerID(data));
+    };
+    //received data using redux
+    const data = useSelector((state) => state.data);
+    const StampData = data.data;
+    const clearReduxData = () => {
+        dispatch(setClearData());
+    }
+
     const userStoreName = localStorage.getItem('storename');
     const userId = localStorage.getItem('userId');
+    const role = localStorage.getItem('role');
+
 
     const navigate = useNavigate();
 
@@ -343,7 +363,6 @@ const InvoicePurchaseOfBroughtBlank = () => {
             formData.append('product_type_three', salesSlipData.product_type_three);
             formData.append('product_type_four', salesSlipData.product_type_four);
             formData.append('product_name', salesSlipData.product_name);
-            formData.append('comment', salesSlipData.comment);
             formData.append('quantity', salesSlipData.quantity);
             formData.append('reason_application', salesSlipData.reason_application);
             formData.append('interest_rate', salesSlipData.interest_rate);
@@ -377,6 +396,9 @@ const InvoicePurchaseOfBroughtBlank = () => {
                             estimate_wholesaler: JSON.parse(data.estimate_wholesaler),
                         })); 
                         setTotalSalesSlipData(updatedData111);
+
+                        setItemsImagePreview(`${wakabaBaseUrl}/uploads/product/${response.data[0].entire_items_url}`);
+                        setItemsDocPreview(`${wakabaBaseUrl}/uploads/product/${response.data[0].document_url}`);
                     }
                     setShowInputPurchase(false);
                     setSalesSlipData({
@@ -462,8 +484,10 @@ const InvoicePurchaseOfBroughtBlank = () => {
         setEditIndex(index);
         setSalesSlipData(totalSalesSlipData[index]); // Populate the input fields with the selected row's data
         setEstimateValues(totalSalesSlipData[index].estimate_wholesaler);
-        const selectedResult = product1s.find(product => product.category === totalSalesSlipData[index].product_type_one);
-        getVendorList(selectedResult.id);
+        if(totalSalesSlipData[index].product_type_one){
+            const selectedResult = product1s.find(product => product.category === totalSalesSlipData[index].product_type_one);
+            getVendorList(selectedResult.id);
+        }
 
     };
     //Save one of tatalsalesSlipdata
@@ -489,7 +513,6 @@ const InvoicePurchaseOfBroughtBlank = () => {
             formData.append('product_type_three', salesSlipData.product_type_three);
             formData.append('product_type_four', salesSlipData.product_type_four);
             formData.append('product_name', salesSlipData.product_name);
-            formData.append('comment', salesSlipData.comment);
             formData.append('quantity', salesSlipData.quantity);
             formData.append('reason_application', salesSlipData.reason_application);
             formData.append('interest_rate', salesSlipData.interest_rate);
@@ -523,6 +546,9 @@ const InvoicePurchaseOfBroughtBlank = () => {
                                 estimate_wholesaler: JSON.parse(data.estimate_wholesaler),
                             })); 
                             setTotalSalesSlipData(updatedData111);
+
+                            setItemsImagePreview(`${wakabaBaseUrl}/uploads/product/${response.data[0].entire_items_url}`);
+                            setItemsDocPreview(`${wakabaBaseUrl}/uploads/product/${response.data[0].document_url}`);
                         }
                         setShowInputPurchase(false);
                         setSalesSlipData({
@@ -622,6 +648,9 @@ const InvoicePurchaseOfBroughtBlank = () => {
                         estimate_wholesaler: JSON.parse(data.estimate_wholesaler),
                     })); 
                     setTotalSalesSlipData(updatedData111);
+
+                    setItemsImagePreview(`${wakabaBaseUrl}/uploads/product/${response.data[0].entire_items_url}`);
+                    setItemsDocPreview(`${wakabaBaseUrl}/uploads/product/${response.data[0].document_url}`);
                 }
                 setShowInputPurchase(false);
                 setSalesSlipData({
@@ -666,37 +695,7 @@ const InvoicePurchaseOfBroughtBlank = () => {
         }
     };
 
-    const dispatch = useDispatch();
 
-    const updateData = (data) => {
-        dispatch(setData(data));
-    };
-    const sendCustomerId = (data) => {
-        dispatch(setCustomerID(data));
-    };
-    //received data using redux
-    const data = useSelector((state) => state.data);
-    const StampData = data.data;
-    const clearReduxData = () => {
-        dispatch(setClearData());
-    }
-    const [stamps, setStamps] = useState({});
-    // useEffect(() => {
-    //     if (data.data !== 'Initial Data') {
-    //         setTotalSalesSlipData((prevSalesSlipDatas) => [...prevSalesSlipDatas, {
-    //             ...salesSlipData,
-    //             id: Date.now(), trading_date: new Date().toISOString().split('T')[0], purchase_staff: userData.username,
-    //             purchase_staff_id: userId,store_name: userData.store_name, customer_id: childData, product_photo
-    //             : '',
-    //             product_type_one: '切手', quantity: StampData.totalNumberOfStamp, purchase_price: StampData.totalStampPurchasePrice
-    //         }]);
-    //         setStamps(StampData);
-    //         // clearReduxData();
-    //     }
-    // }, [data.data]);
-    // console.log('stamp received data------------',StampData)
-    // console.log('stamp received data2',data.data)
-    // send data
     const sendPurchaseDataToReceipt = () => {
         itemsSave();
         const numberOfInvoice = 1;
@@ -717,7 +716,7 @@ const InvoicePurchaseOfBroughtBlank = () => {
             const numberOfInvoice = 1;
 
             if (totalSalesSlipData.length != 0 && totalSalesSlipData != null) {
-                const purchaseData = {childData ,deadline, numberOfInvoice, totalSalesSlipData ,stamps};
+                const purchaseData = {childData ,deadline, numberOfInvoice, totalSalesSlipData ,StampData};
                 console.log('send purchase data', purchaseData, childData);
                 updateData(purchaseData);// to sign page using redux
                 navigate('/purchaseinvoiceforbroughtinitems');
@@ -898,7 +897,17 @@ const InvoicePurchaseOfBroughtBlank = () => {
             const payload = editRow;
             await axios.post(`${wakabaBaseUrl}/purchaseinvoice/commentsave`, {userId:userId,payload:payload, userStoreName:userStoreName})
             .then(response => {
-                setTotalSalesSlipData(response.data);
+                const invoiceData = response.data;
+                if(invoiceData?.length>0) {
+                    const updatedData111 = invoiceData.map((data,Index) => ({
+                        ...data,
+                        estimate_wholesaler: JSON.parse(data.estimate_wholesaler),
+                    })); 
+                    setTotalSalesSlipData(updatedData111);
+
+                    setItemsImagePreview(`${wakabaBaseUrl}/uploads/product/${response.data[0].entire_items_url}`);
+                    setItemsDocPreview(`${wakabaBaseUrl}/uploads/product/${response.data[0].document_url}`);
+                }
                 setSalesSlipData({
                     trading_date: salesSlipData.trading_date,
                     number: '',
@@ -1069,9 +1078,143 @@ const InvoicePurchaseOfBroughtBlank = () => {
     //go to stamps related page #62(stamp related purchase statement)
     const gotoStampsPurchase = () => {
         sendCustomerId(childData);//send customerId
-        navigate('/stamprelatedpurchasestatement');
+        navigate(`/stamprelatedpurchasestatement/${childData}`);
     }
+//----------------modal items photo and document upload----------------------
+const [showItemsImage, setShowItemsImage] = useState(false);
+const openItemsImageModal = () => {
+    setShowItemsImage(true);
+}
+const closeItemsImageModal = () => {
+    setShowItemsImage(false);
+}
 
+const [showItemsDoc, setShowItemsDoc] = useState(false);
+const openItemsDocModal = () => {
+    setShowItemsDoc(true);
+}
+const closeItemsDocModal = () => {
+    setShowItemsDoc(false);
+}
+
+const [showAllClear, setShowAllClear] = useState(false);
+const openShowAllClearModal = () => {
+    setShowAllClear(true);
+}
+const closeShowAllClearModal = () => {
+    setShowAllClear(false);
+}
+
+// //file upload
+const [itemsImageFile, setItemsImageFile] = useState(null);
+const [itemsDocFile, setItemsDocFile] = useState(null);
+
+const itemsImageInputRef = useRef(null);
+const itemsDocInputRef = useRef(null);
+
+const handleItemsFileChange = (event, setFile, setImagePreview) => {
+    const file = event.target.files[0];
+    if (file) {
+        // Create a URL for the file to display as a preview
+        const fileURL = URL.createObjectURL(file);
+        setImagePreview(fileURL);
+    }
+    setFile(event.target.files[0]);
+};
+const handleItemsDocFileChange = (event, setFile, setItemsDocPreview) => {
+    const file = event.target.files[0];
+    if (file) {
+        // Create a URL for the file to display as a preview
+        const fileURL = URL.createObjectURL(file);
+        setItemsDocPreview(fileURL);
+    }
+    setFile(event.target.files[0]);
+};
+const handleItemsButtonClick = (inputRef) => {
+    inputRef.current.click();
+};
+const [itemsImagePreview, setItemsImagePreview] = useState("");
+const [itemsImageDocPreview, setItemsDocPreview] = useState("");
+
+const itemsImageUpload = async () => {
+    const formDataObj = new FormData();
+
+    const ids = totalSalesSlipData.map(obj => obj.id);
+    formDataObj.append('ids', ids);
+    formDataObj.append('customer_id', childData);
+    formDataObj.append('purchase_staff_id', userId);
+    formDataObj.append('store_name', userData.store_name);
+
+    if (itemsImageFile) formDataObj.append('entire_items_url', itemsImageFile);
+    if (itemsDocFile) formDataObj.append('document_url', itemsDocFile);
+    console.log('ids',ids,userData.store_name,userId,childData)
+    try {
+        const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+        if (!wakabaBaseUrl) {
+            throw new Error('API base URL is not defined');
+        }
+        const response = await axios.post(`${wakabaBaseUrl}/purchaseinvoice/uploadimage`, formDataObj,
+            {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            }
+        );
+        const invoiceData = response.data;
+        if(invoiceData?.length>0) {
+            const updatedData111 = invoiceData.map((data,Index) => ({
+                ...data,
+                estimate_wholesaler: JSON.parse(data.estimate_wholesaler),
+            })); 
+            setTotalSalesSlipData(updatedData111);
+
+            setShowItemsImage(false);
+            setShowItemsDoc(false);
+
+            setItemsImagePreview(`${wakabaBaseUrl}/uploads/product/${response.data[0].entire_items_url}`);
+            setItemsDocPreview(`${wakabaBaseUrl}/uploads/product/${response.data[0].document_url}`);
+        }
+    } catch (error) {
+        console.error('Error submitting form:', error);
+        // Handle error here
+    }
+};
+//permission click status change to send signature
+const purchasePermission = async() => {
+    try {
+        const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+        if (!wakabaBaseUrl) {
+            throw new Error('API base URL is not defined');
+        }
+        const ids = totalSalesSlipData.map(obj => obj.id);
+        await axios.post(`${wakabaBaseUrl}/purchaseinvoice/purchasepermit`, {ids:ids,id:childData,userId:userId,userStoreName:userStoreName})
+            .then(response => {
+                const invoiceData = response.data;
+                if(invoiceData?.length>0) {
+                    const updatedData111 = invoiceData.map((data,Index) => ({
+                        ...data,
+                        estimate_wholesaler: JSON.parse(data.estimate_wholesaler),
+                    })); 
+                    setTotalSalesSlipData(updatedData111);
+
+                    setItemsImagePreview(`${wakabaBaseUrl}/uploads/product/${response.data[0].entire_items_url}`);
+                    setItemsDocPreview(`${wakabaBaseUrl}/uploads/product/${response.data[0].document_url}`);
+                }
+                setPermissionSuccess(true);
+            })
+            .catch(error => {
+                console.error("There was an error fetching the customer data!", error);
+            }); // Send newRow data to the server
+    } catch (error) {
+        console.error('Error adding row:', error);
+    }
+}
+//permission success modal
+const [pemissionSuccess, setPermissionSuccess] = useState(false);
+const closePermissionSuccess = () => {
+    setPermissionSuccess(false);
+}
+//--------------------------------------------------------------------------
     return (<>
         {/* <Titlebar title={title} /> */}
         <div className="bg-[trasparent] font-[sans-serif] w-full">
@@ -1120,13 +1263,17 @@ const InvoicePurchaseOfBroughtBlank = () => {
                                     </div>
                                 </div>
                                 <div className='invoice-purchase-brought-buttons w-[50%] flex justify-around pr-10'>
-                                    <ButtonComponent children="預り証発行" onClick={sendPurchaseDataToReceipt} className='w-max h-11 !px-5' style={{ border: '1px solid #e87a00', backgroundColor: 'transparent', color: '#e87a00' }} />
-                                    <ButtonComponent children="全体撮影" className='w-max h-11 !px-5' style={{ border: '1px solid #e87a00', backgroundColor: 'transparent', color: '#e87a00' }} />
-                                    <ButtonComponent children="紙書類撮影" className='w-max h-11 !px-5' style={{ border: '1px solid #e87a00', backgroundColor: 'transparent', color: '#e87a00' }} />
+                                    <ButtonComponent onClick={sendPurchaseDataToReceipt} children="預り証発行" className='w-max h-11 !px-5' style={{ border: '1px solid #e87a00', backgroundColor: 'transparent', color: '#e87a00' }} />
+                                    <ButtonComponent onClick={openItemsImageModal} children="全体撮影" className='w-max h-11 !px-5' style={{ border: '1px solid #e87a00', backgroundColor: 'transparent', color: '#e87a00' }} />
+                                    <ButtonComponent onClick={openItemsDocModal} children="紙書類撮影" className='w-max h-11 !px-5' style={{ border: '1px solid #e87a00', backgroundColor: 'transparent', color: '#e87a00' }} />
                                 </div>
                                 <div className='invoice-purchase-brought-buttons w-[50%] ml-5 flex justify-between'>
                                     <ButtonComponent children="許可申請" className='w-max h-11 !px-5' style={{ color: 'white', }} />
-                                    <ButtonComponent children="全て決済を許可" className='w-max h-11 !px-5' style={{ backgroundColor: '#9bd195', color: 'white', }} />
+                                    {role === '2' &&
+                                        <button onClick={purchasePermission} className='w-max text-xl text-white rounded-md bg-[#9bd195] h-11 !px-5 hover:bg-green-600 hover:text-white transition-all duration-300' >
+                                            全て決済を許可
+                                        </button>
+                                    }
                                     <div>
                                         <label className="text-[#70685a] font-bold mb-2 block text-right  !mb-0">支払担当 OOOO</label>
                                         <label className="text-[#70685a] font-bold mb-2 block text-right  !mb-0">接客担当 OOOO</label>
@@ -1364,10 +1511,16 @@ const InvoicePurchaseOfBroughtBlank = () => {
             </div>
             <div className='w-full flex justify-between mt-3'>
                 <div>
-                    <button type="button" onClick={gotoStampsPurchase}
-                        className="px-5 py-2.5 rounded-lg text-sm tracking-wider font-bold border border-[#70685a] outline-none bg-transparent hover:bg-[#524c3b] text-[#70685a] hover:text-white transition-all duration-300">
-                        切手
-                    </button>
+                    {childData !== '0' ? 
+                        <button type="button" onClick={gotoStampsPurchase}
+                            className="px-5 py-2.5 rounded-lg text-sm tracking-wider font-bold border border-[#70685a] outline-none bg-transparent hover:bg-[#524c3b] text-[#70685a] hover:text-white transition-all duration-300">
+                            切手
+                        </button> :
+                        <button type="button"
+                            className="px-5 py-2.5 rounded-lg text-sm tracking-wider font-bold border border-[#70685a] outline-none bg-transparent hover:bg-[#524c3b] text-[#70685a] hover:text-white transition-all duration-300">
+                            切手
+                        </button>
+                    }
                 </div>
                 <button type="button" onClick={() => allClear()}
                     className="px-5 py-2.5 rounded-lg text-sm tracking-wider font-medium border border-[#70685a] outline-none bg-transparent hover:bg-[#524c3b] text-[#70685a] hover:text-white transition-all duration-300">
@@ -1475,7 +1628,8 @@ const InvoicePurchaseOfBroughtBlank = () => {
                                                 backgroundColor: 'white',
                                                 border: '2px solid #524c3b',
                                                 padding: '10px',
-                                                borderRadius: '5px'
+                                                borderRadius: '5px',
+                                                zIndex:'100'
                                             }}
                                             className="text-pre-wrap"
                                         >
@@ -1551,7 +1705,7 @@ const InvoicePurchaseOfBroughtBlank = () => {
                                         <InputComponent name='number' onChange={handleChange} value={salesSlipData.number || ''} className='w-full h-8 text-[#70685a]' />
                                     </td>
                                     <td style={Td} >
-                                        <select name="hearing" value={salesSlipData.hearing || ''} onChange={(e) => setSalesSlipData({ hearing: e.target.value })} className="w-full h-8 text-[#70685a] font-bold outline-[#70685a]">
+                                        <select name="hearing" value={salesSlipData.hearing || ''} onChange={handleChange} className="w-full h-8 text-[#70685a] font-bold outline-[#70685a]">
                                             <option value="" disabled></option>
                                             <option value="済">済</option>
                                         </select>
@@ -1678,14 +1832,24 @@ const InvoicePurchaseOfBroughtBlank = () => {
                     <div className='flex justify-center gap-10 mt-5'>
                         {editIndex === -1 ? (
                             <div className='flex justify-center mb-3' >
-                                <button type="button" onClick={() => addSlesItem()}
-                                    className="w-7 h-7 inline-flex items-center justify-center text-[#70685a] border border-[#70685a] outline-none hover:bg-purple-700 active:bg-purple-600">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="14px" fill="#70685a" className="inline" viewBox="0 0 512 512">
-                                        <path
-                                            d="M467 211H301V45c0-24.853-20.147-45-45-45s-45 20.147-45 45v166H45c-24.853 0-45 20.147-45 45s20.147 45 45 45h166v166c0 24.853 20.147 45 45 45s45-20.147 45-45V301h166c24.853 0 45-20.147 45-45s-20.147-45-45-45z"
-                                            data-original="#000000" />
-                                    </svg>
-                                </button>
+                                {childData !== '0' ? 
+                                    <button type="button" onClick={() => addSlesItem()}
+                                        className="w-7 h-7 inline-flex items-center justify-center text-[#70685a] border border-[#70685a] outline-none hover:bg-purple-700 active:bg-purple-600">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="14px" fill="#70685a" className="inline" viewBox="0 0 512 512">
+                                            <path
+                                                d="M467 211H301V45c0-24.853-20.147-45-45-45s-45 20.147-45 45v166H45c-24.853 0-45 20.147-45 45s20.147 45 45 45h166v166c0 24.853 20.147 45 45 45s45-20.147 45-45V301h166c24.853 0 45-20.147 45-45s-20.147-45-45-45z"
+                                                data-original="#000000" />
+                                        </svg>
+                                    </button> :
+                                    <button type="button"
+                                        className="w-7 h-7 inline-flex items-center justify-center text-[#70685a] border border-[#70685a] outline-none hover:bg-purple-700 active:bg-purple-600">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="14px" fill="#70685a" className="inline" viewBox="0 0 512 512">
+                                            <path
+                                                d="M467 211H301V45c0-24.853-20.147-45-45-45s-45 20.147-45 45v166H45c-24.853 0-45 20.147-45 45s20.147 45 45 45h166v166c0 24.853 20.147 45 45 45s45-20.147 45-45V301h166c24.853 0 45-20.147 45-45s-20.147-45-45-45z"
+                                                data-original="#000000" />
+                                        </svg>
+                                    </button>
+                                }
                             </div>
                         ) : (
                             <div className='flex gap-20'>
@@ -1800,6 +1964,7 @@ const InvoicePurchaseOfBroughtBlank = () => {
                 </div>
             </div>
         )}
+        {/* -----comment modal----- */}
         {showModal && (
             <div className="fixed inset-0 p-4 flex justify-center items-center w-full h-full z-[1000] before:fixed before:inset-0 before:w-full before:h-full before:bg-[rgba(0,0,0,0.5)] overflow-auto font-[sans-serif]">
                 <div className="w-full max-w-lg bg-white shadow-lg rounded-lg p-6 relative">
@@ -1828,6 +1993,129 @@ const InvoicePurchaseOfBroughtBlank = () => {
                             className="px-4 py-2 rounded-lg text-gray-800 text-sm border-none outline-none tracking-wide bg-gray-200 hover:bg-gray-300 active:bg-gray-200">キャンセル</button>
                         <button type="button" onClick={handleCommentSave}
                             className="px-4 py-2 rounded-lg text-white text-sm border-none outline-none tracking-wide bg-blue-600 hover:bg-blue-700 active:bg-blue-600">保存</button>
+                    </div>
+                </div>
+            </div>
+        )}
+                {/* ---show item image--- */}
+                {showItemsImage && (
+            <div
+            className="fixed inset-0 p-4 flex flex-wrap justify-center items-center w-full h-full z-[1000] before:fixed before:inset-0 before:w-full before:h-full before:bg-[rgba(0,0,0,0.5)] overflow-auto font-[sans-serif]">
+            <div className="w-full max-w-lg bg-white shadow-lg rounded-lg p-6 relative">
+                <div className="flex items-center pb-3 border-b border-gray-200">
+                    <div className="flex-1">
+                        <h3 className="text-gray-800 text-xl font-bold">ファイルをアップロード</h3>
+                        <p className="text-gray-600 text-xs mt-1">このアイテムにファイルをアップロード</p>
+                    </div>
+                    <svg onClick={closeItemsImageModal} xmlns="http://www.w3.org/2000/svg" className="w-3 ml-2 cursor-pointer shrink-0 fill-gray-400 hover:fill-red-500"
+                        viewBox="0 0 320.591 320.591">
+                        <path
+                            d="M30.391 318.583a30.37 30.37 0 0 1-21.56-7.288c-11.774-11.844-11.774-30.973 0-42.817L266.643 10.665c12.246-11.459 31.462-10.822 42.921 1.424 10.362 11.074 10.966 28.095 1.414 39.875L51.647 311.295a30.366 30.366 0 0 1-21.256 7.288z"
+                            data-original="#000000"></path>
+                        <path
+                            d="M287.9 318.583a30.37 30.37 0 0 1-21.257-8.806L8.83 51.963C-2.078 39.225-.595 20.055 12.143 9.146c11.369-9.736 28.136-9.736 39.504 0l259.331 257.813c12.243 11.462 12.876 30.679 1.414 42.922-.456.487-.927.958-1.414 1.414a30.368 30.368 0 0 1-23.078 7.288z"
+                            data-original="#000000"></path>
+                    </svg>
+                </div>
+
+                <div className="h-40 flex flex-col bg-gray-50 p-4 rounded-lg mt-4">
+                    <div style={{ flexDirection: 'column', }} className='flex h-full felx-col justify-center'>
+                        <div className='flex justify-center w-full'>
+                            {itemsImagePreview == `${wakabaBaseUrl}/uploads/product/` ? "" : <img src={itemsImagePreview} alt="Image Preview" className='h-[100px] p-1 rounded-lg' />}
+                        </div>
+
+                    </div>
+                </div>
+                <div className="border-t border-gray-200 pt-3 flex justify-between gap-5 mt-3">
+                    <button type="button" onClick = {() => handleItemsButtonClick(itemsImageInputRef)}
+                        className="w-10 h-10 inline-flex items-center justify-center rounded border-none outline-none bg-green-600 hover:bg-green-700 active:bg-green-600">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16px" fill="#fff" className="inline" viewBox="0 0 24 24">
+                        <path
+                            d="M12 16a.749.749 0 0 1-.542-.232l-5.25-5.5A.75.75 0 0 1 6.75 9H9.5V3.25c0-.689.561-1.25 1.25-1.25h2.5c.689 0 1.25.561 1.25 1.25V9h2.75a.75.75 0 0 1 .542 1.268l-5.25 5.5A.749.749 0 0 1 12 16zm10.25 6H1.75C.785 22 0 21.215 0 20.25v-.5C0 18.785.785 18 1.75 18h20.5c.965 0 1.75.785 1.75 1.75v.5c0 .965-.785 1.75-1.75 1.75z"
+                            data-original="#000000"></path>
+                        </svg>
+                    </button>
+                    <input type="file" name="itemsImageUpload" ref={itemsImageInputRef} style={{ display: 'none' }} required onChange={(e) => handleItemsFileChange(e, setItemsImageFile ,setItemsImagePreview)} />
+                    <button type="button" onClick={itemsImageUpload}
+                        className="w-[20%] py-2  rounded-lg text-white text-md border-none outline-none tracking-wide bg-[#524c3b] hover:bg-blue-700 active:bg-blue-600">
+                        <span>保存</span>
+                    </button>
+                    <button type="button" onClick={closeItemsImageModal}
+                        className="w-[20%] py-2 rounded-lg text-white text-md border-none outline-none tracking-wide bg-[#524c3b] hover:bg-red-700 active:bg-blue-600">
+                        <span>閉じる</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        )}
+        {/* ---show doc image---- */}
+        {showItemsDoc && (
+            <div
+            className="fixed inset-0 p-4 flex flex-wrap justify-center items-center w-full h-full z-[1000] before:fixed before:inset-0 before:w-full before:h-full before:bg-[rgba(0,0,0,0.5)] overflow-auto font-[sans-serif]">
+            <div className="w-full max-w-lg bg-white shadow-lg rounded-lg p-6 relative">
+                <div className="flex items-center pb-3 border-b border-gray-200">
+                    <div className="flex-1">
+                        <h3 className="text-gray-800 text-xl font-bold">ファイルをアップロード</h3>
+                        <p className="text-gray-600 text-xs mt-1">このアイテムにファイルをアップロード</p>
+                    </div>
+                    <svg onClick={closeItemsDocModal} xmlns="http://www.w3.org/2000/svg" className="w-3 ml-2 cursor-pointer shrink-0 fill-gray-400 hover:fill-red-500"
+                        viewBox="0 0 320.591 320.591">
+                        <path
+                            d="M30.391 318.583a30.37 30.37 0 0 1-21.56-7.288c-11.774-11.844-11.774-30.973 0-42.817L266.643 10.665c12.246-11.459 31.462-10.822 42.921 1.424 10.362 11.074 10.966 28.095 1.414 39.875L51.647 311.295a30.366 30.366 0 0 1-21.256 7.288z"
+                            data-original="#000000"></path>
+                        <path
+                            d="M287.9 318.583a30.37 30.37 0 0 1-21.257-8.806L8.83 51.963C-2.078 39.225-.595 20.055 12.143 9.146c11.369-9.736 28.136-9.736 39.504 0l259.331 257.813c12.243 11.462 12.876 30.679 1.414 42.922-.456.487-.927.958-1.414 1.414a30.368 30.368 0 0 1-23.078 7.288z"
+                            data-original="#000000"></path>
+                    </svg>
+                </div>
+
+                <div className="h-40 flex flex-col bg-gray-50 p-4 rounded-lg mt-4">
+                    <div style={{ flexDirection: 'column', }} className='flex h-full felx-col justify-center'>
+                        <div className='flex justify-center w-full'>
+                            {itemsImageDocPreview == `${wakabaBaseUrl}/uploads/product/` ? "" : <img src={itemsImageDocPreview} alt="Image Preview" className='h-[100px] p-1 rounded-lg' />}
+                        </div>
+
+                    </div>
+                </div>
+                <div className="border-t border-gray-200 pt-3 flex justify-between gap-5 mt-3">
+                    <button type="button" onClick = {() => handleItemsButtonClick(itemsDocInputRef)}
+                        className="w-10 h-10 inline-flex items-center justify-center rounded border-none outline-none bg-green-600 hover:bg-green-700 active:bg-green-600">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16px" fill="#fff" className="inline" viewBox="0 0 24 24">
+                        <path
+                            d="M12 16a.749.749 0 0 1-.542-.232l-5.25-5.5A.75.75 0 0 1 6.75 9H9.5V3.25c0-.689.561-1.25 1.25-1.25h2.5c.689 0 1.25.561 1.25 1.25V9h2.75a.75.75 0 0 1 .542 1.268l-5.25 5.5A.749.749 0 0 1 12 16zm10.25 6H1.75C.785 22 0 21.215 0 20.25v-.5C0 18.785.785 18 1.75 18h20.5c.965 0 1.75.785 1.75 1.75v.5c0 .965-.785 1.75-1.75 1.75z"
+                            data-original="#000000"></path>
+                        </svg>
+                    </button>
+                    <input type="file" name="itemsImageUpload" ref={itemsDocInputRef} style={{ display: 'none' }} required onChange={(e) => handleItemsDocFileChange(e, setItemsDocFile ,setItemsDocPreview)} />
+                    <button type="button" onClick={itemsImageUpload}
+                        className="w-[20%] py-2  rounded-lg text-white text-md border-none outline-none tracking-wide bg-[#524c3b] hover:bg-blue-700 active:bg-blue-600">
+                        <span>保存</span>
+                    </button>
+                    <button type="button" onClick={closeItemsDocModal}
+                        className="w-[20%] py-2 rounded-lg text-white text-md border-none outline-none tracking-wide bg-[#524c3b] hover:bg-red-700 active:bg-blue-600">
+                        <span>閉じる</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        )}
+        {/* ------permission success modal----- */}
+         {pemissionSuccess && <ConfirmationModal title = {'あなたのリクエストは確認されました'} onClose={closePermissionSuccess} />}
+        {/* -----all clear modal------ */}
+        {showAllClear && (
+            <div
+                className="fixed inset-0 p-4 flex flex-wrap justify-center items-center w-full h-full z-[1000] before:fixed before:inset-0 before:w-full before:h-full before:bg-[rgba(0,0,0,0.5)] overflow-auto font-[sans-serif]">
+                <div className="w-full max-w-lg bg-white shadow-lg rounded-lg p-6 relative">
+
+                    <div className="my-4 text-center">
+                        <h4 className="text-gray-800 text-base font-semibold mt-4">この請求書データを削除してもよろしいですか？</h4>
+
+                        <div className="text-center space-x-4 mt-8">
+                            <button type="button" onClick={()=>allClear()}
+                                className="px-6 py-2 rounded-lg text-white text-sm bg-red-600 hover:bg-red-700 active:bg-red-600">はい</button>
+                            <button type="button" onClick={closeShowAllClearModal}
+                                className="px-4 py-2 rounded-lg text-gray-800 text-sm bg-gray-200 hover:bg-gray-300 active:bg-gray-200">キャンセル</button>
+                        </div>
                     </div>
                 </div>
             </div>

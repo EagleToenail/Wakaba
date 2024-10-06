@@ -107,7 +107,7 @@ const WholeSalerShippingList = () => {
 
     useEffect(() => {
         const fetchSalesData = async () => {
-          if (salesDataIds !== 'Initial Data' && salesDataIds.length !== 0) {
+          if (salesDataIds?.length > 0) {
             const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
             
             if (!wakabaBaseUrl) {
@@ -115,19 +115,13 @@ const WholeSalerShippingList = () => {
             }
             console.log('getData');
             try {
-              // Create an array of promises
-              const promises = salesDataIds.map((salesId) =>
-                axios.post(`${wakabaBaseUrl}/sales/getSalesById`, { id: salesId })
-              );
-    
-              // Wait for all promises to resolve
-              const responses = await Promise.all(promises);
-              
-              // Extract data from responses and set the state
-              const salesData = responses.map(response => response.data);
-              setWholeSalesPurchase(salesData);
-              setOldWholeSalesPurchase(salesData);
-              // console.log('salesdata========', salesData);
+                await axios.post(`${wakabaBaseUrl}/sales/getSalesById`, { id: salesDataIds })
+                .then(response =>{
+                    const salesData = response.data;
+                    setWholeSalesPurchase(salesData);
+                    setOldWholeSalesPurchase(salesData);
+                })
+
             } catch (error) {
               console.error("There was an error fetching the customer data!", error);
             }
@@ -235,17 +229,11 @@ const fetchOldSalesData = async (ids) => {
         throw new Error('API base URL is not defined');
       }
       try {
-        // Create an array of promises
-        const promises = ids.map((id) =>
-          axios.post(`${wakabaBaseUrl}/sales/getSalesById`, { id: id })
-        );
-
-        // Wait for all promises to resolve
-        const responses = await Promise.all(promises);
-        
-        // Extract data from responses and set the state
-        const salesData = responses.map(response => response.data);
-        setOldWholeSalesPurchase(salesData);
+        await axios.post(`${wakabaBaseUrl}/sales/getSalesById`, { id: ids })
+        .then(response =>{
+          const salesData = response.data;
+          setOldWholeSalesPurchase(salesData);
+        })
       } catch (error) {
         console.error("There was an error fetching the customer data!", error);
       }
@@ -331,7 +319,7 @@ const fetchOldSalesData = async (ids) => {
 
                         {/*  Table1-----------------------------------------*/}
                         <div className='mt-10 pb-10 w-full flex'>
-                            <div style={{ width: '100%', overflow: 'auto' }} >
+                            <div className='w-full' style={{overflow: 'auto' }} >
                                 <table className='text-center w-full' style={Table}>
                                     <thead>
                                         <tr>
@@ -353,7 +341,7 @@ const fetchOldSalesData = async (ids) => {
                                     </thead>
                                     {showShippingHistory === true ? (
                                     <tbody>
-                                        {(wholeSalesPurchase && wholeSalesPurchase.length !==0) && wholeSalesPurchase.map((saleData,Index) => (
+                                        {wholeSalesPurchase?.length >0 && wholeSalesPurchase.map((saleData,Index) => (
                                             <tr key={Index}> 
                                                 <td >{Index +1}.</td>
                                                 <td style={Td}>{saleData.product_status || ''}</td>
@@ -415,7 +403,7 @@ const fetchOldSalesData = async (ids) => {
                                     </tbody>
                                     ) : (
                                     <tbody>
-                                        {(wholeSalesPurchase && wholeSalesPurchase.length !==0) && 
+                                        {wholeSalesPurchase?.length >0 && 
                                             <tr > 
                                                 <td>1.</td>
                                                 <td style={Td}>{wholeSalesPurchase[0].product_status || ''}</td>
@@ -490,7 +478,7 @@ const fetchOldSalesData = async (ids) => {
                             <div className='pb-20 w-full flex'>
                                 <div style={{ width: '100%', overflow: 'auto' }}>
                                     <table className='text-center w-full' style={Table}>
-                                        <thead className='sticky top-0 bg-white z-10'> 
+                                        <thead className='bg-white z-10'> 
                                             <tr>
                                                 <th className='px-2' style={Th}></th>
                                                 <th  style={Th} >ステー夕ス</th>
@@ -513,7 +501,7 @@ const fetchOldSalesData = async (ids) => {
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {(oldWholeSalesPurchase && oldWholeSalesPurchase.length !==0) && oldWholeSalesPurchase.map((saleData,Index) => (
+                                            {oldWholeSalesPurchase?.length >0 && oldWholeSalesPurchase.map((saleData,Index) => (
                                                 <tr key={saleData.id}>
                                                     <td>{Index + 1}</td>
                                                     <td style={Td}>

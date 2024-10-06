@@ -58,6 +58,25 @@ const CustomerIndividual = () => {
         whiteSpace: 'nowrap'
     };
 
+    //create-symbol
+    const formatPhoneNumber = (number) => {
+        // Ensure the number is a string
+        const numStr = number.toString();
+
+        // Extract parts of the string
+        if (numStr.length >= 7) {
+            const part1 = numStr.slice(0, 3);   // First 3 digits
+            const part2 = numStr.slice(3, 7);   // Next 4 digits
+            const part3 = numStr.slice(7);      // Remaining digits (if any)
+            
+            // Combine parts with dashes
+            return part3 ? `${part1}-${part2}-${part3}` : `${part1}-${part2}`;
+        } else {
+            return numStr; // Return the original string if less than 7 digits
+        }
+
+    };
+
     const [customer, setCustomer] = useState({
         id: '',
         full_name: '',
@@ -200,6 +219,9 @@ const CustomerIndividual = () => {
     const handleKeepSubmit = async (e) => {
         e.preventDefault();
         setIsKeepModalOpen(false);
+        const formattedNumber = formatPhoneNumber(customer.phone_number);
+        customer.phone_number = formattedNumber;
+        
         const formDataObj = new FormData();
         formDataObj.append('id', customer.id);
         formDataObj.append('visit_type', customer.visit_type);

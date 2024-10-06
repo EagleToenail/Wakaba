@@ -130,30 +130,23 @@ const PurchaseRequestFormForWholeSaler = () => {
     }, []);
 
       const fetchSalesData = async (category1) => {
-        if (salesDataIds !== 'Initial Data' && salesDataIds.length !== 0) {
+        if (salesDataIds?.length > 0) {
           const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
           
           if (!wakabaBaseUrl) {
             throw new Error('API base URL is not defined');
           }
-          console.log('getData');
           try {
             // Create an array of promises
-            const promises = salesDataIds.map((salesId) =>
-              axios.post(`${wakabaBaseUrl}/sales/getSalesById`, { id: salesId })
-            );
-  
-            // Wait for all promises to resolve
-            const responses = await Promise.all(promises);
-            
-            // Extract data from responses and set the state
-            const salesData = responses.map(response => response.data);
-            setWholeSalesPurchase(salesData);
-            if(salesData[0].product_type_one) {
-                const product1 = category1.filter(item => item.category === salesData[0].product_type_one);
-                fetchCategoryVendors(product1[0].id);
-            }
-            // console.log('salesdata========', salesData);
+             await axios.post(`${wakabaBaseUrl}/sales/getSalesById`, { id: salesDataIds })
+              .then(response =>{
+                const salesData = response.data;
+                setWholeSalesPurchase(salesData);
+                if(salesData[0].product_type_one) {
+                    const product1 = category1.filter(item => item.category === salesData[0].product_type_one);
+                    fetchCategoryVendors(product1[0].id);
+                }
+              })
           } catch (error) {
             console.error("There was an error fetching the customer data!", error);
           }

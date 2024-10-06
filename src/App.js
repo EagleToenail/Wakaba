@@ -169,7 +169,7 @@ function App() {
             <Route path='/stamprelatedoutboundapplicationform' element={<StampRelatedOutboundApplicationForm/>}/>
             <Route path='/stamprelatedreceiptandissuehistory' element={<StampRelatedReceiptAndIssueHistory/>}/>
             <Route path='/stampshippinghistorydetail/:id' element={<StampShippingHistoryDetail/>}/>
-            <Route path='/stamprelatedpurchasestatement' element={<StampRelatedPurchaseStatement/>}/>
+            <Route path='/stamprelatedpurchasestatement/:id' element={<StampRelatedPurchaseStatement/>}/>
             <Route path='/stamppurchaselistcustomerconfirmation' element={<StampPurchaseListCustomerConfirmation/>}/>
             <Route path='/stamppurchaseinterestratechange' element={<StampPurchaseInterestRateChange/>}/>
             <Route path='/commemorativecoinhistorylist' element={<CommemorativeCoinHistoryList/>}/>

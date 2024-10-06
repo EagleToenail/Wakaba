@@ -32,24 +32,27 @@ const InvoiceForPurchaseList = () => {
         whiteSpace: 'nowrap'
     };
 
+    const userStoreName = localStorage.getItem('storename');
+    const userId = localStorage.getItem('userId');
 
     const [purchaseInvoice, setPurchaseInvoice] = useState([]);
     // Fetch sales data
     useEffect( () => {
-        const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
-        if (!wakabaBaseUrl) {
-            throw new Error('API base URL is not defined');
+        const fetchInvoiceList = async() => {
+            const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+            if (!wakabaBaseUrl) {
+                throw new Error('API base URL is not defined');
+            }
+            await axios.post(`${wakabaBaseUrl}/purchaseinvoice/getinvoicelist`,{userId:userId,userStoreName:userStoreName})
+                .then(response => {
+                    // console.log(response.data)
+                    setPurchaseInvoice(response.data);
+                })
+                .catch(error => {
+                    console.error("There was an error fetching the customer data!", error);
+                });
         }
-
-        // console.log(`${wakabaBaseUrl}/sales/getSalesList`);
-         axios.get(`${wakabaBaseUrl}/sales/getSalesList`)
-            .then(response => {
-                // console.log(response.data)
-                setPurchaseInvoice(response.data);
-            })
-            .catch(error => {
-                console.error("There was an error fetching the customer data!", error);
-            });
+        fetchInvoiceList();
     }, []);
 
     //no new customer
@@ -96,7 +99,7 @@ const InvoiceForPurchaseList = () => {
                         <tbody>
                             {(purchaseInvoice && purchaseInvoice.length !==0) && purchaseInvoice.map((data,Index) => (
                                 <tr key={Index}>
-                                    <td style={Td}>{data.id}</td>
+                                    <td style={Td}>{data.invoice_ids}</td>
                                     <td style={Td}>{data.trading_date}</td>
                                     <td style={Td}>{data.purchase_staff}</td>
                                     <td style={Td}>{data.Customer ? data.Customer.full_name : 'Name not available'}</td>

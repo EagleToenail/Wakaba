@@ -97,7 +97,7 @@ const SalesSlip = () => {
         updateData(checkedValues);
         // console.log('checked values',checkedValues);
         if(checkedValues && checkedValues.length !==0){
-            navigate('/purchaserequestformforwholesaler');
+            navigate('/purchaserequest');
         }
 
     };

@@ -15,9 +15,13 @@ import { setStampsData } from '../../redux/sales/actions';
 
 
 const StampRelatedPurchaseStatement = () => {
-    // const title = 'タイトルタイトル';
-    // const title = 'タイトルタイトル';
+
     const navigate = useNavigate();
+
+    // Fetch customer data
+    const { id } = useParams();
+    const customerId = id;
+
     const Table = {
         borderCollapse: 'collapse',
         color: '#70685a',
@@ -36,6 +40,28 @@ const StampRelatedPurchaseStatement = () => {
         fontSize: '15px',
         whiteSpace: 'nowrap'
     };
+
+    const userStoreName = localStorage.getItem('storename');
+    const userId = localStorage.getItem('userId');
+    const role = localStorage.getItem('role');
+
+    const [userData, setUserData] = useState([]);
+    useEffect(() => {
+  
+      const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+  
+      if (!wakabaBaseUrl) {
+        throw new Error('API base URL is not defined');
+      }
+  
+      axios.post(`${wakabaBaseUrl}/user/getUserById`, { userId })
+        .then(response => {
+          setUserData(response.data);
+        })
+        .catch(error => {
+          console.error("There was an error fetching the customer data!", error);
+        });
+    }, [userId]);
 
     const [stampRate, setStampRate] = useState([]);
     //fetch data
@@ -876,23 +902,17 @@ const StampRelatedPurchaseStatement = () => {
         ,totalPurchaseOfSheet1,totalPurchaseOfSheet2,totalPurchaseOfRose1,totalPurchaseOfRose2,totalPurchaseOfPack1,totalPurchaseOfPack2,totalPurchaseOfCard1,totalPurchaseOfCard2
     ]);
     //-------------------------------------send data and save-------------------------------------------
-    const data = useSelector((state) => state.data);
-    const customerId = data.data;
 
     const dispatch = useDispatch();
     const updateData = (data) => {
         dispatch(setStampsData(data));
     };
 
-    console.log('customerID',customerId)
-    // const clearReduxData = () => {
-    //     dispatch(setClearData());
-    // }
-    // useEffect(() => {
-    //     if (data.data !== 'Initial Data') {
-    //         clearReduxData();
-    //     }
-    // }, [data.data]);
+    const now = new Date();
+
+    // Format the date as YYYY-MM-DD
+    const optionsDate = { year: 'numeric', month: '2-digit', day: '2-digit', timeZone: 'Asia/Tokyo' };
+    const currentDay = new Intl.DateTimeFormat('ja-JP', optionsDate).format(now).replace(/\//g, '-');
 
     const sendStampData = async() => {
         const purchaseStampData = {sheetRows,roseRows,packRows,cardRows,
@@ -901,26 +921,51 @@ const StampRelatedPurchaseStatement = () => {
             totalPurchaseOfSheet1,totalPurchaseOfSheet2,totalPurchaseOfRose1,totalPurchaseOfRose2,totalPurchaseOfPack1,totalPurchaseOfPack2,totalPurchaseOfCard1,totalPurchaseOfCard2,
             totalNumberOfStamp,totalStampFaceValue,totalStampPurchasePrice}
         updateData(purchaseStampData);
-        
-        // console.log('result data', purchaseStampData,customerId)
-        // if(customerId !== 'Initial Data') {
-        //     try {
-        //         const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
-        //         if (!wakabaBaseUrl) {
-        //             throw new Error('API base URL is not defined');
-        //         }
-        //         await axios.post(`${wakabaBaseUrl}/stamp/update`, {sheetRows,roseRows,packRows,cardRows})
-        //         .then(response => {
-        //         })
-        //         .catch(error => {
-        //             console.error("There was an error fetching the customer data!", error);
-        //         }); // Send newRow data to the server
-        //       } catch (error) {
-        //         console.error('Error adding row:', error);
-        //       }
-        // }
 
-        navigate(`/invoiceforpurchaseofbrought/${customerId}`);
+        const sheetFilteredArray = sheetRows.filter(obj => obj.numberOfSheets !== 0);
+        const sheetIds = sheetFilteredArray.map(obj => obj.id);
+        const sheetValues = sheetFilteredArray.map(obj => obj.numberOfSheets);
+
+        const roseFilteredArray = roseRows.filter(obj => obj.numberOfSheets !== 0);
+        const roseIds = roseFilteredArray.map(obj => obj.id);
+        const roseValues = roseFilteredArray.map(obj => obj.numberOfSheets);
+
+        const packFilteredArray = packRows.filter(obj => obj.numberOfSheets !== 0);
+        const packIds = packFilteredArray.map(obj => obj.id);
+        const packValues = packFilteredArray.map(obj => obj.numberOfSheets);
+
+        const cardFilteredArray = cardRows.filter(obj => obj.numberOfSheets !== 0);
+        const cardIds = cardFilteredArray.map(obj => obj.id);
+        const cardValues = cardFilteredArray.map(obj => obj.numberOfSheets);
+        
+        console.log('result data', purchaseStampData,customerId)
+        if(customerId !== 'Initial Data') {
+            try {
+                const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+                if (!wakabaBaseUrl) {
+                    throw new Error('API base URL is not defined');
+                } 
+                const username = userData.full_name;
+                const storeName = userData.store_name;
+                const stampData = {currentDay,customerId,username,storeName,userId, stampRate,
+                    sheetIds,sheetValues,roseIds,roseValues,packIds,packValues,cardIds,cardValues,
+                    totalNumberOfSheet1,totalNumberOfSheet2,totalNumberOfRose1,totalNumberOfRose2,totalNumberOfPack1,totalNumberOfPack2,totalNumberOfCard1,totalNumberOfCard2,
+                    totalFaceValue1,totalFaceValue2,totalRoseFaceValue1,totalRoseFaceValue2,totalPackFaceValue1,totalPackFaceValue2,totalCardFaceValue1,totalCardFaceValue2,
+                    totalPurchaseOfSheet1,totalPurchaseOfSheet2,totalPurchaseOfRose1,totalPurchaseOfRose2,totalPurchaseOfPack1,totalPurchaseOfPack2,totalPurchaseOfCard1,totalPurchaseOfCard2,
+                }
+                console.log('stampData',stampData)
+                await axios.post(`${wakabaBaseUrl}/purchaseinvoice/stamps`, stampData)
+                .then(response => {
+                    navigate(`/invoiceforpurchaseofbrought/${customerId}`);
+                })
+                .catch(error => {
+                    console.error("There was an error fetching the customer data!", error);
+                }); // Send newRow data to the server
+              } catch (error) {
+                console.error('Error adding row:', error);
+              }
+        }
+
     }
 //------------------------------------
     // return stamp inventory list page
