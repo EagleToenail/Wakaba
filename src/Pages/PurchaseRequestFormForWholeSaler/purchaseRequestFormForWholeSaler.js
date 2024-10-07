@@ -40,6 +40,11 @@ const PurchaseRequestFormForWholeSaler = () => {
     const salesDataIds = data.data;
     // console.log('salesDataIds',salesDataIds);
 
+    const dispatch = useDispatch();
+    const clearReduxData = () => {
+        dispatch(setClearData());
+    }
+
     //fetch data from master database
     const [wholeSalesPurchase, setWholeSalesPurchase] = useState([]);
 
@@ -85,27 +90,6 @@ const PurchaseRequestFormForWholeSaler = () => {
             highest_estimate_vendor: '',
          }); // Reset editedRow state
     };
-
-    const [allVendors, setAllVendors] = useState([]);
-    useEffect(() => {
-        const fetchAllVendor = async() =>{
-            const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
-            if (!wakabaBaseUrl) {
-                throw new Error('API base URL is not defined');
-            }
-            axios.get(`${wakabaBaseUrl}/vendor/getVendorListAll`)
-                .then(response => {
-                    setAllVendors(response.data);
-                    // console.log('vendrListAll',response.data)
-                })
-                .catch(error => {
-                    console.error("There was an error fetching the customer data!", error);
-                });
-        }
-        fetchAllVendor();
-
-    }, []);
-
     // search selectbox product1================
 
     const [product1s, setProduct1s] = useState([]);
@@ -253,11 +237,6 @@ const PurchaseRequestFormForWholeSaler = () => {
         }
     };
 
-    const dispatch = useDispatch();
-    const clearReduxData = () => {
-        dispatch(setClearData());
-    }
-
     const sendShippingData = async() =>{
         clearReduxData();
         console.log('wholeSalesPurchase',wholeSalesPurchase)
@@ -390,7 +369,7 @@ const PurchaseRequestFormForWholeSaler = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {(wholeSalesPurchase && wholeSalesPurchase.length !==0) && wholeSalesPurchase.map((saleData,Index) => (
+                            { wholeSalesPurchase?.length >0 && wholeSalesPurchase.map((saleData,Index) => (
                                 <tr key={saleData.id}>
                                     <td>{Index + 1}</td>
                                     <td style={Td}>{saleData.id || ''}</td>

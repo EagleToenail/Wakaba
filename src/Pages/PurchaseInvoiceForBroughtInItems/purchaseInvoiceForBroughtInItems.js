@@ -56,7 +56,7 @@ const PurchaseInvoiceForBroughtInItems = () => {
 
     }, [data.data]);
 
-    console.log('purchasedata---------',purchaseData);
+    // console.log('purchasedata---------',purchaseData);
     // if(data.data !== 'Initial Data') {
     //     clearReduxData();
     // }
@@ -228,31 +228,32 @@ const PurchaseInvoiceForBroughtInItems = () => {
     };
 
     const confirmAgree = async () => {
-        handleSavePageAsPDF();
+        // handleSavePageAsPDF();
         const dataUrl = sigCanvas.current.toDataURL();
         if (checked === 'agree' && dataUrl != null) {
-           
-            try {
-                const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+            const payload = purchaseInformation.totalSalesSlipData;
+            console.log('payload',payload)
+                try {
+                    const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
 
-                if (!wakabaBaseUrl) {
-                    throw new Error('API base URL is not defined');
+                    if (!wakabaBaseUrl) {
+                        throw new Error('API base URL is not defined');
+                    }
+                    const payload = purchaseInformation.totalSalesSlipData;
+                    const response = await axios.post(`${wakabaBaseUrl}/purchaseinvoice/confirm`, { dataUrl, payload })
+                    .then(response => {
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                        navigate('/salesslip');
+                    })
+                    .catch(error => {
+                        console.error("There was an error fetching the customer data!", error);
+                    });
+                } catch (error) {
+                    console.error('Error submitting form:', error);
+                    // Handle error here
                 }
-                const payload = purchaseInformation.totalSalesSlipData;
-                const response = await axios.post(`${wakabaBaseUrl}/purchaseinvoice`, { dataUrl, payload })
-                .then(response => {
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                    navigate('/salesslip');
-                })
-                .catch(error => {
-                    console.error("There was an error fetching the customer data!", error);
-                });
-            } catch (error) {
-                console.error('Error submitting form:', error);
-                // Handle error here
-            }
-        } else {
-            setError('リクエストの処理にエラーが発生しました。もう一度ご確認ください。');//There was an error processing your request. Please check again.
+            } else {
+                setError('リクエストの処理にエラーが発生しました。もう一度ご確認ください。');//There was an error processing your request. Please check again.
         }
 
     }

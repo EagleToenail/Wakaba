@@ -34,6 +34,7 @@ import InvoiceForPurchaseOfBrought from './Pages/InvoiceForPurchaseOfBrought/inv
 import InvoiceForPurchaseOfBroughtBlank from './Pages/InvoiceForPurchaseOfBroughtBlank/invoiceforpurchaseofbroughtblank';//Application for invoice for purchase of brought blank-in goods
 import InvoiceForPurchaseChat from './Pages/InvoiceForPurchaseChat/invoiceForPurchaseChat';//invoice for purchase chat
 import InvoiceForPurchaseList from './Pages/InvoiceForPurchaseList/invoiceForPurchaseList';//invoice for purchase list
+import InvoiceForPurchaseDetail from './Pages/invoiceForPurchaseDetail/invoiceForPurchaseDetail';//invoice for detail
 import PurchaseInvoiceForBroughtInItems from './Pages/PurchaseInvoiceForBroughtInItems/purchaseInvoiceForBroughtInItems';//Purchase invoice for brought-in items(for customer presentaion)
 import WholeSalerShippingList from './Pages/WholeSalerShippingList/wholeSalerShippingList';//Wholesaler Shipping List
 import PurchaseRequestFormForWholeSaler from './Pages/PurchaseRequestFormForWholeSaler/purchaseRequestFormForWholeSaler';//Purchase request form
@@ -154,6 +155,7 @@ function App() {
             <Route path='/invoiceforpurchaseofbroughtblank' element={<InvoiceForPurchaseOfBroughtBlank/>}/>
             <Route path='/invoiceforpurchasechat' element={<InvoiceForPurchaseChat/>}/>
             <Route path='/invoiceforpurchaselist' element={<InvoiceForPurchaseList/>}/>
+            <Route path='/invoiceforpurchasedetail/:invoiceid' element={<InvoiceForPurchaseDetail/>}/>
             <Route path='/wholesalershippinglist' element={<WholeSalerShippingList/>}/>
             <Route path='/purchaserequestformforwholesaler' element={<PurchaseRequestFormForWholeSaler/>}/>
             <Route path='/salesslip' element={<SalesSlip/>}/>

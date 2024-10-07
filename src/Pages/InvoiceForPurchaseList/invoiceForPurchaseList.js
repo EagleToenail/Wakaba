@@ -64,6 +64,11 @@ const InvoiceForPurchaseList = () => {
         navigate('/invoiceforpurchaseofbroughtblank');
     }
 
+    //goto invoice for purchase detail page
+    const gotoInvoiceForPurchaseDetail = (id) => {
+        navigate(`/invoiceforpurchasedetail/${id}`)
+    }
+
     return (
         <>
             {/* <Titlebar title={title} /> */}
@@ -89,20 +94,30 @@ const InvoiceForPurchaseList = () => {
                     <table style={Table}>
                         <thead className='sticky top-0 bg-white z-10'>
                             <tr>
-                                <th style={Th} width='5%'>ID</th>
+                                <th style={Th} width='5%'>NO</th>
+                                <th style={Th} width='5%'>IDs</th>
                                 <th style={Th} width='5%' >買取日</th>
                                 <th style={Th} width='5%'>買取担当</th>
                                 <th style={Th} width='5%'>お客様</th>   
+                                <th width='1%'></th>   
                             </tr>
 
                         </thead>
                         <tbody>
                             {(purchaseInvoice && purchaseInvoice.length !==0) && purchaseInvoice.map((data,Index) => (
                                 <tr key={Index}>
+                                    <td style={Td}>{Index + 1}</td>
                                     <td style={Td}>{data.invoice_ids}</td>
                                     <td style={Td}>{data.trading_date}</td>
                                     <td style={Td}>{data.purchase_staff}</td>
                                     <td style={Td}>{data.Customer ? data.Customer.full_name : 'Name not available'}</td>
+                                    <td>
+                                        <div className='flex justify-center'>
+                                            <button className='w-7  h-7 ml-3 mb-1' onClick={()=>gotoInvoiceForPurchaseDetail(data.id)}>
+                                                <svg className=" " fill='#70685a' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="ContentCopyIcon" title="ContentCopy"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2m0 16H8V7h11z"></path></svg>
+                                            </button>
+                                        </div>
+                                    </td>
                                 </tr>
                             ))}
                         </tbody>

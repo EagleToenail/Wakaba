@@ -19,7 +19,7 @@ import rightArrow from '../../Assets/img/left-arrow.png';
 
 import ConfirmationModal from '../../Components/Modal/SuccessModal';
 
-const InvoicePurchaseOfBrought = () => {
+const InvoicePurchaseOfDetail = () => {
     // const title = 'タイトルタイトル';
     const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
     const [deadline, setDeadline] = useState('');
@@ -32,8 +32,8 @@ const InvoicePurchaseOfBrought = () => {
     const navigate = useNavigate();
 
     // Fetch customer data
-    const { id } = useParams();
-
+    const { invoiceid } = useParams();
+    const [id,setId] = useState('');
     const now = new Date();
 
     // Format the date as YYYY-MM-DD
@@ -52,7 +52,6 @@ const InvoicePurchaseOfBrought = () => {
     //received data using redux
     const data = useSelector((state) => state.data);
     const stampData = data.data;
-    console.log('stampData',stampData);
     const clearReduxData = () => {
         dispatch(setClearData());
     }
@@ -90,21 +89,23 @@ const InvoicePurchaseOfBrought = () => {
 
     const userStoreName = localStorage.getItem('storename');
     const userId = localStorage.getItem('userId');
-    const role = localStorage.getItem('role')
-
+    const role = localStorage.getItem('role');
 // fetch registered product
 useEffect(() => {
-    const fetch = async () => {
+    const fetchInvoiceData = async () => {
         const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
 
         if (!wakabaBaseUrl) {
             throw new Error('API base URL is not defined');
         }
-
-        await axios.post(`${wakabaBaseUrl}/purchaseinvoice/getregistereddata`,{id:id,userStoreName:userStoreName,userId:userId})
+        await axios.post(`${wakabaBaseUrl}/purchaseinvoice/invoicedetail`,{id:invoiceid})
             .then(response => {
+                console.log(response.data)
                 const invoiceData = response.data;
                 if(invoiceData?.length>0) {
+                    const customerId = invoiceData[0].customer_id;
+                    console.log('customerId',customerId)
+                    setId(customerId);
                     const updatedData111 = invoiceData.map((data,Index) => ({
                         ...data,
                         estimate_wholesaler: JSON.parse(data.estimate_wholesaler),
@@ -112,6 +113,10 @@ useEffect(() => {
                     setTotalSalesSlipData(updatedData111);
                     setItemsImagePreview(`${wakabaBaseUrl}/uploads/product/${response.data[0].entire_items_url}`);
                     setItemsDocPreview(`${wakabaBaseUrl}/uploads/product/${response.data[0].document_url}`);
+                
+                    fetchCustomerPastVisitHistory(customerId);
+                    fetchCustomerData(customerId);
+                
                 }
                 setShowInputPurchase(false);
             })
@@ -119,8 +124,41 @@ useEffect(() => {
                 console.error("There was an error fetching the customer data!", error);
             });
     }
-    fetch();
+    fetchInvoiceData();
 }, []);
+
+const fetchInvoiceHistoryData = async () => {
+    const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+
+    if (!wakabaBaseUrl) {
+        throw new Error('API base URL is not defined');
+    }
+    await axios.post(`${wakabaBaseUrl}/purchaseinvoice/invoicedetail`,{id:invoiceid})
+        .then(response => {
+            console.log(response.data)
+            const invoiceData = response.data;
+            if(invoiceData?.length>0) {
+                const customerId = invoiceData[0].customer_id;
+                console.log('customerId',customerId)
+                setId(customerId);
+                const updatedData111 = invoiceData.map((data,Index) => ({
+                    ...data,
+                    estimate_wholesaler: JSON.parse(data.estimate_wholesaler),
+                })); 
+                setTotalSalesSlipData(updatedData111);
+                setItemsImagePreview(`${wakabaBaseUrl}/uploads/product/${response.data[0].entire_items_url}`);
+                setItemsDocPreview(`${wakabaBaseUrl}/uploads/product/${response.data[0].document_url}`);
+            
+                fetchCustomerPastVisitHistory(customerId);
+                fetchCustomerData(customerId);
+            
+            }
+            setShowInputPurchase(false);
+        })
+        .catch(error => {
+            console.error("There was an error fetching the customer data!", error);
+        });
+}
 
     const [customerPastVisitHistory, setCustomerPastVisitHistory] = useState([{
         visit_date: '',
@@ -134,25 +172,20 @@ useEffect(() => {
     }]);
 
     // Fetch customerPastVisitHistory data
-    useEffect(() => {
-        const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
-        const fetch = async () => {
-            if (!wakabaBaseUrl) {
-                throw new Error('API base URL is not defined');
-            }
-            if (id) {
-                await axios.get(`${wakabaBaseUrl}/customer/customerpastvisithistory/${id}`)
-                    .then(response => {
-                        setCustomerPastVisitHistory(response.data);
-                    })
-                    .catch(error => {
-                        console.error("There was an error fetching the customer data!", error);
-                    });
-            }
+    const fetchCustomerPastVisitHistory = async (customerId) => {
+        if (!wakabaBaseUrl) {
+            throw new Error('API base URL is not defined');
         }
-        fetch();
-
-    }, []);
+        if (customerId) {
+            await axios.get(`${wakabaBaseUrl}/customer/customerpastvisithistory/${customerId}`)
+                .then(response => {
+                    setCustomerPastVisitHistory(response.data);
+                })
+                .catch(error => {
+                    console.error("There was an error fetching the customer data!", error);
+                });
+        }
+    }
 
     const [customer, setCustomer] = useState({
         id: '',
@@ -184,28 +217,24 @@ useEffect(() => {
     });
 
     //fetch customer data
-    useEffect(() => {
-
-        const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
-        const fetch = async () => {
-            if (!wakabaBaseUrl) {
-                throw new Error('API base URL is not defined');
-            }
-            if (id) {
-                await axios.get(`${wakabaBaseUrl}/customer/getCustomerById/${id}`)
-                    .then(response => {
-                        //console.log("customerdata", response.data)
-                        checkedFunction(response.data.item1, response.data.item2, response.data.item3, response.data.item4, response.data.item5)
-                        setCustomer(response.data);
-                    })
-                    .catch(error => {
-                        console.error("There was an error fetching the customer data!", error);
-                    });
-            }
+    const fetchCustomerData = async (customerId) => {
+        console.log('----fetchcustomer1')
+        if (!wakabaBaseUrl) {
+            throw new Error('API base URL is not defined');
         }
-        fetch();
-
-    }, [id]);
+        if (customerId) {
+            await axios.get(`${wakabaBaseUrl}/customer/getCustomerById/${customerId}`)
+                .then(response => {
+                    //console.log("customerdata", response.data)
+                    checkedFunction(response.data.item1, response.data.item2, response.data.item3, response.data.item4, response.data.item5)
+                    setCustomer(response.data);
+                    console.log('----fetchcustomer2')
+                })
+                .catch(error => {
+                    console.error("There was an error fetching the customer data!", error);
+                });
+        }
+    }
 
     const handleCustomerChange = (e) => {
         setCustomer({
@@ -238,12 +267,12 @@ useEffect(() => {
         }
        fetchUserData();
     }, [userId]);
-
     // calculate the invoice number
     const [invoiceNumber,setInvoiceNumber] = useState('0');
     useEffect(() => {
         if(totalSalesSlipData?.length >0) {
             setInvoiceNumber(totalSalesSlipData[0].id)
+            console.log('hhhhhhhhhhhh',totalSalesSlipData[0])
         }
     }, [totalSalesSlipData]);
     //salesSlipData
@@ -630,17 +659,8 @@ useEffect(() => {
                             'Content-Type': 'multipart/form-data'
                         }
                     }).then(response => {
-                        const invoiceData = response.data;
-                        if(invoiceData?.length>0) {
-                            const updatedData111 = invoiceData.map((data,Index) => ({
-                                ...data,
-                                estimate_wholesaler: JSON.parse(data.estimate_wholesaler),
-                            })); 
-                            setTotalSalesSlipData(updatedData111);
+                        fetchInvoiceHistoryData();
 
-                            setItemsImagePreview(`${wakabaBaseUrl}/uploads/product/${response.data[0].entire_items_url}`);
-                            setItemsDocPreview(`${wakabaBaseUrl}/uploads/product/${response.data[0].document_url}`);
-                        }
                         setShowInputPurchase(false);
                         setSalesSlipData({
                             trading_date: salesSlipData.trading_date,
@@ -733,17 +753,8 @@ useEffect(() => {
             }
             await axios.post(`${wakabaBaseUrl}/purchaseinvoice/delete`, {id:id,userId:userId, userStoreName:userStoreName})
             .then(response => {
-                const invoiceData = response.data;
-                if(invoiceData?.length>0) {
-                    const updatedData111 = invoiceData.map((data,Index) => ({
-                        ...data,
-                        estimate_wholesaler: JSON.parse(data.estimate_wholesaler),
-                    })); 
-                    setTotalSalesSlipData(updatedData111);
+                fetchInvoiceHistoryData();
 
-                    setItemsImagePreview(`${wakabaBaseUrl}/uploads/product/${response.data[0].entire_items_url}`);
-                    setItemsDocPreview(`${wakabaBaseUrl}/uploads/product/${response.data[0].document_url}`);
-                }
                 setShowInputPurchase(false);
                 setSalesSlipData({
                     trading_date: salesSlipData.trading_date,
@@ -984,17 +995,7 @@ useEffect(() => {
             console.log('payload',payload)
             await axios.post(`${wakabaBaseUrl}/purchaseinvoice/commentsave`, {payload:payload,userId:userId,userStoreName:userStoreName})
             .then(response => {
-                const invoiceData = response.data;
-                if(invoiceData?.length>0) {
-                    const updatedData111 = invoiceData.map((data,Index) => ({
-                        ...data,
-                        estimate_wholesaler: JSON.parse(data.estimate_wholesaler),
-                    })); 
-                    setTotalSalesSlipData(updatedData111);
-
-                    setItemsImagePreview(`${wakabaBaseUrl}/uploads/product/${response.data[0].entire_items_url}`);
-                    setItemsDocPreview(`${wakabaBaseUrl}/uploads/product/${response.data[0].document_url}`);
-                }
+                fetchInvoiceHistoryData();
                 setSalesSlipData({
                     trading_date: salesSlipData.trading_date,
                     number: '',
@@ -1311,7 +1312,7 @@ useEffect(() => {
                                 <div className='w-3 h-3 bg-[#70685a]'></div>
                             </div>
                             <div className='flex flex-col justify-center ml-2'>
-                                <label className="text-[#70685a] font-bold mb-2 block text-left mr-10 !mb-0 flex">買取計算書No.{invoiceNumber || ''}</label>
+                                <label className="text-[#70685a] font-bold mb-2 block text-left mr-10 !mb-0 flex">買取計算書No.{111}</label>
                             </div>
 
                         </div>
@@ -1346,13 +1347,15 @@ useEffect(() => {
                                     </div>
                                 </div>
                                 <div className='invoice-purchase-brought-buttons w-[50%] flex justify-around pr-10'>
-                                    <ButtonComponent onClick={sendPurchaseDataToReceipt} children="預り証発行" className='w-max h-11 !px-5 bg-[transparent] !text-[#e87a00]' style={{ border: '1px solid #e87a00' }} />
+                                    {/* <ButtonComponent onClick={sendPurchaseDataToReceipt} children="預り証発行" className='w-max h-11 !px-5 bg-[transparent] !text-[#e87a00]' style={{ border: '1px solid #e87a00' }} /> */}
                                     <ButtonComponent onClick={openItemsImageModal} children="全体撮影" className='w-max h-11 !px-5 bg-[transparent] !text-[#e87a00]' style={{ border: '1px solid #e87a00' }} />
                                     <ButtonComponent onClick={openItemsDocModal} children="紙書類撮影" className='w-max h-11 !px-5 bg-[transparent] !text-[#e87a00]' style={{ border: '1px solid #e87a00' }} />
                                 </div>
-                                <div className='invoice-purchase-brought-buttons w-[50%] ml-5 flex justify-between'>
-                                    <ButtonComponent children="許可申請" className='w-max h-11 !px-5' style={{ color: 'white', }} />
-                                    {role === '2' &&
+                                <div className='invoice-purchase-brought-buttons w-[50%] ml-5 flex justify-around'>
+                                    {totalSalesSlipData?.length > 0 && totalSalesSlipData[0].product_status === 'お預かり' &&
+                                        <ButtonComponent children="許可申請" className='w-max h-11 !px-5' style={{ color: 'white', }} />
+                                    }
+                                    {role === '2' && totalSalesSlipData?.length > 0 && totalSalesSlipData[0].product_status === 'お預かり' &&
                                         <button onClick={purchasePermission} className='w-max text-xl text-white rounded-md bg-[#9bd195] h-11 !px-5 hover:bg-green-600 hover:text-white transition-all duration-300' >
                                             全て決済を許可
                                         </button>
@@ -1716,16 +1719,18 @@ useEffect(() => {
             </div>
             <div className='w-full flex justify-between mt-3'>
                 <div>
-                    <button type="button" onClick={gotoStampsPurchase}
+                    {/* <button type="button" onClick={gotoStampsPurchase}
                         className="px-5 py-2.5 rounded-lg text-sm tracking-wider font-bold border border-[#70685a] outline-none bg-transparent hover:bg-[#524c3b] text-[#70685a] hover:text-white transition-all duration-300">
                         切手
-                    </button>
+                    </button> */}
                 </div>
                 <div>
-                    <button type="button" onClick={openShowAllClearModal}
-                        className="px-5 py-2.5 rounded-lg text-sm tracking-wider font-bold border border-[#70685a] outline-none bg-transparent hover:bg-[#524c3b] text-[#70685a] hover:text-white transition-all duration-300">
-                        すべてクリア
-                    </button>
+                    {totalSalesSlipData?.length > 0 && totalSalesSlipData[0].product_status === 'お預かり' && 
+                        <button type="button" onClick={openShowAllClearModal}
+                            className="px-5 py-2.5 rounded-lg text-sm tracking-wider font-bold border border-[#70685a] outline-none bg-transparent hover:bg-[#524c3b] text-[#70685a] hover:text-white transition-all duration-300">
+                            すべてクリア
+                        </button>
+                    }
                 </div>
             </div>
             {/* table */}
@@ -1734,7 +1739,7 @@ useEffect(() => {
                     <table className='text-center w-full' style={Table}>
                         <thead className='bg-white z-10 h-11'>
                             <tr>
-                                <th style={Th} width='1%'>選択</th>
+                                {/* <th style={Th} width='1%'>選択</th> */}
                                 <th style={Th} width='2%'>商品番号</th>
                                 <th style={Th} >ヒアリング</th>
                                 <th style={Th} >
@@ -1764,14 +1769,18 @@ useEffect(() => {
                                 <th style={Th} >上司指示額</th>
                                 <th style={Th} >結果</th>
                                 <th style={Th} >買取額</th>
-                                <th style={Th}>編集</th>
-                                <th style={Th}>削除</th>
+                                {totalSalesSlipData?.length > 0 && totalSalesSlipData[0].product_status === 'お預かり' &&
+                                    <th style={Th}>編集</th>
+                                }
+                                 {totalSalesSlipData?.length > 0 && totalSalesSlipData[0].product_status === 'お預かり' &&
+                                 <th style={Th}>削除</th>
+                                 }
                             </tr>
                         </thead>
                         <tbody>
                             {totalSalesSlipData?.length > 0 && totalSalesSlipData.map((salesData, Index) => (
                                 <tr key={Index} >
-                                    <td><input type='checkbox' name='checkbox1' /></td>
+                                    {/* <td><input type='checkbox' name='checkbox1' /></td> */}
                                     <td style={Td}>{salesData.number || ''}</td>
                                     <td style={Td}>{salesData.hearing || ''}</td>
                                     <td style={Td} >{salesData.product_type_one}</td>
@@ -1822,16 +1831,20 @@ useEffect(() => {
                                     <td style={Td}>{salesData.supervisor_direction || ''}</td>
                                     <td style={Td}>{salesData.purchase_result || ''}</td>
                                     <td style={Td}>{salesData.purchase_price || ''}</td>
-                                    <td style={Td} className='w-8 bg-transparent hover:bg-[#ebe6e0] transition-all duration-300'>
-                                        <div onClick={() => editSalesItem(Index)} className='w-7 ml-2'>
-                                            <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium  MuiSvgIcon-root MuiSvgIcon-fontSizeLarge  css-1hkft75" fill='#524c3b' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="EditCalendarOutlinedIcon" title="EditCalendarOutlined"><path d="M5 10h14v2h2V6c0-1.1-.9-2-2-2h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h7v-2H5zm0-4h14v2H5zm17.84 10.28-.71.71-2.12-2.12.71-.71c.39-.39 1.02-.39 1.41 0l.71.71c.39.39.39 1.02 0 1.41m-3.54-.7 2.12 2.12-5.3 5.3H14v-2.12z"></path></svg>
-                                        </div>
-                                    </td>
-                                    <td style={Td} className='w-8 bg-transparent hover:bg-[#ebe6e0] transition-all duration-300'>
-                                        <div onClick={() => removeSalesItem(salesData.id)} className='w-7 ml-2'>
-                                            <svg focusable="false" aria-hidden="true" viewBox="0 0 23 23" fill='#524c3b' data-testid="CancelOutlinedIcon" title="CancelOutlined"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8m3.59-13L12 10.59 8.41 7 7 8.41 10.59 12 7 15.59 8.41 17 12 13.41 15.59 17 17 15.59 13.41 12 17 8.41z"></path></svg>
-                                        </div>
-                                    </td>
+                                    {salesData.product_status === 'お預かり' && 
+                                        <td style={Td} className='w-8 bg-transparent hover:bg-[#ebe6e0] transition-all duration-300'>
+                                            <div onClick={() => editSalesItem(Index)} className='w-7 ml-2'>
+                                                <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium  MuiSvgIcon-root MuiSvgIcon-fontSizeLarge  css-1hkft75" fill='#524c3b' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="EditCalendarOutlinedIcon" title="EditCalendarOutlined"><path d="M5 10h14v2h2V6c0-1.1-.9-2-2-2h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h7v-2H5zm0-4h14v2H5zm17.84 10.28-.71.71-2.12-2.12.71-.71c.39-.39 1.02-.39 1.41 0l.71.71c.39.39.39 1.02 0 1.41m-3.54-.7 2.12 2.12-5.3 5.3H14v-2.12z"></path></svg>
+                                            </div>
+                                        </td>
+                                    }
+                                    {salesData.product_status === 'お預かり' && 
+                                        <td style={Td} className='w-8 bg-transparent hover:bg-[#ebe6e0] transition-all duration-300'>
+                                            <div onClick={() => removeSalesItem(salesData.id)} className='w-7 ml-2'>
+                                                <svg focusable="false" aria-hidden="true" viewBox="0 0 23 23" fill='#524c3b' data-testid="CancelOutlinedIcon" title="CancelOutlined"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8m3.59-13L12 10.59 8.41 7 7 8.41 10.59 12 7 15.59 8.41 17 12 13.41 15.59 17 17 15.59 13.41 12 17 8.41z"></path></svg>
+                                            </div>
+                                        </td>
+                                    }
                                 </tr>
                             ))}
                         </tbody>
@@ -2021,14 +2034,14 @@ useEffect(() => {
                     <div className='flex justify-center gap-10 mt-5'>
                         {editIndex === -1 ? (
                             <div className='flex justify-center mb-3' >
-                                <button type="button" onClick={() => addSlesItem()}
+                                {/* <button type="button" onClick={() => addSlesItem()}
                                     className="w-7 h-7 inline-flex items-center justify-center text-[#70685a] border border-[#70685a] outline-none hover:bg-purple-700 active:bg-purple-600">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="14px" fill="#70685a" className="inline" viewBox="0 0 512 512">
                                         <path
                                             d="M467 211H301V45c0-24.853-20.147-45-45-45s-45 20.147-45 45v166H45c-24.853 0-45 20.147-45 45s20.147 45 45 45h166v166c0 24.853 20.147 45 45 45s45-20.147 45-45V301h166c24.853 0 45-20.147 45-45s-20.147-45-45-45z"
                                             data-original="#000000" />
                                     </svg>
-                                </button>
+                                </button> */}
                             </div>
                         ) : (
                             <div className='flex gap-20'>
@@ -2052,7 +2065,7 @@ useEffect(() => {
             {/* result */}
             <div className="flex justify-center">
                 <div className='w-full pt-3 pb-20' style={{ maxWidth: '80em' }}>
-                    <div className='flex flex-col justify-center pt-3 w-full'>
+                    {/* <div className='flex flex-col justify-center pt-3 w-full'>
                         <div className='invoice-purchase-brought flex justify-center pt-3 '>
                             <div className='invoice-purchase-brought-one flex justify-center w-[50%]'>
                                 <input type='checkbox' className='mr-3' />
@@ -2120,10 +2133,12 @@ useEffect(() => {
                                 </svg>
                             </button>
                         </div>
-                    </div>
+                    </div> */}
                     <div className='flex justify-center pt-10'>
-                        <button type="button" onClick={sendPurchaseData}
-                            className="mr-10  py-1 min-w-[160px] text-[#e87a00] text-[20px] rounded-full tracking-wider font-bold outline-none border border-[2px] border-[#e87a00] ">お客様へ提示</button>
+                        {totalSalesSlipData?.length > 0 && totalSalesSlipData[0].product_status === '成約済' && 
+                            <button type="button" onClick={sendPurchaseData}
+                                className="mr-10  py-1 min-w-[160px] text-[#e87a00] text-[20px] rounded-full tracking-wider font-bold outline-none border border-[2px] border-[#e87a00] ">お客様へ提示</button>
+                        }
                     </div>
                 </div>
             </div>
@@ -2288,4 +2303,4 @@ useEffect(() => {
     );
 };
 
-export default InvoicePurchaseOfBrought;
+export default InvoicePurchaseOfDetail;

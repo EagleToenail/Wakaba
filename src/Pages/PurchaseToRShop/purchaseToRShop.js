@@ -8,6 +8,8 @@ import axios from 'axios';
 export default function TODOList() {
     const now = new Date();
 
+    const userStoreName = localStorage.getItem('storename');
+    const userId = localStorage.getItem('userId');
     // Format the date as YYYY-MM-DD
     const optionsDate = { year: 'numeric', month: '2-digit', day: '2-digit', timeZone: 'Asia/Tokyo' };
     const currentDay = new Intl.DateTimeFormat('ja-JP', optionsDate).format(now).replace(/\//g, '-');
@@ -38,14 +40,14 @@ export default function TODOList() {
     const [selectedCustomerId, setSelectedCustomerId] = useState(null);
     const [filteredOptions, setFilteredOptions] = useState([]);
     const dropdownRef = useRef(null);
-    // Fetch customer data
+    // Fetch user data(supervisor of this shop)
     useEffect(() => {
         const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
         if (!wakabaBaseUrl) {
             throw new Error('API base URL is not defined');
         }
 
-        axios.get(`${wakabaBaseUrl}/user/getUserList`)
+        axios.post(`${wakabaBaseUrl}/user/getSuperVisorList`,{storeName:userStoreName})
             .then(response => {
                 const data = response.data;
                 setUsers(data);
@@ -89,7 +91,6 @@ export default function TODOList() {
     };
 
     //==============post function=========
-    const userId = localStorage.getItem('userId');
     // const [messages, setMessages] = useState([]);
     const [reply, setReply] = useState({
         time: currentDateTime,

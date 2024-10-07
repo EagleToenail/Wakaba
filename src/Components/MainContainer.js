@@ -5,6 +5,8 @@ import '../Assets/css/MainContainer.css';
 import InvoiceForPurchaseChat from '../Pages/InvoiceForPurchaseChat/invoiceForPurchaseChat';
 import ShowSalesSlip from '../Pages/ShowSalesSlip/showSalesSlip';
 import MultiRowShowSalesSlip from '../Pages/ApplicationForDisposalPermission/multiRowShowSalesSlip';
+import PurchaseToRShop from '../Pages/PurchaseToRShop/purchaseToRShop';
+
 
 const MainContainer = ({children,destinationURL}) => {
   const [position, setPosition] = useState(80); // percentage for the height of the top pane
@@ -88,6 +90,7 @@ const MainContainer = ({children,destinationURL}) => {
         {destinationURL == 'invoiceforpurchaseofbrought' ? (<InvoiceForPurchaseChat/> ): ('')}
         {destinationURL == 'todolist' ? (<ShowSalesSlip/> ): ('')}
         {destinationURL == 'applicationfordisposalpermission' ? (<MultiRowShowSalesSlip/> ): ('')}
+        {destinationURL == 'purchaserequest' ? (<PurchaseToRShop/> ): ('')}
       </div>
     </div>
   );

@@ -321,9 +321,9 @@ const VendorAssementSheet = () => {
                             <div style={{ width: '100%', overflow: 'auto'}} >
                                 {data?.length > 0 ? (
                                     <table id="" style={Table}>
-                                        <thead className='sticky top-0 bg-white z-10 h-11'>
+                                        <thead className='bg-white z-10 h-11'>
                                             <tr>
-                                                <th></th>
+                                                <th width='2%'></th>
                                                 <th style={Th}>NO</th>
                                                 {headTitleArray?.length>0 && headTitleArray[headId].map((title, index) => (
                                                     <th key={index} style={Th}>{title}</th>
@@ -338,7 +338,7 @@ const VendorAssementSheet = () => {
                                         <tbody>
                                             {data?.length>0 && data.map((item, index) => (
                                                 <tr key={item.id}>
-                                                    <td><input type='checkbox' value={item.id} onChange={handleCheckboxChange} className='w-5 mr-3' /></td>
+                                                    <td ><input type='checkbox' value={item.id} onChange={handleCheckboxChange} disabled={item.product_status !== '買取済'} className='w-5 mr-3' /></td>
                                                     <td style={Td}>{index + 1}</td>
                                                     {Object.keys(categoryRow[headId]).map((key) => (
                                                         <td key={key} style={Td}>
@@ -380,9 +380,15 @@ const VendorAssementSheet = () => {
                                                             </div>
                                                         ) : (
                                                             <div>
-                                                                <button onClick={() => handleDataEdit(item.id,index)} className='w-7'>
-                                                                    <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium  MuiSvgIcon-root MuiSvgIcon-fontSizeLarge  css-1hkft75" fill='#524c3b' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="EditCalendarOutlinedIcon" title="EditCalendarOutlined"><path d="M5 10h14v2h2V6c0-1.1-.9-2-2-2h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h7v-2H5zm0-4h14v2H5zm17.84 10.28-.71.71-2.12-2.12.71-.71c.39-.39 1.02-.39 1.41 0l.71.71c.39.39.39 1.02 0 1.41m-3.54-.7 2.12 2.12-5.3 5.3H14v-2.12z"></path></svg>
-                                                                </button>
+                                                                {item.product_status === 'お預かり' || item.product_status === '成約済'?
+                                                                    <button onClick={() => handleDataEdit(item.id,index)} className='w-7'>
+                                                                        <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium  MuiSvgIcon-root MuiSvgIcon-fontSizeLarge  css-1hkft75" fill='#524c3b' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="EditCalendarOutlinedIcon" title="EditCalendarOutlined"><path d="M5 10h14v2h2V6c0-1.1-.9-2-2-2h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h7v-2H5zm0-4h14v2H5zm17.84 10.28-.71.71-2.12-2.12.71-.71c.39-.39 1.02-.39 1.41 0l.71.71c.39.39.39 1.02 0 1.41m-3.54-.7 2.12 2.12-5.3 5.3H14v-2.12z"></path></svg>
+                                                                    </button>
+                                                                    :
+                                                                    <button  className='w-7'>
+                                                                        <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium  MuiSvgIcon-root MuiSvgIcon-fontSizeLarge  css-1hkft75" fill='#000' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="EditCalendarOutlinedIcon" title="EditCalendarOutlined"><path d="M5 10h14v2h2V6c0-1.1-.9-2-2-2h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h7v-2H5zm0-4h14v2H5zm17.84 10.28-.71.71-2.12-2.12.71-.71c.39-.39 1.02-.39 1.41 0l.71.71c.39.39.39 1.02 0 1.41m-3.54-.7 2.12 2.12-5.3 5.3H14v-2.12z"></path></svg>
+                                                                    </button>
+                                                                }
                                                             </div>
                                                         )}
                                                     </td>

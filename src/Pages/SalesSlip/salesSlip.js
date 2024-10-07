@@ -79,7 +79,8 @@ const SalesSlip = () => {
     };
 
     const handleSalesEditClick = (id) => {
-        navigate(`/salesslipupdate/${id}`); // Use navigate for routing
+        // navigate(`/salesslipupdate/${id}`); // Use navigate for routing
+        navigate(`/invoiceforpurchasedetail/${id}`)
     };
 
     //checked event
@@ -259,8 +260,8 @@ const SalesSlip = () => {
                                     </thead>
                                     <tbody>
                                         {sales.map((sale,Index) => (
-                                            <tr key={sale.id}>
-                                                <td className='flex flex-col justify-center'><input type='checkbox' value={sale.id} onChange={handleCheckboxChange} className='w-5'/></td>
+                                            <tr  key={sale.id}>
+                                                <td className='flex flex-col justify-center'><input type='checkbox' disabled={sale.product_status !== '買取済'} value={sale.id} onChange={handleCheckboxChange} className='w-5'/></td>
                                                 <td>{Index + 1}</td>
                                                 <td style={Td}>{sale.trading_date}</td>
                                                 <td style={Td}>{sale.purchase_staff}</td>
