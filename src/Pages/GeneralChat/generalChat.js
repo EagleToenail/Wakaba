@@ -117,8 +117,7 @@ export default function GeneralChat() {
 
     const [messages, setMessages] = useState([]);
     //fetch message data related user
-    useEffect(() => {
-      const fetchMessages = async () => {
+    const fetchMessages = async () => {
         const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
         if (!wakabaBaseUrl) {
           throw new Error('API base URL is not defined');
@@ -136,21 +135,42 @@ export default function GeneralChat() {
           .catch(error => {
             console.error("There was an error fetching the customer data!", error);
           });
-      };
-  
+    };
+
+    useEffect(() => {
+ 
       fetchMessages();
       // Set up polling
       // const intervalId = setInterval(() => {
       //   fetchMessages();
       // }, 1000); // Poll every 1 seconds
-  
-      // // Clean up on unmount
       // return () => clearInterval(intervalId);
     }, [destinationURL]);
-    
+    //get user data
+    const [users, setUsers] = useState([]);
+    useEffect(() => {
+      const fetchMessages = async () => {
+        const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+        if (!wakabaBaseUrl) {
+          throw new Error('API base URL is not defined');
+        }
+        axios.get(`${wakabaBaseUrl}/user/getUserList`)
+          .then(response => {
+            const userData = response.data;
+            const Ids = userData.map(obj => obj.id);
+            const userIds = Ids.filter((id) => id !== Number(userId));
+            setUsers(userIds);
+          })
+          .catch(error => {
+            console.error("There was an error fetching the customer data!", error);
+          });
+      };
+  
+      fetchMessages();
+    }, []);
     // send message and file to other user 
     const sendGeneralChatMessage = async () => {
-        console.log('sendtododata', reply);
+        console.log('sendtododata', reply,users);
         if (reply.title !== '' && reply.content !== '' && reply.senderId !== '' ) {
             const formData = new FormData();
             formData.append('thread_name', destinationURL);
@@ -160,6 +180,7 @@ export default function GeneralChat() {
             formData.append('senderId', reply.senderId);
             // formData.append('receiverId', reply.receiverId);
             formData.append('parentMessageId', reply.parentMessageId || '');
+            formData.append('status', users || '');
 
             if (sendFile) formData.append('fileUrl', sendFile);
 
@@ -176,8 +197,8 @@ export default function GeneralChat() {
                         'Content-Type': 'multipart/form-data'
                     }
                 }).then(response => {
-                    console.log('get data',response.data)
-                    setMessages(response.data);
+                    console.log(response.data);
+                    fetchMessages();
                     setReply({
                         time: currentDateTime,
                         title: '',

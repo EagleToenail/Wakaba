@@ -4,12 +4,21 @@ import InputComponent from '../../Components/Common/InputComponent';
 import LabelComponent from '../../Components/Common/LabelComponent';
 import PurchaseToRShopAccordion from '../../Components/PurchaseToRShopAccordion';
 import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
+import { setClearData } from '../../redux/sales/actions';
 
 export default function TODOList() {
-    const now = new Date();
+
+    const data = useSelector(state => state.data);
+    const shippingIds = data.data;
+
+    console.log('chatshippingIds',shippingIds)
 
     const userStoreName = localStorage.getItem('storename');
     const userId = localStorage.getItem('userId');
+    const role = localStorage.getItem('role');
+
+    const now = new Date();
     // Format the date as YYYY-MM-DD
     const optionsDate = { year: 'numeric', month: '2-digit', day: '2-digit', timeZone: 'Asia/Tokyo' };
     const currentDay = new Intl.DateTimeFormat('ja-JP', optionsDate).format(now).replace(/\//g, '-');
@@ -33,11 +42,9 @@ export default function TODOList() {
         setTextMessageColor(color);
     };
     // search selectbox================
-
     const [users, setUsers] = useState([]);
     const [query, setQuery] = useState('');
     const [isOpen, setIsOpen] = useState(false);
-    const [selectedCustomerId, setSelectedCustomerId] = useState(null);
     const [filteredOptions, setFilteredOptions] = useState([]);
     const dropdownRef = useRef(null);
     // Fetch user data(supervisor of this shop)
@@ -85,18 +92,16 @@ export default function TODOList() {
     const handleOptionClick = (user) => {
         setQuery(user.username); // Set the input field's value to the selected option's full_name
         setIsOpen(false);
-        setSelectedCustomerId(user.id); // Update state with the selected customer's ID
         setReply({ receiverId: user.id, senderId: userId, time: currentDateTime });
         // console.log('Selected Customer ID:', user.id);
     };
 
     //==============post function=========
-    // const [messages, setMessages] = useState([]);
     const [reply, setReply] = useState({
         time: currentDateTime,
         title: '',
         content: '',
-        senderId: '',
+        senderId: userId,
         receiverId: '',
         fileUrl: null,
         parentMessageId: null
@@ -127,8 +132,7 @@ export default function TODOList() {
 
     const [messages, setMessages] = useState([]);
     //fetch message data related user
-    useEffect(() => {
-      const fetchMessages = async () => {
+    const fetchMessages = async () => {
         const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
         if (!wakabaBaseUrl) {
           throw new Error('API base URL is not defined');
@@ -144,8 +148,9 @@ export default function TODOList() {
           .catch(error => {
             console.error("There was an error fetching the customer data!", error);
           });
-      };
-  
+    };
+
+    useEffect(() => {
       fetchMessages();
       // Set up polling
       // const intervalId = setInterval(() => {
@@ -157,10 +162,11 @@ export default function TODOList() {
     }, []);
     
     // send message and file to other user 
-    const sendTodoMessage = async () => {
+    const sendRShopMessage = async () => {
         // console.log('sendtododata', reply);
         if (reply.title != '' && reply.content != '' && reply.senderId != '' && reply.receiverId != '') {
             const formData = new FormData();
+            formData.append('store_name', userStoreName);
             formData.append('time', reply.time);
             formData.append('title', reply.title);
             formData.append('content', reply.content);
@@ -184,12 +190,12 @@ export default function TODOList() {
                     }
                 }).then(response => {
                     // console.log('get data',response.data)
-                    setMessages(response.data);
+                    fetchMessages();
                     setReply({
                         time: currentDateTime,
                         title: '',
                         content: '',
-                        senderId: '',
+                        senderId: userId,
                         receiverId: '',
                         file: null,
                         parentId: null
@@ -206,6 +212,7 @@ export default function TODOList() {
 
     // Callback function to handle data from child
     const handleDataFromChildAccordion = (data1, data2, data3) => {
+        console.log('reply',data1,data2,data3)
         const userId = localStorage.getItem('userId');
         if (data3 === userId) {
             users.forEach(user => {
@@ -224,7 +231,15 @@ export default function TODOList() {
         }
 
         setReply({ parentMessageId: data1, senderId: data2, receiverId: data3 ,time:currentDateTime})
-        console.log('Data received from child++++++++:', data1, data2, data3, userId);
+        // console.log('Data received from child++++++++:', data1, data2, data3, userId);
+    };
+    const handleDataFromChildAccordion1 = (data) => {
+        fetchMessages();
+        console.log('received data from permission',data)
+    };
+    const handleDataFromChildAccordion2 = (data) => {
+        fetchMessages();
+        console.log('received data from complete',data)
     };
     // New post
     const newPost = () => {
@@ -233,13 +248,17 @@ export default function TODOList() {
             time: currentDateTime,
             title: '',
             content: '',
-            senderId: '',
+            senderId: userId,
             receiverId: '',
             file: null,
             parentId: null
         });
     }
 
+    const [amount, setAmount] = useState(0);
+    const handleAmount = (e) => {
+        setAmount(e.target.value)
+    }
     return (
         <>
             <div className=" flex flex-col items-center justify-center py-3">
@@ -247,7 +266,8 @@ export default function TODOList() {
                     <div className='w-full'>
                         {/* received message */}
                         <div className='w-full h-[400px]'>
-                            <PurchaseToRShopAccordion onSendIdData={handleDataFromChildAccordion} messages={messages}/>
+                            <PurchaseToRShopAccordion amount={amount} onSendIdData={handleDataFromChildAccordion}
+                                 onSendIdData1={handleDataFromChildAccordion1} onSendIdData2={handleDataFromChildAccordion2} messages={messages}/>
                         </div>
                     </div>
                     {/* new post */}
@@ -314,7 +334,10 @@ export default function TODOList() {
                                 </div>
                                 <div className='flex justify-end mt-3'>
                                     <LabelComponent value={'総額'} style={{ marginTop: '5px', marginLeft: '15px' }} />
-                                    <InputComponent style={{ height: '40px' }} className='w-40 h-11' value={'999,999'}/>
+                                    {role === '2' ? 
+                                    <InputComponent type='number' value={amount} onChange={handleAmount} style={{ height: '40px' }} className='w-40 h-11'/> :
+                                    <InputComponent style={{ height: '40px' }} className='w-40 h-11' disabled/>
+                                    }
                                     <LabelComponent value={'円'} style={{ marginTop: '5px', marginLeft: '15px' }} />
                                 </div>
                             </div>
@@ -361,7 +384,7 @@ export default function TODOList() {
 
                                 </div>
                                 <div className='ml-10 flex flex-col justify-center'>
-                                    < button type="button" onClick={() => sendTodoMessage()} className=" w-max px-10 py-1 font-blod rounded-lg justify-center text-[#70685a] text-[18px] bg-[#ebe6e0] hover:bg-blue-700 focus:outline-none">
+                                    < button type="button" onClick={() => sendRShopMessage()} className=" w-max px-10 py-1 font-blod rounded-lg justify-center text-[#70685a] text-[18px] bg-[#ebe6e0] hover:bg-blue-700 focus:outline-none">
                                         送信
                                     </button>
                                 </div>

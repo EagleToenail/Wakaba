@@ -154,13 +154,6 @@ const InvoicePurchaseOfBroughtBlank = () => {
          }
             fetchUserData()
     }, [userId]);
-       // calculate the invoice number
-    const [invoiceNumber,setInvoiceNumber] = useState('0');
-    useEffect(() => {
-        if(totalSalesSlipData?.length >0) {
-            setInvoiceNumber(totalSalesSlipData[0].id)
-        }
-    }, [totalSalesSlipData]);
 
     //salesSlipData
     const [salesSlipData, setSalesSlipData] = useState({
@@ -197,6 +190,14 @@ const InvoicePurchaseOfBroughtBlank = () => {
     });
     //total data:
     const [totalSalesSlipData, setTotalSalesSlipData] = useState([]);
+    // calculate the invoice number
+    const [invoiceNumber,setInvoiceNumber] = useState('0');
+    useEffect(() => {
+        if(totalSalesSlipData?.length >0) {
+            setInvoiceNumber(totalSalesSlipData[0].id)
+        }
+    }, [totalSalesSlipData]);
+
     const [editIndex, setEditIndex] = useState(-1);
 
     const handleChange = (e) => {
@@ -647,7 +648,8 @@ const InvoicePurchaseOfBroughtBlank = () => {
             if (!wakabaBaseUrl) {
                 throw new Error('API base URL is not defined');
             }
-            await axios.post(`${wakabaBaseUrl}/purchaseinvoice/delete`, {id:id, userId:userId, userStoreName:userStoreName})
+            console.log(childData,'childData')
+            await axios.post(`${wakabaBaseUrl}/purchaseinvoice/delete`, {id:id,customerId:childData, userId:userId, userStoreName:userStoreName})
             .then(response => {
                 const invoiceData = response.data;
                 if(invoiceData?.length>0) {

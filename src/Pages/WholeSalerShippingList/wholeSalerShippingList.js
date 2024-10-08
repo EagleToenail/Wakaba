@@ -7,7 +7,7 @@ import '../../Assets/css/firstTd.css';
 import '../../Assets/css/lastTd.css';
 
 import axios from 'axios';
-import { useSelector } from 'react-redux';
+// import { useSelector } from 'react-redux';
 import LabelComponent from '../../Components/Common/LabelComponent';
 import InputComponent from '../../Components/Common/InputComponent';
 import ButtonComponent from '../../Components/Common/ButtonComponent';
@@ -47,17 +47,16 @@ const WholeSalerShippingList = () => {
 
     const navigate = useNavigate();
 
-    const data = useSelector(state => state.data);
-    const salesDataIds = data.data;
-    // console.log('salesDataIds',salesDataIds);
+    const userStoreName = localStorage.getItem('storename');
+    const userId = localStorage.getItem('userId');
 
     const [wholeSalesPurchase, setWholeSalesPurchase] = useState([]);
     const [oldWholeSalesPurchase, setOldWholeSalesPurchase] = useState([]);
 
     const [editIndex, setEditIndex] = useState(-1);
     const [editedRow, setEditedRow] = useState({ 
-        expected_deposite_date: '',
-        deposite_date: '',
+        expected_deposit_date: '',
+        deposit_date: '',
         final_assessment_amount: '',
     });
 
@@ -66,31 +65,35 @@ const WholeSalerShippingList = () => {
         setEditedRow({ ...editedRow, [name]: value });
     };
 
-    const handleEditClick = () => {
-        setEditIndex(1);
-        setEditedRow({
-            expected_deposite_date: wholeSalesPurchase[0].expected_deposite_date,
-            deposite_date: wholeSalesPurchase[0].deposite_date,
-            final_assessment_amount: wholeSalesPurchase[0].final_assessment_amount,
-        }); // Populate the input fields with the selected row's data
+    const handleEditClick = (Index) => {
+        setEditIndex(Index);
+        setEditedRow(wholeSalesPurchase[Index]); // Populate the input fields with the selected row's data
     };
 
-    const handleSaveClick = () => {
+    const handleSaveClick = async() => {
         // const updatedData = wholeSalesPurchase.map((row, index) =>
         //     index === editIndex ? { ...row, ...editedRow } : row
         // );
-        const updatedData = wholeSalesPurchase.map(data => ({
-            ...data,
-            expected_deposite_date: editedRow.expected_deposite_date,
-            deposite_date: editedRow.deposite_date,
-            final_assessment_amount: editedRow.final_assessment_amount
-        }));
-    
-        setWholeSalesPurchase(updatedData);
+
+        const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+        if (!wakabaBaseUrl) {
+            throw new Error('API base URL is not defined');
+        }
+        const payload = editedRow;
+        console.log('payload',payload)
+        await axios.post(`${wakabaBaseUrl}/wholesalershipping/save`,{payload:payload,params: searchParams,storeName:userStoreName})
+        .then(response => {
+            setWholeSalesPurchase(response.data);
+        })
+        .catch(error => {
+            console.error("There was an error fetching the customer data!", error);
+        });
+
+        // setWholeSalesPurchase(updatedData);
         setEditIndex(-1); // Exit edit mode
         setEditedRow({ 
-            expected_deposite_date: '',
-            deposite_date: '',
+            expected_deposit_date: '',
+            deposit_date: '',
             final_assessment_amount: '',
          }); // Reset editedRow state
     };
@@ -98,52 +101,15 @@ const WholeSalerShippingList = () => {
     const handleCancelClick = () => {
         setEditIndex(-1);
         setEditedRow({ 
-            expected_deposite_date: '',
-            deposite_date: '',
+            expected_deposit_date: '',
+            deposit_date: '',
             final_assessment_amount: '',
          }); // Reset editedRow state
     };
 
-
     useEffect(() => {
-        const fetchSalesData = async () => {
-          if (salesDataIds?.length > 0) {
-            const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
-            
-            if (!wakabaBaseUrl) {
-              throw new Error('API base URL is not defined');
-            }
-            console.log('getData');
-            try {
-                await axios.post(`${wakabaBaseUrl}/sales/getSalesById`, { id: salesDataIds })
-                .then(response =>{
-                    const salesData = response.data;
-                    setWholeSalesPurchase(salesData);
-                    setOldWholeSalesPurchase(salesData);
-                })
-
-            } catch (error) {
-              console.error("There was an error fetching the customer data!", error);
-            }
-          } else {
-                const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
-                if (!wakabaBaseUrl) {
-                    throw new Error('API base URL is not defined');
-                }
-                axios.post(`${wakabaBaseUrl}/sales/wholelist`, { params: searchParams })
-                .then(response => {
-                    setShowShippingHistory(true);
-                    setShowPackage(false);
-                    setWholeSalesPurchase(response.data);
-                })
-                .catch(error => {
-                    console.error("There was an error searching for customers!", error);
-                });
-          }
-        };
-    
-        fetchSalesData();
-    }, [salesDataIds]);
+        handleSearch();
+    }, []);
 
     const [date, setDate] = useState('');
     const handleDateChange = (event) => {
@@ -184,19 +150,18 @@ const WholeSalerShippingList = () => {
 
     const [showShippingHistory, setShowShippingHistory] = useState(false);
     //search function
-    const handleSearch = async(e) => {
-        e.preventDefault();
+    const handleSearch = async() => {
         console.log('searchValues',searchParams)
         console.log('wholeSalesPurchase',wholeSalesPurchase)
 
-        setShowShippingHistory(true);
+        setShowShippingHistory(false);
         setShowPackage(false);
 
         const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
         if (!wakabaBaseUrl) {
             throw new Error('API base URL is not defined');
         }
-        await axios.post(`${wakabaBaseUrl}/sales/wholelist`, { params: searchParams })
+        await axios.post(`${wakabaBaseUrl}/sales/wholelist`, { params: searchParams,storeName:userStoreName})
         .then(response => {
             setWholeSalesPurchase(response.data);
         })
@@ -229,7 +194,7 @@ const fetchOldSalesData = async (ids) => {
         throw new Error('API base URL is not defined');
       }
       try {
-        await axios.post(`${wakabaBaseUrl}/sales/getSalesById`, { id: ids })
+        await axios.post(`${wakabaBaseUrl}/sales/getSalesById`, { id: ids})
         .then(response =>{
           const salesData = response.data;
           setOldWholeSalesPurchase(salesData);
@@ -351,10 +316,10 @@ const fetchOldSalesData = async (ids) => {
                                                 <td style={Td}>{saleData.highest_estimate_price || ''}</td>
                                                 <td style={Td}>{saleData.shipper || ''}</td>
                                                 <td style={Td} className='border-r-3 border-black'>
-                                                    {saleData.deposite_date || ''}
+                                                    {saleData.deposit_date || ''}
                                                 </td>
                                                 <td style={Td}>
-                                                    {saleData.expected_deposite_date || ''}
+                                                    {saleData.expected_deposit_date || ''}
                                                 </td>
                                                 <td style={Td}>
                                                     {saleData.final_assessment_amount || ''}
@@ -403,29 +368,29 @@ const fetchOldSalesData = async (ids) => {
                                     </tbody>
                                     ) : (
                                     <tbody>
-                                        {wholeSalesPurchase?.length >0 && 
+                                        {wholeSalesPurchase?.length >0 && wholeSalesPurchase.map((saleData,Index) => (
                                             <tr > 
-                                                <td>1.</td>
-                                                <td style={Td}>{wholeSalesPurchase[0].product_status || ''}</td>
-                                                <td style={Td}>{wholeSalesPurchase[0].shipping_address || ''}</td>
-                                                <td style={Td}>{wholeSalesPurchase[0].shipping_date || ''}</td>
-                                                <td style={Td}>{wholeSalesPurchase[0].shipping_ids || ''}</td>
-                                                <td style={Td}>{wholeSalesPurchase[0].highest_estimate_price || ''}</td>
-                                                <td style={Td1} className='border-10 border-black'>{wholeSalesPurchase[0].shipper || ''}a</td>
+                                                <td>{Index + 1}.</td>
+                                                <td style={Td}>{saleData.product_status || ''}</td>
+                                                <td style={Td}>{saleData.shipping_address || ''}</td>
+                                                <td style={Td}>{saleData.shipping_date || ''}</td>
+                                                <td style={Td}>{saleData.shipping_ids || ''}</td>
+                                                <td style={Td}>{saleData.highest_estimate_price || ''}</td>
+                                                <td style={Td1} className='border-10 border-black'>{saleData.shipper || ''}a</td>
                                                 <td style={Td}>
-                                                    {editIndex === 1 ?(
-                                                        <InputComponent type="date" name='deposite_date' value={editedRow.deposite_date || ''} onChange={handleInputChange} className='w-max h-8 text-[#70685a]' />
-                                                    ):(wholeSalesPurchase[0].deposite_date || '')}
+                                                    {editIndex === Index ?(
+                                                        <InputComponent type="date" name='deposit_date' value={editedRow.deposit_date || ''} onChange={handleInputChange} className='w-max h-8 text-[#70685a]' />
+                                                    ):(saleData.deposit_date || '')}
                                                 </td>
                                                 <td style={Td}>
-                                                    {editIndex === 1 ?(
-                                                        <InputComponent type="date" name='expected_deposite_date' value={editedRow.expected_deposite_date || ''} onChange={handleInputChange} className='w-max h-8 text-[#70685a]' />
-                                                    ):(wholeSalesPurchase[0].expected_deposite_date || '')}
+                                                    {editIndex === Index ?(
+                                                        <InputComponent type="date" name='expected_deposit_date' value={editedRow.expected_deposit_date || ''} onChange={handleInputChange} className='w-max h-8 text-[#70685a]' />
+                                                    ):(saleData.expected_deposit_date || '')}
                                                 </td>
                                                 <td style={Td}>
-                                                    {editIndex === 1 ?(
+                                                    {editIndex === Index ?(
                                                         <InputComponent name='final_assessment_amount' value={editedRow.final_assessment_amount ||''} onChange={handleInputChange} className='w-max h-8 text-[#70685a]' />
-                                                    ):(wholeSalesPurchase[0].final_assessment_amount || '')}
+                                                    ):(saleData.final_assessment_amount || '')}
                                                 </td>
                                                 <td style={Td} >  
                                                     <div className='flex justify-center'>
@@ -436,28 +401,34 @@ const fetchOldSalesData = async (ids) => {
                                                 </td>
                                                 <td style={Td}>
                                                     <div className='flex justify-center'>
-                                                        <button className='w-5 h-3 ml-3 mb-1' onClick={()=>handleShowPackage()}>
+                                                        <button className='w-5 h-3 ml-3 mb-1' onClick={()=>handleShowOldPackage(saleData.shipping_ids)}>
                                                             <svg className=" " fill='#70685a' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="ContentCopyIcon" title="ContentCopy"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2m0 16H8V7h11z"></path></svg>
                                                         </button>
                                                     </div>
                                                 </td>
                                                 <td style={Td}>
-                                                {editIndex === 1 ? (
+                                                {editIndex === Index ? (
                                                     <div>
                                                         <button onClick={() => handleSaveClick()} className='w-7'>
                                                             <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium  MuiSvgIcon-root MuiSvgIcon-fontSizeLarge  css-1hkft75" fill='#524c3b' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckOutlinedIcon" title="CheckOutlined"><path d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
                                                         </button>
                                                     </div>
                                                     ) : (
-                                                    <div>
-                                                        <button onClick={() => handleEditClick()} className='w-7'>
-                                                            <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium  MuiSvgIcon-root MuiSvgIcon-fontSizeLarge  css-1hkft75" fill='#524c3b' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="EditCalendarOutlinedIcon" title="EditCalendarOutlined"><path d="M5 10h14v2h2V6c0-1.1-.9-2-2-2h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h7v-2H5zm0-4h14v2H5zm17.84 10.28-.71.71-2.12-2.12.71-.71c.39-.39 1.02-.39 1.41 0l.71.71c.39.39.39 1.02 0 1.41m-3.54-.7 2.12 2.12-5.3 5.3H14v-2.12z"></path></svg>
-                                                        </button>
-                                                    </div>
+                                                        saleData.product_status === '発送中' ?
+                                                            <div>
+                                                                <button onClick={() => handleEditClick(Index)} className='w-7'>
+                                                                    <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium  MuiSvgIcon-root MuiSvgIcon-fontSizeLarge  css-1hkft75" fill='#524c3b' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="EditCalendarOutlinedIcon" title="EditCalendarOutlined"><path d="M5 10h14v2h2V6c0-1.1-.9-2-2-2h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h7v-2H5zm0-4h14v2H5zm17.84 10.28-.71.71-2.12-2.12.71-.71c.39-.39 1.02-.39 1.41 0l.71.71c.39.39.39 1.02 0 1.41m-3.54-.7 2.12 2.12-5.3 5.3H14v-2.12z"></path></svg>
+                                                                </button>
+                                                            </div> :
+                                                            <div>
+                                                                <button className='w-7'>
+                                                                    <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium  MuiSvgIcon-root MuiSvgIcon-fontSizeLarge  css-1hkft75" fill='#000' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="EditCalendarOutlinedIcon" title="EditCalendarOutlined"><path d="M5 10h14v2h2V6c0-1.1-.9-2-2-2h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h7v-2H5zm0-4h14v2H5zm17.84 10.28-.71.71-2.12-2.12.71-.71c.39-.39 1.02-.39 1.41 0l.71.71c.39.39.39 1.02 0 1.41m-3.54-.7 2.12 2.12-5.3 5.3H14v-2.12z"></path></svg>
+                                                                </button>
+                                                            </div>
                                                     )}
                                                 </td>
                                                 <td>
-                                                    {editIndex === 1 ? (
+                                                    {editIndex === Index ? (
                                                     <div>
                                                         <button onClick={() => handleCancelClick()} className='w-7'>
                                                             <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium  MuiSvgIcon-root MuiSvgIcon-fontSizeLarge  css-1hkft75" fill='#524c3b' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="KeyboardReturnOutlinedIcon" title="KeyboardReturnOutlined"><path d="M19 7v4H5.83l3.58-3.59L8 6l-6 6 6 6 1.41-1.41L5.83 13H21V7z"></path></svg>
@@ -467,7 +438,7 @@ const fetchOldSalesData = async (ids) => {
                                                     )}
                                                 </td>
                                             </tr>  
-                                        }  
+                                        ))}  
                                     </tbody>
                                     )}
                                 </table>

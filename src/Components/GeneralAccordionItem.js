@@ -2,7 +2,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios'; // or use fetch
 
-const GeneralAccordionItem = ({ time, title, content, fileUrl, sender, receiver, children, parentMessageId, onSendData, users }) => {
+const GeneralAccordionItem = ({ messageId, time, title, content, fileUrl, sender, receiver, children, parentMessageId, onSendData, users }) => {
+
+
+  const userId = localStorage.getItem('userId');
 
   const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
   const [isOpen, setIsOpen] = useState(false);
@@ -28,6 +31,17 @@ const GeneralAccordionItem = ({ time, title, content, fileUrl, sender, receiver,
 
   const toggleAccordion = () => {
     setIsOpen(!isOpen);
+    const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+    if (!wakabaBaseUrl) {
+      throw new Error('API base URL is not defined');
+    }
+    axios.post(`${wakabaBaseUrl}/generalchat/removealert`, {userId:userId,messageId:messageId})
+      .then(response => {
+        console.log(response.data)
+    })
+    .catch(error => {
+      console.error("There was an error fetching the customer data!", error);
+    });
   };
 
   const isImageFile = (filename) => {
@@ -132,11 +146,11 @@ const GeneralAccordionItem = ({ time, title, content, fileUrl, sender, receiver,
             </div>
             <div style={{ width: '20%' }}>
               {/* btn */}
-              <div className='mt-5 flex justify-center'>
-                < button type="button" onClick={toggleAccordion} className="w-20 px-3 py-0.5 font-semiblod rounded-lg justify-center text-[#70685a] text-[15px] bg-[#9bd194] hover:bg-blue-700 focus:outline-none">
+              {/* <div className='mt-5 flex justify-center'>
+                < button type="button" style={{visibility:'hidden'}} onClick={toggleAccordion} className="w-20 px-3 py-0.5 font-semiblod rounded-lg justify-center text-[#70685a] text-[15px] bg-[#9bd194] hover:bg-blue-700 focus:outline-none">
                   完了
                 </button>
-              </div>
+              </div> */}
               {/* btn */}
               <div className='mt-5 flex justify-center'>
                 < button onClick={() => handleSubmit(parentMessageId, sender, receiver)} type="button" className="w-20 px-3 py-0.5 font-semiblod rounded-lg justify-center text-[#70685a] text-[15px] bg-[#ebe6e0] hover:bg-blue-700 focus:outline-none">

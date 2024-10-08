@@ -58,6 +58,7 @@ const PurchaseRequestFormForWholeSaler = () => {
     });
     const handleInputChange = (e) => {
         const { name, value } = e.target;
+        setEditedRow({ ...editedRow, [name]: value });
     };
 
     const handleEditClick = (index) => {
@@ -320,7 +321,7 @@ const PurchaseRequestFormForWholeSaler = () => {
                             <label className='w-max flex flex-col justify-center h-10' >卸業者</label>
                         </div>
                         <div>
-                            <select name="shipping_address" onChange={handleShipChange} className="w-40 h-10 text-[#70685a] font-bold border border-[#70685a] px-4 py-1 outline-[#70685a]">
+                            <select name="shipping_address" value={wholeSalesPurchase?.length>0 && wholeSalesPurchase[0].shipping_address || ''} onChange={handleShipChange} className="w-40 h-10 text-[#70685a] font-bold border border-[#70685a] px-4 py-1 outline-[#70685a]">
                                 <option value=""></option>
                                 {(categoryVendors && categoryVendors.length !== 0) && categoryVendors.map((vendor, index) => (
                                     <option key={index} value={vendor.vendor_name}>{vendor.vendor_name}</option>
@@ -382,7 +383,7 @@ const PurchaseRequestFormForWholeSaler = () => {
                                     <td style={Td}>{saleData.purchase_price || ''}</td>
                                     <td style={Td}>
                                         {editIndex === Index ?(
-                                            <InputComponent name='rank' value={editedRow.rank} onChange={handleInputChange} className='w-max h-8 text-[#70685a]' />
+                                            <InputComponent name='rank' value={editedRow.rank || ''} onChange={handleInputChange} className='w-max h-8 text-[#70685a]' />
                                         ):(saleData.assessment_date)}
                                         </td>
                                     <td style={Td}>
@@ -390,23 +391,28 @@ const PurchaseRequestFormForWholeSaler = () => {
                                     </td>
                                     <td style={Td}>
                                         {editIndex === Index ?(
-                                            <InputComponent type="date" name='assessment_date' value={editedRow.assessment_date} onChange={handleInputChange} className='w-max h-8 text-[#70685a]' />
+                                            <InputComponent type="text" name='assessment_date' value={editedRow.assessment_date || ''} onChange={handleInputChange} placeholder={'2024-01-01'} className='w-max h-8 text-[#70685a]' />
                                         ):(saleData.assessment_date)}
                                     </td>
                                     <td style={Td}>
                                         {editIndex === Index ?(
-                                            <InputComponent type="number" name='product_price' value={editedRow.product_price} onChange={handleInputChange} className='w-max h-8 text-[#70685a]' />
+                                            <InputComponent type="number" name='product_price' value={editedRow.product_price || ''} onChange={handleInputChange} className='w-max h-8 text-[#70685a]' />
                                         ):(saleData.product_price)}
                                     </td>
                                     <td style={Td}>
                                         {editIndex === Index ?(
-                                            <InputComponent type="number" name='highest_estimate_price' value={editedRow.highest_estimate_price} onChange={handleInputChange} className='w-max h-8 text-[#70685a]' />
+                                            <InputComponent type="number" name='highest_estimate_price' value={editedRow.highest_estimate_price || ''} onChange={handleInputChange} className='w-max h-8 text-[#70685a]' />
                                         ):(saleData.highest_estimate_price)}
                                     </td>
                                     <td style={Td}>
                                         {editIndex === Index ?(
-                                            <InputComponent name='highest_estimate_vendor' value={editedRow.highest_estimate_vendor} onChange={handleInputChange} className='w-max h-8 text-[#70685a]' />
-                                        ):(saleData.highest_estimate_vendor)}
+                                            <select name="highest_estimate_vendor" value={editedRow.highest_estimate_vendor || ''} onChange={handleInputChange} className="w-max h-10 text-[#70685a] font-bold border border-[#70685a] px-4 py-1 outline-[#70685a]">
+                                                <option value=""></option>
+                                                {(categoryVendors && categoryVendors.length !== 0) && categoryVendors.map((vendor, index) => (
+                                                    <option key={index} value={vendor.vendor_name}>{vendor.vendor_name}</option>
+                                                ))}
+                                            </select>
+                                       ):(saleData.highest_estimate_vendor)}
                                     </td>
                                     <td style={Td}>
                                     {editIndex === Index ? (

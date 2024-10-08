@@ -52,6 +52,8 @@ export default function StoreChat() {
       }
     }, [location.pathname]); // Update effect to listen for pathname changes
 
+    const userStoreName = localStorage.getItem('storename');
+
     const now = new Date();
 
     // Format the date as YYYY-MM-DD
@@ -77,25 +79,7 @@ export default function StoreChat() {
         setTextMessageColor(color);
     };
     //==============post function=========
-    const [userData, setUserData] = useState([]);
     const userId = localStorage.getItem('userId');
-    useEffect(() => {
-  
-      const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
-  
-      if (!wakabaBaseUrl) {
-        throw new Error('API base URL is not defined');
-      }
-  
-      axios.post(`${wakabaBaseUrl}/profiledata`, { userId })
-        .then(response => {
-          setUserData(response.data);
-        })
-        .catch(error => {
-          console.error("There was an error fetching the customer data!", error);
-        });
-    }, [userId]);
-
     // const [messages, setMessages] = useState([]);
     const [reply, setReply] = useState({
         time: currentDateTime,
@@ -132,51 +116,71 @@ export default function StoreChat() {
 
     const [messages, setMessages] = useState([]);
     //fetch message data related user
+    const fetchMessages = async () => {
+        const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+        if (!wakabaBaseUrl) {
+          throw new Error('API base URL is not defined');
+        }
+  
+        // console.log(`${wakabaBaseUrl}/customer/getCustomerList`);
+        const userId = localStorage.getItem('userId');
+        const threadName = destinationURL;
+        console.log('destinationURL',threadName);
+        await axios.post(`${wakabaBaseUrl}/storechat`,{threadName:threadName,storeName:userStoreName})
+          .then(response => {
+            // console.log("all message",response.data)
+            setMessages(response.data);
+          })
+          .catch(error => {
+            console.error("There was an error fetching the customer data!", error);
+          });
+    };
+
     useEffect(() => {
-        const fetchMessages = async () => {
-            const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
-            if (!wakabaBaseUrl) {
-                throw new Error('API base URL is not defined');
-            }
-        
-            // console.log(`${wakabaBaseUrl}/customer/getCustomerList`);
-            const userId = localStorage.getItem('userId');
-            const threadName = destinationURL;
-            // console.log('destinationURL',threadName,userData.store_name);
-            await axios.post(`${wakabaBaseUrl}/storechat`,{threadName:threadName, storeName:userData.store_name})
-                .then(response => {
-                // console.log("all message",response.data)
-                setMessages(response.data);
-                })
-                .catch(error => {
-                console.error("There was an error fetching the customer data!", error);
-                });
-            };
-      if(userData.store_name) {
-        fetchMessages();
-      }
+ 
+      fetchMessages();
       // Set up polling
       // const intervalId = setInterval(() => {
       //   fetchMessages();
       // }, 1000); // Poll every 1 seconds
-  
-      // // Clean up on unmount
       // return () => clearInterval(intervalId);
-    }, [destinationURL,userData]);
-    
+    }, [destinationURL]);
+    //get user data
+    const [users, setUsers] = useState([]);
+    useEffect(() => {
+      const fetchStoreUsers = async () => {
+        const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+        if (!wakabaBaseUrl) {
+          throw new Error('API base URL is not defined');
+        }
+        await axios.post(`${wakabaBaseUrl}/user/getStoreUserList`,{storeName:userStoreName})
+          .then(response => {
+            const userData = response.data;
+            const Ids = userData.map(obj => obj.id);
+            const userIds = Ids.filter((id) => id !== Number(userId));
+            setUsers(userIds);
+          })
+          .catch(error => {
+            console.error("There was an error fetching the customer data!", error);
+          });
+      };
+  
+      fetchStoreUsers();
+    }, []);
     // send message and file to other user 
-    const sendGeneralChatMessage = async () => {
-        console.log('sendtododata', reply);
+    const sendStoreChatMessage = async () => {
+        // console.log('sendstorechatdata', reply,users);
         if (reply.title !== '' && reply.content !== '' && reply.senderId !== '' ) {
             const formData = new FormData();
             formData.append('thread_name', destinationURL);
-            formData.append('store_name', userData.store_name);
             formData.append('time', reply.time);
             formData.append('title', reply.title);
             formData.append('content', reply.content);
             formData.append('senderId', reply.senderId);
             // formData.append('receiverId', reply.receiverId);
             formData.append('parentMessageId', reply.parentMessageId || '');
+            formData.append('status', users || '');
+            formData.append('store_name', userStoreName || '');
 
             if (sendFile) formData.append('fileUrl', sendFile);
 
@@ -193,8 +197,8 @@ export default function StoreChat() {
                         'Content-Type': 'multipart/form-data'
                     }
                 }).then(response => {
-                    console.log('get data',response.data)
-                    setMessages(response.data);
+                    console.log(response.data);
+                    fetchMessages();
                     setReply({
                         time: currentDateTime,
                         title: '',
@@ -300,7 +304,7 @@ export default function StoreChat() {
 
                                 </div>
                                 <div className='ml-10 flex flex-col justify-center'>
-                                    < button type="button" onClick={() => sendGeneralChatMessage()} className=" w-max px-10 py-1 font-blod rounded-lg justify-center text-[#70685a] text-[18px] bg-[#ebe6e0] hover:bg-blue-700 focus:outline-none">
+                                    < button type="button" onClick={() => sendStoreChatMessage()} className=" w-max px-10 py-1 font-blod rounded-lg justify-center text-[#70685a] text-[18px] bg-[#ebe6e0] hover:bg-blue-700 focus:outline-none">
                                         送信
                                     </button>
                                 </div>
@@ -314,4 +318,3 @@ export default function StoreChat() {
         </>
     )
 }
-

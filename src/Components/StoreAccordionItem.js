@@ -2,8 +2,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios'; // or use fetch
 
-const StoreAccordionItem = ({ time, title, content, fileUrl, sender, receiver, children, parentMessageId, onSendData, users }) => {
+const StoreAccordionItem = ({messageId, time, title, content, fileUrl, sender, receiver, children, parentMessageId, onSendData, users }) => {
 
+  const userId = localStorage.getItem('userId');
+  
   const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
   const [isOpen, setIsOpen] = useState(false);
 
@@ -28,6 +30,17 @@ const StoreAccordionItem = ({ time, title, content, fileUrl, sender, receiver, c
 
   const toggleAccordion = () => {
     setIsOpen(!isOpen);
+    const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+    if (!wakabaBaseUrl) {
+      throw new Error('API base URL is not defined');
+    }
+    axios.post(`${wakabaBaseUrl}/storechat/removealert`, {userId:userId,messageId:messageId})
+      .then(response => {
+        console.log(response.data)
+    })
+    .catch(error => {
+      console.error("There was an error fetching the customer data!", error);
+    });
   };
 
   const isImageFile = (filename) => {

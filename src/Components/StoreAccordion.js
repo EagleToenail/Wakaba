@@ -7,7 +7,7 @@ const StoreAccordion = ({ onSendIdData ,messages,title}) => {
 
   const [users, setUsers] = useState([]);
   useEffect(() => {
-    console.log(messages, "message contents")
+    // console.log(messages, "message contents")
     const fetchMessages = async () => {
       const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
       if (!wakabaBaseUrl) {
@@ -40,6 +40,7 @@ const StoreAccordion = ({ onSendIdData ,messages,title}) => {
     return messages.map(message => (
       <StoreAccordionItem
         key={message.id}
+        messageId={message.id}
         time={message.time}
         title={message.title || 'Message'}
         content={message.content}

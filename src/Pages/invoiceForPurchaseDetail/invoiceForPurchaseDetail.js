@@ -267,14 +267,7 @@ const fetchInvoiceHistoryData = async () => {
         }
        fetchUserData();
     }, [userId]);
-    // calculate the invoice number
-    const [invoiceNumber,setInvoiceNumber] = useState('0');
-    useEffect(() => {
-        if(totalSalesSlipData?.length >0) {
-            setInvoiceNumber(totalSalesSlipData[0].id)
-            console.log('hhhhhhhhhhhh',totalSalesSlipData[0])
-        }
-    }, [totalSalesSlipData]);
+
     //salesSlipData
     const [salesSlipData, setSalesSlipData] = useState({
         trading_date: currentDay,
@@ -310,6 +303,16 @@ const fetchInvoiceHistoryData = async () => {
     });
     //total data:
     const [totalSalesSlipData, setTotalSalesSlipData] = useState([]);
+
+    // calculate the invoice number
+    const [invoiceNumber,setInvoiceNumber] = useState('0');
+    useEffect(() => {
+        if(totalSalesSlipData?.length >0) {
+            setInvoiceNumber(totalSalesSlipData[0].id)
+            console.log('hhhhhhhhhhhh',totalSalesSlipData[0])
+        }
+    }, [totalSalesSlipData]);
+
     const [editIndex, setEditIndex] = useState(-1);
 
     const handleChange = (e) => {
@@ -1312,7 +1315,7 @@ const fetchInvoiceHistoryData = async () => {
                                 <div className='w-3 h-3 bg-[#70685a]'></div>
                             </div>
                             <div className='flex flex-col justify-center ml-2'>
-                                <label className="text-[#70685a] font-bold mb-2 block text-left mr-10 !mb-0 flex">買取計算書No.{111}</label>
+                                <label className="text-[#70685a] font-bold mb-2 block text-left mr-10 !mb-0 flex">買取計算書No.{invoiceNumber || ''}</label>
                             </div>
 
                         </div>
