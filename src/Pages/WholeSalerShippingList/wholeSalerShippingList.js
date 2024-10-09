@@ -257,7 +257,6 @@ const fetchOldSalesData = async (ids) => {
                                     </div>
                                     <select name="product_status" value={searchParams.product_status || ''} onChange={handleChange} className="w-full h-11 text-[#70685a] text-[15px] font-bold border border-[#70685a] px-4 py-1 outline-[#70685a]">
                                         <option value="" ></option>
-                                        <option value="申請中">申請中</option>
                                         <option value="発送中">発送中</option>
                                         <option value="約定済">約定済</option>
                                         <option value="約定済＋返送依頼">約定済＋返送依頼</option>
@@ -307,7 +306,7 @@ const fetchOldSalesData = async (ids) => {
                                     {showShippingHistory === true ? (
                                     <tbody>
                                         {wholeSalesPurchase?.length >0 && wholeSalesPurchase.map((saleData,Index) => (
-                                            <tr key={Index}> 
+                                            <tr key={saleData.id}> 
                                                 <td >{Index +1}.</td>
                                                 <td style={Td}>{saleData.product_status || ''}</td>
                                                 <td style={Td}>{saleData.shipping_address || ''}</td>

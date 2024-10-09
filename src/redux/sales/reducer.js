@@ -1,5 +1,6 @@
 
 import { SET_DATA } from './actions';
+import { SET_RSHOP_SHIPPING_DATA } from './actions';
 import { SET_SHIPPING_DATA } from './actions';
 import { CLEAR_DATA } from './actions';
 import { SET_STAMPS_DATA } from './actions';
@@ -21,6 +22,8 @@ const dataReducer = (state = initialState, action) => {
   switch (action.type) {
     case SET_DATA:
       return { ...state, data: action.payload };
+    case SET_RSHOP_SHIPPING_DATA:
+      return {...state, data: action.payload };
     case SET_SHIPPING_DATA:
       return {...state, data: action.payload };
     case CLEAR_DATA:

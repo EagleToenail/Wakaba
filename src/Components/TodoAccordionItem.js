@@ -2,7 +2,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios'; // or use fetch
 
-const TodoAccordionItem = ({ time, title, content, fileUrl, sender, receiver, children, parentMessageId, onSendData, users }) => {
+const TodoAccordionItem = ({messageId, time, title, content, fileUrl, sender, receiver, children, parentMessageId,complete,permission, onSendData, onSendData1,onSendData2, users }) => {
+
+  const role = localStorage.getItem('role');
 
   const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
   const [isOpen, setIsOpen] = useState(false);
@@ -10,25 +12,6 @@ const TodoAccordionItem = ({ time, title, content, fileUrl, sender, receiver, ch
   const [receivedTime, setReceivedTime] = useState('');
   const [senderName, setSenderName] = useState('');
   const [receiverName, setReceiverName] = useState('');
-
-  // const isoString = time;
-  // const date = new Date(isoString);
-
-  // // Extract components
-  // const year = date.getUTCFullYear();
-  // const month = date.getUTCMonth() + 1; // Months are zero-based
-  // const day = date.getUTCDate();
-  // const hours = date.getUTCHours();
-  // const minutes = date.getUTCMinutes();
-
-  // // Format components to ensure two digits for month, day, hours, and minutes
-  // const formattedMonth = month.toString().padStart(2, '0');
-  // const formattedDay = day.toString().padStart(2, '0');
-  // const formattedHours = hours.toString().padStart(2, '0');
-  // const formattedMinutes = minutes.toString().padStart(2, '0');
-
-  // // Create formatted date string
-  // const formattedDate = `${year}/${formattedMonth}/${formattedDay} ${formattedHours}:${formattedMinutes}`;
 
   //fetch message data related user
   useEffect(() => {
@@ -57,10 +40,41 @@ const TodoAccordionItem = ({ time, title, content, fileUrl, sender, receiver, ch
   const handleSubmit = (Index1, Index2, Index3) => {
     onSendData(Index1, Index2, Index3);
   };
+  //----------------------------
+//permission and read status 
+const permitFunction = () => {
+  const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+  if (!wakabaBaseUrl) {
+    throw new Error('API base URL is not defined');
+  }
+  axios.post(`${wakabaBaseUrl}/todomessage/permitok`,{messageId:messageId})
+    .then(response => {  
+      onSendData1(response.data);
+  })
+  .catch(error => {
+    console.error("There was an error fetching the customer data!", error);
+  });
+}
+
+const completeFunction = () => {
+const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+if (!wakabaBaseUrl) {
+  throw new Error('API base URL is not defined');
+}
+axios.post(`${wakabaBaseUrl}/todomessage/completeok`,{messageId:messageId,parentMessageId:parentMessageId})
+  .then(response => {
+    onSendData2(response.data);
+})
+.catch(error => {
+  console.error("There was an error fetching the customer data!", error);
+});
+}
 
   return (
     <div style={{ margin: '10px 0' ,width:'99%'}}>
-      <button onClick={toggleAccordion} style={styles.button}>
+      <button onClick={toggleAccordion} className ='w-full p-[10px] text-left cursor-pointer rounded-sm'
+                 style={{ border: permission === '1' ? '1px solid #ccc' : 'none',
+                  background: permission === '1' ? '#f9f9f9' : 'transparent',}} >
         <div className='new-post-receive w-full flex h-13'>
           <div className='new-post-receive-message flex' style={{ width: '75%' }}>
             <div className='flex'>
@@ -142,7 +156,8 @@ const TodoAccordionItem = ({ time, title, content, fileUrl, sender, receiver, ch
                   </div>
                 </div>
                 <div>
-                  <label className="text-[black] pl-3 text-[15px] block text-left" style={{ width: '100%', overflow: 'scroll' }}>
+                  {/* <label className="text-[black] pl-3 text-[15px] block text-left" style={{ width: '100%', overflow: 'scroll' }}> */}
+                  <label className="w-full text-[black] pl-3 text-[15px] block text-left ">
                     {content}
                   </label>
                 </div>
@@ -152,15 +167,37 @@ const TodoAccordionItem = ({ time, title, content, fileUrl, sender, receiver, ch
             <div style={{ width: '20%' }}>
               {/* btn */}
               <div className='mt-5 flex justify-center'>
-                < button type="button" onClick={toggleAccordion} className="w-20 px-3 py-0.5 font-semiblod rounded-lg justify-center text-[#70685a] text-[15px] bg-[#9bd194] hover:bg-blue-700 focus:outline-none">
-                  完了
-                </button>
+                  {role === '2' && parentMessageId === '' && permission === '0'?
+                    < button type="button" onClick={permitFunction} className="w-20 px-3 py-0.5 font-semiblod rounded-lg justify-center text-[#70685a] text-[15px] bg-[#9bd194] hover:bg-blue-700 focus:outline-none">
+                      許可
+                    </button> : ''
+                  }
+                  {role === '2' && parentMessageId === '' && permission === '1'?
+                    < button type="button" className="w-max px-3 py-0.5 font-semiblod rounded-lg justify-center text-[#70685a] text-[15px] bg-[#9bd194] hover:bg-blue-700 focus:outline-none">
+                      許可された
+                    </button> : ''
+                  }
+                  {role === '2' && permission === '1' && complete === '0' && parentMessageId !==  '' ?
+                    < button type="button" onClick={completeFunction} className="w-20 px-3 py-0.5 font-semiblod rounded-lg justify-center text-[#70685a] text-[15px] bg-[#9bd194] hover:bg-blue-700 focus:outline-none">
+                      完了
+                    </button> :""
+                  }
+                  {role === '2' && permission === '1' && complete === '1' && parentMessageId !==  '' ?
+                    < button type="button" onClick={completeFunction} className="w-max px-3 py-0.5 font-semiblod rounded-lg justify-center text-[#70685a] text-[15px] bg-[#9bd194] hover:bg-blue-700 focus:outline-none">
+                      完了された
+                    </button> :""
+                  }
               </div>
               {/* btn */}
               <div className='mt-5 flex justify-center'>
-                < button onClick={() => handleSubmit(parentMessageId, sender, receiver)} type="button" className="w-20 px-3 py-0.5 font-semiblod rounded-lg justify-center text-[#70685a] text-[15px] bg-[#ebe6e0] hover:bg-blue-700 focus:outline-none">
-                  返信
-                </button>
+                  {complete !== '1' ? 
+                    < button onClick={() => handleSubmit(messageId, sender, receiver)} type="button" className="w-20 px-3 py-0.5 font-semiblod rounded-lg justify-center text-[#70685a] text-[15px] bg-[#ebe6e0] hover:bg-blue-700 focus:outline-none">
+                      返信
+                    </button>:
+                    < button type="button" className="w-20 px-3 py-0.5 font-semiblod rounded-lg justify-center text-[#70685a] text-[15px] bg-[#ebe6e0] hover:bg-blue-700 focus:outline-none">
+                      返信
+                    </button>
+                  }
               </div>
             </div>
           </div>
@@ -189,16 +226,6 @@ const TodoAccordionItem = ({ time, title, content, fileUrl, sender, receiver, ch
 };
 
 const styles = {
-  button: {
-    width: '100%',
-    padding: '10px',
-    textAlign: 'left',
-    // border: '1px solid #ccc',
-    // background: '#f9f9f9',
-    background: 'transparent',
-    cursor: 'pointer',
-    borderRadius: '4px',
-  },
   content: {
     padding: '10px',
     // border: '1px solid #ccc',

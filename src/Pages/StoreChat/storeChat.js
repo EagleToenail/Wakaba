@@ -197,7 +197,6 @@ export default function StoreChat() {
                         'Content-Type': 'multipart/form-data'
                     }
                 }).then(response => {
-                    console.log(response.data);
                     fetchMessages();
                     setReply({
                         time: currentDateTime,

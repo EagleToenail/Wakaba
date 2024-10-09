@@ -46,13 +46,14 @@ const InvoicePurchaseOfBrought = () => {
     const updateData = (data) => {
         dispatch(setData(data));
     };
+
     const sendCustomerId = (data) => {
         dispatch(setCustomerID(data));
     };
     //received data using redux
     const data = useSelector((state) => state.data);
     const stampData = data.data;
-    console.log('stampData',stampData);
+    // console.log('stampData',stampData);
     const clearReduxData = () => {
         dispatch(setClearData());
     }
@@ -280,6 +281,11 @@ useEffect(() => {
         if(totalSalesSlipData?.length >0) {
             setInvoiceNumber(totalSalesSlipData[0].id)
         }
+    }, [totalSalesSlipData]);
+
+    //set redux totalsalesslipdata
+    useEffect(() => {
+        updateData(totalSalesSlipData);
     }, [totalSalesSlipData]);
 
     const [editIndex, setEditIndex] = useState(-1);
@@ -814,7 +820,7 @@ useEffect(() => {
 
     // send Purchase data
     const sendPurchaseDataToReceipt = () => {
-        const numberOfInvoice = customerPastVisitHistory.length;
+        const numberOfInvoice = invoiceNumber;
         const purchaseData = { deadline, numberOfInvoice, totalSalesSlipData,id};
         // console.log('send purchase data',purchaseData,id);
         updateData(purchaseData);
@@ -824,7 +830,7 @@ useEffect(() => {
     const sendPurchaseData = () => {
         //---------
         if(totalSalesSlipData[0].product_status === 'お預かり' || totalSalesSlipData[0].product_status === '成約済') {
-            const numberOfInvoice = customerPastVisitHistory.length;
+            const numberOfInvoice = invoiceNumber;
 
             if (totalSalesSlipData.length != 0 && totalSalesSlipData != null) {
                 itemsSave();

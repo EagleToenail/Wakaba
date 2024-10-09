@@ -107,11 +107,12 @@ const PurchaseRequest = () => {
             }
             const payload = rShopPurchase;
             if(rShopPurchase?.length>0) {
+                clearReduxData();
                 const ids = payload.map(obj => obj.id);
                 console.log('rShopPurchase', rShopPurchase, ids)
                 await axios.post(`${wakabaBaseUrl}/rshopshipping/confirm`, { ids: ids, payload: payload })
                     .then(response => {
-                        // navigate('/salesslip');
+                        navigate('/salesslip');
                 })
                 .catch(error => {
                     console.error("There was an error fetching the customer data!", error);

@@ -1,5 +1,6 @@
 export const SET_DATA = 'SET_DATA';//message
 export const SET_SHIPPING_DATA = 'SET_SHIPPING_DATA';//
+export const SET_RSHOP_SHIPPING_DATA = 'SET_SHIPPING_DATA';//
 export const CLEAR_DATA = 'CLEAR_DATA';// used all page
 export const SET_STAMPS_DATA = 'SET_STAMPS_DATA';//#62 
 export const SET_STAMPS_DATA_CLEAR = 'SET_STAMPS_DATA_CLEAR';//#62 
@@ -14,6 +15,10 @@ export const setData = (data) => ({
   payload: data,
 });
 
+export const setRShopShippingData = (data) =>({
+  type: SET_RSHOP_SHIPPING_DATA,
+  payload: data,
+})
 export const setShippingData = (data) =>({
   type: SET_SHIPPING_DATA,
   payload: data,

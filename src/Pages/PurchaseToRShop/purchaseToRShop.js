@@ -4,15 +4,14 @@ import InputComponent from '../../Components/Common/InputComponent';
 import LabelComponent from '../../Components/Common/LabelComponent';
 import PurchaseToRShopAccordion from '../../Components/PurchaseToRShopAccordion';
 import axios from 'axios';
-import { useDispatch, useSelector } from 'react-redux';
-import { setClearData } from '../../redux/sales/actions';
+import {useSelector } from 'react-redux';
 
 export default function TODOList() {
 
     const data = useSelector(state => state.data);
     const shippingIds = data.data;
 
-    console.log('chatshippingIds',shippingIds)
+    // console.log('chatshippingIds',shippingIds)
 
     const userStoreName = localStorage.getItem('storename');
     const userId = localStorage.getItem('userId');
@@ -49,20 +48,24 @@ export default function TODOList() {
     const dropdownRef = useRef(null);
     // Fetch user data(supervisor of this shop)
     useEffect(() => {
-        const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
-        if (!wakabaBaseUrl) {
-            throw new Error('API base URL is not defined');
+        const fetchStoreSuperViosr = () => {
+            const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+            if (!wakabaBaseUrl) {
+                throw new Error('API base URL is not defined');
+            }
+    
+            axios.post(`${wakabaBaseUrl}/user/getSuperVisorList`,{storeName:userStoreName})
+                .then(response => {
+                    const data = response.data;
+                    setUsers(data);
+                    setFilteredOptions(data);
+                })
+                .catch(error => {
+                    console.error("There was an error fetching the customer data!", error);
+                });
         }
+        fetchStoreSuperViosr();
 
-        axios.post(`${wakabaBaseUrl}/user/getSuperVisorList`,{storeName:userStoreName})
-            .then(response => {
-                const data = response.data;
-                setUsers(data);
-                setFilteredOptions(data);
-            })
-            .catch(error => {
-                console.error("There was an error fetching the customer data!", error);
-            });
     }, []);
     // Filter the options based on the query
     useEffect(() => {
@@ -132,7 +135,7 @@ export default function TODOList() {
 
     const [messages, setMessages] = useState([]);
     //fetch message data related user
-    const fetchMessages = async () => {
+    const fetchMessages = async (id) => {
         const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
         if (!wakabaBaseUrl) {
           throw new Error('API base URL is not defined');
@@ -140,7 +143,8 @@ export default function TODOList() {
   
         // console.log(`${wakabaBaseUrl}/customer/getCustomerList`);
         const userId = localStorage.getItem('userId');
-        axios.get(`${wakabaBaseUrl}/purchasetorshopmessages/${userId}`)
+        const shippingId = id;
+        axios.post(`${wakabaBaseUrl}/purchasetorshopmessages`,{userId:userId,shippingId:shippingId})
           .then(response => {
             // console.log("all message",response.data)
             setMessages(response.data);
@@ -150,22 +154,34 @@ export default function TODOList() {
           });
     };
 
-    useEffect(() => {
-      fetchMessages();
-      // Set up polling
-      // const intervalId = setInterval(() => {
-      //   fetchMessages();
-      // }, 1000); // Poll every 1 seconds
+    // useEffect(() => {
+    //   fetchMessages();
+    // ////   Set up polling
+    // //   const intervalId = setInterval(() => {
+    // //     fetchMessages();
+    // //   }, 1000); // Poll every 1 seconds
   
-      // // Clean up on unmount
-      // return () => clearInterval(intervalId);
-    }, []);
+    // //   // Clean up on unmount
+    // //   return () => clearInterval(intervalId);
+    // }, []);
     
     // send message and file to other user 
     const sendRShopMessage = async () => {
         // console.log('sendtododata', reply);
-        if (reply.title != '' && reply.content != '' && reply.senderId != '' && reply.receiverId != '') {
+        if (shippingIds?.length>0 && reply.title != '' && reply.content != '' && reply.senderId != '' && reply.receiverId != '') {
             const formData = new FormData();
+            if(messages?.length>0) {
+                console.log('afasfasdfa',messages[0].permission)
+                if(reply.parentMessageId !== '' && messages[0].permission === '1') {
+                    formData.append('permission', '1');
+                    formData.append('read', '0');
+                } else {
+                    formData.append('permission', '0');
+                    formData.append('read', '0');
+                }
+            }
+
+            formData.append('rShipping_id', shippingIds[0]);
             formData.append('store_name', userStoreName);
             formData.append('time', reply.time);
             formData.append('title', reply.title);
@@ -190,7 +206,8 @@ export default function TODOList() {
                     }
                 }).then(response => {
                     // console.log('get data',response.data)
-                    fetchMessages();
+                    fetchMessages(shippingIds[0]);
+                    setQuery('');
                     setReply({
                         time: currentDateTime,
                         title: '',
@@ -212,7 +229,7 @@ export default function TODOList() {
 
     // Callback function to handle data from child
     const handleDataFromChildAccordion = (data1, data2, data3) => {
-        console.log('reply',data1,data2,data3)
+        // console.log('reply',data1,data2,data3)
         const userId = localStorage.getItem('userId');
         if (data3 === userId) {
             users.forEach(user => {
@@ -334,9 +351,9 @@ export default function TODOList() {
                                 </div>
                                 <div className='flex justify-end mt-3'>
                                     <LabelComponent value={'総額'} style={{ marginTop: '5px', marginLeft: '15px' }} />
-                                    {role === '2' ? 
-                                    <InputComponent type='number' value={amount} onChange={handleAmount} style={{ height: '40px' }} className='w-40 h-11'/> :
-                                    <InputComponent style={{ height: '40px' }} className='w-40 h-11' disabled/>
+                                    {role === '1' ?  
+                                        <InputComponent type='number' name='confirm_price' value={messages?.length > 0 && messages.confirm_price} onChange={handleAmount} style={{ height: '40px' }} className='w-40 h-11'/> :
+                                        <InputComponent style={{ height: '40px' }} className='w-40 h-11' disabled/>
                                     }
                                     <LabelComponent value={'円'} style={{ marginTop: '5px', marginLeft: '15px' }} />
                                 </div>

@@ -5,6 +5,23 @@ import axios from 'axios';
 
 export default function TabContent1() {
 
+    const userStoreName = localStorage.getItem('storename');
+
+    useEffect(() => {
+ 
+        fetchGeneralChatAlerts();
+        fetchStoreChatAlerts();
+        fetchTodoAlerts();
+      // Set up polling
+    //   const intervalId = setInterval(() => {
+    //     fetchGeneralChatAlerts();
+    //     fetchStoreChatAlerts();
+    //       fetchTodoAlerts();
+    //   }, 1000); // Poll every 1 seconds
+    //   return () => clearInterval(intervalId);
+    }, []);
+
+//------------------general chat----------------
     const [generalCounts, setGeneralCounts] = useState({
         allgeneral: 0,
         allforall: 0,
@@ -50,17 +67,6 @@ export default function TabContent1() {
         console.error("There was an error fetching the customer data!", error);
         });
     };
-
-    useEffect(() => {
- 
-        fetchGeneralChatAlerts();
-      // Set up polling
-    //   const intervalId = setInterval(() => {
-    //     fetchGeneralChatAlerts();
-    //   }, 1000); // Poll every 1 seconds
-    //   return () => clearInterval(intervalId);
-    }, []);
-
 //---------------------------------------------------store chat------------------
 
     const [storeCounts, setStoreCounts] = useState({
@@ -107,15 +113,26 @@ export default function TabContent1() {
         });
     };
 
-    useEffect(() => {
- 
-        fetchStoreChatAlerts();
-      // Set up polling
-    //   const intervalId = setInterval(() => {
-    //     fetchStoreChatAlerts();
-    //   }, 1000); // Poll every 1 seconds
-    //   return () => clearInterval(intervalId);
-    }, []);
+    //---------------------------------------todolist alert
+    const [unReadTodoCount, setUnReadTodoCount] = useState(0);
+        //fetch message data related user
+        const fetchTodoAlerts = async () => {
+            const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+            if (!wakabaBaseUrl) {
+              throw new Error('API base URL is not defined');
+            }
+      
+            const userId = localStorage.getItem('userId');
+            const userStoreName = localStorage.getItem('storename');
+            await axios.post(`${wakabaBaseUrl}/todochat/alerts`,{userId:userId})
+            .then(response => {
+                const unreadCount = response.data;
+                setUnReadTodoCount(unreadCount.unreadCount);
+            })
+            .catch(error => {
+            console.error("There was an error fetching the customer data!", error);
+            });
+        };
 
     return (
         <>
@@ -124,9 +141,9 @@ export default function TabContent1() {
                     <li className='flex px-3 py-2'>
                         <div 
                             className="w-6 h-6 rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none text-[15px]"></div>&nbsp;
-                        <div style={{visibility:'hidden'}}
+                        <div style={{visibility:unReadTodoCount === 0 ? 'hidden' : ''}}
                             className="w-6 h-6 inline-flex items-center justify-center text-[10px] text-bold rounded-full border-none outline-none bg-[yellow] hover:bg-purple-700 active:bg-purple-600">
-                            99
+                            {unReadTodoCount}
                         </div>
                         <Link
                             className="text-[black] font-bold text-[15px] block rounded px-1 hover:text-red-500 transition-all duration-300" to='/todolist'>
@@ -275,7 +292,7 @@ export default function TabContent1() {
                 </div>
 
                 <div className="mt-4">
-                    <h6 className="text-white font-bold bg-[#655b4a] px-4 py-1 text-[15px]">生駒 OOOOOO 店</h6>
+                    <h6 className="text-white font-bold bg-[#655b4a] px-4 py-1 text-[15px]">生駒 {userStoreName}</h6>
                     <ul className="mt-2 px-3">
                         <li className='flex py-1'>
                             <button type="button"

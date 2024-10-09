@@ -126,7 +126,7 @@ export default function MiniSidebar() {
                                         <button type="button"
                                              className="w-6 h-6 rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none active:bg-blue-700 text-[15px]"></button>
                                         {generalCounts.allgeneral !== 0 && (
-                                             <button type="button" style={{ position: 'absolute', top: '10px', left: '20px' }} class="w-4 h-4 inline-flex items-center justify-center text-[12px] font-bold rounded-full border-none outline-none bg-[yellow] hover:bg-purple-700 active:bg-purple-600">
+                                             <button type="button" style={{ position: 'absolute', top: '10px', left: '20px' }} className="w-4 h-4 inline-flex items-center justify-center text-[12px] font-bold rounded-full border-none outline-none bg-[yellow] hover:bg-purple-700 active:bg-purple-600">
                                                   {generalCounts.allgeneral}
                                              </button>
                                         )}
@@ -136,7 +136,7 @@ export default function MiniSidebar() {
                                         <button type="button"
                                              className="w-6 h-6 rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none active:bg-blue-700 text-[15px]"></button>
                                         {generalCounts.allforall !== 0 && (
-                                             <button type="button" style={{ position: 'absolute', top: '10px', left: '20px' }} class="w-4 h-4 inline-flex items-center justify-center text-[12px] font-bold rounded-full border-none outline-none bg-[yellow] hover:bg-purple-700 active:bg-purple-600">
+                                             <button type="button" style={{ position: 'absolute', top: '10px', left: '20px' }} className="w-4 h-4 inline-flex items-center justify-center text-[12px] font-bold rounded-full border-none outline-none bg-[yellow] hover:bg-purple-700 active:bg-purple-600">
                                                   {generalCounts.allforall}
                                              </button>
                                         )}
@@ -146,7 +146,7 @@ export default function MiniSidebar() {
                                         <button type="button"
                                              className="w-6 h-6 rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none active:bg-blue-700 text-[15px]" ></button>
                                         {generalCounts.wakabapassword !== 0 && (
-                                             <button type="button" style={{ position: 'absolute', top: '18px', left: '20px' }} class="w-4 h-4 inline-flex items-center justify-center text-[12px] font-bold rounded-full border-none outline-none bg-[yellow] hover:bg-purple-700 active:bg-purple-600">
+                                             <button type="button" style={{ position: 'absolute', top: '10px', left: '20px' }} className="w-4 h-4 inline-flex items-center justify-center text-[12px] font-bold rounded-full border-none outline-none bg-[yellow] hover:bg-purple-700 active:bg-purple-600">
                                                   {generalCounts.wakabapassword}
                                              </button>
                                         )}
@@ -155,7 +155,7 @@ export default function MiniSidebar() {
                                         <button type="button"
                                              className="w-6 h-6 rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none active:bg-blue-700 text-[15px]"></button>
                                         {generalCounts.yahooauction !== 0 && (
-                                             <button type="button" style={{ position: 'absolute', top: '10px', left: '20px' }} class="w-4 h-4 inline-flex items-center justify-center text-[12px] font-bold rounded-full border-none outline-none bg-[yellow] hover:bg-purple-700 active:bg-purple-600">
+                                             <button type="button" style={{ position: 'absolute', top: '10px', left: '20px' }} className="w-4 h-4 inline-flex items-center justify-center text-[12px] font-bold rounded-full border-none outline-none bg-[yellow] hover:bg-purple-700 active:bg-purple-600">
                                                   {generalCounts.yahooauction}
                                              </button>
                                         )}
@@ -164,7 +164,7 @@ export default function MiniSidebar() {
                                         <button type="button"
                                              className="w-6 h-6 rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none active:bg-blue-700 text-[15px]"></button>
                                         {generalCounts.executemeeting !== 0 && (
-                                             <button type="button" style={{ position: 'absolute', top: '18px', left: '20px' }} class="w-4 h-4 inline-flex items-center justify-center text-[12px] font-bold rounded-full border-none outline-none bg-[yellow] hover:bg-purple-700 active:bg-purple-600">
+                                             <button type="button" style={{ position: 'absolute', top: '10px', left: '20px' }} className="w-4 h-4 inline-flex items-center justify-center text-[12px] font-bold rounded-full border-none outline-none bg-[yellow] hover:bg-purple-700 active:bg-purple-600">
                                                   {generalCounts.executemeeting}
                                              </button>
                                         )}
@@ -173,7 +173,7 @@ export default function MiniSidebar() {
                                         <button type="button"
                                              className="w-6 h-6 rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none active:bg-blue-700 text-[15px]"></button>
                                         {generalCounts.standardout !== 0 && (
-                                             <button type="button" style={{ position: 'absolute', top: '10px', left: '20px' }} class="w-4 h-4 inline-flex items-center justify-center text-[12px] font-bold rounded-full border-none outline-none bg-[yellow] hover:bg-purple-700 active:bg-purple-600">
+                                             <button type="button" style={{ position: 'absolute', top: '10px', left: '20px' }} className="w-4 h-4 inline-flex items-center justify-center text-[12px] font-bold rounded-full border-none outline-none bg-[yellow] hover:bg-purple-700 active:bg-purple-600">
                                                   {generalCounts.standardout}
                                              </button>
                                         )}
@@ -182,7 +182,7 @@ export default function MiniSidebar() {
                                         <button type="button"
                                              className="w-6 h-6 rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none active:bg-blue-700 text-[15px]"></button>
                                         {generalCounts.basereport !== 0 && (
-                                             <button type="button" style={{ position: 'absolute', top: '18px', left: '20px' }} class="w-4 h-4 inline-flex items-center justify-center text-[12px] font-bold rounded-full border-none outline-none bg-[yellow] hover:bg-purple-700 active:bg-purple-600">
+                                             <button type="button" style={{ position: 'absolute', top: '10px', left: '20px' }} className="w-4 h-4 inline-flex items-center justify-center text-[12px] font-bold rounded-full border-none outline-none bg-[yellow] hover:bg-purple-700 active:bg-purple-600">
                                                   {generalCounts.basereport}
                                              </button>
                                         )}
@@ -191,7 +191,7 @@ export default function MiniSidebar() {
                                         <button type="button"
                                              className="w-6 h-6 rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none active:bg-blue-700 text-[15px]"></button>
                                         {generalCounts.training !== 0 && (
-                                             <button type="button" style={{ position: 'absolute', top: '10px', left: '20px' }} class="w-4 h-4 inline-flex items-center justify-center text-[12px] font-bold rounded-full border-none outline-none bg-[yellow] hover:bg-purple-700 active:bg-purple-600">
+                                             <button type="button" style={{ position: 'absolute', top: '10px', left: '20px' }} className="w-4 h-4 inline-flex items-center justify-center text-[12px] font-bold rounded-full border-none outline-none bg-[yellow] hover:bg-purple-700 active:bg-purple-600">
                                                   {generalCounts.training}
                                              </button>
                                         )}
@@ -200,7 +200,7 @@ export default function MiniSidebar() {
                                         <button type="button"
                                              className="w-6 h-6 rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none active:bg-blue-700 text-[15px]"></button>
                                         {generalCounts.storecommunication !== 0 && (
-                                             <button type="button" style={{ position: 'absolute', top: '18px', left: '20px' }} class="w-4 h-4 inline-flex items-center justify-center text-[12px] font-bold rounded-full border-none outline-none bg-[yellow] hover:bg-purple-700 active:bg-purple-600">
+                                             <button type="button" style={{ position: 'absolute', top: '10px', left: '20px' }} className="w-4 h-4 inline-flex items-center justify-center text-[12px] font-bold rounded-full border-none outline-none bg-[yellow] hover:bg-purple-700 active:bg-purple-600">
                                                   {generalCounts.storecommunication}
                                              </button>
                                         )}
@@ -209,7 +209,7 @@ export default function MiniSidebar() {
                                         <button type="button"
                                              className="w-6 h-6 rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none active:bg-blue-700 text-[15px]"></button>
                                         {generalCounts.monthlycampaign !== 0 && (
-                                             <button type="button" style={{ position: 'absolute', top: '10px', left: '20px' }} class="w-4 h-4 inline-flex items-center justify-center text-[12px] font-bold rounded-full border-none outline-none bg-[yellow] hover:bg-purple-700 active:bg-purple-600">
+                                             <button type="button" style={{ position: 'absolute', top: '10px', left: '20px' }} className="w-4 h-4 inline-flex items-center justify-center text-[12px] font-bold rounded-full border-none outline-none bg-[yellow] hover:bg-purple-700 active:bg-purple-600">
                                                   {generalCounts.monthlycampaign}
                                              </button>
                                         )}
@@ -218,7 +218,7 @@ export default function MiniSidebar() {
                                         <button type="button"
                                              className="w-6 h-6 rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none active:bg-blue-700 text-[15px]"></button>
                                         {generalCounts.purchaseperformanceblog !== 0 && (
-                                             <button type="button" style={{ position: 'absolute', top: '18px', left: '20px' }} class="w-4 h-4 inline-flex items-center justify-center text-[12px] font-bold rounded-full border-none outline-none bg-[yellow] hover:bg-purple-700 active:bg-purple-600">
+                                             <button type="button" style={{ position: 'absolute', top: '10px', left: '20px' }} className="w-4 h-4 inline-flex items-center justify-center text-[12px] font-bold rounded-full border-none outline-none bg-[yellow] hover:bg-purple-700 active:bg-purple-600">
                                                   {generalCounts.purchaseperformanceblog}
                                              </button>
                                         )}
@@ -233,7 +233,7 @@ export default function MiniSidebar() {
                                         <button type="button"
                                              className="w-6 h-6 rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none active:bg-blue-700 text-[15px]"></button>
                                         {storeCounts.allgeneral !== 0 && (
-                                             <button type="button" style={{ position: 'absolute', top: '10px', left: '20px' }} class="w-4 h-4 inline-flex items-center justify-center text-[12px] font-bold rounded-full border-none outline-none bg-[yellow] hover:bg-purple-700 active:bg-purple-600">
+                                             <button type="button" style={{ position: 'absolute', top: '10px', left: '20px' }} className="w-4 h-4 inline-flex items-center justify-center text-[12px] font-bold rounded-full border-none outline-none bg-[yellow] hover:bg-purple-700 active:bg-purple-600">
                                                   {storeCounts.allgeneral}
                                              </button>
                                         )}
@@ -242,7 +242,7 @@ export default function MiniSidebar() {
                                         <button type="button"
                                              className="w-6 h-6 rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none active:bg-blue-700 text-[15px]"></button>
                                          {storeCounts.businesscommunication !== 0 && (
-                                             <button type="button" style={{ position: 'absolute', top: '10px', left: '20px' }} class="w-4 h-4 inline-flex items-center justify-center text-[12px] font-bold rounded-full border-none outline-none bg-[yellow] hover:bg-purple-700 active:bg-purple-600">
+                                             <button type="button" style={{ position: 'absolute', top: '10px', left: '20px' }} className="w-4 h-4 inline-flex items-center justify-center text-[12px] font-bold rounded-full border-none outline-none bg-[yellow] hover:bg-purple-700 active:bg-purple-600">
                                                   {storeCounts.businesscommunication}
                                              </button>
                                         )}
@@ -250,7 +250,7 @@ export default function MiniSidebar() {
                                    <li className='flex px-3 mt-3' style={{ position: 'relative' }}>
                                         <button type="button"
                                              className="w-6 h-6 rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none active:bg-blue-700 text-[15px]"></button>
-                                        <button type="button" style={{ position: 'absolute', top: '10px', left: '20px' }} class="w-4 h-4 inline-flex items-center justify-center text-[12px] font-bold rounded-full border-none outline-none bg-[yellow] hover:bg-purple-700 active:bg-purple-600">
+                                        <button type="button" style={{ position: 'absolute', top: '10px', left: '20px' }} className="w-4 h-4 inline-flex items-center justify-center text-[12px] font-bold rounded-full border-none outline-none bg-[yellow] hover:bg-purple-700 active:bg-purple-600">
                                              99
                                         </button>
                                    </li>
@@ -261,7 +261,7 @@ export default function MiniSidebar() {
                                         <button type="button"
                                              className="w-6 h-6 rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none active:bg-blue-700 text-[15px]"></button>
                                          {storeCounts.approval !== 0 && (
-                                             <button type="button" style={{ position: 'absolute', top: '10px', left: '20px' }} class="w-4 h-4 inline-flex items-center justify-center text-[12px] font-bold rounded-full border-none outline-none bg-[yellow] hover:bg-purple-700 active:bg-purple-600">
+                                             <button type="button" style={{ position: 'absolute', top: '10px', left: '20px' }} className="w-4 h-4 inline-flex items-center justify-center text-[12px] font-bold rounded-full border-none outline-none bg-[yellow] hover:bg-purple-700 active:bg-purple-600">
                                                   {storeCounts.approval}
                                              </button>
                                         )}
@@ -270,7 +270,7 @@ export default function MiniSidebar() {
                                         <button type="button"
                                              className="w-6 h-6 rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none active:bg-blue-700 text-[15px]"></button>
                                          {storeCounts.orderrequest !== 0 && (
-                                             <button type="button" style={{ position: 'absolute', top: '10px', left: '20px' }} class="w-4 h-4 inline-flex items-center justify-center text-[12px] font-bold rounded-full border-none outline-none bg-[yellow] hover:bg-purple-700 active:bg-purple-600">
+                                             <button type="button" style={{ position: 'absolute', top: '10px', left: '20px' }} className="w-4 h-4 inline-flex items-center justify-center text-[12px] font-bold rounded-full border-none outline-none bg-[yellow] hover:bg-purple-700 active:bg-purple-600">
                                                   {storeCounts.orderrequest}
                                              </button>
                                         )}
@@ -278,7 +278,7 @@ export default function MiniSidebar() {
                                    <li className='flex px-3 mt-3' style={{ position: 'relative' }}>
                                         <button type="button"
                                              className="w-6 h-6 rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none active:bg-blue-700 text-[15px]"></button>
-                                        <button type="button" style={{ position: 'absolute', top: '10px', left: '20px' }} class="w-4 h-4 inline-flex items-center justify-center text-[12px] font-bold rounded-full border-none outline-none bg-[yellow] hover:bg-purple-700 active:bg-purple-600">
+                                        <button type="button" style={{ position: 'absolute', top: '10px', left: '20px' }} className="w-4 h-4 inline-flex items-center justify-center text-[12px] font-bold rounded-full border-none outline-none bg-[yellow] hover:bg-purple-700 active:bg-purple-600">
                                              99
                                         </button>
                                    </li>
@@ -286,7 +286,7 @@ export default function MiniSidebar() {
                                         <button type="button"
                                              className="w-6 h-6 rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none active:bg-blue-700 text-[15px]"></button>
                                         {storeCounts.standardout !== 0 && (
-                                             <button type="button" style={{ position: 'absolute', top: '18px', left: '20px' }} class="w-4 h-4 inline-flex items-center justify-center text-[12px] font-bold rounded-full border-none outline-none bg-[yellow] hover:bg-purple-700 active:bg-purple-600">
+                                             <button type="button" style={{ position: 'absolute', top: '10px', left: '20px' }} className="w-4 h-4 inline-flex items-center justify-center text-[12px] font-bold rounded-full border-none outline-none bg-[yellow] hover:bg-purple-700 active:bg-purple-600">
                                                   {storeCounts.standardout}
                                              </button>
                                         )}
@@ -294,14 +294,14 @@ export default function MiniSidebar() {
                                    <li className='flex px-3 mt-3' style={{ position: 'relative' }}>
                                         <button type="button"
                                              className="w-6 h-6 rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none active:bg-blue-700 text-[15px]"></button>
-                                        <button type="button" style={{ position: 'absolute', top: '10px', left: '20px' }} class="w-4 h-4 inline-flex items-center justify-center text-[12px] font-bold rounded-full border-none outline-none bg-[yellow] hover:bg-purple-700 active:bg-purple-600">
+                                        <button type="button" style={{ position: 'absolute', top: '10px', left: '20px' }} className="w-4 h-4 inline-flex items-center justify-center text-[12px] font-bold rounded-full border-none outline-none bg-[yellow] hover:bg-purple-700 active:bg-purple-600">
                                              99
                                         </button>
                                    </li>
                                    <li className='flex px-3 mt-3' style={{ position: 'relative' }}>
                                         <button type="button"
                                              className="w-6 h-6 rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none active:bg-blue-700 text-[15px]"></button>
-                                        <button type="button" style={{ position: 'absolute', top: '10px', left: '20px' }} class="w-4 h-4 inline-flex items-center justify-center text-[12px] font-bold rounded-full border-none outline-none bg-[yellow] hover:bg-purple-700 active:bg-purple-600">
+                                        <button type="button" style={{ position: 'absolute', top: '10px', left: '20px' }} className="w-4 h-4 inline-flex items-center justify-center text-[12px] font-bold rounded-full border-none outline-none bg-[yellow] hover:bg-purple-700 active:bg-purple-600">
                                              99
                                         </button>
                                    </li>
@@ -309,7 +309,7 @@ export default function MiniSidebar() {
                                         <button type="button"
                                              className="w-6 h-6 rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none active:bg-blue-700 text-[15px]"></button>
                                         {storeCounts.vendorvisit !== 0 && (
-                                             <button type="button" style={{ position: 'absolute', top: '18px', left: '20px' }} class="w-4 h-4 inline-flex items-center justify-center text-[12px] font-bold rounded-full border-none outline-none bg-[yellow] hover:bg-purple-700 active:bg-purple-600">
+                                             <button type="button" style={{ position: 'absolute', top: '10px', left: '20px' }} className="w-4 h-4 inline-flex items-center justify-center text-[12px] font-bold rounded-full border-none outline-none bg-[yellow] hover:bg-purple-700 active:bg-purple-600">
                                                   {storeCounts.vendorvisit}
                                              </button>
                                         )}
@@ -321,7 +321,7 @@ export default function MiniSidebar() {
                                         <button type="button"
                                              className="w-6 h-6 rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none active:bg-blue-700 text-[15px]"></button>
                                          {storeCounts.shift !== 0 && (
-                                             <button type="button" style={{ position: 'absolute', top: '10px', left: '20px' }} class="w-4 h-4 inline-flex items-center justify-center text-[12px] font-bold rounded-full border-none outline-none bg-[yellow] hover:bg-purple-700 active:bg-purple-600">
+                                             <button type="button" style={{ position: 'absolute', top: '10px', left: '20px' }} className="w-4 h-4 inline-flex items-center justify-center text-[12px] font-bold rounded-full border-none outline-none bg-[yellow] hover:bg-purple-700 active:bg-purple-600">
                                                   {storeCounts.shift}
                                              </button>
                                         )}
@@ -330,7 +330,7 @@ export default function MiniSidebar() {
                                         <button type="button"
                                              className="w-6 h-6 rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none active:bg-blue-700 text-[15px]"></button>
                                          {storeCounts.businessreporthandover !== 0 && (
-                                             <button type="button" style={{ position: 'absolute', top: '18px', left: '20px' }} class="w-4 h-4 inline-flex items-center justify-center text-[12px] font-bold rounded-full border-none outline-none bg-[yellow] hover:bg-purple-700 active:bg-purple-600">
+                                             <button type="button" style={{ position: 'absolute', top: '10px', left: '20px' }} className="w-4 h-4 inline-flex items-center justify-center text-[12px] font-bold rounded-full border-none outline-none bg-[yellow] hover:bg-purple-700 active:bg-purple-600">
                                                   {storeCounts.businessreporthandover}
                                              </button>
                                         )}
@@ -339,7 +339,7 @@ export default function MiniSidebar() {
                                         <button type="button"
                                              className="w-6 h-6 rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none active:bg-blue-700 text-[15px]"></button>
                                        {storeCounts.yetanothertashifmeeting !== 0 && (
-                                             <button type="button" style={{ position: 'absolute', top: '10px', left: '20px' }} class="w-4 h-4 inline-flex items-center justify-center text-[12px] font-bold rounded-full border-none outline-none bg-[yellow] hover:bg-purple-700 active:bg-purple-600">
+                                             <button type="button" style={{ position: 'absolute', top: '10px', left: '20px' }} className="w-4 h-4 inline-flex items-center justify-center text-[12px] font-bold rounded-full border-none outline-none bg-[yellow] hover:bg-purple-700 active:bg-purple-600">
                                                   {storeCounts.yetanothertashifmeeting}
                                              </button>
                                         )}

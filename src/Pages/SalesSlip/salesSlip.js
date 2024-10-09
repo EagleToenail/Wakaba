@@ -3,7 +3,7 @@ import {Link ,useNavigate} from 'react-router-dom';
 import axios from 'axios';
 
 import { useDispatch } from 'react-redux';
-import { setShippingData } from '../../redux/sales/actions';
+import { setRShopShippingData } from '../../redux/sales/actions';
 
 // import Titlebar from '../../Components/Common/Titlebar';
 // import InputComponent from '../../Components/Common/InputComponent';
@@ -40,7 +40,7 @@ const SalesSlip = () => {
     const dispatch = useDispatch();
 
     const updateData = (data) => {
-    dispatch(setShippingData(data));
+    dispatch(setRShopShippingData(data));
     };
 
     const [sales, setSales] = useState([]);

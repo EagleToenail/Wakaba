@@ -1,6 +1,10 @@
 import React,{ useState, useEffect } from 'react';
 import {Link ,useNavigate} from 'react-router-dom';
 import axios from 'axios';
+
+import { useDispatch } from 'react-redux';
+import { setRShopShippingData } from '../../redux/sales/actions';
+
 // import Titlebar from '../../Components/Common/Titlebar';
 // import InputComponent from '../../Components/Common/InputComponent';
 import ButtonComponent from '../../Components/Common/ButtonComponent';
@@ -33,18 +37,23 @@ const ShowSalesSlip = () => {
         whiteSpace:'nowrap'
     };
 
+    const dispatch = useDispatch();
+
+    const updateData = (data) => {
+    dispatch(setRShopShippingData(data));
+    };
+
     const [sales, setSales] = useState([]);
-    // Fetch customer data
+    // Fetch sales data
     useEffect( () => {
         const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
         if (!wakabaBaseUrl) {
             throw new Error('API base URL is not defined');
         }
-
         // console.log(`${wakabaBaseUrl}/sales/getSalesList`);
          axios.get(`${wakabaBaseUrl}/sales/getSalesList`)
             .then(response => {
-                console.log(response.data)
+                // console.log(response.data)
                 setSales(response.data);
             })
             .catch(error => {
@@ -52,52 +61,16 @@ const ShowSalesSlip = () => {
             });
     }, []);
 
-    // State to track the value of the active button
-    const [activeValue, setActiveValue] = useState('');
-    // State to track if the select box is active
-    const [isSelectActive, setIsSelectActive] = useState(false);
-    const buttonValues = ['', '貴金属', 'ブランド', 'バッグ', '時計',
-        '財布', 'アクセサリ', '骨董品', '洋酒', 'カメラ','楽器','スマホ/夕ブレット'];
-
-    const handleCategory =(value) =>(e) => {
-        e.preventDefault();
-
-        // console.log('vlaue',value)
-        setActiveValue(value);
-        // console.log('activeValue',activeValue)
-        setIsSelectActive(false); // Deactivate select box
-
+    const handleCategory = async(value) => {
+        setShowYahoo(false);
         const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
         if (!wakabaBaseUrl) {
             throw new Error('API base URL is not defined');
         }
-
         // console.log(`${wakabaBaseUrl}/sales/filter`);
-        axios.post(`${wakabaBaseUrl}/sales/filter`,{ value: value })
+        await axios.post(`${wakabaBaseUrl}/sales/filter`,{ value: value })
             .then(response => {
-                // console.log(response.data)
-                setSales(response.data);
-            })
-            .catch(error => {
-                console.error("There was an error fetching the customer data!", error);
-            });
-    };
-    const onChangeCategory=(e) => {
-        e.preventDefault();
-        // console.log("afdaf",e.target.value)
-        setActiveValue(null); // Deactivate all buttons
-        setIsSelectActive(true);
-
-        const value = e.target.value;
-        const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
-        if (!wakabaBaseUrl) {
-            throw new Error('API base URL is not defined');
-        }
-
-        // console.log(`${wakabaBaseUrl}/sales/filter`);
-        axios.post(`${wakabaBaseUrl}/sales/filter`,{ value: value })
-            .then(response => {
-                // console.log(response.data)
+                console.log(response.data)
                 setSales(response.data);
             })
             .catch(error => {
@@ -105,23 +78,85 @@ const ShowSalesSlip = () => {
             });
     };
 
-    // const handleSalesEditClick = (id) => {
-    //     navigate(`/salesslipupdate/${id}`); // Use navigate for routing
-    // };
+    const handleSalesEditClick = (id) => {
+        // navigate(`/salesslipupdate/${id}`); // Use navigate for routing
+        navigate(`/invoiceforpurchasedetail/${id}`)
+    };
 
-    const [isCreateModalOpen , setIsCreateModalOpen] = useState(false);
+    //checked event
+    const [checkedValues, setCheckedValues] = useState([]);
+    // Handle checkbox change
+    const handleCheckboxChange = (event) => {
+        const value = event.target.value;
+        setCheckedValues((prevValues) => 
+        prevValues.includes(value)
+            ? prevValues.filter((v) => v !== value) // Uncheck
+            : [...prevValues, value] // Check
+        );
+    };
+    const handleSendCheckedValues = () => {
+        updateData(checkedValues);
+        // console.log('checked values',checkedValues);
+        if(checkedValues && checkedValues.length !==0){
+            navigate('/purchaserequest');
+        }
 
-    const openCreateCheckModal = () => {
-        setIsCreateModalOpen(true);
+    };
+    //go to disposal permission
+    const sendToDisposalPermission = () => {
+        // updateData(checkedValues);
+        // navigate('/applicationfordisposalpermission');
     }
-    const gotoCustomer = () => {
-        setIsCreateModalOpen(false);
-            navigate('/customerlist')
+
+    //filter yahoo auction
+    const handleYahooAuction =()=> {
+        setShowYahoo(true);
+        const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+        if (!wakabaBaseUrl) {
+            throw new Error('API base URL is not defined');
+        }
+
+        // console.log(`${wakabaBaseUrl}/sales/filter`);
+        axios.post(`${wakabaBaseUrl}/sales/vendorfilter`,{ value: 'オークション' })
+            .then(response => {
+                // console.log(response.data)
+                setSales(response.data);
+            })
+            .catch(error => {
+                console.error("There was an error fetching the customer data!", error);
+        });
     }
-    const gotoRegisterCustomer =()=> {
-        setIsCreateModalOpen(false);
-        navigate('/invoiceforpurchaseofbroughtblank');
-    }
+
+    const [showYahoo,setShowYahoo] = useState(false);
+     //  -------------------------------select box-------------------------------
+     const [product1s, setProduct1s] = useState([]);
+     // Fetch product1 data
+     useEffect(() => {
+         const fetchCategory1 = async () => {
+             const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+             if (!wakabaBaseUrl) {
+                 throw new Error('API base URL is not defined');
+             }
+ 
+             axios.get(`${wakabaBaseUrl}/ProductType1s`)
+                 .then(response => {
+                     setProduct1s(response.data);
+                 })
+                 .catch(error => {
+                     console.error("There was an error fetching the customer data!", error);
+                 });
+         }
+         fetchCategory1();
+     }, []);
+ 
+     const [category1, setCategory1] = useState('1');
+ 
+     const handleCategory1Change = (e, productList) => {
+         const selectedCategory = e.target.value; // Get the selected category
+         const selectedResult = productList.find(product => product.category === selectedCategory);//need id
+         setCategory1(selectedCategory);
+         handleCategory(selectedCategory);
+     };
 
     return (
         <>
@@ -130,79 +165,62 @@ const ShowSalesSlip = () => {
             <div className="w-full flex flex-col items-center justify-center py-3 px-4">
                 <div className="w-full flex justify-center">
                     <div className='w-full'>
-                        {/* <div className='sales-slip-top-button flex justify-between'>
-                            <div className='sales-slip-next-button1 flex mt-5 w-1/2' >
+                        {/* <div className='sales-slip-top-button flex justify-center gap-10'>
+                            <div className='sales-slip-next-button1 flex mt-5 w-max'>
                                 <div className='flex justify-center'>
                                     <div>
-                                        <ButtonComponent className='!px-5 text-2xl w-max' style={{ backgroundColor: '#9bd195', height: '40px' }} >
-                                            <Link to="/purchasetorshop">リサイクルショップへの買取依頼書へ</Link>
-                                        </ButtonComponent>
+                                        <button onClick={handleSendCheckedValues} 
+                                            className='w-max h-10 px-5 text-2xl font-bold rounded-md bg-[#9bd195] text-[white] hover:bg-[#524c3b] hover:text-white transition-all duration-300'>
+                                             リサイクルショップへの買取依頼
+                                        </button>
                                         <div className='flex justify-center'>
                                             <LabelComponent value={'行を選択してください'} />
                                         </div>
                                     </div>
                                 </div>
-                                <div className='flex justify-center'>
-                                    <div className=''>
-                                        <ButtonComponent className='!px-5 text-2xl ml-5' style={{ backgroundColor: '#9bd195', height: '40px' }} >
-                                            <Link>廃棄申請</Link>
-                                        </ButtonComponent>
-                                        <div className='flex justify-centerb w-max ml-5'>
-                                            <LabelComponent value={'行を選択してください'} />
-                                        </div>
+                            </div>
+                            <div className='sales-slip-next-button2 flex justify-between w-max mt-5'>
+                                <div className=''>
+                                    <div className='flex justify-center'>
+                                        <button onClick={sendToDisposalPermission} className='h-10  px-5 text-2xl font-bold rounded-md bg-[#9bd195] text-[white] hover:bg-[#524c3b] hover:text-white transition-all duration-300' >
+                                            廃棄申請
+                                        </button>
                                     </div>
-                                    <div>
-                                        <ButtonComponent children={'買取計算書'} onClick={openCreateCheckModal} className='!px-5 text-2xl' style={{ height: '40px' }} ></ButtonComponent>
+                                    <div className='flex justify-center'>
+                                        <LabelComponent value={'行を選択してください'} />
                                     </div>
                                 </div>
+                                <ButtonComponent children={'売上表'} className='!px-5 text-2xl ml-5 whitespace-nowrap' style={{ backgroundColor: '#424242', height: '40px' }} />
                             </div>
-                            <div className='sales-slip-next-button2 flex mt-5 w-1/2' >
-                                <ButtonComponent children={'売上表'} className='!px-5 text-2xl ml-5' style={{ backgroundColor: '#424242', height: '40px' }} />
-                                <ButtonComponent children={'業者査定シート'} className='!px-5 text-2xl'  style={{ backgroundColor: 'transparent', border: '1px solid #424242', color: '#424242', marginLeft: '30px', height: '40px' }} >
-                                    <Link to='/contractorassessmentsheet'>業者査定シート</Link></ButtonComponent>
-                                <ButtonComponent children={'ヤフオク'} className='!px-5 text-2xl ' style={{ backgroundColor: 'transparent', border: '1px solid #424242', color: '#424242', marginLeft: '30px', height: '40px' }} >
-                                    <Link to='/yahooauction'>ヤフオク</Link>
-                                </ButtonComponent>
+                            <div className='sales-slip-next-button2 flex mt-5 w-max gap-5' >    
+                                <button className='h-10 px-5 text-2xl font-bold rounded-md border border-[#424242] bg-[transparent] text-[#424242] hover:bg-[#524c3b] hover:text-white transition-all duration-300 whitespace-nowrap' >
+                                    <Link to='/vendorassessmentsheet'>業者査定シート</Link></button>
+                                <button onClick={handleYahooAuction} className='h-10 px-5 text-2xl font-bold rounded-md border border-[#424242] bg-[transparent] text-[#424242] hover:bg-[#524c3b] hover:text-white transition-all duration-300 whitespace-nowrap' 
+                                            style={{backgroundColor:showYahoo === true ? '#424242' : 'transparent', color:showYahoo === true ? 'white' : 'black'}} >
+                                     オークション
+                                </button>
                             </div>
                         </div> */}
 
-                        {/* second button line  */}
-                        {/* This buttons doesn't have borders and background-color */}
-                        <div className='flex' >
-                            <div className='sales-slip-filters flex justify-center w-full' >
-                                <div className='sales-slip-filters-btns flex justify-center w-1/3 gap-5 mt-5'>
-                                    <ButtonComponent children={'全て'} onClick={handleCategory('')}  className="!px-3  bg-[transparent] border border-[#424242] text-[#70685a] h-8 rounded-lg !w-max"  style={{color: activeValue === buttonValues[0] ? 'white' : 'black', backgroundColor: activeValue === '' ? '#424242' : 'transparent'}}/>
-                                    <ButtonComponent children={'貴金属'} onClick={handleCategory('貴金属')} className="!px-3 bg-[transparent] border border-[#424242] text-[#70685a] h-8 rounded-lg !w-max" style={{color: activeValue === buttonValues[1] ? 'white' : 'black', backgroundColor: activeValue === buttonValues[1] ? '#424242' : 'transparent'}}/>
-                                    <ButtonComponent children={'古銭等'} onClick={handleCategory('古銭等')} className="!px-3 bg-[transparent] border border-[#424242] text-[#70685a] h-8 rounded-lg !w-max" style={{color: activeValue === buttonValues[2] ? 'white' : 'black', backgroundColor: activeValue === buttonValues[2] ? '#424242' : 'transparent'}}/>
-                                    <ButtonComponent children={'バッグ'} onClick={handleCategory('バッグ')} className="!px-3 bg-[transparent] border border-[#424242] text-[#70685a] h-8 rounded-lg !w-max" style={{color: activeValue === buttonValues[3] ? 'white' : 'black', backgroundColor: activeValue === buttonValues[3] ? '#424242' : 'transparent'}}/>
-                                    <ButtonComponent children={'時計'} onClick={handleCategory('時計')} className="!px-3 bg-[transparent] border border-[#424242] text-[#70685a] h-8 rounded-lg !w-max" style={{color: activeValue === buttonValues[4] ? 'white' : 'black', backgroundColor: activeValue === buttonValues[4] ? '#424242' : 'transparent'}}/>
-                                </div>
-                                <div className='sales-slip-filters-btns flex justify-center w-1/3 gap-5 mt-5 ml-5'>
-                                    <ButtonComponent children={'財布'} onClick={handleCategory('財布')} className="!px-3 bg-[transparent] border border-[#424242] text-[#70685a] h-8 rounded-lg !w-max" style={{color: activeValue === buttonValues[5] ? 'white' : 'black', backgroundColor: activeValue === buttonValues[5] ? '#424242' : 'transparent'}}/>
-                                    <ButtonComponent children={'アクセサリ'} onClick={handleCategory('アクセサリ')} className="!px-3 bg-[transparent] border border-[#424242] text-[#70685a] h-8 rounded-lg !w-max" style={{color: activeValue === buttonValues[6] ? 'white' : 'black', backgroundColor: activeValue === buttonValues[6] ? '#424242' : 'transparent'}}/>
-                                    <ButtonComponent children={'骨董品'} onClick={handleCategory('骨董品')} className="!px-3 bg-[transparent] border border-[#424242] text-[#70685a] h-8 rounded-lg !w-max" style={{color: activeValue === buttonValues[7] ? 'white' : 'black', backgroundColor: activeValue === buttonValues[7] ? '#424242' : 'transparent'}}/>
-                                    <ButtonComponent children={'洋酒'} onClick={handleCategory('洋酒')} className="!px-3 bg-[transparent] border border-[#424242] text-[#70685a] h-8 rounded-lg !w-max" style={{color: activeValue === buttonValues[8] ? 'white' : 'black', backgroundColor: activeValue === buttonValues[8] ? '#424242' : 'transparent'}}/>
-                                    <ButtonComponent children={'カメラ'} onClick={handleCategory('カメラ')} className="!px-3 bg-[transparent] border border-[#424242] text-[#70685a] h-8 rounded-lg !w-max" style={{color: activeValue === buttonValues[9] ? 'white' : 'black', backgroundColor: activeValue === buttonValues[9] ? '#424242' : 'transparent'}}/>
-                                </div>
-                                <div className='sales-slip-filters-btns flex justify-center w-1/3 gap-5 mt-5 ml-5'>
-                                    <ButtonComponent children={'楽器'} onClick={handleCategory('楽器')} className="!px-3 bg-[transparent] border border-[#424242] text-[#70685a] h-8 rounded-lg !w-max" style={{color: activeValue === buttonValues[10] ? 'white' : 'black', backgroundColor: activeValue === buttonValues[10] ? '#424242' : 'transparent'}}/>
-                                    <ButtonComponent children={'スマホ/夕ブレット'} onClick={handleCategory('スマホ/夕ブレット')} className="!px-5 bg-[transparent] border border-[#424242] text-[#70685a] h-8 rounded-lg !w-max" style={{color: activeValue === buttonValues[11] ? 'white' : 'black', backgroundColor: activeValue === buttonValues[11] ? '#424242' : 'transparent'}}/>
-                                    <select id="classificatin" onChange={onChangeCategory}  name="classificatin" className="!w-max h-8 rounded-lg text-[#70685a] text-[15px] font-bold border border-[#70685a] px-4 py-1 outline-[#70685a]" style={{color: isSelectActive ? 'white' : 'black', backgroundColor: isSelectActive ? '#424242' : 'transparent'}}>
-                                        <option value="その他">その他</option>
-                                        <option value="Afghanistan">Afghanistan</option>
-                                        <option value=" Islands">Islands</option>
-                                        <option value="Albania">Albania</option>
-                                    </select>
-                                </div> 
-                            </div>
+                        {/* second selectbox line  */}
+                        <div className='w-full flex justify-center mt-5'>
+                            <select name="category1" value={category1} onChange={(e) => handleCategory1Change(e, product1s)} className='w-max h-11 text-[#70685a] font-bold border border-[#70685a] px-4 py-1 outline-[#70685a]' >
+                                <option value="" disabled>商品タイプ1</option>
+                                {product1s.map((option, index) => (
+                                    <option key={option.id} value={option.category || ''}>
+                                        {option.category || ''}
+                                    </option>
+                                ))}
+                            </select>
                         </div>
-
+                        
                         {/*  Tabe*/}
                         <div className='mt-10 pb-20 w-full flex'>
                             <div style={{ width: '100%', overflow: 'auto' }} >
                                 <table style={Table}>
                                     <thead className='sticky top-0 bg-white z-10'>
                                         <tr>
+                                            {/* <th rowSpan={2} className='px-2'></th> */}
                                             <th rowSpan={2} className='px-2'>番号</th>
                                             <th  className='px-2' style={Th} rowSpan={2}>日付</th>
                                             <th className='px-2' style={Th} rowSpan={2}>買取担当.</th>
@@ -212,6 +230,7 @@ const ShowSalesSlip = () => {
                                             <th  style={Th} rowSpan={2} >来店種別 </th>
                                             <th  style={Th} rowSpan={2} >銘柄・種別 </th>
                                             <th  style={Th} rowSpan={2} >販売店名</th>
+                                            <th  style={Th} rowSpan={2} >ステータス</th>
                                             <th style={Th} rowSpan={2} >商品種別1 </th>
                                             <th style={Th} rowSpan={2} >商品種別2</th>
                                             <th style={Th} rowSpan={2} >商品</th>
@@ -222,10 +241,14 @@ const ShowSalesSlip = () => {
                                             <th style={Th} rowSpan={2} >売上額 </th>
                                             <th style={Th} rowSpan={2} >送料</th>
                                             <th style={Th} rowSpan={2} >粗利益</th>
-                                            <th style={Th} rowSpan={2} >卸し先</th>
+                                            {showYahoo ? (
+                                                <th style={Th} rowSpan={2} >オークション</th>
+                                            ):(
+                                                <th style={Th} rowSpan={2} >卸し先</th>
+                                            )}
                                             <th style={Th} rowSpan={2} >卸日</th>
                                             <th style={Th} rowSpan={2} >入金日</th>
-                                            <th rowSpan={2} ></th>
+                                            {/* <th rowSpan={2} ></th> */}
                                         </tr>
                                         <tr>
                                             <th style={Th}className='px-2'>顧客名</th>
@@ -237,8 +260,9 @@ const ShowSalesSlip = () => {
                                     </thead>
                                     <tbody>
                                         {sales.map((sale,Index) => (
-                                            <tr key={sale.id}>
-                                                <td>{Index+1}</td>
+                                            <tr  key={sale.id}>
+                                                {/* <td className='flex flex-col justify-center'><input type='checkbox' disabled={sale.product_status !== '買取済'} value={sale.id} onChange={handleCheckboxChange} className='w-5'/></td> */}
+                                                <td>{Index + 1}</td>
                                                 <td style={Td}>{sale.trading_date}</td>
                                                 <td style={Td}>{sale.purchase_staff}</td>
                                                 <td style={Td}>{sale.Customer ? sale.Customer.full_name : 'Name not available'}</td>
@@ -248,6 +272,7 @@ const ShowSalesSlip = () => {
                                                 <td style={Td}>{sale.Customer ? sale.Customer.visit_type : 'visit_type not available'}</td>
                                                 <td style={Td}>{sale.Customer ? sale.Customer.brand_type : 'brand_type not available'}</td>
                                                 <td style={Td}>{sale.store_name}</td>
+                                                <td style={Td}>{sale.product_status}</td>
                                                 <td style={Td}>{sale.product_type_one}</td>
                                                 <td style={Td}>{sale.product_type_two}</td>
                                                 <td style={Td}>{sale.product_name}</td>
@@ -258,14 +283,14 @@ const ShowSalesSlip = () => {
                                                 <td style={Td}>{sale.sales_amount}</td>
                                                 <td style={Td}>{sale.shipping_cost}</td>
                                                 <td style={Td}>{sale.gross_profit}</td>
-                                                <td style={Td}>{sale.wholesale_buyer}</td>
-                                                <td style={Td}>{sale.wholesale_date}</td>
-                                                <td style={Td}>{sale.payment_date}</td>
-                                                <td>
+                                                <td style={Td}>{sale.shipping_address}</td>
+                                                <td style={Td}>{sale.shipping_date}</td>
+                                                <td style={Td}>{sale.deposit_date}</td>
+                                                {/* <td  onClick={() => handleSalesEditClick(sale.id)}>
                                                     <svg className="w-5 h-5 ml-5" fill='#70685a' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="ContentCopyIcon" title="ContentCopy">
                                                         <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2m0 16H8V7h11z"></path>
                                                     </svg>
-                                                </td>
+                                                </td> */}
                                             </tr>
                                         ))}
                                     </tbody>
@@ -276,24 +301,6 @@ const ShowSalesSlip = () => {
                     </div>
                 </div>
             </div>
-            {isCreateModalOpen && (
-            <div
-            className="fixed inset-0 p-4 flex flex-wrap justify-center items-center w-full h-full z-[1000] before:fixed before:inset-0 before:w-full before:h-full before:bg-[rgba(0,0,0,0.5)] overflow-auto font-[sans-serif]">
-            <div className="w-full max-w-lg bg-white shadow-lg rounded-lg p-6 relative">
-
-                <div className="my-4 text-center">
-                    <h4 className="text-gray-800 text-base font-semibold mt-4">新規来店ですか?</h4>
-
-                    <div className="text-center space-x-4 mt-8">
-                        <button type="button" onClick={gotoRegisterCustomer}
-                            className="px-6 py-2 rounded-lg text-white text-sm bg-red-600 hover:bg-red-700 active:bg-red-600">はい</button>
-                        <button type="button" onClick={gotoCustomer}
-                            className="px-4 py-2 rounded-lg text-gray-800 text-sm bg-gray-200 hover:bg-gray-300 active:bg-gray-200">いいえ</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        )}
         </>
     );
 };

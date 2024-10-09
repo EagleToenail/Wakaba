@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import '../src/Assets/css/responsive.css'
 
 import LayoutWithMainContainer from './Layout/LayoutWithMainContainer';
+import LayoutWithMainContainer1 from './Layout/LayoutWithMainContainer1';
 import LayoutContainer from './Layout/LayoutContainer';
 
 import Login from './Pages/Auth/Login/login';
@@ -32,7 +33,6 @@ import CustomerIndividualCreate from './Pages/CustomerIndividualCreate/customerI
 import PurchaseToRShop from './Pages/PurchaseToRShop/purchaseToRShop';//Purchase application to R shop
 import InvoiceForPurchaseOfBrought from './Pages/InvoiceForPurchaseOfBrought/invoiceforpurchaseofbrought';//Application for invoice for purchase of brought-in goods
 import InvoiceForPurchaseOfBroughtBlank from './Pages/InvoiceForPurchaseOfBroughtBlank/invoiceforpurchaseofbroughtblank';//Application for invoice for purchase of brought blank-in goods
-import InvoiceForPurchaseChat from './Pages/InvoiceForPurchaseChat/invoiceForPurchaseChat';//invoice for purchase chat
 import InvoiceForPurchaseList from './Pages/InvoiceForPurchaseList/invoiceForPurchaseList';//invoice for purchase list
 import InvoiceForPurchaseDetail from './Pages/invoiceForPurchaseDetail/invoiceForPurchaseDetail';//invoice for detail
 import PurchaseInvoiceForBroughtInItems from './Pages/PurchaseInvoiceForBroughtInItems/purchaseInvoiceForBroughtInItems';//Purchase invoice for brought-in items(for customer presentaion)
@@ -120,6 +120,13 @@ function App() {
             <Route path='/applicationfordisposalpermission' element={<ApplicationForDisposalPermission/>}/>
             <Route path='/endofworkreporttoowner' element={<EndOfWorkReportToOwner/>}/>
 
+            <Route path='/invoiceforpurchaseofbrought/:id' element={<InvoiceForPurchaseOfBrought/>}/>
+            <Route path='/invoiceforpurchaseofbroughtblank' element={<InvoiceForPurchaseOfBroughtBlank/>}/>
+            <Route path='/purchaserequest' element={<PurchaseRequest/>}/>
+          </Route>
+
+          <Route element={<LayoutWithMainContainer1/>}>
+
             <Route path='/generalchat/allgeneral' element={<GeneralChat/>}/>
             <Route path='/generalchat/allforall' element={<GeneralChat/>}/>
             <Route path='/generalchat/wakabapassword' element={<GeneralChat/>}/>
@@ -147,13 +154,9 @@ function App() {
             <Route path='/closingwork' element={<ClosingWork/>}/>
             <Route path='/monthlyincome' element={<MonthlyIncome/>}/>
             <Route path='/safemoney' element={<SafeMoney/>}/>
-            <Route path='/purchaserequest' element={<PurchaseRequest/>}/>
             <Route path='/customerlist' element={<CustomerList/>}/>
             <Route path='/customerindividual/:id' element={<CustomerIndividual/>}/> 
             <Route path='/customerindividualcreate' element={<CustomerIndividualCreate/>}/> 
-            <Route path='/invoiceforpurchaseofbrought/:id' element={<InvoiceForPurchaseOfBrought/>}/>
-            <Route path='/invoiceforpurchaseofbroughtblank' element={<InvoiceForPurchaseOfBroughtBlank/>}/>
-            <Route path='/invoiceforpurchasechat' element={<InvoiceForPurchaseChat/>}/>
             <Route path='/invoiceforpurchaselist' element={<InvoiceForPurchaseList/>}/>
             <Route path='/invoiceforpurchasedetail/:invoiceid' element={<InvoiceForPurchaseDetail/>}/>
             <Route path='/wholesalershippinglist' element={<WholeSalerShippingList/>}/>

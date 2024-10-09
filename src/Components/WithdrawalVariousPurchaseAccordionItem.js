@@ -2,32 +2,13 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios'; // or use fetch
 
-const WithdrawalVariousPurchaseAccordionItem = ({ time, title, content, fileUrl, sender, receiver, children, parentMessageId, onSendData, users }) => {
+const WithdrawalVariousPurchaseAccordionItem = ({ messageId,time, title, content, fileUrl, sender, receiver, children,complete,permission, onSendData, users }) => {
   const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
   const [isOpen, setIsOpen] = useState(false);
 
-  const [receivedTime, setReceivedTime] = useState('');
+  // const [receivedTime, setReceivedTime] = useState('');
   const [senderName, setSenderName] = useState('');
   const [receiverName, setReceiverName] = useState('');
-
-  // const isoString = time;
-  // const date = new Date(isoString);
-
-  // // Extract components
-  // const year = date.getUTCFullYear();
-  // const month = date.getUTCMonth() + 1; // Months are zero-based
-  // const day = date.getUTCDate();
-  // const hours = date.getUTCHours();
-  // const minutes = date.getUTCMinutes();
-
-  // // Format components to ensure two digits for month, day, hours, and minutes
-  // const formattedMonth = month.toString().padStart(2, '0');
-  // const formattedDay = day.toString().padStart(2, '0');
-  // const formattedHours = hours.toString().padStart(2, '0');
-  // const formattedMinutes = minutes.toString().padStart(2, '0');
-
-  // Create formatted date string
-  // const formattedDate = `${year}/${formattedMonth}/${formattedDay} ${formattedHours}:${formattedMinutes}`;
 
   //fetch message data related user
   useEffect(() => {
@@ -59,7 +40,10 @@ const WithdrawalVariousPurchaseAccordionItem = ({ time, title, content, fileUrl,
 
   return (
     <div style={{ margin: '10px 0' ,width:'99%'}}>
-      <button onClick={toggleAccordion} style={styles.button}>
+      <button onClick={toggleAccordion} className ='w-full p-[10px] text-left cursor-pointer rounded-sm' 
+                 style={{ border: permission === '1' ? '1px solid #ccc' : 'none',
+                  background: permission === '1' ? '#f9f9f9' : 'transparent',
+           }}>
         <div className='new-post-receive w-full flex h-13'>
           <div className='new-post-receive-message flex' style={{ width: '75%' }}>
             <div className='flex'>
@@ -141,7 +125,7 @@ const WithdrawalVariousPurchaseAccordionItem = ({ time, title, content, fileUrl,
                   </div>
                 </div>
                 <div>
-                  <label className="text-[black] pl-3 text-[15px] block text-left" style={{ width: '100%', overflow: 'scroll' }}>
+                  <label className="text-[black] pl-3 text-[15px] block text-left w-full">
                     {content}
                   </label>
                 </div>
@@ -150,16 +134,21 @@ const WithdrawalVariousPurchaseAccordionItem = ({ time, title, content, fileUrl,
             </div>
             <div style={{ width: '20%' }}>
               {/* btn */}
-              <div className='mt-5 flex justify-center'>
+              {/* <div className='mt-5 flex justify-center'>
                 < button type="button" onClick={toggleAccordion} className="w-20 px-3 py-0.5 font-semiblod rounded-lg justify-center text-[#70685a] text-[15px] bg-[#9bd194] hover:bg-blue-700 focus:outline-none">
                   完了
                 </button>
-              </div>
+              </div> */}
               {/* btn */}
               <div className='mt-5 flex justify-center'>
-                < button onClick={() => handleSubmit(parentMessageId, sender, receiver)} type="button" className="w-20 px-3 py-0.5 font-semiblod rounded-lg justify-center text-[#70685a] text-[15px] bg-[#ebe6e0] hover:bg-blue-700 focus:outline-none">
-                  返信
-                </button>
+                {complete !== '1' ?
+                  < button onClick={() => handleSubmit(messageId, sender, receiver)} type="button" className="w-20 px-3 py-0.5 font-semiblod rounded-lg justify-center text-[#70685a] text-[15px] bg-[#ebe6e0] hover:bg-blue-700 focus:outline-none">
+                    返信
+                  </button>:
+                    < button type="button" className="w-20 px-3 py-0.5 font-semiblod rounded-lg justify-center text-[#70685a] text-[15px] bg-[#ebe6e0] hover:bg-blue-700 focus:outline-none">
+                      返信
+                    </button>
+                  }
               </div>
             </div>
           </div>

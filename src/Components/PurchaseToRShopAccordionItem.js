@@ -2,16 +2,12 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios'; // or use fetch
 
-const PurchaseToRShopAccordionItem = ({ messageId, time, title, content, fileUrl, sender, receiver, children, parentMessageId,complete,permission, onSendData, onSendData1,onSendData2,users,amount }) => {
+const PurchaseToRShopAccordionItem = ({ messageId, time, title, content, fileUrl, sender, receiver, children,complete,permission, onSendData,users }) => {
   const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
-
-  const userStoreName = localStorage.getItem('storename');
-  const userId = localStorage.getItem('userId');
-  const role = localStorage.getItem('role');
 
   const [isOpen, setIsOpen] = useState(false);
 
-  const [receivedTime, setReceivedTime] = useState('');
+  // const [receivedTime, setReceivedTime] = useState('');
   const [senderName, setSenderName] = useState('');
   const [receiverName, setReceiverName] = useState('');
 
@@ -42,34 +38,6 @@ const PurchaseToRShopAccordionItem = ({ messageId, time, title, content, fileUrl
     onSendData(Index1, Index2, Index3);
   };
   //----------------------------
-//permission and read status 
-  const permitFunction = () => {
-      const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
-      if (!wakabaBaseUrl) {
-        throw new Error('API base URL is not defined');
-      }
-      axios.post(`${wakabaBaseUrl}/purchasetorshop/permitok`,{messageId:messageId,amount:amount})
-        .then(response => {  
-          onSendData1(response.data);
-      })
-      .catch(error => {
-        console.error("There was an error fetching the customer data!", error);
-      });
-  }
-
-  const completeFunction = () => {
-    const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
-    if (!wakabaBaseUrl) {
-      throw new Error('API base URL is not defined');
-    }
-    axios.post(`${wakabaBaseUrl}/purchasetorshop/completeok`,{messageId:messageId,parentMessageId:parentMessageId})
-      .then(response => {
-        onSendData2(response.data);
-    })
-    .catch(error => {
-      console.error("There was an error fetching the customer data!", error);
-    });
-  }
 
   return (
     <div style={{ margin: '10px 0' ,width:'99%'}}>
@@ -158,7 +126,8 @@ const PurchaseToRShopAccordionItem = ({ messageId, time, title, content, fileUrl
                   </div>
                 </div>
                 <div>
-                  <label className="text-[black] pl-3 text-[15px] block text-left" style={{ width: '100%', overflow: 'scroll' }}>
+                  {/* <label className="text-[black] pl-3 text-[15px] block text-left" style={{ width: '100%', overflow: 'scroll' }}> */}
+                  <label className="text-[black] pl-3 text-[15px] block text-left  w-full" >
                     {content}
                   </label>
                 </div>
@@ -167,16 +136,17 @@ const PurchaseToRShopAccordionItem = ({ messageId, time, title, content, fileUrl
             </div>
             <div style={{ width: '20%' }}>
               {/* btn */}
-              <div className='mt-5 flex justify-center'>
-                {role === '2' && amount !== 0 && parentMessageId !== '' ?
+              {/* <div className='mt-5 flex justify-center'>
+                {role === '2' && parentMessageId !== '' ?
                   < button type="button" onClick={completeFunction} className="w-20 px-3 py-0.5 font-semiblod rounded-lg justify-center text-[#70685a] text-[15px] bg-[#9bd194] hover:bg-blue-700 focus:outline-none">
                     完了
-                  </button> :
+                  </button> :""}
+                {role === '2' && parentMessageId === '' ?
                   < button type="button" onClick={permitFunction} className="w-20 px-3 py-0.5 font-semiblod rounded-lg justify-center text-[#70685a] text-[15px] bg-[#9bd194] hover:bg-blue-700 focus:outline-none">
                     許可
-                  </button>
+                  </button> : ''
                 }
-              </div>
+              </div> */}
               {/* btn */}
               <div className='mt-5 flex justify-center'>
                 {complete !== '1' ?

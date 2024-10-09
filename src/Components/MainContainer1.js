@@ -2,13 +2,8 @@
 // import React, { useState, useCallback, useRef, Children } from 'react';
 import React, { useState, useCallback, useRef} from 'react';
 import '../Assets/css/MainContainer.css';
-import WithdrawVariousPurchase from '../Pages/WithdrawVariousPurchase/withdrawVariousPurchase';//withdrawl puchase for various purchases
-import ShowSalesSlip from '../Pages/ShowSalesSlip/showSalesSlip';
-import MultiRowShowSalesSlip from '../Pages/ApplicationForDisposalPermission/multiRowShowSalesSlip';
-import PurchaseToRShop from '../Pages/PurchaseToRShop/purchaseToRShop';
 
-
-const MainContainer = ({children,destinationURL}) => {
+const MainContainer = ({children}) => {
   const [position, setPosition] = useState(80); // percentage for the height of the top pane
   const [isDragging, setIsDragging] = useState(false);
   const containerRef = useRef(null);
@@ -40,13 +35,6 @@ const MainContainer = ({children,destinationURL}) => {
     document.addEventListener('mouseup', handleMouseUp);
   };
 
-//   // Handle clicking to move the splitter to predefined positions
-//   const handleClick = (e) => {
-//     e.stopPropagation(); // Prevent the click from triggering dragging
-//     const rect = containerRef.current.getBoundingClientRect();
-//     const newPosition = ((e.clientY - rect.top) / rect.height) * 100;
-//     setPosition(Math.max(10, Math.min(newPosition, 90))); // constrain between 10% and 90%
-//   };
 
   const moveToTop = () =>{
     if(position<50) {
@@ -72,25 +60,11 @@ const MainContainer = ({children,destinationURL}) => {
       </div>
       <div
         className="splitter"
-        onMouseDown={handleMouseDown}
         style={{ cursor: isDragging ? 'row-resize' : 'default' }}
       > 
-      <div className='btn-back'>
-        <button className="arrow-button1" onClick={(e) => { e.stopPropagation(); moveToTop(); }}>
-            <svg  focusable="false" aria-hidden="true" fill="white" viewBox="0 0 24 24" data-testid="ArrowDropUpIcon" title="ArrowDropUp"><path d="m7 14 5-5 5 5z"></path></svg>
-          </button>
-      <button className="arrow-button2" onClick={(e) => { e.stopPropagation(); moveToBottom(); }}>
-           <svg  focusable="false" aria-hidden="true" fill="white" viewBox="0 0 24 24" data-testid="ArrowDropDownIcon" title="ArrowDropDown"><path d="m7 10 5 5 5-5z"></path></svg>
-        </button>
-      </div>
-
 
       </div>
       <div className="bottom-pane" style={{ height: `${100 - position - 15}%` }}>
-        {destinationURL == 'invoiceforpurchaseofbrought' ? (<WithdrawVariousPurchase/> ): ('')}
-        {destinationURL == 'todolist' ? (<ShowSalesSlip/> ): ('')}
-        {destinationURL == 'applicationfordisposalpermission' ? (<MultiRowShowSalesSlip/> ): ('')}
-        {destinationURL == 'purchaserequest' ? (<PurchaseToRShop/> ): ('')}
       </div>
     </div>
   );

@@ -5,24 +5,28 @@ import PurchaseToRShopAccordionItem from './PurchaseToRShopAccordionItem';
 
 const PurchaseToRShopAccordion = ({amount, onSendIdData ,onSendIdData1,onSendIdData2 ,messages}) => {
 
+  const userStoreName = localStorage.getItem('storename');
+
   const [users, setUsers] = useState([]);
   useEffect(() => {
-    const fetchUsers = async () => {
-      const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
-      if (!wakabaBaseUrl) {
-        throw new Error('API base URL is not defined');
-      }
-      axios.get(`${wakabaBaseUrl}/user/getUserList`)
-        .then(response => {
-          setUsers(response.data);
-        })
-        .catch(error => {
-          console.error("There was an error fetching the customer data!", error);
-        });
-    };
+    const fetchStoreSuperViosr = () => {
+        const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+        if (!wakabaBaseUrl) {
+            throw new Error('API base URL is not defined');
+        }
 
-    fetchUsers();
-  }, []);
+        axios.post(`${wakabaBaseUrl}/user/getSuperVisorList`,{storeName:userStoreName})
+            .then(response => {
+                const data = response.data;
+                setUsers(data);
+            })
+            .catch(error => {
+                console.error("There was an error fetching the customer data!", error);
+            });
+    }
+    fetchStoreSuperViosr();
+
+}, []);
 
   const handleDataFromChild = (data1, data2, data3) => {
     onSendIdData(data1, data2, data3);

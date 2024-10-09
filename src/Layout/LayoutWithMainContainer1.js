@@ -3,11 +3,12 @@ import Header from '../Components/Header';
 import Navbar from '../Components/Navbar';
 import Toolbar from '../Components/Toolbar';
 import Sidebar from '../Components/Sidebar';
-import {useLocation } from 'react-router-dom';
+import MainContainer1 from '../Components/MainContainer1';
+import {Outlet, useLocation } from 'react-router-dom';
 import '../Assets/css/LayoutWithMainContainer.css';
-import MainChatPage from '../Pages/Chat/mainChatPage';
 
-const LayoutContainer = () => {
+
+const LayoutWithMainContainer1 = () => {
   const location = useLocation();
 
   const noHeaderSidebarRoutes = ['']; // Add other routes as needed
@@ -36,6 +37,12 @@ const LayoutContainer = () => {
 
 }, [showHeaderAndSidebar]);  // Re-run if sidebar visibility changes
 
+
+    // Get the full URL
+    const pathname = location.pathname; // Just the path
+    const parts = pathname.split('/'); // Split the path by "/"
+    const destinationURL = parts[1]; // This will give you "invoiceforpurchaseofbrought"
+
   return (
     <>
          {showHeaderAndSidebar && <Header />} 
@@ -44,11 +51,13 @@ const LayoutContainer = () => {
          <div className='layout-container'>
             {showHeaderAndSidebar &&<div className='layout-sidebar' style={{width:`${sidebarWidth}px`}}><Sidebar /></div>} 
             <div className='layout-maincontainer'>
-                <MainChatPage/>
+                <MainContainer1>
+                    <Outlet/>
+                </MainContainer1>
             </div>    
           </div> 
     </>
   );
 };
 
-export default LayoutContainer;
+export default LayoutWithMainContainer1;

@@ -3,8 +3,17 @@ import InputComponent from '../../Components/Common/InputComponent';
 import LabelComponent from '../../Components/Common/LabelComponent';
 import WithdrawalVariousPurchaseAccordion from '../../Components/WithdrawalVariousPurchaseAccordion';
 import axios from 'axios';
+import {useSelector } from 'react-redux';
 
 export default function TODOList() {
+
+    const data = useSelector(state => state.data);
+    const totalData = data.data;
+
+    const userStoreName = localStorage.getItem('storename');
+    const userId = localStorage.getItem('userId');
+    const role = localStorage.getItem('role');
+
     const now = new Date();
 
     // Format the date as YYYY-MM-DD
@@ -37,22 +46,26 @@ export default function TODOList() {
     const [selectedCustomerId, setSelectedCustomerId] = useState(null);
     const [filteredOptions, setFilteredOptions] = useState([]);
     const dropdownRef = useRef(null);
-    // Fetch customer data
+    // Fetch user data(supervisor of this shop)
     useEffect(() => {
-        const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
-        if (!wakabaBaseUrl) {
-            throw new Error('API base URL is not defined');
+        const fetchStoreSuperViosr = () => {
+            const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+            if (!wakabaBaseUrl) {
+                throw new Error('API base URL is not defined');
+            }
+    
+            axios.post(`${wakabaBaseUrl}/user/getSuperVisorList`,{storeName:userStoreName})
+                .then(response => {
+                    const data = response.data;
+                    setUsers(data);
+                    setFilteredOptions(data);
+                })
+                .catch(error => {
+                    console.error("There was an error fetching the customer data!", error);
+                });
         }
+        fetchStoreSuperViosr();
 
-        axios.get(`${wakabaBaseUrl}/user/getUserList`)
-            .then(response => {
-                const data = response.data;
-                setUsers(data);
-                setFilteredOptions(data);
-            })
-            .catch(error => {
-                console.error("There was an error fetching the customer data!", error);
-            });
     }, []);
     // Filter the options based on the query
     useEffect(() => {
@@ -88,8 +101,6 @@ export default function TODOList() {
     };
 
     //==============post function=========
-    const userId = localStorage.getItem('userId');
-    // const [messages, setMessages] = useState([]);
     const [reply, setReply] = useState({
         time: currentDateTime,
         title: '',
@@ -125,26 +136,29 @@ export default function TODOList() {
 
     const [messages, setMessages] = useState([]);
     //fetch message data related user
-    useEffect(() => {
-      const fetchMessages = async () => {
+    const fetchMessages = async (id) => {
         const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
         if (!wakabaBaseUrl) {
           throw new Error('API base URL is not defined');
         }
   
-        // console.log(`${wakabaBaseUrl}/customer/getCustomerList`);
         const userId = localStorage.getItem('userId');
-        axios.get(`${wakabaBaseUrl}/withdrawalvariouspurchasemessages/${userId}`)
+        const invoiceId = id;
+        axios.post(`${wakabaBaseUrl}/withdrawalvariouspurchasemessages`,{userId:userId,invoiceId:invoiceId})
           .then(response => {
-            // console.log("all message",response.data)
             setMessages(response.data);
           })
           .catch(error => {
             console.error("There was an error fetching the customer data!", error);
           });
-      };
-  
-      fetchMessages();
+    };
+
+    useEffect(() => {
+        if (totalData?.length>0 ) {
+            fetchMessages(totalData[0].id);
+        } else {
+            setMessages([]);
+        }
       // Set up polling
       // const intervalId = setInterval(() => {
       //   fetchMessages();
@@ -152,13 +166,24 @@ export default function TODOList() {
   
       // // Clean up on unmount
       // return () => clearInterval(intervalId);
-    }, []);
+    }, [totalData]);
     
     // send message and file to other user 
     const sendWithdrawalVariousPurchaseMessage = async () => {
         // console.log('sendtododata', reply);
-        if (reply.title != '' && reply.content != '' && reply.senderId != '' && reply.receiverId != '') {
+        if (totalData?.length>0 && reply.title != '' && reply.content != '' && reply.senderId != '' && reply.receiverId != '') {
             const formData = new FormData();
+            if(messages?.length>0) {
+                if(reply.parentMessageId !== '' && messages[0].permission === '1') {
+                    formData.append('permission', '1');
+                    formData.append('read', '0');
+                } else {
+                    formData.append('permission', '0');
+                    formData.append('read', '0');
+                }
+            }
+            formData.append('invoice_id', totalData[0].id);
+            formData.append('store_name', userStoreName);
             formData.append('time', reply.time);
             formData.append('title', reply.title);
             formData.append('content', reply.content);
@@ -182,7 +207,8 @@ export default function TODOList() {
                     }
                 }).then(response => {
                     // console.log('get data',response.data)
-                    setMessages(response.data);
+                    fetchMessages(totalData[0].id);
+                    setQuery('');
                     setReply({
                         time: currentDateTime,
                         title: '',
@@ -224,6 +250,14 @@ export default function TODOList() {
         setReply({ parentMessageId: data1, senderId: data2, receiverId: data3 ,time:currentDateTime})
         console.log('Data received from child++++++++:', data1, data2, data3, userId);
     };
+    const handleDataFromChildAccordion1 = (data) => {
+        fetchMessages();
+        console.log('received data from permission',data)
+    };
+    const handleDataFromChildAccordion2 = (data) => {
+        fetchMessages();
+        console.log('received data from complete',data)
+    };
     // New post
     const newPost = () => {
         setQuery('');
@@ -245,7 +279,9 @@ export default function TODOList() {
                     <div className='w-full'>
                         {/* received message */}
                         <div className='w-full h-[400px]'>
-                            <WithdrawalVariousPurchaseAccordion onSendIdData={handleDataFromChildAccordion} messages={messages}/>
+                            <WithdrawalVariousPurchaseAccordion onSendIdData={handleDataFromChildAccordion}
+                                onSendIdData1={handleDataFromChildAccordion1} onSendIdData2={handleDataFromChildAccordion2}
+                                messages={messages}/>
                         </div>
                     </div>
                     {/* new post */}

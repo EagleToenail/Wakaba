@@ -126,8 +126,7 @@ export default function TODOList() {
 
     const [messages, setMessages] = useState([]);
     //fetch message data related user
-    useEffect(() => {
-      const fetchMessages = async () => {
+    const fetchMessages = async () => {
         const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
         if (!wakabaBaseUrl) {
           throw new Error('API base URL is not defined');
@@ -143,7 +142,8 @@ export default function TODOList() {
           .catch(error => {
             console.error("There was an error fetching the customer data!", error);
           });
-      };
+    };
+    useEffect(() => {
   
       fetchMessages();
       // Set up polling
@@ -184,6 +184,7 @@ export default function TODOList() {
                 }).then(response => {
                     console.log('get data',response.data)
                     setMessages(response.data);
+                    setQuery('');
                     setReply({
                         time: currentDateTime,
                         title: '',
@@ -225,6 +226,14 @@ export default function TODOList() {
         setReply({ parentMessageId: data1, senderId: data2, receiverId: data3 ,time:currentDateTime})
         console.log('Data received from child++++++++:', data1, data2, data3, userId);
     };
+    const handleDataFromChildAccordion1 = (data) => {
+        fetchMessages();
+        console.log('received data from permission',data)
+    };
+    const handleDataFromChildAccordion2 = (data) => {
+        fetchMessages();
+        console.log('received data from complete',data)
+    };
     // New post
     const newPost = () => {
         setQuery('');
@@ -246,7 +255,9 @@ export default function TODOList() {
                     <div className='w-full'>
                         {/* received message */}
                         <div className='w-full h-[400px]'>
-                            <TodoAccordion onSendIdData={handleDataFromChildAccordion} messages={messages}/>
+                            <TodoAccordion onSendIdData={handleDataFromChildAccordion}
+                                onSendIdData1={handleDataFromChildAccordion1} onSendIdData2={handleDataFromChildAccordion2}
+                             messages={messages}/>
                         </div>
                     </div>
                     {/* new post */}
