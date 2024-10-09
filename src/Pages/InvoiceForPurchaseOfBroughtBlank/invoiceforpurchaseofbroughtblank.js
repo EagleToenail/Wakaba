@@ -91,7 +91,6 @@ const InvoicePurchaseOfBroughtBlank = () => {
     const currentDay = new Intl.DateTimeFormat('ja-JP', optionsDate).format(now).replace(/\//g, '-');
 
     const [customer, setCustomer] = useState({
-        id: '',
         full_name: '',
         katakana_name: '',
         phone_number: '',
@@ -120,6 +119,7 @@ const InvoicePurchaseOfBroughtBlank = () => {
         cupon_item: '',
         cupon_item_number: '',
     });
+    const [childData, setChildData] = useState('0');//customerId important
 
     const handleCustomerChange = (e) => {
         setCustomer({
@@ -128,7 +128,6 @@ const InvoicePurchaseOfBroughtBlank = () => {
         });
     };
     //fetch user(profile) data
-    const [childData, setChildData] = useState('0');//customerId important
 
     const [userData, setUserData] = useState([]);
     useEffect(() => {
@@ -707,7 +706,6 @@ const InvoicePurchaseOfBroughtBlank = () => {
 
 
     const sendPurchaseDataToReceipt = () => {
-        itemsSave();
         const numberOfInvoice = 1;
         const purchaseData = { deadline, numberOfInvoice, totalSalesSlipData };
         // console.log('send purchase data',purchaseData,id);
@@ -717,7 +715,6 @@ const InvoicePurchaseOfBroughtBlank = () => {
     }
     const sendPurchaseData = () => {
         if (childData) {
-            itemsSave();
             const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
             if (!wakabaBaseUrl) {
                 throw new Error('API base URL is not defined');
@@ -817,12 +814,13 @@ const InvoicePurchaseOfBroughtBlank = () => {
 
         setTotalSalesSlipData(updatedData);
     }
+
     // get customer id from childcomponent.
-    const handleDataFromChild = (customerId) => {
-        updatecustomerId(customerId);
-        setChildData(customerId);
-        console.log('Data received from child:', customerId);
-    };
+    // const handleDataFromChild = (customerId) => {
+    //     updatecustomerId(customerId);
+    //     setChildData(customerId);
+    //     console.log('Data received from child:', customerId);
+    // };
 
     const [isExistCustomerModalOpen, setIsExistCustomerModalOpen] = useState(false);
     const onExistCustomerModalClose = () => {
@@ -1077,8 +1075,14 @@ const InvoicePurchaseOfBroughtBlank = () => {
             throw new Error('API base URL is not defined');
         }
 
-       await axios.post(`${wakabaBaseUrl}/customer/updatecustomeritem`, customer)
+       await axios.post(`${wakabaBaseUrl}/customer/createcustomeritem`, customer)
             .then(response => {
+                console.log('newCustomer',response.data)
+                checkedFunction(response.data.item1, response.data.item2, response.data.item3, response.data.item4, response.data.item5)
+                setCustomer(response.data);
+                updatecustomerId(response.data.id);
+                setChildData(response.data.id);
+                openSuccessCheckModal();
             })
             .catch(error => {
                 console.error("There was an error fetching the customer data!", error);
@@ -1224,7 +1228,25 @@ const [pemissionSuccess, setPermissionSuccess] = useState(false);
 const closePermissionSuccess = () => {
     setPermissionSuccess(false);
 }
-//--------------------------------------------------------------------------
+//-----------------------------------new custoemr create and succes modal---------------------------------------
+const [isCreateModalOpen, setIsCreateModalOpen] = useState(false); // For modal visibility
+const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false); // For modal visibility
+
+const openCreateCheckModal = () => {
+    setIsCreateModalOpen(true);
+}
+
+const onClose = () => {
+    setIsCreateModalOpen(false);
+}
+
+const openSuccessCheckModal = () => {
+    setIsSuccessModalOpen(true);
+}
+const onCloseSuccess = () => {
+    setIsSuccessModalOpen(false);
+}
+
     return (<>
         {/* <Titlebar title={title} /> */}
         <div className="bg-[trasparent] font-[sans-serif] w-full">
@@ -1297,7 +1319,7 @@ const closePermissionSuccess = () => {
             <div className="w-full invoice-purchase-brought flex justify-center">
                 <div className="w-full flex justify-center mt-5" >
                     <div className=" pr-5">
-                        <CustomerRegister onSendData={handleDataFromChild} />
+                        <CustomerRegister id={childData} />
                     </div>
                 </div>
                 {/* textarea*/}
@@ -1349,7 +1371,18 @@ const closePermissionSuccess = () => {
                                     <div className=" h-full w-full mt-10">
                                         {/* Text area */}
                                         <div className="border border-[#70685a] rounded px-3 w-full" style={{ height: '315px', overflow: 'auto' }}>
-                                            <label className="text-[#70685a] text-[20px] font-bold mb-2 block text-left mr-10 py-1 !mb-0">全体ヒアリング</label>
+                                            <div className='w-full flex justify-between mt-5'>
+                                                <label className="text-[#70685a] text-[20px] font-bold mb-2 block text-left mr-10 py-1 !mb-0">全体ヒアリング</label>
+                                                <button type="button" onClick={openCreateCheckModal}
+                                                    className="flex px-5 py-1 rounded-lg text-md tracking-wider font-bold border border-[#70685a] outline-none bg-transparent text-[#70685a] transition-all duration-300">
+                                                    <div className='w-7'>
+                                                        {/* <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium  MuiSvgIcon-root MuiSvgIcon-fontSizeLarge  css-1hkft75" fill='#524c3b' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="AddCircleOutlineOutlinedIcon" title="AddCircleOutlineOutlined"><path d="M13 7h-2v4H7v2h4v4h2v-4h4v-2h-4zm-1-5C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8"></path></svg> */}
+                                                        <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1rqipl4" fill='#524c3b' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="DoneOutlineOutlinedIcon" title="DoneOutlineOutlined"><path d="m19.77 4.93 1.4 1.4L8.43 19.07l-5.6-5.6 1.4-1.4 4.2 4.2zm0-2.83L8.43 13.44l-4.2-4.2L0 13.47l8.43 8.43L24 6.33z"></path></svg>
+                                                    </div>
+                                                    <div><span className='pl-1 text-[20px]'>保存</span></div>
+                                                </button>
+                                            </div>
+
                                             <div>
                                                 <div className='flex'>
                                                     <label className="text-[#70685a] text-[18px] mb-2 block text-left mr-10 py-1">項目1</label>
@@ -1654,7 +1687,7 @@ const closePermissionSuccess = () => {
                                     <td style={Td}> {salesData.highest_estimate_price} </td>
                                     <td style={Td}>{salesData.number_of_vendor}</td>
                                     {isvendorshow && allVendors.map((vendor, index) => (
-                                        <td key={index} style={Td}> {salesData[vendor.vendor_name]} </td>
+                                        <td key={index} style={Td}> {salesData.estimate_wholesaler[vendor.vendor_name] || ''} </td>
                                     ))}
                                     <td style={Td}>{salesData.supervisor_direction}</td>
                                     <td style={Td}>{salesData.purchase_result}</td>
@@ -1816,7 +1849,7 @@ const closePermissionSuccess = () => {
                                     </td>
                                     {isvendorshow && vendors.map((vendor, index) => (
                                         <td style={Td} key={index}>
-                                            <InputComponent name={vendor.vendor_name} onChange={handleChange} value={salesSlipData[vendor.vendor_name] || ''} className='w-full h-8 text-[#70685a] border border-[red]' />
+                                            <InputComponent name={vendor.vendor_name} onChange={(e) => handleEstimateChange(vendor.vendor_name, e.target.value)} value={estimateValues[vendor.vendor_name] || ''} className='w-full h-8 text-[#70685a] border border-[red]' />
                                         </td>
                                     ))}
                                     <td style={Td}>
@@ -2007,8 +2040,8 @@ const closePermissionSuccess = () => {
                 </div>
             </div>
         )}
-                {/* ---show item image--- */}
-                {showItemsImage && (
+        {/* ---show item image--- */}
+        {showItemsImage && (
             <div
             className="fixed inset-0 p-4 flex flex-wrap justify-center items-center w-full h-full z-[1000] before:fixed before:inset-0 before:w-full before:h-full before:bg-[rgba(0,0,0,0.5)] overflow-auto font-[sans-serif]">
             <div className="w-full max-w-lg bg-white shadow-lg rounded-lg p-6 relative">
@@ -2125,6 +2158,42 @@ const closePermissionSuccess = () => {
                                 className="px-6 py-2 rounded-lg text-white text-sm bg-red-600 hover:bg-red-700 active:bg-red-600">はい</button>
                             <button type="button" onClick={closeShowAllClearModal}
                                 className="px-4 py-2 rounded-lg text-gray-800 text-sm bg-gray-200 hover:bg-gray-300 active:bg-gray-200">キャンセル</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        )}
+        {/* --------create new customer--------- */}
+        {isCreateModalOpen && (
+            <div
+                className="fixed inset-0 p-4 flex flex-wrap justify-center items-center w-full h-full z-[1000] before:fixed before:inset-0 before:w-full before:h-full before:bg-[rgba(0,0,0,0.5)] overflow-auto font-[sans-serif]">
+                <div className="w-full max-w-lg bg-white shadow-lg rounded-lg p-6 relative">
+
+                    <div className="my-4 text-center">
+                        <h4 className="text-gray-800 text-base font-semibold mt-4">顧客データを保存しますか？</h4>
+
+                        <div className="text-center space-x-4 mt-8">
+                            <button type="button" onClick={itemsSave}
+                                className="px-6 py-2 rounded-lg text-white text-sm bg-red-600 hover:bg-red-700 active:bg-red-600">はい</button>
+                            <button type="button" onClick={onClose}
+                                className="px-4 py-2 rounded-lg text-gray-800 text-sm bg-gray-200 hover:bg-gray-300 active:bg-gray-200">キャンセル</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        )}
+        {/* ----------success modal----------- */}
+        {isSuccessModalOpen && (
+            <div
+                className="fixed inset-0 p-4 flex flex-wrap justify-center items-center w-full h-full z-[1000] before:fixed before:inset-0 before:w-full before:h-full before:bg-[rgba(0,0,0,0.5)] overflow-auto font-[sans-serif]">
+                <div className="w-full max-w-lg bg-white shadow-lg rounded-lg p-6 relative">
+
+                    <div className="my-4 text-center">
+                        <h4 className="text-gray-800 text-base font-semibold mt-4">新しい顧客データが正常に作成されました。</h4>
+
+                        <div className="text-center space-x-4 mt-8">
+                            <button type="button" onClick={onCloseSuccess}
+                                className="px-6 py-2 rounded-lg text-white text-sm bg-red-600 hover:bg-red-700 active:bg-red-600">OK</button>
                         </div>
                     </div>
                 </div>

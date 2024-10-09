@@ -1,11 +1,18 @@
 import React, { useState, useEffect, useRef } from 'react'
+import {useLocation } from 'react-router-dom';
 import InputComponent from '../../Components/Common/InputComponent';
 import LabelComponent from '../../Components/Common/LabelComponent';
 import WithdrawalVariousPurchaseAccordion from '../../Components/WithdrawalVariousPurchaseAccordion';
 import axios from 'axios';
 import {useSelector } from 'react-redux';
 
-export default function TODOList() {
+export default function WithdrawVariousPurchase() {
+
+    const location = useLocation();
+    const pathname = location.pathname; // Just the path
+    const parts = pathname.split('/'); // Split the path by "/"
+    const destinationURL = parts[1]; 
+    console.log('destinationaURL',destinationURL);
 
     const data = useSelector(state => state.data);
     const totalData = data.data;
@@ -135,6 +142,7 @@ export default function TODOList() {
     };
 
     const [messages, setMessages] = useState([]);
+    
     //fetch message data related user
     const fetchMessages = async (id) => {
         const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;

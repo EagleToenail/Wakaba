@@ -12,6 +12,9 @@ export default function TabContent1() {
         fetchGeneralChatAlerts();
         fetchStoreChatAlerts();
         fetchTodoAlerts();
+        fetchWithdrawVariousAlerts();
+        fetchWithdrawBankATMAlerts();
+        fetchOnSitePurchaseAlerts();
       // Set up polling
     //   const intervalId = setInterval(() => {
     //     fetchGeneralChatAlerts();
@@ -128,6 +131,66 @@ export default function TabContent1() {
             .then(response => {
                 const unreadCount = response.data;
                 setUnReadTodoCount(unreadCount.unreadCount);
+            })
+            .catch(error => {
+            console.error("There was an error fetching the customer data!", error);
+            });
+        };
+    //---------------------------------------WithdrawVariouspurchse alert
+    const [unReadWithdrawVariousCount, setUnReadWithdrawVariousCount] = useState(0);
+        //fetch message data related user
+        const fetchWithdrawVariousAlerts = async () => {
+            const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+            if (!wakabaBaseUrl) {
+              throw new Error('API base URL is not defined');
+            }
+      
+            const userId = localStorage.getItem('userId');
+            const userStoreName = localStorage.getItem('storename');
+            await axios.post(`${wakabaBaseUrl}/withdrawvariouspurchaseapproval/alerts`,{userId:userId})
+            .then(response => {
+                const unreadCount = response.data;
+                setUnReadWithdrawVariousCount(unreadCount.unreadCount);
+            })
+            .catch(error => {
+            console.error("There was an error fetching the customer data!", error);
+            });
+        };
+    //---------------------------------------Withdraw Bank Atm alert
+    const [unReadWithdrawBankATMCount, setUnReadWithdrawBankATMCount] = useState(0);
+        //fetch message data related user
+        const fetchWithdrawBankATMAlerts = async () => {
+            const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+            if (!wakabaBaseUrl) {
+              throw new Error('API base URL is not defined');
+            }
+      
+            const userId = localStorage.getItem('userId');
+            const userStoreName = localStorage.getItem('storename');
+            await axios.post(`${wakabaBaseUrl}/withdrawbankatmmessage/alerts`,{userId:userId})
+            .then(response => {
+                const unreadCount = response.data;
+                setUnReadWithdrawBankATMCount(unreadCount.unreadCount);
+            })
+            .catch(error => {
+            console.error("There was an error fetching the customer data!", error);
+            });
+        };
+    //---------------------------------------on site purchase alert
+    const [unReadOnSitePurchaseCount, setUnOnSitePurchaseCount] = useState(0);
+        //fetch message data related user
+        const fetchOnSitePurchaseAlerts = async () => {
+            const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+            if (!wakabaBaseUrl) {
+              throw new Error('API base URL is not defined');
+            }
+      
+            const userId = localStorage.getItem('userId');
+            const userStoreName = localStorage.getItem('storename');
+            await axios.post(`${wakabaBaseUrl}/onsitepurchasemessages/alerts`,{userId:userId})
+            .then(response => {
+                const unreadCount = response.data;
+                setUnOnSitePurchaseCount(unreadCount.unreadCount);
             })
             .catch(error => {
             console.error("There was an error fetching the customer data!", error);
@@ -356,10 +419,10 @@ export default function TabContent1() {
                         </li>                        <li className='flex py-1'>
                             <button type="button"
                                 className="w-6 h-6 rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none text-[15px]"></button>
-                            <button type="button"
+                            <div style={{visibility:unReadWithdrawBankATMCount === 0 ? 'hidden' : ''}}
                                 className="w-6 h-6 inline-flex items-center justify-center text-[12px] font-bold rounded-full border-none outline-none bg-[yellow] hover:bg-purple-700 active:bg-purple-600">
-                                99
-                            </button>
+                                {unReadWithdrawBankATMCount}
+                            </div>
                             <Link to='/withdrawbankatm'
                                 className="text-black font-bold  text-[15px] block rounded px-1 transition-all">
                                 入出金
@@ -380,11 +443,11 @@ export default function TabContent1() {
                         <li className='flex py-1'>
                             <button type="button"
                                 className="w-6 h-6 rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none text-[15px]"></button>
-                            <button type="button"
+                            <div style={{visibility:unReadWithdrawVariousCount === 0 ? 'hidden' : ''}}
                                 className="w-6 h-6 inline-flex items-center justify-center text-[12px] font-bold rounded-full border-none outline-none bg-[yellow] hover:bg-purple-700 active:bg-purple-600">
-                                99
-                            </button>
-                            <Link to='/withdrawvariouspurchase'
+                                {unReadWithdrawVariousCount}
+                            </div>
+                            <Link to='/withdrawvariouspurchaseapproval'
                                 className="text-black font-bold  text-[15px] block rounded px-1 transition-all">
                                購入依頼と送料支払報告
                             </Link>
@@ -392,10 +455,10 @@ export default function TabContent1() {
                         <li className='flex py-1'>
                             <button type="button"
                                 className="w-6 h-6 rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none text-[15px]"></button>
-                            <button type="button"
+                            <div style={{visibility:unReadOnSitePurchaseCount === 0 ? 'hidden' : ''}}
                                 className="w-6 h-6 inline-flex items-center justify-center text-[12px] font-bold rounded-full border-none outline-none bg-[yellow] hover:bg-purple-700 active:bg-purple-600">
-                                99
-                            </button>
+                                {unReadOnSitePurchaseCount}
+                            </div>
                             <Link to='/onsitepurchase'
                                 className="text-black font-bold  text-[15px] block rounded px-1 transition-all">
                                 出張買取

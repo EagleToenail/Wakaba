@@ -170,7 +170,7 @@ const StoreAccordionItem = ({messageId, time, title, content, fileUrl, sender, r
           </div>
           ) : (<div className='w-full h-10 flex justify-center'>
             <a href={`${wakabaBaseUrl}/uploads/todoList/${fileUrl}`} download={fileUrl} target="_blank" rel="noopener noreferrer">
-                File Link : {fileUrl}
+              {fileUrl}
             </a>
           </div>
           )}

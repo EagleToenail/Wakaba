@@ -2,14 +2,13 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios'; // or use fetch
 
-const TodoAccordionItem = ({messageId, time, title, content, fileUrl, sender, receiver, children, parentMessageId,complete,permission, onSendData, onSendData1,onSendData2, users }) => {
-
-  const role = localStorage.getItem('role');
-
-  const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+const WithdrawVariousPurchaseApprovalAccordionItem = ({ messageId, time, title, content, fileUrl, sender, receiver, children, parentMessageId,complete,permission, onSendData, onSendData1,onSendData2, users }) => {
+  
+    const role = localStorage.getItem('role');
+    const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
   const [isOpen, setIsOpen] = useState(false);
 
-  const [receivedTime, setReceivedTime] = useState('');
+  // const [receivedTime, setReceivedTime] = useState('');
   const [senderName, setSenderName] = useState('');
   const [receiverName, setReceiverName] = useState('');
 
@@ -40,41 +39,43 @@ const TodoAccordionItem = ({messageId, time, title, content, fileUrl, sender, re
   const handleSubmit = (Index1, Index2, Index3) => {
     onSendData(Index1, Index2, Index3);
   };
-  //----------------------------
+
+    //----------------------------
 //permission and read status 
 const permitFunction = () => {
-  const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
-  if (!wakabaBaseUrl) {
-    throw new Error('API base URL is not defined');
+    const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+    if (!wakabaBaseUrl) {
+      throw new Error('API base URL is not defined');
+    }
+    axios.post(`${wakabaBaseUrl}/withdrawvariouspurchaseapprovalmessage/permitok`,{messageId:messageId})
+      .then(response => {  
+        onSendData1(response.data);
+    })
+    .catch(error => {
+      console.error("There was an error fetching the customer data!", error);
+    });
   }
-  axios.post(`${wakabaBaseUrl}/todomessage/permitok`,{messageId:messageId})
-    .then(response => {  
-      onSendData1(response.data);
-  })
-  .catch(error => {
-    console.error("There was an error fetching the customer data!", error);
-  });
-}
-
-const completeFunction = () => {
-  const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
-  if (!wakabaBaseUrl) {
-    throw new Error('API base URL is not defined');
+  
+  const completeFunction = () => {
+    const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+    if (!wakabaBaseUrl) {
+      throw new Error('API base URL is not defined');
+    }
+    axios.post(`${wakabaBaseUrl}/withdrawvariouspurchaseapprovalmessage/completeok`,{messageId:messageId,parentMessageId:parentMessageId})
+      .then(response => {
+        onSendData2(response.data);
+    })
+    .catch(error => {
+      console.error("There was an error fetching the customer data!", error);
+    });
   }
-  axios.post(`${wakabaBaseUrl}/todomessage/completeok`,{messageId:messageId,parentMessageId:parentMessageId})
-    .then(response => {
-      onSendData2(response.data);
-  })
-  .catch(error => {
-    console.error("There was an error fetching the customer data!", error);
-  });
-}
 
   return (
     <div style={{ margin: '10px 0' ,width:'99%'}}>
-      <button onClick={toggleAccordion} className ='w-full p-[10px] text-left cursor-pointer rounded-sm'
+      <button onClick={toggleAccordion} className ='w-full p-[10px] text-left cursor-pointer rounded-sm' 
                  style={{ border: permission === '1' ? '1px solid #ccc' : 'none',
-                  background: permission === '1' ? '#f9f9f9' : 'transparent',}} >
+                  background: permission === '1' ? '#f9f9f9' : 'transparent',
+           }}>
         <div className='new-post-receive w-full flex h-13'>
           <div className='new-post-receive-message flex' style={{ width: '75%' }}>
             <div className='flex'>
@@ -156,8 +157,7 @@ const completeFunction = () => {
                   </div>
                 </div>
                 <div>
-                  {/* <label className="text-[black] pl-3 text-[15px] block text-left" style={{ width: '100%', overflow: 'scroll' }}> */}
-                  <label className="w-full text-[black] pl-3 text-[15px] block text-left ">
+                  <label className="text-[black] pl-3 text-[15px] block text-left w-full">
                     {content}
                   </label>
                 </div>
@@ -190,10 +190,10 @@ const completeFunction = () => {
               </div>
               {/* btn */}
               <div className='mt-5 flex justify-center'>
-                  {complete !== '1' ? 
-                    < button onClick={() => handleSubmit(messageId, sender, receiver)} type="button" className="w-20 px-3 py-0.5 font-semiblod rounded-lg justify-center text-[#70685a] text-[15px] bg-[#ebe6e0] hover:bg-blue-700 focus:outline-none">
-                      返信
-                    </button>:
+                {complete !== '1' ?
+                  < button onClick={() => handleSubmit(messageId, sender, receiver)} type="button" className="w-20 px-3 py-0.5 font-semiblod rounded-lg justify-center text-[#70685a] text-[15px] bg-[#ebe6e0] hover:bg-blue-700 focus:outline-none">
+                    返信
+                  </button>:
                     < button type="button" className="w-20 px-3 py-0.5 font-semiblod rounded-lg justify-center text-[#70685a] text-[15px] bg-[#ebe6e0] hover:bg-blue-700 focus:outline-none">
                       返信
                     </button>
@@ -204,15 +204,15 @@ const completeFunction = () => {
           {/* <p>{content}</p> */}
           {fileUrl && isImageFile(fileUrl) ? (<div className='w-full h-[150px] flex justify-center' >
             <div>
-              <img src={`${wakabaBaseUrl}/uploads/todoList/${fileUrl}`} alt="Uploaded" style={styles.imagePreview} />
-              <a href={`${wakabaBaseUrl}/uploads/todoList/${fileUrl}`} target="_blank">
+              <img src={`${wakabaBaseUrl}/uploads/withdrawalvariouspurchase/${fileUrl}`} alt="Uploaded" style={styles.imagePreview} />
+              <a href={`${wakabaBaseUrl}/uploads/withdrawalvariouspurchase/${fileUrl}`} target="_blank">
                   Open in Brosewer 
               </a>
             </div>
           </div>
           ) : (<div className='w-full h-10 flex justify-center'>
-            <a href={`${wakabaBaseUrl}/uploads/todoList/${fileUrl}`} download={fileUrl} target="_blank" rel="noopener noreferrer">
-                {fileUrl}
+            <a href={`${wakabaBaseUrl}/uploads/withdrawalvariouspurchase/${fileUrl}`} download={fileUrl} target="_blank" rel="noopener noreferrer">
+               {fileUrl}
             </a>
           </div>
           )}
@@ -240,4 +240,4 @@ const styles = {
   },
 };
 
-export default TodoAccordionItem;
+export default WithdrawVariousPurchaseApprovalAccordionItem;

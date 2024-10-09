@@ -5,6 +5,11 @@ import WithdrawalBankATMAccordion from '../../Components/WithdrawalBankATMAccord
 import axios from 'axios';
 
 export default function WithdrawalBankATM() {
+
+    const userStoreName = localStorage.getItem('storename');
+    const userId = localStorage.getItem('userId');
+    const role = localStorage.getItem('role');
+
     const now = new Date();
 
     // Format the date as YYYY-MM-DD
@@ -39,20 +44,24 @@ export default function WithdrawalBankATM() {
     const dropdownRef = useRef(null);
     // Fetch customer data
     useEffect(() => {
-        const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
-        if (!wakabaBaseUrl) {
-            throw new Error('API base URL is not defined');
+        const fetchStoreSuperViosr = () => {
+            const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+            if (!wakabaBaseUrl) {
+                throw new Error('API base URL is not defined');
+            }
+    
+            axios.post(`${wakabaBaseUrl}/user/getSuperVisorList`,{storeName:userStoreName})
+                .then(response => {
+                    const data = response.data;
+                    setUsers(data);
+                    setFilteredOptions(data);
+                })
+                .catch(error => {
+                    console.error("There was an error fetching the customer data!", error);
+                });
         }
+        fetchStoreSuperViosr();
 
-        axios.get(`${wakabaBaseUrl}/user/getUserList`)
-            .then(response => {
-                const data = response.data;
-                setUsers(data);
-                setFilteredOptions(data);
-            })
-            .catch(error => {
-                console.error("There was an error fetching the customer data!", error);
-            });
     }, []);
     // Filter the options based on the query
     useEffect(() => {
@@ -88,7 +97,6 @@ export default function WithdrawalBankATM() {
     };
 
     //==============post function=========
-    const userId = localStorage.getItem('userId');
     // const [messages, setMessages] = useState([]);
     const [reply, setReply] = useState({
         time: currentDateTime,
@@ -125,8 +133,7 @@ export default function WithdrawalBankATM() {
 
     const [messages, setMessages] = useState([]);
     //fetch message data related user
-    useEffect(() => {
-      const fetchMessages = async () => {
+    const fetchMessages = async () => {
         const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
         if (!wakabaBaseUrl) {
           throw new Error('API base URL is not defined');
@@ -134,15 +141,17 @@ export default function WithdrawalBankATM() {
   
         // console.log(`${wakabaBaseUrl}/customer/getCustomerList`);
         const userId = localStorage.getItem('userId');
-        axios.get(`${wakabaBaseUrl}/withdrawalbankatmmessages/${userId}`)
+        axios.post(`${wakabaBaseUrl}/withdrawalbankatmmessages`,{userId:userId})
           .then(response => {
-            // console.log("all message",response.data)
+            console.log("all message",response.data)
             setMessages(response.data);
           })
           .catch(error => {
             console.error("There was an error fetching the customer data!", error);
           });
-      };
+    };
+
+    useEffect(() => {
   
       fetchMessages();
       // Set up polling
@@ -159,6 +168,17 @@ export default function WithdrawalBankATM() {
         // console.log('sendtododata', reply);
         if (reply.title != '' && reply.content != '' && reply.senderId != '' && reply.receiverId != '') {
             const formData = new FormData();
+            if(messages?.length>0) {
+                if(reply.parentMessageId !== '' && messages[0].permission === '1') {
+                    formData.append('permission', '1');
+                    formData.append('read', '0');
+                } else {
+                    formData.append('permission', '0');
+                    formData.append('read', '0');
+                }
+            }
+            formData.append('withdrawbankatm_id', Date.now());
+            formData.append('store_name', userStoreName);
             formData.append('time', reply.time);
             formData.append('title', reply.title);
             formData.append('content', reply.content);
@@ -182,6 +202,7 @@ export default function WithdrawalBankATM() {
                     }
                 }).then(response => {
                     // console.log('get data',response.data)
+                    fetchMessages();
                     setMessages(response.data);
                     setReply({
                         time: currentDateTime,
@@ -224,6 +245,14 @@ export default function WithdrawalBankATM() {
         setReply({ parentMessageId: data1, senderId: data2, receiverId: data3 ,time:currentDateTime})
         console.log('Data received from child++++++++:', data1, data2, data3, userId);
     };
+    const handleDataFromChildAccordion1 = (data) => {
+        fetchMessages();
+        console.log('received data from permission',data)
+    };
+    const handleDataFromChildAccordion2 = (data) => {
+        fetchMessages();
+        console.log('received data from complete',data)
+    };
     // New post
     const newPost = () => {
         setQuery('');
@@ -245,7 +274,9 @@ export default function WithdrawalBankATM() {
                     <div className='w-full'>
                         {/* received message */}
                         <div className='w-full h-[400px]'>
-                            <WithdrawalBankATMAccordion onSendIdData={handleDataFromChildAccordion} messages={messages}/>
+                            <WithdrawalBankATMAccordion onSendIdData={handleDataFromChildAccordion} 
+                                    onSendIdData1={handleDataFromChildAccordion1} onSendIdData2={handleDataFromChildAccordion2}
+                                    messages={messages}/>
                         </div>
                     </div>
                     {/* new post */}

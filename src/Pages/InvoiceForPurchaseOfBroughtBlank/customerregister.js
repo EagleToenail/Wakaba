@@ -7,8 +7,8 @@ import InputComponent from '../../Components/Common/InputComponent';
 import ButtonComponent from '../../Components/Common/ButtonComponent';
 
 
-const CustomerIndividualCreate = ({ onSendData }) => {
-
+const CustomerUpdateForPurchase = ({ id }) => {
+    const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
     const Table = {
         borderCollapse: 'collapse',
         color: '#70685a',
@@ -24,6 +24,7 @@ const CustomerIndividualCreate = ({ onSendData }) => {
         color: '#6e6e7c',
         fontSize: '15px',
     };
+    const userStoreName = localStorage.getItem('storename');
 
     const [customer, setCustomer] = useState({
         id: '',
@@ -48,8 +49,31 @@ const CustomerIndividualCreate = ({ onSendData }) => {
 
     });
 
-    const [imageAvatarPreview, setAvatarImagePreview] = useState("");
-    const [imageIdCardPreview, setIdCardImagePreview] = useState("");
+    useEffect(() => {
+        const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+        const fetchCustomerData = async() => {
+            if (!wakabaBaseUrl) {
+                throw new Error('API base URL is not defined');
+            }
+            if (id) {
+               await  axios.get(`${wakabaBaseUrl}/customer/getCustomerById/${id}`)
+                    .then(response => {
+                        // console.log("data", response.data)
+                        setCustomer(response.data);
+                        setAvatarImagePreview(`${wakabaBaseUrl}/uploads/customer/${response.data.avatar_url}`);
+                        setIdCardImagePreview(`${wakabaBaseUrl}/uploads/customer/${response.data.idCard_url}`);
+                        console.log('asdfafdasdf--------',imageAvatarPreview,imageIdCardPreview)
+                    })
+                    .catch(error => {
+                        console.error("There was an error fetching the customer data!", error);
+                    });
+            }
+        }
+        fetchCustomerData();
+    }, [id]);
+
+    const [imageAvatarPreview, setAvatarImagePreview] = useState(`${wakabaBaseUrl}/uploads/customer/`);
+    const [imageIdCardPreview, setIdCardImagePreview] = useState(`${wakabaBaseUrl}/uploads/customer/`);
 
     const navigate = useNavigate();
 
@@ -107,8 +131,7 @@ const CustomerIndividualCreate = ({ onSendData }) => {
     const onClose = () => {
         setIsCreateModalOpen(false);
     }
-    const onCloseSuccess = (customerId) => {
-        onSendData(customerId);
+    const onCloseSuccess = () => {
         setIsSuccessModalOpen(false);
     }
     //create-symbol
@@ -129,7 +152,7 @@ const CustomerIndividualCreate = ({ onSendData }) => {
         }
 
     };
-    const [customerId, setCustomerId] = useState('');
+
     const handleCreateSubmit = async () => {
         setIsCreateModalOpen(false);
 
@@ -137,8 +160,8 @@ const CustomerIndividualCreate = ({ onSendData }) => {
         customer.phone_number = formattedNumber;
 
         const formDataObj = new FormData();
-        formDataObj.append('id', customer.id);
-        formDataObj.append('shop', customer.shop);
+        formDataObj.append('id', id);
+        formDataObj.append('shop', userStoreName);
         formDataObj.append('visit_type', customer.visit_type);
         formDataObj.append('full_name', customer.full_name);
         formDataObj.append('katakana_name', customer.katakana_name);
@@ -165,7 +188,7 @@ const CustomerIndividualCreate = ({ onSendData }) => {
             if (!wakabaBaseUrl) {
                 throw new Error('API base URL is not defined');
             }
-            const response = await axios.post(`${wakabaBaseUrl}/customer/createCustomer`, formDataObj,
+            const response = await axios.post(`${wakabaBaseUrl}/customer/updateCustomer`, formDataObj,
                 {
                     headers: {
                         'Content-Type': 'multipart/form-data',
@@ -173,7 +196,7 @@ const CustomerIndividualCreate = ({ onSendData }) => {
                 }
             );
             console.log('Response:', response.data);
-            setCustomerId(response.data.id)
+            setCustomer(response.data)
             openSuccessCheckModal();
         } catch (error) {
             console.error('Error submitting form:', error);
@@ -190,17 +213,17 @@ const CustomerIndividualCreate = ({ onSendData }) => {
                         <form className=" space-y-2">
                             {/* new */}
                             <div className='flex'>
-                                <div style={{ width: '25%', flexDirection: 'column', }} className='!mb-0 flex align-center justify-around'>
+                                {/* <div style={{ width: '25%', flexDirection: 'column', }} className='!mb-0 flex align-center justify-around'>
                                     <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">店舗名</label>
                                 </div>
                                 <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
                                     <input name="shop" value={customer.shop} onChange={handleCustomerChange} type="text" required className="w-full text-[#70685a] border border-[#70685a] px-4 py-2 outline-[#70685a]" />
-                                </div>
+                                </div> */}
                                 <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
                                     <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-3 !mb-0">訪問タイプ</label>
                                 </div>
                                 <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <select id="visit_type" name="visit_type" value={customer.visit_type} required onChange={handleCustomerChange} className="w-full text-[#70685a] font-bold border border-[#70685a] px-4 py-2 outline-[#70685a]">
+                                    <select id="visit_type" name="visit_type" value={customer.visit_type || ''} required onChange={handleCustomerChange} className="w-full text-[#70685a] font-bold border border-[#70685a] px-4 py-2 outline-[#70685a]">
                                         <option value="" disabled></option>
                                         <option value="折りたたまれた">折りたたまれた</option>
                                         <option value="店の前で">店の前で</option>
@@ -217,13 +240,13 @@ const CustomerIndividualCreate = ({ onSendData }) => {
                                     <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">お名前</label>
                                 </div>
                                 <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <input name="full_name" value={customer.full_name} onChange={handleCustomerChange} type="text" required className="w-full text-[#70685a] border border-[#70685a] px-4 py-2 outline-[#70685a]" />
+                                    <input name="full_name" value={customer.full_name || ''} onChange={handleCustomerChange} type="text" required className="w-full text-[#70685a] border border-[#70685a] px-4 py-2 outline-[#70685a]" />
                                 </div>
                                 <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
                                     <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">カタカナ名</label>
                                 </div>
                                 <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <input name="katakana_name" value={customer.katakana_name} onChange={handleCustomerChange} type="text" required className="w-full text-[#70685a] border border-[#70685a] px-4 py-2 outline-[#70685a]" />
+                                    <input name="katakana_name" value={customer.katakana_name || ''} onChange={handleCustomerChange} type="text" required className="w-full text-[#70685a] border border-[#70685a] px-4 py-2 outline-[#70685a]" />
                                 </div>
                             </div>
                             {/* new */}
@@ -232,7 +255,7 @@ const CustomerIndividualCreate = ({ onSendData }) => {
                                     <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">お電話番号</label>
                                 </div>
                                 <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <InputComponent name="phone_number" value={customer.phone_number} onChange={handleCustomerChange} type='text' required />
+                                    <InputComponent name="phone_number" value={customer.phone_number || ''} onChange={handleCustomerChange} type='text' required />
                                 </div>
                                 <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
                                     <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">ご職業</label>
@@ -248,7 +271,7 @@ const CustomerIndividualCreate = ({ onSendData }) => {
                                 </div>
 
                                 <div style={{ width: '20%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <input name="birthdayValue" type="text" value={customer.birthday} required className="w-full text-[#70685a] border border-[#70685a] px-4 py-1 text-[15px] outline-[#70685a]" readOnly />
+                                    <input name="birthdayValue" type="text" value={customer.birthday || ''} required className="w-full text-[#70685a] border border-[#70685a] px-4 py-1 text-[15px] outline-[#70685a]" readOnly />
                                 </div>
                                 <div style={{ width: '10%', flexDirection: 'column', }} className='flex flex-col justify-center pl-3'>
                                     <div style={{ width: '40px', height: '30px', cursor: 'pointer' }}>
@@ -267,7 +290,7 @@ const CustomerIndividualCreate = ({ onSendData }) => {
                                     <label className="text-[#70685a] font-bold mb-2 block text-right py-1 !mb-0 mr-3">性別</label>
                                 </div>
                                 <div style={{ width: '15%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <select name="gender" required onChange={handleCustomerChange} value={customer.gender} className="w-full text-[#70685a] font-bold border border-[#70685a] px-4 py-2 outline-[#70685a]">
+                                    <select name="gender" required onChange={handleCustomerChange} value={customer.gender || ''} className="w-full text-[#70685a] font-bold border border-[#70685a] px-4 py-2 outline-[#70685a]">
                                         <option value="" disabled></option>
                                         <option value="男">男</option>
                                         <option value="女">女</option>
@@ -316,7 +339,7 @@ const CustomerIndividualCreate = ({ onSendData }) => {
                                     {/* {idcardFile && <p>{idcardFile.name}</p>} */}
                                 </div>
                                 <div style={{ width: '30%', flexDirection: 'column' }} className='flex align-center justify-around ml-3'>
-                                    <select id="cardType" name="cardType" value={customer.cardType} required onChange={handleCustomerChange} className="w-full h-9 text-[#70685a] text-[15px] font-bold border border-[#70685a] px-4 py-2 outline-[#70685a]">
+                                    <select id="cardType" name="cardType" value={customer.cardType || ''} required onChange={handleCustomerChange} className="w-full h-9 text-[#70685a] text-[15px] font-bold border border-[#70685a] px-4 py-2 outline-[#70685a]">
                                         <option value="" disabled></option>
                                         <option value="運転免許証">運転免許証</option>
                                         <option value="運転経歴証明書">運転経歴証明書</option>
@@ -337,12 +360,12 @@ const CustomerIndividualCreate = ({ onSendData }) => {
                                     <label className="text-[#70685a] font-bold block text-right mr-10 py-1 !mb-0"></label>
                                 </div>
                                 <div style={{ width: '75%', flexDirection: 'column', }} className='flex h-full felx-col justify-center'>
-                                    <div className='flex justify-between w-full h-[100px]'>
-                                        <div style={{ width: '60%' }} className='border border-[#70685a] rounded-lg flex justify-center'>
-                                            {imageAvatarPreview == "" ? "" : <img src={imageAvatarPreview} alt="Image Preview" className='h-[100px] rounded-lg' />}
+                                    <div className='flex justify-between w-full h-[110px]'>
+                                        <div style={{ width: '60%' }} className='border border-[#70685a] rounded-lg flex justify-center p-1'>
+                                            {imageAvatarPreview == `${wakabaBaseUrl}/uploads/customer/` ? "" : <img src={imageAvatarPreview} alt="Avatar" className='h-[100px] rounded-lg' />}
                                         </div>
                                         <div style={{ width: '35%', display: 'none' }} className='border border-[#70685a] rounded-full flex justify-center'>
-                                            {imageIdCardPreview == "" ? "" : <img src={imageIdCardPreview} alt="Image Preview" className='h-[100px] rounded-full' />}
+                                            {imageIdCardPreview == `${wakabaBaseUrl}/uploads/customer/` ? "" : <img src={imageIdCardPreview} alt="idCard" className='h-[100px] rounded-full' />}
                                         </div>
                                     </div>
 
@@ -354,7 +377,7 @@ const CustomerIndividualCreate = ({ onSendData }) => {
                                     <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">都道府県</label>
                                 </div>
                                 <div style={{ width: '30%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <select id="prefeature" value={customer.prefeature} required onChange={handleCustomerChange} name="prefeature" className="w-full h-10 text-[#70685a] font-bold border border-[#70685a] px-4 py-1 outline-[#70685a]">
+                                    <select id="prefeature" value={customer.prefeature || ''} required onChange={handleCustomerChange} name="prefeature" className="w-full h-10 text-[#70685a] font-bold border border-[#70685a] px-4 py-1 outline-[#70685a]">
                                         <option value="" disabled></option>
                                         <option value="北海道">北海道</option>
                                         <option value="青森県">青森県</option>
@@ -409,7 +432,7 @@ const CustomerIndividualCreate = ({ onSendData }) => {
                                     <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">市町村</label>
                                 </div>
                                 <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <input name="city" type="text" value={customer.city} onChange={handleCustomerChange} required className="w-full text-[#70685a] border border-[#70685a] px-4 py-2 outline-[#70685a]" />
+                                    <input name="city" type="text" value={customer.city || ''} onChange={handleCustomerChange} required className="w-full text-[#70685a] border border-[#70685a] px-4 py-2 outline-[#70685a]" />
                                 </div>
                             </div>
                             {/* new */}
@@ -418,7 +441,7 @@ const CustomerIndividualCreate = ({ onSendData }) => {
                                     <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">住所詳細</label>
                                 </div>
                                 <div style={{ width: '75%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <input name="address" type="text" value={customer.address} onChange={handleCustomerChange} required className="w-full text-[#70685a] border border-[#70685a] px-4 py-2 outline-[#70685a]" />
+                                    <input name="address" type="text" value={customer.address || ''} onChange={handleCustomerChange} required className="w-full text-[#70685a] border border-[#70685a] px-4 py-2 outline-[#70685a]" />
                                 </div>
                             </div>
 
@@ -458,10 +481,10 @@ const CustomerIndividualCreate = ({ onSendData }) => {
                 <div className="w-full max-w-lg bg-white shadow-lg rounded-lg p-6 relative">
 
                     <div className="my-4 text-center">
-                        <h4 className="text-gray-800 text-base font-semibold mt-4">新しい顧客データが正常に作成されました。</h4>
+                        <h4 className="text-gray-800 text-base font-semibold mt-4">顧客データが正常に更新されました。</h4>
 
                         <div className="text-center space-x-4 mt-8">
-                            <button type="button" onClick={() => onCloseSuccess(customerId)}
+                            <button type="button" onClick={onCloseSuccess}
                                 className="px-6 py-2 rounded-lg text-white text-sm bg-red-600 hover:bg-red-700 active:bg-red-600">OK</button>
                         </div>
                     </div>
@@ -473,4 +496,4 @@ const CustomerIndividualCreate = ({ onSendData }) => {
     );
 };
 
-export default CustomerIndividualCreate;
+export default CustomerUpdateForPurchase;

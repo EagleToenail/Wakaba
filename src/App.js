@@ -26,6 +26,7 @@ import SafeMoney from './Pages/SafeMoney/safeMoney';//Treasury deposit and withd
 import WithdrawBankATM from './Pages/WithdrawBankATM/withdrawBankATM';//withdrawal from bank ATM
 import PurchaseRequest from './Pages/PurchaseRequest/purchaseRequest';//R shop Purchase Request List confirmation screen
 import WithdrawVariousPurchase from './Pages/WithdrawVariousPurchase/withdrawVariousPurchase';//withdrawl puchase for various purchases
+import WithdrawVariousPurchaseApproval from './Pages/WithdrawVariousPurchaseApproval/withdrawVariousPurchaseApproval';
 import WithdrawApply from './Pages/WithdrawApply/withdrawApply';//WIthdrawal requestfor shipping fees
 import CustomerList from './Pages/CustomerList/customerList';//customer List
 import CustomerIndividual from './Pages/CustomerIndividual/customerIndividual';//Customer Specific
@@ -111,12 +112,9 @@ function App() {
       <Routes>
           <Route element={<LayoutWithMainContainer/>}>
           {/* message */}
-            <Route path='/withdrawbankatm' element={<WithdrawBankATM/>}/>
-            <Route path='/withdrawvariouspurchase' element={<WithdrawVariousPurchase/>}/>
-            <Route path='/withdrawapply' element={<WithdrawApply/>}/>
+            <Route path='/withdrawvariouspurchaseapproval' element={<WithdrawVariousPurchaseApproval/>}/>
             <Route path='/purchasetorshop' element={<PurchaseToRShop/>}/>
             <Route element={<TODOList/>} path='/todolist'/>
-            <Route path='/onsitepurchase' element={<OnSitePurchase/>}/>
             <Route path='/applicationfordisposalpermission' element={<ApplicationForDisposalPermission/>}/>
             <Route path='/endofworkreporttoowner' element={<EndOfWorkReportToOwner/>}/>
 
@@ -126,6 +124,10 @@ function App() {
           </Route>
 
           <Route element={<LayoutWithMainContainer1/>}>
+            <Route path='/withdrawbankatm' element={<WithdrawBankATM/>}/>
+            <Route path='/withdrawvariouspurchase' element={<WithdrawVariousPurchase/>}/>
+            <Route path='/withdrawapply' element={<WithdrawApply/>}/>
+            <Route path='/onsitepurchase' element={<OnSitePurchase/>}/>
 
             <Route path='/generalchat/allgeneral' element={<GeneralChat/>}/>
             <Route path='/generalchat/allforall' element={<GeneralChat/>}/>

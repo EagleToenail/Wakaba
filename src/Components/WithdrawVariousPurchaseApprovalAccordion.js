@@ -1,11 +1,15 @@
 
 import React, { useEffect, useState } from 'react';
 import axios from 'axios'; // or use fetch
-import OnSitePurchaseAccordionItem from './OnSitePurchaseAccordionItem';
+import WithdrawVariousPurchaseApprovalAccordionItem from './WithdrawVariousPurchaseApprovalAccordionItem';
 
-const OnSitePurchaseAccordion = ({ onSendIdData,onSendIdData1,onSendIdData2,messages}) => {
+const WithdrawalVariousPurchaseApprovalAccordion = ({ onSendIdData,onSendIdData1,onSendIdData2,messages}) => {
+
+  const userStoreName = localStorage.getItem('storename');
+
   const [users, setUsers] = useState([]);
   useEffect(() => {
+    console.log(messages, "message contents")
     const fetchMessages = async () => {
       const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
       if (!wakabaBaseUrl) {
@@ -33,9 +37,10 @@ const OnSitePurchaseAccordion = ({ onSendIdData,onSendIdData1,onSendIdData2,mess
   const handleDataFromChild2 = (data) => {
     onSendIdData2(data);
   };
+
   const renderMessages = (messages) => {
     return messages.map(message => (
-      <OnSitePurchaseAccordionItem
+      <WithdrawVariousPurchaseApprovalAccordionItem
         key={message.id}
         messageId={message.id}
         time={message.time}
@@ -45,24 +50,26 @@ const OnSitePurchaseAccordion = ({ onSendIdData,onSendIdData1,onSendIdData2,mess
         sender={message.senderId}
         receiver={message.receiverId}
         parentMessageId={message.parentMessageId}
+        permission={message.permission}
+        complete={message.complete}
         onSendData={handleDataFromChild}
         onSendData1={handleDataFromChild1}
         onSendData2={handleDataFromChild2}
         users={users}
       >
         {message.replies && message.replies.length > 0 && renderMessages(message.replies)}
-      </OnSitePurchaseAccordionItem>
+      </WithdrawVariousPurchaseApprovalAccordionItem>
     ));
   };
 
   return (
     <div className='h-full overflow-auto'>
-      <h2 className="text-[#70685a] text-center text-2xl font-bold flex justify-center !mt-0">現地購入</h2>
+      <h2 className="text-[#70685a] text-center text-2xl font-bold flex justify-center !mt-0">様々な購入のための引き出し</h2>
       <h2 className="text-[#70685a] text-center text-2xl font-bold flex justify-center !mt-0">メッセージ</h2>
       {renderMessages(messages)}
     </div>
   );
 };
 
-export default OnSitePurchaseAccordion;
+export default WithdrawalVariousPurchaseApprovalAccordion;
 

@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react'
 import InputComponent from '../../Components/Common/InputComponent';
 import LabelComponent from '../../Components/Common/LabelComponent';
-import OnSitePurchaseAccordion from '../../Components/OnSitePurchaseAccordion';
+import WithdrawVariousPurchaseApprovalAccordion from '../../Components/WithdrawVariousPurchaseApprovalAccordion';
 import axios from 'axios';
 
-export default function OnSitePurchase() {
+export default function WithdrawVariousPurchaseApproval() {
+
     const userStoreName = localStorage.getItem('storename');
     const userId = localStorage.getItem('userId');
     const role = localStorage.getItem('role');
@@ -41,14 +42,14 @@ export default function OnSitePurchase() {
     const [selectedCustomerId, setSelectedCustomerId] = useState(null);
     const [filteredOptions, setFilteredOptions] = useState([]);
     const dropdownRef = useRef(null);
-   // Fetch customer data
+    // Fetch user data(supervisor of this shop)
     useEffect(() => {
         const fetchStoreSuperViosr = () => {
             const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
             if (!wakabaBaseUrl) {
                 throw new Error('API base URL is not defined');
             }
-
+    
             axios.post(`${wakabaBaseUrl}/user/getSuperVisorList`,{storeName:userStoreName})
                 .then(response => {
                     const data = response.data;
@@ -96,7 +97,6 @@ export default function OnSitePurchase() {
     };
 
     //==============post function=========
-    // const [messages, setMessages] = useState([]);
     const [reply, setReply] = useState({
         time: currentDateTime,
         title: '',
@@ -131,6 +131,7 @@ export default function OnSitePurchase() {
     };
 
     const [messages, setMessages] = useState([]);
+    
     //fetch message data related user
     const fetchMessages = async () => {
         const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
@@ -138,20 +139,21 @@ export default function OnSitePurchase() {
           throw new Error('API base URL is not defined');
         }
   
-        // console.log(`${wakabaBaseUrl}/customer/getCustomerList`);
         const userId = localStorage.getItem('userId');
-        axios.post(`${wakabaBaseUrl}/onsitepurchasemessages`,{userId:userId})
+        axios.post(`${wakabaBaseUrl}/withdrawalvariouspurchaseapprovalmessages`,{userId:userId})
           .then(response => {
-            // console.log("all message",response.data)
             setMessages(response.data);
           })
           .catch(error => {
             console.error("There was an error fetching the customer data!", error);
           });
-      };
+    };
+
     useEffect(() => {
-  
-      fetchMessages();
+
+        fetchMessages();
+
+
       // Set up polling
       // const intervalId = setInterval(() => {
       //   fetchMessages();
@@ -162,7 +164,7 @@ export default function OnSitePurchase() {
     }, []);
     
     // send message and file to other user 
-    const sendTodoMessage = async () => {
+    const sendWithdrawalVariousPurchaseMessage = async () => {
         // console.log('sendtododata', reply);
         if (reply.title != '' && reply.content != '' && reply.senderId != '' && reply.receiverId != '') {
             const formData = new FormData();
@@ -175,7 +177,7 @@ export default function OnSitePurchase() {
                     formData.append('read', '0');
                 }
             }
-            formData.append('onsitepurchase_id', Date.now());
+            formData.append('invoice_id', Date.now());
             formData.append('store_name', userStoreName);
             formData.append('time', reply.time);
             formData.append('title', reply.title);
@@ -194,13 +196,14 @@ export default function OnSitePurchase() {
                     throw new Error('API base URL is not defined');
                 }
 
-                await axios.post(`${wakabaBaseUrl}/onsitepurchasemessages/getmessagelist`, formData, {
+                await axios.post(`${wakabaBaseUrl}/withdrawalvariouspurchasemessages/getmessagelist`, formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data'
                     }
                 }).then(response => {
                     // console.log('get data',response.data)
-                    setMessages(response.data);
+                    fetchMessages();
+                    setQuery('');
                     setReply({
                         time: currentDateTime,
                         title: '',
@@ -271,9 +274,9 @@ export default function OnSitePurchase() {
                     <div className='w-full'>
                         {/* received message */}
                         <div className='w-full h-[400px]'>
-                            <OnSitePurchaseAccordion onSendIdData={handleDataFromChildAccordion}
+                            <WithdrawVariousPurchaseApprovalAccordion onSendIdData={handleDataFromChildAccordion}
                                 onSendIdData1={handleDataFromChildAccordion1} onSendIdData2={handleDataFromChildAccordion2}
-                                 messages={messages}/>
+                                messages={messages}/>
                         </div>
                     </div>
                     {/* new post */}
@@ -291,53 +294,63 @@ export default function OnSitePurchase() {
                         <LabelComponent value={'新規投稿'} style={{ marginTop: '5px', width: '10%', marginRight: '15px' }} />
                         <div style={{ width: '90%', height: '50px' }} className='text-center'>
                             {/* firstline */}
-                            <div style={{ position: 'relative', width: '20%' }} ref={dropdownRef}>
-                                <input
-                                    type="text"
-                                    placeholder=""
-                                    className='border border-[#70685a] outline-[#70685a]'
-                                    value={query}
-                                    onChange={handleInputChange}
-                                    onClick={() => setIsOpen(!isOpen)}
-                                    style={{ padding: '10px', width: '100%', boxSizing: 'border-box' }}
-                                />
-                                {isOpen && (
-                                    <ul style={{
-                                        marginTop: '5px',
-                                        padding: '0',
-                                        listStyleType: 'none',
-                                        border: '1px solid #ddd',
-                                        borderRadius: '4px',
-                                        maxHeight: '200px',
-                                        overflowY: 'auto',
-                                        position: 'absolute',
-                                        backgroundColor: 'white',
-                                        width: '100%',
-                                        zIndex: 1
-                                    }}>
-                                        {filteredOptions.length > 0 ? (
-                                            filteredOptions.map((user) => (
-                                                <li
-                                                    key={user.id}
-                                                    onClick={() => handleOptionClick(user)}
-                                                    style={{
-                                                        padding: '10px',
-                                                        cursor: 'pointer',
-                                                        backgroundColor: '#fff'
-                                                    }}
-                                                    onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#f1f1f1'}
-                                                    onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#fff'}
-                                                >
-                                                    {user.username}
-                                                </li>
-                                            ))
-                                        ) : (
-                                            <li style={{ padding: '10px' }}>No results found.</li>
-                                        )}
-                                    </ul>
-                                )}
+                            <div className='withdrawal-various-purchase w-full flex justify-between'>
+                                <div style={{ position: 'relative'}} className='mt-3 w-[250px]' ref={dropdownRef}>
+                                    <input
+                                        type="text"
+                                        placeholder=""
+                                        className='border border-[#70685a] outline-[#70685a]'
+                                        value={query || ''}
+                                        onChange={handleInputChange}
+                                        onClick={() => setIsOpen(!isOpen)}
+                                        style={{ padding: '10px', width: '100%', boxSizing: 'border-box' }}
+                                    />
+                                    {isOpen && (
+                                        <ul style={{
+                                            marginTop: '5px',
+                                            padding: '0',
+                                            listStyleType: 'none',
+                                            border: '1px solid #ddd',
+                                            borderRadius: '4px',
+                                            maxHeight: '200px',
+                                            overflowY: 'auto',
+                                            position: 'absolute',
+                                            backgroundColor: 'white',
+                                            width: '100%',
+                                            zIndex: 1
+                                        }}>
+                                            {filteredOptions.length > 0 ? (
+                                                filteredOptions.map((user) => (
+                                                    <li
+                                                        key={user.id}
+                                                        onClick={() => handleOptionClick(user)}
+                                                        style={{
+                                                            padding: '10px',
+                                                            cursor: 'pointer',
+                                                            backgroundColor: '#fff'
+                                                        }}
+                                                        onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#f1f1f1'}
+                                                        onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#fff'}
+                                                    >
+                                                        {user.username}
+                                                    </li>
+                                                ))
+                                            ) : (
+                                                <li style={{ padding: '10px' }}>No results found.</li>
+                                            )}
+                                        </ul>
+                                    )}
+                                </div>
+                                <div className='flex justify-end mr-10 ml-10 mt-3'>
+                                    <LabelComponent value={'様'} style={{ marginTop: '5px', marginLeft: '15px' }} />
+                                    <InputComponent style={{ height: '40px' }} className='w-[150px]' />
+                                </div>
+                                <div className='flex justify-end mt-3'>
+                                    <LabelComponent value={'総額'} style={{ marginTop: '5px', marginLeft: '15px' }} />
+                                    <InputComponent style={{ height: '40px' }} className='w-40' />
+                                    <LabelComponent value={'円'} style={{ marginTop: '5px', marginLeft: '15px' }} />
+                                </div>
                             </div>
-
                             {/* secondline */}
                             <div className='new-post-operation-second flex !mt-2' style={{ height: '40px' }}>
                                 <div className='w-full flex'>
@@ -381,7 +394,7 @@ export default function OnSitePurchase() {
 
                                 </div>
                                 <div className='ml-10 flex flex-col justify-center'>
-                                    < button type="button" onClick={() => sendTodoMessage()} className=" w-max px-10 py-1 font-blod rounded-lg justify-center text-[#70685a] text-[18px] bg-[#ebe6e0] hover:bg-blue-700 focus:outline-none">
+                                    < button type="button" onClick={() => sendWithdrawalVariousPurchaseMessage()} className=" w-max px-10 py-1 font-blod rounded-lg justify-center text-[#70685a] text-[18px] bg-[#ebe6e0] hover:bg-blue-700 focus:outline-none">
                                         送信
                                     </button>
                                 </div>
@@ -395,4 +408,5 @@ export default function OnSitePurchase() {
         </>
     )
 }
+
 

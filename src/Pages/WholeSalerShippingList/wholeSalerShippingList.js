@@ -136,7 +136,7 @@ const WholeSalerShippingList = () => {
     const [searchParams, setSearchParams] = useState({
         shipping_date: '',
         shipping_address: '',
-        product_status: '',
+        shipping_status: '',
     });
 
     // Handle input change
@@ -255,7 +255,7 @@ const fetchOldSalesData = async (ids) => {
                                     <div className='text-center'>
                                         <LabelComponent value={'ステータス'} className='text-center'/>
                                     </div>
-                                    <select name="product_status" value={searchParams.product_status || ''} onChange={handleChange} className="w-full h-11 text-[#70685a] text-[15px] font-bold border border-[#70685a] px-4 py-1 outline-[#70685a]">
+                                    <select name="shipping_status" value={searchParams.shipping_status || ''} onChange={handleChange} className="w-full h-11 text-[#70685a] text-[15px] font-bold border border-[#70685a] px-4 py-1 outline-[#70685a]">
                                         <option value="" ></option>
                                         <option value="発送中">発送中</option>
                                         <option value="約定済">約定済</option>
@@ -306,7 +306,7 @@ const fetchOldSalesData = async (ids) => {
                                     {showShippingHistory === true ? (
                                     <tbody>
                                         {wholeSalesPurchase?.length >0 && wholeSalesPurchase.map((saleData,Index) => (
-                                            <tr key={saleData.id}> 
+                                            <tr key={Index}> 
                                                 <td >{Index +1}.</td>
                                                 <td style={Td}>{saleData.product_status || ''}</td>
                                                 <td style={Td}>{saleData.shipping_address || ''}</td>
@@ -368,9 +368,21 @@ const fetchOldSalesData = async (ids) => {
                                     ) : (
                                     <tbody>
                                         {wholeSalesPurchase?.length >0 && wholeSalesPurchase.map((saleData,Index) => (
-                                            <tr > 
+                                            <tr key={Index}> 
                                                 <td>{Index + 1}.</td>
-                                                <td style={Td}>{saleData.product_status || ''}</td>
+                                                <td style={Td}>
+                                                    {editIndex === Index ?(
+                                                        <select name="shipping_status" value={editedRow.shipping_status || ''} onChange={handleInputChange} className="w-full h-11 text-[#70685a] text-[15px] font-bold border border-[#70685a] px-4 py-1 outline-[#70685a]">
+                                                            <option value="" ></option>
+                                                            <option value="発送中">発送中</option>
+                                                            <option value="約定済">約定済</option>
+                                                            <option value="約定済＋返送依頼">約定済＋返送依頼</option>
+                                                            <option value="返送依頼">返送依頼</option>
+                                                            <option value="入金待ち">入金待ち</option>
+                                                            <option value="入金済">入金済</option>
+                                                        </select>
+                                                    ):(saleData.shipping_status || '')}
+                                                </td>
                                                 <td style={Td}>{saleData.shipping_address || ''}</td>
                                                 <td style={Td}>{saleData.shipping_date || ''}</td>
                                                 <td style={Td}>{saleData.shipping_ids || ''}</td>
