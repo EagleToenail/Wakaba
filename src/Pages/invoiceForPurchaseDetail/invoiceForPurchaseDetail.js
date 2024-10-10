@@ -18,6 +18,7 @@ import leftArrow from '../../Assets/img/right-arrow.png';
 import rightArrow from '../../Assets/img/left-arrow.png';
 
 import ConfirmationModal from '../../Components/Modal/SuccessModal';
+import ImageShowModal from '../../Components/Modal/ImageShowModal';
 
 const InvoicePurchaseOfDetail = () => {
     // const title = 'タイトルタイトル';
@@ -1167,6 +1168,17 @@ const fetchInvoiceHistoryData = async () => {
         sendCustomerId(id);//send customerId
         navigate(`/stamprelatedpurchasestatement/${id}`);
     }
+    //--------------------show  product photo---------------------
+    const [showProductImage, setShowProductImage] = useState(false);
+    const [itemImagePreview, setItemImagePreview] = useState(`${wakabaBaseUrl}/uploads/product/`);
+    const openProductImageModal = (link) => {
+        setShowProductImage(true);
+        setItemImagePreview(`${wakabaBaseUrl}/uploads/product/${link}`);
+    }
+    const closeProductImageModal = () => {
+        setShowProductImage(false);
+    }
+
 //----------------modal items photo and document upload----------------------
     const [showItemsImage, setShowItemsImage] = useState(false);
     const openItemsImageModal = () => {
@@ -1791,7 +1803,7 @@ const fetchInvoiceHistoryData = async () => {
                                     {isshow ? <td style={Td} >{salesData.product_type_three || ''}</td> : <td style={{ display: 'none' }}></td>}
                                     {isshow ? <td style={Td} >{salesData.product_type_four || ''}</td> : <td style={{ display: 'none' }}></td>}
                                     <td style={Td}>
-                                        {salesData.product_photo != '' ? <ButtonComponent children="写真" name='photo' className='w-max !px-5 rounded-lg' style={{ backgroundColor: '#ebe5e1', color: '#626373' }} /> : 'ファイルなし'}
+                                        {salesData.product_photo != '' ? <ButtonComponent onClick={() => openProductImageModal(salesData.product_photo)} children="写真" name='photo' className='w-max !px-5 rounded-lg' style={{ backgroundColor: '#ebe5e1', color: '#626373' }} /> : 'ファイルなし'}
                                     </td>
                                     <td style={Td1} onClick={() => handleProductClick(Index)}
                                         onMouseOver={() => handleMouseOver(Index)}
@@ -2302,6 +2314,8 @@ const fetchInvoiceHistoryData = async () => {
                 </div>
             </div>
         )}
+        {/* ---------show product photo-------- */}
+        {showProductImage && <ImageShowModal itemsImagePreview={itemImagePreview}  onClose={closeProductImageModal} />}
     </>
     );
 };

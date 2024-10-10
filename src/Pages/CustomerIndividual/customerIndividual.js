@@ -106,8 +106,8 @@ const CustomerIndividual = () => {
 
     const [customerPastVisitHistory, setCustomerPastVisitHistory] = useState([]);
 
-    const [imageAvatarPreview, setAvatarImagePreview] = useState("");
-    const [imageIdCardPreview, setIdCardImagePreview] = useState("");
+    const [imageAvatarPreview, setAvatarImagePreview] = useState(`${wakabaBaseUrl}/uploads/customer/`);
+    const [imageIdCardPreview, setIdCardImagePreview] = useState(`${wakabaBaseUrl}/uploads/customer/`);
 
     const navigate = useNavigate();
 

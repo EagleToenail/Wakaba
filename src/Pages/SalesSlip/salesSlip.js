@@ -1,6 +1,7 @@
 import React,{ useState, useEffect } from 'react';
 import {Link ,useNavigate} from 'react-router-dom';
 import axios from 'axios';
+import {toast} from 'react-toastify';
 
 import { useDispatch } from 'react-redux';
 import { setRShopShippingData } from '../../redux/sales/actions';
@@ -55,6 +56,7 @@ const SalesSlip = () => {
             .then(response => {
                 // console.log(response.data)
                 setSales(response.data);
+                toast.success('Data saved successfully!',{ autoClose: 3000 });
             })
             .catch(error => {
                 console.error("There was an error fetching the customer data!", error);

@@ -10,6 +10,7 @@ import DateAndTime from '../../Components/Common/PickData';
 import axios from 'axios';
 import CustomerRegister from './customerregister';
 import ConfirmationModal from '../../Components/Modal/SuccessModal';
+import ImageShowModal from '../../Components/Modal/ImageShowModal';
 
 import { useDispatch ,useSelector} from 'react-redux';
 import { setData } from '../../redux/sales/actions';
@@ -1095,6 +1096,16 @@ const InvoicePurchaseOfBroughtBlank = () => {
         sendCustomerId(childData);//send customerId
         navigate(`/stamprelatedpurchasestatement/${childData}`);
     }
+    //--------------------show  product photo---------------------
+    const [showProductImage, setShowProductImage] = useState(false);
+    const [itemImagePreview, setItemImagePreview] = useState(`${wakabaBaseUrl}/uploads/product/`);
+    const openProductImageModal = (link) => {
+        setShowProductImage(true);
+        setItemImagePreview(`${wakabaBaseUrl}/uploads/product/${link}`);
+    }
+    const closeProductImageModal = () => {
+        setShowProductImage(false);
+    }
 //----------------modal items photo and document upload----------------------
 const [showItemsImage, setShowItemsImage] = useState(false);
 const openItemsImageModal = () => {
@@ -1658,7 +1669,7 @@ const onCloseSuccess = () => {
                                     {isshow ? <td style={Td} >{salesData.product_type_three}</td> : <td style={{ display: 'none' }}></td>}
                                     {isshow ? <td style={Td} >{salesData.product_type_four}</td> : <td style={{ display: 'none' }}></td>}
                                     <td style={Td}>
-                                        {salesData.product_photo != '' ? <ButtonComponent children="写真" name='photo' className='w-max !px-5 rounded-lg' style={{ backgroundColor: '#ebe5e1', color: '#626373' }} /> : 'ファイルなし'}
+                                        {salesData.product_photo != '' ? <ButtonComponent onClick={() => openProductImageModal(salesData.product_photo)} children="写真" name='photo' className='w-max !px-5 rounded-lg' style={{ backgroundColor: '#ebe5e1', color: '#626373' }} /> : 'ファイルなし'}
                                     </td>
                                     <td style={Td1} onClick={() => handleProductClick(Index)}
                                         onMouseOver={() => handleMouseOver(Index)}
@@ -2224,6 +2235,8 @@ const onCloseSuccess = () => {
                 </div>
             </div>
         )}
+        {/* ---------show product photo-------- */}
+        {showProductImage && <ImageShowModal itemsImagePreview={itemImagePreview}  onClose={closeProductImageModal} />}
     </>
     );
 };

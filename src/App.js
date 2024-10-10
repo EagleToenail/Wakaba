@@ -106,9 +106,13 @@ import Calendar from './Pages/Calendar/calendar'
 
 import MainChatPage from './Pages/Chat/mainChatPage';
 
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 function App() {
   return (
     <Router>
+      <ToastContainer/>
       <Routes>
           <Route element={<LayoutWithMainContainer/>}>
           {/* message */}
