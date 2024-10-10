@@ -52,7 +52,7 @@ const Profile = () => {
             throw new Error('API base URL is not defined');
         }
 
-        axios.post(`${wakabaBaseUrl}/user/getUserById`,{userId})
+        axios.post(`${wakabaBaseUrl}/profile/getProfileById`,{userId})
             .then(response => {
                 console.log("data", response.data)
                 setProfileData(response.data);
@@ -131,6 +131,7 @@ const Profile = () => {
         // Create FormData object
         const formDataObj = new FormData();
         formDataObj.append('id', profileData.id);
+        formDataObj.append('user_id', profileData.user_id);
         formDataObj.append('store_name', profileData.store_name);
         formDataObj.append('store_type', profileData.store_type);
         formDataObj.append('fullname', profileData.fullname);
@@ -159,7 +160,7 @@ const Profile = () => {
             if (!wakabaBaseUrl) {
                 throw new Error('API base URL is not defined');
             }
-            const response = await axios.post(`${wakabaBaseUrl}/user/createuserprofile`, formDataObj, {
+            const response = await axios.post(`${wakabaBaseUrl}/user/updateuserprofile`, formDataObj, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
@@ -200,7 +201,7 @@ const Profile = () => {
                                         <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">メールアドレス</label>
                                     </div>
                                     <div style={{ width: '75%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                        <label className="text-[#70685a] font-bold mb-2 block text-left mr-10 py-1 !mb-0">{profileData.email}</label>
+                                        <label className="text-[#70685a] font-bold mb-2 block text-left mr-10 py-1 !mb-0">{profileData.email || ''}</label>
                                     </div>
                                 </div>
                                 {/* new */}
@@ -218,13 +219,16 @@ const Profile = () => {
                                         <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">店舗名</label>
                                     </div>
                                     <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                        <input name="store_name" onChange={handleChange} value={profileData.store_name} type="text" required className="w-full text-[#70685a] border border-[#70685a] px-4 py-2 outline-[#70685a]" />
+                                        <select name="store_name" onChange={handleChange} value={profileData.store_name || ''} required className="w-full text-[#70685a] font-bold border border-[#70685a] px-4 py-2 outline-[#70685a]">
+                                            <option value="" disabled></option>
+                                            <option value="高崎店">高崎店</option>
+                                        </select>
                                     </div>
                                     <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
                                         <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-3 !mb-0">種別</label>
                                     </div>
                                     <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                        <select id="store_type" name="store_type" onChange={handleChange} value={profileData.store_type} required className="w-full text-[#70685a] font-bold border border-[#70685a] px-4 py-2 outline-[#70685a]">
+                                        <select name="store_type" onChange={handleChange} value={profileData.store_type || ''} required className="w-full text-[#70685a] font-bold border border-[#70685a] px-4 py-2 outline-[#70685a]">
                                             <option value="" disabled></option>
                                             <option value="執行役員">執行役員</option>
                                             <option value="社員">社員</option>
@@ -240,7 +244,7 @@ const Profile = () => {
                                         <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">お名前</label>
                                     </div>
                                     <div style={{ width: '50%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                        <input name="fullname" onChange={handleChange} value={profileData.fullname} type="text" required className="w-full text-[#70685a] border border-[#70685a] px-4 py-2 outline-[#70685a]" />
+                                        <input name="fullname" onChange={handleChange} value={profileData.fullname || ''} type="text" required className="w-full text-[#70685a] border border-[#70685a] px-4 py-2 outline-[#70685a]" />
                                     </div>
                                 </div>
                                 {/* new */}
@@ -249,7 +253,7 @@ const Profile = () => {
                                         <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">カタカナ名</label>
                                     </div>
                                     <div style={{ width: '75%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                        <input name="katakana_name" onChange={handleChange} value={profileData.katakana_name} type="text" required className="w-full text-[#70685a] border border-[#70685a] px-4 py-2 outline-[#70685a]" />
+                                        <input name="katakana_name" onChange={handleChange} value={profileData.katakana_name || ''} type="text" required className="w-full text-[#70685a] border border-[#70685a] px-4 py-2 outline-[#70685a]" />
                                     </div>
                                 </div>
                                 {/* new */}
@@ -258,7 +262,7 @@ const Profile = () => {
                                         <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">お電話番号</label>
                                     </div>
                                     <div style={{ width: '35%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                        <InputComponent name="phone" value={profileData.phone} onChange={handleChange} type='text' required />
+                                        <InputComponent name="phone" value={profileData.phone || ''} onChange={handleChange} type='text' required />
                                     </div>
                                 </div>
                                 {/* new */}
@@ -268,7 +272,7 @@ const Profile = () => {
                                     </div>
 
                                     <div style={{ width: '20%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                        <input name="birthday" type="text" value={profileData.birthday} required className="w-full text-[#70685a] border border-[#70685a] px-4 py-1 text-[20px] outline-[#70685a]" readOnly />
+                                        <input name="birthday" type="text" value={profileData.birthday || ''} required className="w-full text-[#70685a] border border-[#70685a] px-4 py-1 text-[20px] outline-[#70685a]" readOnly />
                                     </div>
                                     <div style={{ width: '5%', flexDirection: 'column', }} className='flex flex-col justify-center pl-3'>
                                         <div style={{ width: '40px', height: '30px', cursor: 'pointer' }}>
@@ -281,13 +285,13 @@ const Profile = () => {
                                     </div>
 
                                     <div style={{ width: '20%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                        <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">{profileData.age}才</label>
+                                        <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">{profileData.age || ''}才</label>
                                     </div>
                                     <div style={{ width: '15%', flexDirection: 'column', }} className='flex flex-col justify-center text-right'>
                                         <label className="text-[#70685a] font-bold mb-2 block text-right py-1 !mb-0 mr-3">性別</label>
                                     </div>
                                     <div style={{ width: '15%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                        <select id="gender" name="gender" onChange={handleChange} value={profileData.gender} required className="w-full text-[#70685a] font-bold border border-[#70685a] px-4 py-2 outline-[#70685a]">
+                                        <select id="gender" name="gender" onChange={handleChange} value={profileData.gender || ''} required className="w-full text-[#70685a] font-bold border border-[#70685a] px-4 py-2 outline-[#70685a]">
                                         <option value="" disabled></option>
                                             <option value="man">男</option>
                                             <option value="woman">女</option>
@@ -308,11 +312,11 @@ const Profile = () => {
                                                     data-original="#000000" />
                                             </svg>
                                         </button>
-                                        <input type="file" name='idcardUpload' ref={idcardInputRef} required style={{ display: 'none' }} onChange={(e) => handleFileChange(e, setIdcardFile)} />
+                                        <input type="file" name='idcardUpload' ref={idcardInputRef} style={{ display: 'none' }} onChange={(e) => handleFileChange(e, setIdcardFile)} />
                                         {/* {idcardFile && <p>{idcardFile.name}</p>} */}
                                     </div>
                                     <div style={{ width: '40%', flexDirection: 'column', height: '40px', paddingRight: '5%' }} className='flex align-center justify-around'>
-                                        <select id="card_type" name="card_type" value={profileData.card_type} required onChange={handleChange} className="w-full h-full text-[#70685a] text-[15px] font-bold border border-[#70685a] px-4 py-2 outline-[#70685a]">
+                                        <select id="card_type" name="card_type" value={profileData.card_type || ''} required onChange={handleChange} className="w-full h-full text-[#70685a] text-[15px] font-bold border border-[#70685a] px-4 py-2 outline-[#70685a]">
                                             <option value="" disabled></option>
                                             <option value="運転免許証">運転免許証</option>
                                             <option value="運転経歴証明書">運転経歴証明書</option>
@@ -323,7 +327,7 @@ const Profile = () => {
                                     </div>
                                     <div style={{ width: '20%', flexDirection: 'column', }} className='flex align-center justify-around'>
                                         <button type="button" onClick={() => handleButtonClick(avatarImageInputRef)} className="py-2 min-w-[160px] text-[#70685a] rounded-full tracking-wider font-medium outline-none border border-[#70685a] ">画像と情報表示</button>
-                                        <input type="file" name="avatarimageUpload" ref={avatarImageInputRef} style={{ display: 'none' }} required onChange={(e) => handleFileChange(e, setAvatarImageFile)} />
+                                        <input type="file" name="avatarimageUpload" ref={avatarImageInputRef} style={{ display: 'none' }} onChange={(e) => handleFileChange(e, setAvatarImageFile)} />
                                         {/* {avatarimageFile && <p>Selected Image: {avatarimageFile.name}</p>} */}
                                     </div>
                                 </div>
@@ -333,7 +337,7 @@ const Profile = () => {
                                         <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">都道府県</label>
                                     </div>
                                     <div style={{ width: '30%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                        <select id="prefeature" value={profileData.prefeature} onChange={handleChange} name="prefeature" required className="w-full h-full text-[#70685a] font-bold border border-[#70685a] px-4 py-1 outline-[#70685a]">
+                                        <select id="prefeature" value={profileData.prefeature || ''} onChange={handleChange} name="prefeature" required className="w-full h-full text-[#70685a] font-bold border border-[#70685a] px-4 py-1 outline-[#70685a]">
                                             <option value="" disabled></option>
                                             <option value="Hokkaido">北海道</option>
                                             <option value="Aomori">青森県</option>
@@ -388,7 +392,7 @@ const Profile = () => {
                                         <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">市町村</label>
                                     </div>
                                     <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                        <input name="city" value={profileData.city} onChange={handleChange} type="text" required className="w-full text-[#70685a] border border-[#70685a] px-4 py-2 outline-[#70685a]" />
+                                        <input name="city" value={profileData.city || ''} onChange={handleChange} type="text" required className="w-full text-[#70685a] border border-[#70685a] px-4 py-2 outline-[#70685a]" />
                                     </div>
                                 </div>
                                 {/* new */}
@@ -397,7 +401,7 @@ const Profile = () => {
                                         <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">住所詳細</label>
                                     </div>
                                     <div style={{ width: '75%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                        <input name="address" value={profileData.address} onChange={handleChange} type="text" required className="w-full text-[#70685a] border border-[#70685a] px-4 py-2 outline-[#70685a]" />
+                                        <input name="address" value={profileData.address || ''} onChange={handleChange} type="text" required className="w-full text-[#70685a] border border-[#70685a] px-4 py-2 outline-[#70685a]" />
                                     </div>
                                 </div>
                                 {/* new */}
@@ -407,12 +411,12 @@ const Profile = () => {
                                     </div>
                                     <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
                                         <button type="button" onClick={() => handleButtonClick(resumePdfInputRef)} className=" py-2 min-w-[160px] text-[#70685a] rounded-full tracking-wider font-medium outline-none border border-[#70685a] ">履歴書</button>
-                                        <input type="file" name="resumeUpload" ref={resumePdfInputRef} style={{ display: 'none' }} required onChange={(e) => handleFileChange(e, setResumePdfFile)} />
+                                        <input type="file" name="resumeUpload" ref={resumePdfInputRef} style={{ display: 'none' }} onChange={(e) => handleFileChange(e, setResumePdfFile)} />
                                         {/* {resumepdfFile && <p>{resumepdfFile.name}</p>} */}
                                     </div>
                                     <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around px-5'>
                                         <button type="button" onClick={() => handleButtonClick(jobPdfInputRef)} className=" py-2 min-w-[160px] text-[#70685a] rounded-full tracking-wider font-medium outline-none border border-[#70685a] ">職務糸歴書</button>
-                                        <input type="file" name="jobUpload" ref={jobPdfInputRef} style={{ display: 'none' }} required onChange={(e) => handleFileChange(e, setJobPdfFile)} />
+                                        <input type="file" name="jobUpload" ref={jobPdfInputRef} style={{ display: 'none' }} onChange={(e) => handleFileChange(e, setJobPdfFile)} />
                                         {/* {jobpdfFile && <p>{jobpdfFile.name}</p>} */}
                                     </div>
                                 </div>
@@ -422,7 +426,7 @@ const Profile = () => {
                                         <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">身分保証人</label>
                                     </div>
                                     <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                        <select id="guarantor" name="guarantor" value={profileData.guarantor} required onChange={handleChange} className="w-full h-full text-[#70685a] font-bold border border-[#70685a] px-4 py-2 outline-[#70685a]">
+                                        <select id="guarantor" name="guarantor" value={profileData.guarantor || ''} required onChange={handleChange} className="w-full h-full text-[#70685a] font-bold border border-[#70685a] px-4 py-2 outline-[#70685a]">
                                             <option value="" disabled></option>
                                             <option value="配偶者">配偶者</option>
                                             <option value="子供">子供</option>
@@ -433,7 +437,7 @@ const Profile = () => {
                                     </div>
                                     <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around px-5'>
                                         <button type="button" onClick={() => handleButtonClick(pledgeImageInputRef)} className="py-2 min-w-[160px] text-[#70685a] rounded-full text-sm tracking-wider font-medium outline-none border border-[#70685a] ">誓約書画像</button>
-                                        <input type="file" name="pledgeUpoad" ref={pledgeImageInputRef} style={{ display: 'none' }} required onChange={(e) => handleFileChange(e, setPledgeImageFile)} />
+                                        <input type="file" name="pledgeUpoad" ref={pledgeImageInputRef} style={{ display: 'none' }} onChange={(e) => handleFileChange(e, setPledgeImageFile)} />
                                         {/* {pledgeimageFile && <p>{pledgeimageFile.name}</p>} */}
                                     </div>
                                 </div>
@@ -443,7 +447,7 @@ const Profile = () => {
                                         rows="6"
                                         cols="50"
                                         name="staff_terms"
-                                        value={profileData.staff_terms} // Set the value from state
+                                        value={profileData.staff_terms || ''} // Set the value from state
                                         onChange={handleChange} // Handle changes
                                         className='w-full text-[#70685a] border border-[#70685a] px-4 py-2 outline-[#70685a]'
                                         required

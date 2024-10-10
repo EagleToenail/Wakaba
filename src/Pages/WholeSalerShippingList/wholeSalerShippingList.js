@@ -55,9 +55,10 @@ const WholeSalerShippingList = () => {
 
     const [editIndex, setEditIndex] = useState(-1);
     const [editedRow, setEditedRow] = useState({ 
+        shipping_status:'',
         expected_deposit_date: '',
         deposit_date: '',
-        final_assessment_amount: '',
+        sales_amount: '',
     });
 
     const handleInputChange = (e) => {
@@ -84,6 +85,7 @@ const WholeSalerShippingList = () => {
         await axios.post(`${wakabaBaseUrl}/wholesalershipping/save`,{payload:payload,params: searchParams,storeName:userStoreName})
         .then(response => {
             setWholeSalesPurchase(response.data);
+            console.log(response.data,'response.data')
         })
         .catch(error => {
             console.error("There was an error fetching the customer data!", error);
@@ -92,18 +94,20 @@ const WholeSalerShippingList = () => {
         // setWholeSalesPurchase(updatedData);
         setEditIndex(-1); // Exit edit mode
         setEditedRow({ 
+            shipping_status:'',
             expected_deposit_date: '',
             deposit_date: '',
-            final_assessment_amount: '',
+            sales_amount: '',
          }); // Reset editedRow state
     };
 
     const handleCancelClick = () => {
         setEditIndex(-1);
         setEditedRow({ 
+            shipping_status:'',
             expected_deposit_date: '',
             deposit_date: '',
-            final_assessment_amount: '',
+            sales_amount: '',
          }); // Reset editedRow state
     };
 
@@ -321,7 +325,7 @@ const fetchOldSalesData = async (ids) => {
                                                     {saleData.expected_deposit_date || ''}
                                                 </td>
                                                 <td style={Td}>
-                                                    {saleData.final_assessment_amount || ''}
+                                                    {saleData.sales_amount || ''}
                                                 </td>
                                                 <td style={Td} >  
                                                     <div className='flex justify-center'>
@@ -378,8 +382,8 @@ const fetchOldSalesData = async (ids) => {
                                                             <option value="約定済">約定済</option>
                                                             <option value="約定済＋返送依頼">約定済＋返送依頼</option>
                                                             <option value="返送依頼">返送依頼</option>
-                                                            <option value="入金待ち">入金待ち</option>
-                                                            <option value="入金済">入金済</option>
+                                                            <option value="入金待ち" disabled>入金待ち</option>
+                                                            <option value="入金済" disabled>入金済</option>
                                                         </select>
                                                     ):(saleData.shipping_status || '')}
                                                 </td>
@@ -400,8 +404,8 @@ const fetchOldSalesData = async (ids) => {
                                                 </td>
                                                 <td style={Td}>
                                                     {editIndex === Index ?(
-                                                        <InputComponent name='final_assessment_amount' value={editedRow.final_assessment_amount ||''} onChange={handleInputChange} className='w-max h-8 text-[#70685a]' />
-                                                    ):(saleData.final_assessment_amount || '')}
+                                                        <InputComponent name='sales_amount' value={editedRow.sales_amount ||''} onChange={handleInputChange} className='w-max h-8 text-[#70685a]' />
+                                                    ):(saleData.sales_amount || '')}
                                                 </td>
                                                 <td style={Td} >  
                                                     <div className='flex justify-center'>
@@ -425,7 +429,7 @@ const fetchOldSalesData = async (ids) => {
                                                         </button>
                                                     </div>
                                                     ) : (
-                                                        saleData.product_status === '発送中' ?
+                                                        saleData.shipping_status !== '入金待ち' && saleData.shipping_status !== '入金済'  ?
                                                             <div>
                                                                 <button onClick={() => handleEditClick(Index)} className='w-7'>
                                                                     <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium  MuiSvgIcon-root MuiSvgIcon-fontSizeLarge  css-1hkft75" fill='#524c3b' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="EditCalendarOutlinedIcon" title="EditCalendarOutlined"><path d="M5 10h14v2h2V6c0-1.1-.9-2-2-2h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h7v-2H5zm0-4h14v2H5zm17.84 10.28-.71.71-2.12-2.12.71-.71c.39-.39 1.02-.39 1.41 0l.71.71c.39.39.39 1.02 0 1.41m-3.54-.7 2.12 2.12-5.3 5.3H14v-2.12z"></path></svg>

@@ -161,7 +161,7 @@ const PurchaseRequestFormForWholeSaler = () => {
     }
 
     const [shipData,setShipData] = useState({
-        product_status:'',
+        shipping_status:'',
         shipper:'',
         shipping_date:'',
         shipping_address:'',
@@ -260,10 +260,10 @@ const PurchaseRequestFormForWholeSaler = () => {
     // update shipping data
         const updateShippingData = (name,value) => {
             console.log('updateVendor',value)
-            if(name === 'product_status') {
+            if(name === 'shipping_status') {
                 const updatedData = wholeSalesPurchase.map(data => ({
                     ...data,
-                    product_status: value // Replace with your desired value or logic
+                    shipping_status: value // Replace with your desired value or logic
                 }));
                   setWholeSalesPurchase(updatedData);
             }
@@ -295,15 +295,14 @@ const PurchaseRequestFormForWholeSaler = () => {
             <div className='purchase-request-wholesaler w-full flex justify-center mt-5'>
                 <div className='flex justify-center'>
                     <div className='mr-5'>
-                        <select name="product_status" onChange={handleShipChange} className="w-60 h-10 text-[#70685a] font-bold border border-[#70685a] px-4 py-1 outline-[#70685a]">
+                        <select name="shipping_status" onChange={handleShipChange} className="w-60 h-10 text-[#70685a] font-bold border border-[#70685a] px-4 py-1 outline-[#70685a]">
                             <option value=""></option>
                             <option value="発送中">発送中</option>
                             <option value="約定済">約定済</option>
-                            <option value="オークション出品済">オークション出品済</option>
-                            <option value="オークション発送済">オークション発送済</option>
-                            <option value="廃棄">廃棄</option>
-                            <option value="基準外">基準外</option>
-                            <option value="返品・返金">返品・返金</option>
+                            <option value="約定済＋返送依頼">約定済＋返送依頼</option>
+                            <option value="返送依頼">返送依頼</option>
+                            <option value="入金待ち">入金待ち</option>
+                            <option value="入金済">入金済</option>
                         </select>
                     </div>
                     <div className='mr-5'>

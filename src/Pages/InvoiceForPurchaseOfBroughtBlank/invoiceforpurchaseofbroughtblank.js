@@ -1070,6 +1070,7 @@ const InvoicePurchaseOfBroughtBlank = () => {
     };
     //save function
     const itemsSave = async() => {
+        setIsCreateModalOpen(false);
         const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
         if (!wakabaBaseUrl) {
             throw new Error('API base URL is not defined');

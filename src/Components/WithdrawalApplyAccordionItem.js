@@ -10,25 +10,6 @@ const WithdrawalApplyAccordionItem = ({ time, title, content, fileUrl, sender, r
   const [senderName, setSenderName] = useState('');
   const [receiverName, setReceiverName] = useState('');
 
-  // const isoString = time;
-  // const date = new Date(isoString);
-
-  // // Extract components
-  // const year = date.getUTCFullYear();
-  // const month = date.getUTCMonth() + 1; // Months are zero-based
-  // const day = date.getUTCDate();
-  // const hours = date.getUTCHours();
-  // const minutes = date.getUTCMinutes();
-
-  // // Format components to ensure two digits for month, day, hours, and minutes
-  // const formattedMonth = month.toString().padStart(2, '0');
-  // const formattedDay = day.toString().padStart(2, '0');
-  // const formattedHours = hours.toString().padStart(2, '0');
-  // const formattedMinutes = minutes.toString().padStart(2, '0');
-
-  // // Create formatted date string
-  // const formattedDate = `${year}/${formattedMonth}/${formattedDay} ${formattedHours}:${formattedMinutes}`;
-
   //fetch message data related user
   useEffect(() => {
     users.forEach(user => {

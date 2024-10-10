@@ -24,13 +24,7 @@ const DisposalPermissionAccordion = ({ onSendIdData ,messages}) => {
     fetchMessages();
   }, []);
 
-  const [childData1, setChildData1] = useState(null);
-  const [childData2, setChildData2] = useState(null);
-  const [childData3, setChildData3] = useState(null);
   const handleDataFromChild = (data1, data2, data3) => {
-    setChildData1(data1);
-    setChildData2(data2);
-    setChildData3(data3);
     onSendIdData(data1, data2, data3);
     console.log('Data received from child:', data1, data2, data3);
   };
