@@ -836,7 +836,7 @@ const fetchInvoiceHistoryData = async () => {
     }
     const sendPurchaseData = () => {
         //---------
-        if(totalSalesSlipData[0].product_status === 'お預かり' || totalSalesSlipData[0].product_status === '成約済') {
+        if(totalSalesSlipData[0].product_status === '成約済') {
             const numberOfInvoice = customerPastVisitHistory.length;
 
             if (totalSalesSlipData.length != 0 && totalSalesSlipData != null) {

@@ -190,6 +190,7 @@ export default function WithdrawVariousPurchase() {
                     formData.append('read', '0');
                 }
             }
+            if(totalData[0].id === undefined) return;
             formData.append('invoice_id', totalData[0].id);
             formData.append('store_name', userStoreName);
             formData.append('time', reply.time);

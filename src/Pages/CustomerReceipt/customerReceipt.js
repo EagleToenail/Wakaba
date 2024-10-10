@@ -37,7 +37,7 @@ const CustomerReceipt = () => {
     const navigate = useNavigate();
     const data = useSelector(state => state.data);
     const purchaseData = data.data;
-    const customerId = purchaseData.id;
+    const customerId = purchaseData.childData;
     console.log('purchase data',purchaseData)
 
 

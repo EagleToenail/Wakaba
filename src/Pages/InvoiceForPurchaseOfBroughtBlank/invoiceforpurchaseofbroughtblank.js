@@ -707,7 +707,7 @@ const InvoicePurchaseOfBroughtBlank = () => {
 
     const sendPurchaseDataToReceipt = () => {
         const numberOfInvoice = 1;
-        const purchaseData = { deadline, numberOfInvoice, totalSalesSlipData };
+        const purchaseData = {childData, deadline, numberOfInvoice, totalSalesSlipData };
         // console.log('send purchase data',purchaseData,id);
         updateData(purchaseData);
         navigate('/customerreceipt');
@@ -1590,6 +1590,8 @@ const onCloseSuccess = () => {
                                 <th style={Th} >画像</th>
                                 <th style={Th} width='10%'>商品名</th>
                                 <th style={Th} >個数</th>
+                                <th style={Th}>金種</th>
+                                <th style={Th}>g/額面</th>
                                 <th style={Th} width='10%'>申請の根拠</th>
                                 <th style={Th} >利率(%)</th>
                                 <th style={Th} >申請額</th>
@@ -1681,6 +1683,12 @@ const onCloseSuccess = () => {
                                         </div>
                                     </td>
                                     <td style={Td}> {salesData.quantity} </td>
+                                    {salesData.product_type_one === '貴金属' ? 
+                                        <td style={Td}> {salesData.metal_type || ''} </td> : <td style={Td}> {''} </td>
+                                    }
+                                    {salesData.product_type_one === '貴金属' ? 
+                                        <td style={Td}> {salesData.price_per_gram || ''} </td> :<td style={Td}> {''} </td>
+                                    }
                                     <td style={Td}> {salesData.reason_application} </td>
                                     <td style={Td}> {salesData.interest_rate} </td>
                                     <td style={Td}> {salesData.product_price} </td>
@@ -1725,6 +1733,12 @@ const onCloseSuccess = () => {
                                     <th style={Th} >画像</th>
                                     <th style={Th} width='10%'>商品名</th>
                                     <th style={Th} >個数</th>
+                                    {salesSlipData.product_type_one === '貴金属' &&
+                                        <th style={Th} >金種</th>
+                                    }
+                                     {salesSlipData.product_type_one === '貴金属' &&
+                                        <th style={Th} className='!w-20'>g/額面</th>
+                                     }
                                     <th style={Th} width='10%'>申請の根拠</th>
                                     <th style={Th} >利率(%)</th>
                                     <th style={Th} >申請額</th>
@@ -1830,6 +1844,16 @@ const onCloseSuccess = () => {
                                     <td style={Td}>
                                         <InputComponent name='quantity' type='number' onChange={handleChange} value={salesSlipData.quantity || ''} className='w-20 h-8 text-[#70685a]' />
                                     </td>
+                                    {salesSlipData.product_type_one === '貴金属' &&
+                                        <td style={Td}>
+                                            <InputComponent name='metal_type' type='text' onChange={handleChange} value={salesSlipData.metal_type || ''} className='w-20 h-8 text-[#70685a]' />
+                                        </td>
+                                    }
+                                     {salesSlipData.product_type_one === '貴金属' &&
+                                        <td style={Td}>
+                                            <InputComponent name='price_per_gram' type='number' onChange={handleChange} value={salesSlipData.price_per_gram || ''} className='w-20 h-8 text-[#70685a]' />
+                                        </td>
+                                    }
                                     <td style={Td}>
                                         <InputComponent name='reason_application' onChange={handleChange} value={salesSlipData.reason_application || ''} className='w-full h-8 text-[#70685a]' />
                                     </td>

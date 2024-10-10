@@ -431,7 +431,7 @@ const CommemorativeCoinExchange = () => {
                                     <div className='flex flex-col justify-center'>
                                         <div className='flex'>
                                             <div style={{ flexDirection: 'column', }} className='flex align-center justify-around'>
-                                                <input name="exchange_date" value={otherData.exchange_date || ''} type="text" required className="w-[170px] h-8 text-[#6e6e7c] border border-[#6e6e7c] text-[20px] px-4 py-1 outline-[#70685a]" readOnly />
+                                                <input name="exchange_date" value={otherData.exchange_date || '~~~'} type="text" required className="w-[170px] h-8 text-[#6e6e7c] border border-[#6e6e7c] text-[20px] px-4 py-1 outline-[#70685a]" readOnly />
                                             </div>
                                             <div style={{ flexDirection: 'column', }} className='flex flex-col justify-center pl-3'>
                                                 <div style={{ width: '40px', height: '30px', cursor: 'pointer' }}>
@@ -443,7 +443,7 @@ const CommemorativeCoinExchange = () => {
                                             </div>
                                         </div>
                                     </div>
-                                    <div className='mt-2 flex flex-col justify-center'><InputComponent className='w-60 h-10' name='bank_name' value={otherData.bank_name} onChange={handleOtherDataChange}/></div>
+                                    <div className='mt-2 flex flex-col justify-center'><InputComponent className='w-60 h-10' name='bank_name' value={otherData.bank_name || '~~~'} onChange={handleOtherDataChange}/></div>
                                 </div>
                             </div>
                         </div>
@@ -458,7 +458,9 @@ const CommemorativeCoinExchange = () => {
                     <div className='flex justify-center'>
                         <div>
                             <div className='flex w-full'>
-                                <InputComponent name='description' value={otherData.description} onChange={handleOtherDataChange} placeholder='~~~日に、~~~銀行に、~~円 を両替に持っていきます。' className='!w-full font-bold' />
+                                <label className='!w-full font-bold text-[18px] text-[#70685a]' >
+                                    {otherData.exchange_date || '~~~'}日に、{otherData.bank_name || '~~~'}銀行に、{parseInt(totalCoinValue) + parseInt(totalBillValue) || '~~~'}円 を両替に持っていきます。
+                                </label>
                             </div>
                         </div>
                     </div>

@@ -1962,7 +1962,7 @@ const [outBound, setOutBound] = useState({
             {isShow &&
                 <div
                     className="fixed inset-0 p-4 flex flex-wrap justify-center items-center w-full h-full z-[1000] before:fixed before:inset-0 before:w-full before:h-full before:bg-[rgba(0,0,0,0.5)] overflow-auto font-[sans-serif]">
-                    <div className="w-full max-w-lg bg-white shadow-lg rounded-lg p-6 relative overflow-y-auto">
+                    <div className="w-full max-w-[1000px] bg-white shadow-lg rounded-lg p-6 relative overflow-y-auto">
                         <div className="flex items-center pb-3 border-b border-gray-300">
                             <h3 className="text-gray-800 text-xl font-bold flex-1">ハガキ交換シート</h3>
                             <svg onClick={onClose} xmlns="http://www.w3.org/2000/svg" className="w-3 ml-2 cursor-pointer shrink-0 fill-gray-400 hover:fill-red-500"
@@ -1976,9 +1976,9 @@ const [outBound, setOutBound] = useState({
                             </svg>
                         </div>
 
-                        <div className="my-6 overflow-y-auto max-h-96">
-                            <div className='flex justify-center mt-10' >
-                                <div className='w-full'>
+                        <div className="my-6 overflow-y-auto max-h-120">
+                            <div className='flex justify-center' >
+                                <div className='w-full flex gap-5'>
                                     <table className=' text-center w-full' style={Table}>
                                         <thead>
                                             <tr>
@@ -2058,6 +2058,65 @@ const [outBound, setOutBound] = useState({
                                                 <td style={Td}>{parseInt(totalStampFaceValue) - 5 * parseInt(totalNumberOfStamp)}</td>
                                             </tr>
                                             <tr>
+                                                <td style={Td}>レ夕一パック</td>
+                                                <td style={Td}>
+                                                    <InputComponent value={outBound.letterPack.pack1 || ''} 
+                                                        onChange={e => handleOutBoundChange('letterPack', 'pack1', parseInt(e.target.value))} 
+                                                        type='number' className='w-full !h-8 text-[#70685a]' />
+                                                </td>
+                                                <td style={Td}>
+                                                    <InputComponent value={outBound.letterPack.pack11 || ''} 
+                                                    onChange={e => handleOutBoundChange('letterPack', 'pack11', parseInt(e.target.value))} 
+                                                    type='number' className='w-full !h-8 text-[#70685a]' />
+                                                </td>
+                                                <td style={Td}>{parseInt(outBound.letterPack.pack1) * parseInt(outBound.letterPack.pack11)}</td>
+                                            </tr>
+                                            <tr>
+                                                <td style={Td}>レ夕一パック</td>
+                                                <td style={Td}>
+                                                    <InputComponent value={outBound.letterPack.pack2 || ''} 
+                                                        onChange={e => handleOutBoundChange('letterPack', 'pack2', parseInt(e.target.value))} 
+                                                        type='number' className='w-full !h-8 text-[#70685a]' />
+                                                </td>
+                                                <td style={Td}>
+                                                    <InputComponent value={outBound.letterPack.pack22 || ''} 
+                                                    onChange={e => handleOutBoundChange('letterPack', 'pack22', parseInt(e.target.value))} 
+                                                    type='number' className='w-full !h-8 text-[#70685a]' />
+                                                </td>
+                                                <td style={Td}>{parseInt(outBound.letterPack.pack2) * parseInt(outBound.letterPack.pack22)}</td>
+                                            </tr>
+                                            <tr className='bg-[#d9af7a]'>
+                                                <td style={Td}>レターパ合計</td>
+                                                <td style={Td}>合計枚数</td>
+                                                <td style={Td}>{parseInt(outBound.letterPack.pack11) + parseInt(outBound.letterPack.pack22)}</td>
+                                                <td style={Td}>{parseInt(outBound.letterPack.pack1) * parseInt(outBound.letterPack.pack11) +
+                                                                parseInt(outBound.letterPack.pack2) * parseInt(outBound.letterPack.pack22) }
+                                                </td>
+                                            </tr>
+                                            <tr className='bg-[#d9af7a]'>
+                                                <td style={Td}>切手お釣り</td>
+                                                <td style={Td}>{}</td>
+                                                <td style={Td}>{}</td>
+                                                <td style={Td}>{parseInt(totalStampFaceValue) - 5 * parseInt(totalNumberOfStamp) -
+                                                                parseInt(outBound.letterPack.pack1) * parseInt(outBound.letterPack.pack11) -
+                                                                parseInt(outBound.letterPack.pack2) * parseInt(outBound.letterPack.pack22) }
+                                                </td>
+                                            </tr>
+                                        </tbody>
+
+                                    </table>
+                                    {/* --------Second table------ */}
+                                    <table className=' text-center w-full' style={Table}>
+                                        <thead>
+                                            <tr>
+                                                <th style={Th}></th>
+                                                <th style={Th}>額面(￥)</th>
+                                                <th style={Th}>枚数</th>
+                                                <th style={Th}>小計(￥)</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr className='h-6'>
                                                 <td style={Td}>レ夕一パック</td>
                                                 <td style={Td}>
                                                     <InputComponent value={outBound.letterPack.pack1 || ''} 

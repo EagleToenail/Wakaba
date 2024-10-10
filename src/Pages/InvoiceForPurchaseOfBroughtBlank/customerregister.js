@@ -62,7 +62,6 @@ const CustomerUpdateForPurchase = ({ id }) => {
                         setCustomer(response.data);
                         setAvatarImagePreview(`${wakabaBaseUrl}/uploads/customer/${response.data.avatar_url}`);
                         setIdCardImagePreview(`${wakabaBaseUrl}/uploads/customer/${response.data.idCard_url}`);
-                        console.log('asdfafdasdf--------',imageAvatarPreview,imageIdCardPreview)
                     })
                     .catch(error => {
                         console.error("There was an error fetching the customer data!", error);

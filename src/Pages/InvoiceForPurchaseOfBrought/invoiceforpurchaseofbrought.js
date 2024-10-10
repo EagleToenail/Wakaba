@@ -31,7 +31,7 @@ const InvoicePurchaseOfBrought = () => {
 
     const navigate = useNavigate();
 
-    // Fetch customer data
+    // Fetch customer data (customer Id)
     const { id } = useParams();
 
     const now = new Date();
@@ -93,35 +93,35 @@ const InvoicePurchaseOfBrought = () => {
     const userId = localStorage.getItem('userId');
     const role = localStorage.getItem('role')
 
-// fetch registered product
-useEffect(() => {
-    const fetch = async () => {
-        const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+    // fetch registered product item
+    useEffect(() => {
+        const fetch = async () => {
+            const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
 
-        if (!wakabaBaseUrl) {
-            throw new Error('API base URL is not defined');
+            if (!wakabaBaseUrl) {
+                throw new Error('API base URL is not defined');
+            }
+
+            await axios.post(`${wakabaBaseUrl}/purchaseinvoice/getregistereddata`,{id:id,userStoreName:userStoreName,userId:userId})
+                .then(response => {
+                    const invoiceData = response.data;
+                    if(invoiceData?.length>0) {
+                        const updatedData111 = invoiceData.map((data,Index) => ({
+                            ...data,
+                            estimate_wholesaler: JSON.parse(data.estimate_wholesaler),
+                        })); 
+                        setTotalSalesSlipData(updatedData111);
+                        setItemsImagePreview(`${wakabaBaseUrl}/uploads/product/${response.data[0].entire_items_url}`);
+                        setItemsDocPreview(`${wakabaBaseUrl}/uploads/product/${response.data[0].document_url}`);
+                    }
+                    setShowInputPurchase(false);
+                })
+                .catch(error => {
+                    console.error("There was an error fetching the customer data!", error);
+                });
         }
-
-        await axios.post(`${wakabaBaseUrl}/purchaseinvoice/getregistereddata`,{id:id,userStoreName:userStoreName,userId:userId})
-            .then(response => {
-                const invoiceData = response.data;
-                if(invoiceData?.length>0) {
-                    const updatedData111 = invoiceData.map((data,Index) => ({
-                        ...data,
-                        estimate_wholesaler: JSON.parse(data.estimate_wholesaler),
-                    })); 
-                    setTotalSalesSlipData(updatedData111);
-                    setItemsImagePreview(`${wakabaBaseUrl}/uploads/product/${response.data[0].entire_items_url}`);
-                    setItemsDocPreview(`${wakabaBaseUrl}/uploads/product/${response.data[0].document_url}`);
-                }
-                setShowInputPurchase(false);
-            })
-            .catch(error => {
-                console.error("There was an error fetching the customer data!", error);
-            });
-    }
-    fetch();
-}, []);
+        fetch();
+    }, []);
 
     const [customerPastVisitHistory, setCustomerPastVisitHistory] = useState([{
         visit_date: '',
@@ -214,6 +214,7 @@ useEffect(() => {
             [e.target.name]: e.target.value,
         });
     };
+
     //fetch user(profile) data
     const [userData, setUserData] = useState([]);
     useEffect(() => {
@@ -296,6 +297,7 @@ useEffect(() => {
             [e.target.name]: e.target.value,
         });
     };
+
     //category1 select
     const handleCategory1Change = (e,productList) => {
         const selectedCategory = e.target.value; // Get the selected category
@@ -308,6 +310,7 @@ useEffect(() => {
         fetchProduct2(selectedResult.id);
         setEstimateValues({});
     };
+
     //estimate for wholesaler
     const [estimateValues, setEstimateValues] = useState({});
     const handleEstimateChange = (vendorname, value) => {
@@ -383,7 +386,7 @@ useEffect(() => {
     // search selectbox product3================
 
     const [product3s, setProduct3s] = useState([]);
-    // Fetch product1 data
+    // Fetch product3 data
     useEffect(() => {
         const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
         if (!wakabaBaseUrl) {
@@ -440,6 +443,7 @@ useEffect(() => {
     }
     // Filter the options based on the query
     const [showInputPurchase, setShowInputPurchase] = useState(false);
+
     //add Data
     const addSlesItem = async() => {
 
@@ -574,6 +578,7 @@ useEffect(() => {
         }
 
     }
+
     //Edit one of tatalsalesSlipdata
     const editSalesItem = (index) => {
         
@@ -585,8 +590,6 @@ useEffect(() => {
             const selectedResult = product1s.find(product => product.category === totalSalesSlipData[index].product_type_one);
             getVendorList(selectedResult.id);
         }
-        
-
     };
     //Save one of tatalsalesSlipdata
     const saveSalesItem = async() => {
@@ -818,7 +821,7 @@ useEffect(() => {
         }
     }
 
-    // send Purchase data
+    // send Purchase data tocusotmer receipt
     const sendPurchaseDataToReceipt = () => {
         const numberOfInvoice = invoiceNumber;
         const purchaseData = { deadline, numberOfInvoice, totalSalesSlipData,id};
@@ -827,23 +830,27 @@ useEffect(() => {
         navigate('/customerreceipt');
 
     }
+
     const sendPurchaseData = () => {
         //---------
-        if(totalSalesSlipData[0].product_status === 'お預かり' || totalSalesSlipData[0].product_status === '成約済') {
-            const numberOfInvoice = invoiceNumber;
-
-            if (totalSalesSlipData.length != 0 && totalSalesSlipData != null) {
-                itemsSave();
-                const purchaseData = {id,deadline, numberOfInvoice, totalSalesSlipData ,stampData};
-                console.log('send purchase data', purchaseData, id);
-                updateData(purchaseData);// to sign page using redux
-                navigate('/purchaseinvoiceforbroughtinitems');
+        if(totalSalesSlipData?.length>0) {
+            if(totalSalesSlipData[0].product_status === 'お預かり' || totalSalesSlipData[0].product_status === '成約済') {
+                const numberOfInvoice = invoiceNumber;
+    
+                if (totalSalesSlipData.length != 0 && totalSalesSlipData != null) {
+                    itemsSave();
+                    const purchaseData = {id,deadline, numberOfInvoice, totalSalesSlipData ,stampData};
+                    console.log('send purchase data', purchaseData, id);
+                    updateData(purchaseData);// to sign page using redux
+                    navigate('/purchaseinvoiceforbroughtinitems');
+                }
             }
         }
 
+
     }
 
-    //   const [isOpen, setIsOpen] = useState(false);
+    //const [isOpen, setIsOpen] = useState(false);
     const [isshow, setIsShow] = useState(false);
 
     const openSubtable = () => {
@@ -938,7 +945,7 @@ useEffect(() => {
         calculateTotalGrossProfit();
     }, [customerPastVisitHistory]);
 
-    //---------product comment related content
+    //---------product comment related content-----------------------------
     const [selectedProduct, setSelectedProduct] = useState(null);
     const [showModal, setShowModal] = useState(false);
     const [editRow, setEditRow] = useState({ comment: '' });
@@ -1164,7 +1171,7 @@ useEffect(() => {
                 console.error("There was an error fetching the customer data!", error);
             });
     }
-    //--------------------------------------------------------
+//--------------------------------------------------------
     //go to stamps related page #62(stamp related purchase statement)
     const gotoStampsPurchase = () => {
         sendCustomerId(id);//send customerId
