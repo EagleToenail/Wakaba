@@ -56,6 +56,7 @@ const PreciousMetalsPrices = () => {
               });
             });
             setData(data);
+            console.log('data',data)
           })
           .catch(error => console.log(error));
       }, []);

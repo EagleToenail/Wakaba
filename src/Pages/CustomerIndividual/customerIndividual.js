@@ -5,6 +5,7 @@ import '../../Assets/css/showtable.css'
 import dateimage from '../../Assets/img/datepicker.png';
 import InputComponent from '../../Components/Common/InputComponent';
 import ButtonComponent from '../../Components/Common/ButtonComponent';
+import {toast} from 'react-toastify';
 // import LabelComponent from '../../Components/Common/LabelComponent';
 
 
@@ -134,7 +135,7 @@ const CustomerIndividual = () => {
         fetch();
 
     }, []);
-
+    // fetch customer data
     useEffect(() => {
         const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
         const fetch = async() => {
@@ -263,6 +264,7 @@ const CustomerIndividual = () => {
             console.log('Response:', response.data);
             // setAvatarImageFile(null);
             // setIdcardFile(null);
+            toast.success('変更が正常に保存されました！',{ autoClose: 3000 });//update
             navigate('/customerlist');
         } catch (error) {
             console.error('Error submitting form:', error);
@@ -283,7 +285,7 @@ const CustomerIndividual = () => {
             }
             const response = await axios.post(`${wakabaBaseUrl}/customer/deleteCustomer`, { customerId });
             console.log('Response:', response.data);
-
+            toast.success('データが正常に削除されました！',{ autoClose: 3000 });//remove
             navigate('/customerlist'); // Navigate to the profile page after closing the modal
         } catch (error) {
             console.error('Error submitting form:', error);

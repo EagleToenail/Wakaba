@@ -209,7 +209,7 @@ export default function TabContent1() {
                             {unReadTodoCount}
                         </div>
                         <Link
-                            className="text-[black] font-bold text-[15px] block rounded px-1 hover:text-red-500 transition-all duration-300" to='/todolist'>
+                            className="text-[black] font-bold text-[15px] block rounded px-1" to='/todolist'>
                              TODO
                         </Link>
                     </li>

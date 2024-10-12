@@ -7,6 +7,7 @@ import InputComponent from '../../Components/Common/InputComponent';
 import ButtonComponent from '../../Components/Common/ButtonComponent';
 import dateimage from '../../Assets/img/datepicker.png';
 import DateAndTime from '../../Components/Common/PickData';
+import {toast} from 'react-toastify';
 import axios from 'axios';
 
 import { useDispatch, useSelector } from 'react-redux';
@@ -23,12 +24,6 @@ import ImageShowModal from '../../Components/Modal/ImageShowModal';
 const InvoicePurchaseOfBrought = () => {
     // const title = 'タイトルタイトル';
     const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
-    const [deadline, setDeadline] = useState('');
-
-    const handleDateChange = (event) => {
-        setDeadline(event.target.value); // Update the date state with the selected date
-
-    };
 
     const navigate = useNavigate();
 
@@ -498,7 +493,7 @@ const InvoicePurchaseOfBrought = () => {
                             estimate_wholesaler: JSON.parse(data.estimate_wholesaler),
                         })); 
                         setTotalSalesSlipData(updatedData111);
-
+                        toast.success('データが正常に作成されました！',{ autoClose: 3000 });
                         setItemsImagePreview(`${wakabaBaseUrl}/uploads/product/${response.data[0].entire_items_url}`);
                         setItemsDocPreview(`${wakabaBaseUrl}/uploads/product/${response.data[0].document_url}`);
                     }
@@ -648,7 +643,7 @@ const InvoicePurchaseOfBrought = () => {
                                 estimate_wholesaler: JSON.parse(data.estimate_wholesaler),
                             })); 
                             setTotalSalesSlipData(updatedData111);
-
+                            toast.success('変更が正常に保存されました！',{ autoClose: 3000 });
                             setItemsImagePreview(`${wakabaBaseUrl}/uploads/product/${response.data[0].entire_items_url}`);
                             setItemsDocPreview(`${wakabaBaseUrl}/uploads/product/${response.data[0].document_url}`);
                         }
@@ -751,7 +746,7 @@ const InvoicePurchaseOfBrought = () => {
                         estimate_wholesaler: JSON.parse(data.estimate_wholesaler),
                     })); 
                     setTotalSalesSlipData(updatedData111);
-
+                    toast.success('データが正常に削除されました！',{ autoClose: 3000 });//remove
                     setItemsImagePreview(`${wakabaBaseUrl}/uploads/product/${response.data[0].entire_items_url}`);
                     setItemsDocPreview(`${wakabaBaseUrl}/uploads/product/${response.data[0].document_url}`);
                 }
@@ -822,10 +817,11 @@ const InvoicePurchaseOfBrought = () => {
         }
     }
 
+    const customerID = id;
     // send Purchase data tocusotmer receipt
     const sendPurchaseDataToReceipt = () => {
         const numberOfInvoice = invoiceNumber;
-        const purchaseData = { deadline, numberOfInvoice, totalSalesSlipData,id};
+        const purchaseData = { numberOfInvoice, totalSalesSlipData,customerID};
         // console.log('send purchase data',purchaseData,id);
         updateData(purchaseData);
         navigate('/customerreceipt');
@@ -840,7 +836,7 @@ const InvoicePurchaseOfBrought = () => {
     
                 if (totalSalesSlipData.length != 0 && totalSalesSlipData != null) {
                     itemsSave();
-                    const purchaseData = {id,deadline, numberOfInvoice, totalSalesSlipData ,stampData};
+                    const purchaseData = {customerID, numberOfInvoice, totalSalesSlipData ,stampData};
                     console.log('send purchase data', purchaseData, id);
                     updateData(purchaseData);// to sign page using redux
                     navigate('/purchaseinvoiceforbroughtinitems');
@@ -1352,35 +1348,27 @@ const InvoicePurchaseOfBrought = () => {
                     <div className='flex w-full'>
                         <div className='w-full mt-10 '>
                             <div className='invoice-purchase-brought flex justify-between'>
-                                <div className='flex justify-center'>
-                                    <div className='flex'>
-                                        <label className="text-[#70685a] text-[15px] text-left mr-5 nowrap">期限</label>
-                                        <div className='flex'>
-                                            <div style={{ flexDirection: 'column', }} className='flex align-center justify-around'>
-                                                <input name="deadlinevalue" type="text" value={deadline || ''} required className="w-40 h-8 text-[#6e6e7c] border border-[#6e6e7c] text-[20px] px-4 py-1 outline-[#70685a]" readOnly />
-                                            </div>
-                                            <div style={{ flexDirection: 'column', }} className='flex flex-col justify-center pl-3'>
-                                                <div style={{ width: '40px', height: '30px', cursor: 'pointer' }}>
-                                                    <div style={{ position: 'relative' }}>
-                                                        <img src={dateimage} style={{ width: '40px', height: '30px', position: 'absolute', cursor: 'pointer' }} alt='calendar'></img>
-                                                        <input type="date" name="deadline" onChange={handleDateChange} style={{ position: 'absolute', left: '0', width: '40px', height: '30px', background: 'transparent', border: 'none', opacity: '0', cursor: 'pointer' }} />
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <label className="text-[#70685a] flex flex-col justify-center font-bold text-left ml-5">で</label>
-                                    </div>
-                                </div>
                                 <div className='invoice-purchase-brought-buttons w-[50%] flex justify-around pr-10'>
                                     <ButtonComponent onClick={sendPurchaseDataToReceipt} children="預り証発行" className='w-max h-11 !px-5 bg-[transparent] !text-[#e87a00]' style={{ border: '1px solid #e87a00' }} />
                                     <ButtonComponent onClick={openItemsImageModal} children="全体撮影" className='w-max h-11 !px-5 bg-[transparent] !text-[#e87a00]' style={{ border: '1px solid #e87a00' }} />
                                     <ButtonComponent onClick={openItemsDocModal} children="紙書類撮影" className='w-max h-11 !px-5 bg-[transparent] !text-[#e87a00]' style={{ border: '1px solid #e87a00' }} />
                                 </div>
-                                <div className='invoice-purchase-brought-buttons w-[50%] ml-5 flex justify-between'>
+                                <div className='invoice-purchase-brought-buttons w-[25%] ml-5 flex justify-between'>
                                     <ButtonComponent children="許可申請" className='w-max h-11 !px-5' style={{ color: 'white', }} />
+                                    <div className='flex justify-center'>
+                                        <button type="button" onClick={sendPurchaseData}
+                                            className="mr-10  py-1 min-w-[160px] text-[#e87a00] text-[20px] rounded-full tracking-wider font-bold outline-none border border-[2px] border-[#e87a00] ">お客様へ提示</button>
+                                    </div>
+                                </div>
+                                <div className='invoice-purchase-brought-buttons w-[25%] ml-5 flex justify-between'>  
                                     {role === '2' &&
                                         <button onClick={purchasePermission} className='w-max text-xl text-white rounded-md bg-[#9bd195] h-11 !px-5 hover:bg-green-600 hover:text-white transition-all duration-300' >
-                                            全て決済を許可
+                                            全て決裁を許可
+                                        </button>
+                                    }
+                                    {totalSalesSlipData?.length > 0 && totalSalesSlipData[0].product_status !== '査定中' && totalSalesSlipData[0].product_status !== 'お預かり' &&
+                                        <button className='w-max text-xl text-[red] rounded-md border border-[red] h-11 !px-5 hover:bg-green-600 hover:text-white transition-all duration-300' >
+                                            許可済
                                         </button>
                                     }
                                     <div>
@@ -2147,10 +2135,7 @@ const InvoicePurchaseOfBrought = () => {
                             </button>
                         </div>
                     </div>
-                    <div className='flex justify-center pt-10'>
-                        <button type="button" onClick={sendPurchaseData}
-                            className="mr-10  py-1 min-w-[160px] text-[#e87a00] text-[20px] rounded-full tracking-wider font-bold outline-none border border-[2px] border-[#e87a00] ">お客様へ提示</button>
-                    </div>
+
                 </div>
             </div>
         </div>

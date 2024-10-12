@@ -58,9 +58,13 @@ export default function Header() {
   };
   const [userData, setUserData] = useState([]);
   const userId = localStorage.getItem('userId');
-  if (!userId) {
-    navigate('/');
-  }
+  
+  useEffect(() => {
+    if (!userId) {
+      navigate('/');
+    }
+  }, [userId]);
+
   useEffect(() => {
 
     const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
@@ -82,22 +86,35 @@ export default function Header() {
       });
   }, [userId]);
   const formattedDate = formatDate(date);
+//------------------------------auto log out function----------------------------------
+  const clearStorage = () => {
+    localStorage.clear();
+  };
+  const now = new Date();
+  const options = { timeZone: 'Asia/Tokyo', hour: '2-digit', minute: '2-digit', second: '2-digit' };
+  const jstDate = new Intl.DateTimeFormat('en-US', options).format(now);
+  const [hours, minutes, seconds] = jstDate.split(':').map(Number);
+  const midnightJST = new Date();
+  midnightJST.setHours(24, 0, 0, 0); // Set to midnight
+  midnightJST.setMinutes(midnightJST.getMinutes() - 1); 
 
-  //go to admin top
+  // Calculate the time until that moment
+  const timeUntilOneMinuteBeforeMidnight = midnightJST - now;
+  if (timeUntilOneMinuteBeforeMidnight < 0) {
+    midnightJST.setDate(midnightJST.getDate() + 1); 
+  }
+  setTimeout(clearStorage, midnightJST - now);
+//----------------------go to admin top----------------------------
   const gotoAdminTop = () => {
     if(userData.role_flag==4){
-      navigate('/admin/ownerstop');
+      navigate('/admin/managementSettingSuperAdministratorTOP');
     }
     if(userData.role_flag==3){
       navigate('/admin/managementheadquaterstop');
     }
     
     if(userData.role_flag==2){
-      navigate('/admin/managementSettingSuperAdministratorTOP');
-    }
-    
-    if(userData.role_flag==1){
-      // navigate('/admin/managementheadquaterstop');
+      navigate('/admin/ownerstop');
     }
   }
 

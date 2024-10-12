@@ -37,7 +37,7 @@ const CustomerReceipt = () => {
     const navigate = useNavigate();
     const data = useSelector(state => state.data);
     const purchaseData = data.data;
-    const customerId = purchaseData.childData;
+    const customerId = purchaseData.customerID;
     console.log('purchase data',purchaseData)
 
 
@@ -49,17 +49,18 @@ const CustomerReceipt = () => {
 
     useEffect(() => {
         // console.log('redux data', customerId)
-        if(customerId !== '' && customerId !==null){
+    const fetchCustomer = async() => {
+        if(customerId !== ''){
             const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
             if (!wakabaBaseUrl) {
                 throw new Error('API base URL is not defined');
             }
             console.log('received data',purchaseData)
             // console.log(`${wakabaBaseUrl}/customer/getCustomerById`);
-            axios.get(`${wakabaBaseUrl}/customer/getCustomerById/${customerId}`)
+            await axios.get(`${wakabaBaseUrl}/customer/getCustomerById/${customerId}`)
                 .then(response => {
                     setCustomer(response.data);
-                    // console.log('customerdata',response.data);
+                    console.log('customerdata',response.data);
                 })
                 .catch(error => {
                     console.error("There was an error fetching the customer data!", error);
@@ -67,7 +68,10 @@ const CustomerReceipt = () => {
         } else {
             navigate('/salesslip');
         }
-    }, []);
+    }
+    fetchCustomer();
+
+}, [customerId]);
 
 
     const [totalQuantity, setTotalQuantity] = useState('');
@@ -157,6 +161,7 @@ const CustomerReceipt = () => {
             const ids = purchaseData.totalSalesSlipData.map(obj => obj.id);
             console.log('ids',ids,customerId,userId,userStoreName)
             await axios.post(`${wakabaBaseUrl}/purchaseinvoice/customerreceiptpermit`, {ids:ids})
+
                 .then(response => {
 
                     navigate(`/invoiceforpurchaseofbrought/${customerId}`);
@@ -173,18 +178,23 @@ const CustomerReceipt = () => {
         const closeStoreSuccess = () => {
             setStoreSuccess(false);
         }
+     //---------------RETURN FUNCTION----------------------------------
+     const returnFunction = () => {
+        navigate(`/invoiceforpurchaseofbrought/${customerId}`);
+     }  
+
     return (
         <>
             {/* <Titlebar title={title} /> */}
             <div id='purchaserecipt' className=" flex flex-col items-center justify-center py-3 px-4">
                 <div className="w-full " style={{ maxWidth: '90em' }}>
-                    <div className='customer-receipt flex justify-around mt-5 '>
-                        <div className='flex mt-5' style={{ visibility: 'hidden' }}>
-                            <button type="button"
-                                className="mr-10  py-1 min-w-[160px] text-[#70685a] rounded-full tracking-wider font-bold outline-none border border-[#70685a] ">Purple</button>
+                    <div className='customer-receipt flex justify-around'>
+                        <div className='flex justify-center '>
+                            <button type="button" onClick={returnFunction}
+                                className="py-1 min-w-[160px] text-[#70685a] rounded-full tracking-wider font-bold outline-none border border-[#70685a] hover:bg-[#524c3b] hover:text-white transition-all duration-300">戻る</button>
                         </div>
-                        <h2 className="mt-5 text-[#70685a] text-center text-2xl font-bold flex justify-center">お客様   預かり証   印 刷確認画面</h2>
-                        <div className='flex justify-center mt-5'>
+                        <h2 className="mt-2 text-[#70685a] text-center text-2xl font-bold flex justify-center">お客様   預かり証   印 刷確認画面</h2>
+                        <div className='flex justify-center'>
                             <ButtonComponent onClick={clickConfirm} children={'印刷'} className='h-11 py-2' />
                         </div>
                     </div>
@@ -203,7 +213,7 @@ const CustomerReceipt = () => {
                                         <div>お名前</div>
                                     </div>
                                     <div className='ml-5 text-left'>
-                                        <div>{customer.full_name}</div>
+                                        <div>{customer.full_name || ''}</div>
                                     </div>
                                 </div>
                             </div>
@@ -215,7 +225,7 @@ const CustomerReceipt = () => {
                                         <div>お電話番号</div>
                                     </div>
                                     <div className='ml-5 text-left'>
-                                        <div>{customer.phone_number}</div>
+                                        <div>{customer.phone_number || ''}</div>
                                     </div>
                                 </div>
                             </div>
@@ -233,7 +243,7 @@ const CustomerReceipt = () => {
                                         <div>店舗名</div>
                                     </div>
                                     <div className='ml-5 text-left'>
-                                        <div>{purchaseData.totalSalesSlipData?.lenght >0 && purchaseData.totalSalesSlipData[0].store_name || 'OOO'}</div>
+                                        <div>{purchaseData.totalSalesSlipData?.length >0 && purchaseData.totalSalesSlipData[0].store_name || 'OOO'}</div>
                                     </div>
                                 </div>
                             </div>
@@ -243,7 +253,7 @@ const CustomerReceipt = () => {
                                         <div>担当</div>
                                     </div>
                                     <div className='ml-5 text-left'>
-                                        <div>OOOO</div>
+                                        <div>{purchaseData.totalSalesSlipData?.length >0 && purchaseData.totalSalesSlipData[0].purchase_staff || 'OOO'}</div>
                                     </div>
                                 </div>
                             </div>
