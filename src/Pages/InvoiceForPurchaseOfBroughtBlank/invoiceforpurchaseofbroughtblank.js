@@ -74,8 +74,26 @@ const InvoicePurchaseOfBroughtBlank = () => {
 
     const userStoreName = localStorage.getItem('storename');
     const userId = localStorage.getItem('userId');
+    const username = localStorage.getItem('username');
     const role = localStorage.getItem('role');
 
+    const [users, setUsers] = useState([]);
+    // Fetch user data
+    useEffect(() => {
+        const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+        if (!wakabaBaseUrl) {
+            throw new Error('API base URL is not defined');
+        }
+
+        axios.post(`${wakabaBaseUrl}/user/getStoreProfileList`,{storeName:userStoreName})
+            .then(response => {
+                const data = response.data;
+                setUsers(data);
+            })
+            .catch(error => {
+                console.error("There was an error fetching the customer data!", error);
+            });
+    }, []);
 
     const navigate = useNavigate();
 
@@ -184,6 +202,76 @@ const InvoicePurchaseOfBroughtBlank = () => {
     });
     //total data:
     const [totalSalesSlipData, setTotalSalesSlipData] = useState([]);
+
+    const [staffData,setStaffData] = useState({
+        purchase_staff:userData.fullname,
+        payment_staff:'',
+    });
+    //select pruchase staff name and payment staff name
+    useEffect(() => {
+        if(totalSalesSlipData?.length>0) {
+            setStaffData({
+                purchase_staff:totalSalesSlipData[0].purchase_staff,
+                payment_staff:totalSalesSlipData[0].payment_staff,
+            });
+        } else {
+            setStaffData({
+                purchase_staff:userData.fullname
+            });
+        }
+    }, [totalSalesSlipData]);
+    const handleStaffChange = (e) => {
+        const { name, value } = e.target;
+        setStaffData((prevData) => ({
+            ...prevData,
+            [name]: value,
+        }));
+        updateStaffData(name,value);
+    };
+    // update staff data
+    const updateStaffData = async(name,value) => {
+        if(totalSalesSlipData?.length>0 && name === 'purchase_staff') {
+            console.log('name,value',name,value)
+            const updatedData = totalSalesSlipData.map(data => ({
+                ...data,
+                purchase_staff: value // Replace with your desired value or logic
+            }));
+
+            const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+            if (!wakabaBaseUrl) {
+                throw new Error('API base URL is not defined');
+            }
+            await axios.post(`${wakabaBaseUrl}/purchaseinvoice/changePurchasePaymentStaff`, {payload:updatedData})
+            .then(response => {
+                setTotalSalesSlipData(response.data);
+            })
+            .catch(error => {
+                console.error("There was an error fetching the customer data!", error);
+            });
+            //   setTotalSalesSlipData(updatedData);
+
+        }
+        if(totalSalesSlipData?.length>0 && name === 'payment_staff') {
+            console.log('name,value',name,value)
+            const updatedData = totalSalesSlipData.map(data => ({
+                ...data,
+                payment_staff: value // Replace with your desired value or logic
+            }));
+
+            const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+            if (!wakabaBaseUrl) {
+                throw new Error('API base URL is not defined');
+            }
+            await axios.post(`${wakabaBaseUrl}/purchaseinvoice/changePurchasePaymentStaff`, {payload:updatedData})
+            .then(response => {
+                setTotalSalesSlipData(response.data);
+            })
+            .catch(error => {
+                console.error("There was an error fetching the customer data!", error);
+            });
+            //setTotalSalesSlipData(updatedData);
+        }
+    }
     // calculate the invoice number
     const [invoiceNumber,setInvoiceNumber] = useState('0');
     useEffect(() => {
@@ -357,6 +445,7 @@ const InvoicePurchaseOfBroughtBlank = () => {
             formData.append('trading_date', salesSlipData.trading_date);
             formData.append('number', salesSlipData.number);
             formData.append('purchase_staff', salesSlipData.purchase_staff);
+            formData.append('payment_staff', staffData.payment_staff);
             formData.append('purchase_staff_id', salesSlipData.purchase_staff_id);
             formData.append('customer_id', salesSlipData.customer_id);
             formData.append('store_name', salesSlipData.store_name);
@@ -507,6 +596,7 @@ const InvoicePurchaseOfBroughtBlank = () => {
             formData.append('trading_date', salesSlipData.trading_date);
             formData.append('number', salesSlipData.number);
             formData.append('purchase_staff', salesSlipData.purchase_staff);
+            formData.append('payment_staff', staffData.payment_staff);
             formData.append('purchase_staff_id', salesSlipData.purchase_staff_id);
             formData.append('customer_id', salesSlipData.customer_id);
             formData.append('store_name', salesSlipData.store_name);
@@ -1257,9 +1347,9 @@ const onCloseSuccess = () => {
         {/* <Titlebar title={title} /> */}
         <div className="bg-[trasparent] font-[sans-serif] w-full">
             <div className='flex justify-center w-full'>
-                <div className="w-full pt-3">
+                <div className="w-full">
                     <DateAndTime />
-                    <div className="w-full pt-3 flex justify-between" >
+                    <div className="w-full flex justify-between" >
                         {/* new */}
                         <div style={{ width: '25%', }} className='flex align-center justify-center'>
                             <div className='flex flex-col justify-center'>
@@ -1278,17 +1368,17 @@ const onCloseSuccess = () => {
                         </div>
 
                     </div>
-                    <div className='flex w-full'>
-                        <div className='w-full mt-10 '>
+                    <div className='flex w-full mt-2'>
+                        <div className='w-full'>
                             <div className='invoice-purchase-brought flex justify-between'>
                                 <div className='invoice-purchase-brought-buttons w-[50%] flex justify-around pr-10'>
-                                    <ButtonComponent onClick={sendPurchaseDataToReceipt} children="預り証発行" className='w-max h-11 !px-5' style={{ border: '1px solid #e87a00', backgroundColor: 'transparent', color: '#e87a00' }} />
+                                    <ButtonComponent onClick={sendPurchaseDataToReceipt} children="預り証発行済" className='w-max h-11 !px-5' style={{ border: '1px solid #7fe374', backgroundColor: 'transparent', color: '#7fe374' }} />
                                     <ButtonComponent onClick={openItemsImageModal} children="全体撮影" className='w-max h-11 !px-5' style={{ border: '1px solid #e87a00', backgroundColor: 'transparent', color: '#e87a00' }} />
                                     <ButtonComponent onClick={openItemsDocModal} children="紙書類撮影" className='w-max h-11 !px-5' style={{ border: '1px solid #e87a00', backgroundColor: 'transparent', color: '#e87a00' }} />
                                 </div>
                                 <div className='invoice-purchase-brought-buttons w-[25%] ml-5 flex justify-between'>
                                     <ButtonComponent children="許可申請" className='w-max h-11 !px-5' style={{ color: 'white', }} />
-                                    <div className='flex justify-center pt-10'>
+                                    <div className='flex justify-center'>
                                         <button type="button" onClick={sendPurchaseData}
                                             className="mr-10  py-1 min-w-[160px] text-[#e87a00] text-[20px] rounded-full tracking-wider font-bold outline-none border border-[2px] border-[#e87a00] ">お客様へ提示</button>
                                     </div>
@@ -1305,8 +1395,24 @@ const onCloseSuccess = () => {
                                         </button>
                                     }
                                     <div>
-                                        <label className="text-[#70685a] font-bold mb-2 block text-right  !mb-0">支払担当 OOOO</label>
-                                        <label className="text-[#70685a] font-bold mb-2 block text-right  !mb-0">接客担当 OOOO</label>
+                                        <div className='flex'>
+                                            <label className="text-[#70685a] font-bold mb-2 block text-right pt-1 mr-3  !mb-0">接客担当</label>
+                                            <select name="purchase_staff" value={staffData.purchase_staff || username } onChange={handleStaffChange} className="w-40 h-8 text-[#70685a] font-bold border border-[#70685a] px-4 py-1 outline-[#70685a]">
+                                                <option value=""></option>
+                                                {users?.length >0 && users.map((user) => (
+                                                    <option key={user.fullname} value={user.fullname}>{user.fullname}</option>
+                                                ))}
+                                            </select>
+                                        </div>
+                                        <div className='flex mt-2'>
+                                            <label className="text-[#70685a] font-bold mb-2 block text-right mr-3 pt-1 !mb-0">支払担当</label>
+                                            <select name="payment_staff" value={staffData.payment_staff || ''} onChange={handleStaffChange} className="w-40 h-8 text-[#70685a] font-bold border border-[#70685a] px-4 py-1 outline-[#70685a]">
+                                                <option value=""></option>
+                                                {users?.length >0 && users.map((user) => (
+                                                    <option key={user.fullname} value={user.fullname}>{user.fullname}</option>
+                                                ))}
+                                            </select>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -1315,7 +1421,7 @@ const onCloseSuccess = () => {
                 </div>
             </div>
             <div className="w-full invoice-purchase-brought flex justify-center">
-                <div className="w-full flex justify-center mt-5" >
+                <div className="w-full flex justify-center mt-2" >
                     <div className=" pr-5">
                         <CustomerRegister id={childData} />
                     </div>
@@ -1327,7 +1433,7 @@ const onCloseSuccess = () => {
                         <div className='w-full flex justify-center'>
                             <div className=" h-full w-full">
                                 {/* Text area */}
-                                <div className="border border-[#70685a] rounded px-3 w-full" style={{ height: '300px', overflowX: 'scroll', overflowY: 'scroll' }}>
+                                <div className="px-3 w-full max-h-[300px] overflow-y-[300px]">
                                     <label className="text-[#70685a] text-[20px] font-bold mb-2 block text-left mr-10 py-1 !mb-0">過去の来店履歴</label>
                                     <div style={{ width: '100%', overflow: 'auto' }} >
                                         <table className='text-center w-full' style={Table}>
@@ -1363,24 +1469,23 @@ const onCloseSuccess = () => {
                         </div>
                         {/* textarea Second*/}
                         <div className='w-full flex justify-center'>
-                            <div className=" h-full w-full mt-10">
+                            <div className=" h-full w-full mt-2">
                                 {/* Text area */}
                                 <div className='w-full flex justify-center'>
-                                    <div className=" h-full w-full mt-10">
+                                    <div className=" h-full w-full">
                                         {/* Text area */}
-                                        <div className="border border-[#70685a] rounded px-3 w-full" style={{ height: '315px', overflow: 'auto' }}>
-                                            <div className='w-full flex justify-between mt-5'>
-                                                <label className="text-[#70685a] text-[20px] font-bold mb-2 block text-left mr-10 py-1 !mb-0">全体ヒアリング</label>
-                                                <button type="button" onClick={openCreateCheckModal}
-                                                    className="flex px-5 py-1 rounded-lg text-md tracking-wider font-bold border border-[#70685a] outline-none bg-transparent text-[#70685a] transition-all duration-300">
-                                                    <div className='w-7'>
-                                                        {/* <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium  MuiSvgIcon-root MuiSvgIcon-fontSizeLarge  css-1hkft75" fill='#524c3b' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="AddCircleOutlineOutlinedIcon" title="AddCircleOutlineOutlined"><path d="M13 7h-2v4H7v2h4v4h2v-4h4v-2h-4zm-1-5C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8"></path></svg> */}
-                                                        <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1rqipl4" fill='#524c3b' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="DoneOutlineOutlinedIcon" title="DoneOutlineOutlined"><path d="m19.77 4.93 1.4 1.4L8.43 19.07l-5.6-5.6 1.4-1.4 4.2 4.2zm0-2.83L8.43 13.44l-4.2-4.2L0 13.47l8.43 8.43L24 6.33z"></path></svg>
-                                                    </div>
-                                                    <div><span className='pl-1 text-[20px]'>保存</span></div>
-                                                </button>
-                                            </div>
-
+                                        <div className='w-full flex justify-between mt-5'>
+                                            <label className="text-[#70685a] text-[20px] font-bold mb-2 block text-left mr-10 py-1 !mb-0">全体ヒアリング</label>
+                                            <button type="button" onClick={openCreateCheckModal}
+                                                className="flex px-5 py-1 rounded-lg text-md tracking-wider font-bold border border-[#70685a] outline-none bg-transparent text-[#70685a] transition-all duration-300">
+                                                <div className='w-7'>
+                                                    {/* <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium  MuiSvgIcon-root MuiSvgIcon-fontSizeLarge  css-1hkft75" fill='#524c3b' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="AddCircleOutlineOutlinedIcon" title="AddCircleOutlineOutlined"><path d="M13 7h-2v4H7v2h4v4h2v-4h4v-2h-4zm-1-5C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8"></path></svg> */}
+                                                    <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1rqipl4" fill='#524c3b' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="DoneOutlineOutlinedIcon" title="DoneOutlineOutlined"><path d="m19.77 4.93 1.4 1.4L8.43 19.07l-5.6-5.6 1.4-1.4 4.2 4.2zm0-2.83L8.43 13.44l-4.2-4.2L0 13.47l8.43 8.43L24 6.33z"></path></svg>
+                                                </div>
+                                                <div><span className='pl-1 text-[20px]'>保存</span></div>
+                                            </button>
+                                        </div>
+                                        <div className="w-full max-h-[500px] overflow-y-scroll">
                                             <div>
                                                 <div className='flex'>
                                                     <label className="text-[#70685a] text-[18px] mb-2 block text-left mr-10 py-1">項目1</label>
@@ -1550,7 +1655,7 @@ const onCloseSuccess = () => {
                     </div>
                 </div>
             </div>
-            <div className='w-full flex justify-between mt-3'>
+            <div className='w-full flex justify-between mt-1'>
                 <div>
                     {childData !== '0' ? 
                         <button type="button" onClick={gotoStampsPurchase}
@@ -1569,7 +1674,7 @@ const onCloseSuccess = () => {
                 </button>
             </div>
             {/* table */}
-            <div className="flex justify-center mt-5">
+            <div className="flex justify-center mt-1">
                 <div className='' style={{ width: '100%', overflow: 'auto' }}>
                     <table className='text-center w-full' style={Table}>
                         <thead className='sticky top-0 bg-white z-10 h-11'>
@@ -1894,7 +1999,7 @@ const onCloseSuccess = () => {
 
                         </table>
                         : ''}
-                    <div className='flex justify-center gap-10 mt-5'>
+                    <div className='flex justify-center gap-10 mt-2'>
                         {editIndex === -1 ? (
                             <div className='flex justify-center mb-3' >
                                 {childData !== '0' ? 
@@ -1930,14 +2035,14 @@ const onCloseSuccess = () => {
                     </div>
                 </div>
             </div>
-            <div className='flex justify-between'>
-                <label className="text-[#70685a] font-bold mb-2 block text-left !mb-0" style={{ visibility: 'hidden' }}>Total purchase price 999,999,999 yen</label>
+            <div className='flex justify-end gap-10'>
+                {/* <label className="text-[#70685a] font-bold mb-2 block text-left !mb-0" style={{ visibility: 'hidden' }}>Total purchase price 999,999,999 yen</label> */}
                 <label className="text-[#70685a] font-bold mb-2 block text-left !mb-0">買取点数&nbsp;{totalQuantity || ''}点</label>
                 <label className="text-[#70685a] font-bold mb-2 block text-left !mb-0">買取合計&nbsp;&nbsp;{totalPrice || ''}円</label>
             </div>
             {/* result */}
             <div className="flex justify-center">
-                <div className='w-full pt-3 pb-20' style={{ maxWidth: '80em' }}>
+                <div className='w-full pb-20' style={{ maxWidth: '80em' }}>
                     <div className='flex flex-col justify-center pt-3 w-full'>
                         <div className='invoice-purchase-brought flex justify-center pt-3 '>
                             <div className='invoice-purchase-brought-one flex justify-center w-[50%]'>

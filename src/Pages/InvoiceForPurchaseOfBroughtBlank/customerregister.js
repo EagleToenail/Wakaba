@@ -46,6 +46,7 @@ const CustomerUpdateForPurchase = ({ id }) => {
         trigger: '',
         brand_type:'',
         shop: '',
+        special_note: '',
 
     });
 
@@ -176,6 +177,7 @@ const CustomerUpdateForPurchase = ({ id }) => {
         formDataObj.append('city', customer.city);
         formDataObj.append('address', customer.address);
         formDataObj.append('brand_type', customer.brand_type);
+        formDataObj.append('special_note', customer.special_note);
 
         if (avatarimageFile) formDataObj.append('avatarimage', avatarimageFile);
         if (idcardFile) formDataObj.append('idcard', idcardFile);
@@ -441,6 +443,15 @@ const CustomerUpdateForPurchase = ({ id }) => {
                                 </div>
                                 <div style={{ width: '75%', flexDirection: 'column', }} className='flex align-center justify-around'>
                                     <input name="address" type="text" value={customer.address || ''} onChange={handleCustomerChange} required className="w-full text-[#70685a] border border-[#70685a] px-4 py-2 outline-[#70685a]" />
+                                </div>
+                            </div>
+                            {/* new */}
+                            <div className='flex'>
+                                <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
+                                    <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">特記事項</label>
+                                </div>
+                                <div style={{ width: '75%', flexDirection: 'column', }} className='flex align-center justify-around'>
+                                    <input name="special_note" type="text" value={customer.special_note || ''} onChange={handleCustomerChange} required className="w-full text-[#70685a] border border-[#70685a] px-4 py-2 outline-[#70685a]" />
                                 </div>
                             </div>
 

@@ -299,6 +299,19 @@ const fetchInvoiceHistoryData = async () => {
     //total data:
     const [totalSalesSlipData, setTotalSalesSlipData] = useState([]);
 
+    const [staffData,setStaffData] = useState({
+        purchase_staff:userData.fullname,
+        payment_staff:'',
+    });
+    //select pruchase staff name and payment staff name
+    useEffect(() => {
+        if(totalSalesSlipData?.length>0) {
+            setStaffData({
+                purchase_staff:totalSalesSlipData[0].purchase_staff,
+                payment_staff:totalSalesSlipData[0].payment_staff,
+            });
+        }
+    }, [totalSalesSlipData]);
     // calculate the invoice number
     const [invoiceNumber,setInvoiceNumber] = useState('0');
     useEffect(() => {
@@ -1312,9 +1325,9 @@ const fetchInvoiceHistoryData = async () => {
         {/* <Titlebar title={title} /> */}
         <div className="bg-[trasparent] font-[sans-serif] w-full">
             <div className='flex justify-center w-full'>
-                <div className="w-full pt-3">
+                <div className="w-full">
                     <DateAndTime />
-                    <div className="w-full pt-3 flex justify-between" >
+                    <div className="w-full flex justify-between" >
                         {/* new */}
                         <div style={{ width: '25%', }} className='flex align-center justify-center'>
                             <div className='flex flex-col justify-center'>
@@ -1334,7 +1347,7 @@ const fetchInvoiceHistoryData = async () => {
 
                     </div>
                     <div className='flex w-full'>
-                        <div className='w-full mt-10 '>
+                        <div className='w-full mt-2 '>
                             <div className='invoice-purchase-brought flex justify-between'>
                                 <div className='invoice-purchase-brought-buttons w-[50%] flex justify-around pr-10'>
                                     {/* <ButtonComponent onClick={sendPurchaseDataToReceipt} children="預り証発行" className='w-max h-11 !px-5 bg-[transparent] !text-[#e87a00]' style={{ border: '1px solid #e87a00' }} /> */}
@@ -1364,8 +1377,8 @@ const fetchInvoiceHistoryData = async () => {
                                         </button>
                                     }
                                     <div>
-                                        <label className="text-[#70685a] font-bold mb-2 block text-right  !mb-0">支払担当 OOOO</label>
-                                        <label className="text-[#70685a] font-bold mb-2 block text-right  !mb-0">接客担当 OOOO</label>
+                                        <label className="text-[#70685a] font-bold mb-2 block text-left  !mb-0">接客担当 <span className='ml-3 text-[17px]'>{staffData.purchase_staff ||''}</span></label>
+                                        <label className="text-[#70685a] font-bold mb-2 block text-left  !mb-0">支払担当 <span className='ml-3 text-[17px]'>{staffData.payment_staff ||'OOO'}</span></label>
                                     </div>
                                 </div>
                             </div>
@@ -1374,16 +1387,25 @@ const fetchInvoiceHistoryData = async () => {
                 </div>
             </div>
             <div className="invoice-purchase-brought flex  justify-center ">
-                <div className="w-full pt-3 flex justify-center" >
-                    <div className=" rounded-2xl">
-                        <form className=" space-y-3">
+                <div className="w-full flex justify-center" >
+                    <div className="w-full rounded-2xl">
+                        <form className=" space-y-1">
                             {/* new */}
-                            <div className='flex pt-2'>
+                            <div className='flex'>
+                                <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
+                                    <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">本人確認書類</label>
+                                </div>
+                                <div style={{ width: '75%', flexDirection: 'column', }} className='flex align-center justify-around'>
+                                    <label className="w-full text-[#70685a] text-[20px]  px-4 py-2 outline-[#70685a]">マイナンバーカ一ド</label>
+                                </div>
+                            </div>
+                            {/* new */}
+                            <div className='flex'>
                                 <div style={{ width: '25%', flexDirection: 'column', }} className='!mb-0 flex align-center justify-around'>
                                     <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">顧客番号</label>
                                 </div>
                                 <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <label className="text-[#70685a] text-[20px] font-bold mb-2 block text-right mr-10 py-2 !mb-0">{customer.id}</label>
+                                    <label className="text-[#70685a] text-[20px] font-bold mb-2 block text-left mr-10 py-2 !mb-0">{customer.id || ''}</label>
                                 </div>
                                 <div style={{ width: '20%', flexDirection: 'column', }} className='flex align-center justify-around'>
                                     <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-3 !mb-0">VIP</label>
@@ -1397,19 +1419,19 @@ const fetchInvoiceHistoryData = async () => {
                                     <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">お名前</label>
                                 </div>
                                 <div style={{ width: '30%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <label className="w-full text-[#70685a] text-[20px]  px-4 py-2 outline-[#70685a]">{customer.full_name}</label>
+                                    <label className="w-full text-[#70685a] text-[20px]  px-4 py-2 outline-[#70685a]">{customer.full_name || ''}</label>
                                 </div>
                                 <div style={{ width: '20%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-3 !mb-0">{customer.gender}</label>
+                                    <label className="text-[#70685a] font-bold mb-2 block text-left mr-10 py-3 !mb-0">{customer.gender || ''}</label>
                                 </div>
                             </div>
                             {/* new */}
                             <div className='flex'>
                                 <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">カタカナ名</label>
+                                    <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">カタカナ</label>
                                 </div>
                                 <div style={{ width: '75%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <label className="w-full text-[#70685a] text-[20px]  px-4 py-2 outline-[#70685a]">{customer.katakana_name}</label>
+                                    <label className="w-full text-[#70685a] text-[20px]  px-4 py-2 outline-[#70685a]">{customer.katakana_name || ''}</label>
                                 </div>
                             </div>
                             {/* new */}
@@ -1418,7 +1440,7 @@ const fetchInvoiceHistoryData = async () => {
                                     <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">お電話番号</label>
                                 </div>
                                 <div style={{ width: '75%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <label className="w-full text-[#70685a] text-[20px]  px-4 py-2 outline-[#70685a]">{customer.phone_number}</label>
+                                    <label className="w-full text-[#70685a] text-[20px]  px-4 py-2 outline-[#70685a]">{customer.phone_number || ''}</label>
                                 </div>
                             </div>
                             {/* new */}
@@ -1426,8 +1448,11 @@ const fetchInvoiceHistoryData = async () => {
                                 <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
                                     <label className="text-[#70685a] font-bold mb-2 block text-right mr-11 py-1 !mb-0">生年月日</label>
                                 </div>
-                                <div style={{ width: '50%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <label className="w-full text-[#70685a] text-[20px]  px-4 py-2 outline-[#70685a]">{customer.birthday}</label>
+                                <div style={{ width: '30%', flexDirection: 'column', }} className='flex align-center justify-around'>
+                                    <label className="w-full text-[#70685a] text-[20px]  px-4 py-2 outline-[#70685a]">{customer.birthday || ''}</label>
+                                </div>
+                                <div style={{ width: '30%', flexDirection: 'column', }} className='flex align-center justify-around'>
+                                    <label className="w-full text-[#70685a] text-[20px]  px-4 py-2 outline-[#70685a]">{customer.age || ''}才</label>
                                 </div>
                             </div>
                             {/* new */}
@@ -1436,7 +1461,7 @@ const fetchInvoiceHistoryData = async () => {
                                     <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">ご住所</label>
                                 </div>
                                 <div style={{ width: '75%', }} className='flex justify-end'>
-                                    <label className="w-full text-[#70685a] text-[20px]  px-4 py-2 outline-[#70685a]">{customer.address}</label>
+                                    <label className="w-full text-[#70685a] text-[20px]  px-4 py-2 outline-[#70685a]">{customer.address || ''}</label>
                                 </div>
                             </div>
                             {/* new */}
@@ -1445,7 +1470,7 @@ const fetchInvoiceHistoryData = async () => {
                                     <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">e-mail</label>
                                 </div>
                                 <div style={{ width: '75%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <label className="w-full text-[#70685a] text-[20px]  px-4 py-2 outline-[#70685a]">{customer.email}</label>
+                                    <label className="w-full text-[#70685a] text-[20px]  px-4 py-2 outline-[#70685a]">{customer.email || ''}</label>
                                 </div>
                             </div>
                             {/* new */}
@@ -1454,16 +1479,7 @@ const fetchInvoiceHistoryData = async () => {
                                     <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">ご職業</label>
                                 </div>
                                 <div style={{ width: '75%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <label className="w-full text-[#70685a] text-[20px]  px-4 py-2 outline-[#70685a]">{customer.job}</label>
-                                </div>
-                            </div>
-                            {/* new */}
-                            <div className='flex'>
-                                <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">本人確認書類</label>
-                                </div>
-                                <div style={{ width: '75%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <label className="w-full text-[#70685a] text-[20px]  px-4 py-2 outline-[#70685a]">マイナンバーカ一ド</label>
+                                    <label className="w-full text-[#70685a] text-[20px]  px-4 py-2 outline-[#70685a]">{customer.job || ''}</label>
                                 </div>
                             </div>
                             {/* new */}
@@ -1471,22 +1487,25 @@ const fetchInvoiceHistoryData = async () => {
                                 <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
                                     <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">特記事項</label>
                                 </div>
-                                <div style={{ width: '75%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <label className="w-full text-[#70685a] text-[20px]  px-4 py-2 outline-[#70685a]">盗品持ち込みの可能性があるため要注意</label>
+                                <div style={{ width: '75%', flexDirection: 'column', }} className='flex align-center justify-around relative group mx-auto'>
+                                    <label className="w-full text-[#70685a] text-[20px]  px-4 py-2 outline-[#70685a] ellipsis">盗品持ち込みの可能性があるため要注意</label>
+                                    <div class="absolute shadow-lg hidden group-hover:block bg-[#333] text-white font-semibold px-3 py-[6px] text-[13px] right-0 left-0 mx-auto w-max -bottom-10 rounded before:w-4 before:h-4 before:rotate-45 before:bg-[#333] before:absolute before:z-[-1] before:-top-1 before:left-0  before:right-0 before:mx-auto">
+                                        盗品持ち込みの可能性があるため要注意
+                                    </div>
                                 </div>
                             </div>
                         </form>
                     </div>
                 </div>
                 {/* textarea*/}
-                <div className="w-full h-full mt-9 flex justify-center">
+                <div className="w-full h-full flex justify-center">
                     <div className='w-full'>
                         {/* textarea First*/}
                         <div className='w-full flex justify-center'>
                             <div className=" h-full w-full">
                                 {/* Text area */}
-                                <div className="border border-[#70685a] rounded px-3 w-full" style={{ height: '300px', overflowX: 'scroll', overflowY: 'scroll' }}>
-                                    <label className="text-[#70685a] text-[20px] font-bold mb-2 block text-left mr-10 py-1 !mb-0">過去の来店履歴</label>
+                                <label className="text-[#70685a] text-[20px] font-bold mb-2 block text-left mr-10 py-1 !mb-0">過去の来店履歴</label>
+                                <div className="max-h-[200px] px-3 w-full overflow-y-scroll">    
                                     {customerPastVisitHistory.length !== 0 ?
                                         <div style={{ width: '100%', overflow: 'auto' }} >
                                             <table className='text-center w-full' style={Table}>
@@ -1549,10 +1568,10 @@ const fetchInvoiceHistoryData = async () => {
                         </div>
                         {/* Text area */}
                         <div className='w-full flex justify-center'>
-                            <div className=" h-full w-full mt-10">
+                            <div className=" h-full w-full mt-5">
                                 {/* Text area */}
-                                <div className="border border-[#70685a] rounded px-3 w-full" style={{ height: '315px', overflow: 'auto' }}>
-                                    <label className="text-[#70685a] text-[20px] font-bold mb-2 block text-left mr-10 py-1 !mb-0">全体ヒアリング</label>
+                                <label className="text-[#70685a] text-[20px] font-bold mb-2 block text-left mr-10 py-1 !mb-0">全体ヒアリング</label>
+                                <div className="px-3 w-full max-h-[200px] overflow-auto"> 
                                     <div>
                                         <div className='flex'>
                                             <label className="text-[#70685a] text-[18px] mb-2 block text-left mr-10 py-1">項目1</label>
@@ -1720,7 +1739,7 @@ const fetchInvoiceHistoryData = async () => {
                     </div>
                 </div>
             </div>
-            <div className='w-full flex justify-between mt-3'>
+            <div className='w-full flex justify-between mt-1'>
                 <div>
                     {/* <button type="button" onClick={gotoStampsPurchase}
                         className="px-5 py-2.5 rounded-lg text-sm tracking-wider font-bold border border-[#70685a] outline-none bg-transparent hover:bg-[#524c3b] text-[#70685a] hover:text-white transition-all duration-300">
@@ -1737,7 +1756,7 @@ const fetchInvoiceHistoryData = async () => {
                 </div>
             </div>
             {/* table */}
-            <div className="flex justify-center mt-2">
+            <div className="flex justify-center mt-1">
                 <div className='' style={{ width: '100%' }}>
                     <table className='text-center w-full' style={Table}>
                         <thead className='bg-white z-10 h-11'>
@@ -2060,8 +2079,8 @@ const fetchInvoiceHistoryData = async () => {
                     </div>
                 </div>
             </div>
-            <div className='flex justify-between mt-5'>
-                <label className="text-[#70685a] font-bold mb-2 block text-left !mb-0" style={{ visibility: 'hidden' }}>Total purchase price 999,999,999 yen</label>
+            <div className='flex justify-end gap-10 mt-5'>
+                {/* <label className="text-[#70685a] font-bold mb-2 block text-left !mb-0" style={{ visibility: 'hidden' }}>Total purchase price 999,999,999 yen</label> */}
                 <label className="text-[#70685a] font-bold mb-2 block text-left !mb-0">買取点数&nbsp;{totalQuantity || ''}点</label>
                 <label className="text-[#70685a] font-bold mb-2 block text-left !mb-0">買取合計&nbsp;&nbsp;{totalPrice || ''}円</label>
             </div>

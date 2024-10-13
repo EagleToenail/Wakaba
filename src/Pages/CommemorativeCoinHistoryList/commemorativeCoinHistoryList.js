@@ -10,6 +10,7 @@ import axios from 'axios';
 const CommemorativeCoinHistoryList = () => {
     // const title = 'タイトルタイトル';
     const navigate = useNavigate();
+    const userStoreName = localStorage.getItem('storename');
     const Table = {
         borderCollapse: 'collapse',
         color: '#70685a',
@@ -39,7 +40,7 @@ const CommemorativeCoinHistoryList = () => {
             throw new Error('API base URL is not defined');
         }
 
-        axios.get(`${wakabaBaseUrl}/user/getUserList`)
+        axios.post(`${wakabaBaseUrl}/user/getStoreProfileList`,{storeName:userStoreName})
             .then(response => {
                 const data = response.data;
                 setUsers(data);
@@ -204,7 +205,7 @@ const CommemorativeCoinHistoryList = () => {
                                 <select name="staff_name" value={searchParams.staff_name || ''} onChange={handleSearchChange} className="w-40 h-10 text-[#70685a] font-bold border border-[#70685a] px-4 py-1 outline-[#70685a]">
                                     <option value=""></option>
                                     {users?.length >0 && users.map((user) => (
-                                        <option key={user.id} value={user.username}>{user.username}</option>
+                                        <option key={user.user_id} value={user.fullname}>{user.fullname}</option>
                                     ))}
                                 </select>
                             </div>
@@ -264,14 +265,14 @@ const CommemorativeCoinHistoryList = () => {
                                     <tr>
                                         <th>ID</th>
                                         <th>ステータス </th>
-                                        <th width='10%'>両替担当</th>
+                                        <th>両替担当</th>
                                         <th>持ち込み先銀行名</th>
                                         <th>申請日</th>
                                         <th>両替日</th>
                                         <th>総額</th>
                                         <th>札合計</th>
                                         <th>硬化合計</th>
-                                        <th>両替依頼書</th>
+                                        <th width='5%'>両替依頼書</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -286,7 +287,7 @@ const CommemorativeCoinHistoryList = () => {
                                             <td style={Td}>{history.total_coin_values}</td>
                                             <td style={Td}>{history.total_bill_values}</td>
                                             <td style={Td}>{history.total_values}</td>
-                                            <td onClick={() => handleDetailClick(history.id)}>
+                                            <td className='w-max' onClick={() => handleDetailClick(history.id)}>
                                                 <div className='flex justify-center'>
                                                         <svg className="w-7 h-7" fill='#70685a' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="ContentCopyIcon" title="ContentCopy"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2m0 16H8V7h11z"></path></svg>
                                                 </div>

@@ -162,11 +162,11 @@ const SalesSlip = () => {
         <>
             {/* <Titlebar title={title} /> */}
             {/* first button line  */}
-            <div className="w-full flex flex-col items-center justify-center py-3 px-4">
+            <div className="w-full flex flex-col items-center justify-center px-4">
                 <div className="w-full flex justify-center">
                     <div className='w-full'>
                         <div className='sales-slip-top-button flex justify-center gap-10'>
-                            <div className='sales-slip-next-button1 flex mt-5 w-max'>
+                            <div className='sales-slip-next-button1 flex mt-2 w-max'>
                                 <div className='flex justify-center'>
                                     <div>
                                         <button onClick={handleSendCheckedValues} 
@@ -179,7 +179,7 @@ const SalesSlip = () => {
                                     </div>
                                 </div>
                             </div>
-                            <div className='sales-slip-next-button2 flex justify-between w-max mt-5'>
+                            <div className='sales-slip-next-button2 flex justify-between w-max mt-2'>
                                 <div className=''>
                                     <div className='flex justify-center'>
                                         <button onClick={sendToDisposalPermission} className='h-10  px-5 text-2xl font-bold rounded-md bg-[#9bd195] text-[white] hover:bg-[#524c3b] hover:text-white transition-all duration-300' >
@@ -192,7 +192,7 @@ const SalesSlip = () => {
                                 </div>
                                 <ButtonComponent children={'売上表'} className='!px-5 text-2xl ml-5 whitespace-nowrap' style={{ backgroundColor: '#424242', height: '40px' }} />
                             </div>
-                            <div className='sales-slip-next-button2 flex mt-5 w-max gap-5' >    
+                            <div className='sales-slip-next-button2 flex mt-2 w-max gap-5' >    
                                 <button className='h-10 px-5 text-2xl font-bold rounded-md border border-[#424242] bg-[transparent] text-[#424242] hover:bg-[#524c3b] hover:text-white transition-all duration-300 whitespace-nowrap' >
                                     <Link to='/vendorassessmentsheet'>業者査定シート</Link></button>
                                 <button onClick={handleYahooAuction} className='h-10 px-5 text-2xl font-bold rounded-md border border-[#424242] bg-[transparent] text-[#424242] hover:bg-[#524c3b] hover:text-white transition-all duration-300 whitespace-nowrap' 
@@ -203,9 +203,10 @@ const SalesSlip = () => {
                         </div>
 
                         {/* second selectbox line  */}
-                        <div className='w-full flex justify-center mt-5'>
+                        <div className='w-full flex justify-center mt-2'>
                             <select name="category1" value={category1} onChange={(e) => handleCategory1Change(e, product1s)} className='w-max h-11 text-[#70685a] font-bold border border-[#70685a] px-4 py-1 outline-[#70685a]' >
-                                <option value="" disabled>商品タイプ1</option>
+                                <option value="aaa" disabled>商品タイプ1</option>
+                                <option value="">すべて表示</option>
                                 {product1s.map((option, index) => (
                                     <option key={option.id} value={option.category || ''}>
                                         {option.category || ''}
@@ -215,7 +216,7 @@ const SalesSlip = () => {
                         </div>
                         
                         {/*  Tabe*/}
-                        <div className='mt-10 pb-20 w-full flex'>
+                        <div className='mt-3 pb-20 w-full flex'>
                             <div style={{ width: '100%', overflow: 'auto' }} >
                                 <table style={Table}>
                                     <thead className='sticky top-0 bg-white z-10'>
