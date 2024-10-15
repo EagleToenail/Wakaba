@@ -2171,7 +2171,7 @@ const InvoicePurchaseOfBrought = () => {
                     </div>
                 </div>
             </div>
-            <div className='flex justify-end gap-10 mt-2'>
+            <div className='flex justify-center gap-10 mt-2'>
                 {/* <label className="text-[#70685a] font-bold mb-2 block text-left !mb-0" style={{ visibility: 'hidden' }}>Total purchase price 999,999,999 yen</label> */}
                 <label className="text-[#70685a] font-bold mb-2 block text-left !mb-0">買取点数&nbsp;{totalQuantity || ''}点</label>
                 <label className="text-[#70685a] font-bold mb-2 block text-left !mb-0">買取合計&nbsp;&nbsp;{totalPrice || ''}円</label>

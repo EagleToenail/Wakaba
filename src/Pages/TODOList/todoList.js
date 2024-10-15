@@ -40,20 +40,23 @@ export default function TODOList() {
     const dropdownRef = useRef(null);
     // Fetch user data
     useEffect(() => {
-        const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
-        if (!wakabaBaseUrl) {
-            throw new Error('API base URL is not defined');
+        const fetchUser = async() => {
+            const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+            if (!wakabaBaseUrl) {
+                throw new Error('API base URL is not defined');
+            }
+    
+           await axios.get(`${wakabaBaseUrl}/user/getUserList`)
+                .then(response => {
+                    const data = response.data;
+                    setUsers(data);
+                    setFilteredOptions(data);
+                })
+                .catch(error => {
+                    console.error("There was an error fetching the customer data!", error);
+                });
         }
-
-        axios.get(`${wakabaBaseUrl}/user/getUserList`)
-            .then(response => {
-                const data = response.data;
-                setUsers(data);
-                setFilteredOptions(data);
-            })
-            .catch(error => {
-                console.error("There was an error fetching the customer data!", error);
-            });
+        fetchUser();
     }, []);
     // Filter the options based on the query
     useEffect(() => {

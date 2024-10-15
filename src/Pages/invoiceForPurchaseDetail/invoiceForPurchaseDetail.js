@@ -104,6 +104,7 @@ useEffect(() => {
                     const updatedData111 = invoiceData.map((data,Index) => ({
                         ...data,
                         estimate_wholesaler: JSON.parse(data.estimate_wholesaler),
+                        comment: JSON.parse(data.comment),
                     })); 
                     setTotalSalesSlipData(updatedData111);
                     setItemsImagePreview(`${wakabaBaseUrl}/uploads/product/${response.data[0].entire_items_url}`);
@@ -111,12 +112,11 @@ useEffect(() => {
                 
                     fetchCustomerPastVisitHistory(customerId);
                     fetchCustomerData(customerId);
-                
                 }
                 setShowInputPurchase(false);
             })
             .catch(error => {
-                console.error("There was an error fetching the customer data!", error);
+                console.error("There was an error fetching the invoice data!", error);
             });
     }
     fetchInvoiceData();
@@ -295,6 +295,20 @@ const fetchInvoiceHistoryData = async () => {
         purchase_price: '0',
 
         estimate_wholesaler:'',
+
+        gold_type:'',
+        gross_weight:'',
+        price_gram:'',
+        action_type:'',
+        movable:'',
+        tester:'',
+        model_number_one:'',
+        box_guarantee:'',
+        rank:'',
+        brand:'',
+        capacity:'',
+        percent:'',
+        notes:'',
     });
     //total data:
     const [totalSalesSlipData, setTotalSalesSlipData] = useState([]);
@@ -317,7 +331,7 @@ const fetchInvoiceHistoryData = async () => {
     useEffect(() => {
         if(totalSalesSlipData?.length >0) {
             setInvoiceNumber(totalSalesSlipData[0].id)
-            console.log('hhhhhhhhhhhh',totalSalesSlipData[0])
+            // console.log('hhh',totalSalesSlipData[0])
         }
     }, [totalSalesSlipData]);
 
@@ -376,21 +390,23 @@ const fetchInvoiceHistoryData = async () => {
     const [allVendors, setAllVendors] = useState([]);
 
     const getVendorList = async (id) => {
-        const fetchVendorList = async() =>{
-            const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
-            if (!wakabaBaseUrl) {
-                throw new Error('API base URL is not defined');
-            }
-            await axios.post(`${wakabaBaseUrl}/vendor/getVendorList`, { id: id })
-                .then(response => {
-                    setVendors(response.data);
-                    // console.log('vendrList',response.data)
-                })
-                .catch(error => {
-                    console.error("There was an error fetching the customer data!", error);
-                });
+        const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+        if (!wakabaBaseUrl) {
+            throw new Error('API base URL is not defined');
         }
-        fetchVendorList();
+        await axios.post(`${wakabaBaseUrl}/vendor/getVendorList`, { id: id })
+            .then(response => {
+                setVendors(response.data);
+                // setSalesSlipData({
+                //     ...salesSlipData,
+                //     product_type_one:selectCategory,
+                //     number_of_vendor: response.data.length-1, // Store the selected category
+                // });
+                // console.log('vendrList',response.data)
+            })
+            .catch(error => {
+                console.error("There was an error fetching the customer data!", error);
+            });
     }
 
     useEffect(() => {
@@ -614,6 +630,7 @@ const fetchInvoiceHistoryData = async () => {
         setEditIndex(index);
         setSalesSlipData(totalSalesSlipData[index]); // Populate the input fields with the selected row's data
         setEstimateValues(totalSalesSlipData[index].estimate_wholesaler);
+        console.log('l-------',totalSalesSlipData[index])
         if(totalSalesSlipData[index].product_type_one){
             const selectedResult = product1s.find(product => product.category === totalSalesSlipData[index].product_type_one);
             getVendorList(selectedResult.id);
@@ -628,7 +645,32 @@ const fetchInvoiceHistoryData = async () => {
         //     index === editIndex ? { ...row, ...salesSlipData } : row
         // );
         // setTotalSalesSlipData(updatedData);
+        console.log('sendSalesSlipData',salesSlipData)
 
+        let maxValue = -Infinity; // Start with the smallest possible value
+        let maxKey = ''; // To store the corresponding key
+      
+        Object.entries(estimateValues).forEach(([key, value]) => {
+          let currentValue;
+      
+          if (value.includes('~')) {
+            // If the value is a range, take the smaller number
+            const [minValue] = value.split('~').map(Number);
+            currentValue = minValue;
+          } else if (value) {
+            // Convert to number and use it if it's valid
+            currentValue = Number(value);
+          } else {
+            currentValue = -Infinity; // Non-valid value
+          }
+      
+          // Update maxValue and maxKey if currentValue is greater
+          if (currentValue > maxValue) {
+            maxValue = currentValue;
+            maxKey = key; // Update corresponding key
+          }
+        });
+        //  console.log('hightest',maxKey,maxValue)
             const formData = new FormData();
             formData.append('userStoreName', userStoreName);
             formData.append('id', salesSlipData.id);
@@ -648,12 +690,26 @@ const fetchInvoiceHistoryData = async () => {
             formData.append('reason_application', salesSlipData.reason_application);
             formData.append('interest_rate', salesSlipData.interest_rate);
             formData.append('product_price', salesSlipData.product_price);
-            formData.append('highest_estimate_vendor', salesSlipData.highest_estimate_vendor);
-            formData.append('highest_estimate_price', salesSlipData.highest_estimate_price);
+            formData.append('highest_estimate_vendor', maxKey);
+            formData.append('highest_estimate_price', maxValue);
             formData.append('number_of_vendor', salesSlipData.number_of_vendor);
             formData.append('supervisor_direction', salesSlipData.supervisor_direction);
             formData.append('purchase_result', salesSlipData.purchase_result);
             formData.append('purchase_price', salesSlipData.purchase_price);
+
+            formData.append('gold_type', salesSlipData.gold_type);
+            formData.append('gross_weight', salesSlipData.gross_weight);
+            formData.append('price_gram', salesSlipData.price_gram);
+            formData.append('action_type', salesSlipData.action_type);
+            formData.append('movable', salesSlipData.movable);
+            formData.append('tester', salesSlipData.tester);
+            formData.append('model_number_one', salesSlipData.model_number_one);
+            formData.append('box_guarantee', salesSlipData.box_guarantee);
+            formData.append('rank', salesSlipData.rank);
+            formData.append('brand', salesSlipData.brand);
+            formData.append('capacity', salesSlipData.capacity);
+            formData.append('percent', salesSlipData.percent);
+            formData.append('notes', salesSlipData.notes);
 
             formData.append('estimate_wholesaler', JSON.stringify(estimateValues));
 
@@ -703,6 +759,20 @@ const fetchInvoiceHistoryData = async () => {
                             purchase_result: '',
                             purchase_price: '0',
                             estimate_wholesaler:'',
+
+                            gold_type:'',
+                            gross_weight:'',
+                            price_gram:'',
+                            action_type:'',
+                            movable:'',
+                            tester:'',
+                            model_number_one:'',
+                            box_guarantee:'',
+                            rank:'',
+                            brand:'',
+                            capacity:'',
+                            percent:'',
+                            notes:'',
                         });
                         setEstimateValues({});
                         setEditIndex(-1); // Exit edit mode
@@ -750,6 +820,20 @@ const fetchInvoiceHistoryData = async () => {
             purchase_result: '',
             purchase_price: '0',
             estimate_wholesaler:'',
+
+            gold_type:'',
+            gross_weight:'',
+            price_gram:'',
+            action_type:'',
+            movable:'',
+            tester:'',
+            model_number_one:'',
+            box_guarantee:'',
+            rank:'',
+            brand:'',
+            capacity:'',
+            percent:'',
+            notes:'',
         });
         setVendors([]);
     };
@@ -797,6 +881,20 @@ const fetchInvoiceHistoryData = async () => {
                     purchase_result: '',
                     purchase_price: '0',
                     estimate_wholesaler:'',
+
+                    gold_type:'',
+                    gross_weight:'',
+                    price_gram:'',
+                    action_type:'',
+                    movable:'',
+                    tester:'',
+                    model_number_one:'',
+                    box_guarantee:'',
+                    rank:'',
+                    brand:'',
+                    capacity:'',
+                    percent:'',
+                    notes:'',
                 });
                 setEstimateValues({});
                 setEditIndex(-1); // Exit edit mode
@@ -953,17 +1051,27 @@ const fetchInvoiceHistoryData = async () => {
         calculateTotalGrossProfit();
     }, [customerPastVisitHistory]);
 
-    //---------product comment related content
+    //---------product comment related content--------------------
     const [selectedProduct, setSelectedProduct] = useState(null);
     const [showModal, setShowModal] = useState(false);
     const [editRow, setEditRow] = useState({ comment: '' });
-    const [modalValue, setModalValue] = useState('');
+    const [modalValue, setModalValue] = useState({
+        question1:'',
+        comment1:'',
+        question2:'',
+        comment2:'',
+        buyyear:'',
+        buymonth:'',
+        comment3:'',
+        question4:'',
+        comment4:'',
+    });
 
     const modalRef = useRef(null);
 
     const handleProductClick = (item) => {
         setSelectedProduct(item);
-        setModalValue(item);
+        // setModalValue(item);
         setShowModal(true);
         setEditRow(totalSalesSlipData[item]);
     };
@@ -972,9 +1080,13 @@ const fetchInvoiceHistoryData = async () => {
         setEditRow('');
     };
 
+    // const handleCommentChange = (e) => {
+    //     const { name, value } = e.target;
+    //     setEditRow({ ...editRow, [name]: value });
+    // };
     const handleCommentChange = (e) => {
         const { name, value } = e.target;
-        setEditRow({ ...editRow, [name]: value });
+        setModalValue({ ...modalValue, [name]: value });
     };
 
     const handleMouseOver = (item) => {
@@ -995,7 +1107,8 @@ const fetchInvoiceHistoryData = async () => {
         //     index === selectedProduct ? { ...row, ...editRow } : row
         // );
         // setTotalSalesSlipData(updatedData);
-        console.log('editRow',editRow)
+        const commentData = JSON.stringify(modalValue);
+        console.log('modalValue',commentData)
         try {
             const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
 
@@ -1004,7 +1117,7 @@ const fetchInvoiceHistoryData = async () => {
             }
             const payload = editRow;
             console.log('payload',payload)
-            await axios.post(`${wakabaBaseUrl}/purchaseinvoice/commentsave`, {payload:payload,userId:userId,userStoreName:userStoreName})
+            await axios.post(`${wakabaBaseUrl}/purchaseinvoice/commentsave`, {payload:payload,commentData:commentData,userId:userId,userStoreName:userStoreName})
             .then(response => {
                 fetchInvoiceHistoryData();
                 setSalesSlipData({
@@ -1037,6 +1150,20 @@ const fetchInvoiceHistoryData = async () => {
                     purchase_result: '',
                     purchase_price: '0',
                     estimate_wholesaler:'',
+
+                    gold_type:'',
+                    gross_weight:'',
+                    price_gram:'',
+                    action_type:'',
+                    movable:'',
+                    tester:'',
+                    model_number_one:'',
+                    box_guarantee:'',
+                    rank:'',
+                    brand:'',
+                    capacity:'',
+                    percent:'',
+                    notes:'',
                 });
                 setShowInputPurchase(false);
                 setEstimateValues({});
@@ -1320,6 +1447,32 @@ const fetchInvoiceHistoryData = async () => {
     const closePermissionSuccess = () => {
         setPermissionSuccess(false);
     }
+//----------------------------------show vendor assessment modal----------------------------------------
+    const [showEstimate, setShowEstimate] = useState(false);
+    const openEstimate = (index) => {
+        setShowEstimate(true);
+        
+        //setShowInputPurchase(!showInputPurchase);
+        // setEditIndex(index);
+        console.log('selectedtotalSalesData',totalSalesSlipData[index])
+        setSalesSlipData(totalSalesSlipData[index]); // Populate the input fields with the selected row's data
+        setEstimateValues(totalSalesSlipData[index].estimate_wholesaler);
+        if(totalSalesSlipData[index].product_type_one){
+            const selectedResult = product1s.find(product => product.category === totalSalesSlipData[index].product_type_one);
+            console.log('selectedResult',selectedResult)
+            getVendorList(selectedResult.id);
+        }
+            
+    }
+    const saveEstimate = () => {
+        setShowEstimate(false);
+        saveSalesItem();
+    }
+//-----------------------------------item detail---------------------------------------
+    const [isDetailShow ,setIsDetailShow] = useState(false);
+    const openItemDetailShow = () => {
+        setIsDetailShow(!isDetailShow)
+    }
 //--------------------------------------------------------------------------
     return (<>
         {/* <Titlebar title={title} /> */}
@@ -1358,21 +1511,21 @@ const fetchInvoiceHistoryData = async () => {
                                     {totalSalesSlipData?.length > 0 && totalSalesSlipData[0].product_status === 'お預かり' &&
                                         <ButtonComponent children="許可申請" className='w-max h-11 !px-5' style={{ color: 'white', }} />
                                     }
-                                    <div className='flex justify-center pt-10'>
+                                    <div className='flex justify-center'>
                                         {totalSalesSlipData?.length > 0 && totalSalesSlipData[0].product_status === '成約済' && 
                                             <button type="button" onClick={sendPurchaseData}
-                                                className="mr-10  py-1 min-w-[160px] text-[#e87a00] text-[20px] rounded-full tracking-wider font-bold outline-none border border-[2px] border-[#e87a00] ">お客様へ提示</button>
+                                                className="mr-10 h-11 min-w-[160px] text-[#e87a00] rounded-full tracking-wider font-bold outline-none border border-[2px] border-[#e87a00] ">お客様へ提示</button>
                                         }
                                     </div>
                                 </div>
                                 <div className='invoice-purchase-brought-buttons w-[25%] ml-5 flex justify-around'>
                                     {role === '2' && totalSalesSlipData?.length > 0 && totalSalesSlipData[0].product_status === 'お預かり' &&
-                                        <button onClick={purchasePermission} className='w-max text-xl text-white rounded-md bg-[#9bd195] h-11 !px-5 hover:bg-green-600 hover:text-white transition-all duration-300' >
+                                        <button onClick={purchasePermission} className='w-max text-white rounded-md bg-[#9bd195] h-11 !px-5 hover:bg-green-600 hover:text-white transition-all duration-300' >
                                             全て決裁を許可
                                         </button>
                                     }
                                     {totalSalesSlipData?.length > 0 && totalSalesSlipData[0].product_status !== '査定中' && totalSalesSlipData[0].product_status !== 'お預かり' &&
-                                        <button className='w-max text-xl text-[red] rounded-md border border-[red] h-11 !px-5 hover:bg-green-600 hover:text-white transition-all duration-300' >
+                                        <button className='w-max text-[red] rounded-md border border-[red] h-11 !px-5 hover:bg-green-600 hover:text-white transition-all duration-300' >
                                             許可済
                                         </button>
                                     }
@@ -1489,7 +1642,7 @@ const fetchInvoiceHistoryData = async () => {
                                 </div>
                                 <div style={{ width: '75%', flexDirection: 'column', }} className='flex align-center justify-around relative group mx-auto'>
                                     <label className="w-full text-[#70685a] text-[20px]  px-4 py-2 outline-[#70685a] ellipsis">盗品持ち込みの可能性があるため要注意</label>
-                                    <div class="absolute shadow-lg hidden group-hover:block bg-[#333] text-white font-semibold px-3 py-[6px] text-[13px] right-0 left-0 mx-auto w-max -bottom-10 rounded before:w-4 before:h-4 before:rotate-45 before:bg-[#333] before:absolute before:z-[-1] before:-top-1 before:left-0  before:right-0 before:mx-auto">
+                                    <div className="absolute shadow-lg hidden group-hover:block bg-[#333] text-white font-semibold px-3 py-[6px] text-[13px] right-0 left-0 mx-auto w-max -bottom-10 rounded before:w-4 before:h-4 before:rotate-45 before:bg-[#333] before:absolute before:z-[-1] before:-top-1 before:left-0  before:right-0 before:mx-auto">
                                         盗品持ち込みの可能性があるため要注意
                                     </div>
                                 </div>
@@ -1761,56 +1914,278 @@ const fetchInvoiceHistoryData = async () => {
                     <table className='text-center w-full' style={Table}>
                         <thead className='bg-white z-10 h-11'>
                             <tr>
-                                {/* <th style={Th} width='1%'>選択</th> */}
                                 <th style={Th} width='2%'>商品番号</th>
-                                <th style={Th} >ヒアリング</th>
-                                <th style={Th} >
-                                    力テゴリ-1
-                                    {isshow ? <button><img src={rightArrow} className='h-4' alt='' onClick={openSubtable} ></img></button> : <button><img src={leftArrow} className='h-4' alt='' onClick={closeSubtable}></img></button>}
+                                <th style={Th}>
+                                    <div className='flex justify-center w-max'>
+                                        力テゴリ-1
+                                        <div className='flex flex-col justify-center'>
+                                            {isshow ? <button><img src={rightArrow} className='h-4' alt='' onClick={openSubtable} ></img></button> : <button><img src={leftArrow} className='h-4' alt='' onClick={closeSubtable}></img></button>}
+                                        </div>
+                                    </div>
                                 </th>
                                 {isshow ? <th style={Th} >力テゴリ-2</th> : <th style={{ display: 'none' }}></th>}
                                 {isshow ? <th style={Th} >力テゴリ-3</th> : <th style={{ display: 'none' }}></th>}
                                 {isshow ? <th style={Th} >力テゴリ-4</th> : <th style={{ display: 'none' }}></th>}
                                 <th style={Th} >画像</th>
-                                <th style={Th} width='10%'>商品名</th>
+                                <th style={Th} width='10%'>
+                                    <div className='flex justify-center'>
+                                        商品名
+                                        <div className='flex flex-col justify-center'>
+                                            {isDetailShow ? <button><img src={rightArrow} className='h-4' alt='' onClick={openItemDetailShow} ></img></button> : <button><img src={leftArrow} className='h-4' alt='' onClick={openItemDetailShow}></img></button>}
+                                        </div>
+                                    </div>
+                                </th>
+                                {isDetailShow ? <th style={Th} >金種</th> : <th style={{ display: 'none' }}></th>}
+                                {isDetailShow ? <th style={Th} >総重量</th> : <th style={{ display: 'none' }}></th>}
+                                {isDetailShow ? <th style={Th} >g/額面</th> : <th style={{ display: 'none' }}></th>}
+                                {isDetailShow ? <th style={Th} >型番 </th> : <th style={{ display: 'none' }}></th>}
+                                {isDetailShow ? <th style={Th} >駆動方式</th> : <th style={{ display: 'none' }}></th>}
+                                {isDetailShow ? <th style={Th} >可動 </th> : <th style={{ display: 'none' }}></th>}
+                                {isDetailShow ? <th style={Th} >テスター</th> : <th style={{ display: 'none' }}></th>}
+                                {isDetailShow ? <th style={Th} >箱ギャラ</th> : <th style={{ display: 'none' }}></th>}
+                                {isDetailShow ? <th style={Th} >ランク</th> : <th style={{ display: 'none' }}></th>}
+                                {isDetailShow ? <th style={Th} >銘柄</th> : <th style={{ display: 'none' }}></th>}
+                                {isDetailShow ? <th style={Th} >容量</th> : <th style={{ display: 'none' }}></th>}
+                                {isDetailShow ? <th style={Th} >度数</th> : <th style={{ display: 'none' }}></th>}
+                                {isDetailShow ? <th style={Th} >備考</th> : <th style={{ display: 'none' }}></th>}
                                 <th style={Th} >個数</th>
-                                <th style={Th}>金種</th>
-                                <th style={Th}>g/額面</th>
                                 <th style={Th} width='10%'>申請の根拠</th>
                                 <th style={Th} >利率(%)</th>
-                                <th style={Th} >申請額</th>
+                                {/* <th style={Th} >申請額</th> */}
+                                <th style={Th} >買取額</th>
+                                <th style={Th} >上司指示額</th>
                                 <th style={Th} >最高査定業者</th>
                                 <th style={Th} >最高査定額</th>
                                 <th style={Th} >
                                     業者
-                                    {isvendorshow ? <button><img src={rightArrow} className='h-4' alt='' onClick={openVendortable} ></img></button> : <button><img src={leftArrow} className='h-4' alt='' onClick={closeVendortable}></img></button>}
+                                    {/* {isvendorshow ? <button><img src={rightArrow} className='h-4' alt='' onClick={openVendortable} ></img></button> : <button><img src={leftArrow} className='h-4' alt='' onClick={closeVendortable}></img></button>} */}
                                 </th>
                                 {isvendorshow && allVendors.map((vendor, index) => (
                                     <th key={index} style={Th}>{vendor.vendor_name}</th>
                                 ))}
-                                <th style={Th} >上司指示額</th>
                                 <th style={Th} >結果</th>
-                                <th style={Th} >買取額</th>
-                                {totalSalesSlipData?.length > 0 && totalSalesSlipData[0].product_status === 'お預かり' &&
+                                {/* {totalSalesSlipData?.length > 0 && totalSalesSlipData[0].product_status === 'お預かり' &&
                                     <th style={Th}>編集</th>
                                 }
                                  {totalSalesSlipData?.length > 0 && totalSalesSlipData[0].product_status === 'お預かり' &&
                                  <th style={Th}>削除</th>
-                                 }
+                                 } */}
                             </tr>
                         </thead>
                         <tbody>
+                            <tr className='!h-8'>
+                                <td style={Td}>
+                                    <InputComponent name='number' onChange={handleChange} disabled={true} value={salesSlipData.id || ''} className='w-full h-8 text-[#70685a]' />
+                                </td>
+                                <td style={Td}>
+                                    <select
+                                        name="product_type_one"
+                                        value={salesSlipData.product_type_one || ''}
+                                        onChange={(e) => handleCategory1Change(e, product1s)}
+                                        className='h-8 w-full'
+                                    >
+                                        <option value="" disabled>商品タイプ1</option>
+                                        {product1s.map((option, index) => (
+                                            <option key={option.id} value={option.category || ''}>
+                                                {option.category || ''}
+                                            </option>
+                                        ))}
+                                    </select>
+                                </td>
+                                {isshow ? <td style={Td}>
+                                    <select
+                                        name="product_type_two"
+                                        value={salesSlipData.product_type_two || ''}
+                                        onChange={handleChange}
+                                        className='h-8 w-full'
+                                    >
+                                        <option value="" disabled>商品タイプ2</option>
+                                        {product2s.map((option, index) => (
+                                            <option key={index} value={option.category || ''}>
+                                                {option.category || ''}
+                                            </option>
+                                        ))}
+                                    </select>
+                                    </td> : <td style={{ display: 'none' }}></td>}
+                                {isshow ? <td style={Td}>
+                                    <input
+                                        list="product3s"
+                                        id="product_type_three"
+                                        name="product_type_three"
+                                        value={salesSlipData.product_type_three || ''}
+                                        onChange={handleChange}
+                                        className='h-8 w-full'
+                                    />
+                                    <datalist id="product3s">
+                                        {product3s.map((option, index) => (
+                                            <option key={index} value={option.category || ''} />
+                                        ))}
+                                    </datalist>
+                                    </td> : <td style={{ display: 'none' }}></td>}
+                                {isshow ? <td style={Td}>
+                                    <input
+                                        list="product4s"
+                                        id="product_type_four"
+                                        name="product_type_four"
+                                        value={salesSlipData.product_type_four || ''}
+                                        onChange={handleChange}
+                                        className='h-8 w-full'
+                                    />
+                                    <datalist id="product4s">
+                                        {product4s.map((option, index) => (
+                                            <option key={index} value={option.category || ''} />
+                                        ))}
+                                    </datalist>
+                                    </td> : <td style={{ display: 'none' }}></td>}
+                                <td style={Td}>
+                                    <div style={{ flexDirection: 'column', }} className='flex justify-center'>
+                                        <div className='flex justify-center py-1'>
+                                            < button type="button" onClick={() => handleButtonClick(sendInputRef)} className="w-20 flex justify-center font-blod rounded-lg text-[#70685a] text-[18px] bg-[#ebe6e0] hover:bg-blue-700 focus:outline-none">
+                                                <svg className="w-7 h-7 flex justify-center " focusable="false" aria-hidden="true" fill='#524c3b' viewBox="0 0 24 24" data-testid="FileUploadOutlinedIcon" title="FileUploadOutlined"><path d="M18 15v3H6v-3H4v3c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2v-3zM7 9l1.41 1.41L11 7.83V16h2V7.83l2.59 2.58L17 9l-5-5z"></path></svg>
+                                            </button>
+                                            <input type="file" name="fileUrl" ref={sendInputRef} style={{ display: 'none' }} onChange={(e) => handleFileChange(e)} />
+                                        </div>
+                                    </div>
+                                </td>
+                                <td style={Td}>
+                                    <InputComponent name='product_name' onChange={handleChange} value={salesSlipData.product_name || ''} className='w-full h-8 text-[#70685a]' />
+                                </td>
+
+                                {isDetailShow ? salesSlipData.product_type_one === '貴金属' ?
+                                        <td style={Td}>
+                                            <InputComponent name='gold_type' type='text' onChange={handleChange} value={salesSlipData.gold_type || ''} className='w-20 h-8 text-[#70685a]' />
+                                        </td>  :  <td style={Td}></td>               
+                                 : <td style={{ display: 'none' }}></td>}
+                                {isDetailShow ? salesSlipData.product_type_one === '貴金属' ?
+                                    <td style={Td}>
+                                        <InputComponent name='gross_weight' type='text' onChange={handleChange} value={salesSlipData.gross_weight || ''} className='w-20 h-8 text-[#70685a]' />
+                                    </td> :  <td style={Td}></td>    
+                                 : <td style={{ display: 'none' }}></td>}
+                                {isDetailShow ? salesSlipData.product_type_one === '貴金属' ?
+                                    <td style={Td}>
+                                        <InputComponent name='price_gram' type='text' onChange={handleChange} value={salesSlipData.price_gram || ''} className='w-20 h-8 text-[#70685a]' />
+                                    </td> :  <td style={Td}></td>    
+                                 : <td style={{ display: 'none' }}></td>}
+                                {isDetailShow ? (salesSlipData.product_type_one === '時計' || salesSlipData.product_type_one === 'バッグ' 
+                                     || salesSlipData.product_type_one === '財布' || salesSlipData.product_type_one === 'アクセサリー' || salesSlipData.product_type_one === 'カメラ') ?
+                                    <td style={Td}>
+                                        <InputComponent name='model_number_one' type='text' onChange={handleChange} value={salesSlipData.model_number_one || ''} className='w-20 h-8 text-[#70685a]' />
+                                    </td>  : <td style={Td}></td>
+                                 : <td style={{ display: 'none' }}></td>}
+                                {isDetailShow ? salesSlipData.product_type_one === '時計' ?
+                                    <td style={Td}>
+                                        <InputComponent name='action_type' type='text' onChange={handleChange} value={salesSlipData.action_type || ''} className='w-20 h-8 text-[#70685a]' />
+                                    </td> : <td style={Td}></td>
+                                 : <td style={{ display: 'none' }}></td>}
+                                {isDetailShow ? salesSlipData.product_type_one === '時計' ?
+                                    <td style={Td}>
+                                        <InputComponent name='movable' type='text' onChange={handleChange} value={salesSlipData.movable || ''} className='w-20 h-8 text-[#70685a]' />
+                                    </td> : <td style={Td}></td>
+                                 : <td style={{ display: 'none' }}></td>}
+                                {isDetailShow ? salesSlipData.product_type_one === '時計' ?
+                                    <td style={Td}>
+                                        <InputComponent name='tester' type='text' onChange={handleChange} value={salesSlipData.tester || ''} className='w-20 h-8 text-[#70685a]' />
+                                    </td> : <td style={Td}></td>
+                                 : <td style={{ display: 'none' }}></td>} 
+                                {isDetailShow ? salesSlipData.product_type_one === '時計' ?
+                                    <td style={Td}>
+                                        <InputComponent name='box_guarantee' type='text' onChange={handleChange} value={salesSlipData.box_guarantee || ''} className='w-20 h-8 text-[#70685a]' />
+                                    </td> : <td style={Td}></td>
+                                 : <td style={{ display: 'none' }}></td>}
+                                {isDetailShow ? (salesSlipData.product_type_one === '時計' || salesSlipData.product_type_one === 'アクセサリー' || salesSlipData.product_type_one === 'カメラ') ?
+                                    <td style={Td}>
+                                        <InputComponent name='rank' type='text' onChange={handleChange} value={salesSlipData.rank || ''} className='w-20 h-8 text-[#70685a]' />
+                                    </td> : <td style={Td}></td>
+                                 : <td style={{ display: 'none' }}></td>}
+                                {isDetailShow ? salesSlipData.product_type_one === '洋酒' ?
+                                    <td style={Td}>
+                                        <InputComponent name='box_guarantee' type='text' onChange={handleChange} value={salesSlipData.box_guarantee || ''} className='w-20 h-8 text-[#70685a]' />
+                                    </td> : <td style={Td}></td>
+                                 : <td style={{ display: 'none' }}></td>}
+                                {isDetailShow ? salesSlipData.product_type_one === '洋酒' ?
+                                    <td style={Td}>
+                                        <InputComponent name='capacity' type='text' onChange={handleChange} value={salesSlipData.capacity || ''} className='w-20 h-8 text-[#70685a]' />
+                                    </td> : <td style={Td}></td>
+                                 : <td style={{ display: 'none' }}></td>}
+                                {isDetailShow ? salesSlipData.product_type_one === '洋酒' ?
+                                    <td style={Td}>
+                                        <InputComponent name='percent' type='text' onChange={handleChange} value={salesSlipData.percent || ''} className='w-20 h-8 text-[#70685a]' />
+                                    </td> : <td style={Td}></td>
+                                    : <td style={{ display: 'none' }}></td>}
+                                {isDetailShow ?
+                                    <td style={Td}>
+                                        <InputComponent name='notes' type='text' onChange={handleChange} value={salesSlipData.notes || ''} className='w-20 h-8 text-[#70685a]' />
+                                    </td> 
+                                     : <td style={{ display: 'none' }}></td>}
+
+                                <td style={Td}>
+                                    <InputComponent name='quantity' type='number' onChange={handleChange} value={salesSlipData.quantity || ''} className='w-40 h-8 text-[#70685a]' />
+                                </td>
+                                <td style={Td}>
+                                    <InputComponent name='reason_application' onChange={handleChange} value={salesSlipData.reason_application || ''} className='w-full h-8 text-[#70685a]' />
+                                </td>
+                                <td style={Td}>
+                                    <InputComponent name='interest_rate' type='number' onChange={handleChange} value={salesSlipData.interest_rate || ''} className='w-20 h-8 text-[#70685a]' />
+                                </td>
+                                <td style={Td}>
+                                    <div className='w-full flex justify-center'>
+                                        <InputComponent name='purchase_price' onChange={handleChange} type='number' value={salesSlipData.purchase_price || ''} className='w-40 h-8 text-[#70685a]' />
+                                    </div>
+                                </td>
+                                <td style={Td}>
+                                    <InputComponent name='supervisor_direction' onChange={handleChange} value={salesSlipData.supervisor_direction || ''} className='w-full h-8 text-[#70685a]' />
+                                </td>
+                                <td style={Td}>
+                                    <InputComponent name='highest_estimate_vendor' onChange={handleChange} value={salesSlipData.highest_estimate_vendor || ''} className='w-full h-8 text-[#70685a]' disabled/>
+                                </td>
+                                <td style={Td}>
+                                    <InputComponent name='highest_estimate_price' type='number' onChange={handleChange} value={salesSlipData.highest_estimate_price || ''} className='w-full h-8 text-[#70685a]' disabled/>
+                                </td>
+                                <td style={Td}>
+                                    <InputComponent name='number_of_vendor' type='number' onChange={handleChange} value={salesSlipData.number_of_vendor || ''} className='w-20 h-8 text-[#70685a]'  style={{display:'none'}}/>
+                                    <button type="button"
+                                                className="px-3 py-1 rounded text-[#626373] tracking-wider font-semibold border border-[#70685a] bg-[#ebe5e1]">
+                                                {salesSlipData.number_of_vendor || '0'}
+                                    </button>
+                               </td>
+                                {isvendorshow && vendors?.length>0 && vendors.map((vendor, index) => (
+                                    <td style={Td} key={index}>
+                                        <InputComponent name={vendor.vendor_name} onChange={(e) => handleEstimateChange(vendor.vendor_name, e.target.value)} value={estimateValues[vendor.vendor_name] || ''} className='w-full h-8 text-[#70685a] border border-[red]' />
+                                    </td>
+                                ))}
+                                <td style={Td}>
+                                    <select name="purchase_result" value={salesSlipData.purchase_result || ''} onChange={handleChange} className="w-full h-10 text-[#70685a] font-bold border border-[#70685a] outline-[#70685a]">
+                                        <option value="" disabled></option>
+                                        <option value="賛成">賛成</option>
+                                        <option value="反対">反対</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <div>
+                                        <button onClick={saveSalesItem} className='w-7'>
+                                            <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium  MuiSvgIcon-root MuiSvgIcon-fontSizeLarge  css-1hkft75" fill='#524c3b' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckOutlinedIcon" title="CheckOutlined"><path d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
+                                        </button>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div>
+                                        <button onClick={cancelSalesItem} className='w-7'>
+                                            <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium  MuiSvgIcon-root MuiSvgIcon-fontSizeLarge  css-1hkft75" fill='#524c3b' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="KeyboardReturnOutlinedIcon" title="KeyboardReturnOutlined"><path d="M19 7v4H5.83l3.58-3.59L8 6l-6 6 6 6 1.41-1.41L5.83 13H21V7z"></path></svg>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
                             {totalSalesSlipData?.length > 0 && totalSalesSlipData.map((salesData, Index) => (
                                 <tr key={Index} >
                                     {/* <td><input type='checkbox' name='checkbox1' /></td> */}
-                                    <td style={Td}>{salesData.number || ''}</td>
-                                    <td style={Td}>{salesData.hearing || ''}</td>
+                                    <td style={Td}>{salesData.id || ''}</td>
+                                    {/* <td style={Td}>{salesData.hearing || ''}</td> */}
                                     <td style={Td} >{salesData.product_type_one}</td>
                                     {isshow ? <td style={Td} >{salesData.product_type_two || ''}</td> : <td style={{ display: 'none' }}></td>}
                                     {isshow ? <td style={Td} >{salesData.product_type_three || ''}</td> : <td style={{ display: 'none' }}></td>}
                                     {isshow ? <td style={Td} >{salesData.product_type_four || ''}</td> : <td style={{ display: 'none' }}></td>}
                                     <td style={Td}>
-                                        {salesData.product_photo != '' ? <ButtonComponent onClick={() => openProductImageModal(salesData.product_photo)} children="写真" name='photo' className='w-max !px-5 rounded-lg' style={{ backgroundColor: '#ebe5e1', color: '#626373' }} /> : 'ファイルなし'}
+                                        {salesData.product_photo != '' ? <ButtonComponent onClick={() => openProductImageModal(salesData.product_photo)} children="写真" name='photo' className='w-max !px-5 rounded-lg border border-[#70685a]' style={{ backgroundColor: '#ebe5e1', color: '#626373' }} /> : 'ファイルなし'}
                                     </td>
                                     <td style={Td1} onClick={() => handleProductClick(Index)}
                                         onMouseOver={() => handleMouseOver(Index)}
@@ -1821,8 +2196,8 @@ const fetchInvoiceHistoryData = async () => {
                                             style={{
                                                 display: 'none',
                                                 position: 'absolute',
-                                                top: '40px',
-                                                left: '10px',
+                                                bottom: '20px',
+                                                right: '10px',
                                                 backgroundColor: 'white',
                                                 border: '2px solid #524c3b',
                                                 padding: '10px',
@@ -1831,37 +2206,114 @@ const fetchInvoiceHistoryData = async () => {
                                             }}
                                             className="text-pre-wrap"
                                         >
-                                            {salesData.comment}
+                                            {salesData.comment &&
+                                                <div className="my-6">
+                                                    <div>
+                                                        <div className='flex w-full'>
+                                                            <div className='w-max flex flex-col justify-center'>
+                                                                <label className='text-[#70685a] text-[15px]'>1. どなたが購入されたものですか？{salesData.comment.question1 || ''}</label>
+                                                            </div>
+                                                        </div>
+                                                        {salesData.comment.comment1 || ''}
+                                                    </div>
+                                                    <div>
+                                                        <div className='flex w-full mt-1'>
+                                                            <div className='w-max flex flex-col justify-center'>
+                                                                <label className='text-[#70685a] text-[15px]'>2. どこで購入されましたか？{salesData.comment.question2 || ''}</label>
+                                                            </div>
+                                                        </div>
+                                                        {salesData.comment.comment2 || ''}
+                                                    </div>
+                                                    <div>
+                                                        <div className='flex w-full mt-1'>
+                                                            <div className='w-max flex flex-col justify-center'>
+                                                                <label className='text-[#70685a] text-[15px]'>3. いつ頃購入されましたか？ {salesData.comment.buyyear || ''}年 {salesData.comment.buymonth || ''}月</label>
+                                                            </div>
+                                                        </div>
+                                                        {salesData.comment.comment3 || ''}
+                                                    </div>
+                                                    <div>
+                                                        <div className='flex w-full mt-1'>
+                                                            <div className='w-max flex flex-col justify-center'>
+                                                                <label className='text-[#70685a] text-[15px]'>4. もうお使いになられない予定ですか？ {salesData.comment.question4 || ''}</label>
+                                                            </div>
+                                                        </div>
+                                                        {salesData.comment.comment4 || ''}
+                                                    </div>
+                                                </div>
+                                            }
+                                            <div className="text-center">
+                                                <div className='flex justify-center w-full'>
+                                                    {!salesData.product_photo ? "" : <img src={`${wakabaBaseUrl}/uploads/product/${salesData.product_photo}`} alt="Image Preview" className='h-[100px] p-1 rounded-lg' />}
+                                                </div>
+                                            </div>
                                         </div>
                                     </td>
+                                    {isDetailShow ? <td style={Td} >{salesData.gold_type || ''}</td> : <td style={{ display: 'none' }}></td>}
+                                    {isDetailShow ? <td style={Td} >{salesData.gross_weight || ''}</td> : <td style={{ display: 'none' }}></td>}
+                                    {isDetailShow ? <td style={Td} >{salesData.price_gram || ''}</td> : <td style={{ display: 'none' }}></td>}
+                                    {isDetailShow ? <td style={Td} >{salesData.model_number_one || ''}</td> : <td style={{ display: 'none' }}></td>}
+                                    {isDetailShow ? <td style={Td} >{salesData.action_type || ''}</td> : <td style={{ display: 'none' }}></td>}
+                                    {isDetailShow ? <td style={Td} >{salesData.movable || ''}</td> : <td style={{ display: 'none' }}></td>}
+                                    {isDetailShow ? <td style={Td} >{salesData.tester || ''}</td> : <td style={{ display: 'none' }}></td>}
+                                    {isDetailShow ? <td style={Td} >{salesData.box_guarantee || ''}</td> : <td style={{ display: 'none' }}></td>}
+                                    {isDetailShow ? <td style={Td} >{salesData.rank || ''}</td> : <td style={{ display: 'none' }}></td>}
+                                    {isDetailShow ? <td style={Td} >{salesData.brand || ''}</td> : <td style={{ display: 'none' }}></td>}
+                                    {isDetailShow ? <td style={Td} >{salesData.capacity || ''}</td> : <td style={{ display: 'none' }}></td>}
+                                    {isDetailShow ? <td style={Td} >{salesData.percent || ''}</td> : <td style={{ display: 'none' }}></td>}
+                                    {isDetailShow ? <td style={Td} >{salesData.notes || ''}</td> : <td style={{ display: 'none' }}></td>}
                                     <td style={Td}> {salesData.quantity || ''} </td>
-                                    {salesData.product_type_one === '貴金属' ? 
+                                    {/* {salesData.product_type_one === '貴金属' ? 
                                         <td style={Td}> {salesData.metal_type || ''} </td> : <td style={Td}> {''} </td>
                                     }
                                     {salesData.product_type_one === '貴金属' ? 
                                         <td style={Td}> {salesData.price_per_gram || ''} </td> :<td style={Td}> {''} </td>
-                                    }
+                                    } */}
                                     <td style={Td}> {salesData.reason_application || ''} </td>
                                     <td style={Td}> {salesData.interest_rate || ''} </td>
-                                    <td style={Td}> {salesData.product_price || ''} </td>
+                                    {/* <td style={Td}> {salesData.product_price || ''} </td> */}
+                                    <td style={Td}>{salesData.purchase_price || ''}</td>
+                                    <td style={Td}>{salesData.supervisor_direction || ''}</td>
                                     <td style={Td}> {salesData.highest_estimate_vendor || ''} </td>
                                     <td style={Td}> {salesData.highest_estimate_price || ''} </td>
-                                    <td style={Td}>{salesData.number_of_vendor || ''}</td>
+                                    <td style={Td}>
+                                        {/* <ButtonComponent children={salesData.number_of_vendor || ''} className='w-max !px-5 rounded-lg border border-[#70685a]' style={{ backgroundColor: '#ebe5e1', color: '#626373' }} />
+                                        <div className="absolute shadow-lg hidden group-hover:block bg-[#333] text-white font-semibold px-3 py-[6px] text-[13px] right-0 left-0 mx-auto w-max -bottom-10 rounded before:w-4 before:h-4 before:rotate-45 before:bg-[#333] before:absolute before:z-[-1] before:-top-1 before:left-0  before:right-0 before:mx-auto">
+                                        <p>This is line 1 of </p>
+                                        <p>This is line 2 of </p>
+                                        <p>This is line 3 of </p>
+                                        </div> */}
+
+                                        <div className="relative w-max group mx-auto">
+                                            <button type="button" onClick={() => openEstimate(Index)}
+                                                className="px-3 py-1 rounded text-[#626373] tracking-wider font-semibold border border-[#70685a] bg-[#ebe5e1]">
+                                                {salesData.number_of_vendor || '0'}
+                                            </button>
+                                            <div className="absolute shadow-lg hidden group-hover:block bg-[#fff] text-[#626373] font-semibold px-3 py-2 text-[15px] right-full mr-3 top-0 bottom-0 my-auto h-max w-max rounded before:w-4 before:h-4 before:rotate-45 before:bg-[#333] before:absolute before:z-[-1] before:bottom-0 before:top-0 before:my-auto before:-right-1 before:mx-auto">
+                                                {allVendors.map((vendor, index) => (
+                                                    salesData.estimate_wholesaler[vendor.vendor_name] && 
+                                                    <div key={index} className='flex justify-between'>
+                                                        <p>{vendor.vendor_name}:</p>
+                                                        <p className='pl-3'>{salesData.estimate_wholesaler[vendor.vendor_name] || ''}</p>
+                                                    </div>
+                                                    // <td key={index} style={Td}> {salesData.estimate_wholesaler[vendor.vendor_name] || ''} </td>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    </td>
                                     {isvendorshow && allVendors.map((vendor, index) => (
                                         <td key={index} style={Td}> {salesData.estimate_wholesaler[vendor.vendor_name] || ''} </td>
                                     ))}
-                                    <td style={Td}>{salesData.supervisor_direction || ''}</td>
                                     <td style={Td}>{salesData.purchase_result || ''}</td>
-                                    <td style={Td}>{salesData.purchase_price || ''}</td>
                                     {salesData.product_status === 'お預かり' && 
-                                        <td style={Td} className='w-8 bg-transparent hover:bg-[#ebe6e0] transition-all duration-300'>
+                                        <td className='w-8 bg-transparent'>
                                             <div onClick={() => editSalesItem(Index)} className='w-7 ml-2'>
                                                 <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium  MuiSvgIcon-root MuiSvgIcon-fontSizeLarge  css-1hkft75" fill='#524c3b' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="EditCalendarOutlinedIcon" title="EditCalendarOutlined"><path d="M5 10h14v2h2V6c0-1.1-.9-2-2-2h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h7v-2H5zm0-4h14v2H5zm17.84 10.28-.71.71-2.12-2.12.71-.71c.39-.39 1.02-.39 1.41 0l.71.71c.39.39.39 1.02 0 1.41m-3.54-.7 2.12 2.12-5.3 5.3H14v-2.12z"></path></svg>
                                             </div>
                                         </td>
                                     }
                                     {salesData.product_status === 'お預かり' && 
-                                        <td style={Td} className='w-8 bg-transparent hover:bg-[#ebe6e0] transition-all duration-300'>
+                                        <td className='w-8 bg-transparent'>
                                             <div onClick={() => removeSalesItem(salesData.id)} className='w-7 ml-2'>
                                                 <svg focusable="false" aria-hidden="true" viewBox="0 0 23 23" fill='#524c3b' data-testid="CancelOutlinedIcon" title="CancelOutlined"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8m3.59-13L12 10.59 8.41 7 7 8.41 10.59 12 7 15.59 8.41 17 12 13.41 15.59 17 17 15.59 13.41 12 17 8.41z"></path></svg>
                                             </div>
@@ -1872,11 +2324,10 @@ const fetchInvoiceHistoryData = async () => {
                         </tbody>
 
                     </table>
-                    {showInputPurchase ?
+                    {/* {showInputPurchase ?
                         <table className='text-center w-full mt-10' style={Table}>
                             <thead className='bg-white z-10 h-11 w-full'>
                                 <tr>
-                                    {/* <th style={{ whiteSpace: 'nowrap', paddingLeft: '10px', paddingRight: '10px', visibility: 'hidden' }}>選択</th> */}
                                     <th style={Th} >商品番号</th>
                                     <th style={Th} >ヒアリング</th>
                                     <th style={Th} >
@@ -1904,7 +2355,7 @@ const fetchInvoiceHistoryData = async () => {
                                         業者
                                         {isvendorshow ? <button><img src={rightArrow} className='h-4' alt='' onClick={openVendortable} ></img></button> : <button><img src={leftArrow} className='h-4' alt='' onClick={closeVendortable}></img></button>}
                                     </th>
-                                    {isvendorshow && vendors.map((vendor, index) => (
+                                    {isvendorshow && vendors?.length>0 && vendors.map((vendor, index) => (
                                         <th key={index} style={Th}>{vendor.vendor_name}</th>
                                     ))}
                                     <th style={Th} >上司指示額</th>
@@ -1914,7 +2365,6 @@ const fetchInvoiceHistoryData = async () => {
                             </thead>
                             <tbody>
                                 <tr className='!h-8'>
-                                    {/* <td style={{ visibility: 'hidden' }}>as</td> */}
                                     <td style={Td}>
                                         <InputComponent name='number' onChange={handleChange} value={salesSlipData.number || ''} className='w-full h-8 text-[#70685a]' />
                                     </td>
@@ -2028,7 +2478,7 @@ const fetchInvoiceHistoryData = async () => {
                                     <td style={Td}>
                                         <InputComponent name='number_of_vendor' type='number' onChange={handleChange} value={salesSlipData.number_of_vendor || ''} className='w-20 h-8 text-[#70685a]' />
                                     </td>
-                                    {isvendorshow && vendors.map((vendor, index) => (
+                                    {isvendorshow && vendors?.length>0 && vendors.map((vendor, index) => (
                                         <td style={Td} key={index}>
                                             <InputComponent name={vendor.vendor_name} onChange={(e) => handleEstimateChange(vendor.vendor_name, e.target.value)} value={estimateValues[vendor.vendor_name] || ''} className='w-full h-8 text-[#70685a] border border-[red]' />
                                         </td>
@@ -2052,18 +2502,10 @@ const fetchInvoiceHistoryData = async () => {
                             </tbody>
 
                         </table>
-                        : ''}
-                    <div className='flex justify-center gap-10 mt-5'>
+                        : ''} */}
+                    {/* <div className='flex justify-center gap-10 mt-5'>
                         {editIndex === -1 ? (
                             <div className='flex justify-center mb-3' >
-                                {/* <button type="button" onClick={() => addSlesItem()}
-                                    className="w-7 h-7 inline-flex items-center justify-center text-[#70685a] border border-[#70685a] outline-none hover:bg-purple-700 active:bg-purple-600">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="14px" fill="#70685a" className="inline" viewBox="0 0 512 512">
-                                        <path
-                                            d="M467 211H301V45c0-24.853-20.147-45-45-45s-45 20.147-45 45v166H45c-24.853 0-45 20.147-45 45s20.147 45 45 45h166v166c0 24.853 20.147 45 45 45s45-20.147 45-45V301h166c24.853 0 45-20.147 45-45s-20.147-45-45-45z"
-                                            data-original="#000000" />
-                                    </svg>
-                                </button> */}
                             </div>
                         ) : (
                             <div className='flex gap-20'>
@@ -2076,10 +2518,10 @@ const fetchInvoiceHistoryData = async () => {
                             </div>
                         )}
 
-                    </div>
+                    </div> */}
                 </div>
             </div>
-            <div className='flex justify-end gap-10 mt-5'>
+            <div className='flex justify-center gap-10 mt-5'>
                 {/* <label className="text-[#70685a] font-bold mb-2 block text-left !mb-0" style={{ visibility: 'hidden' }}>Total purchase price 999,999,999 yen</label> */}
                 <label className="text-[#70685a] font-bold mb-2 block text-left !mb-0">買取点数&nbsp;{totalQuantity || ''}点</label>
                 <label className="text-[#70685a] font-bold mb-2 block text-left !mb-0">買取合計&nbsp;&nbsp;{totalPrice || ''}円</label>
@@ -2178,10 +2620,78 @@ const fetchInvoiceHistoryData = async () => {
                     </div>
 
                     <div className="my-6">
-                        <textarea placeholder='入力コメント' name='comment'
+                        {/* <textarea placeholder='入力コメント' name='comment'
                             onChange={handleCommentChange} onKeyDown={handleKeyDown}
                             className="p-4 bg-white max-w-md mx-auto w-full block text-sm border border-gray-300 outline-[#007bff] rounded" rows="4">
-                        </textarea>
+                        </textarea> */}
+                        <div>
+                            <div className='flex w-full'>
+                                <div className='w-max flex flex-col justify-center'>
+                                    <label className='text-[#70685a] text-[15px]'>1. どなたが購入されたものですか？</label>
+                                </div>
+                                <select name ='question1' value={modalValue.question1 || ''} onChange={handleCommentChange} className="w-40 h-8 ml-3 text-[#70685a] font-bold border border-[#70685a] px-4 py-1 outline-[#70685a]">
+                                    <option value=""></option>
+                                    <option value="本人">本人</option>
+                                    <option value="父">父</option>
+                                    <option value="母">母</option>
+                                    <option value="子供">子供</option>
+                                    <option value="親戚">親戚</option>
+                                    <option value="友人">友人</option>
+                                    <option value="その他 ">その他</option>
+                                </select>
+                            </div>
+                            <InputComponent name ='comment1' value={modalValue.comment1 || ''} onChange={handleCommentChange} className="w-full ml-3 mt-2 text-[#70685a] mb-2 block text-left  mr-10 py-1 !mb-0 !h-8" placeholder={''} />
+                        </div>
+                        <div>
+                            <div className='flex w-full mt-1'>
+                                <div className='w-max flex flex-col justify-center'>
+                                    <label className='text-[#70685a] text-[15px]'>2. どこで購入されましたか？</label>
+                                </div>
+                                <select name='question2' value={modalValue.question2 || ''} onChange={handleCommentChange} className="w-40 h-8 ml-3 text-[#70685a] font-bold border border-[#70685a] px-4 py-1 outline-[#70685a]">
+                                    <option value=""></option>
+                                    <option value="正規店">正規店</option>
+                                    <option value="中古">中古</option>
+                                    <option value="母">母</option>
+                                    <option value="インターネット・通販 ">インターネット・通販 </option>
+                                    <option value="その他 ">その他 </option>
+                                </select>
+                            </div>
+                            <InputComponent name='comment2' value={modalValue.comment2 || ''} onChange={handleCommentChange} className="w-full ml-3 mt-2 text-[#70685a] mb-2 block text-left  mr-10 py-1 !mb-0 !h-8" placeholder={''} />
+                        </div>
+                        <div>
+                            <div className='flex w-full mt-1'>
+                                <div className='w-max flex flex-col justify-center'>
+                                    <label className='text-[#70685a] text-[15px]'>3. いつ頃購入されましたか？</label>
+                                </div>
+                            </div>
+                            <div className='flex w-full mt-1 gap-3 ml-3'>
+                                <InputComponent name='buyyear' value={modalValue.buyyear || ''} onChange={handleCommentChange} type='number' className="w-40 text-[#70685a] mb-2 block text-left py-1 !mb-0 !h-8" placeholder={'2024'} />
+                                <div className='w-max flex flex-col justify-center'>
+                                    <label className='text-[#70685a] text-[15px]'>年</label>
+                                </div>
+                                <InputComponent name='buymonth' value={modalValue.buymonth || ''} onChange={handleCommentChange} type='number' className="w-40 text-[#70685a] mb-2 block text-left py-1 !mb-0 !h-8" placeholder={'10'} />
+                                <div className='w-max flex flex-col justify-center'>
+                                    <label className='text-[#70685a] text-[15px]'>月</label>
+                                </div>
+                                <div className='w-max flex flex-col justify-center'>
+                                    <label className='text-[#70685a] text-[15px]'>ごろ</label>
+                                </div>
+                            </div>
+                            <InputComponent name='comment3' value={modalValue.comment3 || ''} onChange={handleCommentChange} className="w-full ml-3 mt-2 text-[#70685a] mb-2 block text-left  mr-10 py-1 !mb-0 !h-8" placeholder={''} />
+                        </div>
+                        <div>
+                            <div className='flex w-full mt-1'>
+                                <div className='w-max flex flex-col justify-center'>
+                                    <label className='text-[#70685a] text-[15px]'>4. もうお使いになられない予定ですか？</label>
+                                </div>
+                                <select name='question4' value={modalValue.question4 || ''} onChange={handleCommentChange} className="w-40 h-8 ml-3 text-[#70685a] font-bold border border-[#70685a] px-4 py-1 outline-[#70685a]">
+                                    <option value=""></option>
+                                    <option value="まだ利用する">まだ利用する</option>
+                                    <option value="もう利用しない">もう利用しない</option>
+                                </select>
+                            </div>
+                            <InputComponent name='comment4' value={modalValue.comment4 || ''} onChange={handleCommentChange} className="w-full ml-3 mt-2 text-[#70685a] mb-2 block text-left  mr-10 py-1 !mb-0 !h-8" placeholder={''} />
+                        </div>
                     </div>
 
                     <div className="border-t border-gray-300 pt-6 flex justify-end gap-4">
@@ -2318,6 +2828,42 @@ const fetchInvoiceHistoryData = async () => {
         )}
         {/* ---------show product photo-------- */}
         {showProductImage && <ImageShowModal itemsImagePreview={itemImagePreview}  onClose={closeProductImageModal} />}
+        {/* --------vender assessment sheet-------- */}
+        {showEstimate &&
+            <div
+                className="fixed inset-0 p-4 flex flex-wrap justify-center items-center w-full h-full z-[1000] before:fixed before:inset-0 before:w-full before:h-full before:bg-[rgba(0,0,0,0.5)] overflow-auto font-[sans-serif]">
+                <div className="w-full max-w-md bg-white shadow-lg rounded-2xl p-8 relative">
+                    <div className="text-center">
+                        <div className='flex justify-center w-full'>
+                            <table className='text-center w-full' style={Table}>
+                                <thead className='bg-white z-10 h-11 w-full'>
+                                    <tr>
+                                        <th style={Th}>ベンダー名</th>
+                                        <th style={Th}>見積もり</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {vendors?.length>0 && vendors.map((vendor, index) => (
+                                        <tr key={vendor.id} className='!h-8'>
+                                            <td style={Td}>{vendor.vendor_name || ''}</td>
+                                            <td style={Td}>
+                                                <InputComponent name={vendor.vendor_name || ''} onChange={(e) => handleEstimateChange(vendor.vendor_name, e.target.value)} value={estimateValues[vendor.vendor_name] || ''} className='w-full h-8 text-[#70685a] border border-[black]' />
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+
+                            </table>
+                        </div>
+                    </div>
+        
+                    <div className="flex justify-center w-full mt-5">
+                        <button type="button" onClick={saveEstimate}
+                            className="px-5 py-1 rounded-full w-1/2 font-bold text-white border-none outline-none bg-[#524c3b] hover:bg-[#524c3b] hover:text-white transition-all duration-300">閉じる</button>
+                    </div>
+                </div>
+            </div>
+        }
     </>
     );
 };

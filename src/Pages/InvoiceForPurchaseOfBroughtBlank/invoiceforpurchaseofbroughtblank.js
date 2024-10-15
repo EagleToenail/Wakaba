@@ -1371,19 +1371,19 @@ const onCloseSuccess = () => {
                     <div className='flex w-full mt-2'>
                         <div className='w-full'>
                             <div className='invoice-purchase-brought flex justify-between'>
-                                <div className='invoice-purchase-brought-buttons w-[50%] flex justify-around pr-10'>
+                                <div className='invoice-purchase-brought-buttons w-[40%] flex justify-between'>
                                     <ButtonComponent onClick={sendPurchaseDataToReceipt} children="預り証発行済" className='w-max h-11 !px-5' style={{ border: '1px solid #7fe374', backgroundColor: 'transparent', color: '#7fe374' }} />
                                     <ButtonComponent onClick={openItemsImageModal} children="全体撮影" className='w-max h-11 !px-5' style={{ border: '1px solid #e87a00', backgroundColor: 'transparent', color: '#e87a00' }} />
                                     <ButtonComponent onClick={openItemsDocModal} children="紙書類撮影" className='w-max h-11 !px-5' style={{ border: '1px solid #e87a00', backgroundColor: 'transparent', color: '#e87a00' }} />
                                 </div>
-                                <div className='invoice-purchase-brought-buttons w-[25%] ml-5 flex justify-between'>
+                                <div className='invoice-purchase-brought-buttons w-[30%] pl-10 flex justify-around'>
                                     <ButtonComponent children="許可申請" className='w-max h-11 !px-5' style={{ color: 'white', }} />
                                     <div className='flex justify-center'>
                                         <button type="button" onClick={sendPurchaseData}
-                                            className="mr-10  py-1 min-w-[160px] text-[#e87a00] text-[20px] rounded-full tracking-wider font-bold outline-none border border-[2px] border-[#e87a00] ">お客様へ提示</button>
+                                            className="mr-10 h-11  py-1 min-w-[160px] text-[#e87a00] text-[20px] rounded-full tracking-wider font-bold outline-none border border-[2px] border-[#e87a00] ">お客様へ提示</button>
                                     </div>
                                 </div>
-                                <div className='invoice-purchase-brought-buttons w-[25%] flex justify-around pr-10'>
+                                <div className='invoice-purchase-brought-buttons w-[30%] flex justify-between'>
                                     {role === '2' &&
                                         <button onClick={purchasePermission} className='w-max text-xl text-white rounded-md bg-[#9bd195] h-11 !px-5 hover:bg-green-600 hover:text-white transition-all duration-300' >
                                             全て決裁を許可
@@ -1422,7 +1422,7 @@ const onCloseSuccess = () => {
             </div>
             <div className="w-full invoice-purchase-brought flex justify-center">
                 <div className="w-full flex justify-center mt-2" >
-                    <div className=" pr-5">
+                    <div className=" pr-5 max-w-[650px]">
                         <CustomerRegister id={childData} />
                     </div>
                 </div>
@@ -2035,7 +2035,7 @@ const onCloseSuccess = () => {
                     </div>
                 </div>
             </div>
-            <div className='flex justify-end gap-10'>
+            <div className='flex justify-center gap-10'>
                 {/* <label className="text-[#70685a] font-bold mb-2 block text-left !mb-0" style={{ visibility: 'hidden' }}>Total purchase price 999,999,999 yen</label> */}
                 <label className="text-[#70685a] font-bold mb-2 block text-left !mb-0">買取点数&nbsp;{totalQuantity || ''}点</label>
                 <label className="text-[#70685a] font-bold mb-2 block text-left !mb-0">買取合計&nbsp;&nbsp;{totalPrice || ''}円</label>
