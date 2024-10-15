@@ -5,9 +5,10 @@ import '../../Assets/css/showtable.css'
 import dateimage from '../../Assets/img/datepicker.png';
 import InputComponent from '../../Components/Common/InputComponent';
 import ButtonComponent from '../../Components/Common/ButtonComponent';
+import {toast} from 'react-toastify';
 
 
-const CustomerUpdateForPurchase = ({ id }) => {
+const CustomerUpdateForPurchase = ({ id , wholeHearingSave}) => {
     const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
     const Table = {
         borderCollapse: 'collapse',
@@ -120,47 +121,37 @@ const CustomerUpdateForPurchase = ({ id }) => {
     };
 
     const [isCreateModalOpen, setIsCreateModalOpen] = useState(false); // For modal visibility
-    const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false); // For modal visibility
 
     const openCreateCheckModal = () => {
         setIsCreateModalOpen(true);
     }
-    const openSuccessCheckModal = () => {
-        setIsSuccessModalOpen(true);
-    }
     const onClose = () => {
         setIsCreateModalOpen(false);
     }
-    const onCloseSuccess = () => {
-        setIsSuccessModalOpen(false);
-    }
+
     //create-symbol
-    const formatPhoneNumber = (number) => {
-        // Ensure the number is a string
-        const numStr = number.toString();
+    // const formatPhoneNumber = (number) => {
+    //     // Ensure the number is a string
+    //     const numStr = number.toString();
 
-        // Extract parts of the string
-        if (numStr.length >= 7) {
-            const part1 = numStr.slice(0, 3);   // First 3 digits
-            const part2 = numStr.slice(3, 7);   // Next 4 digits
-            const part3 = numStr.slice(7);      // Remaining digits (if any)
+    //     // Extract parts of the string
+    //     if (numStr.length >= 7) {
+    //         const part1 = numStr.slice(0, 3);   // First 3 digits
+    //         const part2 = numStr.slice(3, 7);   // Next 4 digits
+    //         const part3 = numStr.slice(7);      // Remaining digits (if any)
             
-            // Combine parts with dashes
-            return part3 ? `${part1}-${part2}-${part3}` : `${part1}-${part2}`;
-        } else {
-            return numStr; // Return the original string if less than 7 digits
-        }
+    //         // Combine parts with dashes
+    //         return part3 ? `${part1}-${part2}-${part3}` : `${part1}-${part2}`;
+    //     } else {
+    //         return numStr; // Return the original string if less than 7 digits
+    //     }
 
-    };
+    // };
 
     const handleCreateSubmit = async () => {
         setIsCreateModalOpen(false);
 
-        const formattedNumber = formatPhoneNumber(customer.phone_number);
-        customer.phone_number = formattedNumber;
-
         const formDataObj = new FormData();
-        formDataObj.append('id', id);
         formDataObj.append('shop', userStoreName);
         formDataObj.append('visit_type', customer.visit_type);
         formDataObj.append('full_name', customer.full_name);
@@ -189,7 +180,7 @@ const CustomerUpdateForPurchase = ({ id }) => {
             if (!wakabaBaseUrl) {
                 throw new Error('API base URL is not defined');
             }
-            const response = await axios.post(`${wakabaBaseUrl}/customer/updateCustomer`, formDataObj,
+            const response = await axios.post(`${wakabaBaseUrl}/customer/createCustomer`, formDataObj,
                 {
                     headers: {
                         'Content-Type': 'multipart/form-data',
@@ -197,8 +188,10 @@ const CustomerUpdateForPurchase = ({ id }) => {
                 }
             );
             console.log('Response:', response.data);
+            toast.success('データが正常に作成されました！',{ autoClose: 3000 });//create
             setCustomer(response.data)
-            openSuccessCheckModal();
+            wholeHearingSave(response.data.id);
+           
         } catch (error) {
             console.error('Error submitting form:', error);
             // Handle error here
@@ -256,7 +249,7 @@ const CustomerUpdateForPurchase = ({ id }) => {
                                     <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">お電話番号</label>
                                 </div>
                                 <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <InputComponent name="phone_number" value={customer.phone_number || ''} onChange={handleCustomerChange} type='text' required />
+                                    <InputComponent name="phone_number" value={customer.phone_number || ''} onChange={handleCustomerChange} type='tel' pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" placeholder="123-4567-7890" required />
                                 </div>
                                 <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
                                     <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">ご職業</label>
@@ -458,8 +451,8 @@ const CustomerUpdateForPurchase = ({ id }) => {
                         </form>
                     </div>
                     <div className='flex justify-center'>
-                        <div className="w-full pt-3" style={{ maxWidth: '80em' }}>
-                            <div className='w-full flex justify-center gap-20 mt-3 mb-5'>
+                        <div className="w-full" style={{ maxWidth: '80em' }}>
+                            <div className='w-full flex justify-center gap-20 mt-3 mb-1'>
                                 <ButtonComponent children="作成する" onClick={openCreateCheckModal} className='w-max h-11 !px-5' style={{ border: '1px solid #e87a00', backgroundColor: 'transparent', color: '#e87a00' }} />
                             </div>
                         </div>
@@ -485,23 +478,6 @@ const CustomerUpdateForPurchase = ({ id }) => {
                 </div>
             </div>
         )}
-        {isSuccessModalOpen && (
-            <div
-                className="fixed inset-0 p-4 flex flex-wrap justify-center items-center w-full h-full z-[1000] before:fixed before:inset-0 before:w-full before:h-full before:bg-[rgba(0,0,0,0.5)] overflow-auto font-[sans-serif]">
-                <div className="w-full max-w-lg bg-white shadow-lg rounded-lg p-6 relative">
-
-                    <div className="my-4 text-center">
-                        <h4 className="text-gray-800 text-base font-semibold mt-4">顧客データが正常に更新されました。</h4>
-
-                        <div className="text-center space-x-4 mt-8">
-                            <button type="button" onClick={onCloseSuccess}
-                                className="px-6 py-2 rounded-lg text-white text-sm bg-red-600 hover:bg-red-700 active:bg-red-600">OK</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        )}
-
     </>
     );
 };

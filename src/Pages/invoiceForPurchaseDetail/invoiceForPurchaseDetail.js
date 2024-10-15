@@ -220,10 +220,10 @@ const fetchInvoiceHistoryData = async () => {
         if (customerId) {
             await axios.get(`${wakabaBaseUrl}/customer/getCustomerById/${customerId}`)
                 .then(response => {
-                    //console.log("customerdata", response.data)
-                    checkedFunction(response.data.item1, response.data.item2, response.data.item3, response.data.item4, response.data.item5)
+                    // checkedFunction(response.data.item1, response.data.item2, response.data.item3, response.data.item4, response.data.item5)
+                    setCheckedStatus(response.data.item1, response.data.item2, response.data.item3, response.data.item4, response.data.item5);
                     setCustomer(response.data);
-                    console.log('----fetchcustomer2')
+                    console.log('----fetchcustomer2',response.data)
                 })
                 .catch(error => {
                     console.error("There was an error fetching the customer data!", error);
@@ -276,9 +276,6 @@ const fetchInvoiceHistoryData = async () => {
         product_type_two: '',
         product_type_three: '',
         product_type_four: '',
-
-        metal_type:'',
-        price_per_gram:'',
 
         product_photo: '',
         product_name: '',
@@ -1263,17 +1260,6 @@ const fetchInvoiceHistoryData = async () => {
     useEffect(() => {
         handleSubmit();
     }, [pairs, additionalCheckboxes]);
-    //---remake function
-    const checkedFunction = (item1, item2, item3, item4, item5) => {
-        if(item1?.length>0){
-            const array = item1.split(',').map(Number);
-            setAdditionalCheckboxes(array);
-            updateValueAtIndex(0, item2);
-            updateValueAtIndex(1, item3);
-            updateValueAtIndex(2, item4);
-            updateValueAtIndex(3, item5);
-        }
-    }
 
     const updateValueAtIndex = (index, newValue) => {
         setPairs(prevPairs => {
@@ -1296,6 +1282,25 @@ const fetchInvoiceHistoryData = async () => {
                 console.error("There was an error fetching the customer data!", error);
             });
     }
+
+    //return state
+    const setCheckedStatus = (item1, item2, item3, item4, item5) => {
+        console.log('item',item1)
+        if (item1) {
+            const array = item1.split(',').map(Number);
+            console.log('item',array)
+            setAdditionalCheckboxes(Array(22).fill(false));
+            // setAdditionalCheckboxes(array.map((value) => value > 0));
+            setAdditionalCheckboxes(array.fill(true));
+          } else {
+            setAdditionalCheckboxes(Array(22).fill(false));
+          }
+      
+        updateValueAtIndex(0, item2);
+        updateValueAtIndex(1, item3);
+        updateValueAtIndex(2, item4);
+        updateValueAtIndex(3, item5);
+      };
     //--------------------------------------------------------
     //go to stamps related page #62(stamp related purchase statement)
     const gotoStampsPurchase = () => {

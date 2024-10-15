@@ -140,49 +140,56 @@ const InvoicePurchaseOfBroughtBlank = () => {
             [e.target.name]: e.target.value,
         });
     };
-    //fetch user(profile) data
+    // fetch user(profile) data
+    // const [userData, setUserData] = useState([]);
+    // useEffect(() => {
+    //      const fetchUserData = async() => {
+    //         const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
 
-    const [userData, setUserData] = useState([]);
-    useEffect(() => {
-         const fetchUserData = async() => {
-            const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
-
-            if (!wakabaBaseUrl) {
-                throw new Error('API base URL is not defined');
-            }
+    //         if (!wakabaBaseUrl) {
+    //             throw new Error('API base URL is not defined');
+    //         }
     
-            axios.post(`${wakabaBaseUrl}/profile/getProfileById`, { userId })
-                .then(response => {
-                    const user = response.data;
-                    // console.log('user profile',user)
-                    setUserData(response.data);
-                    if (!response.data) {
-                        navigate('/');
-                    }
-                })
-                .catch(error => {
-                    console.error("There was an error fetching the customer data!", error);
-                });
-         }
-            fetchUserData()
-    }, [userId]);
+    //         axios.post(`${wakabaBaseUrl}/profile/getProfileById`, { userId })
+    //             .then(response => {
+    //                 const user = response.data;
+    //                 // console.log('user profile',user)
+    //                 setUserData(response.data);
+    //             })
+    //             .catch(error => {
+    //                 console.error("There was an error fetching the customer data!", error);
+    //             });
+    //      }
+    //         fetchUserData()
+    // }, [userId]);
 
     //salesSlipData
     const [salesSlipData, setSalesSlipData] = useState({
         trading_date: currentDay,
         number: '',
-        purchase_staff: userData.fullname,
+        purchase_staff: username,
         purchase_staff_id: userId,
         customer_id: childData,
-        store_name: userData.store_name,
+        store_name: userStoreName,
         hearing: '',
         product_type_one: '',
         product_type_two: '',
         product_type_three: '',
         product_type_four: '',
 
-        gold_type:'-',
-        gross_weight:'-',
+        gold_type:'',
+        gross_weight:'',
+        price_gram:'',
+        action_type:'',
+        movable:'',
+        tester:'',
+        model_number_one:'',
+        box_guarantee:'',
+        rank:'',
+        brand:'',
+        capacity:'',
+        percent:'',
+        notes:'',
 
         product_photo: '',
         product_name: '',
@@ -204,7 +211,7 @@ const InvoicePurchaseOfBroughtBlank = () => {
     const [totalSalesSlipData, setTotalSalesSlipData] = useState([]);
 
     const [staffData,setStaffData] = useState({
-        purchase_staff:userData.fullname,
+        purchase_staff:username,
         payment_staff:'',
     });
     //select pruchase staff name and payment staff name
@@ -216,7 +223,7 @@ const InvoicePurchaseOfBroughtBlank = () => {
             });
         } else {
             setStaffData({
-                purchase_staff:userData.fullname
+                purchase_staff:username
             });
         }
     }, [totalSalesSlipData]);
@@ -293,7 +300,7 @@ const InvoicePurchaseOfBroughtBlank = () => {
     const handleCategory1Change = (e,productList) => {
         const selectedCategory = e.target.value; // Get the selected category
         const selectedResult = productList.find(product => product.category === selectedCategory);
-        console.log('selectedCategory',selectedCategory,selectedResult.id)
+        // console.log('selectedCategory',selectedCategory,selectedResult.id)
         setSalesSlipData({
             ...salesSlipData,
             product_type_one: selectedCategory, // Store the selected category
@@ -347,6 +354,10 @@ const InvoicePurchaseOfBroughtBlank = () => {
                 .then(response => {
                     setVendors(response.data);
                     // console.log('vendrList',response.data)
+                    setSalesSlipData(prevState => ({
+                        ...prevState,
+                        number_of_vendor: response.data.length, // change the value of field1
+                      }));
                 })
                 .catch(error => {
                     console.error("There was an error fetching the customer data!", error);
@@ -437,8 +448,33 @@ const InvoicePurchaseOfBroughtBlank = () => {
     //add Data
     const addSlesItem = async() => {
 
-        if (showInputPurchase) {
             console.log('purchase data', salesSlipData,estimateValues);
+
+            let maxValue = 0; // Start with 0
+            let maxKey = ''; // To store the corresponding key
+            let hasValidValue = false; // Flag to check if there's any valid value
+            
+            Object.entries(estimateValues).forEach(([key, value]) => {
+              let currentValue;
+            
+              if (value.includes('~')) {
+                const [minValue] = value.split('~').map(Number);
+                currentValue = Math.floor(minValue); // Ensure it's an integer
+              } else if (value) {
+                currentValue = Math.floor(Number(value)); // Ensure it's an integer
+              } else {
+                currentValue = 0; // Non-valid value
+              }
+        
+              if (currentValue !== null && currentValue >= 0) {
+                hasValidValue = true; // Mark that we have a valid value
+
+                if (currentValue > maxValue) {
+                  maxValue = currentValue;
+                  maxKey = key; // Update corresponding key
+                }
+              }
+            });
 
             const formData = new FormData();
             formData.append('userStoreName', userStoreName);
@@ -449,7 +485,6 @@ const InvoicePurchaseOfBroughtBlank = () => {
             formData.append('purchase_staff_id', salesSlipData.purchase_staff_id);
             formData.append('customer_id', salesSlipData.customer_id);
             formData.append('store_name', salesSlipData.store_name);
-            formData.append('hearing', salesSlipData.hearing);
             formData.append('product_type_one', salesSlipData.product_type_one);
             formData.append('product_type_two', salesSlipData.product_type_two);
             formData.append('product_type_three', salesSlipData.product_type_three);
@@ -459,14 +494,29 @@ const InvoicePurchaseOfBroughtBlank = () => {
             formData.append('reason_application', salesSlipData.reason_application);
             formData.append('interest_rate', salesSlipData.interest_rate);
             formData.append('product_price', salesSlipData.product_price);
-            formData.append('highest_estimate_vendor', salesSlipData.highest_estimate_vendor);
-            formData.append('highest_estimate_price', salesSlipData.highest_estimate_price);
+            formData.append('highest_estimate_vendor', maxKey);
+            formData.append('highest_estimate_price', maxValue);
             formData.append('number_of_vendor', salesSlipData.number_of_vendor);
             formData.append('supervisor_direction', salesSlipData.supervisor_direction);
             formData.append('purchase_result', salesSlipData.purchase_result);
             formData.append('purchase_price', salesSlipData.purchase_price);
 
+            formData.append('gold_type', salesSlipData.gold_type);
+            formData.append('gross_weight', salesSlipData.gross_weight);
+            formData.append('price_gram', salesSlipData.price_gram);
+            formData.append('action_type', salesSlipData.action_type);
+            formData.append('movable', salesSlipData.movable);
+            formData.append('tester', salesSlipData.tester);
+            formData.append('model_number_one', salesSlipData.model_number_one);
+            formData.append('box_guarantee', salesSlipData.box_guarantee);
+            formData.append('rank', salesSlipData.rank);
+            formData.append('brand', salesSlipData.brand);
+            formData.append('capacity', salesSlipData.capacity);
+            formData.append('percent', salesSlipData.percent);
+            formData.append('notes', salesSlipData.notes);
+
             formData.append('estimate_wholesaler', JSON.stringify(estimateValues));
+            formData.append('comment', '{}');
 
             if (sendFile) formData.append('product_photo', sendFile);
             try {
@@ -486,6 +536,7 @@ const InvoicePurchaseOfBroughtBlank = () => {
                         const updatedData111 = invoiceData.map((data,Index) => ({
                             ...data,
                             estimate_wholesaler: JSON.parse(data.estimate_wholesaler),
+                            comment: JSON.parse(data.comment),
                         })); 
                         setTotalSalesSlipData(updatedData111);
                         toast.success('データが正常に作成されました！',{ autoClose: 3000 });//create
@@ -496,18 +547,29 @@ const InvoicePurchaseOfBroughtBlank = () => {
                     setSalesSlipData({
                         trading_date: currentDay,
                         number: '',
-                        purchase_staff: userData.fullname,
+                        purchase_staff: username,
                         purchase_staff_id: userId,
                         customer_id: childData,
-                        store_name: userData.store_name,
+                        store_name: userStoreName,
                         hearing: '',
                         product_type_one: '',
                         product_type_two: '',
                         product_type_three: '',
                         product_type_four: '',
 
-                        gold_type:'-',
-                        gross_weight:'-',
+                        gold_type:'',
+                        gross_weight:'',
+                        price_gram:'',
+                        action_type:'',
+                        movable:'',
+                        tester:'',
+                        model_number_one:'',
+                        box_guarantee:'',
+                        rank:'',
+                        brand:'',
+                        capacity:'',
+                        percent:'',
+                        notes:'',
         
                         product_photo: '',
                         product_name: '',
@@ -533,41 +595,6 @@ const InvoicePurchaseOfBroughtBlank = () => {
                 console.error('Error sending message:', error);
             }
 
-        } else {
-            setSalesSlipData({
-                trading_date: currentDay,
-                number: '',
-                purchase_staff: userData.fullname,
-                purchase_staff_id: userId,
-                customer_id: childData,
-                store_name: userData.store_name,
-                hearing: '',
-                product_type_one: '',
-                product_type_two: '',
-                product_type_three: '',
-                product_type_four: '',
-
-                gold_type:'-',
-                gross_weight:'-',
-
-                product_photo: '',
-                product_name: '',
-                comment: '',
-                quantity: '0',
-                reason_application: '',
-                interest_rate: '0',
-                product_price: '0',
-                highest_estimate_vendor: '',
-                highest_estimate_price: '0',
-                number_of_vendor: '',
-                supervisor_direction: '',
-                purchase_result: '',
-                purchase_price: '0',
-                estimate_wholesaler:'',
-            });
-            setShowInputPurchase(true);
-        }
-
     }
 
     //Edit one of tatalsalesSlipdata
@@ -589,6 +616,31 @@ const InvoicePurchaseOfBroughtBlank = () => {
         //     index === editIndex ? { ...row, ...salesSlipData } : row
         // );
         // setTotalSalesSlipData(updatedData);
+        let maxValue = 0; // Start with 0
+        let maxKey = ''; // To store the corresponding key
+        let hasValidValue = false; // Flag to check if there's any valid value
+        
+        Object.entries(estimateValues).forEach(([key, value]) => {
+          let currentValue;
+        
+          if (value.includes('~')) {
+            const [minValue] = value.split('~').map(Number);
+            currentValue = Math.floor(minValue); // Ensure it's an integer
+          } else if (value) {
+            currentValue = Math.floor(Number(value)); // Ensure it's an integer
+          } else {
+            currentValue = 0; // Non-valid value
+          }
+    
+          if (currentValue !== null && currentValue >= 0) {
+            hasValidValue = true; // Mark that we have a valid value
+
+            if (currentValue > maxValue) {
+              maxValue = currentValue;
+              maxKey = key; // Update corresponding key
+            }
+          }
+        });
 
             const formData = new FormData();
             formData.append('userStoreName', userStoreName);
@@ -600,7 +652,6 @@ const InvoicePurchaseOfBroughtBlank = () => {
             formData.append('purchase_staff_id', salesSlipData.purchase_staff_id);
             formData.append('customer_id', salesSlipData.customer_id);
             formData.append('store_name', salesSlipData.store_name);
-            formData.append('hearing', salesSlipData.hearing);
             formData.append('product_type_one', salesSlipData.product_type_one);
             formData.append('product_type_two', salesSlipData.product_type_two);
             formData.append('product_type_three', salesSlipData.product_type_three);
@@ -610,12 +661,26 @@ const InvoicePurchaseOfBroughtBlank = () => {
             formData.append('reason_application', salesSlipData.reason_application);
             formData.append('interest_rate', salesSlipData.interest_rate);
             formData.append('product_price', salesSlipData.product_price);
-            formData.append('highest_estimate_vendor', salesSlipData.highest_estimate_vendor);
-            formData.append('highest_estimate_price', salesSlipData.highest_estimate_price);
+            formData.append('highest_estimate_vendor', maxKey);
+            formData.append('highest_estimate_price', maxValue);
             formData.append('number_of_vendor', salesSlipData.number_of_vendor);
             formData.append('supervisor_direction', salesSlipData.supervisor_direction);
             formData.append('purchase_result', salesSlipData.purchase_result);
             formData.append('purchase_price', salesSlipData.purchase_price);
+
+            formData.append('gold_type', salesSlipData.gold_type);
+            formData.append('gross_weight', salesSlipData.gross_weight);
+            formData.append('price_gram', salesSlipData.price_gram);
+            formData.append('action_type', salesSlipData.action_type);
+            formData.append('movable', salesSlipData.movable);
+            formData.append('tester', salesSlipData.tester);
+            formData.append('model_number_one', salesSlipData.model_number_one);
+            formData.append('box_guarantee', salesSlipData.box_guarantee);
+            formData.append('rank', salesSlipData.rank);
+            formData.append('brand', salesSlipData.brand);
+            formData.append('capacity', salesSlipData.capacity);
+            formData.append('percent', salesSlipData.percent);
+            formData.append('notes', salesSlipData.notes);
 
             formData.append('estimate_wholesaler', JSON.stringify(estimateValues));
 
@@ -637,6 +702,7 @@ const InvoicePurchaseOfBroughtBlank = () => {
                             const updatedData111 = invoiceData.map((data,Index) => ({
                                 ...data,
                                 estimate_wholesaler: JSON.parse(data.estimate_wholesaler),
+                                comment: JSON.parse(data.comment),
                             })); 
                             setTotalSalesSlipData(updatedData111);
                             toast.success('変更が正常に保存されました！',{ autoClose: 3000 });//update
@@ -647,18 +713,29 @@ const InvoicePurchaseOfBroughtBlank = () => {
                         setSalesSlipData({
                             trading_date: currentDay,
                             number: '',
-                            purchase_staff: userData.fullname,
+                            purchase_staff: username,
                             purchase_staff_id: userId,
                             customer_id: childData,
-                            store_name: userData.store_name,
+                            store_name: userStoreName,
                             hearing: '',
                             product_type_one: '',
                             product_type_two: '',
                             product_type_three: '',
                             product_type_four: '',
 
-                            gold_type:'-',
-                            gross_weight:'-',
+                            gold_type:'',
+                            gross_weight:'',
+                            price_gram:'',
+                            action_type:'',
+                            movable:'',
+                            tester:'',
+                            model_number_one:'',
+                            box_guarantee:'',
+                            rank:'',
+                            brand:'',
+                            capacity:'',
+                            percent:'',
+                            notes:'',
             
                             product_photo: '',
                             product_name: '',
@@ -694,10 +771,10 @@ const InvoicePurchaseOfBroughtBlank = () => {
         setSalesSlipData({
             trading_date: currentDay,
             number: '',
-            purchase_staff: userData.fullname,
+            purchase_staff: username,
             purchase_staff_id: userId,
             customer_id: childData,
-            store_name: userData.store_name,
+            store_name: userStoreName,
             hearing: '',
             product_type_one: '',
             product_type_two: '',
@@ -740,6 +817,7 @@ const InvoicePurchaseOfBroughtBlank = () => {
                     const updatedData111 = invoiceData.map((data,Index) => ({
                         ...data,
                         estimate_wholesaler: JSON.parse(data.estimate_wholesaler),
+                        comment: JSON.parse(data.comment),
                     })); 
                     setTotalSalesSlipData(updatedData111);
                     toast.success('データが正常に削除されました！',{ autoClose: 3000 });//remove
@@ -750,18 +828,29 @@ const InvoicePurchaseOfBroughtBlank = () => {
                 setSalesSlipData({
                     trading_date: currentDay,
                     number: '',
-                    purchase_staff: userData.fullname,
+                    purchase_staff: username,
                     purchase_staff_id: userId,
                     customer_id: childData,
-                    store_name: userData.store_name,
+                    store_name: userStoreName,
                     hearing: '',
                     product_type_one: '',
                     product_type_two: '',
                     product_type_three: '',
                     product_type_four: '',
 
-                    gold_type:'-',
-                    gross_weight:'-',
+                    gold_type:'',
+                    gross_weight:'',
+                    price_gram:'',
+                    action_type:'',
+                    movable:'',
+                    tester:'',
+                    model_number_one:'',
+                    box_guarantee:'',
+                    rank:'',
+                    brand:'',
+                    capacity:'',
+                    percent:'',
+                    notes:'',
     
                     product_photo: '',
                     product_name: '',
@@ -941,13 +1030,23 @@ const InvoicePurchaseOfBroughtBlank = () => {
     const [selectedProduct, setSelectedProduct] = useState(null);
     const [showModal, setShowModal] = useState(false);
     const [editRow, setEditRow] = useState({ comment: '' });
-    const [modalValue, setModalValue] = useState('');
+    const [modalValue, setModalValue] = useState({
+        question1:'',
+        comment1:'',
+        question2:'',
+        comment2:'',
+        buyyear:'',
+        buymonth:'',
+        comment3:'',
+        question4:'',
+        comment4:'',
+    });
 
     const modalRef = useRef(null);
 
     const handleProductClick = (item) => {
         setSelectedProduct(item);
-        setModalValue(item);
+        // setModalValue(item);
         setShowModal(true);
         setEditRow(totalSalesSlipData[item]);
     };
@@ -958,8 +1057,7 @@ const InvoicePurchaseOfBroughtBlank = () => {
 
     const handleCommentChange = (e) => {
         const { name, value } = e.target;
-        setEditRow({ ...editRow, [name]: value });
-        console.log('comment', editRow.comment)
+        setModalValue({ ...modalValue, [name]: value });
     };
 
     const handleMouseOver = (item) => {
@@ -980,7 +1078,8 @@ const InvoicePurchaseOfBroughtBlank = () => {
         //     index === selectedProduct ? { ...row, ...editRow } : row
         // );
         // setTotalSalesSlipData(updatedData);
-        console.log('editRow',editRow)
+        const commentData = JSON.stringify(modalValue);
+        console.log('modalValue',commentData)
         try {
             const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
 
@@ -988,13 +1087,14 @@ const InvoicePurchaseOfBroughtBlank = () => {
                 throw new Error('API base URL is not defined');
             }
             const payload = editRow;
-            await axios.post(`${wakabaBaseUrl}/purchaseinvoice/commentsave`, {userId:userId,payload:payload, userStoreName:userStoreName})
+            await axios.post(`${wakabaBaseUrl}/purchaseinvoice/commentsave`, {userId:userId,payload:payload,commentData:commentData,userStoreName:userStoreName})
             .then(response => {
                 const invoiceData = response.data;
                 if(invoiceData?.length>0) {
                     const updatedData111 = invoiceData.map((data,Index) => ({
                         ...data,
                         estimate_wholesaler: JSON.parse(data.estimate_wholesaler),
+                        comment: JSON.parse(data.comment),
                     })); 
                     setTotalSalesSlipData(updatedData111);
 
@@ -1014,8 +1114,19 @@ const InvoicePurchaseOfBroughtBlank = () => {
                     product_type_three: '',
                     product_type_four: '',
 
-                    gold_type:'-',
-                    gross_weight:'-',
+                    gold_type:'',
+                    gross_weight:'',
+                    price_gram:'',
+                    action_type:'',
+                    movable:'',
+                    tester:'',
+                    model_number_one:'',
+                    box_guarantee:'',
+                    rank:'',
+                    brand:'',
+                    capacity:'',
+                    percent:'',
+                    notes:'',
     
                     product_photo: '',
                     product_name: '',
@@ -1154,21 +1265,23 @@ const InvoicePurchaseOfBroughtBlank = () => {
         });
     };
     //save function
-    const itemsSave = async() => {
-        setIsCreateModalOpen(false);
+    const itemsSave = async(id) => {
+        let invoiceIds = [];
+        if(totalSalesSlipData?.length>0) {
+            invoiceIds = totalSalesSlipData.map(obj => obj.id);
+        }
         const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
         if (!wakabaBaseUrl) {
             throw new Error('API base URL is not defined');
         }
 
-       await axios.post(`${wakabaBaseUrl}/customer/createcustomeritem`, customer)
+       await axios.post(`${wakabaBaseUrl}/customer/createcustomeritem`, {id,customer,invoiceIds:invoiceIds})
             .then(response => {
                 console.log('newCustomer',response.data)
                 checkedFunction(response.data.item1, response.data.item2, response.data.item3, response.data.item4, response.data.item5)
                 setCustomer(response.data);
                 updatecustomerId(response.data.id);
                 setChildData(response.data.id);
-                openSuccessCheckModal();
             })
             .catch(error => {
                 console.error("There was an error fetching the customer data!", error);
@@ -1253,11 +1366,11 @@ const itemsImageUpload = async () => {
     formDataObj.append('ids', ids);
     formDataObj.append('customer_id', childData);
     formDataObj.append('purchase_staff_id', userId);
-    formDataObj.append('store_name', userData.store_name);
+    formDataObj.append('store_name', userStoreName);
 
     if (itemsImageFile) formDataObj.append('entire_items_url', itemsImageFile);
     if (itemsDocFile) formDataObj.append('document_url', itemsDocFile);
-    console.log('ids',ids,userData.store_name,userId,childData)
+    console.log('ids',ids,userStoreName,userId,childData)
     try {
         const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
         if (!wakabaBaseUrl) {
@@ -1275,6 +1388,7 @@ const itemsImageUpload = async () => {
             const updatedData111 = invoiceData.map((data,Index) => ({
                 ...data,
                 estimate_wholesaler: JSON.parse(data.estimate_wholesaler),
+                comment: JSON.parse(data.comment),
             })); 
             setTotalSalesSlipData(updatedData111);
 
@@ -1304,6 +1418,7 @@ const purchasePermission = async() => {
                     const updatedData111 = invoiceData.map((data,Index) => ({
                         ...data,
                         estimate_wholesaler: JSON.parse(data.estimate_wholesaler),
+                        comment: JSON.parse(data.comment),
                     })); 
                     setTotalSalesSlipData(updatedData111);
 
@@ -1323,26 +1438,47 @@ const purchasePermission = async() => {
 const [pemissionSuccess, setPermissionSuccess] = useState(false);
 const closePermissionSuccess = () => {
     setPermissionSuccess(false);
+}   
+//----------------------------------show vendor assessment modal----------------------------------------
+const [showEstimate, setShowEstimate] = useState(false);
+const openEstimate = (index) => {
+    setShowEstimate(true);
+    
+    //setShowInputPurchase(!showInputPurchase);
+    // setEditIndex(index);
+    console.log('selectedtotalSalesData',totalSalesSlipData[index])
+    setSalesSlipData(totalSalesSlipData[index]); // Populate the input fields with the selected row's data
+    setEstimateValues(totalSalesSlipData[index].estimate_wholesaler);
+    if(totalSalesSlipData[index].product_type_one){
+        const selectedResult = product1s.find(product => product.category === totalSalesSlipData[index].product_type_one);
+        console.log('selectedResult',selectedResult)
+        getVendorList(selectedResult.id);
+    }
+        
 }
-//-----------------------------------new custoemr create and succes modal---------------------------------------
-const [isCreateModalOpen, setIsCreateModalOpen] = useState(false); // For modal visibility
-const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false); // For modal visibility
+const saveEstimate = () => {
+    setShowEstimate(false);
+    saveSalesItem();
+}
+//-----------------------------------item detail---------------------------------------
+const [isDetailShow ,setIsDetailShow] = useState(false);
+const openItemDetailShow = () => {
+    setIsDetailShow(!isDetailShow)
+}
+//----------------------------------create data----------------------------------------
+    const handleInvoiceForPurchaseData = () => {
+        console.log('dfafafafasfas',salesSlipData)
+        if(salesSlipData.id){
+            console.log('edit')
+            saveSalesItem();
 
-const openCreateCheckModal = () => {
-    setIsCreateModalOpen(true);
-}
-
-const onClose = () => {
-    setIsCreateModalOpen(false);
-}
-
-const openSuccessCheckModal = () => {
-    setIsSuccessModalOpen(true);
-}
-const onCloseSuccess = () => {
-    setIsSuccessModalOpen(false);
-}
-
+        } else {
+            console.log('add')
+            addSlesItem();
+        }
+    }
+//-------------------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------
     return (<>
         {/* <Titlebar title={title} /> */}
         <div className="bg-[trasparent] font-[sans-serif] w-full">
@@ -1372,7 +1508,10 @@ const onCloseSuccess = () => {
                         <div className='w-full'>
                             <div className='invoice-purchase-brought flex justify-between'>
                                 <div className='invoice-purchase-brought-buttons w-[40%] flex justify-between'>
-                                    <ButtonComponent onClick={sendPurchaseDataToReceipt} children="預り証発行済" className='w-max h-11 !px-5' style={{ border: '1px solid #7fe374', backgroundColor: 'transparent', color: '#7fe374' }} />
+                                    {(totalSalesSlipData?.length>0 && totalSalesSlipData[0].customer_id !== '0') ?
+                                        <ButtonComponent onClick={sendPurchaseDataToReceipt} children="預り証発行済" className='w-max h-11 !px-5' style={{ border: '1px solid #7fe374', backgroundColor: 'transparent', color: '#7fe374' }} />
+                                    : <ButtonComponent children="預り証発行済" className='w-max h-11 !px-5' style={{ border: '1px solid #7fe374', backgroundColor: 'transparent', color: '#7fe374' }} /> 
+                                    }
                                     <ButtonComponent onClick={openItemsImageModal} children="全体撮影" className='w-max h-11 !px-5' style={{ border: '1px solid #e87a00', backgroundColor: 'transparent', color: '#e87a00' }} />
                                     <ButtonComponent onClick={openItemsDocModal} children="紙書類撮影" className='w-max h-11 !px-5' style={{ border: '1px solid #e87a00', backgroundColor: 'transparent', color: '#e87a00' }} />
                                 </div>
@@ -1422,18 +1561,19 @@ const onCloseSuccess = () => {
             </div>
             <div className="w-full invoice-purchase-brought flex justify-center">
                 <div className="w-full flex justify-center mt-2" >
-                    <div className=" pr-5 max-w-[650px]">
-                        <CustomerRegister id={childData} />
+                    <div className=" pr-5 max-w-[600px] !z-50">
+                        {/* -------customer register--------- */}
+                        <CustomerRegister id={childData} wholeHearingSave={itemsSave}/>
                     </div>
                 </div>
                 {/* textarea*/}
-                <div className="w-full h-full flex justify-center mt-5">
+                <div className="w-full h-full flex justify-center">
                     <div className='w-full'>
                         {/* textarea First*/}
                         <div className='w-full flex justify-center'>
                             <div className=" h-full w-full">
                                 {/* Text area */}
-                                <div className="px-3 w-full max-h-[300px] overflow-y-[300px]">
+                                {/* <div className="px-3 w-full max-h-[300px] overflow-y-[300px]">
                                     <label className="text-[#70685a] text-[20px] font-bold mb-2 block text-left mr-10 py-1 !mb-0">過去の来店履歴</label>
                                     <div style={{ width: '100%', overflow: 'auto' }} >
                                         <table className='text-center w-full' style={Table}>
@@ -1463,29 +1603,20 @@ const onCloseSuccess = () => {
                                             </thead>
                                         </table>
                                     </div>
-                                </div>
-
+                                </div> */}
                             </div>
                         </div>
                         {/* textarea Second*/}
                         <div className='w-full flex justify-center'>
-                            <div className=" h-full w-full mt-2">
+                            <div className=" h-full w-full">
                                 {/* Text area */}
                                 <div className='w-full flex justify-center'>
-                                    <div className=" h-full w-full">
+                                    <div className=" h-full">
                                         {/* Text area */}
-                                        <div className='w-full flex justify-between mt-5'>
+                                        <div className='w-full'>
                                             <label className="text-[#70685a] text-[20px] font-bold mb-2 block text-left mr-10 py-1 !mb-0">全体ヒアリング</label>
-                                            <button type="button" onClick={openCreateCheckModal}
-                                                className="flex px-5 py-1 rounded-lg text-md tracking-wider font-bold border border-[#70685a] outline-none bg-transparent text-[#70685a] transition-all duration-300">
-                                                <div className='w-7'>
-                                                    {/* <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium  MuiSvgIcon-root MuiSvgIcon-fontSizeLarge  css-1hkft75" fill='#524c3b' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="AddCircleOutlineOutlinedIcon" title="AddCircleOutlineOutlined"><path d="M13 7h-2v4H7v2h4v4h2v-4h4v-2h-4zm-1-5C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8"></path></svg> */}
-                                                    <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1rqipl4" fill='#524c3b' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="DoneOutlineOutlinedIcon" title="DoneOutlineOutlined"><path d="m19.77 4.93 1.4 1.4L8.43 19.07l-5.6-5.6 1.4-1.4 4.2 4.2zm0-2.83L8.43 13.44l-4.2-4.2L0 13.47l8.43 8.43L24 6.33z"></path></svg>
-                                                </div>
-                                                <div><span className='pl-1 text-[20px]'>保存</span></div>
-                                            </button>
                                         </div>
-                                        <div className="w-full max-h-[500px] overflow-y-scroll">
+                                        <div className="w-full max-h-[600px]">
                                             <div>
                                                 <div className='flex'>
                                                     <label className="text-[#70685a] text-[18px] mb-2 block text-left mr-10 py-1">項目1</label>
@@ -1655,7 +1786,7 @@ const onCloseSuccess = () => {
                     </div>
                 </div>
             </div>
-            <div className='w-full flex justify-between mt-1'>
+            <div className='w-full flex justify-between mt-1 bg-[transparent] !z-50'>
                 <div>
                     {childData !== '0' ? 
                         <button type="button" onClick={gotoStampsPurchase}
@@ -1681,86 +1812,273 @@ const onCloseSuccess = () => {
                             <tr>
                                 <th style={Th} width='1%'>選択</th>
                                 <th style={Th} width='2%'>商品番号</th>
-                                <th style={Th} >ヒアリング</th>
-                                <th style={Th} >
-                                    力テゴリ-1
-                                    {isshow ? <button><img src={rightArrow} className='h-4' alt='' onClick={openSubtable} ></img></button> : <button><img src={leftArrow} className='h-4' alt='' onClick={closeSubtable}></img></button>}
+                                <th style={Th}>
+                                    <div className='flex justify-center w-max'>
+                                        力テゴリ-1
+                                        <div className='flex flex-col justify-center'>
+                                            {isshow ? <button><img src={rightArrow} className='h-4' alt='' onClick={openSubtable} ></img></button> : <button><img src={leftArrow} className='h-4' alt='' onClick={closeSubtable}></img></button>}
+                                        </div>
+                                    </div>
                                 </th>
                                 {isshow ? <th style={Th} >力テゴリ-2</th> : <th style={{ display: 'none' }}></th>}
                                 {isshow ? <th style={Th} >力テゴリ-3</th> : <th style={{ display: 'none' }}></th>}
                                 {isshow ? <th style={Th} >力テゴリ-4</th> : <th style={{ display: 'none' }}></th>}
                                 <th style={Th} >画像</th>
-                                <th style={Th} width='10%'>商品名</th>
+                                <th style={Th}>
+                                    <div className='w-full flex justify-center'>
+                                        <div className='flex w-20'>
+                                            商品名
+                                            <div className='flex flex-col justify-center'>
+                                                {isDetailShow ? <button><img src={rightArrow} className='h-4' alt='' onClick={openItemDetailShow} ></img></button> : <button><img src={leftArrow} className='h-4' alt='' onClick={openItemDetailShow}></img></button>}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </th>
+                                {isDetailShow ? <th style={Th} >金種</th> : <th style={{ display: 'none' }}></th>}
+                                {isDetailShow ? <th style={Th} >総重量</th> : <th style={{ display: 'none' }}></th>}
+                                {isDetailShow ? <th style={Th} >g/額面</th> : <th style={{ display: 'none' }}></th>}
+                                {isDetailShow ? <th style={Th} >型番 </th> : <th style={{ display: 'none' }}></th>}
+                                {isDetailShow ? <th style={Th} >駆動方式</th> : <th style={{ display: 'none' }}></th>}
+                                {isDetailShow ? <th style={Th} >可動 </th> : <th style={{ display: 'none' }}></th>}
+                                {isDetailShow ? <th style={Th} >テスター</th> : <th style={{ display: 'none' }}></th>}
+                                {isDetailShow ? <th style={Th} >箱ギャラ</th> : <th style={{ display: 'none' }}></th>}
+                                {isDetailShow ? <th style={Th} >ランク</th> : <th style={{ display: 'none' }}></th>}
+                                {isDetailShow ? <th style={Th} >銘柄</th> : <th style={{ display: 'none' }}></th>}
+                                {isDetailShow ? <th style={Th} >容量</th> : <th style={{ display: 'none' }}></th>}
+                                {isDetailShow ? <th style={Th} >度数</th> : <th style={{ display: 'none' }}></th>}
+                                {isDetailShow ? <th style={Th} >備考</th> : <th style={{ display: 'none' }}></th>}
                                 <th style={Th} >個数</th>
-                                <th style={Th}>金種</th>
-                                <th style={Th}>g/額面</th>
                                 <th style={Th} width='10%'>申請の根拠</th>
                                 <th style={Th} >利率(%)</th>
-                                <th style={Th} >申請額</th>
+                                {/* <th style={Th} >申請額</th> */}
+                                <th style={Th} >買取額</th>
+                                <th style={Th} >上司指示額</th>
                                 <th style={Th} >最高査定業者</th>
                                 <th style={Th} >最高査定額</th>
                                 <th style={Th} >
                                     業者
-                                    {isvendorshow ? <button><img src={rightArrow} className='h-4' alt='' onClick={openVendortable} ></img></button> : <button><img src={leftArrow} className='h-4' alt='' onClick={closeVendortable}></img></button>}
+                                    {/* {isvendorshow ? <button><img src={rightArrow} className='h-4' alt='' onClick={openVendortable} ></img></button> : <button><img src={leftArrow} className='h-4' alt='' onClick={closeVendortable}></img></button>} */}
                                 </th>
                                 {isvendorshow && allVendors.map((vendor, index) => (
                                     <th key={index} style={Th}>{vendor.vendor_name}</th>
                                 ))}
-                                <th style={Th} >上司指示額</th>
                                 <th style={Th} >結果</th>
-                                <th style={Th} >買取額</th>
-                                <th style={Th}>編集</th>
-                                <th style={Th}>削除</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr style={{ display: 'none' }}>
-                                <td><input type='checkbox' name='checkbox1' /></td>
-                                <td style={Td}>qqq</td>
-                                <td style={Td}>qqq</td>
-                                <td style={Td} >qqq</td>
-                                {isshow ? <td style={Td} >qq</td> : <td style={{ display: 'none' }}></td>}
-                                {isshow ? <td style={Td} >qq</td> : <td style={{ display: 'none' }}></td>}
-                                {isshow ? <td style={Td} >aa</td> : <td style={{ display: 'none' }}></td>}
+                           <tr className='!h-6'>
+                                <td></td>
                                 <td style={Td}>
-                                    aa
+                                    <InputComponent name='number' onChange={handleChange} disabled={true} value={salesSlipData.id || ''} className='w-full h-8 text-[#70685a]' />
                                 </td>
-                                <td style={Td}>aa</td>
-                                <td style={Td}> aa </td>
-                                <td style={Td}> aa </td>
-                                <td style={Td}> aa </td>
-                                <td style={Td}> aa </td>
-                                <td style={Td}> aa </td>
-                                <td style={Td}> aa</td>
-                                <td style={Td}>aa</td>
-                                {isvendorshow && allVendors.map((vendor, index) => (
-                                    <td key={index} style={Td}>aa</td>
-                                ))}
-                                <td style={Td}>aa</td>
-                                <td style={Td}>aa</td>
-                                <td style={Td}>aa</td>
-                                <td style={Td} className='w-8 bg-transparent hover:bg-[#ebe6e0] transition-all duration-300'>
-                                    <div className='w-7 ml-2'>
-                                        <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium  MuiSvgIcon-root MuiSvgIcon-fontSizeLarge  css-1hkft75" fill='#524c3b' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="EditCalendarOutlinedIcon" title="EditCalendarOutlined"><path d="M5 10h14v2h2V6c0-1.1-.9-2-2-2h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h7v-2H5zm0-4h14v2H5zm17.84 10.28-.71.71-2.12-2.12.71-.71c.39-.39 1.02-.39 1.41 0l.71.71c.39.39.39 1.02 0 1.41m-3.54-.7 2.12 2.12-5.3 5.3H14v-2.12z"></path></svg>
+                                <td style={Td}>
+                                    <select
+                                        name="product_type_one"
+                                        value={salesSlipData.product_type_one || ''}
+                                        onChange={(e) => handleCategory1Change(e, product1s)}
+                                        className='h-8 w-full'
+                                    >
+                                        <option value="" disabled>商品タイプ1</option>
+                                        {product1s.map((option, index) => (
+                                            <option key={option.id} value={option.category || ''}>
+                                                {option.category || ''}
+                                            </option>
+                                        ))}
+                                    </select>
+                                </td>
+                                {isshow ? <td style={Td}>
+                                    <select
+                                        name="product_type_two"
+                                        value={salesSlipData.product_type_two || ''}
+                                        onChange={handleChange}
+                                        className='h-8 w-full'
+                                    >
+                                        <option value="" disabled>商品タイプ2</option>
+                                        {product2s.map((option, index) => (
+                                            <option key={index} value={option.category || ''}>
+                                                {option.category || ''}
+                                            </option>
+                                        ))}
+                                    </select>
+                                    </td> : <td style={{ display: 'none' }}></td>}
+                                {isshow ? <td style={Td}>
+                                    <input
+                                        list="product3s"
+                                        id="product_type_three"
+                                        name="product_type_three"
+                                        value={salesSlipData.product_type_three || ''}
+                                        onChange={handleChange}
+                                        className='h-8 w-full'
+                                    />
+                                    <datalist id="product3s">
+                                        {product3s.map((option, index) => (
+                                            <option key={index} value={option.category || ''} />
+                                        ))}
+                                    </datalist>
+                                    </td> : <td style={{ display: 'none' }}></td>}
+                                {isshow ? <td style={Td}>
+                                    <input
+                                        list="product4s"
+                                        id="product_type_four"
+                                        name="product_type_four"
+                                        value={salesSlipData.product_type_four || ''}
+                                        onChange={handleChange}
+                                        className='h-8 w-full'
+                                    />
+                                    <datalist id="product4s">
+                                        {product4s.map((option, index) => (
+                                            <option key={index} value={option.category || ''} />
+                                        ))}
+                                    </datalist>
+                                    </td> : <td style={{ display: 'none' }}></td>}
+                                <td style={Td}>
+                                    <div style={{ flexDirection: 'column', }} className='flex justify-center'>
+                                        <div className='flex justify-center py-1'>
+                                            < button type="button" onClick={() => handleButtonClick(sendInputRef)} className="w-20 flex justify-center font-blod rounded-lg text-[#70685a] text-[18px] bg-[#ebe6e0] hover:bg-blue-700 focus:outline-none">
+                                                <svg className="w-7 h-7 flex justify-center " focusable="false" aria-hidden="true" fill='#524c3b' viewBox="0 0 24 24" data-testid="FileUploadOutlinedIcon" title="FileUploadOutlined"><path d="M18 15v3H6v-3H4v3c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2v-3zM7 9l1.41 1.41L11 7.83V16h2V7.83l2.59 2.58L17 9l-5-5z"></path></svg>
+                                            </button>
+                                            <input type="file" name="fileUrl" ref={sendInputRef} style={{ display: 'none' }} onChange={(e) => handleFileChange(e)} />
+                                        </div>
                                     </div>
                                 </td>
-                                <td style={Td} className='w-8 bg-transparent hover:bg-[#ebe6e0] transition-all duration-300'>
-                                    <div className='w-7 ml-2'>
-                                        <svg focusable="false" aria-hidden="true" viewBox="0 0 23 23" fill='#524c3b' data-testid="CancelOutlinedIcon" title="CancelOutlined"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8m3.59-13L12 10.59 8.41 7 7 8.41 10.59 12 7 15.59 8.41 17 12 13.41 15.59 17 17 15.59 13.41 12 17 8.41z"></path></svg>
+                                <td style={Td}>
+                                    <InputComponent name='product_name' onChange={handleChange} value={salesSlipData.product_name || ''} className='w-full h-8 text-[#70685a]' />
+                                </td>
+
+                                {isDetailShow ? salesSlipData.product_type_one === '貴金属' ?
+                                        <td style={Td}>
+                                            <InputComponent name='gold_type' type='text' onChange={handleChange} value={salesSlipData.gold_type || ''} className='w-20 h-8 text-[#70685a]' />
+                                        </td>  :  <td style={Td}></td>               
+                                 : <td style={{ display: 'none' }}></td>}
+                                {isDetailShow ? salesSlipData.product_type_one === '貴金属' ?
+                                    <td style={Td}>
+                                        <InputComponent name='gross_weight' type='text' onChange={handleChange} value={salesSlipData.gross_weight || ''} className='w-20 h-8 text-[#70685a]' />
+                                    </td> :  <td style={Td}></td>    
+                                 : <td style={{ display: 'none' }}></td>}
+                                {isDetailShow ? salesSlipData.product_type_one === '貴金属' ?
+                                    <td style={Td}>
+                                        <InputComponent name='price_gram' type='text' onChange={handleChange} value={salesSlipData.price_gram || ''} className='w-20 h-8 text-[#70685a]' />
+                                    </td> :  <td style={Td}></td>    
+                                 : <td style={{ display: 'none' }}></td>}
+                                {isDetailShow ? (salesSlipData.product_type_one === '時計' || salesSlipData.product_type_one === 'バッグ' 
+                                     || salesSlipData.product_type_one === '財布' || salesSlipData.product_type_one === 'アクセサリー' || salesSlipData.product_type_one === 'カメラ') ?
+                                    <td style={Td}>
+                                        <InputComponent name='model_number_one' type='text' onChange={handleChange} value={salesSlipData.model_number_one || ''} className='w-20 h-8 text-[#70685a]' />
+                                    </td>  : <td style={Td}></td>
+                                 : <td style={{ display: 'none' }}></td>}
+                                {isDetailShow ? salesSlipData.product_type_one === '時計' ?
+                                    <td style={Td}>
+                                        <InputComponent name='action_type' type='text' onChange={handleChange} value={salesSlipData.action_type || ''} className='w-20 h-8 text-[#70685a]' />
+                                    </td> : <td style={Td}></td>
+                                 : <td style={{ display: 'none' }}></td>}
+                                {isDetailShow ? salesSlipData.product_type_one === '時計' ?
+                                    <td style={Td}>
+                                        <InputComponent name='movable' type='text' onChange={handleChange} value={salesSlipData.movable || ''} className='w-20 h-8 text-[#70685a]' />
+                                    </td> : <td style={Td}></td>
+                                 : <td style={{ display: 'none' }}></td>}
+                                {isDetailShow ? salesSlipData.product_type_one === '時計' ?
+                                    <td style={Td}>
+                                        <InputComponent name='tester' type='text' onChange={handleChange} value={salesSlipData.tester || ''} className='w-20 h-8 text-[#70685a]' />
+                                    </td> : <td style={Td}></td>
+                                 : <td style={{ display: 'none' }}></td>} 
+                                {isDetailShow ? salesSlipData.product_type_one === '時計' ?
+                                    <td style={Td}>
+                                        <InputComponent name='box_guarantee' type='text' onChange={handleChange} value={salesSlipData.box_guarantee || ''} className='w-20 h-8 text-[#70685a]' />
+                                    </td> : <td style={Td}></td>
+                                 : <td style={{ display: 'none' }}></td>}
+                                {isDetailShow ? (salesSlipData.product_type_one === '時計' || salesSlipData.product_type_one === 'アクセサリー' || salesSlipData.product_type_one === 'カメラ') ?
+                                    <td style={Td}>
+                                        <InputComponent name='rank' type='text' onChange={handleChange} value={salesSlipData.rank || ''} className='w-20 h-8 text-[#70685a]' />
+                                    </td> : <td style={Td}></td>
+                                 : <td style={{ display: 'none' }}></td>}
+                                {isDetailShow ? salesSlipData.product_type_one === '洋酒' ?
+                                    <td style={Td}>
+                                        <InputComponent name='box_guarantee' type='text' onChange={handleChange} value={salesSlipData.box_guarantee || ''} className='w-20 h-8 text-[#70685a]' />
+                                    </td> : <td style={Td}></td>
+                                 : <td style={{ display: 'none' }}></td>}
+                                {isDetailShow ? salesSlipData.product_type_one === '洋酒' ?
+                                    <td style={Td}>
+                                        <InputComponent name='capacity' type='text' onChange={handleChange} value={salesSlipData.capacity || ''} className='w-20 h-8 text-[#70685a]' />
+                                    </td> : <td style={Td}></td>
+                                 : <td style={{ display: 'none' }}></td>}
+                                {isDetailShow ? salesSlipData.product_type_one === '洋酒' ?
+                                    <td style={Td}>
+                                        <InputComponent name='percent' type='text' onChange={handleChange} value={salesSlipData.percent || ''} className='w-20 h-8 text-[#70685a]' />
+                                    </td> : <td style={Td}></td>
+                                    : <td style={{ display: 'none' }}></td>}
+                                {isDetailShow ?
+                                    <td style={Td}>
+                                        <InputComponent name='notes' type='text' onChange={handleChange} value={salesSlipData.notes || ''} className='w-20 h-8 text-[#70685a]' />
+                                    </td> 
+                                     : <td style={{ display: 'none' }}></td>}
+
+                                <td style={Td}>
+                                    <InputComponent name='quantity' type='number' onChange={handleChange} value={salesSlipData.quantity || ''} className='w-40 h-8 text-[#70685a]' />
+                                </td>
+                                <td style={Td}>
+                                    <InputComponent name='reason_application' onChange={handleChange} value={salesSlipData.reason_application || ''} className='w-full h-8 text-[#70685a]' />
+                                </td>
+                                <td style={Td}>
+                                    <InputComponent name='interest_rate' type='number' onChange={handleChange} value={salesSlipData.interest_rate || ''} className='w-20 h-8 text-[#70685a]' />
+                                </td>
+                                <td style={Td}>
+                                    <div className='w-full flex justify-center'>
+                                        <InputComponent name='purchase_price' onChange={handleChange} type='number' value={salesSlipData.purchase_price || ''} className='w-40 h-8 text-[#70685a]' />
+                                    </div>
+                                </td>
+                                <td style={Td}>
+                                    <InputComponent name='supervisor_direction' onChange={handleChange} value={salesSlipData.supervisor_direction || ''} className='w-full h-8 text-[#70685a]' />
+                                </td>
+                                <td style={Td}>
+                                    <InputComponent name='highest_estimate_vendor' onChange={handleChange} value={salesSlipData.highest_estimate_vendor || ''} className='w-full h-8 text-[#70685a]' disabled/>
+                                </td>
+                                <td style={Td}>
+                                    <InputComponent name='highest_estimate_price' type='number' onChange={handleChange} value={salesSlipData.highest_estimate_price || ''} className='w-full h-8 text-[#70685a]' disabled/>
+                                </td>
+                                <td style={Td}>
+                                    <InputComponent name='number_of_vendor' type='number' onChange={handleChange} value={salesSlipData.number_of_vendor || ''} className='w-20 h-8 text-[#70685a]'  style={{display:'none'}}/>
+                                    <button type="button"
+                                                className="px-3 py-1 rounded text-[#626373] tracking-wider font-semibold border border-[#70685a] bg-[#ebe5e1]">
+                                                {salesSlipData.number_of_vendor || '0'}
+                                    </button>
+                               </td>
+                                {isvendorshow && vendors?.length>0 && vendors.map((vendor, index) => (
+                                    <td style={Td} key={index}>
+                                        <InputComponent name={vendor.vendor_name} onChange={(e) => handleEstimateChange(vendor.vendor_name, e.target.value)} value={estimateValues[vendor.vendor_name] || ''} className='w-full h-8 text-[#70685a] border border-[red]' />
+                                    </td>
+                                ))}
+                                <td style={Td}>
+                                    <select name="purchase_result" value={salesSlipData.purchase_result || ''} onChange={handleChange} className="w-full h-10 text-[#70685a] font-bold border border-[#70685a] outline-[#70685a]">
+                                        <option value="" disabled></option>
+                                        <option value="賛成">賛成</option>
+                                        <option value="反対">反対</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <div>
+                                        <button onClick={handleInvoiceForPurchaseData} className='w-7'>
+                                            <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium  MuiSvgIcon-root MuiSvgIcon-fontSizeLarge  css-1hkft75" fill='#524c3b' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckOutlinedIcon" title="CheckOutlined"><path d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
+                                        </button>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div>
+                                        <button onClick={cancelSalesItem} className='w-7'>
+                                            <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium  MuiSvgIcon-root MuiSvgIcon-fontSizeLarge  css-1hkft75" fill='#524c3b' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="KeyboardReturnOutlinedIcon" title="KeyboardReturnOutlined"><path d="M19 7v4H5.83l3.58-3.59L8 6l-6 6 6 6 1.41-1.41L5.83 13H21V7z"></path></svg>
+                                        </button>
                                     </div>
                                 </td>
                             </tr>
-                            {(totalSalesSlipData && totalSalesSlipData.length !== 0) && totalSalesSlipData.map((salesData, Index) => (
+                            {totalSalesSlipData?.length > 0 && totalSalesSlipData.map((salesData, Index) => (
                                 <tr key={Index} >
-                                    <td><input type='checkbox' name='checkbox1' /></td>
-                                    <td style={Td}>{salesData.number}</td>
-                                    <td style={Td}>{salesData.hearing}</td>
+                                    <td><input type='checkbox' name='checkbox1'  className='!h-6'/></td>
+                                    <td style={Td}>{salesData.id || ''}</td>
                                     <td style={Td} >{salesData.product_type_one}</td>
-                                    {isshow ? <td style={Td} >{salesData.product_type_two}</td> : <td style={{ display: 'none' }}></td>}
-                                    {isshow ? <td style={Td} >{salesData.product_type_three}</td> : <td style={{ display: 'none' }}></td>}
-                                    {isshow ? <td style={Td} >{salesData.product_type_four}</td> : <td style={{ display: 'none' }}></td>}
+                                    {isshow ? <td style={Td} >{salesData.product_type_two || ''}</td> : <td style={{ display: 'none' }}></td>}
+                                    {isshow ? <td style={Td} >{salesData.product_type_three || ''}</td> : <td style={{ display: 'none' }}></td>}
+                                    {isshow ? <td style={Td} >{salesData.product_type_four || ''}</td> : <td style={{ display: 'none' }}></td>}
                                     <td style={Td}>
-                                        {salesData.product_photo != '' ? <ButtonComponent onClick={() => openProductImageModal(salesData.product_photo)} children="写真" name='photo' className='w-max !px-5 rounded-lg' style={{ backgroundColor: '#ebe5e1', color: '#626373' }} /> : 'ファイルなし'}
+                                        {salesData.product_photo != '' ? <ButtonComponent onClick={() => openProductImageModal(salesData.product_photo)} children="写真" name='photo' className='w-max !px-5 rounded-lg border border-[#70685a]' style={{ backgroundColor: '#ebe5e1', color: '#626373' }} /> : 'ファイルなし'}
                                     </td>
                                     <td style={Td1} onClick={() => handleProductClick(Index)}
                                         onMouseOver={() => handleMouseOver(Index)}
@@ -1771,8 +2089,8 @@ const onCloseSuccess = () => {
                                             style={{
                                                 display: 'none',
                                                 position: 'absolute',
-                                                top: '40px',
-                                                left: '10px',
+                                                bottom: '20px',
+                                                right: '10px',
                                                 backgroundColor: 'white',
                                                 border: '2px solid #524c3b',
                                                 padding: '10px',
@@ -1781,44 +2099,111 @@ const onCloseSuccess = () => {
                                             }}
                                             className="text-pre-wrap"
                                         >
-                                            {salesData.comment}
+                                            {salesData.comment &&
+                                                <div className="my-6">
+                                                    <div>
+                                                        <div className='flex w-full'>
+                                                            <div className='w-max flex flex-col justify-center'>
+                                                                <label className='text-[#70685a] text-[15px]'>1. どなたが購入されたものですか？{salesData.comment.question1 || ''}</label>
+                                                            </div>
+                                                        </div>
+                                                        {salesData.comment.comment1 || ''}
+                                                    </div>
+                                                    <div>
+                                                        <div className='flex w-full mt-1'>
+                                                            <div className='w-max flex flex-col justify-center'>
+                                                                <label className='text-[#70685a] text-[15px]'>2. どこで購入されましたか？{salesData.comment.question2 || ''}</label>
+                                                            </div>
+                                                        </div>
+                                                        {salesData.comment.comment2 || ''}
+                                                    </div>
+                                                    <div>
+                                                        <div className='flex w-full mt-1'>
+                                                            <div className='w-max flex flex-col justify-center'>
+                                                                <label className='text-[#70685a] text-[15px]'>3. いつ頃購入されましたか？ {salesData.comment.buyyear || ''}年 {salesData.comment.buymonth || ''}月</label>
+                                                            </div>
+                                                        </div>
+                                                        {salesData.comment.comment3 || ''}
+                                                    </div>
+                                                    <div>
+                                                        <div className='flex w-full mt-1'>
+                                                            <div className='w-max flex flex-col justify-center'>
+                                                                <label className='text-[#70685a] text-[15px]'>4. もうお使いになられない予定ですか？ {salesData.comment.question4 || ''}</label>
+                                                            </div>
+                                                        </div>
+                                                        {salesData.comment.comment4 || ''}
+                                                    </div>
+                                                </div>
+                                            }
+                                            <div className="text-center">
+                                                <div className='flex justify-center w-full'>
+                                                    {!salesData.product_photo ? "" : <img src={`${wakabaBaseUrl}/uploads/product/${salesData.product_photo}`} alt="Image Preview" className='h-[100px] p-1 rounded-lg' />}
+                                                </div>
+                                            </div>
                                         </div>
                                     </td>
-                                    <td style={Td}> {salesData.quantity} </td>
-                                    {salesData.product_type_one === '貴金属' ? 
-                                        <td style={Td}> {salesData.metal_type || ''} </td> : <td style={Td}> {''} </td>
-                                    }
-                                    {salesData.product_type_one === '貴金属' ? 
-                                        <td style={Td}> {salesData.price_per_gram || ''} </td> :<td style={Td}> {''} </td>
-                                    }
-                                    <td style={Td}> {salesData.reason_application} </td>
-                                    <td style={Td}> {salesData.interest_rate} </td>
-                                    <td style={Td}> {salesData.product_price} </td>
-                                    <td style={Td}> {salesData.highest_estimate_vendor} </td>
-                                    <td style={Td}> {salesData.highest_estimate_price} </td>
-                                    <td style={Td}>{salesData.number_of_vendor}</td>
+                                    {isDetailShow ? <td style={Td} >{salesData.gold_type || ''}</td> : <td style={{ display: 'none' }}></td>}
+                                    {isDetailShow ? <td style={Td} >{salesData.gross_weight || ''}</td> : <td style={{ display: 'none' }}></td>}
+                                    {isDetailShow ? <td style={Td} >{salesData.price_gram || ''}</td> : <td style={{ display: 'none' }}></td>}
+                                    {isDetailShow ? <td style={Td} >{salesData.model_number_one || ''}</td> : <td style={{ display: 'none' }}></td>}
+                                    {isDetailShow ? <td style={Td} >{salesData.action_type || ''}</td> : <td style={{ display: 'none' }}></td>}
+                                    {isDetailShow ? <td style={Td} >{salesData.movable || ''}</td> : <td style={{ display: 'none' }}></td>}
+                                    {isDetailShow ? <td style={Td} >{salesData.tester || ''}</td> : <td style={{ display: 'none' }}></td>}
+                                    {isDetailShow ? <td style={Td} >{salesData.box_guarantee || ''}</td> : <td style={{ display: 'none' }}></td>}
+                                    {isDetailShow ? <td style={Td} >{salesData.rank || ''}</td> : <td style={{ display: 'none' }}></td>}
+                                    {isDetailShow ? <td style={Td} >{salesData.brand || ''}</td> : <td style={{ display: 'none' }}></td>}
+                                    {isDetailShow ? <td style={Td} >{salesData.capacity || ''}</td> : <td style={{ display: 'none' }}></td>}
+                                    {isDetailShow ? <td style={Td} >{salesData.percent || ''}</td> : <td style={{ display: 'none' }}></td>}
+                                    {isDetailShow ? <td style={Td} >{salesData.notes || ''}</td> : <td style={{ display: 'none' }}></td>}
+                                    <td style={Td}> {salesData.quantity || ''} </td>
+                                    <td style={Td}> {salesData.reason_application || ''} </td>
+                                    <td style={Td}> {salesData.interest_rate || ''} </td>
+                                    <td style={Td}>{salesData.purchase_price || ''}</td>
+                                    <td style={Td}>{salesData.supervisor_direction || ''}</td>
+                                    <td style={Td}> {salesData.highest_estimate_vendor || ''} </td>
+                                    <td style={Td}> {salesData.highest_estimate_price || ''} </td>
+                                    <td style={Td}>
+
+                                        <div className="relative w-max group mx-auto">
+                                            <button type="button" onClick={() => openEstimate(Index)}
+                                                className="px-3 py-1 rounded text-[#626373] tracking-wider font-semibold border border-[#70685a] bg-[#ebe5e1]">
+                                                {salesData.number_of_vendor || '0'}
+                                            </button>
+                                            <div className="absolute shadow-lg hidden group-hover:block bg-[#fff] text-[#626373] font-semibold px-3 py-2 text-[15px] right-full mr-3 top-0 bottom-0 my-auto h-max w-max rounded before:w-4 before:h-4 before:rotate-45 before:bg-[#333] before:absolute before:z-[-1] before:bottom-0 before:top-0 before:my-auto before:-right-1 before:mx-auto">
+                                                {allVendors.map((vendor, index) => (
+                                                    salesData.estimate_wholesaler[vendor.vendor_name] && 
+                                                    <div key={index} className='flex justify-between'>
+                                                        <p>{vendor.vendor_name}:</p>
+                                                        <p className='pl-3'>{salesData.estimate_wholesaler[vendor.vendor_name] || ''}</p>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    </td>
                                     {isvendorshow && allVendors.map((vendor, index) => (
                                         <td key={index} style={Td}> {salesData.estimate_wholesaler[vendor.vendor_name] || ''} </td>
                                     ))}
-                                    <td style={Td}>{salesData.supervisor_direction}</td>
-                                    <td style={Td}>{salesData.purchase_result}</td>
-                                    <td style={Td}>{salesData.purchase_price}</td>
-                                    <td style={Td} className='w-8 bg-transparent hover:bg-[#ebe6e0] transition-all duration-300'>
-                                        <div onClick={() => editSalesItem(Index)} className='w-7 ml-2'>
-                                            <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium  MuiSvgIcon-root MuiSvgIcon-fontSizeLarge  css-1hkft75" fill='#524c3b' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="EditCalendarOutlinedIcon" title="EditCalendarOutlined"><path d="M5 10h14v2h2V6c0-1.1-.9-2-2-2h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h7v-2H5zm0-4h14v2H5zm17.84 10.28-.71.71-2.12-2.12.71-.71c.39-.39 1.02-.39 1.41 0l.71.71c.39.39.39 1.02 0 1.41m-3.54-.7 2.12 2.12-5.3 5.3H14v-2.12z"></path></svg>
-                                        </div>
-                                    </td>
-                                    <td style={Td} className='w-8 bg-transparent hover:bg-[#ebe6e0] transition-all duration-300'>
-                                        <div onClick={() => removeSalesItem(Index)} className='w-7 ml-2'>
-                                            <svg focusable="false" aria-hidden="true" viewBox="0 0 23 23" fill='#524c3b' data-testid="CancelOutlinedIcon" title="CancelOutlined"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8m3.59-13L12 10.59 8.41 7 7 8.41 10.59 12 7 15.59 8.41 17 12 13.41 15.59 17 17 15.59 13.41 12 17 8.41z"></path></svg>
-                                        </div>
-                                    </td>
+                                    <td style={Td}>{salesData.purchase_result || ''}</td>
+                                    {(salesData.product_status === '査定中' || salesData.product_status === 'お預かり') && 
+                                        <td className='w-8 bg-transparent'>
+                                            <div onClick={() => editSalesItem(Index)} className='w-7 ml-2'>
+                                                <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium  MuiSvgIcon-root MuiSvgIcon-fontSizeLarge  css-1hkft75" fill='#524c3b' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="EditCalendarOutlinedIcon" title="EditCalendarOutlined"><path d="M5 10h14v2h2V6c0-1.1-.9-2-2-2h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h7v-2H5zm0-4h14v2H5zm17.84 10.28-.71.71-2.12-2.12.71-.71c.39-.39 1.02-.39 1.41 0l.71.71c.39.39.39 1.02 0 1.41m-3.54-.7 2.12 2.12-5.3 5.3H14v-2.12z"></path></svg>
+                                            </div>
+                                        </td>
+                                    }
+                                    {(salesData.product_status === '査定中' || salesData.product_status === 'お預かり') && 
+                                        <td className='w-8 bg-transparent'>
+                                            <div onClick={() => removeSalesItem(salesData.id)} className='w-7 ml-2'>
+                                                <svg focusable="false" aria-hidden="true" viewBox="0 0 23 23" fill='#524c3b' data-testid="CancelOutlinedIcon" title="CancelOutlined"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8m3.59-13L12 10.59 8.41 7 7 8.41 10.59 12 7 15.59 8.41 17 12 13.41 15.59 17 17 15.59 13.41 12 17 8.41z"></path></svg>
+                                            </div>
+                                        </td>
+                                    }
                                 </tr>
                             ))}
                         </tbody>
 
                     </table>
-                    {showInputPurchase ?
+                    {/* {showInputPurchase ?
                         <table className='text-center w-full mt-10' style={Table}>
                             <thead className='sticky top-0 bg-white z-10 h-11'>
                                 <tr>
@@ -1998,8 +2383,8 @@ const onCloseSuccess = () => {
                             </tbody>
 
                         </table>
-                        : ''}
-                    <div className='flex justify-center gap-10 mt-2'>
+                        : ''} */}
+                    {/* <div className='flex justify-center gap-10 mt-2'>
                         {editIndex === -1 ? (
                             <div className='flex justify-center mb-3' >
                                 {childData !== '0' ? 
@@ -2032,10 +2417,10 @@ const onCloseSuccess = () => {
                             </div>
                         )}
 
-                    </div>
+                    </div> */}
                 </div>
             </div>
-            <div className='flex justify-center gap-10'>
+            <div className='flex justify-center gap-10 mt-2'>
                 {/* <label className="text-[#70685a] font-bold mb-2 block text-left !mb-0" style={{ visibility: 'hidden' }}>Total purchase price 999,999,999 yen</label> */}
                 <label className="text-[#70685a] font-bold mb-2 block text-left !mb-0">買取点数&nbsp;{totalQuantity || ''}点</label>
                 <label className="text-[#70685a] font-bold mb-2 block text-left !mb-0">買取合計&nbsp;&nbsp;{totalPrice || ''}円</label>
@@ -2287,44 +2672,44 @@ const onCloseSuccess = () => {
                 </div>
             </div>
         )}
-        {/* --------create new customer--------- */}
-        {isCreateModalOpen && (
-            <div
-                className="fixed inset-0 p-4 flex flex-wrap justify-center items-center w-full h-full z-[1000] before:fixed before:inset-0 before:w-full before:h-full before:bg-[rgba(0,0,0,0.5)] overflow-auto font-[sans-serif]">
-                <div className="w-full max-w-lg bg-white shadow-lg rounded-lg p-6 relative">
-
-                    <div className="my-4 text-center">
-                        <h4 className="text-gray-800 text-base font-semibold mt-4">顧客データを保存しますか？</h4>
-
-                        <div className="text-center space-x-4 mt-8">
-                            <button type="button" onClick={itemsSave}
-                                className="px-6 py-2 rounded-lg text-white text-sm bg-red-600 hover:bg-red-700 active:bg-red-600">はい</button>
-                            <button type="button" onClick={onClose}
-                                className="px-4 py-2 rounded-lg text-gray-800 text-sm bg-gray-200 hover:bg-gray-300 active:bg-gray-200">キャンセル</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        )}
-        {/* ----------success modal----------- */}
-        {isSuccessModalOpen && (
-            <div
-                className="fixed inset-0 p-4 flex flex-wrap justify-center items-center w-full h-full z-[1000] before:fixed before:inset-0 before:w-full before:h-full before:bg-[rgba(0,0,0,0.5)] overflow-auto font-[sans-serif]">
-                <div className="w-full max-w-lg bg-white shadow-lg rounded-lg p-6 relative">
-
-                    <div className="my-4 text-center">
-                        <h4 className="text-gray-800 text-base font-semibold mt-4">新しい顧客データが正常に作成されました。</h4>
-
-                        <div className="text-center space-x-4 mt-8">
-                            <button type="button" onClick={onCloseSuccess}
-                                className="px-6 py-2 rounded-lg text-white text-sm bg-red-600 hover:bg-red-700 active:bg-red-600">OK</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        )}
         {/* ---------show product photo-------- */}
         {showProductImage && <ImageShowModal itemsImagePreview={itemImagePreview}  onClose={closeProductImageModal} />}
+        {/* --------vender assessment sheet-------- */}
+        {showEstimate &&
+            <div
+                className="fixed inset-0 p-4 flex flex-wrap justify-center items-center w-full h-full z-[1000] before:fixed before:inset-0 before:w-full before:h-full before:bg-[rgba(0,0,0,0.5)] overflow-auto font-[sans-serif]">
+                <div className="w-full max-w-md bg-white shadow-lg rounded-2xl p-8 relative">
+                    <div className="text-center">
+                        <div className='flex justify-center w-full'>
+                            <table className='text-center w-full' style={Table}>
+                                <thead className='bg-white z-10 h-11 w-full'>
+                                    <tr>
+                                        <th style={Th}>ベンダー名</th>
+                                        <th style={Th}>見積もり</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {vendors?.length>0 && vendors.map((vendor, index) => (
+                                        <tr key={vendor.id} className='!h-8'>
+                                            <td style={Td}>{vendor.vendor_name || ''}</td>
+                                            <td style={Td}>
+                                                <InputComponent name={vendor.vendor_name || ''} onChange={(e) => handleEstimateChange(vendor.vendor_name, e.target.value)} value={estimateValues[vendor.vendor_name] || ''} className='w-full h-8 text-[#70685a] border border-[black]' />
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+
+                            </table>
+                        </div>
+                    </div>
+        
+                    <div className="flex justify-center w-full mt-5">
+                        <button type="button" onClick={saveEstimate}
+                            className="px-5 py-1 rounded-full w-1/2 font-bold text-white border-none outline-none bg-[#524c3b] hover:bg-[#524c3b] hover:text-white transition-all duration-300">閉じる</button>
+                    </div>
+                </div>
+            </div>
+        }
     </>
     );
 };
