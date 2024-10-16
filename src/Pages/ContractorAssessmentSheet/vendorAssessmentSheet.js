@@ -1,36 +1,47 @@
-import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-// import Titlebar from '../../Components/Common/Titlebar';
-// import InputComponent from '../../Components/Common/InputComponent';
-import ButtonComponent from '../../Components/Common/ButtonComponent';
-import LabelComponent from '../../Components/Common/LabelComponent';
+import React,{ useState, useEffect } from 'react';
+import {Link ,useNavigate} from 'react-router-dom';
 import axios from 'axios';
 
-import { useDispatch,useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { setShippingData } from '../../redux/sales/actions';
 import { setClearData } from '../../redux/sales/actions';
+
+import leftArrow from '../../Assets/img/right-arrow.png';
+import rightArrow from '../../Assets/img/left-arrow.png';
+
+// import Titlebar from '../../Components/Common/Titlebar';
+import InputComponent from '../../Components/Common/InputComponent';
+import ButtonComponent from '../../Components/Common/ButtonComponent';
+import LabelComponent from '../../Components/Common/LabelComponent';
+import ImageShowModal from '../../Components/Modal/ImageShowModal';
 
 const VendorAssementSheet = () => {
     // const title = 'タイトルタイトル';
     const navigate = useNavigate(); // Use useNavigate instead of useHistory
+    const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+
     const Table = {
-        borderCollapse: 'collapse',
         color: '#70685a',
         textAlign: 'center',
         width: '100%',
-        alignItem: 'center',               
+        alignItems: 'center',
+        borderCollapse: 'collapse', // Ensures borders collapse properly
+        padding:'3px'
     };
-
+    
     const Th = {
         border: '1px solid #70685a',
-        borderCollapse: 'collapse',
         color: '#70685a',
         fontSize: '15px',
         whiteSpace: 'nowrap',
+        backgroundColor: '#ffffff', // Header background color
+        position: 'sticky', // Fix header on scroll
+        top: 0, // Position at the top
+        zIndex: 10, // Ensure header appears above other content
     };
+    
     const Td = {
         border: '1px solid #70685a',
-        borderCollapse: 'collapse',
         color: '#70685a',
         fontSize: '15px',
         whiteSpace: 'nowrap',
@@ -44,281 +55,485 @@ const VendorAssementSheet = () => {
     const clearReduxData = () => {
         dispatch(setClearData());
     }
+
+    const [sales, setSales] = useState([]);
+    // Fetch sales data
+    useEffect( () => {
+        handleCategory('貴金属');
+    }, []);
+
+    const [users, setUsers] = useState([]);
+    // Fetch user data
+    useEffect(() => {
+        const fetchUser = async() => {
+            const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+            if (!wakabaBaseUrl) {
+                throw new Error('API base URL is not defined');
+            }
+    
+            await axios.get(`${wakabaBaseUrl}/user/getUserList`)
+                .then(response => {
+                    const data = response.data;
+                    setUsers(data);
+                })
+                .catch(error => {
+                    console.error("There was an error fetching the customer data!", error);
+                });
+        }
+        fetchUser();
+    }, []);
+    const handleCategory = async(value) => {
+        setShowYahoo(false);
+        const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+        if (!wakabaBaseUrl) {
+            throw new Error('API base URL is not defined');
+        }
+        // console.log(`${wakabaBaseUrl}/sales/filter`);
+        await axios.post(`${wakabaBaseUrl}/sales/filter`,{ value: value })
+            .then(response => {
+                const salesData = response.data;
+                if(salesData?.length>0) {
+                    const updatedData111 = salesData.map((data,Index) => ({
+                        ...data,
+                        estimate_wholesaler: JSON.parse(data.estimate_wholesaler),
+                        // comment: JSON.parse(data.comment),
+                    })); 
+                    setSales(updatedData111);
+                }
+            })
+            .catch(error => {
+                console.error("There was an error fetching the customer data!", error);
+            });
+    };
     //checked event
     const [checkedValues, setCheckedValues] = useState([]);
     // Handle checkbox change
     const handleCheckboxChange = (event) => {
         const value = event.target.value;
-        setCheckedValues((prevValues) =>
-            prevValues.includes(value)
-                ? prevValues.filter((v) => v !== value) // Uncheck
-                : [...prevValues, value] // Check
+        setCheckedValues((prevValues) => 
+        prevValues.includes(value)
+            ? prevValues.filter((v) => v !== value) // Uncheck
+            : [...prevValues, value] // Check
         );
     };
+    //send shipping data
     const handleSendCheckedValues = () => {
         clearReduxData();
         updateData(checkedValues);
         // console.log('checked values',checkedValues);
-        navigate('/purchaserequestformforwholesaler');
-    };
-    const [headId, setHeadId] = useState(0);
-    const headTitleArray = [
-            ['配送先','卸日','番号','商品名','個数','金種','総重量','買取価格','地金重さ'],
-            ['発送日','番号','商品名','備考','査定日'],
-            ['配送先','発送日','番号','メーカー','商品名','型番','ランク','買取額','BBスカイプ日'],
-            ['配送先','発送日','番号','商品名','型番１','型番２','自動／クォーツ','可動／不動','テスター','箱ギャラ','買取額','スカイプ日'],
-            ['配送先','発送日','番号','メーカー','商品名','型番','ランク','ＢＢスカイプ日'],
-            ['配送先','発送日','わかば番号','メーカー','商品名','型番','ランク','BBスカイプ日'],
-            ['発送日','番号','商品名','型番','買取額','ランク','査定日'],
-            ['配送先','発送日','番号','商品名','備考','査定日'],
-            ['配送先','発送日','わかば番号','種類','銘柄','数量','容量','度数','査定日'],
-            ['発送日','番号','商品名','備考','査定日'],
-            ['発送日','番号','商品名','備考','査定日'],
-            ['発送日','番号','商品名','備考','査定日'],
-            ['発送日','番号','商品名','備考','査定日'],
-            ['発送日','番号','商品名','備考','査定日'],
-            ['発送日','番号','商品名','備考','査定日'],
-            ['発送日','番号','商品名','備考','査定日'],
-            ['発送日','番号','商品名','備考','査定日'],
-            ['発送日','番号','商品名','備考','査定日'],
-            ['発送日','番号','商品名','備考','査定日'],
-            ['発送日','番号','商品名','備考','査定日'],
-            ['発送日','番号','商品名','備考','査定日'],
-            ['発送日','番号','商品名','備考','査定日'],
-            ['発送日','番号','商品名','備考','査定日'],
-            ['発送日','番号','商品名','備考','査定日'],
-            ['発送日','番号','商品名','備考','査定日'],
-            ['発送日','番号','商品名','備考','査定日'],
-            ['発送日','番号','商品名','備考','査定日'],
-            ['発送日','番号','商品名','備考','査定日'],
-            ['発送日','番号','商品名','備考','査定日'],
-            ['発送日','番号','商品名','備考','査定日'],
-            ['発送日','番号','商品名','備考','査定日'],
-            ['発送日','番号','商品名','備考','査定日'],
-            ['発送日','番号','商品名','備考','査定日'],
-            ['発送日','番号','商品名','備考','査定日'],
-            ['発送日','番号','商品名','備考','査定日'],
-            ['発送日','番号','商品名','備考','査定日'],
-            ['発送日','番号','商品名','備考','査定日'],
-            ['発送日','番号','商品名','備考','査定日'],
-            ['発送日','番号','商品名','備考','査定日'],
-            ['発送日','番号','商品名','備考','査定日'],
-            ['発送日','番号','商品名','備考','査定日'],
-        ];
-    const [headValueArray, setHeadValueArray] = useState([]);
-    const categoryRow = [
-            {shipping_address: '', wholesale_date: '', number: '', product_name: '', quantity: '', gold_type: '',
-                gross_weight: '', purchase_price: '', bullion_weight: '',},
-            { shipping_date: '', number: '', product_name: '', remarks: '',assessment_date: '',},
-            { shipping_address: '',shipping_date: '', number: '', manufacturer: '', product_name: '', model_number: '',
-                rank: '', purchase_price: '', bb_skype_date: '',},
-            { shipping_address: '',shipping_date: '',number: '', product: '', model_number_one: '', model_number_two: '',
-                automatic_quartz: '', movable: '', tester: '', box_guarantee: '',  purchase_price: '',  skype_date: '',},
-            { shipping_address: '',shipping_date: '', number: '', manufacturer: '', product_name: '', model_number: '',
-                rank: '', bb_skype_day: '',},
-            { shipping_address: '', shipping_date: '', wakaba_number: '', manufacturer: '', product_detail: '',
-                model_number: '', rank: '', bb_skype_day: '',},
-            { shipping_date: '',number: '', product_name: '', model_number: '', purchase_price: '', rank: '', assessment_date: '',},
-            { shipping_address: '',shipping_date: '', number:'',product_name: '', rank: '', assessment_date: '',},
-            { shipping_address: '',shipping_date: '',wakaba_number: '',kinds: '', brand: '', quantity: '',
-                capacity: '', frequency: '', assessment_date: '',},
-            { shipping_date: '',number: '', product_name: '', remarks: '',assessment_date: '',},
-            { shipping_date: '',number: '', product_name: '', remarks: '',assessment_date: '',},
-            { shipping_date: '',number: '', product_name: '', remarks: '',assessment_date: '',},
-            { shipping_date: '',number: '', product_name: '', remarks: '',assessment_date: '',},
-            { shipping_date: '',number: '', product_name: '', remarks: '',assessment_date: '',},
-            { shipping_date: '',number: '', product_name: '', remarks: '',assessment_date: '',},
-            { shipping_date: '',number: '', product_name: '', remarks: '',assessment_date: '',},
-            { shipping_date: '',number: '', product_name: '', remarks: '',assessment_date: '',},
-            { shipping_date: '',number: '', product_name: '', remarks: '',assessment_date: '',},
-            { shipping_date: '',number: '', product_name: '', remarks: '',assessment_date: '',},
-            { shipping_date: '',number: '', product_name: '', remarks: '',assessment_date: '',},
-            { shipping_date: '',number: '', product_name: '', remarks: '',assessment_date: '',},
-            { shipping_date: '',number: '', product_name: '', remarks: '',assessment_date: '',},
-            { shipping_date: '',number: '', product_name: '', remarks: '',assessment_date: '',},
-            { shipping_date: '',number: '', product_name: '', remarks: '',assessment_date: '',},
-            { shipping_date: '',number: '', product_name: '', remarks: '',assessment_date: '',},
-            { shipping_date: '',number: '', product_name: '', remarks: '',assessment_date: '',},
-            { shipping_date: '',number: '', product_name: '', remarks: '',assessment_date: '',},
-            { shipping_date: '',number: '', product_name: '', remarks: '',assessment_date: '',},
-            { shipping_date: '',number: '', product_name: '', remarks: '',assessment_date: '',},
-            { shipping_date: '',number: '', product_name: '', remarks: '',assessment_date: '',},
-            { shipping_date: '',number: '', product_name: '', remarks: '',assessment_date: '',},
-            { shipping_date: '',number: '', product_name: '', remarks: '',assessment_date: '',},
-            { shipping_date: '',number: '', product_name: '', remarks: '',assessment_date: '',},
-            { shipping_date: '',number: '', product_name: '', remarks: '',assessment_date: '',},
-            { shipping_date: '',number: '', product_name: '', remarks: '',assessment_date: '',},
-        ];
-    const [data, setData] = useState([]);
-    useEffect(() => {
-        const fetchInitialData = async() =>{
-            const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
-            if (!wakabaBaseUrl) {
-                throw new Error('API base URL is not defined');
-            }
-            await axios.post(`${wakabaBaseUrl}/category/initialdata`, { category: '貴金属' })
-                .then(response => {
-                    const purchaseData = response.data;
-                    if(purchaseData?.length>0) {
-                        const updatedData111 = purchaseData.map((data,Index) => ({
-                            ...data,
-                            estimate_wholesaler: JSON.parse(data.estimate_wholesaler),
-                        })); 
-                        setData(updatedData111);
-                        console.log('productdata----------',updatedData111);
-                        getVendorList(1);
-                    }
-                    
-                })
-                .catch(error => {
-                    console.error("There was an error fetching the customer data!", error);
-                });
+        if(checkedValues && checkedValues.length !==0){
+            navigate('/purchaserequestformforwholesaler');
         }
-        fetchInitialData();
-    }, []);
 
-    const getData = async(item,id) => {
+    };
+
+    const [showYahoo,setShowYahoo] = useState(false);
+     //  -------------------------------select box-------------------------------
+     const [product1s, setProduct1s] = useState([]);
+     // Fetch product1 data
+     useEffect(() => {
+         const fetchCategory1 = async () => {
+             const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+             if (!wakabaBaseUrl) {
+                 throw new Error('API base URL is not defined');
+             }
+ 
+             axios.get(`${wakabaBaseUrl}/ProductType1s`)
+                 .then(response => {
+                     setProduct1s(response.data);
+                 })
+                 .catch(error => {
+                     console.error("There was an error fetching the customer data!", error);
+                 });
+         }
+         fetchCategory1();
+     }, []);
+ 
+     const [category1, setCategory1] = useState('');
+ 
+     const handleCategory1Change = (e, productList) => {
+         const selectedCategory = e.target.value; // Get the selected category
+         const selectedResult = productList.find(product => product.category === selectedCategory);//need id
+         setCategory1(selectedCategory);
+         handleCategory(selectedCategory);
+     };
+   // show subtd 
+   const [isshow, setIsShow] = useState(false);
+
+   const openSubtable = () => {
+       setIsShow(false);
+   };
+   const closeSubtable = () => {
+       setIsShow(true);
+   };  
+    //--------------------shwo all -----------------
+    const showAll = () => {
+        handleCategory('');
+        setCategory1('');
+    }
+    //-----------------------------------item detail---------------------------------------
+    const [isDetailShow ,setIsDetailShow] = useState(false);
+    const openItemDetailShow = () => {
+        setIsDetailShow(!isDetailShow)
+    }
+    //--------------------show  product photo---------------------
+    const [showProductImage, setShowProductImage] = useState(false);
+    const [itemImagePreview, setItemImagePreview] = useState(`${wakabaBaseUrl}/uploads/product/`);
+    const openProductImageModal = (link) => {
+        setShowProductImage(true);
+        setItemImagePreview(`${wakabaBaseUrl}/uploads/product/${link}`);
+    }
+    const closeProductImageModal = () => {
+        setShowProductImage(false);
+    }
+//----------------------estimate------------------------------
+    //get  vendor list form vendor table
+    const [vendors, setVendors] = useState([]);
+    const [allVendors, setAllVendors] = useState([]);
+
+    const getVendorList = async (id) => {
         const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
         if (!wakabaBaseUrl) {
             throw new Error('API base URL is not defined');
         }
-        await axios.post(`${wakabaBaseUrl}/category/data`, { category: item })
+        await axios.post(`${wakabaBaseUrl}/vendor/getVendorList`, { id: id })
             .then(response => {
-                const purchaseData = response.data;
-                // if(purchaseData?.length>0) {
-                    const updatedData111 = purchaseData.map((data,Index) => ({
-                        ...data,
-                        estimate_wholesaler: JSON.parse(data.estimate_wholesaler),
-                    })); 
-                    setData(updatedData111);
-                    console.log('productdata----------',updatedData111);
-                    getVendorList(id);
-                // } 
-            })
-        .catch(error => {
-            console.error("There was an error fetching the customer data!", error);
-        });
-    }
-
-    const [vendors, setVendors] = useState([]);
-    const getVendorList = async (id) => {
-        const fetchVendorList = async() =>{
-            const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
-            if (!wakabaBaseUrl) {
-                throw new Error('API base URL is not defined');
-            }
-            await axios.post(`${wakabaBaseUrl}/vendor/getVendorList`, { id: id })
-                .then(response => {
-                    setVendors(response.data);
-                    const result = response.data.reduce((acc, { vendor_name }) => {
-                        acc[vendor_name] = ''; // Create a key-value pair
-                        return acc;
-                    }, {});
-                    setHeadValueArray(result);
-                     console.log('vendrList, updated row',response.data)
-                })
-                .catch(error => {
-                    console.error("There was an error fetching the customer data!", error);
-                });
-        }
-        fetchVendorList();
-    }
-
-    const [editDataId, setEditDataId] = useState(null);
-    const handleDataChange = (e, id) => {
-        const { name, value } = e.target;
-        setData((prevData) =>
-            prevData.map((row) =>
-                row.id === id ? { ...row, [name]: value } : row
-            )
-        );
-    };
-
-    const handleDataEdit = (id,index) => {
-        setEditDataId(id);
-        setEstimateValues(data[index].estimate_wholesaler);
-    };
-
-    const handleDatalSave = async (id,index) => {
-        try {
-            const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
-
-            if (!wakabaBaseUrl) {
-                throw new Error('API base URL is not defined');
-            }
-            const payload = JSON.stringify(estimateValues);
-            const category = data[index].product_type_one;
-            const otherData = data[index];
-            console.log('payload and category',payload,category);
-            const response = await axios.post(`${wakabaBaseUrl}/vendor/updateestimate`, {id:id,category:category,payload:payload,otherData:otherData})
-            .then(response => {
-                const purchaseData = response.data;
-                const updatedData111 = purchaseData.map((data,Index) => ({
-                    ...data,
-                    estimate_wholesaler: JSON.parse(data.estimate_wholesaler),
-                })); 
-                setData(updatedData111);
-                console.log('productdata----------',updatedData111,category1);
-                getVendorList(headId+1);
-
-                setEditDataId(null);
-                setEstimateValues({});
+                setVendors(response.data);
             })
             .catch(error => {
                 console.error("There was an error fetching the customer data!", error);
             });
-        } catch (error) {
-            console.error('Error submitting form:', error);
-            // Handle error here
-        }
+    }
 
-    };
-
-    const handleDataCancel = () => {
-        setEditDataId(null);
-        setEstimateValues({});
-    };
-
-    //  -------------------------------select box-------------------------------
-    const [product1s, setProduct1s] = useState([]);
-    // Fetch product1 data
     useEffect(() => {
-        const fetchCategory1 = async () => {
+        const fetchAllVendor = async() =>{
             const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
             if (!wakabaBaseUrl) {
                 throw new Error('API base URL is not defined');
             }
-
-            axios.get(`${wakabaBaseUrl}/ProductType1s`)
+            await axios.get(`${wakabaBaseUrl}/vendor/getVendorListAll`)
                 .then(response => {
-                    setProduct1s(response.data);
+                    setAllVendors(response.data);
+                    // console.log('vendrListAll',response.data)
                 })
                 .catch(error => {
                     console.error("There was an error fetching the customer data!", error);
                 });
         }
-        fetchCategory1();
-    }, []);
+        fetchAllVendor();
 
-    const [category1, setCategory1] = useState('1');
-
-    const handleCategory1Change = (e, productList) => {
-        const selectedCategory = e.target.value; // Get the selected category
-        const selectedResult = productList.find(product => product.category === selectedCategory);//need id
-        setCategory1(selectedCategory);
-        console.log('category1', selectedCategory, selectedResult.id)
-        getData(selectedCategory,selectedResult.id);
-        setHeadId(selectedResult.id-1);
-    };
+    }, [sales]);
 
     const [estimateValues, setEstimateValues] = useState({});
-    const handleEstimateChange = (vendorname, value) => {
-        setEstimateValues((prev) => ({
-            ...prev,
-            [vendorname]: value,
-        }));
+
+    const [showEstimate, setShowEstimate] = useState(false);
+    const openEstimate = (index) => {
+        setShowEstimate(true);
+        
+        //setShowInputPurchase(!showInputPurchase);
+        // setEditIndex(index);
+        console.log('selectedtotalSalesData',sales[index])
+        // setSalesSlipData(sales[index]); // Populate the input fields with the selected row's data
+        setEstimateValues(sales[index].estimate_wholesaler);
+        if(sales[index].product_type_one){
+            const selectedResult = product1s.find(product => product.category === sales[index].product_type_one);
+            console.log('selectedResult',selectedResult)
+            getVendorList(selectedResult.id);
+        }
+            
+    }
+
+    const saveEstimate = () => {
+        setShowEstimate(false);
+    }
+//--------------------------filter function----------------------------------
+    const now = new Date();
+    // Format the date as YYYY-MM-DD
+    const optionsDate = { year: 'numeric', month: '2-digit', day: '2-digit', timeZone: 'Asia/Tokyo' };
+    const formattedDate = new Intl.DateTimeFormat('ja-JP', optionsDate).format(now).replace(/\//g, '-');
+    // Split the formatted date to get year and month
+    const [currentyear, currentmonth,currentday] = formattedDate.split('-').map(part => part.trim());
+
+    const [showDateFilter, setShowDateFilter] = useState(false)
+    const [selectedDateType, setSelectedDateType] = useState('');
+    const [year, setYear] = useState(currentyear);
+    const [month, setMonth] = useState(currentmonth);
+    const [day, setDay] = useState(currentday);
+    const [startDate, setStartDate] = useState(formattedDate);
+    const [endDate, setEndDate] = useState(formattedDate);
+
+    const openShowFilterModal = (type) => {
+        setSelectedDateType(type);
+        setShowDateFilter(true);
     };
-//----------------------------------------------------------
+
+    const closeShowFilterModal = () => {
+        setShowDateFilter(false);
+    }
+    // filter by date
+    const handleDateFilter = async(type) => {
+        setShowDateFilter(false);
+        const date = `${year}-${month}-${day}`;
+        // console.log(type,date)
+        const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+        if (!wakabaBaseUrl) {
+            throw new Error('API base URL is not defined');
+        }
+        await axios.post(`${wakabaBaseUrl}/sales/filterDate`,{ type: type,date:date })
+            .then(response => {
+                const salesData = response.data;
+                if(salesData?.length>0) {
+                    const updatedData111 = salesData.map((data,Index) => ({
+                        ...data,
+                        estimate_wholesaler: JSON.parse(data.estimate_wholesaler),
+                        // comment: JSON.parse(data.comment),
+                    })); 
+                    setSales(updatedData111);
+                }
+            })
+            .catch(error => {
+                console.error("There was an error fetching the customer data!", error);
+            });
+    }
+    // filter by start date and end date
+    const handleTerminalDateFilter = async(type) => {
+        setShowDateFilter(false);
+        if (!wakabaBaseUrl) {
+            throw new Error('API base URL is not defined');
+        }
+        await axios.post(`${wakabaBaseUrl}/sales/filterDateTerminal`,{ type: type,startDate:startDate,endDate:endDate })
+            .then(response => {
+                const salesData = response.data;
+                if(salesData?.length>0) {
+                    const updatedData111 = salesData.map((data,Index) => ({
+                        ...data,
+                        estimate_wholesaler: JSON.parse(data.estimate_wholesaler),
+                        // comment: JSON.parse(data.comment),
+                    })); 
+                    setSales(updatedData111);
+                }
+            })
+            .catch(error => {
+                console.error("There was an error fetching the customer data!", error);
+            });
+    }
+    //filter by staff
+    const [showVendorFilter, setShowVendorFilter] = useState(false);
+    const closeShowVendorFilterModal = () => {
+        setShowVendorFilter(false);
+    }
+    const openShowVendorFilterModal = () => {
+        setShowVendorFilter(true);
+    }
+    
+    const [searchQuery, setSearchQuery] = useState('');
+    const filteredVendors = allVendors?.filter(vendor =>
+        vendor.vendor_name.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+
+    const [selectedVendors, setSelectedVendors] = useState([]);
+
+    const handleVendorCheckboxChange = (vendor) => {
+        setSelectedVendors((prevSelected) => {
+        if (prevSelected.includes(vendor.vendor_name)) {
+            return prevSelected.filter(name => name !== vendor.vendor_name);
+        } else {
+            return [...prevSelected, vendor.vendor_name];
+        }
+        });
+    };
+
+    const searchVendorInformation = async() => {
+        setShowVendorFilter(false);
+        // const clientsToFind = ["Client A", "Client C"];
+        const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+        if (!wakabaBaseUrl) {
+            throw new Error('API base URL is not defined');
+        }
+        // console.log(`${wakabaBaseUrl}/sales/getSalesList`);
+        await axios.post(`${wakabaBaseUrl}/sales/getSalesListByCategory1`,{cat1:category1})
+        .then(response => {
+            const salesData = response.data;
+            if(salesData?.length>0) {
+                const updatedData111 = salesData.map((data,Index) => ({
+                    ...data,
+                    estimate_wholesaler: JSON.parse(data.estimate_wholesaler),
+                    comment: JSON.parse(data.comment),
+                })); 
+                const filteredSales = updatedData111.filter(sale => 
+                    selectedVendors.includes(sale.shipping_address)
+                );
+                setSales(filteredSales);
+            }
+        })
+        .catch(error => {
+            console.error("There was an error fetching the customer data!", error);
+        });
+    }
+    //filter by state
+    const filteredStatus = ['査定中','お預かり','成約済','買取済','発送中','約定済','オークション出品済','オークション発送済','廃棄','基準外','返品・返金'];
+    const [showStatusFilter, setShowStatusFilter] = useState(false);
+    const closeShowStatusFilterModal = () => {
+        setShowStatusFilter(false);
+    }
+    const openShowStatusFilterModal = () => {
+        setShowStatusFilter(true);
+    }
+
+    const [selectedStatus, setSelectedStatus] = useState([]);
+
+    const handleStatusCheckboxChange = (status) => {
+        setSelectedStatus((prevSelected) => {
+        if (prevSelected.includes(status)) {
+            return prevSelected.filter(name => name !== status);
+        } else {
+            return [...prevSelected, status];
+        }
+        });
+    };
+
+    const searchStatusInformation = async() => {
+        setShowStatusFilter(false);
+        // const clientsToFind = ["Client A", "Client C"];
+        const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+        if (!wakabaBaseUrl) {
+            throw new Error('API base URL is not defined');
+        }
+        // console.log(`${wakabaBaseUrl}/sales/getSalesList`);
+        await axios.post(`${wakabaBaseUrl}/sales/getSalesListByCategory1`,{cat1:category1})
+        .then(response => {
+            const salesData = response.data;
+            if(salesData?.length>0) {
+                const updatedData111 = salesData.map((data,Index) => ({
+                    ...data,
+                    estimate_wholesaler: JSON.parse(data.estimate_wholesaler),
+                    // comment: JSON.parse(data.comment),
+                })); 
+                const filteredSales = updatedData111.filter(sale => 
+                    selectedStatus.includes(sale.product_status)
+                );
+                setSales(filteredSales);
+            }
+        })
+        .catch(error => {
+            console.error("There was an error fetching the customer data!", error);
+        });
+    }
+//--------------------------------------hanlde edit some value in sales Slip-------------------------------------
+    const [product2s, setProduct2s] = useState([]);
+    // Fetch product1 data
+    const fetchProduct2 = (id) => {
+        // useEffect(() => {
+        const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+        if (!wakabaBaseUrl) {
+            throw new Error('API base URL is not defined');
+        }
+
+        axios.post(`${wakabaBaseUrl}/ProductType2sfilter`, { id: id })
+            .then(response => {
+                setProduct2s(response.data);
+            })
+            .catch(error => {
+                console.error("There was an error fetching the customer data!", error);
+            });
+        // }, []);
+    }
+    const [product3s, setProduct3s] = useState([]);
+    // Fetch product1 data
+    useEffect(() => {
+        const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+        if (!wakabaBaseUrl) {
+            throw new Error('API base URL is not defined');
+        }
+
+        axios.get(`${wakabaBaseUrl}/ProductType3s`)
+            .then(response => {
+                setProduct3s(response.data);
+            })
+            .catch(error => {
+                console.error("There was an error fetching the customer data!", error);
+            });
+    }, []);
+    // Filter the options based on the query
+    // search selectbox product2================
+
+    const [product4s, setProduct4s] = useState([]);
+    // Fetch product1 data
+    useEffect(() => {
+        const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+        if (!wakabaBaseUrl) {
+            throw new Error('API base URL is not defined');
+        }
+
+        axios.get(`${wakabaBaseUrl}/ProductType4s`)
+            .then(response => {
+                setProduct4s(response.data);
+            })
+            .catch(error => {
+                console.error("There was an error fetching the customer data!", error);
+            });
+    }, []);
+
+    const handleValueChange = async(id,index,e) => {
+        const name = e.target.name;
+        const value = e.target.value;
+        // console.log('id,name,value',id,index,name,value);
+        if(name === 'product_type_one') {
+            const selectedResult = product1s.find(product => product.category === value);
+            fetchProduct2(selectedResult.id);
+        }
+
+        const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+        if (!wakabaBaseUrl) {
+            throw new Error('API base URL is not defined');
+        }
+        // console.log(`${wakabaBaseUrl}/sales/getSalesList`);
+        await axios.post(`${wakabaBaseUrl}/sales/eidtSales`,{id:id,name:name,value:value,cat1:category1})
+        .then(response => {
+            const salesData = response.data;
+            if(salesData?.length>0) {
+                const updatedData111 = salesData.map((data,Index) => ({
+                    ...data,
+                    estimate_wholesaler: JSON.parse(data.estimate_wholesaler),
+                    // comment: JSON.parse(data.comment),
+                })); 
+                setSales(updatedData111);
+            }
+        })
+        .catch(error => {
+            console.error("There was an error fetching the customer data!", error);
+        });
+    };
+    const handleProduct2Select = (index) => {
+        const categoryone = sales[index].product_type_one;
+        // console.log('categoryone',categoryone,index);
+        if(categoryone) {
+            const selectedResult = product1s.find(product => product.category === categoryone);
+            fetchProduct2(selectedResult.id);
+        }
+
+    }
+//-----------------------open and close vendor -----------------------------------
+    const [isvendorshow, setIsVendorShow] = useState(false);
+
+    const openVendortable = () => {
+        setIsVendorShow(false);
+    };
+
+    const closeVendortable = () => {
+        setIsVendorShow(true);
+    };
+
+    const [booleanArray, setBooleanArray] = useState(new Array(30).fill(false));
+    const toggleBoolean = (index) => {
+        if (index >= 0 && index < 30) {
+            // console.log('index', index, booleanArray[index]);
+            const newArray = [...booleanArray];
+            newArray[index] = !newArray[index];
+            setBooleanArray(newArray); // Update the state
+        }
+    };
+//---------------------------------------------------------------------------------------------------------------
    //goto salesslip
    const gotoSalesSlip = () => {
         navigate('/salesslip');
@@ -353,7 +568,7 @@ const VendorAssementSheet = () => {
                         {/* second selectbox line  */}
                         <div className='w-full flex justify-center mt-5'>
                             <select name="category1" value={category1} onChange={(e) => handleCategory1Change(e, product1s)} className='w-max h-11 text-[#70685a] font-bold border border-[#70685a] px-4 py-1 outline-[#70685a]' >
-                                <option value="" disabled>商品タイプ1</option>
+                                {/* <option value="" disabled>商品タイプ1</option> */}
                                 {product1s.map((option, index) => (
                                     <option key={option.id} value={option.category || ''}>
                                         {option.category || ''}
@@ -362,104 +577,505 @@ const VendorAssementSheet = () => {
                             </select>
                         </div>
                         {/*  Tabe*/}
-                        <div className='mt-10 pb-20 w-full h-full flex'>
-                            {/* precious metal */}
-                            <div style={{ width: '100%', overflow: 'auto'}} >
-                                {data?.length > 0 ? (
-                                    <table id="" style={Table}>
-                                        <thead className='bg-white z-10 h-11'>
-                                            <tr>
-                                                <th width='2%'></th>
-                                                <th style={Th}>NO</th>
-                                                {headTitleArray?.length>0 && headTitleArray[headId].map((title, index) => (
-                                                    <th key={index} style={Th}>{title}</th>
-                                                ))}
-                                                {vendors?.length>0 && vendors.map((vendor, index) => (
-                                                    <th key={index} style={Th}>{vendor.vendor_name}</th>
-                                                ))}
-                                                <th style={Th}>{editDataId === null ? '編集する' : 'セーブ'}</th>
-                                                <th style={{whiteSpace:'nowrap'}}>{editDataId === null ? '' : 'キャンセル'}</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {data?.length>0 && data.map((item, index) => (
-                                                <tr key={item.id}>
-                                                    <td ><input type='checkbox' value={item.id} onChange={handleCheckboxChange} disabled={item.product_status !== '買取済'} className='w-5 mr-3' /></td>
-                                                    <td style={Td}>{index + 1}</td>
-                                                    {Object.keys(categoryRow[headId]).map((key) => (
-                                                        <td key={key} style={Td}>
-                                                            {editDataId === item.id ? (
-                                                                <input
-                                                                    type='text'
-                                                                    name={key}
-                                                                    className='w-40'
-                                                                    value={item[key] || ''}
-                                                                    disabled={key === 'number' || key === 'product_name' || key === 'purchase_price' || key === 'quantity'}
-                                                                    onChange={(e) => handleDataChange(e, item.id)}
-                                                                />
-                                                            ) : (
-                                                                item[key]
-                                                            )}
-                                                        </td>
-                                                    ))}
-                                                    {Object.keys(headValueArray).map((key) => (
-                                                        <td key={key} style={Td}>
-                                                            {editDataId === item.id ? (
-                                                                <input
-                                                                    type='text'
-                                                                    className='w-40'
-                                                                    name={key}
-                                                                    value={estimateValues[key] || ''}
-                                                                    onChange={(e) => handleEstimateChange(key, e.target.value)}
-                                                                />
-                                                            ) : (
-                                                                item.estimate_wholesaler[key]
-                                                            )}
-                                                        </td>
-                                                    ))}
-                                                    <td style={Td}>
-                                                        {editDataId === item.id ? (
-                                                            <div>
-                                                                <button onClick={() => handleDatalSave(item.id,index)} className='w-7'>
-                                                                    <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium  MuiSvgIcon-root MuiSvgIcon-fontSizeLarge  css-1hkft75" fill='#524c3b' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckOutlinedIcon" title="CheckOutlined"><path d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
-                                                                </button>
-                                                            </div>
-                                                        ) : (
-                                                            <div>
-                                                                {item.product_status === '買取済'?
-                                                                    <button onClick={() => handleDataEdit(item.id,index)} className='w-7'>
-                                                                        <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium  MuiSvgIcon-root MuiSvgIcon-fontSizeLarge  css-1hkft75" fill='#524c3b' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="EditCalendarOutlinedIcon" title="EditCalendarOutlined"><path d="M5 10h14v2h2V6c0-1.1-.9-2-2-2h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h7v-2H5zm0-4h14v2H5zm17.84 10.28-.71.71-2.12-2.12.71-.71c.39-.39 1.02-.39 1.41 0l.71.71c.39.39.39 1.02 0 1.41m-3.54-.7 2.12 2.12-5.3 5.3H14v-2.12z"></path></svg>
-                                                                    </button>
-                                                                    :
-                                                                    <button  className='w-7'>
-                                                                        <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium  MuiSvgIcon-root MuiSvgIcon-fontSizeLarge  css-1hkft75" fill='#000' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="EditCalendarOutlinedIcon" title="EditCalendarOutlined"><path d="M5 10h14v2h2V6c0-1.1-.9-2-2-2h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h7v-2H5zm0-4h14v2H5zm17.84 10.28-.71.71-2.12-2.12.71-.71c.39-.39 1.02-.39 1.41 0l.71.71c.39.39.39 1.02 0 1.41m-3.54-.7 2.12 2.12-5.3 5.3H14v-2.12z"></path></svg>
-                                                                    </button>
-                                                                }
-                                                            </div>
-                                                        )}
-                                                    </td>
-                                                    <td>
-                                                        {editDataId === item.id ? (
-                                                            <div>
-                                                                <button onClick={handleDataCancel} className='w-7'>
-                                                                    <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium  MuiSvgIcon-root MuiSvgIcon-fontSizeLarge  css-1hkft75" fill='#524c3b' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="KeyboardReturnOutlinedIcon" title="KeyboardReturnOutlined"><path d="M19 7v4H5.83l3.58-3.59L8 6l-6 6 6 6 1.41-1.41L5.83 13H21V7z"></path></svg>
-                                                                </button>
-                                                            </div>
-                                                        ) : ('')}
-                                                    </td>
-                                                </tr>
+                        <div className='mt-3 w-full flex'>
+                            <div className='w-full max-h-[550px] overflow-y-scroll '>
+                                <table style={Table}>
+                                    <thead className='sticky top-0 bg-[white] z-10'>
+                                        <tr>
+                                            <th rowSpan={2} className='px-2'></th>
+                                            <th rowSpan={2} className='px-2'>ID</th>
+                                            <th rowSpan={2} style={Th} className='px-2'>わかばNo</th>
+                                            <th rowSpan={2} style={Th} className='px-1'>
+                                                <ButtonComponent onClick={openShowStatusFilterModal} children="ステータス" className='w-max !px-5 rounded-lg border border-[#70685a]' style={{ backgroundColor: '#ebe5e1', color: '#626373' }} /> 
+                                            </th>
+                                            <th className='px-2' style={Th} rowSpan={2}>
+                                                <ButtonComponent onClick={openShowVendorFilterModal} children="卸し先" className='w-max !px-5 rounded-lg border border-[#70685a]' style={{ backgroundColor: '#ebe5e1', color: '#626373' }} /> 
+                                            </th>
+                                            <th  className='px-2' style={Th} rowSpan={2}> 
+                                                <ButtonComponent onClick={() => openShowFilterModal('買取日')}  children="買取日" className='w-max !px-5 rounded-lg border border-[#70685a]' style={{ backgroundColor: '#ebe5e1', color: '#626373' }} /> 
+                                            </th>
+                                            <th  className='px-2' style={Th} rowSpan={2}>
+                                                <ButtonComponent onClick={() => openShowFilterModal('卸日')}  children="卸日" className='w-max !px-5 rounded-lg border border-[#70685a]' style={{ backgroundColor: '#ebe5e1', color: '#626373' }} /> 
+                                            </th>
+                                            <th  className='px-2' style={Th} rowSpan={2}>
+                                                <ButtonComponent  onClick={() => openShowFilterModal('入金日')}  children="入金日" className='w-max !px-5 rounded-lg border border-[#70685a]' style={{ backgroundColor: '#ebe5e1', color: '#626373' }} /> 
+                                            </th>
+
+                                            <th style={Th} colSpan={isshow ? 7:1}>
+                                                <div className='flex justify-center w-40'>
+                                                    個人情報
+                                                    <div className='flex flex-col justify-center'>
+                                                        {isshow ? <button ><img src={rightArrow} className='h-5' alt='' onClick={openSubtable} ></img></button> : <button><img src={leftArrow} className='h-5' alt='' onClick={closeSubtable}></img></button>}
+                                                    </div>
+                                                </div>
+                                            </th>
+
+                                            <th style={Th} rowSpan={2} >カテゴリ-1 </th>
+                                            <th style={Th} rowSpan={2} >カテゴリ-2</th>
+                                            <th style={Th} rowSpan={2} >カテゴリ-3</th>
+                                            <th style={Th} rowSpan={2} >カテゴリ-4</th>
+                                            <th style={Th} rowSpan={2} >画像</th>
+                                            <th style={Th} rowSpan={2} >
+                                                <div className='flex justify-center'>
+                                                    商品名
+                                                    <div className='flex flex-col justify-center'>
+                                                        {isDetailShow ? <button><img src={rightArrow} className='h-4' alt='' onClick={openItemDetailShow} ></img></button> : <button><img src={leftArrow} className='h-4' alt='' onClick={openItemDetailShow}></img></button>}
+                                                    </div>
+                                                </div>
+                                            </th>
+                                            {isDetailShow ? <th style={Th} rowSpan={2}>金種</th> : <th style={{ display: 'none' }}></th>}
+                                            {isDetailShow ? <th style={Th} rowSpan={2}>総重量</th> : <th style={{ display: 'none' }}></th>}
+                                            {isDetailShow ? <th style={Th} rowSpan={2}>g/額面</th> : <th style={{ display: 'none' }}></th>}
+                                            {isDetailShow ? <th style={Th} rowSpan={2}>型番 </th> : <th style={{ display: 'none' }}></th>}
+                                            {isDetailShow ? <th style={Th} rowSpan={2}>駆動方式</th> : <th style={{ display: 'none' }}></th>}
+                                            {isDetailShow ? <th style={Th} rowSpan={2}>可動 </th> : <th style={{ display: 'none' }}></th>}
+                                            {isDetailShow ? <th style={Th} rowSpan={2}>テスター</th> : <th style={{ display: 'none' }}></th>}
+                                            {isDetailShow ? <th style={Th} rowSpan={2}>箱ギャラ</th> : <th style={{ display: 'none' }}></th>}
+                                            {isDetailShow ? <th style={Th} rowSpan={2}>ランク</th> : <th style={{ display: 'none' }}></th>}
+                                            {isDetailShow ? <th style={Th} rowSpan={2}>銘柄</th> : <th style={{ display: 'none' }}></th>}
+                                            {isDetailShow ? <th style={Th} rowSpan={2}>容量</th> : <th style={{ display: 'none' }}></th>}
+                                            {isDetailShow ? <th style={Th} rowSpan={2}>度数</th> : <th style={{ display: 'none' }}></th>}
+                                            {isDetailShow ? <th style={Th} rowSpan={2}>備考</th> : <th style={{ display: 'none' }}></th>}
+                                            <th style={Th} rowSpan={2} ><span className='!px-1'>個数</span></th>
+                                            <th style={Th} rowSpan={2} ><span className='!px-1'>最高査定額</span></th>
+                                            <th style={Th} rowSpan={2} ><span className='!px-1'>最高査定業者</span></th>
+                                            <th style={Th} rowSpan={2} ><span className='!px-1'>その他の査定額</span></th>
+                                            <th style={Th} rowSpan={2} ><span className='!px-1'>買取額</span></th>
+                                            <th style={Th} rowSpan={2} ><span className='!px-1'>売上額</span></th>
+                                            <th style={Th} rowSpan={2} ><span className='!px-1'>粗利益</span></th>
+                                            <th style={Th} rowSpan={2} ><span className='!px-1'>真贋</span></th>
+                                            <th style={Th} rowSpan={2}>
+                                                <div>
+                                                    {isvendorshow ? <button className='!w-10 flex justify-center'><img src={rightArrow} className='h-5 w-10' alt='' onClick={openVendortable} ></img></button> : <button className='!w-10 flex justify-center'><img src={leftArrow} className='h-5 w-10' alt='' onClick={closeVendortable}></img></button>}
+                                                </div>
+                                            </th>
+                                            {(isvendorshow && allVendors?.length > 0) && allVendors.map((vendor, index) => (
+                                                <th key={index} style={Th} colSpan={booleanArray[index] ? 4 : 1}>
+                                                    <div className='flex justify-center'>
+                                                        {vendor.vendor_name}
+                                                        <div className='flex flex-col justify-center'>
+                                                            <button className='!w-10 flex flex-col justify-center' >
+                                                                <img src={booleanArray[index] ? rightArrow : leftArrow} className='h-4' alt='' onClick={() => toggleBoolean(index)}/>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </th>
                                             ))}
-                                        </tbody>
-                                    </table>
-                                ) : (
-                                    <p className='flex justify-center'>クロックデータなし</p> //No clock data available
-                                )}
+                                        </tr>
+                                        <tr>
+                                            <th style={Th}className='px-2'>顧客名</th>
+                                            {isshow ? <th style={Th} className='px-2'>ヨミガナ</th> : <th style={{ display: 'none' }}></th>}
+                                            {isshow ? <th style={Th} className='px-2'>電話番号</th> : <th style={{ display: 'none' }}></th>}
+                                            {isshow ? <th style={Th} className='px-2'>住所</th> : <th style={{ display: 'none' }}></th>}
+                                            {isshow ? <th style={Th} className='px-2'>来店種別</th> : <th style={{ display: 'none' }}></th>}
+                                            {isshow ? <th style={Th} className='px-2'>銘柄</th> : <th style={{ display: 'none' }}></th>}
+                                            {isshow ? <th style={Th} className='px-2'>販売店名</th> : <th style={{ display: 'none' }}></th>}
+
+                                                {(isvendorshow && allVendors?.length > 0) && allVendors.map((vendor, index) => (
+                                                    <>
+                                                        {booleanArray[index] ? (
+                                                        <>
+                                                            <th key={`expected-date-${index}`} style={Th} className='px-2'>仮査定日</th>
+                                                            <th key={`assessment-amount-${index}`} style={Th} className='px-2'>仮査定額</th>
+                                                            <th key={`actual-date-${index}`} style={Th} className='px-2'>本査定日</th>
+                                                            <th key={`actual-amount-${index}`} style={Th} className='px-2'>本査定額</th>
+                                                        </>
+                                                        ) : (
+                                                        <>
+                                                            <th key={`hidden-th-1-${index}`} style={{ display: 'none' }}></th>
+                                                            <th key={`hidden-th-2-${index}`} style={{ display: 'none' }}></th>
+                                                            <th key={`hidden-th-3-${index}`} style={{ display: 'none' }}></th>
+                                                            <th key={`actual-amount-${index}`} style={Th} className='px-2'>本査定額</th>
+                                                        </>
+                                                        )}
+                                                        
+                                                    </>
+                                                ))}
+                                            </tr>
+                                    </thead>
+                                    <tbody>
+                                        {sales.map((sale,Index) => (
+                                            <tr  key={sale.id}>
+                                                <td className='flex items-center h-6 pt-4'>
+                                                    <input 
+                                                        type='checkbox' 
+                                                        disabled={sale.product_status !== '買取済'} 
+                                                        value={sale.id} 
+                                                        onChange={handleCheckboxChange} 
+                                                        className='w-5' 
+                                                    />
+                                                </td>
+                                                <td>{sale.id || ''}</td>
+                                                <td style={Td}>{sale.wakaba_number  || ''}</td>
+                                                <td style={Td}>
+                                                    <select name='product_status' value={sale.product_status || ''} onChange={(e) => handleValueChange(sale.id,Index,e)} className="w-40 h-8 text-[#70685a] font-bold px-4 py-1 outline-[#70685a]">
+                                                        <option value="査定中">査定中</option>
+                                                        <option value="お預かり">お預かり</option>
+                                                        <option value="成約済">成約済</option>
+                                                        <option value="買取済">買取済</option>
+                                                        <option value="発送中">発送中</option>
+                                                        <option value="約定済">約定済</option>
+                                                        <option value="オークション出品済">オークション出品済</option>
+                                                        <option value="オークション発送済">オークション発送済</option>
+                                                        <option value="廃棄">廃棄</option>
+                                                        <option value="基準外">基準外</option>
+                                                        <option value="返品・返金">返品・返金</option>
+                                                    </select>
+                                                </td>
+                                                <td style={Td}>
+                                                    <select name='shipping_address' value={sale.shipping_address || ''} onChange={(e) => handleValueChange(sale.id,Index,e)} className="w-max h-8 text-[#70685a] font-bold px-4 py-1 outline-[#70685a]">
+                                                        <option value=''></option>
+                                                        {allVendors.length > 0 && allVendors.map((data, index) => (
+                                                            <option key={data.id} value={data.vendor_name}>{data.vendor_name || ''}</option>
+                                                        ))}
+                                                    </select>
+                                                </td>
+                                                <td style={Td}>{sale.trading_date || ''}</td>
+                                                <td style={Td}>{sale.shipping_date || ''}</td>
+                                                <td style={Td}>{sale.deposit_date || ''}</td>
+                                                <td style={Td}>{sale.Customer ? sale.Customer.full_name : 'Name not available'}</td>
+                                                {isshow ? 
+                                                    <td style={Td}>{sale.Customer ? sale.Customer.katakana_name : 'katakana_name not available'}</td>
+                                                    : <td style={{ display: 'none' }}></td>}
+                                                {isshow ? 
+                                                    <td style={Td}>{sale.Customer ? sale.Customer.phone_number : 'phone_number not available'}</td>
+                                                    : <td style={{ display: 'none' }}></td>}
+                                                {isshow ? 
+                                                    <td style={Td}>{sale.Customer ? sale.Customer.address : 'address not available'}</td>
+                                                    : <td style={{ display: 'none' }}></td>}
+                                                {isshow ? 
+                                                    <td style={Td}>{sale.Customer ? sale.Customer.visit_type : 'visit_type not available'}</td>
+                                                    : <td style={{ display: 'none' }}></td>}
+                                                {isshow ? 
+                                                    <td style={Td}>{sale.Customer ? sale.Customer.brand_type : 'brand_type not available'}</td>
+                                                    : <td style={{ display: 'none' }}></td>}
+                                                {isshow ? 
+                                                    <td style={Td}>{sale.store_name || ''}</td>
+                                                    : <td style={{ display: 'none' }}></td>}
+                                                <td style={Td}>
+                                                    <select name='product_type_one' value={sale.product_type_one || ''} onChange={(e) => handleValueChange(sale.id,Index,e)} className="w-[100px] h-8 text-[#70685a] font-bold px-4 py-1 outline-[#70685a]">
+                                                        <option value=''></option>
+                                                        {product1s.length > 0 && product1s.map((type, index) => (
+                                                            <option key={type.id} value={type.category}>{type.category || ''}</option>
+                                                        ))}
+                                                    </select>
+                                                </td>
+                                                <td style={Td}>
+                                                    <select name='product_type_two' value={sale.product_type_two || ''} onChange={(e) => handleValueChange(sale.id,Index,e)} onClick={() => handleProduct2Select(Index)} className="w-[80px] h-8 text-[#70685a] font-bold px-4 py-1 outline-[#70685a]">
+                                                        <option value=''></option>
+                                                        {product2s.length > 0 && product2s.map((type, index) => (
+                                                            <option key={type.id} value={type.category}>{type.category || ''}</option>
+                                                        ))}
+                                                    </select>
+                                                </td>
+                                                <td style={Td}>
+                                                    <select name='product_type_three' value={sale.product_type_three || ''} onChange={(e) => handleValueChange(sale.id,Index,e)} className="w-[80px] h-8 text-[#70685a] font-bold px-4 py-1 outline-[#70685a]">
+                                                        <option value=''></option>
+                                                        {product3s.length > 0 && product3s.map((type, index) => (
+                                                            <option key={type.id} value={type.category}>{type.category || ''}</option>
+                                                        ))}
+                                                    </select>
+                                                </td>
+                                                <td style={Td}>
+                                                    <select name='product_type_four' value={sale.product_type_four || ''} onChange={(e) => handleValueChange(sale.id,Index,e)}  className="w-[80px] h-8 text-[#70685a] font-bold px-4 py-1 outline-[#70685a]">
+                                                        <option value=''></option>
+                                                        {product4s.length > 0 && product4s.map((type, index) => (
+                                                            <option key={type.id} value={type.category}>{type.category || ''}</option>
+                                                        ))}
+                                                    </select>
+                                                </td>
+                                                <td style={Td}>
+                                                    {sale.product_photo != '' ? <ButtonComponent onClick={() => openProductImageModal(sale.product_photo)} children="写真" name='photo' className='w-max !px-5 rounded-lg border border-[#70685a]' style={{ backgroundColor: '#ebe5e1', color: '#626373' }} /> : 'ファイルなし'}
+                                                </td>
+                                                <td style={Td}>{sale.product_name || ''}</td>
+                                                {isDetailShow ? <td style={Td} >{sale.gold_type || ''}</td> : <td style={{ display: 'none' }}></td>}
+                                                {isDetailShow ? <td style={Td} >{sale.gross_weight || ''}</td> : <td style={{ display: 'none' }}></td>}
+                                                {isDetailShow ? <td style={Td} >{sale.price_gram || ''}</td> : <td style={{ display: 'none' }}></td>}
+                                                {isDetailShow ? <td style={Td} >{sale.model_number_one || ''}</td> : <td style={{ display: 'none' }}></td>}
+                                                {isDetailShow ? <td style={Td} >{sale.action_type || ''}</td> : <td style={{ display: 'none' }}></td>}
+                                                {isDetailShow ? <td style={Td} >{sale.movable || ''}</td> : <td style={{ display: 'none' }}></td>}
+                                                {isDetailShow ? <td style={Td} >{sale.tester || ''}</td> : <td style={{ display: 'none' }}></td>}
+                                                {isDetailShow ? <td style={Td} >{sale.box_guarantee || ''}</td> : <td style={{ display: 'none' }}></td>}
+                                                {isDetailShow ? <td style={Td} >{sale.rank || ''}</td> : <td style={{ display: 'none' }}></td>}
+                                                {isDetailShow ? <td style={Td} >{sale.brand || ''}</td> : <td style={{ display: 'none' }}></td>}
+                                                {isDetailShow ? <td style={Td} >{sale.capacity || ''}</td> : <td style={{ display: 'none' }}></td>}
+                                                {isDetailShow ? <td style={Td} >{sale.percent || ''}</td> : <td style={{ display: 'none' }}></td>}
+                                                {isDetailShow ? <td style={Td} >{sale.notes || ''}</td> : <td style={{ display: 'none' }}></td>}
+                                                <td style={Td}>{sale.quantity}</td>
+                                                <td style={Td}>{sale.highest_estimate_price || ''}</td>
+                                                <td style={Td}>{sale.highest_estimate_vendor || ''}</td>
+                                                <td style={Td}>
+                                                    <div className="relative w-max group mx-auto">
+                                                        <button type="button" onClick={() => openEstimate(Index)}
+                                                            className="px-3 py-1 rounded text-[#626373] tracking-wider font-semibold border border-[#70685a] bg-[#ebe5e1]">
+                                                            {sale.number_of_vendor || '0'}
+                                                        </button>
+                                                        <div className="absolute shadow-lg hidden group-hover:block bg-[#fff] text-[#626373] font-semibold px-3 py-2 text-[15px] right-full mr-3 top-0 bottom-0 my-auto h-max w-max rounded before:w-4 before:h-4 before:rotate-45 before:bg-[#333] before:absolute before:z-[-1] before:bottom-0 before:top-0 before:my-auto before:-right-1 before:mx-auto">
+                                                            {allVendors?.length>0 && allVendors.map((vendor, index) => (
+                                                                sale.estimate_wholesaler[vendor.vendor_name] && 
+                                                                <div key={index} className='flex justify-between'>
+                                                                    <p>{vendor.vendor_name}:</p>
+                                                                    <p className='pl-3'>{sale.estimate_wholesaler[vendor.vendor_name] || ''}</p>
+                                                                </div>
+                                                            ))}
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td style={Td}>{sale.purchase_price || ''}</td>
+                                                <td style={Td}>{sale.sales_amount || ''}</td>
+                                                <td style={Td}>{sale.gross_profit || ''}</td>
+                                                <td style={Td}>
+                                                    {sale.fixed_checkout === 'real' ?
+                                                        <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSvgIcon-root MuiSvgIcon-fontSizeMedium svg-icon css-kry165" fill='#626373' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="FiberManualRecordOutlinedIcon" title="FiberManualRecordOutlined"><path d="M12 6c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6 2.69-6 6-6m0-2c-4.42 0-8 3.58-8 8s3.58 8 8 8 8-3.58 8-8-3.58-8-8-8"></path></svg>
+                                                        :  <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSvgIcon-root MuiSvgIcon-fontSizeMedium svg-icon css-kry165" fill='#626373' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CloseOutlinedIcon" title="CloseOutlined"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
+                                                    }
+                                                </td>
+                                                <td style={Td} className='w-10'>{sale.number_of_vendor || ''}</td>
+                                                {(isvendorshow && allVendors?.length > 0) && allVendors.map((vendor, index) => (
+                                                    <>
+                                                        {booleanArray[index] ? (
+                                                        <>
+                                                            <td key={`expected-deposit-date-${index}`} style={Td} className='px-2'>{sale.expected_deposit_date || ''}</td>
+                                                            <td key={`assessment-amount-${index}`} style={Td} className='px-2'>{sale.assessment_amount || ''}</td>
+                                                            <td key={`deposit-date-${index}`} style={Td} className='px-2'>{sale.deposit_date || ''}</td>
+                                                            <td key={`sales-amount-${index}`} style={Td} className='px-2'>{sale.sales_amount || ''}</td>
+                                                        </>
+                                                        ) : (
+                                                        <>
+                                                            <td key={`hidden-td-1-${index}`} style={{ display: 'none' }}></td>
+                                                            <td key={`hidden-td-2-${index}`} style={{ display: 'none' }}></td>
+                                                            <td key={`hidden-td-3-${index}`} style={{ display: 'none' }}></td>
+                                                            <td key={`sales-amount-${index}`} style={Td} className='px-2'>{sale.sales_amount || ''}</td>
+                                                        </>
+                                                        )}
+                                                    </>
+                                                ))}
+                                            </tr>
+                                        ))}
+                                    </tbody>
+
+                                </table>
                             </div>
                         </div>
+
                     </div>
                 </div>
             </div>
+        {/* ---------show product photo-------- */}
+        {showProductImage && <ImageShowModal itemsImagePreview={itemImagePreview}  onClose={closeProductImageModal} />}
+        {/* -------------show estimate------------- */}
+        {showEstimate &&
+            <div
+                className="fixed inset-0 p-4 flex flex-wrap justify-center items-center w-full h-full z-[1000] before:fixed before:inset-0 before:w-full before:h-full before:bg-[rgba(0,0,0,0.5)] overflow-auto font-[sans-serif]">
+                <div className="w-full max-w-md bg-white shadow-lg rounded-2xl p-8 relative">
+                    <div className="text-center">
+                        <div className='flex justify-center w-full'>
+                            <table className='text-center w-full' style={Table}>
+                                <thead className='bg-white z-10 h-11 w-full'>
+                                    <tr>
+                                        <th style={Th}>ベンダー名</th>
+                                        <th style={Th}>見積もり</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {vendors?.length>0 && vendors.map((vendor, index) => (
+                                        <tr key={vendor.id} className='!h-8'>
+                                            <td style={Td}>{vendor.vendor_name || ''}</td>
+                                            <td style={Td}>
+                                                {estimateValues[vendor.vendor_name] || ''}
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
 
+                            </table>
+                        </div>
+                    </div>
+        
+                    <div className="flex justify-center w-full mt-5">
+                        <button type="button" onClick={saveEstimate}
+                            className="px-5 py-1 rounded-full w-1/2 font-bold text-white border-none outline-none bg-[#524c3b] hover:bg-[#524c3b] hover:text-white transition-all duration-300">閉じる</button>
+                    </div>
+                </div>
+            </div>
+        }
+        {/* ---------date filter modal----------- */}
+        {showDateFilter &&
+            <div className="fixed inset-0 p-4 flex justify-center items-center w-full h-full z-[1000] before:fixed before:inset-0 before:w-full before:h-full before:bg-[rgba(0,0,0,0.5)] overflow-auto font-[sans-serif]">
+                <div className="w-full max-w-lg bg-white shadow-lg rounded-lg p-6 relative">
+                    <div className="flex items-center pb-3 border-b border-gray-300">
+                        <h3 className="text-gray-800 text-xl font-bold flex-1">{selectedDateType}</h3>
+                        <svg onClick={closeShowFilterModal} xmlns="http://www.w3.org/2000/svg" className="w-3 ml-2 cursor-pointer shrink-0 fill-gray-400 hover:fill-red-500"
+                            viewBox="0 0 320.591 320.591">
+                            <path
+                                d="M30.391 318.583a30.37 30.37 0 0 1-21.56-7.288c-11.774-11.844-11.774-30.973 0-42.817L266.643 10.665c12.246-11.459 31.462-10.822 42.921 1.424 10.362 11.074 10.966 28.095 1.414 39.875L51.647 311.295a30.366 30.366 0 0 1-21.256 7.288z"
+                                data-original="#000000"></path>
+                            <path
+                                d="M287.9 318.583a30.37 30.37 0 0 1-21.257-8.806L8.83 51.963C-2.078 39.225-.595 20.055 12.143 9.146c11.369-9.736 28.136-9.736 39.504 0l259.331 257.813c12.243 11.462 12.876 30.679 1.414 42.922-.456.487-.927.958-1.414 1.414a30.368 30.368 0 0 1-23.078 7.288z"
+                                data-original="#000000"></path>
+                        </svg>
+                    </div>
+
+                    <div className="my-6">
+                        <div>
+                            <div className='flex w-full mt-1 gap-3 ml-3'>
+                                <InputComponent name='year' value={year} onChange={(e) => setYear(e.target.value)} type='number' className="w-[100px] text-[#70685a] mb-2 block text-left py-1 !mb-0 !h-8" placeholder={'2024'} />
+                                <div className='w-max flex flex-col justify-center'>
+                                    <label className='text-[#70685a] text-[15px]'>年</label>
+                                </div>
+                                <InputComponent name='month' value={month} onChange={(e) => setMonth(e.target.value)}  type='number' className="w-20 text-[#70685a] mb-2 block text-left py-1 !mb-0 !h-8" placeholder={'01'} />
+                                <div className='w-max flex flex-col justify-center'>
+                                    <label className='text-[#70685a] text-[15px]'>月</label>
+                                </div>
+                                <InputComponent name='day' value={day} onChange={(e) => setDay(e.target.value)}  type='number' className="w-20 text-[#70685a] mb-2 block text-left py-1 !mb-0 !h-8" placeholder={'01'} />
+                                <div className='w-max flex flex-col justify-center'>
+                                    <label className='text-[#70685a] text-[15px]'>日</label>
+                                </div>
+                                <div className='flex justify-center'>
+                                    <div className=' text-[#656565] px-2 mr-2 flex flex-col justify-center'>
+                                        < button onClick={() => handleDateFilter(selectedDateType)} type="button" className="w-20 h-8 px-3 py-1 font-bold tracking-wide rounded-lg justify-center text-white text-[15px] bg-[#a3a1c8] hover:bg-blue-700 focus:outline-none">
+                                            検索
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <div className='flex w-full mt-3 gap-3 ml-3'>
+                                <InputComponent name='startDate' value={startDate} onChange={(e) => setStartDate(e.target.value)} type='date' placeholder={'10/15/2024'} className="w-40 text-[#70685a] mb-2 block text-left py-1 !mb-0 !h-8" />
+                                <div className='flex flex-col justify-center'>
+                                    <label className="text-[#656565] block text-center text-[15px] !mb-0">~</label>
+                                </div>
+                                <InputComponent name='endDate'  value={endDate} onChange={(e) => setEndDate(e.target.value)}  type='date' placeholder={'10/15/2024'} className="w-40 text-[#70685a] mb-2 block text-left py-1 !mb-0 !h-8" />
+                                <div className='ml-3 flex justify-center'>
+                                    <div className=' text-[#656565] px-2 mr-2 flex flex-col justify-center'>
+                                        < button type="button" onClick={() => handleTerminalDateFilter(selectedDateType)} className="w-20 h-8 px-3 py-1 font-bold tracking-wide rounded-lg justify-center text-white text-[15px] bg-[#a3a1c8] hover:bg-blue-700 focus:outline-none">
+                                            検索
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <div className="border-t border-gray-300 pt-6 flex justify-end gap-4">
+                        <button type="button" onClick={closeShowFilterModal}
+                            className="px-4 py-2 rounded-lg text-gray-800 text-sm border-none outline-none tracking-wide bg-gray-200 hover:bg-gray-300 active:bg-gray-200">キャンセル</button>
+                    </div>
+                </div>
+            </div>
+        }
+        {/* ---------staff filter modal-------- */}
+        {showVendorFilter &&
+            <div className="fixed inset-0 p-4 flex justify-center items-center w-full h-full z-[1000] before:fixed before:inset-0 before:w-full before:h-full before:bg-[rgba(0,0,0,0.5)] overflow-auto font-[sans-serif]">
+                <div className="w-full max-w-lg bg-white shadow-lg rounded-lg p-6 relative">
+                    <div className="flex items-center pb-3 border-b border-gray-300">
+                        <h3 className="text-gray-800 text-xl font-bold flex-1">卸し先</h3>
+                        <svg onClick={closeShowVendorFilterModal} xmlns="http://www.w3.org/2000/svg" className="w-3 ml-2 cursor-pointer shrink-0 fill-gray-400 hover:fill-red-500"
+                            viewBox="0 0 320.591 320.591">
+                            <path
+                                d="M30.391 318.583a30.37 30.37 0 0 1-21.56-7.288c-11.774-11.844-11.774-30.973 0-42.817L266.643 10.665c12.246-11.459 31.462-10.822 42.921 1.424 10.362 11.074 10.966 28.095 1.414 39.875L51.647 311.295a30.366 30.366 0 0 1-21.256 7.288z"
+                                data-original="#000000"></path>
+                            <path
+                                d="M287.9 318.583a30.37 30.37 0 0 1-21.257-8.806L8.83 51.963C-2.078 39.225-.595 20.055 12.143 9.146c11.369-9.736 28.136-9.736 39.504 0l259.331 257.813c12.243 11.462 12.876 30.679 1.414 42.922-.456.487-.927.958-1.414 1.414a30.368 30.368 0 0 1-23.078 7.288z"
+                                data-original="#000000"></path>
+                        </svg>
+                    </div>
+
+                    <div className="my-6">
+                        <div className='mt-3 w-full'>
+                            <input
+                                type='text'
+                                placeholder='検索...'
+                                value={searchQuery}
+                                onChange={(e) => setSearchQuery(e.target.value)}
+                                className='mb-2 p-1 border rounded'
+                            />
+                            <div className='w-full h-[350px] overflow-y-scroll '>
+                                <table style={Table}>
+                                    <thead className='sticky top-0 bg-[white] z-10'>
+                                        <tr>
+                                            <th className='px-2'></th>
+                                            <th className='px-2'></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {filteredVendors.length > 0 && filteredVendors.map((data, index) => (
+                                            <tr  key={data.id}>
+                                                <td style={Td}><input type='checkbox' value={data.vendor_name|| ''} 
+                                                onChange={() => handleVendorCheckboxChange(data)}
+                                                checked={selectedVendors.includes(data.vendor_name)} 
+                                                className='w-5'/></td>
+                                                <td style={Td}>{data.vendor_name || ''}</td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="border-t border-gray-300 pt-6 flex justify-end gap-4">
+                        <button type="button" onClick={closeShowVendorFilterModal}
+                            className="px-4 py-2 rounded-lg text-gray-800 text-sm border-none outline-none tracking-wide bg-gray-200 hover:bg-gray-300 active:bg-gray-200">キャンセル</button>
+                    <button type="button" onClick={searchVendorInformation}
+                            className="px-4 py-2 rounded-lg text-white text-sm border-none outline-none tracking-wide bg-blue-600 hover:bg-blue-700 active:bg-blue-600">検索</button>
+                    </div>
+                </div>
+            </div>
+        }
+        {/* ---------status filter modal-------- */}
+        {showStatusFilter &&
+            <div className="fixed inset-0 p-4 flex justify-center items-center w-full h-full z-[1000] before:fixed before:inset-0 before:w-full before:h-full before:bg-[rgba(0,0,0,0.5)] overflow-auto font-[sans-serif]">
+                <div className="w-full max-w-lg bg-white shadow-lg rounded-lg p-6 relative">
+                    <div className="flex items-center pb-3 border-b border-gray-300">
+                        <h3 className="text-gray-800 text-xl font-bold flex-1">ステータス</h3>
+                        <svg onClick={closeShowStatusFilterModal} xmlns="http://www.w3.org/2000/svg" className="w-3 ml-2 cursor-pointer shrink-0 fill-gray-400 hover:fill-red-500"
+                            viewBox="0 0 320.591 320.591">
+                            <path
+                                d="M30.391 318.583a30.37 30.37 0 0 1-21.56-7.288c-11.774-11.844-11.774-30.973 0-42.817L266.643 10.665c12.246-11.459 31.462-10.822 42.921 1.424 10.362 11.074 10.966 28.095 1.414 39.875L51.647 311.295a30.366 30.366 0 0 1-21.256 7.288z"
+                                data-original="#000000"></path>
+                            <path
+                                d="M287.9 318.583a30.37 30.37 0 0 1-21.257-8.806L8.83 51.963C-2.078 39.225-.595 20.055 12.143 9.146c11.369-9.736 28.136-9.736 39.504 0l259.331 257.813c12.243 11.462 12.876 30.679 1.414 42.922-.456.487-.927.958-1.414 1.414a30.368 30.368 0 0 1-23.078 7.288z"
+                                data-original="#000000"></path>
+                        </svg>
+                    </div>
+
+                    <div className="my-6">
+                        <div className='mt-3 w-full'>
+                            <div className='w-full h-[350px] overflow-y-scroll '>
+                                <table style={Table}>
+                                    <thead className='sticky top-0 bg-[white] z-10'>
+                                        <tr>
+                                            <th className='px-2'></th>
+                                            <th className='px-2'></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {filteredStatus.length > 0 && filteredStatus.map((status, index) => (
+                                            <tr  key={status.id}>
+                                                <td style={Td}><input type='checkbox' value={status|| ''} 
+                                                onChange={() => handleStatusCheckboxChange(status)}
+                                                checked={selectedStatus.includes(status)} 
+                                                className='w-5'/></td>
+                                                <td style={Td}>{status || ''}</td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="border-t border-gray-300 pt-6 flex justify-end gap-4">
+                        <button type="button" onClick={closeShowStatusFilterModal}
+                            className="px-4 py-2 rounded-lg text-gray-800 text-sm border-none outline-none tracking-wide bg-gray-200 hover:bg-gray-300 active:bg-gray-200">キャンセル</button>
+                    <button type="button" onClick={searchStatusInformation}
+                            className="px-4 py-2 rounded-lg text-white text-sm border-none outline-none tracking-wide bg-blue-600 hover:bg-blue-700 active:bg-blue-600">検索</button>
+                    </div>
+                </div>
+            </div>
+        }
         </>
     );
 };

@@ -67,7 +67,7 @@ const SalesSlip = () => {
                     const updatedData111 = salesData.map((data,Index) => ({
                         ...data,
                         estimate_wholesaler: JSON.parse(data.estimate_wholesaler),
-                        // comment: JSON.parse(data.comment),
+                        comment: JSON.parse(data.comment),
                     })); 
                     setSales(updatedData111);
                 }
@@ -111,7 +111,7 @@ const SalesSlip = () => {
                     const updatedData111 = salesData.map((data,Index) => ({
                         ...data,
                         estimate_wholesaler: JSON.parse(data.estimate_wholesaler),
-                        // comment: JSON.parse(data.comment),
+                        comment: JSON.parse(data.comment),
                     })); 
                     setSales(updatedData111);
                 }
@@ -186,7 +186,7 @@ const SalesSlip = () => {
          fetchCategory1();
      }, []);
  
-     const [category1, setCategory1] = useState('1');
+     const [category1, setCategory1] = useState('');
  
      const handleCategory1Change = (e, productList) => {
          const selectedCategory = e.target.value; // Get the selected category
@@ -323,7 +323,7 @@ const SalesSlip = () => {
                     const updatedData111 = salesData.map((data,Index) => ({
                         ...data,
                         estimate_wholesaler: JSON.parse(data.estimate_wholesaler),
-                        // comment: JSON.parse(data.comment),
+                        comment: JSON.parse(data.comment),
                     })); 
                     setSales(updatedData111);
                 }
@@ -345,7 +345,7 @@ const SalesSlip = () => {
                     const updatedData111 = salesData.map((data,Index) => ({
                         ...data,
                         estimate_wholesaler: JSON.parse(data.estimate_wholesaler),
-                        // comment: JSON.parse(data.comment),
+                        comment: JSON.parse(data.comment),
                     })); 
                     setSales(updatedData111);
                 }
@@ -383,19 +383,20 @@ const SalesSlip = () => {
     const searchStaffInformation = async() => {
         setShowStaffFilter(false);
         // const clientsToFind = ["Client A", "Client C"];
+        console.log('selected users',selectedUsers)
         const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
         if (!wakabaBaseUrl) {
             throw new Error('API base URL is not defined');
         }
-        // console.log(`${wakabaBaseUrl}/sales/getSalesList`);
-        await axios.get(`${wakabaBaseUrl}/sales/getSalesList`)
+        console.log(category1,'category1');
+        await axios.post(`${wakabaBaseUrl}/sales/getSalesListByCategory1`,{cat1:category1})
         .then(response => {
             const salesData = response.data;
             if(salesData?.length>0) {
                 const updatedData111 = salesData.map((data,Index) => ({
                     ...data,
                     estimate_wholesaler: JSON.parse(data.estimate_wholesaler),
-                    // comment: JSON.parse(data.comment),
+                    comment: JSON.parse(data.comment),
                 })); 
                 const filteredSales = updatedData111.filter(sale => 
                     selectedUsers.includes(sale.purchase_staff)
@@ -437,14 +438,14 @@ const SalesSlip = () => {
             throw new Error('API base URL is not defined');
         }
         // console.log(`${wakabaBaseUrl}/sales/getSalesList`);
-        await axios.get(`${wakabaBaseUrl}/sales/getSalesList`)
+        await axios.post(`${wakabaBaseUrl}/sales/getSalesListByCategory1`,{cat1:category1})
         .then(response => {
             const salesData = response.data;
             if(salesData?.length>0) {
                 const updatedData111 = salesData.map((data,Index) => ({
                     ...data,
                     estimate_wholesaler: JSON.parse(data.estimate_wholesaler),
-                    // comment: JSON.parse(data.comment),
+                    comment: JSON.parse(data.comment),
                 })); 
                 const filteredSales = updatedData111.filter(sale => 
                     selectedStatus.includes(sale.product_status)
@@ -525,14 +526,14 @@ const SalesSlip = () => {
             throw new Error('API base URL is not defined');
         }
         // console.log(`${wakabaBaseUrl}/sales/getSalesList`);
-        await axios.post(`${wakabaBaseUrl}/sales/eidtSales`,{id:id,name:name,value:value})
+        await axios.post(`${wakabaBaseUrl}/sales/eidtSales`,{id:id,name:name,value:value,cat1:category1})
         .then(response => {
             const salesData = response.data;
             if(salesData?.length>0) {
                 const updatedData111 = salesData.map((data,Index) => ({
                     ...data,
                     estimate_wholesaler: JSON.parse(data.estimate_wholesaler),
-                    // comment: JSON.parse(data.comment),
+                    comment: JSON.parse(data.comment),
                 })); 
                 setSales(updatedData111);
             }
@@ -611,7 +612,7 @@ const SalesSlip = () => {
                             </select>
                         </div>
                         
-                        {/*  Tabe*/}
+                        {/*  Table*/}
                         <div className='mt-3 w-full flex'>
                             <div className='w-full max-h-[550px] overflow-y-scroll '>
                                 <table style={Table}>
@@ -693,11 +694,19 @@ const SalesSlip = () => {
                                     <tbody>
                                         {sales.map((sale,Index) => (
                                             <tr  key={sale.id}>
-                                                <td className='flex flex-col justify-center h-6'><input type='checkbox' disabled={sale.product_status !== '買取済'} value={sale.id} onChange={handleCheckboxChange} className='w-5'/></td>
+                                                <td className='flex items-center h-6 pt-4'>
+                                                    <input 
+                                                        type='checkbox' 
+                                                        disabled={sale.product_status !== '買取済'} 
+                                                        value={sale.id} 
+                                                        onChange={handleCheckboxChange} 
+                                                        className='w-5' 
+                                                    />
+                                                </td>
                                                 <td>{sale.id || ''}</td>
                                                 <td style={Td}>{sale.wakaba_number  || ''}</td>
                                                 <td style={Td}>
-                                                    <select name='product_status' value={sale.product_status || ''} onChange={(e) => handleValueChange(sale.id,Index,e)} className="w-40 h-8 ml-3 text-[#70685a] font-bold px-4 py-1 outline-[#70685a]">
+                                                    <select name='product_status' value={sale.product_status || ''} onChange={(e) => handleValueChange(sale.id,Index,e)} className="w-40 h-8 text-[#70685a] font-bold px-4 py-1 outline-[#70685a]">
                                                         <option value="査定中">査定中</option>
                                                         <option value="お預かり">お預かり</option>
                                                         <option value="成約済">成約済</option>
@@ -712,8 +721,8 @@ const SalesSlip = () => {
                                                     </select>
                                                 </td>
                                                 <td style={Td}>
-                                                    <select name='purchase_staff' value={sale.purchase_staff || ''} onChange={(e) => handleValueChange(sale.id,Index,e)} className="w-40 h-8 ml-3 text-[#70685a] font-bold px-4 py-1 outline-[#70685a]">
-                                                        {filteredUsers.length > 0 && filteredUsers.map((user, index) => (
+                                                    <select name='purchase_staff' value={sale.purchase_staff || ''} onChange={(e) => handleValueChange(sale.id,Index,e)} className="w-40 h-8 text-[#70685a] font-bold px-4 py-1 outline-[#70685a]">
+                                                        {users.length > 0 && users.map((user, index) => (
                                                             <option key={user.id} value={user.full_name}>{user.full_name || ''}</option>
                                                         ))}
                                                     </select>
@@ -741,7 +750,7 @@ const SalesSlip = () => {
                                                     <td style={Td}>{sale.store_name || ''}</td>
                                                     : <td style={{ display: 'none' }}></td>}
                                                 <td style={Td}>
-                                                    <select name='product_type_one' value={sale.product_type_one || ''} onChange={(e) => handleValueChange(sale.id,Index,e)} className="w-[100px] h-8 ml-3 text-[#70685a] font-bold px-4 py-1 outline-[#70685a]">
+                                                    <select name='product_type_one' value={sale.product_type_one || ''} onChange={(e) => handleValueChange(sale.id,Index,e)} className="w-[100px] h-8 text-[#70685a] font-bold px-4 py-1 outline-[#70685a]">
                                                         <option value=''></option>
                                                         {product1s.length > 0 && product1s.map((type, index) => (
                                                             <option key={type.id} value={type.category}>{type.category || ''}</option>
@@ -757,7 +766,7 @@ const SalesSlip = () => {
                                                     </select>
                                                 </td>
                                                 <td style={Td}>
-                                                    <select name='product_type_three' value={sale.product_type_three || ''} onChange={(e) => handleValueChange(sale.id,Index,e)} className="w-[80px] h-8 ml-3 text-[#70685a] font-bold px-4 py-1 outline-[#70685a]">
+                                                    <select name='product_type_three' value={sale.product_type_three || ''} onChange={(e) => handleValueChange(sale.id,Index,e)} className="w-[80px] h-8 text-[#70685a] font-bold px-4 py-1 outline-[#70685a]">
                                                         <option value=''></option>
                                                         {product3s.length > 0 && product3s.map((type, index) => (
                                                             <option key={type.id} value={type.category}>{type.category || ''}</option>
@@ -765,7 +774,7 @@ const SalesSlip = () => {
                                                     </select>
                                                 </td>
                                                 <td style={Td}>
-                                                    <select name='product_type_four' value={sale.product_type_four || ''} onChange={(e) => handleValueChange(sale.id,Index,e)}  className="w-[80px] h-8 ml-3 text-[#70685a] font-bold px-4 py-1 outline-[#70685a]">
+                                                    <select name='product_type_four' value={sale.product_type_four || ''} onChange={(e) => handleValueChange(sale.id,Index,e)}  className="w-[80px] h-8 text-[#70685a] font-bold px-4 py-1 outline-[#70685a]">
                                                         <option value=''></option>
                                                         {product4s.length > 0 && product4s.map((type, index) => (
                                                             <option key={type.id} value={type.category}>{type.category || ''}</option>
@@ -1020,7 +1029,7 @@ const SalesSlip = () => {
                                     </thead>
                                     <tbody>
                                         {filteredStatus.length > 0 && filteredStatus.map((status, index) => (
-                                            <tr  key={status.id}>
+                                            <tr key={status.id}>
                                                 <td style={Td}><input type='checkbox' value={status|| ''} 
                                                 onChange={() => handleStatusCheckboxChange(status)}
                                                 checked={selectedStatus.includes(status)} 

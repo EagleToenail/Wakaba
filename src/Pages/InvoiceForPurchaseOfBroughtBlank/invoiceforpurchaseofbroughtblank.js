@@ -227,6 +227,7 @@ const InvoicePurchaseOfBroughtBlank = () => {
             });
         }
     }, [totalSalesSlipData]);
+    
     const handleStaffChange = (e) => {
         const { name, value } = e.target;
         setStaffData((prevData) => ({
