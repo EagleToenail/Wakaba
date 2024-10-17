@@ -77,95 +77,18 @@ const CustomerIndividualCreate = () => {
         trigger:'',
         brand_type:'',
         shop:'',
+        special_note:''
 
     });
 
     const [imageAvatarPreview, setAvatarImagePreview] = useState("");
     const [imageIdCardPreview, setIdCardImagePreview] = useState("");
 
-    // const [customerPastVisitHistory, setCustomerPastVisitHistory] = useState([]);
     const navigate = useNavigate();
 
-    // Fetch customerPastVisitHistory data
-    // useEffect(() => {
-    //     const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
-
-    //     if (!wakabaBaseUrl) {
-    //         throw new Error('API base URL is not defined');
-    //     }
-
-    //     setCustomerPastVisitHistory([
-    //         {
-    //             "id": 1,
-    //             "numberOfVisit": "123",
-    //             "visitDate": "1999/12/31",
-    //             "applicable": "買取",
-    //             "totalAmount": "9,999,999",
-    //             "category1": "ジュエリー",
-    //             "productName": "グシチooooooo",
-    //             "totalSales": "999,999,999",
-    //             "totalGrossProfit": "999,999,999",
-    //             "totalPurchaseAmount": "999,999,999",
-    //         },
-    //         {
-    //             "id": 2,
-    //             "numberOfVisit": "123",
-    //             "visitDate": "1999/12/30",
-    //             "applicable": "買取",
-    //             "totalAmount": "9,999,999",
-    //             "category1": "ジュエリー",
-    //             "productName": "グシチooooooo",
-    //             "totalSales": "999,999,999",
-    //             "totalGrossProfit": "999,999,999",
-    //             "totalPurchaseAmount": "999,999,999",
-    //         },
-    //         {
-    //             "id": 2,
-    //             "numberOfVisit": "123",
-    //             "visitDate": "1999/12/29",
-    //             "applicable": "買取",
-    //             "totalAmount": "9,999,999",
-    //             "category1": "ジュエリー",
-    //             "productName": "グシチooooooo",
-    //             "totalSales": "999,999,999",
-    //             "totalGrossProfit": "999,999,999",
-    //             "totalPurchaseAmount": "999,999,999",
-    //         },
-
-    //     ]
-    //     );
-
-    //     // axios.get(`${wakabaBaseUrl}/coustomervisithistory/:id`)
-    //     //     .then(response => {
-    //     //         setCustomerPastVisitHistory(response.data);
-    //     //     })
-    //     //     .catch(error => {
-    //     //         console.error("There was an error fetching the customer data!", error);
-    //     //     });
-    // }, []);
     // Fetch customer data
     const { id } = useParams();
     console.log('id', id);
-
-    // useEffect(() => {
-
-    //     const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
-
-    //     if (!wakabaBaseUrl) {
-    //         throw new Error('API base URL is not defined');
-    //     }
-
-    //     axios.get(`${wakabaBaseUrl}/customer/getUserByCustomer/${id}`)
-    //         .then(response => {
-    //             console.log("data", response.data)
-    //             setCustomer(response.data);
-    //             setAvatarImagePreview(`${wakabaBaseUrl}/uploads/customer/${response.data.avatar_url}`);
-    //             setIdCardImagePreview(`${wakabaBaseUrl}/uploads/customer/${response.data.idCard_url}`);
-    //         })
-    //         .catch(error => {
-    //             console.error("There was an error fetching the customer data!", error);
-    //         });
-    // }, [id]);
 
     // //file upload
     const [avatarimageFile, setAvatarImageFile] = useState(null);
@@ -218,25 +141,25 @@ const CustomerIndividualCreate = () => {
         setIsCreateModalOpen(false);
     }
     //create-symbol
-    const formatPhoneNumber = (number) => {
-        // Ensure the number is a string
-        const numStr = number.toString();
+    // const formatPhoneNumber = (number) => {
+    //     // Ensure the number is a string
+    //     const numStr = number.toString();
         
-        // Extract parts of the string
-        const part1 = numStr.slice(0, 3);    // First 3 digits
-        const part2 = numStr.slice(3, 7);    // Next 4 digits
-        const part3 = numStr.slice(7);       // Last 4 digits
+    //     // Extract parts of the string
+    //     const part1 = numStr.slice(0, 3);    // First 3 digits
+    //     const part2 = numStr.slice(3, 7);    // Next 4 digits
+    //     const part3 = numStr.slice(7);       // Last 4 digits
     
-        // Combine parts with dashes
-        return `${part1}-${part2}-${part3}`;
-    };
+    //     // Combine parts with dashes
+    //     return `${part1}-${part2}-${part3}`;
+    // };
 
     const handleCreateSubmit = async (e) => {
         e.preventDefault();
         setIsCreateModalOpen(false);
 
-        const formattedNumber = formatPhoneNumber(customer.phone_number);
-        customer.phone_number =  formattedNumber;
+        // const formattedNumber = formatPhoneNumber(customer.phone_number);
+        // customer.phone_number =  formattedNumber;
 
         const formDataObj = new FormData();
         formDataObj.append('id', customer.id);
@@ -256,6 +179,7 @@ const CustomerIndividualCreate = () => {
         formDataObj.append('prefeature', customer.prefeature);
         formDataObj.append('city', customer.city);
         formDataObj.append('address', customer.address);
+        formDataObj.append('special_note', customer.special_note);
 
         if (avatarimageFile) formDataObj.append('avatarimage', avatarimageFile);
         if (idcardFile) formDataObj.append('idcard', idcardFile);
@@ -288,8 +212,8 @@ const CustomerIndividualCreate = () => {
     return (<>
         <div className="bg-[trasparent] font-[sans-serif]">
             <div className='flex justify-center'>
-                <div className="w-full pt-3" style={{ maxWidth: '80em' }}>
-                    <div className="w-full pt-3 flex justify-end">
+                <div className="w-full" style={{ maxWidth: '80em' }}>
+                    <div className="w-full flex justify-end">
                         {/* new */}
                         <div className='flex justify-end'>
                             <div style={{ width: '100%', flexDirection: 'column', }} className='flex align-center justify-end'>
@@ -298,7 +222,7 @@ const CustomerIndividualCreate = () => {
                         </div>
                     </div>
                     <h2 className="text-[#70685a] text-center text-2xl font-bold flex justify-center !mt-5">顧客 個別情報(作成する画面)</h2>
-                    <div className='w-full flex justify-center gap-20 mt-10'>
+                    <div className='w-full flex justify-center gap-20 mt-5'>
                         {/* <ButtonComponent name="delete" children="削除" onClick={openDeleteCheckModal} className='px-5' style={{ backgroundColor: '#838383' }} /> */}
                         <ButtonComponent name="keep" className='' onClick={openCreateCheckModal} children="作成する" />
                         {/* <ButtonComponent name="onsitepurchase" children="出張買取" className='px-5' style={{ border: '1px solid #838383', backgroundColor: 'transparent', color: '#838383', }} ><Link to='/onsitepurchase'>キャンセル</Link></ButtonComponent> */}
@@ -309,7 +233,7 @@ const CustomerIndividualCreate = () => {
             <div className=" flex  justify-center ">
                 <div className="w-full pt-3" style={{ maxWidth: '60em' }}>
                     <div className=" rounded-2xl w-full">
-                        <form className=" space-y-6 pt-10">
+                        <form className=" space-y-2">
                             {/* new */}
                             <div className='flex'>
                                 <div style={{ width: '25%', flexDirection: 'column', }} className='!mb-0 flex align-center justify-around'>
@@ -357,7 +281,7 @@ const CustomerIndividualCreate = () => {
                                     <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">お電話番号</label>
                                 </div>
                                 <div style={{ width: '35%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <InputComponent name="phone_number" value={customer.phone_number} onChange={handleCustomerChange} type='text' required />
+                                    <InputComponent name="phone_number" value={customer.phone_number} onChange={handleCustomerChange} type='tel' pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" placeholder="123-4567-7890" required />
                                 </div>
                             </div>
                             {/* new */}
@@ -561,7 +485,15 @@ const CustomerIndividualCreate = () => {
                                     <input name="address" type="text" value={customer.address} onChange={handleCustomerChange} required className="w-full text-[#70685a] border border-[#70685a] px-4 py-2 outline-[#70685a]" />
                                 </div>
                             </div>
-
+                            {/* new */}
+                            <div className='flex'>
+                                <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
+                                    <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">特記事項</label>
+                                </div>
+                                <div style={{ width: '75%', flexDirection: 'column', }} className='flex align-center justify-around'>
+                                    <input name="special_note" type="text" value={customer.special_note} onChange={handleCustomerChange} required className="w-full text-[#70685a] border border-[#70685a] px-4 py-2 outline-[#70685a]" />
+                                </div>
+                            </div>
                         </form>
                     </div>
                 </div>

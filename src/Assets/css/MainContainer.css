@@ -8,7 +8,7 @@
 
 .top-pane, .bottom-pane {
   width: 100%;
-  padding: 20px 20px 20px 20px;
+  padding: 0px 20px 20px 20px;
   overflow: auto;
   transition: height 0.2s; /* Smooth transition for height changes */
   margin-bottom: 20px;

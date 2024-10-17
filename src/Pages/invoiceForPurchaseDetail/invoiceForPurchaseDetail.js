@@ -8,6 +8,7 @@ import ButtonComponent from '../../Components/Common/ButtonComponent';
 import dateimage from '../../Assets/img/datepicker.png';
 import DateAndTime from '../../Components/Common/PickData';
 import axios from 'axios';
+import {toast} from 'react-toastify';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { setData } from '../../redux/sales/actions';
@@ -939,7 +940,7 @@ const fetchInvoiceHistoryData = async () => {
     }
     const sendPurchaseData = () => {
         //---------
-        if(totalSalesSlipData[0].product_status === '成約済') {
+        if(totalSalesSlipData[0].product_status === '承認された') {
             const numberOfInvoice = customerPastVisitHistory.length;
 
             if (totalSalesSlipData.length != 0 && totalSalesSlipData != null) {
@@ -1438,7 +1439,7 @@ const fetchInvoiceHistoryData = async () => {
                         setItemsImagePreview(`${wakabaBaseUrl}/uploads/product/${response.data[0].entire_items_url}`);
                         setItemsDocPreview(`${wakabaBaseUrl}/uploads/product/${response.data[0].document_url}`);
                     }
-                    setPermissionSuccess(true);
+                    toast.success('リクエストの承認が成功裏に保存されました！',{ autoClose: 3000 });//update
                 })
                 .catch(error => {
                     console.error("There was an error fetching the customer data!", error);
@@ -1478,6 +1479,36 @@ const fetchInvoiceHistoryData = async () => {
     const openItemDetailShow = () => {
         setIsDetailShow(!isDetailShow)
     }
+//-----------------------------------approve waiting---------------------------------------
+const handleApproveWaiting = async() => {
+    try {
+        const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+        if (!wakabaBaseUrl) {
+            throw new Error('API base URL is not defined');
+        }
+        const ids = totalSalesSlipData.map(obj => obj.id);
+        await axios.post(`${wakabaBaseUrl}/purchaseinvoice/approveWaiting`, {ids:ids,id:id,userId:userId,userStoreName:userStoreName})
+            .then(response => {
+                const invoiceData = response.data;
+                if(invoiceData?.length>0) {
+                    const updatedData111 = invoiceData.map((data,Index) => ({
+                        ...data,
+                        estimate_wholesaler: JSON.parse(data.estimate_wholesaler),
+                    })); 
+                    setTotalSalesSlipData(updatedData111);
+
+                    setItemsImagePreview(`${wakabaBaseUrl}/uploads/product/${response.data[0].entire_items_url}`);
+                    setItemsDocPreview(`${wakabaBaseUrl}/uploads/product/${response.data[0].document_url}`);
+                }
+                setPermissionSuccess(true);
+            })
+            .catch(error => {
+                console.error("There was an error fetching the customer data!", error);
+            }); // Send newRow data to the server
+    } catch (error) {
+        console.error('Error adding row:', error);
+    }
+}
 //--------------------------------------------------------------------------
     return (<>
         {/* <Titlebar title={title} /> */}
@@ -1513,26 +1544,39 @@ const fetchInvoiceHistoryData = async () => {
                                     <ButtonComponent onClick={openItemsDocModal} children="紙書類撮影" className='w-max h-11 !px-5 bg-[transparent] !text-[#e87a00]' style={{ border: '1px solid #e87a00' }} />
                                 </div>
                                 <div className='invoice-purchase-brought-buttons w-[25%] ml-5 flex justify-around'>
-                                    {totalSalesSlipData?.length > 0 && totalSalesSlipData[0].product_status === 'お預かり' &&
-                                        <ButtonComponent children="許可申請" className='w-max h-11 !px-5' style={{ color: 'white', }} />
+                                    {
+                                        role === '1' &&
+                                        totalSalesSlipData?.length > 0 &&
+                                        ['査定中', 'お預かり'].includes(totalSalesSlipData[0].product_status) && (
+                                            <ButtonComponent onClick={handleApproveWaiting}
+                                            children="許可申請"
+                                            className="w-max h-11 !px-5"
+                                            style={{ color: 'white' }}
+                                            />
+                                        )
                                     }
                                     <div className='flex justify-center'>
-                                        {totalSalesSlipData?.length > 0 && totalSalesSlipData[0].product_status === '成約済' && 
+                                        {totalSalesSlipData?.length > 0 && totalSalesSlipData[0].product_status === '承認された' && 
                                             <button type="button" onClick={sendPurchaseData}
                                                 className="mr-10 h-11 min-w-[160px] text-[#e87a00] rounded-full tracking-wider font-bold outline-none border border-[2px] border-[#e87a00] ">お客様へ提示</button>
                                         }
                                     </div>
                                 </div>
                                 <div className='invoice-purchase-brought-buttons w-[25%] ml-5 flex justify-around'>
-                                    {role === '2' && totalSalesSlipData?.length > 0 && totalSalesSlipData[0].product_status === 'お預かり' &&
+                                    {role === '2' && totalSalesSlipData?.length > 0 && totalSalesSlipData[0].product_status === '承認待ち' &&
                                         <button onClick={purchasePermission} className='w-max text-white rounded-md bg-[#9bd195] h-11 !px-5 hover:bg-green-600 hover:text-white transition-all duration-300' >
                                             全て決裁を許可
                                         </button>
                                     }
-                                    {totalSalesSlipData?.length > 0 && totalSalesSlipData[0].product_status !== '査定中' && totalSalesSlipData[0].product_status !== 'お預かり' &&
-                                        <button className='w-max text-[red] rounded-md border border-[red] h-11 !px-5 hover:bg-green-600 hover:text-white transition-all duration-300' >
+                                    {
+                                        totalSalesSlipData?.length > 0 &&
+                                        !['査定中', 'お預かり', '承認待ち'].includes(totalSalesSlipData[0].product_status) && (
+                                            <button
+                                            className="w-max text-[red] rounded-md border border-[red] h-11 !px-5 hover:bg-green-600 hover:text-white transition-all duration-300"
+                                            >
                                             許可済
-                                        </button>
+                                            </button>
+                                        )
                                     }
                                     <div>
                                         <label className="text-[#70685a] font-bold mb-2 block text-left  !mb-0">接客担当 <span className='ml-3 text-[17px]'>{staffData.purchase_staff ||''}</span></label>
@@ -1648,7 +1692,7 @@ const fetchInvoiceHistoryData = async () => {
                                 <div style={{ width: '75%', flexDirection: 'column', }} className='flex align-center justify-around relative group mx-auto'>
                                     <label className="w-full text-[#70685a] text-[20px]  px-4 py-2 outline-[#70685a] ellipsis">盗品持ち込みの可能性があるため要注意</label>
                                     <div className="absolute shadow-lg hidden group-hover:block bg-[#333] text-white font-semibold px-3 py-[6px] text-[13px] right-0 left-0 mx-auto w-max -bottom-10 rounded before:w-4 before:h-4 before:rotate-45 before:bg-[#333] before:absolute before:z-[-1] before:-top-1 before:left-0  before:right-0 before:mx-auto">
-                                        盗品持ち込みの可能性があるため要注意
+                                        {customer.special_note || '盗品持ち込みの可能性があるため要注意'}
                                     </div>
                                 </div>
                             </div>
@@ -1978,6 +2022,11 @@ const fetchInvoiceHistoryData = async () => {
                             </tr>
                         </thead>
                         <tbody>
+                            {
+                                totalSalesSlipData?.length > 0 && 
+                                (totalSalesSlipData[0].product_status === 'お預かり' ||
+                                totalSalesSlipData[0].product_status === '承認待ち') && 
+                            
                             <tr className='!h-8'>
                                 <td style={Td}>
                                     <InputComponent name='number' onChange={handleChange} disabled={true} value={salesSlipData.id || ''} className='w-full h-8 text-[#70685a]' />
@@ -2180,6 +2229,7 @@ const fetchInvoiceHistoryData = async () => {
                                     </div>
                                 </td>
                             </tr>
+                            }
                             {totalSalesSlipData?.length > 0 && totalSalesSlipData.map((salesData, Index) => (
                                 <tr key={Index} >
                                     {/* <td><input type='checkbox' name='checkbox1' /></td> */}

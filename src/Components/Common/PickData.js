@@ -35,7 +35,7 @@ const Login = () => {
 
     return (
         <>
-            <h2 className="text-[#70685a] text-center font-bold text-[15px] flex justify-end mt-3" style={{ paddingRight: '1%' }}>{formattedDateTime}</h2>
+            <h2 className="text-[#70685a] text-center font-bold text-[15px] flex justify-end mt-1" style={{ paddingRight: '1%' }}>{formattedDateTime}</h2>
         </>
     );
 };

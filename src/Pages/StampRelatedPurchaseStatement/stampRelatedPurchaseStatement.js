@@ -970,7 +970,11 @@ const StampRelatedPurchaseStatement = () => {
 //------------------------------------
     // return stamp inventory list page
     const gotoInvoicePurchase = () => {
-        navigate(`/invoiceforpurchaseofbrought/${customerId}`);
+        if(customerId === '0') {
+            navigate(`/invoiceforpurchaseofbroughtblank`);
+        }else {
+            navigate(`/invoiceforpurchaseofbrought/${customerId}`);
+        }
     }
     // goto stamp purchase interest starage change
     const gotoStampPurchaseInterestChange = () => {

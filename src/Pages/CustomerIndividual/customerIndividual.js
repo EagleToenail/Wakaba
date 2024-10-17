@@ -103,6 +103,7 @@ const CustomerIndividual = () => {
         item3: '',
         item4: '',
         item5: '',
+        special_note:''
     });
 
     const [customerPastVisitHistory, setCustomerPastVisitHistory] = useState([]);
@@ -243,6 +244,7 @@ const CustomerIndividual = () => {
         formDataObj.append('item3', customer.item3);
         formDataObj.append('item4', customer.item4);
         formDataObj.append('item5', customer.item5);
+        formDataObj.append('special_note', customer.special_note);
 
         if (avatarimageFile) formDataObj.append('avatarimage', avatarimageFile);
         if (idcardFile) formDataObj.append('idcard', idcardFile);
@@ -422,8 +424,8 @@ const CustomerIndividual = () => {
     return (<>
         <div className="bg-[trasparent] font-[sans-serif]">
             <div className='flex justify-center'>
-                <div className="w-full pt-3" style={{ maxWidth: '90em' }}>
-                    <div className="w-full pt-3" style={{ maxWidth: '40em' }}>
+                <div className="w-full" style={{ maxWidth: '90em' }}>
+                    <div className="w-full" style={{ maxWidth: '40em' }}>
                         {/* new */}
                         <div className='flex'>
                             <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
@@ -445,7 +447,7 @@ const CustomerIndividual = () => {
                     </div>
                     {/* <button onClick={handleSubmit}>AAA</button> */}
                     <h2 className="text-[#70685a] text-center text-2xl font-bold flex justify-center !mt-0">顧客 個別情報(編集画面)</h2>
-                    <div className='customer-edit w-full flex justify-center mt-10 gap-10' >
+                    <div className='customer-edit w-full flex justify-center mt-3 gap-10' >
                         <div className='customer-edit-center flex gap-10'>
                             <ButtonComponent name="delete" children="削除" onClick={openDeleteCheckModal} className='px-5' style={{ backgroundColor: '#838383' }} />
                             <ButtonComponent name="keep" className='' onClick={openKeepCheckModal} children="保存" />
@@ -458,9 +460,9 @@ const CustomerIndividual = () => {
                 </div>
             </div>
             <div className="customer-edit flex  justify-center ">
-                <div className="w-full pt-3">
+                <div className="w-full pt-1">
                     <div className=" rounded-2xl w-full">
-                        <form className=" space-y-6 pt-10">
+                        <form className=" space-y-2 pt-2">
                             {/* new */}
                             <div className='flex'>
                                 <div style={{ width: '25%', flexDirection: 'column', }} className='!mb-0 flex align-center justify-around'>
@@ -508,7 +510,7 @@ const CustomerIndividual = () => {
                                     <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">お電話番号</label>
                                 </div>
                                 <div style={{ width: '35%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <InputComponent name="phone_number" value={customer.phone_number} onChange={handleCustomerChange} type='text' required />
+                                    <InputComponent name="phone_number" value={customer.phone_number} onChange={handleCustomerChange} type='tel' pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" placeholder="123-4567-7890" required/>
                                 </div>
                             </div>
                             {/* new */}
@@ -531,7 +533,7 @@ const CustomerIndividual = () => {
                                 </div>
 
                                 <div style={{ width: '15%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <label className="text-[#70685a] font-bold mb-2 block text-right py-1 !mb-0">{customer.age}才</label>
+                                    <label className="text-[#70685a] font-bold mb-2 block text-left py-1 !mb-0">{customer.age}才</label>
                                 </div>
                                 <div style={{ width: '15%', flexDirection: 'column', }} className='flex flex-col justify-center text-right'>
                                     <label className="text-[#70685a] font-bold mb-2 block text-right py-1 !mb-0 mr-3">性別</label>
@@ -712,17 +714,26 @@ const CustomerIndividual = () => {
                                     <input name="address" type="text" value={customer.address} onChange={handleCustomerChange} required className="w-full text-[#70685a] border border-[#70685a] px-4 py-2 outline-[#70685a]" />
                                 </div>
                             </div>
+                            {/* new */}
+                            <div className='flex'>
+                                <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
+                                    <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">特記事項</label>
+                                </div>
+                                <div style={{ width: '75%', flexDirection: 'column', }} className='flex align-center justify-around'>
+                                    <input name="special_note" type="text" value={customer.special_note} onChange={handleCustomerChange} required className="w-full text-[#70685a] border border-[#70685a] px-4 py-2 outline-[#70685a]" />
+                                </div>
+                            </div>
 
                         </form>
                     </div>
                 </div>
                 {/* Detail area*/}
-                <div className="customer-pasting-view w-full h-full mt-10 pt-5 ml-10" style={{ maxWidth: '50em' }}>
+                <div className="customer-pasting-view w-full h-full mt-5 ml-10" style={{ maxWidth: '60em' }}>
                     {/* Detail area First*/}
                     <div style={{ width: '100%', }} className='flex'>
                         <div className=" h-full w-full">
                             {/*Past visit history of Table area */}
-                            <div className="border border-[#70685a] rounded px-3 w-full mb-5" style={{ height: '415px', overflowX: 'scroll', overflowY: 'scroll' }}>
+                            <div className="border border-[#70685a] rounded px-3 w-full mb-5" style={{ height: '400px', overflowX: 'scroll', overflowY: 'scroll' }}>
                                 <div className='flex justify-between mt-5'>
                                     <label className="text-[#70685a] text-[20px] font-bold mb-2 block text-left mr-10 py-1 !mb-0">過去の訪問履歴</label>
                                     <button type="button" onClick={gotoInvoiceForPurchase}
@@ -812,7 +823,7 @@ const CustomerIndividual = () => {
                             </div>
                         {/* Text area */}
                         <div className='w-full flex justify-center'>
-                            <div className=" h-full w-full mt-10">
+                            <div className=" h-full w-full mt-3">
                                 {/* Text area */}
                                 <div className="border border-[#70685a] rounded px-3 w-full" style={{ height: '315px', overflow: 'auto' }}>
                                     <label className="text-[#70685a] text-[20px] font-bold mb-2 block text-left mr-10 py-1 !mb-0">全体ヒアリング</label>

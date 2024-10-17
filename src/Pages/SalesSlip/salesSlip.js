@@ -614,8 +614,8 @@ const SalesSlip = () => {
                         
                         {/*  Table*/}
                         <div className='mt-3 w-full flex'>
-                            <div className='w-full max-h-[550px] overflow-y-scroll '>
-                                <table style={Table}>
+                            <div className='w-full h-[600px] overflow-scroll'>
+                                <table style={Table} className='pb-5'>
                                     <thead className='sticky top-0 bg-[white] z-10'>
                                         <tr>
                                             <th rowSpan={2} className='px-2'></th>
@@ -709,7 +709,8 @@ const SalesSlip = () => {
                                                     <select name='product_status' value={sale.product_status || ''} onChange={(e) => handleValueChange(sale.id,Index,e)} className="w-40 h-8 text-[#70685a] font-bold px-4 py-1 outline-[#70685a]">
                                                         <option value="査定中">査定中</option>
                                                         <option value="お預かり">お預かり</option>
-                                                        <option value="成約済">成約済</option>
+                                                        <option value="承認待ち">承認待ち</option>
+                                                        <option value="承認された">承認された</option>
                                                         <option value="買取済">買取済</option>
                                                         <option value="発送中">発送中</option>
                                                         <option value="約定済">約定済</option>

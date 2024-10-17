@@ -62,8 +62,6 @@ const CustomerUpdateForPurchase = ({ id , wholeHearingSave}) => {
                     .then(response => {
                         // console.log("data", response.data)
                         setCustomer(response.data);
-                        setAvatarImagePreview(`${wakabaBaseUrl}/uploads/customer/${response.data.avatar_url}`);
-                        setIdCardImagePreview(`${wakabaBaseUrl}/uploads/customer/${response.data.idCard_url}`);
                     })
                     .catch(error => {
                         console.error("There was an error fetching the customer data!", error);
@@ -72,9 +70,6 @@ const CustomerUpdateForPurchase = ({ id , wholeHearingSave}) => {
         }
         fetchCustomerData();
     }, [id]);
-
-    const [imageAvatarPreview, setAvatarImagePreview] = useState(`${wakabaBaseUrl}/uploads/customer/`);
-    const [imageIdCardPreview, setIdCardImagePreview] = useState(`${wakabaBaseUrl}/uploads/customer/`);
 
     const navigate = useNavigate();
 
@@ -92,7 +87,7 @@ const CustomerUpdateForPurchase = ({ id , wholeHearingSave}) => {
         });
     };
 
-    const handleDateChange = (e) => {
+    const handleCustomerBirthdayChange = (e) => {
         const birthDate = new Date(e.target.value);
         const today = new Date();
 
@@ -105,51 +100,25 @@ const CustomerUpdateForPurchase = ({ id , wholeHearingSave}) => {
         });
     };
 
-
-    const handleFileChange = (event, setFile, setImagePreview) => {
-        const file = event.target.files[0];
-        if (file) {
-            // Create a URL for the file to display as a preview
-            const fileURL = URL.createObjectURL(file);
-            setImagePreview(fileURL);
-        }
+    const handleCustomerFileChange = (event, setFile) => {
         setFile(event.target.files[0]);
     };
 
-    const handleButtonClick = (inputRef) => {
+    const handleCusotmerFileButtonClick = (inputRef) => {
         inputRef.current.click();
     };
 
-    const [isCreateModalOpen, setIsCreateModalOpen] = useState(false); // For modal visibility
+    const [isCreateCustomerModalOpen, setIsCreateCustomerModalOpen] = useState(false); // For modal visibility
 
-    const openCreateCheckModal = () => {
-        setIsCreateModalOpen(true);
+    const openCreateCustomerCheckModal = () => {
+        setIsCreateCustomerModalOpen(true);
     }
-    const onClose = () => {
-        setIsCreateModalOpen(false);
+    const onCloseCustomerCreateModal = () => {
+        setIsCreateCustomerModalOpen(false);
     }
 
-    //create-symbol
-    // const formatPhoneNumber = (number) => {
-    //     // Ensure the number is a string
-    //     const numStr = number.toString();
-
-    //     // Extract parts of the string
-    //     if (numStr.length >= 7) {
-    //         const part1 = numStr.slice(0, 3);   // First 3 digits
-    //         const part2 = numStr.slice(3, 7);   // Next 4 digits
-    //         const part3 = numStr.slice(7);      // Remaining digits (if any)
-            
-    //         // Combine parts with dashes
-    //         return part3 ? `${part1}-${part2}-${part3}` : `${part1}-${part2}`;
-    //     } else {
-    //         return numStr; // Return the original string if less than 7 digits
-    //     }
-
-    // };
-
-    const handleCreateSubmit = async () => {
-        setIsCreateModalOpen(false);
+    const handleCreateCustomerSubmit = async () => {
+        setIsCreateCustomerModalOpen(false);
 
         const formDataObj = new FormData();
         formDataObj.append('shop', userStoreName);
@@ -200,7 +169,7 @@ const CustomerUpdateForPurchase = ({ id , wholeHearingSave}) => {
 
 
     return (<>
-        <div className="bg-[trasparent] font-[sans-serif]">
+        <div className="bg-[trasparent] font-[sans-serif] ">
             <div className=" flex  justify-center ">
                 <div className="w-full" style={{ maxWidth: '60em' }}>
                     <div className=" rounded-2xl w-full">
@@ -271,7 +240,7 @@ const CustomerUpdateForPurchase = ({ id , wholeHearingSave}) => {
                                     <div style={{ width: '40px', height: '30px', cursor: 'pointer' }}>
                                         <div style={{ position: 'relative' }}>
                                             <img src={dateimage} style={{ width: '40px', height: '30px', position: 'absolute', cursor: 'pointer' }} alt='calendar'></img>
-                                            <input type="date" id="birthday" name="birthday" onChange={handleDateChange} style={{ position: 'absolute', left: '0', width: '40px', height: '30px', background: 'transparent', border: 'none', opacity: '0', cursor: 'pointer' }} />
+                                            <input type="date" name="birthday" onChange={handleCustomerBirthdayChange} style={{ position: 'absolute', left: '0', width: '40px', height: '30px', background: 'transparent', border: 'none', opacity: '0', cursor: 'pointer' }} />
                                             {/* <input type="date" id="birthday" name="birthday" style={{position: 'absolute', width:'30px', height:'30px', background:'transparent', border:'none', opacity:'0'}}/> */}
                                         </div>
                                     </div>
@@ -321,7 +290,7 @@ const CustomerUpdateForPurchase = ({ id , wholeHearingSave}) => {
                                     <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">本人確認書類</label>
                                 </div>
                                 <div style={{ width: '10%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <button type="button" onClick={() => handleButtonClick(idcardInputRef)}
+                                    <button type="button" onClick={() => handleCusotmerFileButtonClick(idcardInputRef)}
                                         className="w-9 h-9 inline-flex items-center justify-center text-[#70685a] border border-[#70685a] outline-none hover:bg-purple-700 active:bg-purple-600">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="14px" fill="black" className="inline" viewBox="0 0 512 512">
                                             <path
@@ -329,7 +298,7 @@ const CustomerUpdateForPurchase = ({ id , wholeHearingSave}) => {
                                                 data-original="#000000" />
                                         </svg>
                                     </button>
-                                    <input type="file" name='idcardUpload' ref={idcardInputRef} style={{ display: 'none' }} onChange={(e) => handleFileChange(e, setIdcardFile, setAvatarImagePreview)} />
+                                    <input type="file" name='idcardUpload' ref={idcardInputRef} style={{ display: 'none' }} onChange={(e) => handleCustomerFileChange(e, setIdcardFile)} />
                                     {/* {idcardFile && <p>{idcardFile.name}</p>} */}
                                 </div>
                                 <div style={{ width: '30%', flexDirection: 'column' }} className='flex align-center justify-around ml-3'>
@@ -343,26 +312,9 @@ const CustomerUpdateForPurchase = ({ id , wholeHearingSave}) => {
                                     </select>
                                 </div>
                                 <div style={{ width: '30%', flexDirection: 'column', display: 'none' }} className='flex align-center justify-around'>
-                                    <button type="button" onClick={() => handleButtonClick(avatarImageInputRef)} className="py-2 text-[#70685a] rounded-full tracking-wider font-medium outline-none border border-[#70685a] ">画像と情報表示</button>
-                                    <input type="file" name="avatarimageUpload" ref={avatarImageInputRef} style={{ display: 'none' }} onChange={(e) => handleFileChange(e, setAvatarImageFile, setIdCardImagePreview)} />
+                                    <button type="button" onClick={() => handleCusotmerFileButtonClick(avatarImageInputRef)} className="py-2 text-[#70685a] rounded-full tracking-wider font-medium outline-none border border-[#70685a] ">画像と情報表示</button>
+                                    <input type="file" name="avatarimageUpload" ref={avatarImageInputRef} style={{ display: 'none' }} onChange={(e) => handleCustomerFileChange(e, setAvatarImageFile)} />
                                     {/* {avatarimageFile && <p>Selected Image: {avatarimageFile.name}</p>} */}
-                                </div>
-                            </div>
-                            {/* new */}
-                            <div className='flex h-[130px]'>
-                                <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <label className="text-[#70685a] font-bold block text-right mr-10 py-1 !mb-0"></label>
-                                </div>
-                                <div style={{ width: '75%', flexDirection: 'column', }} className='flex h-full felx-col justify-center'>
-                                    <div className='flex justify-between w-full h-[110px]'>
-                                        <div style={{ width: '60%' }} className='border border-[#70685a] rounded-lg flex justify-center p-1'>
-                                            {imageAvatarPreview == `${wakabaBaseUrl}/uploads/customer/` ? "" : <img src={imageAvatarPreview} alt="Avatar" className='h-[100px] rounded-lg' />}
-                                        </div>
-                                        <div style={{ width: '35%', display: 'none' }} className='border border-[#70685a] rounded-full flex justify-center'>
-                                            {imageIdCardPreview == `${wakabaBaseUrl}/uploads/customer/` ? "" : <img src={imageIdCardPreview} alt="idCard" className='h-[100px] rounded-full' />}
-                                        </div>
-                                    </div>
-
                                 </div>
                             </div>
                             {/* new */}
@@ -453,14 +405,14 @@ const CustomerUpdateForPurchase = ({ id , wholeHearingSave}) => {
                     <div className='flex justify-center'>
                         <div className="w-full" style={{ maxWidth: '80em' }}>
                             <div className='w-full flex justify-center gap-20 mt-3 mb-1'>
-                                <ButtonComponent children="作成する" onClick={openCreateCheckModal} className='w-max h-11 !px-5' style={{ border: '1px solid #e87a00', backgroundColor: 'transparent', color: '#e87a00' }} />
+                                <ButtonComponent children="作成する" onClick={openCreateCustomerCheckModal} className='w-max h-11 !px-5' style={{ border: '1px solid #e87a00', backgroundColor: 'transparent', color: '#e87a00' }} />
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        {isCreateModalOpen && (
+        {isCreateCustomerModalOpen && (
             <div
                 className="fixed inset-0 p-4 flex flex-wrap justify-center items-center w-full h-full z-[1000] before:fixed before:inset-0 before:w-full before:h-full before:bg-[rgba(0,0,0,0.5)] overflow-auto font-[sans-serif]">
                 <div className="w-full max-w-lg bg-white shadow-lg rounded-lg p-6 relative">
@@ -469,9 +421,9 @@ const CustomerUpdateForPurchase = ({ id , wholeHearingSave}) => {
                         <h4 className="text-gray-800 text-base font-semibold mt-4">顧客データを保存しますか？</h4>
 
                         <div className="text-center space-x-4 mt-8">
-                            <button type="button" onClick={handleCreateSubmit}
+                            <button type="button" onClick={handleCreateCustomerSubmit}
                                 className="px-6 py-2 rounded-lg text-white text-sm bg-red-600 hover:bg-red-700 active:bg-red-600">はい</button>
-                            <button type="button" onClick={onClose}
+                            <button type="button" onClick={onCloseCustomerCreateModal}
                                 className="px-4 py-2 rounded-lg text-gray-800 text-sm bg-gray-200 hover:bg-gray-300 active:bg-gray-200">キャンセル</button>
                         </div>
                     </div>

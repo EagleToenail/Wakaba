@@ -108,18 +108,18 @@ const CustomerList = () => {
 
             <div className='customerlist flex justify-around' >
                 <ButtonComponent children={'asdfasfd'} style={{ visibility: 'hidden' }} />
-                <div className='mt-5'>
+                <div className='mt-1'>
                     <h2 className="text-[#70685a] text-center text-2xl font-bold flex justify-center">顧客一覧</h2>
                 </div>
-                <div className='flex justify-around mt-5'>
+                <div className='flex justify-around mt-1'>
                     <ButtonComponent children={'新規顧客登銀'} className='py-2 text-2xl !text-[#695d50] bg-[#ebe6e0]' ><Link to="/customerindividualcreate">新規顧客登銀</Link></ButtonComponent>
                 </div>
             </div>
 
-            <div className='flex mt-3 justify-center text-left'>
+            <div className='flex justify-center text-left'>
                 <form onSubmit={handleSearch} className='flex flex-wrap justify-center'>
                     <div className='customer-name-tel flex justify-center'>
-                        <div className='flex mt-5'>
+                        <div className='flex mt-2'>
                             <div className=' text-[#70685a] px-2 mr-2 text-left'>
                                 <LabelComponent value={'氏名'} className='text-left' />
                                 <InputComponent
@@ -139,7 +139,7 @@ const CustomerList = () => {
                                 />
                             </div>
                         </div>
-                        <div className='text-[#70685a] px-2 mr-2 mt-5'>
+                        <div className='text-[#70685a] px-2 mr-2 mt-2'>
                             <LabelComponent value={'住所'} />
                             <InputComponent
                                 name="address"
@@ -150,7 +150,7 @@ const CustomerList = () => {
                         </div>
                     </div>
 
-                    <div className='flex mt-5'>
+                    <div className='flex mt-2'>
                         <div className=' text-[#70685a] px-2 mr-5 flex flex-col justify-end'>
                             <label className="text-[#70685a] text-[20px] block text-center pb-2">この条件で</label>
                         </div>
@@ -171,7 +171,7 @@ const CustomerList = () => {
                 </form>
             </div>
 
-            <div className='mt-5 pb-20 w-full flex'>
+            <div className='mt-2 pb-20 w-full flex'>
                 <div style={{ width: '100%', overflow: 'auto' }} >
                     <table className='text-center w-full' style={Table}>
                         <thead className='sticky top-0 bg-white z-10'>
@@ -188,7 +188,7 @@ const CustomerList = () => {
                                 </th>
                                 <th style={Th}>契機</th>
                                 <th style={Th}>ショップ</th>
-                                <th style={Th}></th>
+                                <th style={Th} width='2%'></th>
                             </tr>
                         </thead>
                         <tbody>

@@ -99,6 +99,7 @@ const InvoiceForPurchaseList = () => {
                                 <th style={Th} width='5%' >買取日</th>
                                 <th style={Th} width='5%'>買取担当</th>
                                 <th style={Th} width='5%'>お客様</th>   
+                                <th style={Th} width='5%'>ステータス</th>   
                                 <th width='1%'></th>   
                             </tr>
 
@@ -111,6 +112,17 @@ const InvoiceForPurchaseList = () => {
                                     <td style={Td}>{data.trading_date}</td>
                                     <td style={Td}>{data.purchase_staff}</td>
                                     <td style={Td}>{data.Customer ? data.Customer.full_name : 'Name not available'}</td>
+                                    {data.product_status === 'お預かり' && 
+                                        <td style={Td}>下書き</td>
+                                    }
+                                    {data.product_status === '承認待ち' && 
+                                        <td style={Td} className='bg-[yellow]'>承認待ち</td>
+                                    }
+                                    {
+                                        (data.product_status !== 'お預かり' && data.product_status !== '承認待ち') && (
+                                            <td style={Td} className='bg-[#9bd195]'>承認済み</td>
+                                        )
+                                    }
                                     <td>
                                         <div className='flex justify-center'>
                                             <button className='w-7  h-7 ml-3 mb-1' onClick={()=>gotoInvoiceForPurchaseDetail(data.id)}>

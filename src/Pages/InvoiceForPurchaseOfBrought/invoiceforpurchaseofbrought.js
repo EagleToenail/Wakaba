@@ -1607,23 +1607,23 @@ const openItemDetailShow = () => {
                                     <ButtonComponent onClick={openItemsDocModal} children="紙書類撮影" className='w-max h-11 !px-5 bg-[transparent] !text-[#e87a00]' style={{ border: '1px solid #e87a00' }} />
                                 </div>
                                 <div className='invoice-purchase-brought-buttons w-[25%] ml-5 flex justify-between'>
-                                    <ButtonComponent children="許可申請" className='w-max h-11 !px-5' style={{ color: 'white', }} />
-                                    <div className='flex justify-center'>
+                                    {/* <ButtonComponent children="許可申請" className='w-max h-11 !px-5' style={{ color: 'white', }} /> */}
+                                    {/* <div className='flex justify-center'>
                                         <button type="button" onClick={sendPurchaseData}
                                             className="mr-10 h-11  py-1 min-w-[160px] text-[#e87a00] text-[20px] rounded-full tracking-wider font-bold outline-none border border-[2px] border-[#e87a00] ">お客様へ提示</button>
-                                    </div>
+                                    </div> */}
                                 </div>
                                 <div className='invoice-purchase-brought-buttons w-[25%] ml-5 flex justify-between'>  
-                                    {role === '2' &&
+                                    {/* {role === '2' &&
                                         <button onClick={purchasePermission} className='w-max text-xl text-white rounded-md bg-[#9bd195] h-11 !px-5 hover:bg-green-600 hover:text-white transition-all duration-300' >
                                             全て決裁を許可
                                         </button>
-                                    }
-                                    {totalSalesSlipData?.length > 0 && totalSalesSlipData[0].product_status !== '査定中' && totalSalesSlipData[0].product_status !== 'お預かり' &&
+                                    } */}
+                                    {/* {totalSalesSlipData?.length > 0 && totalSalesSlipData[0].product_status !== '査定中' && totalSalesSlipData[0].product_status !== 'お預かり' &&
                                         <button className='w-max text-xl text-[red] rounded-md border border-[red] h-11 !px-5 hover:bg-green-600 hover:text-white transition-all duration-300' >
                                             許可済
                                         </button>
-                                    }
+                                    } */}
                                     <div>
                                         <div className='flex'>
                                             <label className="text-[#70685a] font-bold mb-2 block text-right pt-1 mr-3  !mb-0">接客担当</label>

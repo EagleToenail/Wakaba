@@ -77,6 +77,37 @@ const InvoicePurchaseOfBroughtBlank = () => {
     const username = localStorage.getItem('username');
     const role = localStorage.getItem('role');
 
+    // fetch registered product item
+    useEffect(() => {
+        const fetch = async () => {
+            const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+
+            if (!wakabaBaseUrl) {
+                throw new Error('API base URL is not defined');
+            }
+
+            await axios.post(`${wakabaBaseUrl}/purchaseinvoice/getregistereddata`,{id:'0',userStoreName:userStoreName,userId:userId})
+                .then(response => {
+                    const invoiceData = response.data;
+                    if(invoiceData?.length>0) {
+                        const updatedData111 = invoiceData.map((data,Index) => ({
+                            ...data,
+                            estimate_wholesaler: JSON.parse(data.estimate_wholesaler),
+                            comment: JSON.parse(data.comment),
+                        })); 
+                        setTotalSalesSlipData(updatedData111);
+                        setItemsImagePreview(`${wakabaBaseUrl}/uploads/product/${response.data[0].entire_items_url}`);
+                        setItemsDocPreview(`${wakabaBaseUrl}/uploads/product/${response.data[0].document_url}`);
+                    }
+                    setShowInputPurchase(false);
+                })
+                .catch(error => {
+                    console.error("There was an error fetching the customer data!", error);
+                });
+        }
+        fetch();
+    }, []);
+
     const [users, setUsers] = useState([]);
     // Fetch user data
     useEffect(() => {
@@ -140,28 +171,6 @@ const InvoicePurchaseOfBroughtBlank = () => {
             [e.target.name]: e.target.value,
         });
     };
-    // fetch user(profile) data
-    // const [userData, setUserData] = useState([]);
-    // useEffect(() => {
-    //      const fetchUserData = async() => {
-    //         const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
-
-    //         if (!wakabaBaseUrl) {
-    //             throw new Error('API base URL is not defined');
-    //         }
-    
-    //         axios.post(`${wakabaBaseUrl}/profile/getProfileById`, { userId })
-    //             .then(response => {
-    //                 const user = response.data;
-    //                 // console.log('user profile',user)
-    //                 setUserData(response.data);
-    //             })
-    //             .catch(error => {
-    //                 console.error("There was an error fetching the customer data!", error);
-    //             });
-    //      }
-    //         fetchUserData()
-    // }, [userId]);
 
     //salesSlipData
     const [salesSlipData, setSalesSlipData] = useState({
@@ -517,7 +526,7 @@ const InvoicePurchaseOfBroughtBlank = () => {
             formData.append('notes', salesSlipData.notes);
 
             formData.append('estimate_wholesaler', JSON.stringify(estimateValues));
-            formData.append('comment', '{}');
+            formData.append('comment', '{"question1":"","comment1":"","question2":"","comment2":"","buyyear":"","buymonth":"","comment3":"","question4":"","comment4":""}');
 
             if (sendFile) formData.append('product_photo', sendFile);
             try {
@@ -990,12 +999,6 @@ const InvoicePurchaseOfBroughtBlank = () => {
         setTotalSalesSlipData(updatedData);
     }
 
-    // get customer id from childcomponent.
-    // const handleDataFromChild = (customerId) => {
-    //     updatecustomerId(customerId);
-    //     setChildData(customerId);
-    //     console.log('Data received from child:', customerId);
-    // };
 
     const [isExistCustomerModalOpen, setIsExistCustomerModalOpen] = useState(false);
     const onExistCustomerModalClose = () => {
@@ -1478,7 +1481,8 @@ const openItemDetailShow = () => {
             addSlesItem();
         }
     }
-//-------------------------------------------------------------------------------------------
+//----------------------------------------------new customer create---------------------------------------------
+    
 //-------------------------------------------------------------------------------------------
     return (<>
         {/* <Titlebar title={title} /> */}
@@ -1517,22 +1521,27 @@ const openItemDetailShow = () => {
                                     <ButtonComponent onClick={openItemsDocModal} children="紙書類撮影" className='w-max h-11 !px-5' style={{ border: '1px solid #e87a00', backgroundColor: 'transparent', color: '#e87a00' }} />
                                 </div>
                                 <div className='invoice-purchase-brought-buttons w-[30%] pl-10 flex justify-around'>
-                                    <ButtonComponent children="許可申請" className='w-max h-11 !px-5' style={{ color: 'white', }} />
+                                    {/* <ButtonComponent children="許可申請" className='w-max h-11 !px-5' style={{ color: 'white', }} /> */}
                                     <div className='flex justify-center'>
-                                        <button type="button" onClick={sendPurchaseData}
-                                            className="mr-10 h-11  py-1 min-w-[160px] text-[#e87a00] text-[20px] rounded-full tracking-wider font-bold outline-none border border-[2px] border-[#e87a00] ">お客様へ提示</button>
+                                        {/* <button type="button" onClick={sendPurchaseData}
+                                            className="mr-10 h-11  py-1 min-w-[160px] text-[#e87a00] text-[20px] rounded-full tracking-wider font-bold outline-none border border-[2px] border-[#e87a00] ">お客様へ提示</button> */}
                                     </div>
                                 </div>
                                 <div className='invoice-purchase-brought-buttons w-[30%] flex justify-between'>
-                                    {role === '2' &&
+                                    {/* {role === '2' &&
                                         <button onClick={purchasePermission} className='w-max text-xl text-white rounded-md bg-[#9bd195] h-11 !px-5 hover:bg-green-600 hover:text-white transition-all duration-300' >
                                             全て決裁を許可
                                         </button>
-                                    }
-                                    {totalSalesSlipData?.length > 0 && totalSalesSlipData[0].product_status !== '査定中' && totalSalesSlipData[0].product_status !== 'お預かり' &&
-                                        <button className='w-max text-xl text-[red] rounded-md border border-[red] h-11 !px-5 hover:bg-green-600 hover:text-white transition-all duration-300' >
+                                    } */}
+                                    {
+                                        totalSalesSlipData?.length > 0 &&
+                                        !['査定中', 'お預かり', '承認待ち'].includes(totalSalesSlipData[0].product_status) && (
+                                            <button
+                                            className="w-max text-[red] rounded-md border border-[red] h-11 !px-5 hover:bg-green-600 hover:text-white transition-all duration-300"
+                                            >
                                             許可済
-                                        </button>
+                                            </button>
+                                        )
                                     }
                                     <div>
                                         <div className='flex'>
@@ -1562,7 +1571,7 @@ const openItemDetailShow = () => {
             </div>
             <div className="w-full invoice-purchase-brought flex justify-center">
                 <div className="w-full flex justify-center mt-2" >
-                    <div className=" pr-5 max-w-[600px] !z-50">
+                    <div className=" pr-5 max-w-[600px]">
                         {/* -------customer register--------- */}
                         <CustomerRegister id={childData} wholeHearingSave={itemsSave}/>
                     </div>
@@ -1787,29 +1796,25 @@ const openItemDetailShow = () => {
                     </div>
                 </div>
             </div>
-            <div className='w-full flex justify-between mt-1 bg-[transparent] !z-50'>
+            <div className='w-full flex justify-between mt-1'>
                 <div>
-                    {childData !== '0' ? 
-                        <button type="button" onClick={gotoStampsPurchase}
-                            className="px-5 py-2.5 rounded-lg text-sm tracking-wider font-bold border border-[#70685a] outline-none bg-transparent hover:bg-[#524c3b] text-[#70685a] hover:text-white transition-all duration-300">
-                            切手
-                        </button> :
-                        <button type="button"
-                            className="px-5 py-2.5 rounded-lg text-sm tracking-wider font-bold border border-[#70685a] outline-none bg-transparent hover:bg-[#524c3b] text-[#70685a] hover:text-white transition-all duration-300">
-                            切手
-                        </button>
-                    }
+                    <button type="button" onClick={gotoStampsPurchase}
+                        className="px-5 py-2.5 rounded-lg text-sm tracking-wider font-bold border border-[#70685a] outline-none bg-transparent hover:bg-[#524c3b] text-[#70685a] hover:text-white transition-all duration-300">
+                        切手
+                    </button>
                 </div>
-                <button type="button" onClick={() => allClear()}
-                    className="px-5 py-2.5 rounded-lg text-sm tracking-wider font-medium border border-[#70685a] outline-none bg-transparent hover:bg-[#524c3b] text-[#70685a] hover:text-white transition-all duration-300">
-                    すべてクリア
-                </button>
+                <div>
+                    <button type="button" onClick={openShowAllClearModal}
+                        className="px-5 py-2.5 rounded-lg text-sm tracking-wider font-bold border border-[#70685a] outline-none bg-transparent hover:bg-[#524c3b] text-[#70685a] hover:text-white transition-all duration-300">
+                        すべてクリア
+                    </button>
+                </div>
             </div>
             {/* table */}
             <div className="flex justify-center mt-1">
-                <div className='' style={{ width: '100%', overflow: 'auto' }}>
+                <div className='' style={{ width: '100%'}}>
                     <table className='text-center w-full' style={Table}>
-                        <thead className='sticky top-0 bg-white z-10 h-11'>
+                        <thead className='bg-white z-10 h-11'>
                             <tr>
                                 <th style={Th} width='1%'>選択</th>
                                 <th style={Th} width='2%'>商品番号</th>
@@ -2098,7 +2103,7 @@ const openItemDetailShow = () => {
                                                 borderRadius: '5px',
                                                 zIndex:'100'
                                             }}
-                                            className="text-pre-wrap"
+                                            className="text-pre-wrap !z-[100]"
                                         >
                                             {salesData.comment &&
                                                 <div className="my-6">
@@ -2535,10 +2540,78 @@ const openItemDetailShow = () => {
                     </div>
 
                     <div className="my-6">
-                        <textarea placeholder='入力コメント' name='comment'
+                        {/* <textarea placeholder='入力コメント' name='comment'
                             onChange={handleCommentChange} onKeyDown={handleKeyDown}
                             className="p-4 bg-white max-w-md mx-auto w-full block text-sm border border-gray-300 outline-[#007bff] rounded" rows="4">
-                        </textarea>
+                        </textarea> */}
+                        <div>
+                            <div className='flex w-full'>
+                                <div className='w-max flex flex-col justify-center'>
+                                    <label className='text-[#70685a] text-[15px]'>1. どなたが購入されたものですか？</label>
+                                </div>
+                                <select name ='question1' value={modalValue.question1 || ''} onChange={handleCommentChange} className="w-40 h-8 ml-3 text-[#70685a] font-bold border border-[#70685a] px-4 py-1 outline-[#70685a]">
+                                    <option value=""></option>
+                                    <option value="本人">本人</option>
+                                    <option value="父">父</option>
+                                    <option value="母">母</option>
+                                    <option value="子供">子供</option>
+                                    <option value="親戚">親戚</option>
+                                    <option value="友人">友人</option>
+                                    <option value="その他 ">その他</option>
+                                </select>
+                            </div>
+                            <InputComponent name ='comment1' value={modalValue.comment1 || ''} onChange={handleCommentChange} className="w-full ml-3 mt-2 text-[#70685a] mb-2 block text-left  mr-10 py-1 !mb-0 !h-8" placeholder={''} />
+                        </div>
+                        <div>
+                            <div className='flex w-full mt-1'>
+                                <div className='w-max flex flex-col justify-center'>
+                                    <label className='text-[#70685a] text-[15px]'>2. どこで購入されましたか？</label>
+                                </div>
+                                <select name='question2' value={modalValue.question2 || ''} onChange={handleCommentChange} className="w-40 h-8 ml-3 text-[#70685a] font-bold border border-[#70685a] px-4 py-1 outline-[#70685a]">
+                                    <option value=""></option>
+                                    <option value="正規店">正規店</option>
+                                    <option value="中古">中古</option>
+                                    <option value="母">母</option>
+                                    <option value="インターネット・通販 ">インターネット・通販 </option>
+                                    <option value="その他 ">その他 </option>
+                                </select>
+                            </div>
+                            <InputComponent name='comment2' value={modalValue.comment2 || ''} onChange={handleCommentChange} className="w-full ml-3 mt-2 text-[#70685a] mb-2 block text-left  mr-10 py-1 !mb-0 !h-8" placeholder={''} />
+                        </div>
+                        <div>
+                            <div className='flex w-full mt-1'>
+                                <div className='w-max flex flex-col justify-center'>
+                                    <label className='text-[#70685a] text-[15px]'>3. いつ頃購入されましたか？</label>
+                                </div>
+                            </div>
+                            <div className='flex w-full mt-1 gap-3 ml-3'>
+                                <InputComponent name='buyyear' value={modalValue.buyyear || ''} onChange={handleCommentChange} type='number' className="w-40 text-[#70685a] mb-2 block text-left py-1 !mb-0 !h-8" placeholder={'2024'} />
+                                <div className='w-max flex flex-col justify-center'>
+                                    <label className='text-[#70685a] text-[15px]'>年</label>
+                                </div>
+                                <InputComponent name='buymonth' value={modalValue.buymonth || ''} onChange={handleCommentChange} type='number' className="w-40 text-[#70685a] mb-2 block text-left py-1 !mb-0 !h-8" placeholder={'10'} />
+                                <div className='w-max flex flex-col justify-center'>
+                                    <label className='text-[#70685a] text-[15px]'>月</label>
+                                </div>
+                                <div className='w-max flex flex-col justify-center'>
+                                    <label className='text-[#70685a] text-[15px]'>ごろ</label>
+                                </div>
+                            </div>
+                            <InputComponent name='comment3' value={modalValue.comment3 || ''} onChange={handleCommentChange} className="w-full ml-3 mt-2 text-[#70685a] mb-2 block text-left  mr-10 py-1 !mb-0 !h-8" placeholder={''} />
+                        </div>
+                        <div>
+                            <div className='flex w-full mt-1'>
+                                <div className='w-max flex flex-col justify-center'>
+                                    <label className='text-[#70685a] text-[15px]'>4. もうお使いになられない予定ですか？</label>
+                                </div>
+                                <select name='question4' value={modalValue.question4 || ''} onChange={handleCommentChange} className="w-40 h-8 ml-3 text-[#70685a] font-bold border border-[#70685a] px-4 py-1 outline-[#70685a]">
+                                    <option value=""></option>
+                                    <option value="まだ利用する">まだ利用する</option>
+                                    <option value="もう利用しない">もう利用しない</option>
+                                </select>
+                            </div>
+                            <InputComponent name='comment4' value={modalValue.comment4 || ''} onChange={handleCommentChange} className="w-full ml-3 mt-2 text-[#70685a] mb-2 block text-left  mr-10 py-1 !mb-0 !h-8" placeholder={''} />
+                        </div>
                     </div>
 
                     <div className="border-t border-gray-300 pt-6 flex justify-end gap-4">

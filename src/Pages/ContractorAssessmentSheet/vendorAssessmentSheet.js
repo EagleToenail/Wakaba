@@ -547,14 +547,14 @@ const VendorAssementSheet = () => {
                     <div className='w-full'>
                         <div className='flex justify-center ml-10 ' >
                             <div className='contractor-assessment-sheet flex justify-between w-full '>
-                                <div className='flex justify-center mt-10 w-full' >
+                                <div className='flex justify-center mt-2 w-full' >
                                     <button onClick={gotoSalesSlip} className='w-[200px] font-bold bg-[transparent] rounded-md border border-[#424242] text-[#424242] h-11 !text-2xl !px-0 hover:bg-[#524c3b] hover:text-white transition-all duration-300' >売上表</button>
                                     <ButtonComponent children={'業者査定シート'} className='!w-[350px] h-11 !bg-[#424242] border border-[#424242] !text-2xl !px-0' style={{ marginLeft: '30px' }} />
                                     {/* <ButtonComponent className='!w-[200px] h-11 !bg-[transparent] border border-[#424242] !text-[#424242] !text-2xl !px-0' style={{ marginLeft: '30px' }} >
                                         <Link to="/yahooauction">ヤフオク</Link>
                                     </ButtonComponent> */}
                                 </div>
-                                <div className='flex justify-center mt-10 w-full' >
+                                <div className='flex justify-center mt-2 w-full' >
                                     <div>
                                         <button onClick={handleSendCheckedValues} className='h-11 font-bold rounded-md bg-[#9bd195] text-2xl text-[white] !px-10 hover:bg-[#524c3b] hover:text-white transition-all duration-300' >業者への買取依書へ</button>
                                         <div className='text-center'>
@@ -566,7 +566,7 @@ const VendorAssementSheet = () => {
                         </div>
 
                         {/* second selectbox line  */}
-                        <div className='w-full flex justify-center mt-5'>
+                        <div className='w-full flex justify-center mt-1'>
                             <select name="category1" value={category1} onChange={(e) => handleCategory1Change(e, product1s)} className='w-max h-11 text-[#70685a] font-bold border border-[#70685a] px-4 py-1 outline-[#70685a]' >
                                 {/* <option value="" disabled>商品タイプ1</option> */}
                                 {product1s.map((option, index) => (
@@ -578,8 +578,8 @@ const VendorAssementSheet = () => {
                         </div>
                         {/*  Tabe*/}
                         <div className='mt-3 w-full flex'>
-                            <div className='w-full max-h-[550px] overflow-y-scroll '>
-                                <table style={Table}>
+                            <div className='w-full h-[600px] overflow-scroll '>
+                                <table style={Table} className='pb-5'>
                                     <thead className='sticky top-0 bg-[white] z-10'>
                                         <tr>
                                             <th rowSpan={2} className='px-2'></th>
@@ -639,7 +639,7 @@ const VendorAssementSheet = () => {
                                             <th style={Th} rowSpan={2} ><span className='!px-1'>個数</span></th>
                                             <th style={Th} rowSpan={2} ><span className='!px-1'>最高査定額</span></th>
                                             <th style={Th} rowSpan={2} ><span className='!px-1'>最高査定業者</span></th>
-                                            <th style={Th} rowSpan={2} ><span className='!px-1'>その他の査定額</span></th>
+                                            {/* <th style={Th} rowSpan={2} ><span className='!px-1'>その他の査定額</span></th> */}
                                             <th style={Th} rowSpan={2} ><span className='!px-1'>買取額</span></th>
                                             <th style={Th} rowSpan={2} ><span className='!px-1'>売上額</span></th>
                                             <th style={Th} rowSpan={2} ><span className='!px-1'>粗利益</span></th>
@@ -711,7 +711,8 @@ const VendorAssementSheet = () => {
                                                     <select name='product_status' value={sale.product_status || ''} onChange={(e) => handleValueChange(sale.id,Index,e)} className="w-40 h-8 text-[#70685a] font-bold px-4 py-1 outline-[#70685a]">
                                                         <option value="査定中">査定中</option>
                                                         <option value="お預かり">お預かり</option>
-                                                        <option value="成約済">成約済</option>
+                                                        <option value="承認待ち">承認待ち</option>
+                                                        <option value="承認された">承認された</option>
                                                         <option value="買取済">買取済</option>
                                                         <option value="発送中">発送中</option>
                                                         <option value="約定済">約定済</option>
@@ -804,7 +805,7 @@ const VendorAssementSheet = () => {
                                                 <td style={Td}>{sale.quantity}</td>
                                                 <td style={Td}>{sale.highest_estimate_price || ''}</td>
                                                 <td style={Td}>{sale.highest_estimate_vendor || ''}</td>
-                                                <td style={Td}>
+                                                {/* <td style={Td}>
                                                     <div className="relative w-max group mx-auto">
                                                         <button type="button" onClick={() => openEstimate(Index)}
                                                             className="px-3 py-1 rounded text-[#626373] tracking-wider font-semibold border border-[#70685a] bg-[#ebe5e1]">
@@ -820,7 +821,7 @@ const VendorAssementSheet = () => {
                                                             ))}
                                                         </div>
                                                     </div>
-                                                </td>
+                                                </td> */}
                                                 <td style={Td}>{sale.purchase_price || ''}</td>
                                                 <td style={Td}>{sale.sales_amount || ''}</td>
                                                 <td style={Td}>{sale.gross_profit || ''}</td>
