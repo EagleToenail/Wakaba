@@ -14,7 +14,7 @@ import ImageShowModal from '../../Components/Modal/ImageShowModal';
 import {toast} from 'react-toastify';
 
 import { useDispatch ,useSelector} from 'react-redux';
-import { setData } from '../../redux/sales/actions';
+import { setInvoiceData } from '../../redux/sales/actions';
 import { setClearData } from '../../redux/sales/actions';
 import { setCustomerID } from '../../redux/sales/actions';
 
@@ -25,6 +25,14 @@ const InvoicePurchaseOfBroughtBlank = () => {
     // const title = 'タイトルタイトル';
 
     const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+
+    const now = new Date();
+    // Format the date as YYYY-MM-DD
+    const optionsDate = { year: 'numeric', month: '2-digit', day: '2-digit', timeZone: 'Asia/Tokyo' };
+    const formattedDate = new Intl.DateTimeFormat('ja-JP', optionsDate).format(now).replace(/\//g, '-');
+    // Split the formatted date to get year and month
+    const [currentyear, currentmonth,currentday] = formattedDate.split('-').map(part => part.trim());
+    const currentDay = new Intl.DateTimeFormat('ja-JP', optionsDate).format(now).replace(/\//g, '-');
 
     const Table = {
         borderCollapse: 'collapse',
@@ -60,7 +68,7 @@ const InvoicePurchaseOfBroughtBlank = () => {
     const dispatch = useDispatch();
 
     const updateData = (data) => {
-        dispatch(setData(data));
+        dispatch(setInvoiceData(data));
     };
     const sendCustomerId = (data) => {
         dispatch(setCustomerID(data));
@@ -79,6 +87,7 @@ const InvoicePurchaseOfBroughtBlank = () => {
 
     // fetch registered product item
     useEffect(() => {
+        clearReduxData();
         const fetch = async () => {
             const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
 
@@ -107,6 +116,28 @@ const InvoicePurchaseOfBroughtBlank = () => {
         }
         fetch();
     }, []);
+    
+    const [invoiceID,setInvoiceID] = useState('');
+    //fetch invoiceID data
+    useEffect(() => {
+        const fetch = async () => {
+            const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+
+            if (!wakabaBaseUrl) {
+                throw new Error('API base URL is not defined');
+            }
+
+            await axios.get(`${wakabaBaseUrl}/purchaseinvoice/getinvoicenumber`)
+                .then(response => {
+                    setInvoiceID(response.data.invoiceID);
+                    //console.log('invoiceID',response.data)
+                })
+                .catch(error => {
+                    console.error("There was an error fetching the customer data!", error);
+                });
+        }
+        fetch();
+    }, []);
 
     const [users, setUsers] = useState([]);
     // Fetch user data
@@ -127,12 +158,6 @@ const InvoicePurchaseOfBroughtBlank = () => {
     }, []);
 
     const navigate = useNavigate();
-
-    const now = new Date();
-
-    // Format the date as YYYY-MM-DD
-    const optionsDate = { year: 'numeric', month: '2-digit', day: '2-digit', timeZone: 'Asia/Tokyo' };
-    const currentDay = new Intl.DateTimeFormat('ja-JP', optionsDate).format(now).replace(/\//g, '-');
 
     const [customer, setCustomer] = useState({
         full_name: '',
@@ -236,6 +261,12 @@ const InvoicePurchaseOfBroughtBlank = () => {
             });
         }
     }, [totalSalesSlipData]);
+    //invoiceID
+    useEffect(() => {
+        if(totalSalesSlipData?.length>0 && totalSalesSlipData[0].invoiceID) {
+            setInvoiceID(totalSalesSlipData[0].invoiceID);
+        } 
+    }, [totalSalesSlipData]);
     
     const handleStaffChange = (e) => {
         const { name, value } = e.target;
@@ -248,7 +279,7 @@ const InvoicePurchaseOfBroughtBlank = () => {
     // update staff data
     const updateStaffData = async(name,value) => {
         if(totalSalesSlipData?.length>0 && name === 'purchase_staff') {
-            console.log('name,value',name,value)
+            //console.log('name,value',name,value)
             const updatedData = totalSalesSlipData.map(data => ({
                 ...data,
                 purchase_staff: value // Replace with your desired value or logic
@@ -269,7 +300,7 @@ const InvoicePurchaseOfBroughtBlank = () => {
 
         }
         if(totalSalesSlipData?.length>0 && name === 'payment_staff') {
-            console.log('name,value',name,value)
+            //console.log('name,value',name,value)
             const updatedData = totalSalesSlipData.map(data => ({
                 ...data,
                 payment_staff: value // Replace with your desired value or logic
@@ -289,13 +320,11 @@ const InvoicePurchaseOfBroughtBlank = () => {
             //setTotalSalesSlipData(updatedData);
         }
     }
-    // calculate the invoice number
-    const [invoiceNumber,setInvoiceNumber] = useState('0');
+
+    //set redux totalsalesslipdata
     useEffect(() => {
-        if(totalSalesSlipData?.length >0) {
-            setInvoiceNumber(totalSalesSlipData[0].id)
-        }
-    }, [totalSalesSlipData]);
+        updateData(invoiceID);
+    }, [invoiceID]);
 
     const [editIndex, setEditIndex] = useState(-1);
 
@@ -524,6 +553,7 @@ const InvoicePurchaseOfBroughtBlank = () => {
             formData.append('capacity', salesSlipData.capacity);
             formData.append('percent', salesSlipData.percent);
             formData.append('notes', salesSlipData.notes);
+            formData.append('invoiceID', invoiceID);
 
             formData.append('estimate_wholesaler', JSON.stringify(estimateValues));
             formData.append('comment', '{"question1":"","comment1":"","question2":"","comment2":"","buyyear":"","buymonth":"","comment3":"","question4":"","comment4":""}');
@@ -819,7 +849,7 @@ const InvoicePurchaseOfBroughtBlank = () => {
             if (!wakabaBaseUrl) {
                 throw new Error('API base URL is not defined');
             }
-            console.log(childData,'childData')
+           // console.log(childData,'childData')
             await axios.post(`${wakabaBaseUrl}/purchaseinvoice/delete`, {id:id,customerId:childData, userId:userId, userStoreName:userStoreName})
             .then(response => {
                 const invoiceData = response.data;
@@ -908,7 +938,7 @@ const InvoicePurchaseOfBroughtBlank = () => {
 
             if (totalSalesSlipData.length != 0 && totalSalesSlipData != null) {
                 const purchaseData = {customerID, numberOfInvoice, totalSalesSlipData ,StampData};
-                console.log('send purchase data', purchaseData, customerID);
+                //console.log('send purchase data', purchaseData, customerID);
                 updateData(purchaseData);// to sign page using redux
                 navigate('/purchaseinvoiceforbroughtinitems');
             }
@@ -990,7 +1020,7 @@ const InvoicePurchaseOfBroughtBlank = () => {
 
     //customer create and get customerId
     const updatecustomerId = (customerId) => {
-        console.log('updatecustomerId', customerId)
+        //console.log('updatecustomerId', customerId)
         const updatedData = totalSalesSlipData.map(data => ({
             ...data,
             customer_id: customerId // Replace with your desired value or logic
@@ -1039,8 +1069,8 @@ const InvoicePurchaseOfBroughtBlank = () => {
         comment1:'',
         question2:'',
         comment2:'',
-        buyyear:'',
-        buymonth:'',
+        buyyear:currentyear,
+        buymonth:currentmonth,
         comment3:'',
         question4:'',
         comment4:'',
@@ -1083,7 +1113,7 @@ const InvoicePurchaseOfBroughtBlank = () => {
         // );
         // setTotalSalesSlipData(updatedData);
         const commentData = JSON.stringify(modalValue);
-        console.log('modalValue',commentData)
+        //console.log('modalValue',commentData)
         try {
             const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
 
@@ -1150,6 +1180,17 @@ const InvoicePurchaseOfBroughtBlank = () => {
                 setShowInputPurchase(false);
                 setEstimateValues({});
                 setEditIndex(-1); // Exit edit mode
+                setModalValue({
+                    question1:'',
+                    comment1:'',
+                    question2:'',
+                    comment2:'',
+                    buyyear:currentyear,
+                    buymonth:currentmonth,
+                    comment3:'',
+                    question4:'',
+                    comment4:'',
+                });
             })
             .catch(error => {
                 console.error("There was an error fetching the customer data!", error);
@@ -1213,16 +1254,16 @@ const InvoicePurchaseOfBroughtBlank = () => {
                 // Update customer state based on index
                 if (i === 0) {
                     updatedCustomer.item2 = pairs[i].value;
-                    console.log('item2', pairs[i].value);
+                    //console.log('item2', pairs[i].value);
                 } else if (i === 1) {
                     updatedCustomer.item3 = pairs[i].value;
-                    console.log('item3', pairs[i].value);
+                    //console.log('item3', pairs[i].value);
                 } else if (i === 2) {
                     updatedCustomer.item4 = pairs[i].value;
-                    console.log('item4', pairs[i].value);
+                    //console.log('item4', pairs[i].value);
                 } else if (i === 3) {
                     updatedCustomer.item5 = pairs[i].value;
-                    console.log('item5', pairs[i].value);
+                    //console.log('item5', pairs[i].value);
                 }
             }
         }
@@ -1281,7 +1322,7 @@ const InvoicePurchaseOfBroughtBlank = () => {
 
        await axios.post(`${wakabaBaseUrl}/customer/createcustomeritem`, {id,customer,invoiceIds:invoiceIds})
             .then(response => {
-                console.log('newCustomer',response.data)
+                //console.log('newCustomer',response.data)
                 checkedFunction(response.data.item1, response.data.item2, response.data.item3, response.data.item4, response.data.item5)
                 setCustomer(response.data);
                 updatecustomerId(response.data.id);
@@ -1374,7 +1415,7 @@ const itemsImageUpload = async () => {
 
     if (itemsImageFile) formDataObj.append('entire_items_url', itemsImageFile);
     if (itemsDocFile) formDataObj.append('document_url', itemsDocFile);
-    console.log('ids',ids,userStoreName,userId,childData)
+    //console.log('ids',ids,userStoreName,userId,childData)
     try {
         const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
         if (!wakabaBaseUrl) {
@@ -1450,12 +1491,12 @@ const openEstimate = (index) => {
     
     //setShowInputPurchase(!showInputPurchase);
     // setEditIndex(index);
-    console.log('selectedtotalSalesData',totalSalesSlipData[index])
+    //console.log('selectedtotalSalesData',totalSalesSlipData[index])
     setSalesSlipData(totalSalesSlipData[index]); // Populate the input fields with the selected row's data
     setEstimateValues(totalSalesSlipData[index].estimate_wholesaler);
     if(totalSalesSlipData[index].product_type_one){
         const selectedResult = product1s.find(product => product.category === totalSalesSlipData[index].product_type_one);
-        console.log('selectedResult',selectedResult)
+        //console.log('selectedResult',selectedResult)
         getVendorList(selectedResult.id);
     }
         
@@ -1481,9 +1522,36 @@ const openItemDetailShow = () => {
             addSlesItem();
         }
     }
-//----------------------------------------------new customer create---------------------------------------------
-    
-//-------------------------------------------------------------------------------------------
+//------------------------------------precious metal--------------------------------------
+const [preciousMetalData, setPreciousMetalData] = useState([]);
+useEffect(() => {
+    const url = "https://gold.tanaka.co.jp/retanaka/price/";
+    fetch(url)
+      .then(response => response.text())
+      .then(html => {
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, "text/html");
+  
+        const priceTables = doc.querySelectorAll("table.price_table");
+        const data = [];
+  
+        priceTables.forEach(table => {
+          const rows = table.querySelectorAll("tbody tr");
+          rows.forEach(row => {
+            const cols = row.querySelectorAll("th, td");
+            if (cols.length > 1) {
+              const name = cols[0].textContent.trim();
+              const price = cols[1].textContent.trim();
+              data.push({ name, price });
+            }
+          });
+        });
+        setPreciousMetalData(data);
+        console.log('setPreciousMetalData',data)
+      })
+      .catch(error => console.log(error));
+  }, []);
+//---------------------------------------------------------------------------------------
     return (<>
         {/* <Titlebar title={title} /> */}
         <div className="bg-[trasparent] font-[sans-serif] w-full">
@@ -1497,7 +1565,7 @@ const openItemDetailShow = () => {
                                 <div className='w-3 h-3 bg-[#70685a]'></div>
                             </div>
                             <div className='flex flex-col justify-center ml-2'>
-                                <label className="text-[#70685a] font-bold mb-2 block text-left mr-10 !mb-0 flex">買取計算書No.{invoiceNumber || ''}</label>
+                                <label className="text-[#70685a] font-bold mb-2 block text-left mr-10 !mb-0 flex">買取計算書No.{invoiceID || ''}</label>
                             </div>
 
                         </div>
@@ -1571,7 +1639,7 @@ const openItemDetailShow = () => {
             </div>
             <div className="w-full invoice-purchase-brought flex justify-center">
                 <div className="w-full flex justify-center mt-2" >
-                    <div className=" pr-5 max-w-[600px]">
+                    <div className=" w-full pr-5">
                         {/* -------customer register--------- */}
                         <CustomerRegister id={childData} wholeHearingSave={itemsSave}/>
                     </div>
@@ -1620,7 +1688,7 @@ const openItemDetailShow = () => {
                         <div className='w-full flex justify-center'>
                             <div className=" h-full w-full">
                                 {/* Text area */}
-                                <div className='w-full flex justify-center'>
+                                <div className='w-full'>
                                     <div className=" h-full">
                                         {/* Text area */}
                                         <div className='w-full'>
@@ -1629,12 +1697,12 @@ const openItemDetailShow = () => {
                                         <div className="w-full max-h-[600px]">
                                             <div>
                                                 <div className='flex'>
-                                                    <label className="text-[#70685a] text-[18px] mb-2 block text-left mr-10 py-1">項目1</label>
-                                                    <label className="text-[#70685a] text-[18px] mb-2 block text-left mr-10 py-1 !mb-0">何を見てご来店いただきましたか？</label>
+                                                    <label className="text-[#70685a] text-[20px] mb-2 block text-left mr-10 py-1">項目1</label>
+                                                    <label className="text-[#70685a] text-[20px] mb-2 block text-left mr-10 py-1 !mb-0">何を見てご来店いただきましたか？</label>
                                                 </div>
-                                                <div className='ml-20'>
+                                                <div className='ml-20 text-[18px]'>
                                                     {/* <InputComponent value={customer.item1 || ''} name='item1' onChange={handleCustomerChange} className="w-full text-[#70685a] text-[18px] mb-2 block text-left  mr-10 py-1 !mb-0 !h-10" /> */}
-                                                    <div className='flex gap-10'>
+                                                    <div className='flex justify-between'>
                                                         <div className="flex items-center">
                                                             <input type="checkbox" checked={additionalCheckboxes[0]} onChange={() => handleAdditionalCheckboxChange(0)}
                                                                 className="w-4 h-4 mr-3" />
@@ -1645,20 +1713,6 @@ const openItemDetailShow = () => {
                                                                 className="w-4 h-4 mr-3" />
                                                             <label className="text-[#70685a]">店舗を見て</label>
                                                         </div>
-                                                    </div>
-                                                    <div className="flex items-center">
-                                                        <input type="checkbox" checked={pairs[0].checked} onChange={() => handlePairCheckboxChange(0)}
-                                                            className="w-4 h-4 mr-3" />
-                                                        <label className="text-[#70685a] mr-3"> 店舗以外の看板・広告を見て</label>
-                                                        <InputComponent value={pairs[0].value} onChange={(e) => handleInputChange(0, e.target.value)} disabled={!pairs[0].checked} className="w-40 text-[#70685a] mb-2 block text-left  mr-10 py-1 !mb-0 !h-8" placeholder={'広告を見た場所'} />
-                                                    </div>
-                                                    <div className="flex items-center">
-                                                        <input type="checkbox" checked={pairs[1].checked} onChange={() => handlePairCheckboxChange(1)}
-                                                            className="w-4 h-4 mr-3" />
-                                                        <label className="text-[#70685a] mr-3">折込チラシを見て</label>
-                                                        <InputComponent value={pairs[1].value} onChange={(e) => handleInputChange(1, e.target.value)} disabled={!pairs[1].checked} className="w-40 text-[#70685a] mb-2 block text-left  mr-10 py-1 !mb-0 !h-8" placeholder={'新聞銘柄'} />
-                                                    </div>
-                                                    <div className='flex gap-10'>
                                                         <div className="flex items-center">
                                                             <input type="checkbox" checked={additionalCheckboxes[2] || ''} onChange={() => handleAdditionalCheckboxChange(2)}
                                                                 className="w-4 h-4 mr-3" />
@@ -1670,22 +1724,38 @@ const openItemDetailShow = () => {
                                                             <label className="text-[#70685a]"> 紹介されて</label>
                                                         </div>
                                                     </div>
-                                                    <div className="flex items-center">
-                                                        <input type="checkbox" checked={pairs[2].checked} onChange={() => handlePairCheckboxChange(2)}
-                                                            className="w-4 h-4 mr-3" />
-                                                        <label className="text-[#70685a] mr-3">その他</label>
-                                                        <InputComponent value={pairs[2].value} onChange={(e) => handleInputChange(2, e.target.value)} disabled={!pairs[2].checked} className="w-40 text-[#70685a] mb-2 block text-left  mr-10 py-1 !mb-0 !h-8" placeholder={'その他詳細'} />
+                                                    <div className='flex justify-between'>
+                                                        <div className="flex items-center">
+                                                            <input type="checkbox" checked={pairs[0].checked} onChange={() => handlePairCheckboxChange(0)}
+                                                                className="w-4 h-4 mr-3" />
+                                                            <label className="text-[#70685a] mr-3"> 店舗以外の看板・広告を見て</label>
+                                                            <InputComponent value={pairs[0].value} onChange={(e) => handleInputChange(0, e.target.value)} disabled={!pairs[0].checked} className="w-40 text-[#70685a] mb-2 block text-left  mr-10 py-1 !mb-0 !h-8" placeholder={'広告を見た場所'} />
+                                                        </div>
+                                                    </div>
+                                                    <div className='flex'>
+                                                        <div className="flex items-center">
+                                                            <input type="checkbox" checked={pairs[1].checked} onChange={() => handlePairCheckboxChange(1)}
+                                                                className="w-4 h-4 mr-3" />
+                                                            <label className="text-[#70685a] mr-3">折込チラシを見て</label>
+                                                            <InputComponent value={pairs[1].value} onChange={(e) => handleInputChange(1, e.target.value)} disabled={!pairs[1].checked} className="w-40 text-[#70685a] mb-2 block text-left  mr-10 py-1 !mb-0 !h-8" placeholder={'新聞銘柄'} />
+                                                        </div>
+                                                        <div className="flex items-center">
+                                                            <input type="checkbox" checked={pairs[2].checked} onChange={() => handlePairCheckboxChange(2)}
+                                                                className="w-4 h-4 mr-3" />
+                                                            <label className="text-[#70685a] mr-3">その他</label>
+                                                            <InputComponent value={pairs[2].value} onChange={(e) => handleInputChange(2, e.target.value)} disabled={!pairs[2].checked} className="w-40 text-[#70685a] mb-2 block text-left  mr-10 py-1 !mb-0 !h-8" placeholder={'その他詳細'} />
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div>
                                                 <div className='flex'>
-                                                    <label className="text-[#70685a] text-[18px] mb-2 block text-left mr-10 py-1">項目2</label>
-                                                    <label className="text-[#70685a] text-[18px] mb-2 block text-left mr-10 py-1 !mb-0">次回お持ちいただくご予定の商品はございますか？</label>
+                                                    <label className="text-[#70685a] text-[20px] mb-2 block text-left mr-10 py-1">項目2</label>
+                                                    <label className="text-[#70685a] text-[20px] mb-2 block text-left mr-10 py-1 !mb-0">次回お持ちいただくご予定の商品はございますか？</label>
                                                 </div>
-                                                <div className=' ml-20'>
+                                                <div className=' ml-20 text-[18px]'>
                                                     {/* <InputComponent value={customer.item2 || ''} name='item2' onChange={handleCustomerChange} className="w-full text-[#70685a] text-[18px] mb-2 block text-left  mr-10 py-1 !mb-0 !h-10" /> */}
-                                                    <div className='flex gap-10'>
+                                                    <div className='flex gap-5'>
                                                         <div className="flex items-center">
                                                             <input type="checkbox" className="w-4 h-4 mr-3" checked={additionalCheckboxes[4] || ''} onChange={() => handleAdditionalCheckboxChange(4)} />
                                                             <label className="text-[#70685a]">ダイヤモンド</label>
@@ -1698,8 +1768,6 @@ const openItemDetailShow = () => {
                                                             <input type="checkbox" className="w-4 h-4 mr-3" checked={additionalCheckboxes[6] || ''} onChange={() => handleAdditionalCheckboxChange(6)} />
                                                             <label className="text-[#70685a]">ネックレス</label>
                                                         </div>
-                                                    </div>
-                                                    <div className='flex gap-10'>
                                                         <div className="flex items-center">
                                                             <input type="checkbox" className="w-4 h-4 mr-3" checked={additionalCheckboxes[7] || ''} onChange={() => handleAdditionalCheckboxChange(7)} />
                                                             <label className="text-[#70685a]">指輪</label>
@@ -1712,12 +1780,12 @@ const openItemDetailShow = () => {
                                                             <input type="checkbox" className="w-4 h-4 mr-3" checked={additionalCheckboxes[9] || ''} onChange={() => handleAdditionalCheckboxChange(9)} />
                                                             <label className="text-[#70685a]">ブランド品</label>
                                                         </div>
-                                                    </div>
-                                                    <div className='flex gap-10'>
                                                         <div className="flex items-center">
                                                             <input type="checkbox" className="w-4 h-4 mr-3" checked={additionalCheckboxes[10] || ''} onChange={() => handleAdditionalCheckboxChange(10)} />
                                                             <label className="text-[#70685a]">切手</label>
                                                         </div>
+                                                    </div>
+                                                    <div className='flex gap-5'>
                                                         <div className="flex items-center">
                                                             <input type="checkbox" className="w-4 h-4 mr-3" checked={additionalCheckboxes[11] || ''} onChange={() => handleAdditionalCheckboxChange(11)} />
                                                             <label className="text-[#70685a]">中国切手</label>
@@ -1726,8 +1794,6 @@ const openItemDetailShow = () => {
                                                             <input type="checkbox" className="w-4 h-4 mr-3" checked={additionalCheckboxes[12] || ''} onChange={() => handleAdditionalCheckboxChange(12)} />
                                                             <label className="text-[#70685a]">古銭</label>
                                                         </div>
-                                                    </div>
-                                                    <div className='flex gap-10'>
                                                         <div className="flex items-center">
                                                             <input type="checkbox" className="w-4 h-4 mr-3" checked={additionalCheckboxes[13] || ''} onChange={() => handleAdditionalCheckboxChange(13)} />
                                                             <label className="text-[#70685a]">金券</label>
@@ -1740,12 +1806,13 @@ const openItemDetailShow = () => {
                                                             <input type="checkbox" className="w-4 h-4 mr-3" checked={additionalCheckboxes[15] || ''} onChange={() => handleAdditionalCheckboxChange(15)} />
                                                             <label className="text-[#70685a]">カメラ</label>
                                                         </div>
-                                                    </div>
-                                                    <div className='flex gap-10'>
                                                         <div className="flex items-center">
                                                             <input type="checkbox" className="w-4 h-4 mr-3" checked={additionalCheckboxes[16] || ''} onChange={() => handleAdditionalCheckboxChange(16)} />
                                                             <label className="text-[#70685a]">スマートフォン</label>
                                                         </div>
+                                                    </div>
+                                                    <div className='flex gap-10'>
+
                                                         <div className="flex items-center">
                                                             <input type="checkbox" className="w-4 h-4 mr-3" checked={additionalCheckboxes[17] || ''} onChange={() => handleAdditionalCheckboxChange(17)} />
                                                             <label className="text-[#70685a]">食器</label>
@@ -1754,8 +1821,6 @@ const openItemDetailShow = () => {
                                                             <input type="checkbox" className="w-4 h-4 mr-3" checked={additionalCheckboxes[18] || ''} onChange={() => handleAdditionalCheckboxChange(18)} />
                                                             <label className="text-[#70685a]">ホビー</label>
                                                         </div>
-                                                    </div>
-                                                    <div className='flex gap-10'>
                                                         <div className="flex items-center">
                                                             <input type="checkbox" className="w-4 h-4 mr-3" checked={additionalCheckboxes[19] || ''} onChange={() => handleAdditionalCheckboxChange(19)} />
                                                             <label className="text-[#70685a]">楽器</label>
@@ -1773,7 +1838,7 @@ const openItemDetailShow = () => {
                                                     <label className="text-[#70685a] text-[18px] mb-2 block text-left mr-10 py-1">項目3</label>
                                                     <label className="text-[#70685a] text-[18px] mb-2 block text-left mr-10 py-1 !mb-0">(各種ご案内)の送付は  可/不可</label>
                                                 </div>
-                                                <div className='ml-20  mb-10'>
+                                                <div className='ml-20  mb-10 text-[18px]'>
                                                     {/* <InputComponent value={customer.item3 || ''} name='item3' onChange={handleCustomerChange} className="w-full text-[#70685a] text-[18px] mb-2 block text-left  mr-10 py-1 !mb-0 !h-10" /> */}
                                                     <div className='flex gap-10'>
                                                         <div className="flex items-center">
@@ -2075,7 +2140,9 @@ const openItemDetailShow = () => {
                                     </div>
                                 </td>
                             </tr>
-                            {totalSalesSlipData?.length > 0 && totalSalesSlipData.map((salesData, Index) => (
+                            {totalSalesSlipData?.length > 0 && totalSalesSlipData.map((salesData, Index) => {
+                                const priceData = preciousMetalData.find(price => price.name === salesData.gold_type);
+                                return (
                                 <tr key={Index} >
                                     <td><input type='checkbox' name='checkbox1'  className='!h-6'/></td>
                                     <td style={Td}>{salesData.id || ''}</td>
@@ -2148,7 +2215,17 @@ const openItemDetailShow = () => {
                                             </div>
                                         </div>
                                     </td>
-                                    {isDetailShow ? <td style={Td} >{salesData.gold_type || ''}</td> : <td style={{ display: 'none' }}></td>}
+                                    {isDetailShow ? <td style={Td} >
+                                            <div className="relative w-max group mx-auto">
+                                                <div
+                                                    className="px-6 py-2.5 rounded text-[#70685a] text-sm tracking-wider font-semibold border-none outline-none">{salesData.gold_type || ''}</div>
+                                                <div
+                                                    className="absolute shadow-lg hidden group-hover:block bg-[#fff] text-[#70685a] font-semibold px-3 py-2 text-[13px] left-full ml-3 top-0 bottom-0 my-auto h-max w-max rounded before:w-4 before:h-4 before:rotate-45 before:bg-[#333] before:absolute before:z-[-1] before:bottom-0 before:top-0 before:my-auto before:-left-1 before:mx-auto">
+                                                {priceData ? `Retanaka: ${priceData.name}, Price: $${priceData.price}` : 'Price not available'}
+                                                </div>
+                                            </div>
+                                        </td>
+                                     : <td style={{ display: 'none' }}></td>}
                                     {isDetailShow ? <td style={Td} >{salesData.gross_weight || ''}</td> : <td style={{ display: 'none' }}></td>}
                                     {isDetailShow ? <td style={Td} >{salesData.price_gram || ''}</td> : <td style={{ display: 'none' }}></td>}
                                     {isDetailShow ? <td style={Td} >{salesData.model_number_one || ''}</td> : <td style={{ display: 'none' }}></td>}
@@ -2205,7 +2282,8 @@ const openItemDetailShow = () => {
                                         </td>
                                     }
                                 </tr>
-                            ))}
+                                )
+                            })}
                         </tbody>
 
                     </table>
@@ -2647,7 +2725,15 @@ const openItemDetailShow = () => {
                 <div className="h-40 flex flex-col bg-gray-50 p-4 rounded-lg mt-4">
                     <div style={{ flexDirection: 'column', }} className='flex h-full felx-col justify-center'>
                         <div className='flex justify-center w-full'>
-                            {itemsImagePreview == `${wakabaBaseUrl}/uploads/product/` ? "" : <img src={itemsImagePreview} alt="Image Preview" className='h-[100px] p-1 rounded-lg' />}
+                        {totalSalesSlipData?.length > 0 && totalSalesSlipData[0].entire_items_url === '' ? (
+                            ""
+                            ) : (
+                            <img 
+                                src={itemsImagePreview} 
+                                alt={itemsImagePreview} 
+                                className='h-[100px] p-1 rounded-lg' 
+                            />
+                        )}
                         </div>
 
                     </div>
@@ -2698,7 +2784,15 @@ const openItemDetailShow = () => {
                 <div className="h-40 flex flex-col bg-gray-50 p-4 rounded-lg mt-4">
                     <div style={{ flexDirection: 'column', }} className='flex h-full felx-col justify-center'>
                         <div className='flex justify-center w-full'>
-                            {itemsImageDocPreview == `${wakabaBaseUrl}/uploads/product/` ? "" : <img src={itemsImageDocPreview} alt="Image Preview" className='h-[100px] p-1 rounded-lg' />}
+                            {totalSalesSlipData?.length > 0 && totalSalesSlipData[0].document_url === '' ? (
+                            ""
+                            ) : (
+                            <img 
+                                src={itemsImageDocPreview} 
+                                alt={itemsImageDocPreview} 
+                                className='h-[100px] p-1 rounded-lg' 
+                            />
+                        )}
                         </div>
 
                     </div>

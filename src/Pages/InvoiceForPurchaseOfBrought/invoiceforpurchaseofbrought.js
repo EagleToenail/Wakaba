@@ -11,7 +11,7 @@ import {toast} from 'react-toastify';
 import axios from 'axios';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { setData } from '../../redux/sales/actions';
+import { setInvoiceData } from '../../redux/sales/actions';
 import { setClearData } from '../../redux/sales/actions';
 import { setCustomerID } from '../../redux/sales/actions';
 
@@ -25,22 +25,24 @@ const InvoicePurchaseOfBrought = () => {
     // const title = 'タイトルタイトル';
     const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
 
+    const now = new Date();
+    // Format the date as YYYY-MM-DD
+    const optionsDate = { year: 'numeric', month: '2-digit', day: '2-digit', timeZone: 'Asia/Tokyo' };
+    const formattedDate = new Intl.DateTimeFormat('ja-JP', optionsDate).format(now).replace(/\//g, '-');
+    // Split the formatted date to get year and month
+    const [currentyear, currentmonth,currentday] = formattedDate.split('-').map(part => part.trim());
+    const currentDay = new Intl.DateTimeFormat('ja-JP', optionsDate).format(now).replace(/\//g, '-');
+
     const navigate = useNavigate();
 
     // Fetch customer data (customer Id)
     const { id } = useParams();
 
-    const now = new Date();
-
-    // Format the date as YYYY-MM-DD
-    const optionsDate = { year: 'numeric', month: '2-digit', day: '2-digit', timeZone: 'Asia/Tokyo' };
-    const currentDay = new Intl.DateTimeFormat('ja-JP', optionsDate).format(now).replace(/\//g, '-');
-
     //send data using redux
     const dispatch = useDispatch();
 
     const updateData = (data) => {
-        dispatch(setData(data));
+        dispatch(setInvoiceData(data));
     };
 
     const sendCustomerId = (data) => {
@@ -137,6 +139,30 @@ const InvoicePurchaseOfBrought = () => {
         }
         fetch();
     }, []);
+
+        
+    const [invoiceID,setInvoiceID] = useState('');
+    //fetch invoiceID data
+    useEffect(() => {
+        const fetch = async () => {
+            const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+
+            if (!wakabaBaseUrl) {
+                throw new Error('API base URL is not defined');
+            }
+
+            await axios.get(`${wakabaBaseUrl}/purchaseinvoice/getinvoicenumber`)
+                .then(response => {
+                    setInvoiceID(response.data.invoiceID);
+                    //console.log('invoiceID',response.data)
+                })
+                .catch(error => {
+                    console.error("There was an error fetching the customer data!", error);
+                });
+        }
+        fetch();
+    }, []);
+
 
     const [customerPastVisitHistory, setCustomerPastVisitHistory] = useState([{
         visit_date: '',
@@ -307,6 +333,12 @@ const InvoicePurchaseOfBrought = () => {
         purchase_staff:username,
         payment_staff:'',
     });
+    //invoiceID
+    useEffect(() => {
+        if(totalSalesSlipData?.length>0 && totalSalesSlipData[0].invoiceID) {
+            setInvoiceID(totalSalesSlipData[0].invoiceID);
+        } 
+    }, [totalSalesSlipData]);
     //select pruchase staff name and payment staff name
     useEffect(() => {
         if(totalSalesSlipData?.length>0) {
@@ -332,7 +364,7 @@ const InvoicePurchaseOfBrought = () => {
     // update staff data
     const updateStaffData = async(name,value) => {
         if(totalSalesSlipData?.length>0 && name === 'purchase_staff') {
-            console.log('name,value',name,value)
+            //console.log('name,value',name,value)
             const updatedData = totalSalesSlipData.map(data => ({
                 ...data,
                 purchase_staff: value // Replace with your desired value or logic
@@ -353,7 +385,7 @@ const InvoicePurchaseOfBrought = () => {
 
         }
         if(totalSalesSlipData?.length>0 && name === 'payment_staff') {
-            console.log('name,value',name,value)
+            //console.log('name,value',name,value)
             const updatedData = totalSalesSlipData.map(data => ({
                 ...data,
                 payment_staff: value // Replace with your desired value or logic
@@ -374,18 +406,10 @@ const InvoicePurchaseOfBrought = () => {
         }
     }
 
-    // calculate the invoice number
-    const [invoiceNumber,setInvoiceNumber] = useState('0');
+    //set redux invoiceID
     useEffect(() => {
-        if(totalSalesSlipData?.length >0) {
-            setInvoiceNumber(totalSalesSlipData[0].id)
-        }
-    }, [totalSalesSlipData]);
-
-    //set redux totalsalesslipdata
-    useEffect(() => {
-        updateData(totalSalesSlipData);
-    }, [totalSalesSlipData]);
+        updateData(invoiceID);
+    }, [invoiceID]);
 
     const [editIndex, setEditIndex] = useState(-1);
 
@@ -548,7 +572,7 @@ const InvoicePurchaseOfBrought = () => {
     //add Data
     const addSlesItem = async() => {
 
-            console.log('purchase data', salesSlipData,estimateValues);
+            // console.log('purchase data', salesSlipData,estimateValues);
 
             let maxValue = 0; // Start with 0
             let maxKey = ''; // To store the corresponding key
@@ -615,6 +639,8 @@ const InvoicePurchaseOfBrought = () => {
             formData.append('capacity', salesSlipData.capacity);
             formData.append('percent', salesSlipData.percent);
             formData.append('notes', salesSlipData.notes);
+
+            formData.append('invoiceID', invoiceID);
 
             formData.append('estimate_wholesaler', JSON.stringify(estimateValues));
             formData.append('comment', '{"question1":"","comment1":"","question2":"","comment2":"","buyyear":"","buymonth":"","comment3":"","question4":"","comment4":""}');
@@ -745,7 +771,6 @@ const InvoicePurchaseOfBrought = () => {
             }
           }
         });
-
             const formData = new FormData();
             formData.append('userStoreName', userStoreName);
             formData.append('id', salesSlipData.id);
@@ -1021,7 +1046,7 @@ const InvoicePurchaseOfBrought = () => {
     const customerID = id;
     // send Purchase data tocusotmer receipt
     const sendPurchaseDataToReceipt = () => {
-        const numberOfInvoice = invoiceNumber;
+        const numberOfInvoice = invoiceID;
         const purchaseData = { numberOfInvoice, totalSalesSlipData,customerID};
         // console.log('send purchase data',purchaseData,id);
         updateData(purchaseData);
@@ -1033,12 +1058,12 @@ const InvoicePurchaseOfBrought = () => {
         //---------
         if(totalSalesSlipData?.length>0) {
             if(totalSalesSlipData[0].product_status === 'お預かり' || totalSalesSlipData[0].product_status === '成約済') {
-                const numberOfInvoice = invoiceNumber;
+                const numberOfInvoice = invoiceID;
     
                 if (totalSalesSlipData.length != 0 && totalSalesSlipData != null) {
                     itemsSave();
                     const purchaseData = {customerID, numberOfInvoice, totalSalesSlipData ,stampData};
-                    console.log('send purchase data', purchaseData, id);
+                    //console.log('send purchase data', purchaseData, id);
                     updateData(purchaseData);// to sign page using redux
                     navigate('/purchaseinvoiceforbroughtinitems');
                 }
@@ -1152,8 +1177,8 @@ const InvoicePurchaseOfBrought = () => {
         comment1:'',
         question2:'',
         comment2:'',
-        buyyear:'',
-        buymonth:'',
+        buyyear:currentyear,
+        buymonth:currentmonth,
         comment3:'',
         question4:'',
         comment4:'',
@@ -1196,7 +1221,7 @@ const InvoicePurchaseOfBrought = () => {
         // );
         // setTotalSalesSlipData(updatedData);
         const commentData = JSON.stringify(modalValue);
-        console.log('modalValue',commentData)
+        //('modalValue',commentData)
         try {
             const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
 
@@ -1204,7 +1229,7 @@ const InvoicePurchaseOfBrought = () => {
                 throw new Error('API base URL is not defined');
             }
             const payload = editRow;
-            console.log('payload',payload)
+            //console.log('payload',payload)
             await axios.post(`${wakabaBaseUrl}/purchaseinvoice/commentsave`, {payload:payload,commentData:commentData,userId:userId,userStoreName:userStoreName})
             .then(response => {
                 const invoiceData = response.data;
@@ -1253,6 +1278,17 @@ const InvoicePurchaseOfBrought = () => {
                 setShowInputPurchase(false);
                 setEstimateValues({});
                 setEditIndex(-1); // Exit edit mode
+                setModalValue({
+                    question1:'',
+                    comment1:'',
+                    question2:'',
+                    comment2:'',
+                    buyyear:currentyear,
+                    buymonth:currentmonth,
+                    comment3:'',
+                    question4:'',
+                    comment4:'',
+                });
             })
             .catch(error => {
                 console.error("There was an error fetching the customer data!", error);
@@ -1465,7 +1501,7 @@ const InvoicePurchaseOfBrought = () => {
 
         if (itemsImageFile) formDataObj.append('entire_items_url', itemsImageFile);
         if (itemsDocFile) formDataObj.append('document_url', itemsDocFile);
-        console.log('ids',ids,userStoreName,userId,id)
+        //console.log('ids',ids,userStoreName,userId,id)
         try {
             const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
             if (!wakabaBaseUrl) {
@@ -1541,12 +1577,12 @@ const openEstimate = (index) => {
     
     //setShowInputPurchase(!showInputPurchase);
     // setEditIndex(index);
-    console.log('selectedtotalSalesData',totalSalesSlipData[index])
+    //console.log('selectedtotalSalesData',totalSalesSlipData[index])
     setSalesSlipData(totalSalesSlipData[index]); // Populate the input fields with the selected row's data
     setEstimateValues(totalSalesSlipData[index].estimate_wholesaler);
     if(totalSalesSlipData[index].product_type_one){
         const selectedResult = product1s.find(product => product.category === totalSalesSlipData[index].product_type_one);
-        console.log('selectedResult',selectedResult)
+        //console.log('selectedResult',selectedResult)
         getVendorList(selectedResult.id);
     }
         
@@ -1562,17 +1598,46 @@ const openItemDetailShow = () => {
 }
 //----------------------------------create data----------------------------------------
     const handleInvoiceForPurchaseData = () => {
-        console.log('dfafafafasfas',salesSlipData)
+       // console.log('dfafafafasfas',salesSlipData)
         if(salesSlipData.id){
-            console.log('edit')
+            //console.log('edit')
             saveSalesItem();
 
         } else {
-            console.log('add')
+            //console.log('add')
             addSlesItem();
         }
     }
-//-------------------------------------------------------------------------------------------
+//------------------------------------precious metal--------------------------------------
+const [preciousMetalData, setPreciousMetalData] = useState([]);
+useEffect(() => {
+    const url = "https://gold.tanaka.co.jp/retanaka/price/";
+    fetch(url)
+      .then(response => response.text())
+      .then(html => {
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, "text/html");
+  
+        const priceTables = doc.querySelectorAll("table.price_table");
+        const data = [];
+  
+        priceTables.forEach(table => {
+          const rows = table.querySelectorAll("tbody tr");
+          rows.forEach(row => {
+            const cols = row.querySelectorAll("th, td");
+            if (cols.length > 1) {
+              const name = cols[0].textContent.trim();
+              const price = cols[1].textContent.trim();
+              data.push({ name, price });
+            }
+          });
+        });
+        setPreciousMetalData(data);
+        console.log('setPreciousMetalData',data)
+      })
+      .catch(error => console.log(error));
+  }, []);
+//---------------------------------------------------------------------------------------
     return (<>
         {/* <Titlebar title={title} /> */}
         <div className="bg-[trasparent] font-[sans-serif] w-full">
@@ -1586,7 +1651,7 @@ const openItemDetailShow = () => {
                                 <div className='w-3 h-3 bg-[#70685a]'></div>
                             </div>
                             <div className='flex flex-col justify-center ml-2'>
-                                <label className="text-[#70685a] font-bold mb-2 block text-left mr-10 !mb-0 flex">買取計算書No.{invoiceNumber || ''}</label>
+                                <label className="text-[#70685a] font-bold mb-2 block text-left mr-10 !mb-0 flex">買取計算書No.{invoiceID|| ''}</label>
                             </div>
 
                         </div>
@@ -1657,7 +1722,7 @@ const openItemDetailShow = () => {
                             {/* new */}
                             <div className='flex'>
                                 <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">本人確認書類</label>
+                                    <label className="text-[#70685a] font-bold mb-2 block text-center mr-10 py-1 !mb-0">本人確認書類</label>
                                 </div>
                                 <div style={{ width: '75%', flexDirection: 'column', }} className='flex align-center justify-around'>
                                     <label className="w-full text-[#70685a] text-[20px]  px-4 py-2 outline-[#70685a]">マイナンバーカ一ド</label>
@@ -1665,97 +1730,86 @@ const openItemDetailShow = () => {
                             </div>
                             {/* new */}
                             <div className='flex'>
-                                <div style={{ width: '25%', flexDirection: 'column', }} className='!mb-0 flex align-center justify-around'>
-                                    <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">顧客番号</label>
+                                <div style={{ width: '20%', flexDirection: 'column', }} className='!mb-0 flex align-center justify-around'>
+                                    <label className="text-[#70685a] font-bold mb-2 block text-center mr-10 py-1 !mb-0">顧客番号</label>
                                 </div>
-                                <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
+                                <div style={{ width: '30%', flexDirection: 'column', }} className='flex align-center justify-around'>
                                     <label className="text-[#70685a] text-[20px] font-bold mb-2 block text-left mr-10 py-2 !mb-0">{customer.id}</label>
                                 </div>
                                 <div style={{ width: '20%', flexDirection: 'column', }} className='flex align-center justify-around'>
                                     <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-3 !mb-0">VIP</label>
                                 </div>
-                                <div style={{ width: '20%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                </div>
                             </div>
                             {/* new */}
                             <div className='flex'>
+                                <div style={{ width: '20%', flexDirection: 'column', }} className='flex align-center justify-around'>
+                                    <label className="text-[#70685a] font-bold mb-2 block text-center mr-10 py-1 !mb-0">お名前</label>
+                                </div>
                                 <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">お名前</label>
+                                    <label className="w-full text-[#70685a] text-[20px]  py-2 outline-[#70685a]">{customer.full_name}</label>
                                 </div>
-                                <div style={{ width: '30%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <label className="w-full text-[#70685a] text-[20px]  px-4 py-2 outline-[#70685a]">{customer.full_name}</label>
+                                <div style={{ width: '5%', flexDirection: 'column', }} className='flex align-center justify-around'>
+                                    <label className="text-[#70685a] font-bold mb-2 block text-left mr-10 py-3 !mb-0">{customer.gender}</label>
                                 </div>
-                                <div style={{ width: '20%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-3 !mb-0">{customer.gender}</label>
-                                </div>
-                            </div>
-                            {/* new */}
-                            <div className='flex'>
                                 <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
                                     <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">カタカナ</label>
                                 </div>
-                                <div style={{ width: '75%', flexDirection: 'column', }} className='flex align-center justify-around'>
+                                <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
                                     <label className="w-full text-[#70685a] text-[20px]  px-4 py-2 outline-[#70685a]">{customer.katakana_name}</label>
                                 </div>
                             </div>
                             {/* new */}
                             <div className='flex'>
-                                <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">お電話番号</label>
+                                <div style={{ width: '20%', flexDirection: 'column', }} className='flex align-center justify-around'>
+                                    <label className="text-[#70685a] font-bold mb-2 block text-center mr-10 py-1 !mb-0">お電話番号</label>
                                 </div>
-                                <div style={{ width: '75%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <label className="w-full text-[#70685a] text-[20px]  px-4 py-2 outline-[#70685a]">{customer.phone_number}</label>
+                                <div style={{ width: '20%', flexDirection: 'column', }} className='flex align-center justify-around'>
+                                    <label className="w-full text-[#70685a] text-[20px] py-2 outline-[#70685a]">{customer.phone_number}</label>
                                 </div>
-                            </div>
-                            {/* new */}
-                            <div className='flex'>
-                                <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <label className="text-[#70685a] font-bold mb-2 block text-right mr-11 py-1 !mb-0">生年月日</label>
+                                <div style={{ width: '20%', flexDirection: 'column', }} className='flex align-center justify-around'>
+                                    <label className="text-[#70685a] font-bold mb-2 block text-center py-1 !mb-0">生年月日</label>
                                 </div>
-                                <div style={{ width: '40%', flexDirection: 'column', }} className='flex align-center justify-around'>
+                                <div style={{ width: '20%', flexDirection: 'column', }} className='flex align-center justify-around'>
                                     <label className="w-full text-[#70685a] text-[20px]  px-4 py-2 outline-[#70685a]">{customer.birthday}</label>
                                 </div>
-                                <div style={{ width: '30%', flexDirection: 'column', }} className='flex align-center justify-around'>
+                                <div style={{ width: '10%', flexDirection: 'column', }} className='flex align-center justify-around'>
                                     <label className="w-full text-[#70685a] text-[20px]  px-4 py-2 outline-[#70685a]">{customer.age || ''}才</label>
                                 </div>
                             </div>
                             {/* new */}
                             <div className='flex'>
+                                <div style={{ width: '20%', flexDirection: 'column', }} className='flex align-center justify-around'>
+                                    <label className="text-[#70685a] font-bold mb-2 block text-center mr-10 py-1 !mb-0">ご住所</label>
+                                </div>
+                                <div style={{ width: '20%', }} className='flex justify-end'>
+                                    <label className="w-full text-[#70685a] text-[20px]  py-2 outline-[#70685a]">{customer.address}</label>
+                                </div>
                                 <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">ご住所</label>
+                                    <label className="text-[#70685a] font-bold mb-2 block text-center py-1 !mb-0">e-mail</label>
                                 </div>
-                                <div style={{ width: '75%', }} className='flex justify-end'>
-                                    <label className="w-full text-[#70685a] text-[20px]  px-4 py-2 outline-[#70685a]">{customer.address}</label>
-                                </div>
-                            </div>
-                            {/* new */}
-                            <div className='flex'>
                                 <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">e-mail</label>
-                                </div>
-                                <div style={{ width: '75%', flexDirection: 'column', }} className='flex align-center justify-around'>
                                     <label className="w-full text-[#70685a] text-[20px]  px-4 py-2 outline-[#70685a]">{customer.email}</label>
                                 </div>
                             </div>
                             {/* new */}
                             <div className='flex'>
-                                <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">ご職業</label>
+                                <div style={{ width: '20%', flexDirection: 'column', }} className='flex align-center justify-around'>
+                                    <label className="text-[#70685a] font-bold mb-2 block text-center mr-10 py-1 !mb-0">ご職業</label>
                                 </div>
                                 <div style={{ width: '75%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <label className="w-full text-[#70685a] text-[20px]  px-4 py-2 outline-[#70685a]">{customer.job}</label>
+                                    <label className="w-full text-[#70685a] text-[20px] py-2 outline-[#70685a]">{customer.job}</label>
                                 </div>
                             </div>
 
                             {/* new */}
                             <div className='flex'>
-                                <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">特記事項</label>
+                                <div style={{ width: '20%', flexDirection: 'column', }} className='flex align-center justify-around'>
+                                    <label className="text-[#70685a] font-bold mb-2 block text-center mr-10 py-1 !mb-0">特記事項</label>
                                 </div>
                                 <div style={{ width: '75%', flexDirection: 'column', }} className='flex align-center justify-around relative group mx-auto'>
-                                    <label className="w-full text-[#70685a] text-[20px]  px-4 py-2 outline-[#70685a] ellipsis">盗品持ち込みの可能性があるため要注意</label>
-                                    <div class="absolute shadow-lg hidden group-hover:block bg-[#333] text-white font-semibold px-3 py-[6px] text-[13px] right-0 left-0 mx-auto w-max -bottom-10 rounded before:w-4 before:h-4 before:rotate-45 before:bg-[#333] before:absolute before:z-[-1] before:-top-1 before:left-0  before:right-0 before:mx-auto">
-                                        盗品持ち込みの可能性があるため要注意
+                                    <label className="w-full text-[#70685a] text-[20px] py-2 outline-[#70685a] ellipsis">{customer.special_note || '盗品持ち込みの可能性があるため要注意'}</label>
+                                    <div class="absolute shadow-lg hidden group-hover:block bg-[#333] text-white font-semibold px-3 py-[6px] text-[13px] left-0 mx-auto w-max -bottom-10 rounded before:w-4 before:h-4 before:rotate-45 before:bg-[#333] before:absolute before:z-[-1] before:-top-1 before:left-0  before:right-0 before:mx-auto">
+                                        {customer.special_note || '盗品持ち込みの可能性があるため要注意'}
                                     </div>
                                 </div>
                             </div>
@@ -1770,7 +1824,7 @@ const openItemDetailShow = () => {
                             <div className=" h-full w-full">
                                 {/* Text area */}
                                     <label className="text-[#70685a] text-[20px] font-bold mb-2 block text-left mr-10 py-1 !mb-0">過去の来店履歴</label>
-                                <div className="max-h-[200px] px-3 w-full overflow-y-scroll">
+                                <div className="h-[100px] px-3 w-full overflow-y-scroll">
                                     {customerPastVisitHistory.length !== 0 ?
                                         <div style={{ width: '100%', overflow: 'auto' }} >
                                             <table className='text-center w-full' style={Table}>
@@ -1836,15 +1890,15 @@ const openItemDetailShow = () => {
                             <div className=" h-full w-full mt-5">
                                 {/* Text area */}
                                 <label className="text-[#70685a] text-[20px] font-bold mb-2 block text-left mr-10 py-1 !mb-0">全体ヒアリング</label>
-                                <div className="px-3 w-full max-h-[200px] overflow-y-scroll">
+                                <div className="px-3 w-full h-[120px] overflow-y-scroll">
                                     <div>
                                         <div className='flex'>
                                             <label className="text-[#70685a] text-[18px] mb-2 block text-left mr-10 py-1">項目1</label>
                                             <label className="text-[#70685a] text-[18px] mb-2 block text-left mr-10 py-1 !mb-0">何を見てご来店いただきましたか？</label>
                                         </div>
-                                        <div className='ml-20'>
+                                        <div className='ml-20 text-[17px]'>
                                             {/* <InputComponent value={customer.item1 || ''} name='item1' onChange={handleCustomerChange} className="w-full text-[#70685a] text-[18px] mb-2 block text-left  mr-10 py-1 !mb-0 !h-10" /> */}
-                                            <div className='flex gap-10'>
+                                            <div className='flex justify-between'>
                                                 <div className="flex items-center">
                                                     <input type="checkbox" checked={additionalCheckboxes[0]} onChange={() => handleAdditionalCheckboxChange(0)}
                                                         className="w-4 h-4 mr-3" />
@@ -1855,20 +1909,6 @@ const openItemDetailShow = () => {
                                                         className="w-4 h-4 mr-3" />
                                                     <label className="text-[#70685a]">店舗を見て</label>
                                                 </div>
-                                            </div>
-                                            <div className="flex items-center">
-                                                <input type="checkbox" checked={pairs[0].checked} onChange={() => handlePairCheckboxChange(0)}
-                                                    className="w-4 h-4 mr-3" />
-                                                <label className="text-[#70685a] mr-3"> 店舗以外の看板・広告を見て</label>
-                                                <InputComponent value={pairs[0].value} onChange={(e) => handleInputChange(0, e.target.value)} disabled={!pairs[0].checked} className="w-40 text-[#70685a] mb-2 block text-left  mr-10 py-1 !mb-0 !h-8" placeholder={'広告を見た場所'} />
-                                            </div>
-                                            <div className="flex items-center">
-                                                <input type="checkbox" checked={pairs[1].checked} onChange={() => handlePairCheckboxChange(1)}
-                                                    className="w-4 h-4 mr-3" />
-                                                <label className="text-[#70685a] mr-3">折込チラシを見て</label>
-                                                <InputComponent value={pairs[1].value} onChange={(e) => handleInputChange(1, e.target.value)} disabled={!pairs[1].checked} className="w-40 text-[#70685a] mb-2 block text-left  mr-10 py-1 !mb-0 !h-8" placeholder={'新聞銘柄'} />
-                                            </div>
-                                            <div className='flex gap-10'>
                                                 <div className="flex items-center">
                                                     <input type="checkbox" checked={additionalCheckboxes[2] || ''} onChange={() => handleAdditionalCheckboxChange(2)}
                                                         className="w-4 h-4 mr-3" />
@@ -1881,10 +1921,24 @@ const openItemDetailShow = () => {
                                                 </div>
                                             </div>
                                             <div className="flex items-center">
-                                                <input type="checkbox" checked={pairs[2].checked} onChange={() => handlePairCheckboxChange(2)}
+                                                <input type="checkbox" checked={pairs[0].checked} onChange={() => handlePairCheckboxChange(0)}
                                                     className="w-4 h-4 mr-3" />
-                                                <label className="text-[#70685a] mr-3">その他</label>
-                                                <InputComponent value={pairs[2].value} onChange={(e) => handleInputChange(2, e.target.value)} disabled={!pairs[2].checked} className="w-40 text-[#70685a] mb-2 block text-left  mr-10 py-1 !mb-0 !h-8" placeholder={'その他詳細'} />
+                                                <label className="text-[#70685a] mr-3"> 店舗以外の看板・広告を見て</label>
+                                                <InputComponent value={pairs[0].value} onChange={(e) => handleInputChange(0, e.target.value)} disabled={!pairs[0].checked} className="w-40 text-[#70685a] mb-2 block text-left  mr-10 py-1 !mb-0 !h-8" placeholder={'広告を見た場所'} />
+                                            </div>
+                                            <div className='flex gap-10'>
+                                                <div className="flex items-center">
+                                                    <input type="checkbox" checked={pairs[1].checked} onChange={() => handlePairCheckboxChange(1)}
+                                                        className="w-4 h-4 mr-3" />
+                                                    <label className="text-[#70685a] mr-3">折込チラシを見て</label>
+                                                    <InputComponent value={pairs[1].value} onChange={(e) => handleInputChange(1, e.target.value)} disabled={!pairs[1].checked} className="w-40 text-[#70685a] mb-2 block text-left  mr-10 py-1 !mb-0 !h-8" placeholder={'新聞銘柄'} />
+                                                </div>
+                                                <div className="flex items-center">
+                                                    <input type="checkbox" checked={pairs[2].checked} onChange={() => handlePairCheckboxChange(2)}
+                                                        className="w-4 h-4 mr-3" />
+                                                    <label className="text-[#70685a] mr-3">その他</label>
+                                                    <InputComponent value={pairs[2].value} onChange={(e) => handleInputChange(2, e.target.value)} disabled={!pairs[2].checked} className="w-40 text-[#70685a] mb-2 block text-left  mr-10 py-1 !mb-0 !h-8" placeholder={'その他詳細'} />
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -1893,9 +1947,9 @@ const openItemDetailShow = () => {
                                             <label className="text-[#70685a] text-[18px] mb-2 block text-left mr-10 py-1">項目2</label>
                                             <label className="text-[#70685a] text-[18px] mb-2 block text-left mr-10 py-1 !mb-0">次回お持ちいただくご予定の商品はございますか？</label>
                                         </div>
-                                        <div className=' ml-20'>
+                                        <div className=' ml-20 text-[17px]'>
                                             {/* <InputComponent value={customer.item2 || ''} name='item2' onChange={handleCustomerChange} className="w-full text-[#70685a] text-[18px] mb-2 block text-left  mr-10 py-1 !mb-0 !h-10" /> */}
-                                            <div className='flex gap-10'>
+                                            <div className='flex justify-between'>
                                                 <div className="flex items-center">
                                                     <input type="checkbox" className="w-4 h-4 mr-3" checked={additionalCheckboxes[4] || ''} onChange={() => handleAdditionalCheckboxChange(4)} />
                                                     <label className="text-[#70685a]">ダイヤモンド</label>
@@ -1908,8 +1962,6 @@ const openItemDetailShow = () => {
                                                     <input type="checkbox" className="w-4 h-4 mr-3" checked={additionalCheckboxes[6] || ''} onChange={() => handleAdditionalCheckboxChange(6)} />
                                                     <label className="text-[#70685a]">ネックレス</label>
                                                 </div>
-                                            </div>
-                                            <div className='flex gap-10'>
                                                 <div className="flex items-center">
                                                     <input type="checkbox" className="w-4 h-4 mr-3" checked={additionalCheckboxes[7] || ''} onChange={() => handleAdditionalCheckboxChange(7)} />
                                                     <label className="text-[#70685a]">指輪</label>
@@ -1923,7 +1975,7 @@ const openItemDetailShow = () => {
                                                     <label className="text-[#70685a]">ブランド品</label>
                                                 </div>
                                             </div>
-                                            <div className='flex gap-10'>
+                                            <div className='flex justify-between'>
                                                 <div className="flex items-center">
                                                     <input type="checkbox" className="w-4 h-4 mr-3" checked={additionalCheckboxes[10] || ''} onChange={() => handleAdditionalCheckboxChange(10)} />
                                                     <label className="text-[#70685a]">切手</label>
@@ -1936,8 +1988,6 @@ const openItemDetailShow = () => {
                                                     <input type="checkbox" className="w-4 h-4 mr-3" checked={additionalCheckboxes[12] || ''} onChange={() => handleAdditionalCheckboxChange(12)} />
                                                     <label className="text-[#70685a]">古銭</label>
                                                 </div>
-                                            </div>
-                                            <div className='flex gap-10'>
                                                 <div className="flex items-center">
                                                     <input type="checkbox" className="w-4 h-4 mr-3" checked={additionalCheckboxes[13] || ''} onChange={() => handleAdditionalCheckboxChange(13)} />
                                                     <label className="text-[#70685a]">金券</label>
@@ -1985,7 +2035,7 @@ const openItemDetailShow = () => {
                                         </div>
                                         <div className='ml-20  mb-10'>
                                             {/* <InputComponent value={customer.item3 || ''} name='item3' onChange={handleCustomerChange} className="w-full text-[#70685a] text-[18px] mb-2 block text-left  mr-10 py-1 !mb-0 !h-10" /> */}
-                                            <div className='flex gap-10'>
+                                            <div className='flex gap-10 text-[17px]'>
                                                 <div className="flex items-center">
                                                     <input type="checkbox" className="w-4 h-4 mr-3" checked={additionalCheckboxes[20] || ''} onChange={() => handleAdditionalCheckboxChange(20)} />
                                                     <label className="text-[#70685a]">可</label>
@@ -2283,137 +2333,150 @@ const openItemDetailShow = () => {
                                     </div>
                                 </td>
                             </tr>
-                            {totalSalesSlipData?.length > 0 && totalSalesSlipData.map((salesData, Index) => (
-                                <tr key={Index} >
-                                    <td><input type='checkbox' name='checkbox1'  className='!h-6'/></td>
-                                    <td style={Td}>{salesData.id || ''}</td>
-                                    <td style={Td} >{salesData.product_type_one}</td>
-                                    {isshow ? <td style={Td} >{salesData.product_type_two || ''}</td> : <td style={{ display: 'none' }}></td>}
-                                    {isshow ? <td style={Td} >{salesData.product_type_three || ''}</td> : <td style={{ display: 'none' }}></td>}
-                                    {isshow ? <td style={Td} >{salesData.product_type_four || ''}</td> : <td style={{ display: 'none' }}></td>}
-                                    <td style={Td}>
-                                        {salesData.product_photo != '' ? <ButtonComponent onClick={() => openProductImageModal(salesData.product_photo)} children="写真" name='photo' className='w-max !px-5 rounded-lg border border-[#70685a]' style={{ backgroundColor: '#ebe5e1', color: '#626373' }} /> : 'ファイルなし'}
-                                    </td>
-                                    <td style={Td1} onClick={() => handleProductClick(Index)}
-                                        onMouseOver={() => handleMouseOver(Index)}
-                                        onMouseOut={() => handleMouseOut(Index)}>
-                                        {salesData.product_name || ''}
-                                        <div
-                                            id={`tooltip-${Index}`}
-                                            style={{
-                                                display: 'none',
-                                                position: 'absolute',
-                                                bottom: '20px',
-                                                right: '10px',
-                                                backgroundColor: 'white',
-                                                border: '2px solid #524c3b',
-                                                padding: '10px',
-                                                borderRadius: '5px',
-                                                zIndex:'100'
-                                            }}
-                                            className="text-pre-wrap"
-                                        >
-                                            {salesData.comment &&
-                                                <div className="my-6">
-                                                    <div>
-                                                        <div className='flex w-full'>
-                                                            <div className='w-max flex flex-col justify-center'>
-                                                                <label className='text-[#70685a] text-[15px]'>1. どなたが購入されたものですか？{salesData.comment.question1 || ''}</label>
+                            {totalSalesSlipData?.length > 0 && totalSalesSlipData.map((salesData, Index) => {
+                                const priceData = preciousMetalData.find(price => price.name === salesData.gold_type);
+                                return (
+                                    <tr key={Index} >
+                                        <td><input type='checkbox' name='checkbox1'  className='!h-6'/></td>
+                                        <td style={Td}>{salesData.id || ''}</td>
+                                        <td style={Td} >{salesData.product_type_one}</td>
+                                        {isshow ? <td style={Td} >{salesData.product_type_two || ''}</td> : <td style={{ display: 'none' }}></td>}
+                                        {isshow ? <td style={Td} >{salesData.product_type_three || ''}</td> : <td style={{ display: 'none' }}></td>}
+                                        {isshow ? <td style={Td} >{salesData.product_type_four || ''}</td> : <td style={{ display: 'none' }}></td>}
+                                        <td style={Td}>
+                                            {salesData.product_photo != '' ? <ButtonComponent onClick={() => openProductImageModal(salesData.product_photo)} children="写真" name='photo' className='w-max !px-5 rounded-lg border border-[#70685a]' style={{ backgroundColor: '#ebe5e1', color: '#626373' }} /> : 'ファイルなし'}
+                                        </td>
+                                        <td style={Td1} onClick={() => handleProductClick(Index)}
+                                            onMouseOver={() => handleMouseOver(Index)}
+                                            onMouseOut={() => handleMouseOut(Index)}>
+                                            {salesData.product_name || ''}
+                                            <div
+                                                id={`tooltip-${Index}`}
+                                                style={{
+                                                    display: 'none',
+                                                    position: 'absolute',
+                                                    bottom: '20px',
+                                                    right: '10px',
+                                                    backgroundColor: 'white',
+                                                    border: '2px solid #524c3b',
+                                                    padding: '10px',
+                                                    borderRadius: '5px',
+                                                    zIndex:'100'
+                                                }}
+                                                className="text-pre-wrap"
+                                            >
+                                                {salesData.comment &&
+                                                    <div className="my-6">
+                                                        <div>
+                                                            <div className='flex w-full'>
+                                                                <div className='w-max flex flex-col justify-center'>
+                                                                    <label className='text-[#70685a] text-[15px]'>1. どなたが購入されたものですか？{salesData.comment.question1 || ''}</label>
+                                                                </div>
                                                             </div>
+                                                            {salesData.comment.comment1 || ''}
                                                         </div>
-                                                        {salesData.comment.comment1 || ''}
-                                                    </div>
-                                                    <div>
-                                                        <div className='flex w-full mt-1'>
-                                                            <div className='w-max flex flex-col justify-center'>
-                                                                <label className='text-[#70685a] text-[15px]'>2. どこで購入されましたか？{salesData.comment.question2 || ''}</label>
+                                                        <div>
+                                                            <div className='flex w-full mt-1'>
+                                                                <div className='w-max flex flex-col justify-center'>
+                                                                    <label className='text-[#70685a] text-[15px]'>2. どこで購入されましたか？{salesData.comment.question2 || ''}</label>
+                                                                </div>
                                                             </div>
+                                                            {salesData.comment.comment2 || ''}
                                                         </div>
-                                                        {salesData.comment.comment2 || ''}
-                                                    </div>
-                                                    <div>
-                                                        <div className='flex w-full mt-1'>
-                                                            <div className='w-max flex flex-col justify-center'>
-                                                                <label className='text-[#70685a] text-[15px]'>3. いつ頃購入されましたか？ {salesData.comment.buyyear || ''}年 {salesData.comment.buymonth || ''}月</label>
+                                                        <div>
+                                                            <div className='flex w-full mt-1'>
+                                                                <div className='w-max flex flex-col justify-center'>
+                                                                    <label className='text-[#70685a] text-[15px]'>3. いつ頃購入されましたか？ {salesData.comment.buyyear || ''}年 {salesData.comment.buymonth || ''}月</label>
+                                                                </div>
                                                             </div>
+                                                            {salesData.comment.comment3 || ''}
                                                         </div>
-                                                        {salesData.comment.comment3 || ''}
-                                                    </div>
-                                                    <div>
-                                                        <div className='flex w-full mt-1'>
-                                                            <div className='w-max flex flex-col justify-center'>
-                                                                <label className='text-[#70685a] text-[15px]'>4. もうお使いになられない予定ですか？ {salesData.comment.question4 || ''}</label>
+                                                        <div>
+                                                            <div className='flex w-full mt-1'>
+                                                                <div className='w-max flex flex-col justify-center'>
+                                                                    <label className='text-[#70685a] text-[15px]'>4. もうお使いになられない予定ですか？ {salesData.comment.question4 || ''}</label>
+                                                                </div>
                                                             </div>
+                                                            {salesData.comment.comment4 || ''}
                                                         </div>
-                                                        {salesData.comment.comment4 || ''}
                                                     </div>
-                                                </div>
-                                            }
-                                            <div className="text-center">
-                                                <div className='flex justify-center w-full'>
-                                                    {!salesData.product_photo ? "" : <img src={`${wakabaBaseUrl}/uploads/product/${salesData.product_photo}`} alt="Image Preview" className='h-[100px] p-1 rounded-lg' />}
+                                                }
+                                                <div className="text-center">
+                                                    <div className='flex justify-center w-full'>
+                                                        {!salesData.product_photo ? "" : <img src={`${wakabaBaseUrl}/uploads/product/${salesData.product_photo}`} alt="Image Preview" className='h-[100px] p-1 rounded-lg' />}
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </td>
-                                    {isDetailShow ? <td style={Td} >{salesData.gold_type || ''}</td> : <td style={{ display: 'none' }}></td>}
-                                    {isDetailShow ? <td style={Td} >{salesData.gross_weight || ''}</td> : <td style={{ display: 'none' }}></td>}
-                                    {isDetailShow ? <td style={Td} >{salesData.price_gram || ''}</td> : <td style={{ display: 'none' }}></td>}
-                                    {isDetailShow ? <td style={Td} >{salesData.model_number_one || ''}</td> : <td style={{ display: 'none' }}></td>}
-                                    {isDetailShow ? <td style={Td} >{salesData.action_type || ''}</td> : <td style={{ display: 'none' }}></td>}
-                                    {isDetailShow ? <td style={Td} >{salesData.movable || ''}</td> : <td style={{ display: 'none' }}></td>}
-                                    {isDetailShow ? <td style={Td} >{salesData.tester || ''}</td> : <td style={{ display: 'none' }}></td>}
-                                    {isDetailShow ? <td style={Td} >{salesData.box_guarantee || ''}</td> : <td style={{ display: 'none' }}></td>}
-                                    {isDetailShow ? <td style={Td} >{salesData.rank || ''}</td> : <td style={{ display: 'none' }}></td>}
-                                    {isDetailShow ? <td style={Td} >{salesData.brand || ''}</td> : <td style={{ display: 'none' }}></td>}
-                                    {isDetailShow ? <td style={Td} >{salesData.capacity || ''}</td> : <td style={{ display: 'none' }}></td>}
-                                    {isDetailShow ? <td style={Td} >{salesData.percent || ''}</td> : <td style={{ display: 'none' }}></td>}
-                                    {isDetailShow ? <td style={Td} >{salesData.notes || ''}</td> : <td style={{ display: 'none' }}></td>}
-                                    <td style={Td}> {salesData.quantity || ''} </td>
-                                    <td style={Td}> {salesData.reason_application || ''} </td>
-                                    <td style={Td}> {salesData.interest_rate || ''} </td>
-                                    <td style={Td}>{salesData.purchase_price || ''}</td>
-                                    <td style={Td}>{salesData.supervisor_direction || ''}</td>
-                                    <td style={Td}> {salesData.highest_estimate_vendor || ''} </td>
-                                    <td style={Td}> {salesData.highest_estimate_price || ''} </td>
-                                    <td style={Td}>
-
+                                        </td>
+                                        {isDetailShow ? <td style={Td} >
                                         <div className="relative w-max group mx-auto">
-                                            <button type="button" onClick={() => openEstimate(Index)}
-                                                className="px-3 py-1 rounded text-[#626373] tracking-wider font-semibold border border-[#70685a] bg-[#ebe5e1]">
-                                                {salesData.number_of_vendor || '0'}
-                                            </button>
-                                            <div className="absolute shadow-lg hidden group-hover:block bg-[#fff] text-[#626373] font-semibold px-3 py-2 text-[15px] right-full mr-3 top-0 bottom-0 my-auto h-max w-max rounded before:w-4 before:h-4 before:rotate-45 before:bg-[#333] before:absolute before:z-[-1] before:bottom-0 before:top-0 before:my-auto before:-right-1 before:mx-auto">
-                                                {allVendors.map((vendor, index) => (
-                                                    salesData.estimate_wholesaler[vendor.vendor_name] && 
-                                                    <div key={index} className='flex justify-between'>
-                                                        <p>{vendor.vendor_name}:</p>
-                                                        <p className='pl-3'>{salesData.estimate_wholesaler[vendor.vendor_name] || ''}</p>
+                                                <div
+                                                        className="px-6 py-2.5 rounded text-[#70685a] text-sm tracking-wider font-semibold border-none outline-none">{salesData.gold_type || ''}</div>
+                                                    <div
+                                                        className="absolute shadow-lg hidden group-hover:block bg-[#fff] text-[#70685a] font-semibold px-3 py-2 text-[13px] left-full ml-3 top-0 bottom-0 my-auto h-max w-max rounded before:w-4 before:h-4 before:rotate-45 before:bg-[#333] before:absolute before:z-[-1] before:bottom-0 before:top-0 before:my-auto before:-left-1 before:mx-auto">
+                                                    {priceData ? `Retanaka: ${priceData.name}, Price: $${priceData.price}` : 'Price not available'}
                                                     </div>
-                                                ))}
-                                            </div>
-                                        </div>
-                                    </td>
-                                    {isvendorshow && allVendors.map((vendor, index) => (
-                                        <td key={index} style={Td}> {salesData.estimate_wholesaler[vendor.vendor_name] || ''} </td>
-                                    ))}
-                                    <td style={Td}>{salesData.purchase_result || ''}</td>
-                                    {(salesData.product_status === '査定中' || salesData.product_status === 'お預かり') && 
-                                        <td className='w-8 bg-transparent'>
-                                            <div onClick={() => editSalesItem(Index)} className='w-7 ml-2'>
-                                                <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium  MuiSvgIcon-root MuiSvgIcon-fontSizeLarge  css-1hkft75" fill='#524c3b' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="EditCalendarOutlinedIcon" title="EditCalendarOutlined"><path d="M5 10h14v2h2V6c0-1.1-.9-2-2-2h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h7v-2H5zm0-4h14v2H5zm17.84 10.28-.71.71-2.12-2.12.71-.71c.39-.39 1.02-.39 1.41 0l.71.71c.39.39.39 1.02 0 1.41m-3.54-.7 2.12 2.12-5.3 5.3H14v-2.12z"></path></svg>
+                                                </div>
+                                            </td>
+                                         : <td style={{ display: 'none' }}></td>}
+                                        {isDetailShow ? <td style={Td} >{salesData.gross_weight || ''}</td> : <td style={{ display: 'none' }}></td>}
+                                        {isDetailShow ? <td style={Td} >{salesData.price_gram || ''}</td> : <td style={{ display: 'none' }}></td>}
+                                        {isDetailShow ? <td style={Td} >{salesData.model_number_one || ''}</td> : <td style={{ display: 'none' }}></td>}
+                                        {isDetailShow ? <td style={Td} >{salesData.action_type || ''}</td> : <td style={{ display: 'none' }}></td>}
+                                        {isDetailShow ? <td style={Td} >{salesData.movable || ''}</td> : <td style={{ display: 'none' }}></td>}
+                                        {isDetailShow ? <td style={Td} >{salesData.tester || ''}</td> : <td style={{ display: 'none' }}></td>}
+                                        {isDetailShow ? <td style={Td} >{salesData.box_guarantee || ''}</td> : <td style={{ display: 'none' }}></td>}
+                                        {isDetailShow ? <td style={Td} >{salesData.rank || ''}</td> : <td style={{ display: 'none' }}></td>}
+                                        {isDetailShow ? <td style={Td} >{salesData.brand || ''}</td> : <td style={{ display: 'none' }}></td>}
+                                        {isDetailShow ? <td style={Td} >{salesData.capacity || ''}</td> : <td style={{ display: 'none' }}></td>}
+                                        {isDetailShow ? <td style={Td} >{salesData.percent || ''}</td> : <td style={{ display: 'none' }}></td>}
+                                        {isDetailShow ? <td style={Td} >{salesData.notes || ''}</td> : <td style={{ display: 'none' }}></td>}
+                                        <td style={Td}> {salesData.quantity || ''} </td>
+                                        <td style={Td}> {salesData.reason_application || ''} </td>
+                                        <td style={Td}> {salesData.interest_rate || ''} </td>
+                                        <td style={Td}>{salesData.purchase_price || ''}</td>
+                                        <td style={Td}>{salesData.supervisor_direction || ''}</td>
+                                        <td style={Td}> {salesData.highest_estimate_vendor || ''} </td>
+                                        <td style={Td}> {salesData.highest_estimate_price || ''} </td>
+                                        <td style={Td}>
+
+                                            <div className="relative w-max group mx-auto">
+                                                <button type="button" onClick={() => openEstimate(Index)}
+                                                    className="px-3 py-1 rounded text-[#626373] tracking-wider font-semibold border border-[#70685a] bg-[#ebe5e1]">
+                                                    {salesData.number_of_vendor || '0'}
+                                                </button>
+                                                <div className="absolute shadow-lg hidden group-hover:block bg-[#fff] text-[#626373] font-semibold px-3 py-2 text-[15px] right-full mr-3 top-0 bottom-0 my-auto h-max w-max rounded before:w-4 before:h-4 before:rotate-45 before:bg-[#333] before:absolute before:z-[-1] before:bottom-0 before:top-0 before:my-auto before:-right-1 before:mx-auto">
+                                                    {allVendors.map((vendor, index) => (
+                                                        salesData.estimate_wholesaler[vendor.vendor_name] && 
+                                                        <div key={index} className='flex justify-between'>
+                                                            <p>{vendor.vendor_name}:</p>
+                                                            <p className='pl-3'>{salesData.estimate_wholesaler[vendor.vendor_name] || ''}</p>
+                                                        </div>
+                                                    ))}
+                                                </div>
                                             </div>
                                         </td>
-                                    }
-                                    {(salesData.product_status === '査定中' || salesData.product_status === 'お預かり') && 
-                                        <td className='w-8 bg-transparent'>
-                                            <div onClick={() => removeSalesItem(salesData.id)} className='w-7 ml-2'>
-                                                <svg focusable="false" aria-hidden="true" viewBox="0 0 23 23" fill='#524c3b' data-testid="CancelOutlinedIcon" title="CancelOutlined"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8m3.59-13L12 10.59 8.41 7 7 8.41 10.59 12 7 15.59 8.41 17 12 13.41 15.59 17 17 15.59 13.41 12 17 8.41z"></path></svg>
-                                            </div>
-                                        </td>
-                                    }
-                                </tr>
-                            ))}
+                                        {isvendorshow && allVendors.map((vendor, index) => (
+                                            <td key={index} style={Td}> {salesData.estimate_wholesaler[vendor.vendor_name] || ''} </td>
+                                        ))}
+                                        <td style={Td}>{salesData.purchase_result || ''}</td>
+                                        {(salesData.product_status === '査定中' || salesData.product_status === 'お預かり') && 
+                                            <td className='w-8 bg-transparent'>
+                                                <div onClick={() => editSalesItem(Index)} className='w-7 ml-2'>
+                                                    <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium  MuiSvgIcon-root MuiSvgIcon-fontSizeLarge  css-1hkft75" fill='#524c3b' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="EditCalendarOutlinedIcon" title="EditCalendarOutlined"><path d="M5 10h14v2h2V6c0-1.1-.9-2-2-2h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h7v-2H5zm0-4h14v2H5zm17.84 10.28-.71.71-2.12-2.12.71-.71c.39-.39 1.02-.39 1.41 0l.71.71c.39.39.39 1.02 0 1.41m-3.54-.7 2.12 2.12-5.3 5.3H14v-2.12z"></path></svg>
+                                                </div>
+                                            </td>
+                                        }
+                                        {(salesData.product_status === '査定中' || salesData.product_status === 'お預かり') && 
+                                            <td className='w-8 bg-transparent'>
+                                                <div onClick={() => removeSalesItem(salesData.id)} className='w-7 ml-2'>
+                                                    <svg focusable="false" aria-hidden="true" viewBox="0 0 23 23" fill='#524c3b' data-testid="CancelOutlinedIcon" title="CancelOutlined"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8m3.59-13L12 10.59 8.41 7 7 8.41 10.59 12 7 15.59 8.41 17 12 13.41 15.59 17 17 15.59 13.41 12 17 8.41z"></path></svg>
+                                                </div>
+                                            </td>
+                                        }
+                                    </tr>
+                                )
+                            })}
                         </tbody>
 
                     </table>
@@ -2828,7 +2891,15 @@ const openItemDetailShow = () => {
                 <div className="h-40 flex flex-col bg-gray-50 p-4 rounded-lg mt-4">
                     <div style={{ flexDirection: 'column', }} className='flex h-full felx-col justify-center'>
                         <div className='flex justify-center w-full'>
-                            {itemsImagePreview == `${wakabaBaseUrl}/uploads/product/` ? "" : <img src={itemsImagePreview} alt="Image Preview" className='h-[100px] p-1 rounded-lg' />}
+                            {totalSalesSlipData?.length > 0 && totalSalesSlipData[0].entire_items_url === '' ? (
+                                ""
+                                ) : (
+                                <img 
+                                    src={itemsImagePreview} 
+                                    alt={itemsImagePreview} 
+                                    className='h-[100px] p-1 rounded-lg' 
+                                />
+                            )}
                         </div>
 
                     </div>
@@ -2879,7 +2950,15 @@ const openItemDetailShow = () => {
                 <div className="h-40 flex flex-col bg-gray-50 p-4 rounded-lg mt-4">
                     <div style={{ flexDirection: 'column', }} className='flex h-full felx-col justify-center'>
                         <div className='flex justify-center w-full'>
-                            {itemsImageDocPreview == `${wakabaBaseUrl}/uploads/product/` ? "" : <img src={itemsImageDocPreview} alt="Image Preview" className='h-[100px] p-1 rounded-lg' />}
+                            {totalSalesSlipData?.length > 0 && totalSalesSlipData[0].document_url === '' ? (
+                                ""
+                                ) : (
+                                <img 
+                                    src={itemsImageDocPreview} 
+                                    alt={itemsImageDocPreview} 
+                                    className='h-[100px] p-1 rounded-lg' 
+                                />
+                            )}
                         </div>
 
                     </div>

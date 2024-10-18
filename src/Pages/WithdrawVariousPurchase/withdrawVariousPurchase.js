@@ -16,6 +16,7 @@ export default function WithdrawVariousPurchase() {
 
     const data = useSelector(state => state.data);
     const totalData = data.data;
+    // console.log('totalData',totalData)
 
     const userStoreName = localStorage.getItem('storename');
     const userId = localStorage.getItem('userId');
@@ -143,6 +144,38 @@ export default function WithdrawVariousPurchase() {
 
     const [messages, setMessages] = useState([]);
     
+    const [tempContent1, setTempContent1] = useState({
+        time: '',
+        title: '',
+        content:'',
+        senderId:userId,
+        receiver:'',
+        id:'',
+    });
+    const [tempContent2, setTempContent2] = useState({
+        time: '',
+        title: '',
+        content:'',
+        senderId:userId,
+        receiver:'',
+        id:'',
+    });
+    const [tempContent3, setTempContent3] = useState({
+        time: '',
+        title: '',
+        content:'',
+        senderId:userId,
+        receiver:'',
+        id:'',
+    });
+    const [tempContent4, setTempContent4] = useState({
+        time: '',
+        title: '',
+        content:'',
+        senderId:userId,
+        receiver:'',
+        id:'',
+    });
     //fetch message data related user
     const fetchMessages = async (id) => {
         const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
@@ -152,34 +185,44 @@ export default function WithdrawVariousPurchase() {
   
         const userId = localStorage.getItem('userId');
         const invoiceId = id;
-        axios.post(`${wakabaBaseUrl}/withdrawalvariouspurchasemessages`,{userId:userId,invoiceId:invoiceId})
+        await axios.post(`${wakabaBaseUrl}/withdrawalvariouspurchasemessages`,{userId:userId,invoiceId:invoiceId})
           .then(response => {
-            setMessages(response.data);
+            // console.log('afsafsff',response.data)
+            const itemA = response.data.find(item => item.title === '今日全て売るつもり?');
+            const itemB = response.data.find(item => item.title === '他店へ持ち込んでいる?');
+            const itemC = response.data.find(item => item.title === 'どこのお店?');
+            const itemD = response.data.find(item => item.title === '査定額は?');
+            // console.log('afsafsff------',itemA,itemB,itemC,itemD)
+            if(itemA) setTempContent1(itemA);
+            if(itemB) setTempContent2(itemB);
+            if(itemC) setTempContent3(itemC);
+            if(itemD) setTempContent4(itemD);
+
+              // Titles to exclude
+            const titlesToExclude = [
+                '今日全て売るつもり?',
+                '他店へ持ち込んでいる?',
+                'どこのお店?',
+                '査定額は?',
+            ];
+
+            // Filter out items with the specified titles
+            const filteredData = response.data.filter(item => !titlesToExclude.includes(item.title));
+            setMessages(filteredData);
           })
           .catch(error => {
             console.error("There was an error fetching the customer data!", error);
           });
     };
-
-    useEffect(() => {
-        if (totalData?.length>0 ) {
-            fetchMessages(totalData[0].id);
-        } else {
-            setMessages([]);
-        }
-      // Set up polling
-      // const intervalId = setInterval(() => {
-      //   fetchMessages();
-      // }, 1000); // Poll every 1 seconds
-  
-      // // Clean up on unmount
-      // return () => clearInterval(intervalId);
-    }, [totalData]);
     
+    useEffect(() => {
+        fetchMessages(totalData);
+    }, []);
     // send message and file to other user 
     const sendWithdrawalVariousPurchaseMessage = async () => {
         // console.log('sendtododata', reply);
-        if (totalData?.length>0 && reply.title != '' && reply.content != '' && reply.senderId != '' && reply.receiverId != '') {
+        //console.log('hey1',reply)
+        if ( reply.title != '' && reply.content != '') {
             const formData = new FormData();
             if(messages?.length>0) {
                 if(reply.parentMessageId !== '' && messages[0].permission === '1') {
@@ -190,13 +233,15 @@ export default function WithdrawVariousPurchase() {
                     formData.append('read', '0');
                 }
             }
-            if(totalData[0].id === undefined) return;
-            formData.append('invoice_id', totalData[0].id);
+            //console.log('hey2')
+            if(totalData === undefined) return;
+            //console.log('hey3')
+            formData.append('invoice_id', totalData);
             formData.append('store_name', userStoreName);
             formData.append('time', reply.time);
             formData.append('title', reply.title);
             formData.append('content', reply.content);
-            formData.append('senderId', reply.senderId);
+            formData.append('senderId', userId);
             formData.append('receiverId', reply.receiverId);
             formData.append('parentMessageId', reply.parentMessageId || '');
 
@@ -216,7 +261,7 @@ export default function WithdrawVariousPurchase() {
                     }
                 }).then(response => {
                     // console.log('get data',response.data)
-                    fetchMessages(totalData[0].id);
+                    fetchMessages(totalData);
                     setQuery('');
                     setReply({
                         time: currentDateTime,
@@ -257,15 +302,15 @@ export default function WithdrawVariousPurchase() {
         }
 
         setReply({ parentMessageId: data1, senderId: data2, receiverId: data3 ,time:currentDateTime})
-        console.log('Data received from child++++++++:', data1, data2, data3, userId);
+        // console.log('Data received from child++++++++:', data1, data2, data3, userId);
     };
     const handleDataFromChildAccordion1 = (data) => {
-        fetchMessages();
-        console.log('received data from permission',data)
+        fetchMessages(totalData);
+        // console.log('received data from permission',data)
     };
     const handleDataFromChildAccordion2 = (data) => {
-        fetchMessages();
-        console.log('received data from complete',data)
+        fetchMessages(totalData);
+        // console.log('received data from complete',data)
     };
     // New post
     const newPost = () => {
@@ -280,7 +325,40 @@ export default function WithdrawVariousPurchase() {
             parentId: null
         });
     }
+    //-------
+    const template1 = [
+        {   id:'1',
+            time: tempContent1.time,
+            title: '今日全て売るつもり?',
+            content:tempContent1.content,
+            senderId:tempContent1.senderId,
+            receiver:'',
+        },
+        {   id:'2',
+            time: tempContent2.time,
+            title: '他店へ持ち込んでいる?',
+            content:tempContent2.content,
+            senderId:tempContent2.senderId,
+            receiver:'',
+        },
+      ];
 
+    const template2 = [
+        {   id:'1',
+            time: tempContent3.time,
+            title:'どこのお店？',
+            content:tempContent3.content,
+            senderId:tempContent3.senderId,
+            receiver:'',
+        },
+        {   id:'2',
+            time: tempContent4.time,
+            title:'査定額は？',
+            content:tempContent4.content,
+            senderId:tempContent4.senderId,
+            receiver:'',
+        },
+    ];
     return (
         <>
             <div className=" flex flex-col items-center justify-center py-3">
@@ -290,7 +368,7 @@ export default function WithdrawVariousPurchase() {
                         <div className='w-full h-[400px]'>
                             <WithdrawalVariousPurchaseAccordion onSendIdData={handleDataFromChildAccordion}
                                 onSendIdData1={handleDataFromChildAccordion1} onSendIdData2={handleDataFromChildAccordion2}
-                                messages={messages}/>
+                                messages={messages} messages1={template1} messages2={template2} invoiceID={totalData}/>
                         </div>
                     </div>
                     {/* new post */}
@@ -355,15 +433,6 @@ export default function WithdrawVariousPurchase() {
                                         </ul>
                                     )}
                                 </div>
-                                <div className='flex justify-end mr-10 ml-10 mt-3'>
-                                    <LabelComponent value={'様'} style={{ marginTop: '5px', marginLeft: '15px' }} />
-                                    <InputComponent style={{ height: '40px' }} className='w-[150px]' />
-                                </div>
-                                <div className='flex justify-end mt-3'>
-                                    <LabelComponent value={'総額'} style={{ marginTop: '5px', marginLeft: '15px' }} />
-                                    <InputComponent style={{ height: '40px' }} className='w-40' />
-                                    <LabelComponent value={'円'} style={{ marginTop: '5px', marginLeft: '15px' }} />
-                                </div>
                             </div>
                             {/* secondline */}
                             <div className='new-post-operation-second flex !mt-2' style={{ height: '40px' }}>
@@ -408,7 +477,7 @@ export default function WithdrawVariousPurchase() {
 
                                 </div>
                                 <div className='ml-10 flex flex-col justify-center'>
-                                    < button type="button" onClick={() => sendWithdrawalVariousPurchaseMessage()} className=" w-max px-10 py-1 font-blod rounded-lg justify-center text-[#70685a] text-[18px] bg-[#ebe6e0] hover:bg-blue-700 focus:outline-none">
+                                    < button type="button" onClick={sendWithdrawalVariousPurchaseMessage} className=" w-max px-10 py-1 font-blod rounded-lg justify-center text-[#70685a] text-[18px] bg-[#ebe6e0] hover:bg-blue-700 focus:outline-none">
                                         送信
                                     </button>
                                 </div>

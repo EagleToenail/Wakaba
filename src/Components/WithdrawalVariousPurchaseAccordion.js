@@ -2,8 +2,10 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios'; // or use fetch
 import WithdrawalVariousPurchaseAccordionItem from './WithdrawalVariousPurchaseAccordionItem';
+import WithdrawalVariousPurchaseAccordionItem1 from './WithdrawalVariousPurchaseAccordionItem1';
+import WithdrawalVariousPurchaseAccordionItem2 from './WithdrawalVariousPurchaseAccordionItem2';
 
-const WithdrawalVariousPurchaseAccordion = ({ onSendIdData,onSendIdData1,onSendIdData2,messages}) => {
+const WithdrawalVariousPurchaseAccordion = ({ onSendIdData,onSendIdData1,onSendIdData2,messages,messages1,messages2,invoiceID}) => {
 
   const userStoreName = localStorage.getItem('storename');
 
@@ -63,10 +65,44 @@ const WithdrawalVariousPurchaseAccordion = ({ onSendIdData,onSendIdData1,onSendI
     ));
   };
 
+  const renderMessages1 = (messages1) => {
+    return messages1.map(message => (
+      <WithdrawalVariousPurchaseAccordionItem1
+        key={message.id}
+        messageId={message.id}
+        time={message.time}
+        title={message.title || 'Message'}
+        content={message.content}
+        sender={message.senderId}
+        receiver={message.receiverId}
+        users={users}
+        invoiceID={invoiceID}
+      />
+    ));
+  };
+  const renderMessages2 = (messages2) => {
+    return messages2.map(message => (
+      <WithdrawalVariousPurchaseAccordionItem2
+        key={message.id}
+        messageId={message.id}
+        time={message.time}
+        title={message.title || 'Message'}
+        content={message.content}
+        sender={message.senderId}
+        receiver={message.receiverId}
+        users={users}
+        invoiceID={invoiceID}
+      />
+    ));
+  };
+
+
   return (
     <div className='h-full overflow-auto'>
       <h2 className="text-[#70685a] text-center text-2xl font-bold flex justify-center !mt-0">様々な購入のための引き出し</h2>
       <h2 className="text-[#70685a] text-center text-2xl font-bold flex justify-center !mt-0">メッセージ</h2>
+      {renderMessages1(messages1)}
+      {renderMessages2(messages2)}
       {renderMessages(messages)}
     </div>
   );

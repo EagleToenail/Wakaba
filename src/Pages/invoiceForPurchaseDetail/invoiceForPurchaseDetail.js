@@ -25,17 +25,19 @@ const InvoicePurchaseOfDetail = () => {
     // const title = 'タイトルタイトル';
     const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
 
+    const now = new Date();
+    // Format the date as YYYY-MM-DD
+    const optionsDate = { year: 'numeric', month: '2-digit', day: '2-digit', timeZone: 'Asia/Tokyo' };
+    const formattedDate = new Intl.DateTimeFormat('ja-JP', optionsDate).format(now).replace(/\//g, '-');
+    // Split the formatted date to get year and month
+    const [currentyear, currentmonth,currentday] = formattedDate.split('-').map(part => part.trim());
+    const currentDay = new Intl.DateTimeFormat('ja-JP', optionsDate).format(now).replace(/\//g, '-');
+
     const navigate = useNavigate();
 
     // Fetch customer data
     const { invoiceid } = useParams();
     const [id,setId] = useState('');
-    const now = new Date();
-
-    // Format the date as YYYY-MM-DD
-    const optionsDate = { year: 'numeric', month: '2-digit', day: '2-digit', timeZone: 'Asia/Tokyo' };
-    const currentDay = new Intl.DateTimeFormat('ja-JP', optionsDate).format(now).replace(/\//g, '-');
-
     //send data using redux
     const dispatch = useDispatch();
 
@@ -204,6 +206,8 @@ const fetchInvoiceHistoryData = async () => {
         item1: '',
         item2: '',
         item3: '',
+        item4: '',
+        item5: '',
         line_friend: '',
         google_review: '',
         novelty_item: '',
@@ -214,7 +218,6 @@ const fetchInvoiceHistoryData = async () => {
 
     //fetch customer data
     const fetchCustomerData = async (customerId) => {
-        console.log('----fetchcustomer1')
         if (!wakabaBaseUrl) {
             throw new Error('API base URL is not defined');
         }
@@ -322,14 +325,6 @@ const fetchInvoiceHistoryData = async () => {
                 purchase_staff:totalSalesSlipData[0].purchase_staff,
                 payment_staff:totalSalesSlipData[0].payment_staff,
             });
-        }
-    }, [totalSalesSlipData]);
-    // calculate the invoice number
-    const [invoiceNumber,setInvoiceNumber] = useState('0');
-    useEffect(() => {
-        if(totalSalesSlipData?.length >0) {
-            setInvoiceNumber(totalSalesSlipData[0].id)
-            // console.log('hhh',totalSalesSlipData[0])
         }
     }, [totalSalesSlipData]);
 
@@ -628,7 +623,6 @@ const fetchInvoiceHistoryData = async () => {
         setEditIndex(index);
         setSalesSlipData(totalSalesSlipData[index]); // Populate the input fields with the selected row's data
         setEstimateValues(totalSalesSlipData[index].estimate_wholesaler);
-        console.log('l-------',totalSalesSlipData[index])
         if(totalSalesSlipData[index].product_type_one){
             const selectedResult = product1s.find(product => product.category === totalSalesSlipData[index].product_type_one);
             getVendorList(selectedResult.id);
@@ -639,33 +633,30 @@ const fetchInvoiceHistoryData = async () => {
     //Save one of tatalsalesSlipdata
     const saveSalesItem = async() => {
         setShowInputPurchase(!showInputPurchase);
-        // const updatedData = totalSalesSlipData.map((row, index) =>
-        //     index === editIndex ? { ...row, ...salesSlipData } : row
-        // );
-        // setTotalSalesSlipData(updatedData);
-        console.log('sendSalesSlipData',salesSlipData)
 
-        let maxValue = -Infinity; // Start with the smallest possible value
+        let maxValue = 0; // Start with 0
         let maxKey = ''; // To store the corresponding key
-      
+        let hasValidValue = false; // Flag to check if there's any valid value
+        
         Object.entries(estimateValues).forEach(([key, value]) => {
           let currentValue;
-      
+        
           if (value.includes('~')) {
-            // If the value is a range, take the smaller number
             const [minValue] = value.split('~').map(Number);
-            currentValue = minValue;
+            currentValue = Math.floor(minValue); // Ensure it's an integer
           } else if (value) {
-            // Convert to number and use it if it's valid
-            currentValue = Number(value);
+            currentValue = Math.floor(Number(value)); // Ensure it's an integer
           } else {
-            currentValue = -Infinity; // Non-valid value
+            currentValue = 0; // Non-valid value
           }
-      
-          // Update maxValue and maxKey if currentValue is greater
-          if (currentValue > maxValue) {
-            maxValue = currentValue;
-            maxKey = key; // Update corresponding key
+    
+          if (currentValue !== null && currentValue >= 0) {
+            hasValidValue = true; // Mark that we have a valid value
+
+            if (currentValue > maxValue) {
+              maxValue = currentValue;
+              maxKey = key; // Update corresponding key
+            }
           }
         });
         //  console.log('hightest',maxKey,maxValue)
@@ -725,7 +716,7 @@ const fetchInvoiceHistoryData = async () => {
                         }
                     }).then(response => {
                         fetchInvoiceHistoryData();
-
+                        toast.success('変更が正常に保存されました！',{ autoClose: 3000 });
                         setShowInputPurchase(false);
                         setSalesSlipData({
                             trading_date: salesSlipData.trading_date,
@@ -946,7 +937,7 @@ const fetchInvoiceHistoryData = async () => {
             if (totalSalesSlipData.length != 0 && totalSalesSlipData != null) {
                 itemsSave();
                 const purchaseData = {id,numberOfInvoice, totalSalesSlipData ,stampData};
-                console.log('send purchase data', purchaseData, id);
+                //console.log('send purchase data', purchaseData, id);
                 updateData(purchaseData);// to sign page using redux
                 navigate('/purchaseinvoiceforbroughtinitems');
             }
@@ -1058,8 +1049,8 @@ const fetchInvoiceHistoryData = async () => {
         comment1:'',
         question2:'',
         comment2:'',
-        buyyear:'',
-        buymonth:'',
+        buyyear:currentyear,
+        buymonth:currentmonth,
         comment3:'',
         question4:'',
         comment4:'',
@@ -1106,7 +1097,7 @@ const fetchInvoiceHistoryData = async () => {
         // );
         // setTotalSalesSlipData(updatedData);
         const commentData = JSON.stringify(modalValue);
-        console.log('modalValue',commentData)
+        //console.log('modalValue',commentData)
         try {
             const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
 
@@ -1114,7 +1105,7 @@ const fetchInvoiceHistoryData = async () => {
                 throw new Error('API base URL is not defined');
             }
             const payload = editRow;
-            console.log('payload',payload)
+            //console.log('payload',payload)
             await axios.post(`${wakabaBaseUrl}/purchaseinvoice/commentsave`, {payload:payload,commentData:commentData,userId:userId,userStoreName:userStoreName})
             .then(response => {
                 fetchInvoiceHistoryData();
@@ -1166,6 +1157,17 @@ const fetchInvoiceHistoryData = async () => {
                 setShowInputPurchase(false);
                 setEstimateValues({});
                 setEditIndex(-1); // Exit edit mode
+                setModalValue({
+                    question1:'',
+                    comment1:'',
+                    question2:'',
+                    comment2:'',
+                    buyyear:currentyear,
+                    buymonth:currentmonth,
+                    comment3:'',
+                    question4:'',
+                    comment4:'',
+                });
             })
             .catch(error => {
                 console.error("There was an error fetching the customer data!", error);
@@ -1286,10 +1288,10 @@ const fetchInvoiceHistoryData = async () => {
 
     //return state
     const setCheckedStatus = (item1, item2, item3, item4, item5) => {
-        console.log('item',item1)
+        //console.log('item',item1)
         if (item1) {
             const array = item1.split(',').map(Number);
-            console.log('item',array)
+           // console.log('item',array)
             setAdditionalCheckboxes(Array(22).fill(false));
             // setAdditionalCheckboxes(array.map((value) => value > 0));
             setAdditionalCheckboxes(array.fill(true));
@@ -1460,12 +1462,12 @@ const fetchInvoiceHistoryData = async () => {
         
         //setShowInputPurchase(!showInputPurchase);
         // setEditIndex(index);
-        console.log('selectedtotalSalesData',totalSalesSlipData[index])
+        //console.log('selectedtotalSalesData',totalSalesSlipData[index])
         setSalesSlipData(totalSalesSlipData[index]); // Populate the input fields with the selected row's data
         setEstimateValues(totalSalesSlipData[index].estimate_wholesaler);
         if(totalSalesSlipData[index].product_type_one){
             const selectedResult = product1s.find(product => product.category === totalSalesSlipData[index].product_type_one);
-            console.log('selectedResult',selectedResult)
+            //console.log('selectedResult',selectedResult)
             getVendorList(selectedResult.id);
         }
             
@@ -1509,7 +1511,36 @@ const handleApproveWaiting = async() => {
         console.error('Error adding row:', error);
     }
 }
-//--------------------------------------------------------------------------
+//------------------------------------precious metal--------------------------------------
+const [preciousMetalData, setPreciousMetalData] = useState([]);
+useEffect(() => {
+    const url = "https://gold.tanaka.co.jp/retanaka/price/";
+    fetch(url)
+      .then(response => response.text())
+      .then(html => {
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, "text/html");
+  
+        const priceTables = doc.querySelectorAll("table.price_table");
+        const data = [];
+  
+        priceTables.forEach(table => {
+          const rows = table.querySelectorAll("tbody tr");
+          rows.forEach(row => {
+            const cols = row.querySelectorAll("th, td");
+            if (cols.length > 1) {
+              const name = cols[0].textContent.trim();
+              const price = cols[1].textContent.trim();
+              data.push({ name, price });
+            }
+          });
+        });
+        setPreciousMetalData(data);
+        console.log('setPreciousMetalData',data)
+      })
+      .catch(error => console.log(error));
+  }, []);
+//---------------------------------------------------------------------------------------
     return (<>
         {/* <Titlebar title={title} /> */}
         <div className="bg-[trasparent] font-[sans-serif] w-full">
@@ -1523,7 +1554,7 @@ const handleApproveWaiting = async() => {
                                 <div className='w-3 h-3 bg-[#70685a]'></div>
                             </div>
                             <div className='flex flex-col justify-center ml-2'>
-                                <label className="text-[#70685a] font-bold mb-2 block text-left mr-10 !mb-0 flex">買取計算書No.{invoiceNumber || ''}</label>
+                                <label className="text-[#70685a] font-bold mb-2 block text-left mr-10 !mb-0 flex">買取計算書No.{ totalSalesSlipData?.length > 0 && totalSalesSlipData[0].invoiceID|| ''}</label>
                             </div>
 
                         </div>
@@ -1591,11 +1622,11 @@ const handleApproveWaiting = async() => {
             <div className="invoice-purchase-brought flex  justify-center ">
                 <div className="w-full flex justify-center" >
                     <div className="w-full rounded-2xl">
-                        <form className=" space-y-1">
+                    <form className=" space-y-1">
                             {/* new */}
                             <div className='flex'>
                                 <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">本人確認書類</label>
+                                    <label className="text-[#70685a] font-bold mb-2 block text-center mr-10 py-1 !mb-0">本人確認書類</label>
                                 </div>
                                 <div style={{ width: '75%', flexDirection: 'column', }} className='flex align-center justify-around'>
                                     <label className="w-full text-[#70685a] text-[20px]  px-4 py-2 outline-[#70685a]">マイナンバーカ一ド</label>
@@ -1603,95 +1634,85 @@ const handleApproveWaiting = async() => {
                             </div>
                             {/* new */}
                             <div className='flex'>
-                                <div style={{ width: '25%', flexDirection: 'column', }} className='!mb-0 flex align-center justify-around'>
-                                    <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">顧客番号</label>
+                                <div style={{ width: '20%', flexDirection: 'column', }} className='!mb-0 flex align-center justify-around'>
+                                    <label className="text-[#70685a] font-bold mb-2 block text-center mr-10 py-1 !mb-0">顧客番号</label>
                                 </div>
-                                <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
+                                <div style={{ width: '30%', flexDirection: 'column', }} className='flex align-center justify-around'>
                                     <label className="text-[#70685a] text-[20px] font-bold mb-2 block text-left mr-10 py-2 !mb-0">{customer.id || ''}</label>
                                 </div>
                                 <div style={{ width: '20%', flexDirection: 'column', }} className='flex align-center justify-around'>
                                     <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-3 !mb-0">VIP</label>
                                 </div>
-                                <div style={{ width: '20%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                </div>
                             </div>
                             {/* new */}
                             <div className='flex'>
-                                <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">お名前</label>
-                                </div>
-                                <div style={{ width: '30%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <label className="w-full text-[#70685a] text-[20px]  px-4 py-2 outline-[#70685a]">{customer.full_name || ''}</label>
-                                </div>
                                 <div style={{ width: '20%', flexDirection: 'column', }} className='flex align-center justify-around'>
+                                    <label className="text-[#70685a] font-bold mb-2 block text-center mr-10 py-1 !mb-0">お名前</label>
+                                </div>
+                                <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
+                                    <label className="w-full text-[#70685a] text-[20px]  py-2 outline-[#70685a]">{customer.full_name || ''}</label>
+                                </div>
+                                <div style={{ width: '5%', flexDirection: 'column', }} className='flex align-center justify-around'>
                                     <label className="text-[#70685a] font-bold mb-2 block text-left mr-10 py-3 !mb-0">{customer.gender || ''}</label>
                                 </div>
-                            </div>
-                            {/* new */}
-                            <div className='flex'>
                                 <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
                                     <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">カタカナ</label>
                                 </div>
-                                <div style={{ width: '75%', flexDirection: 'column', }} className='flex align-center justify-around'>
+                                <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
                                     <label className="w-full text-[#70685a] text-[20px]  px-4 py-2 outline-[#70685a]">{customer.katakana_name || ''}</label>
                                 </div>
                             </div>
                             {/* new */}
                             <div className='flex'>
-                                <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">お電話番号</label>
+                                <div style={{ width: '20%', flexDirection: 'column', }} className='flex align-center justify-around'>
+                                    <label className="text-[#70685a] font-bold mb-2 block text-center mr-10 py-1 !mb-0">お電話番号</label>
                                 </div>
-                                <div style={{ width: '75%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <label className="w-full text-[#70685a] text-[20px]  px-4 py-2 outline-[#70685a]">{customer.phone_number || ''}</label>
+                                <div style={{ width: '20%', flexDirection: 'column', }} className='flex align-center justify-around'>
+                                    <label className="w-full text-[#70685a] text-[20px] py-2 outline-[#70685a]">{customer.phone_number || ''}</label>
                                 </div>
-                            </div>
-                            {/* new */}
-                            <div className='flex'>
-                                <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <label className="text-[#70685a] font-bold mb-2 block text-right mr-11 py-1 !mb-0">生年月日</label>
+                                <div style={{ width: '20%', flexDirection: 'column', }} className='flex align-center justify-around'>
+                                    <label className="text-[#70685a] font-bold mb-2 block text-center py-1 !mb-0">生年月日</label>
                                 </div>
-                                <div style={{ width: '30%', flexDirection: 'column', }} className='flex align-center justify-around'>
+                                <div style={{ width: '20%', flexDirection: 'column', }} className='flex align-center justify-around'>
                                     <label className="w-full text-[#70685a] text-[20px]  px-4 py-2 outline-[#70685a]">{customer.birthday || ''}</label>
                                 </div>
-                                <div style={{ width: '30%', flexDirection: 'column', }} className='flex align-center justify-around'>
+                                <div style={{ width: '10%', flexDirection: 'column', }} className='flex align-center justify-around'>
                                     <label className="w-full text-[#70685a] text-[20px]  px-4 py-2 outline-[#70685a]">{customer.age || ''}才</label>
                                 </div>
                             </div>
                             {/* new */}
                             <div className='flex'>
+                                <div style={{ width: '20%', flexDirection: 'column', }} className='flex align-center justify-around'>
+                                    <label className="text-[#70685a] font-bold mb-2 block text-center mr-10 py-1 !mb-0">ご住所</label>
+                                </div>
+                                <div style={{ width: '20%', }} className='flex justify-end'>
+                                    <label className="w-full text-[#70685a] text-[20px]  py-2 outline-[#70685a]">{customer.address || ''}</label>
+                                </div>
                                 <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">ご住所</label>
+                                    <label className="text-[#70685a] font-bold mb-2 block text-center py-1 !mb-0">e-mail</label>
                                 </div>
-                                <div style={{ width: '75%', }} className='flex justify-end'>
-                                    <label className="w-full text-[#70685a] text-[20px]  px-4 py-2 outline-[#70685a]">{customer.address || ''}</label>
-                                </div>
-                            </div>
-                            {/* new */}
-                            <div className='flex'>
                                 <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">e-mail</label>
-                                </div>
-                                <div style={{ width: '75%', flexDirection: 'column', }} className='flex align-center justify-around'>
                                     <label className="w-full text-[#70685a] text-[20px]  px-4 py-2 outline-[#70685a]">{customer.email || ''}</label>
                                 </div>
                             </div>
                             {/* new */}
                             <div className='flex'>
-                                <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">ご職業</label>
+                                <div style={{ width: '20%', flexDirection: 'column', }} className='flex align-center justify-around'>
+                                    <label className="text-[#70685a] font-bold mb-2 block text-center mr-10 py-1 !mb-0">ご職業</label>
                                 </div>
                                 <div style={{ width: '75%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <label className="w-full text-[#70685a] text-[20px]  px-4 py-2 outline-[#70685a]">{customer.job || ''}</label>
+                                    <label className="w-full text-[#70685a] text-[20px] py-2 outline-[#70685a]">{customer.job || ''}</label>
                                 </div>
                             </div>
+
                             {/* new */}
                             <div className='flex'>
-                                <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">特記事項</label>
+                                <div style={{ width: '20%', flexDirection: 'column', }} className='flex align-center justify-around'>
+                                    <label className="text-[#70685a] font-bold mb-2 block text-center mr-10 py-1 !mb-0">特記事項</label>
                                 </div>
                                 <div style={{ width: '75%', flexDirection: 'column', }} className='flex align-center justify-around relative group mx-auto'>
-                                    <label className="w-full text-[#70685a] text-[20px]  px-4 py-2 outline-[#70685a] ellipsis">盗品持ち込みの可能性があるため要注意</label>
-                                    <div className="absolute shadow-lg hidden group-hover:block bg-[#333] text-white font-semibold px-3 py-[6px] text-[13px] right-0 left-0 mx-auto w-max -bottom-10 rounded before:w-4 before:h-4 before:rotate-45 before:bg-[#333] before:absolute before:z-[-1] before:-top-1 before:left-0  before:right-0 before:mx-auto">
+                                    <label className="w-full text-[#70685a] text-[20px] py-2 outline-[#70685a] ellipsis">{customer.special_note || '盗品持ち込みの可能性があるため要注意'}</label>
+                                    <div className="absolute shadow-lg hidden group-hover:block bg-[#333] text-white font-semibold px-3 py-[6px] text-[13px] left-0 mx-auto w-max -bottom-10 rounded before:w-4 before:h-4 before:rotate-45 before:bg-[#333] before:absolute before:z-[-1] before:-top-1 before:left-0  before:right-0 before:mx-auto">
                                         {customer.special_note || '盗品持ち込みの可能性があるため要注意'}
                                     </div>
                                 </div>
@@ -1706,8 +1727,8 @@ const handleApproveWaiting = async() => {
                         <div className='w-full flex justify-center'>
                             <div className=" h-full w-full">
                                 {/* Text area */}
-                                <label className="text-[#70685a] text-[20px] font-bold mb-2 block text-left mr-10 py-1 !mb-0">過去の来店履歴</label>
-                                <div className="max-h-[200px] px-3 w-full overflow-y-scroll">    
+                                    <label className="text-[#70685a] text-[20px] font-bold mb-2 block text-left mr-10 py-1 !mb-0">過去の来店履歴</label>
+                                <div className="h-[100px] px-3 w-full overflow-y-scroll">
                                     {customerPastVisitHistory.length !== 0 ?
                                         <div style={{ width: '100%', overflow: 'auto' }} >
                                             <table className='text-center w-full' style={Table}>
@@ -1719,12 +1740,12 @@ const handleApproveWaiting = async() => {
                                                         <th className='whitespace-nowrap' width='5%'></th>
                                                         <th className='whitespace-nowrap' width='5%'></th>
                                                         <th className='whitespace-nowrap' width='10%'>合計</th>
-                                                        <th className='whitespace-nowrap' width='5%'>{totalSales}</th>
-                                                        <th className='whitespace-nowrap' width='5%'>{totalGrossProfit}</th>
-                                                        <th className='whitespace-nowrap' width='5%'>{totalPurchasePrice}</th>
+                                                        <th className='whitespace-nowrap' width='5%'>{totalSales || ''}</th>
+                                                        <th className='whitespace-nowrap' width='5%'>{totalGrossProfit || ''}</th>
+                                                        <th className='whitespace-nowrap' width='5%'>{totalPurchasePrice || ''}</th>
                                                     </tr>
                                                     <tr>
-                                                        <th className='whitespace-nowrap' width='5%'>{customerPastVisitHistory.length}</th>
+                                                        <th className='whitespace-nowrap' width='5%'>{customerPastVisitHistory.length || ''}</th>
                                                         <th className='whitespace-nowrap' width='5%'>来店日</th>
                                                         <th className='whitespace-nowrap' width='5%'>適用</th>
                                                         <th className='whitespace-nowrap' width='5%'>合計金額</th>
@@ -1748,14 +1769,14 @@ const handleApproveWaiting = async() => {
                                                                     </div>
                                                                 </div>
                                                             </td>
-                                                            <td style={Td}>{pastVisit.visit_date}</td>
-                                                            <td style={Td}>{pastVisit.applicable}</td>
-                                                            <td style={Td}>{pastVisit.total_amount}</td>
-                                                            <td style={Td}>{pastVisit.category}</td>
-                                                            <td style={Td}>{pastVisit.product_name}</td>
-                                                            <td style={Td}>{pastVisit.total_sales}</td>
-                                                            <td style={Td}>{pastVisit.total_gross_profit}</td>
-                                                            <td style={Td}>{pastVisit.total_purchase_price}</td>
+                                                            <td style={Td}>{pastVisit.visit_date || ''}</td>
+                                                            <td style={Td}>{pastVisit.applicable || ''}</td>
+                                                            <td style={Td}>{pastVisit.total_amount || ''}</td>
+                                                            <td style={Td}>{pastVisit.category || ''}</td>
+                                                            <td style={Td}>{pastVisit.product_name || ''}</td>
+                                                            <td style={Td}>{pastVisit.total_sales || ''}</td>
+                                                            <td style={Td}>{pastVisit.total_gross_profit || ''}</td>
+                                                            <td style={Td}>{pastVisit.total_purchase_price || ''}</td>
                                                         </tr>
                                                     ))}
                                                 </tbody>
@@ -1773,15 +1794,15 @@ const handleApproveWaiting = async() => {
                             <div className=" h-full w-full mt-5">
                                 {/* Text area */}
                                 <label className="text-[#70685a] text-[20px] font-bold mb-2 block text-left mr-10 py-1 !mb-0">全体ヒアリング</label>
-                                <div className="px-3 w-full max-h-[200px] overflow-auto"> 
+                                <div className="px-3 w-full h-[120px] overflow-y-scroll">
                                     <div>
                                         <div className='flex'>
                                             <label className="text-[#70685a] text-[18px] mb-2 block text-left mr-10 py-1">項目1</label>
                                             <label className="text-[#70685a] text-[18px] mb-2 block text-left mr-10 py-1 !mb-0">何を見てご来店いただきましたか？</label>
                                         </div>
-                                        <div className='ml-20'>
+                                        <div className='ml-20 text-[17px]'>
                                             {/* <InputComponent value={customer.item1 || ''} name='item1' onChange={handleCustomerChange} className="w-full text-[#70685a] text-[18px] mb-2 block text-left  mr-10 py-1 !mb-0 !h-10" /> */}
-                                            <div className='flex gap-10'>
+                                            <div className='flex justify-between'>
                                                 <div className="flex items-center">
                                                     <input type="checkbox" checked={additionalCheckboxes[0]} onChange={() => handleAdditionalCheckboxChange(0)}
                                                         className="w-4 h-4 mr-3" />
@@ -1792,20 +1813,6 @@ const handleApproveWaiting = async() => {
                                                         className="w-4 h-4 mr-3" />
                                                     <label className="text-[#70685a]">店舗を見て</label>
                                                 </div>
-                                            </div>
-                                            <div className="flex items-center">
-                                                <input type="checkbox" checked={pairs[0].checked} onChange={() => handlePairCheckboxChange(0)}
-                                                    className="w-4 h-4 mr-3" />
-                                                <label className="text-[#70685a] mr-3"> 店舗以外の看板・広告を見て</label>
-                                                <InputComponent value={pairs[0].value} onChange={(e) => handleInputChange(0, e.target.value)} disabled={!pairs[0].checked} className="w-40 text-[#70685a] mb-2 block text-left  mr-10 py-1 !mb-0 !h-8" placeholder={'広告を見た場所'} />
-                                            </div>
-                                            <div className="flex items-center">
-                                                <input type="checkbox" checked={pairs[1].checked} onChange={() => handlePairCheckboxChange(1)}
-                                                    className="w-4 h-4 mr-3" />
-                                                <label className="text-[#70685a] mr-3">折込チラシを見て</label>
-                                                <InputComponent value={pairs[1].value} onChange={(e) => handleInputChange(1, e.target.value)} disabled={!pairs[1].checked} className="w-40 text-[#70685a] mb-2 block text-left  mr-10 py-1 !mb-0 !h-8" placeholder={'新聞銘柄'} />
-                                            </div>
-                                            <div className='flex gap-10'>
                                                 <div className="flex items-center">
                                                     <input type="checkbox" checked={additionalCheckboxes[2] || ''} onChange={() => handleAdditionalCheckboxChange(2)}
                                                         className="w-4 h-4 mr-3" />
@@ -1818,10 +1825,24 @@ const handleApproveWaiting = async() => {
                                                 </div>
                                             </div>
                                             <div className="flex items-center">
-                                                <input type="checkbox" checked={pairs[2].checked} onChange={() => handlePairCheckboxChange(2)}
+                                                <input type="checkbox" checked={pairs[0].checked} onChange={() => handlePairCheckboxChange(0)}
                                                     className="w-4 h-4 mr-3" />
-                                                <label className="text-[#70685a] mr-3">その他</label>
-                                                <InputComponent value={pairs[2].value} onChange={(e) => handleInputChange(2, e.target.value)} disabled={!pairs[2].checked} className="w-40 text-[#70685a] mb-2 block text-left  mr-10 py-1 !mb-0 !h-8" placeholder={'その他詳細'} />
+                                                <label className="text-[#70685a] mr-3"> 店舗以外の看板・広告を見て</label>
+                                                <InputComponent value={pairs[0].value} onChange={(e) => handleInputChange(0, e.target.value)} disabled={!pairs[0].checked} className="w-40 text-[#70685a] mb-2 block text-left  mr-10 py-1 !mb-0 !h-8" placeholder={'広告を見た場所'} />
+                                            </div>
+                                            <div className='flex gap-10'>
+                                                <div className="flex items-center">
+                                                    <input type="checkbox" checked={pairs[1].checked} onChange={() => handlePairCheckboxChange(1)}
+                                                        className="w-4 h-4 mr-3" />
+                                                    <label className="text-[#70685a] mr-3">折込チラシを見て</label>
+                                                    <InputComponent value={pairs[1].value} onChange={(e) => handleInputChange(1, e.target.value)} disabled={!pairs[1].checked} className="w-40 text-[#70685a] mb-2 block text-left  mr-10 py-1 !mb-0 !h-8" placeholder={'新聞銘柄'} />
+                                                </div>
+                                                <div className="flex items-center">
+                                                    <input type="checkbox" checked={pairs[2].checked} onChange={() => handlePairCheckboxChange(2)}
+                                                        className="w-4 h-4 mr-3" />
+                                                    <label className="text-[#70685a] mr-3">その他</label>
+                                                    <InputComponent value={pairs[2].value} onChange={(e) => handleInputChange(2, e.target.value)} disabled={!pairs[2].checked} className="w-40 text-[#70685a] mb-2 block text-left  mr-10 py-1 !mb-0 !h-8" placeholder={'その他詳細'} />
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -1830,9 +1851,9 @@ const handleApproveWaiting = async() => {
                                             <label className="text-[#70685a] text-[18px] mb-2 block text-left mr-10 py-1">項目2</label>
                                             <label className="text-[#70685a] text-[18px] mb-2 block text-left mr-10 py-1 !mb-0">次回お持ちいただくご予定の商品はございますか？</label>
                                         </div>
-                                        <div className=' ml-20'>
+                                        <div className=' ml-20 text-[17px]'>
                                             {/* <InputComponent value={customer.item2 || ''} name='item2' onChange={handleCustomerChange} className="w-full text-[#70685a] text-[18px] mb-2 block text-left  mr-10 py-1 !mb-0 !h-10" /> */}
-                                            <div className='flex gap-10'>
+                                            <div className='flex justify-between'>
                                                 <div className="flex items-center">
                                                     <input type="checkbox" className="w-4 h-4 mr-3" checked={additionalCheckboxes[4] || ''} onChange={() => handleAdditionalCheckboxChange(4)} />
                                                     <label className="text-[#70685a]">ダイヤモンド</label>
@@ -1845,8 +1866,6 @@ const handleApproveWaiting = async() => {
                                                     <input type="checkbox" className="w-4 h-4 mr-3" checked={additionalCheckboxes[6] || ''} onChange={() => handleAdditionalCheckboxChange(6)} />
                                                     <label className="text-[#70685a]">ネックレス</label>
                                                 </div>
-                                            </div>
-                                            <div className='flex gap-10'>
                                                 <div className="flex items-center">
                                                     <input type="checkbox" className="w-4 h-4 mr-3" checked={additionalCheckboxes[7] || ''} onChange={() => handleAdditionalCheckboxChange(7)} />
                                                     <label className="text-[#70685a]">指輪</label>
@@ -1860,7 +1879,7 @@ const handleApproveWaiting = async() => {
                                                     <label className="text-[#70685a]">ブランド品</label>
                                                 </div>
                                             </div>
-                                            <div className='flex gap-10'>
+                                            <div className='flex justify-between'>
                                                 <div className="flex items-center">
                                                     <input type="checkbox" className="w-4 h-4 mr-3" checked={additionalCheckboxes[10] || ''} onChange={() => handleAdditionalCheckboxChange(10)} />
                                                     <label className="text-[#70685a]">切手</label>
@@ -1873,8 +1892,6 @@ const handleApproveWaiting = async() => {
                                                     <input type="checkbox" className="w-4 h-4 mr-3" checked={additionalCheckboxes[12] || ''} onChange={() => handleAdditionalCheckboxChange(12)} />
                                                     <label className="text-[#70685a]">古銭</label>
                                                 </div>
-                                            </div>
-                                            <div className='flex gap-10'>
                                                 <div className="flex items-center">
                                                     <input type="checkbox" className="w-4 h-4 mr-3" checked={additionalCheckboxes[13] || ''} onChange={() => handleAdditionalCheckboxChange(13)} />
                                                     <label className="text-[#70685a]">金券</label>
@@ -1922,7 +1939,7 @@ const handleApproveWaiting = async() => {
                                         </div>
                                         <div className='ml-20  mb-10'>
                                             {/* <InputComponent value={customer.item3 || ''} name='item3' onChange={handleCustomerChange} className="w-full text-[#70685a] text-[18px] mb-2 block text-left  mr-10 py-1 !mb-0 !h-10" /> */}
-                                            <div className='flex gap-10'>
+                                            <div className='flex gap-10 text-[17px]'>
                                                 <div className="flex items-center">
                                                     <input type="checkbox" className="w-4 h-4 mr-3" checked={additionalCheckboxes[20] || ''} onChange={() => handleAdditionalCheckboxChange(20)} />
                                                     <label className="text-[#70685a]">可</label>
@@ -1977,10 +1994,12 @@ const handleApproveWaiting = async() => {
                                 {isshow ? <th style={Th} >力テゴリ-4</th> : <th style={{ display: 'none' }}></th>}
                                 <th style={Th} >画像</th>
                                 <th style={Th} width='10%'>
-                                    <div className='flex justify-center'>
-                                        商品名
-                                        <div className='flex flex-col justify-center'>
-                                            {isDetailShow ? <button><img src={rightArrow} className='h-4' alt='' onClick={openItemDetailShow} ></img></button> : <button><img src={leftArrow} className='h-4' alt='' onClick={openItemDetailShow}></img></button>}
+                                    <div className='w-20'>
+                                        <div className='flex justify-center'>
+                                            商品名
+                                            <div className='flex flex-col justify-center'>
+                                                {isDetailShow ? <button><img src={rightArrow} className='h-4' alt='' onClick={openItemDetailShow} ></img></button> : <button><img src={leftArrow} className='h-4' alt='' onClick={openItemDetailShow}></img></button>}
+                                            </div>
                                         </div>
                                     </div>
                                 </th>
@@ -2230,9 +2249,10 @@ const handleApproveWaiting = async() => {
                                 </td>
                             </tr>
                             }
-                            {totalSalesSlipData?.length > 0 && totalSalesSlipData.map((salesData, Index) => (
+                            {totalSalesSlipData?.length > 0 && totalSalesSlipData.map((salesData, Index) => {
+                                const priceData = preciousMetalData.find(price => price.name === salesData.gold_type);
+                                return (
                                 <tr key={Index} >
-                                    {/* <td><input type='checkbox' name='checkbox1' /></td> */}
                                     <td style={Td}>{salesData.id || ''}</td>
                                     {/* <td style={Td}>{salesData.hearing || ''}</td> */}
                                     <td style={Td} >{salesData.product_type_one}</td>
@@ -2304,7 +2324,17 @@ const handleApproveWaiting = async() => {
                                             </div>
                                         </div>
                                     </td>
-                                    {isDetailShow ? <td style={Td} >{salesData.gold_type || ''}</td> : <td style={{ display: 'none' }}></td>}
+                                    {isDetailShow ? <td style={Td} >
+                                        <div className="relative w-max group mx-auto">
+                                            <div
+                                                className="px-6 py-2.5 rounded text-[#70685a] text-sm tracking-wider font-semibold border-none outline-none">{salesData.gold_type || ''}</div>
+                                            <div
+                                                className="absolute shadow-lg hidden group-hover:block bg-[#fff] text-[#70685a] font-semibold px-3 py-2 text-[13px] left-full ml-3 top-0 bottom-0 my-auto h-max w-max rounded before:w-4 before:h-4 before:rotate-45 before:bg-[#333] before:absolute before:z-[-1] before:bottom-0 before:top-0 before:my-auto before:-left-1 before:mx-auto">
+                                             {priceData ? `Retanaka: ${priceData.name}, Price: $${priceData.price}` : 'Price not available'}
+                                            </div>
+                                        </div>
+                                    </td> : 
+                                    <td style={{ display: 'none' }}></td>}
                                     {isDetailShow ? <td style={Td} >{salesData.gross_weight || ''}</td> : <td style={{ display: 'none' }}></td>}
                                     {isDetailShow ? <td style={Td} >{salesData.price_gram || ''}</td> : <td style={{ display: 'none' }}></td>}
                                     {isDetailShow ? <td style={Td} >{salesData.model_number_one || ''}</td> : <td style={{ display: 'none' }}></td>}
@@ -2375,7 +2405,8 @@ const handleApproveWaiting = async() => {
                                         </td>
                                     }
                                 </tr>
-                            ))}
+                                )
+                            })}
                         </tbody>
 
                     </table>

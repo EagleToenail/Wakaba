@@ -185,7 +185,7 @@ export default function TODOList() {
                         'Content-Type': 'multipart/form-data'
                     }
                 }).then(response => {
-                    console.log('get data',response.data)
+                    //console.log('get data',response.data)
                     setMessages(response.data);
                     setQuery('');
                     setReply({
@@ -227,15 +227,15 @@ export default function TODOList() {
         }
 
         setReply({ parentMessageId: data1, senderId: data2, receiverId: data3 ,time:currentDateTime})
-        console.log('Data received from child++++++++:', data1, data2, data3, userId);
+        //console.log('Data received from child++++++++:', data1, data2, data3, userId);
     };
     const handleDataFromChildAccordion1 = (data) => {
         fetchMessages();
-        console.log('received data from permission',data)
+        //console.log('received data from permission',data)
     };
     const handleDataFromChildAccordion2 = (data) => {
         fetchMessages();
-        console.log('received data from complete',data)
+        //console.log('received data from complete',data)
     };
     // New post
     const newPost = () => {

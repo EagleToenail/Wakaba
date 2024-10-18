@@ -1097,7 +1097,7 @@ const StampRelatedPurchaseStatement = () => {
                                                     <th style={Th} >額面総額(￥)</th>
                                                     <th style={Th} className='pl-1 pr-1'>買取額(￥)</th>
                                                     <th style={Th}>{editSheetIndex === -1 ? '編集する' : 'セーブ'}</th>
-                                                    <th style={Th} className='whitespace-nowrap pl-3'>{editSheetIndex === -1 ? '削除' : '戻る'}</th>
+                                                    <th className='whitespace-nowrap pl-3'>{editSheetIndex === -1 ? '' : '戻る'}</th>
                                                 </tr>
                                             </thead>
                                             <tbody className='!h-8'>
@@ -1149,19 +1149,19 @@ const StampRelatedPurchaseStatement = () => {
                                                                 </div>
                                                             )}
                                                         </td>
-                                                        <td style={Td}>
+                                                        <td>
                                                             {editSheetIndex === Index ? (
                                                                 <div>
                                                                     <button onClick={() => handleSheetCancelClick(Index)} className='w-7'>
                                                                         <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium  MuiSvgIcon-root MuiSvgIcon-fontSizeLarge  css-1hkft75" fill='#524c3b' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="KeyboardReturnOutlinedIcon" title="KeyboardReturnOutlined"><path d="M19 7v4H5.83l3.58-3.59L8 6l-6 6 6 6 1.41-1.41L5.83 13H21V7z"></path></svg>
                                                                     </button>
                                                                 </div>
-                                                            ) : (
-                                                                <div>
-                                                                    <button onClick={() => handleSheetDeleteClick(Index)} className='w-7'>
-                                                                        <svg className="flex flex-col justify-center" focusable="false" aria-hidden="true" viewBox="0 0 23 23" fill='#524c3b' data-testid="CancelOutlinedIcon" title="CancelOutlined"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8m3.59-13L12 10.59 8.41 7 7 8.41 10.59 12 7 15.59 8.41 17 12 13.41 15.59 17 17 15.59 13.41 12 17 8.41z"></path></svg>
-                                                                    </button>
-                                                                </div>
+                                                            ) : (''
+                                                                // <div>
+                                                                //     <button onClick={() => handleSheetDeleteClick(Index)} className='w-7'>
+                                                                //         <svg className="flex flex-col justify-center" focusable="false" aria-hidden="true" viewBox="0 0 23 23" fill='#524c3b' data-testid="CancelOutlinedIcon" title="CancelOutlined"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8m3.59-13L12 10.59 8.41 7 7 8.41 10.59 12 7 15.59 8.41 17 12 13.41 15.59 17 17 15.59 13.41 12 17 8.41z"></path></svg>
+                                                                //     </button>
+                                                                // </div>
                                                             )}
                                                         </td>
                                                     </tr>
@@ -1232,7 +1232,7 @@ const StampRelatedPurchaseStatement = () => {
                                             </tbody>
                                         </table>
                                     </div>
-                                    <div className='flex justify-center mt-2'>
+                                    {/* <div className='flex justify-center mt-2'>
                                         <button type="button" onClick={handleAddSheetRow}
                                             className="w-5 h-5 inline-flex items-center justify-center text-[#70685a] border border-[#70685a] outline-none hover:bg-purple-700 active:bg-purple-600">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="14px" fill="#70685a" className="inline" viewBox="0 0 512 512">
@@ -1241,7 +1241,7 @@ const StampRelatedPurchaseStatement = () => {
                                                     data-original="#000000" />
                                             </svg>
                                         </button>
-                                    </div>
+                                    </div> */}
                                 </div>
                             </div>
                         </div>
@@ -1313,7 +1313,7 @@ const StampRelatedPurchaseStatement = () => {
                                                     <th style={Th}>額面総額(￥)</th>
                                                     <th style={Th}>買取額(￥)</th>
                                                     <th style={Th}>{editRoseIndex === -1 ? '編集する' : 'セーブ'}</th>
-                                                    <th style={Th} className='whitespace-nowrap pl-3'>{editRoseIndex === -1 ? '削除' : '戻る'}</th>
+                                                    <th style={Th} className='whitespace-nowrap pl-3'>{editRoseIndex === -1 ? '' : '戻る'}</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -1354,19 +1354,19 @@ const StampRelatedPurchaseStatement = () => {
                                                                 </div>
                                                             )}
                                                         </td>
-                                                        <td style={Td}>
+                                                        <td>
                                                             {editRoseIndex === Index ? (
                                                                 <div>
                                                                     <button onClick={() => handleRoseCancelClick(Index)} className='w-7'>
                                                                         <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium  MuiSvgIcon-root MuiSvgIcon-fontSizeLarge  css-1hkft75" fill='#524c3b' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="KeyboardReturnOutlinedIcon" title="KeyboardReturnOutlined"><path d="M19 7v4H5.83l3.58-3.59L8 6l-6 6 6 6 1.41-1.41L5.83 13H21V7z"></path></svg>
                                                                     </button>
                                                                 </div>
-                                                            ) : (
-                                                                <div>
-                                                                    <button onClick={() => handleRoseDeleteClick(Index)} className='w-7'>
-                                                                        <svg className="flex flex-col justify-center" focusable="false" aria-hidden="true" viewBox="0 0 23 23" fill='#524c3b' data-testid="CancelOutlinedIcon" title="CancelOutlined"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8m3.59-13L12 10.59 8.41 7 7 8.41 10.59 12 7 15.59 8.41 17 12 13.41 15.59 17 17 15.59 13.41 12 17 8.41z"></path></svg>
-                                                                    </button>
-                                                                </div>
+                                                            ) : (''
+                                                                // <div>
+                                                                //     <button onClick={() => handleRoseDeleteClick(Index)} className='w-7'>
+                                                                //         <svg className="flex flex-col justify-center" focusable="false" aria-hidden="true" viewBox="0 0 23 23" fill='#524c3b' data-testid="CancelOutlinedIcon" title="CancelOutlined"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8m3.59-13L12 10.59 8.41 7 7 8.41 10.59 12 7 15.59 8.41 17 12 13.41 15.59 17 17 15.59 13.41 12 17 8.41z"></path></svg>
+                                                                //     </button>
+                                                                // </div>
                                                             )}
                                                         </td>
                                                     </tr>
@@ -1419,7 +1419,7 @@ const StampRelatedPurchaseStatement = () => {
                                         </table>
                                     </div>
                                 </div>
-                                <div className='flex justify-center mt-2'>
+                                {/* <div className='flex justify-center mt-2'>
                                     <button type="button" onClick={handleAddRoseRow}
                                         className="w-5 h-5 inline-flex items-center justify-center text-[#70685a] border border-[#70685a] outline-none hover:bg-purple-700 active:bg-purple-600">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="14px" fill="#70685a" className="inline" viewBox="0 0 512 512">
@@ -1428,7 +1428,7 @@ const StampRelatedPurchaseStatement = () => {
                                                 data-original="#000000" />
                                         </svg>
                                     </button>
-                                </div>
+                                </div> */}
                             </div>
                         </div>
                         {/* ----------------------Letter pack--------------- */}
@@ -1490,7 +1490,7 @@ const StampRelatedPurchaseStatement = () => {
                                                     <th style={Th} >額面総額(￥)</th>
                                                     <th style={Th} className='pr-1'>買取額(￥)</th>
                                                     <th style={Th}>{editPackIndex === -1 ? '編集する' : 'セーブ'}</th>
-                                                    <th style={Th} className='whitespace-nowrap pl-3'>{editPackIndex === -1 ? '削除' : '戻る'}</th>
+                                                    <th style={Th} className='whitespace-nowrap pl-3'>{editPackIndex === -1 ? '' : '戻る'}</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -1540,19 +1540,19 @@ const StampRelatedPurchaseStatement = () => {
                                                                 </div>
                                                             )}
                                                         </td>
-                                                        <td style={Td}>
+                                                        <td>
                                                             {editPackIndex === Index ? (
                                                                 <div>
                                                                     <button onClick={() => handlePackCancelClick(Index)} className='w-7'>
                                                                         <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium  MuiSvgIcon-root MuiSvgIcon-fontSizeLarge  css-1hkft75" fill='#524c3b' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="KeyboardReturnOutlinedIcon" title="KeyboardReturnOutlined"><path d="M19 7v4H5.83l3.58-3.59L8 6l-6 6 6 6 1.41-1.41L5.83 13H21V7z"></path></svg>
                                                                     </button>
                                                                 </div>
-                                                            ) : (
-                                                                <div>
-                                                                    <button onClick={() => handlePackDeleteClick(Index)} className='w-7'>
-                                                                        <svg className="flex flex-col justify-center" focusable="false" aria-hidden="true" viewBox="0 0 23 23" fill='#524c3b' data-testid="CancelOutlinedIcon" title="CancelOutlined"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8m3.59-13L12 10.59 8.41 7 7 8.41 10.59 12 7 15.59 8.41 17 12 13.41 15.59 17 17 15.59 13.41 12 17 8.41z"></path></svg>
-                                                                    </button>
-                                                                </div>
+                                                            ) : (''
+                                                                // <div>
+                                                                //     <button onClick={() => handlePackDeleteClick(Index)} className='w-7'>
+                                                                //         <svg className="flex flex-col justify-center" focusable="false" aria-hidden="true" viewBox="0 0 23 23" fill='#524c3b' data-testid="CancelOutlinedIcon" title="CancelOutlined"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8m3.59-13L12 10.59 8.41 7 7 8.41 10.59 12 7 15.59 8.41 17 12 13.41 15.59 17 17 15.59 13.41 12 17 8.41z"></path></svg>
+                                                                //     </button>
+                                                                // </div>
                                                             )}
                                                         </td>
                                                     </tr>
@@ -1615,7 +1615,7 @@ const StampRelatedPurchaseStatement = () => {
                                         </table>
                                     </div>
                                 </div>
-                                <div className='flex justify-center mt-2'>
+                                {/* <div className='flex justify-center mt-2'>
                                     <button type="button" onClick={handleAddPackRow}
                                         className="w-5 h-5 inline-flex items-center justify-center text-[#70685a] border border-[#70685a] outline-none hover:bg-purple-700 active:bg-purple-600">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="14px" fill="#70685a" className="inline" viewBox="0 0 512 512">
@@ -1624,7 +1624,7 @@ const StampRelatedPurchaseStatement = () => {
                                                 data-original="#000000" />
                                         </svg>
                                     </button>
-                                </div>
+                                </div> */}
                                 {/* -----------------------------------------------------Postcard------------------------------------------ */}
                                 <div>
                                     <div className='mt-10'>
@@ -1648,7 +1648,7 @@ const StampRelatedPurchaseStatement = () => {
                                         </div>
                                     </div>
                                     <div className='flex justify-end'>
-                                        <div className='mt-5 flex flex-col justify-end' style={{ width: '70%' }}>
+                                        <div className='mt-5 flex flex-col justify-end' style={{ width: '80%' }}>
                                             <table className=' text-center w-full' style={Table}>
                                                 <thead className='text-[14px]'>
                                                     <tr>
@@ -1693,7 +1693,7 @@ const StampRelatedPurchaseStatement = () => {
                                                             <th style={Th} className='pl-1 pr-1'>額面総額(￥)</th>
                                                             <th style={Th} className='pl-1 pr-1'>買取額(￥)</th>
                                                             <th style={Th}>{editCardIndex === -1 ? '編集する' : 'セーブ'}</th>
-                                                            <th style={Th} className='whitespace-nowrap pl-3'>{editCardIndex === -1 ? '削除' : '戻る'}</th>
+                                                            <th style={Th} className='whitespace-nowrap pl-3'>{editCardIndex === -1 ? '' : '戻る'}</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -1734,19 +1734,19 @@ const StampRelatedPurchaseStatement = () => {
                                                                         </div>
                                                                     )}
                                                                 </td>
-                                                                <td style={Td}>
+                                                                <td>
                                                                     {editCardIndex === Index ? (
                                                                         <div>
                                                                             <button onClick={() => handleCardCancelClick(Index)} className='w-7'>
                                                                                 <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium  MuiSvgIcon-root MuiSvgIcon-fontSizeLarge  css-1hkft75" fill='#524c3b' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="KeyboardReturnOutlinedIcon" title="KeyboardReturnOutlined"><path d="M19 7v4H5.83l3.58-3.59L8 6l-6 6 6 6 1.41-1.41L5.83 13H21V7z"></path></svg>
                                                                             </button>
                                                                         </div>
-                                                                    ) : (
-                                                                        <div>
-                                                                            <button onClick={() => handleCardDeleteClick(Index)} className='w-7'>
-                                                                                <svg className="flex flex-col justify-center" focusable="false" aria-hidden="true" viewBox="0 0 23 23" fill='#524c3b' data-testid="CancelOutlinedIcon" title="CancelOutlined"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8m3.59-13L12 10.59 8.41 7 7 8.41 10.59 12 7 15.59 8.41 17 12 13.41 15.59 17 17 15.59 13.41 12 17 8.41z"></path></svg>
-                                                                            </button>
-                                                                        </div>
+                                                                    ) : (''
+                                                                        // <div>
+                                                                        //     <button onClick={() => handleCardDeleteClick(Index)} className='w-7'>
+                                                                        //         <svg className="flex flex-col justify-center" focusable="false" aria-hidden="true" viewBox="0 0 23 23" fill='#524c3b' data-testid="CancelOutlinedIcon" title="CancelOutlined"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8m3.59-13L12 10.59 8.41 7 7 8.41 10.59 12 7 15.59 8.41 17 12 13.41 15.59 17 17 15.59 13.41 12 17 8.41z"></path></svg>
+                                                                        //     </button>
+                                                                        // </div>
                                                                     )}
                                                                 </td>
                                                             </tr>
@@ -1800,7 +1800,7 @@ const StampRelatedPurchaseStatement = () => {
                                                 </table>
                                             </div>
                                         </div>
-                                        <div className='flex justify-center mt-2'>
+                                        {/* <div className='flex justify-center mt-2'>
                                             <button type="button" onClick={handleAddCardRow}
                                                 className="w-5 h-5 inline-flex items-center justify-center text-[#70685a] border border-[#70685a] outline-none hover:bg-purple-700 active:bg-purple-600">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="14px" fill="#70685a" className="inline" viewBox="0 0 512 512">
@@ -1809,7 +1809,7 @@ const StampRelatedPurchaseStatement = () => {
                                                         data-original="#000000" />
                                                 </svg>
                                             </button>
-                                        </div>
+                                        </div> */}
                                     </div>
                                 </div>
 
