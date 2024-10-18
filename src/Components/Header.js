@@ -87,42 +87,45 @@ export default function Header({zoomout,zoomin}) {
   }, [userId]);
   const formattedDate = formatDate(date);
 //------------------------------auto log out function----------------------------------
-  const clearStorage = () => {
-    localStorage.clear();
-  };
-  const now = new Date();
-  const options = { timeZone: 'Asia/Tokyo', hour: '2-digit', minute: '2-digit', second: '2-digit' };
-  const jstDate = new Intl.DateTimeFormat('en-US', options).format(now);
-  const [hours, minutes, seconds] = jstDate.split(':').map(Number);
-  const midnightJST = new Date();
-  midnightJST.setHours(24, 0, 0, 0); // Set to midnight
-  midnightJST.setMinutes(midnightJST.getMinutes() - 1); 
+const clearStorage = () => {
+  localStorage.clear();
+};
 
-  // Calculate the time until that moment
-  const timeUntilOneMinuteBeforeMidnight = midnightJST - now;
-  if (timeUntilOneMinuteBeforeMidnight < 0) {
-    midnightJST.setDate(midnightJST.getDate() + 1); 
-  }
-  setTimeout(clearStorage, midnightJST - now);
+const now = new Date();
+const options = { timeZone: 'Asia/Tokyo', hour: '2-digit', minute: '2-digit', second: '2-digit' };
+const jstDate = new Intl.DateTimeFormat('en-US', options).format(now);
+const [hours, minutes, seconds] = jstDate.split(':').map(Number);
+const midnightJST = new Date();
+midnightJST.setHours(24, 0, 0, 0); // Set to midnight (00:00:00)
+midnightJST.setMinutes(midnightJST.getMinutes() - 1); // Set to one minute before midnight
+
+// Calculate the time until that moment
+let timeUntilOneMinuteBeforeMidnight = midnightJST - now;
+if (timeUntilOneMinuteBeforeMidnight < 0) {
+  midnightJST.setDate(midnightJST.getDate() + 1); // Move to the next day
+  timeUntilOneMinuteBeforeMidnight = midnightJST - now; // Recalculate the time
+}
+setTimeout(clearStorage, timeUntilOneMinuteBeforeMidnight);
+
 //----------------------go to admin top----------------------------
   const gotoAdminTop = () => {
-    if(userData.role_flag==4){
+    if(userData.role_flag===4){
       navigate('/admin/managementSettingSuperAdministratorTOP');
     }
-    if(userData.role_flag==3){
+    if(userData.role_flag===3){
       navigate('/admin/managementheadquaterstop');
     }
     
-    if(userData.role_flag==2){
+    if(userData.role_flag===2){
       navigate('/admin/ownerstop');
     }
   }
 //-----------------------zoom function---------------
    const zoomPlus = () => {
-        zoomout();
+        // zoomout();
    }
    const zoomMinus = () => {
-      zoomin();
+      // zoomin();
    }
   return (
     <>

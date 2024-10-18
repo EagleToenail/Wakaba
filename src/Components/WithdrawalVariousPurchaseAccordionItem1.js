@@ -1,9 +1,6 @@
-
 import React, { useState, useEffect } from 'react';
-import axios from 'axios'; // or use fetch
 
-const WithdrawalVariousPurchaseAccordionItem1 = ({ messageId,time, title, content, sender, receiver, users ,invoiceID,onSendData3}) => {
-  const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+const WithdrawalVariousPurchaseAccordionItem1 = ({messageNumber, messageId, time, title, content, sender, receiver, users, onSendData3 ,onSendData5,onSendData7}) => {
   const userId = localStorage.getItem('userId');
 
   const now = new Date();
@@ -14,36 +11,26 @@ const WithdrawalVariousPurchaseAccordionItem1 = ({ messageId,time, title, conten
   const currentDateTime = `${currentDay} ${currentTime}`;
 
   const [isOpen, setIsOpen] = useState(false);
-
-  // const [receivedTime, setReceivedTime] = useState('');
   const [senderName, setSenderName] = useState('');
   const [receiverName, setReceiverName] = useState('');
 
-  //fetch message data related user
   useEffect(() => {
     users.forEach(user => {
-        console.log('sender',sender)
       if (user.id === parseInt(sender)) {
-        setSenderName(user.username); // Assuming 'username' is a property in the message object
-        // console.log('SenderName')
+        setSenderName(user.username);
       }
       if (user.id === parseInt(receiver)) {
-        setReceiverName(user.username); // Assuming 'username' is a property in the message object
-        // console.log('ReceiverName')
+        setReceiverName(user.username);
       }
     });
-  }, []);
-
+  }, [users, sender, receiver]);
 
   const toggleAccordion = () => {
     setIsOpen(!isOpen);
   };
 
-  //-------------------option-----
-  const [options1, setOptions1] = useState([{ id: '1', value: 'はい' }, { id: '2', value: 'いいえ' }]);
-  const [selectedOption1, setSelectedOption1] = useState(content);
-  const [options2, setOptions2] = useState([{ id: '1', value: 'はい' }, { id: '2', value: 'いいえ' }]);
-  const [selectedOption2, setSelectedOption2] = useState(content);
+  const [selectedOption1, setSelectedOption1] = useState('');
+  const [selectedOption2, setSelectedOption2] = useState('');
 
   const handleChange1 = (event) => {
     setSelectedOption1(event.target.value);
@@ -53,57 +40,43 @@ const WithdrawalVariousPurchaseAccordionItem1 = ({ messageId,time, title, conten
     setSelectedOption2(event.target.value);
   };
 
-  //send message inforamation to parent 
-  const handleSubmit = () => {
-    if(messageId === '1') {
-      // const invoiceid = invoiceID;
-      // const time = currentDateTime;
-      // const templateTitle = title;
-      // const content = selectedOption1;
-      // const senderId = userId;
-
-      // console.log('result data',invoiceid,time,templateTitle,content,senderId);
-      // const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
-      // if (!wakabaBaseUrl) {
-      //     throw new Error('API base URL is not defined');
-      // }
-
-      // axios.post(`${wakabaBaseUrl}/withdrawalvariouspurchasemessages/create`,{invoiceid:invoiceid,time:time,templateTitle:templateTitle,content:content,senderId:senderId})
-      //     .then(response => {
-      //         const data = response.data;
-      //     })
-      //     .catch(error => {
-      //         console.error("There was an error fetching the customer data!", error);
-      //     });
+  const handleSubmit1 = () => {
+    if (messageId === '1') {
+      const questions1 = '今日全て売るつもり?';
+      onSendData3(selectedOption1, questions1);
     }
-    if(messageId === '2') {
-    //   const invoiceid = invoiceID;
-    //   const time = currentDateTime;
-    //   const templateTitle = title;
-    //   const content = selectedOption2;
-    //   const senderId = userId;
-    //   console.log('result data',invoiceid,time,templateTitle,content,senderId);
-
-    //   const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
-    //   if (!wakabaBaseUrl) {
-    //       throw new Error('API base URL is not defined');
-    //   }
-
-    //   axios.post(`${wakabaBaseUrl}/withdrawalvariouspurchasemessages/create`,{invoiceid:invoiceid,time:time,templateTitle:templateTitle,content:content,senderId:senderId})
-    //       .then(response => {
-    //           const data = response.data;
-    //       })
-    //       .catch(error => {
-    //           console.error("There was an error fetching the customer data!", error);
-    //       });
-      }
-    
+    if (messageId === '2') {
+      const questions2 = '他店へ持ち込んでいる?';
+      onSendData3(selectedOption2, questions2);
+    }
+  };
+  const handleSubmit2 = () => {
+    if (messageId === '1' && messageNumber) {
+      onSendData7(messageNumber,selectedOption1);
+    }
+    if (messageId === '2' && messageNumber) {
+      onSendData7(messageNumber,selectedOption2);
+    }
   };
 
+  const deleteMessage = () => {
+    if (messageId === '1') {
+      onSendData5(messageNumber);
+    }
+    if (messageId === '2') {
+      onSendData5(messageNumber);
+    }
+  }
+//---------edit--------
+const [isEditing, setIsEditing] = useState(content); // true if content is false
+
+const handleEdit = () => {
+  setIsEditing(prev => !prev);
+};
+
   return (
-    <div style={{ margin: '10px 0' ,width:'99%'}}>
-      <button onClick={toggleAccordion} className ='w-full p-[10px] text-left cursor-pointer rounded-sm' 
-                 style={{ border: '1px solid #ccc', background:'#f9f9f9'}}>
+    <div style={{ margin: '10px 0', width: '99%' }}>
+      <button onClick={toggleAccordion} className='w-full p-[10px] text-left cursor-pointer rounded-sm' style={{ border: '1px solid #ccc', background: '#f9f9f9' }}>
         <div className='new-post-receive w-full flex h-13'>
           <div className='new-post-receive-message flex' style={{ width: '75%' }}>
             <div className='flex'>
@@ -115,9 +88,7 @@ const WithdrawalVariousPurchaseAccordionItem1 = ({ messageId,time, title, conten
                   <label className="text-[#70685a] font-bold block text-center">ステー夕ス表示</label>
                 </div>
               </div>
-              <div className='text-[black] text-[18px] ml-5'>
-                {title}
-              </div>
+              <div className='text-[black] text-[18px] ml-5'>{title}</div>
             </div>
           </div>
           <div className='new-post-receive-name flex justify-between ' style={{ width: '25%' }}>
@@ -140,13 +111,23 @@ const WithdrawalVariousPurchaseAccordionItem1 = ({ messageId,time, title, conten
         <div style={styles.content}>
           <div className='flex w-full' style={{ marginLeft: '20px' }}>
             <div style={{ width: '80%' }}>
-              <div className='flex mt-5 mb-5'>
+              <div className='flex mt-2 mb-2'>
                 {/* rect btn */}
                 <div>
                   <div>
-                    < button type="button" className="w-20 px-3 py-0.5 font-semiblod rounded-lg justify-center text-[#70685a] text-[15px] bg-[#ebe6e0] hover:bg-blue-700 focus:outline-none">
-                      編集
-                    </button>
+                  {userId === sender && 
+                      <div>
+                        < button type="button" onClick={handleEdit} className="w-20 px-3 py-0.5 font-semiblod rounded-lg justify-center text-[#70685a] text-[15px] bg-[#ebe6e0] hover:bg-blue-700 focus:outline-none">
+                          編集
+                        </button>
+                      </div>}
+                     {userId === sender && 
+                      <div className='mt-2'>
+                        < button type="button" onClick={deleteMessage} className="w-20 px-3 py-0.5 font-semiblod rounded-lg justify-center text-[#70685a] text-[15px] bg-[#ebe6e0] hover:bg-blue-700 focus:outline-none">
+                          削除
+                        </button>
+                      </div>
+                      }
                   </div>
                   {/* rect-btn-gurope 8 */}
                   <div className='flex mt-2'>
@@ -185,53 +166,76 @@ const WithdrawalVariousPurchaseAccordionItem1 = ({ messageId,time, title, conten
                   </div>
                 </div>
                 <div>
-                  <label className="text-[black] pl-3 text-[15px] block text-left w-full">
+                  <label className="text-[black] pl-10 font-semibold text-[20px] block text-left w-full">
                     {content}
                   </label>
-                    <div className="ml-10 flex gap-10">
-                        {messageId === '1' && options1.map((option) => (
-                            <div className="flex items-center" key={option.id}>
-                                <input
-                                    type="radio"
-                                    name="options1"
-                                    value={option.value} // Adjust based on your API response
-                                    className="w-5 h-5"
-                                    checked={selectedOption1 === option.value}
-                                    onChange={handleChange1}
-                                />
-                                <label className="text-sm text-black ml-4">{option.value}</label> {/* Adjust based on your API response */}
-                            </div>
-                        ))}
-                        {messageId === '2' && options2.map((option) => (
-                            <div className="flex items-center" key={option.id}>
-                                <input
-                                    type="radio"
-                                    name="options2"
-                                    value={option.value} // Adjust based on your API response
-                                    className="w-5 h-5"
-                                    checked={selectedOption2 === option.value}
-                                    onChange={handleChange2}
-                                />
-                                <label className="text-sm text-black ml-4">{option.value}</label> {/* Adjust based on your API response */}
-                            </div>
-                        ))}
-                    </div>
+                  <div className="ml-10 flex gap-10">
+                    {messageId === '1' && !isEditing && (
+                      <>
+                        <div className="flex items-center">
+                          <input
+                            type="radio"
+                            name="options1"
+                            value="はい"
+                            className="w-5 h-5"
+                            checked={selectedOption1 === 'はい'}
+                            onChange={handleChange1}
+                          />
+                          <label className="text-sm text-black ml-4">はい</label>
+                        </div>
+                        <div className="flex items-center">
+                          <input
+                            type="radio"
+                            name="options1"
+                            value="いいえ"
+                            className="w-5 h-5"
+                            checked={selectedOption1 === 'いいえ'}
+                            onChange={handleChange1}
+                          />
+                          <label className="text-sm text-black ml-4">いいえ</label>
+                        </div>
+                      </>
+                    )}
+                    {messageId === '2' && !isEditing && (
+                      <>
+                        <div className="flex items-center">
+                          <input
+                            type="radio"
+                            name="options2"
+                            value="はい"
+                            className="w-5 h-5"
+                            checked={selectedOption2 === 'はい'}
+                            onChange={handleChange2}
+                          />
+                          <label className="text-sm text-black ml-4">はい</label>
+                        </div>
+                        <div className="flex items-center">
+                          <input
+                            type="radio"
+                            name="options2"
+                            value="いいえ"
+                            className="w-5 h-5"
+                            checked={selectedOption2 === 'いいえ'}
+                            onChange={handleChange2}
+                          />
+                          <label className="text-sm text-black ml-4">いいえ</label>
+                        </div>
+                      </>
+                    )}
+                  </div>
                 </div>
               </div>
-
             </div>
             <div style={{ width: '20%' }}>
-              {/* btn */}
-              {/* <div className='mt-5 flex justify-center'>
-                < button type="button" onClick={toggleAccordion} className="w-20 px-3 py-0.5 font-semiblod rounded-lg justify-center text-[#70685a] text-[15px] bg-[#9bd194] hover:bg-blue-700 focus:outline-none">
-                  完了
-                </button>
-              </div> */}
-              {/* btn */}
               <div className='mt-5 flex justify-center'>
-                  < button onClick={() => handleSubmit()} type="button" className="w-20 px-3 py-0.5 font-semiblod rounded-lg justify-center text-[#70685a] text-[15px] bg-[#ebe6e0] hover:bg-blue-700 focus:outline-none">
-                    送る
-                  </button>
+                {isEditing ?
+                <button onClick={handleSubmit1} type="button" className="w-20 px-3 py-0.5 font-semiblod rounded-lg justify-center text-[#70685a] text-[15px] bg-[#ebe6e0] hover:bg-blue-700 focus:outline-none">
+                  送る
+                </button> :
+                <button onClick={handleSubmit2} type="button" className="w-20 px-3 py-0.5 font-semiblod rounded-lg justify-center text-[#70685a] text-[15px] bg-[#ebe6e0] hover:bg-blue-700 focus:outline-none">
+                  更新
+                </button>
+                }
               </div>
             </div>
           </div>
@@ -242,30 +246,11 @@ const WithdrawalVariousPurchaseAccordionItem1 = ({ messageId,time, title, conten
 };
 
 const styles = {
-  button: {
-    width: '100%',
-    padding: '10px',
-    textAlign: 'left',
-    // border: '1px solid #ccc',
-    // background: '#f9f9f9',
-    background: 'transparent',
-    cursor: 'pointer',
-    borderRadius: '4px',
-  },
   content: {
     padding: '10px',
-    // border: '1px solid #ccc',
     borderTop: 'none',
-    // background: '#fafafa',
     background: 'transparent',
-  },
-  imagePreview: {
-    marginTop: '10px',
-    maxWidth: '100%',
-    maxHeight: '150px',
   },
 };
 
 export default WithdrawalVariousPurchaseAccordionItem1;
-
-

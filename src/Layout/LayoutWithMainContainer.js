@@ -44,7 +44,7 @@ const LayoutWithMainContainer = () => {
     const destinationURL = parts[1]; // This will give you "invoiceforpurchaseofbrought"
 
 
-    const [zoom, setZoom] = useState('1'); // Initial scale set to 100%
+    const [zoom, setZoom] = useState(1); // Initial scale set to 100%
 
     const handleZoomIn = () => {
       setZoom(prevZoom => Math.min(prevZoom + 0.1, 2)); // Max zoom level of 2

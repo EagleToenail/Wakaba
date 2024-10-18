@@ -1,11 +1,8 @@
 
 import React, { useState, useEffect } from 'react';
-import axios from 'axios'; // or use fetch
 
-const WithdrawalVariousPurchaseAccordionItem2 = ({ messageId,time, title, content, sender, receiver, users,invoiceID }) => {
-  const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+const WithdrawalVariousPurchaseAccordionItem2 = ({messageNumber, messageId,time, title, content, sender, receiver, users ,onSendData4 ,onSendData6,onSendData8}) => {
   const userId = localStorage.getItem('userId');
-  
   const now = new Date();
   const optionsDate = { year: 'numeric', month: '2-digit', day: '2-digit', timeZone: 'Asia/Tokyo' };
   const currentDay = new Intl.DateTimeFormat('ja-JP', optionsDate).format(now).replace(/\//g, '-');
@@ -13,26 +10,21 @@ const WithdrawalVariousPurchaseAccordionItem2 = ({ messageId,time, title, conten
   const currentTime = new Intl.DateTimeFormat('ja-JP', optionsTime).format(now);
   const currentDateTime = `${currentDay} ${currentTime}`;
 
-  const [isOpen, setIsOpen] = useState(false);
-
   // const [receivedTime, setReceivedTime] = useState('');
+  const [isOpen, setIsOpen] = useState(false);
   const [senderName, setSenderName] = useState('');
   const [receiverName, setReceiverName] = useState('');
 
-  //fetch message data related user
   useEffect(() => {
     users.forEach(user => {
-        console.log('sender',sender)
       if (user.id === parseInt(sender)) {
-        setSenderName(user.username); // Assuming 'username' is a property in the message object
-        // console.log('SenderName')
+        setSenderName(user.username);
       }
       if (user.id === parseInt(receiver)) {
-        setReceiverName(user.username); // Assuming 'username' is a property in the message object
-        // console.log('ReceiverName')
+        setReceiverName(user.username);
       }
     });
-  }, []);
+  }, [users, sender, receiver]);
 
 
   const toggleAccordion = () => {
@@ -43,52 +35,39 @@ const WithdrawalVariousPurchaseAccordionItem2 = ({ messageId,time, title, conten
   const [content2, setContent2] = useState(content);
 
   //send message inforamation to parent 
-  const handleSubmit = () => {
+  const handleSubmit1 = () => {
     if(messageId === '1') {
-      const invoiceid = invoiceID;
-      const time = currentDateTime;
-      const templateTitle = title;
-      const invoicecontent = content;
-      const senderId = userId;
-      
-      console.log('result data',invoiceid,time,templateTitle,invoicecontent,senderId);
-      const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
-      if (!wakabaBaseUrl) {
-          throw new Error('API base URL is not defined');
-      }
-
-      axios.post(`${wakabaBaseUrl}/withdrawalvariouspurchasemessages/create`,{invoiceid:invoiceid,time:time,templateTitle:templateTitle,content:invoicecontent,senderId:senderId})
-          .then(response => {
-              const data = response.data;
-          })
-          .catch(error => {
-              console.error("There was an error fetching the customer data!", error);
-          });
+      const questions2 = 'どこのお店?';
+      onSendData4(content1,questions2);
     }
     if(messageId === '2') {
-      const invoiceid = invoiceID;
-      const time = currentDateTime;
-      const templateTitle = title;
-      const invoicecontent = content;
-      const senderId = userId;
-      
-      console.log('result data',invoiceid,time,templateTitle,invoicecontent,senderId);
-      const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
-      if (!wakabaBaseUrl) {
-          throw new Error('API base URL is not defined');
-      }
-
-      axios.post(`${wakabaBaseUrl}/withdrawalvariouspurchasemessages/create`,{invoiceid:invoiceid,time:time,templateTitle:templateTitle,content:invoicecontent,senderId:senderId})
-          .then(response => {
-              const data = response.data;
-          })
-          .catch(error => {
-              console.error("There was an error fetching the customer data!", error);
-          });
+      const questions2 = '査定額は?';
+      onSendData4(content2,questions2);
+    }
+  };
+  const handleSubmit2 = () => {
+    if(messageId === '1' && messageNumber) {
+      onSendData8(messageNumber,content1);
+    }
+    if(messageId === '2' && messageNumber) {
+      onSendData8(messageNumber,content2);
     }
   };
 
-  //-------------------textarea-----
+  const deleteMessage = () => {
+    if (messageId === '1') {
+      onSendData6(messageNumber);
+    }
+    if (messageId === '2') {
+      onSendData6(messageNumber);
+    }
+  }
+//---------edit--------
+const [isEditing, setIsEditing] = useState(content); // true if content is false
+
+const handleEdit = () => {
+  setIsEditing(prev => !prev);
+};
 
   return (
     <div style={{ margin: '10px 0' ,width:'99%'}}>
@@ -134,9 +113,16 @@ const WithdrawalVariousPurchaseAccordionItem2 = ({ messageId,time, title, conten
                 {/* rect btn */}
                 <div>
                   <div>
-                    < button type="button" className="w-20 px-3 py-0.5 font-semiblod rounded-lg justify-center text-[#70685a] text-[15px] bg-[#ebe6e0] hover:bg-blue-700 focus:outline-none">
+                  {userId === sender && 
+                    < button type="button" onClick={handleEdit} className="w-20 px-3 py-0.5 font-semiblod rounded-lg justify-center text-[#70685a] text-[15px] bg-[#ebe6e0] hover:bg-blue-700 focus:outline-none">
                       編集
                     </button>
+                  } 
+                  {userId === sender &&  
+                    < button type="button" onClick={deleteMessage} className="w-20 mt-2 px-3 py-0.5 font-semiblod rounded-lg justify-center text-[#70685a] text-[15px] bg-[#ebe6e0] hover:bg-blue-700 focus:outline-none">
+                      削除
+                    </button>
+                  }
                   </div>
                   {/* rect-btn-gurope 8 */}
                   <div className='flex mt-2'>
@@ -175,11 +161,11 @@ const WithdrawalVariousPurchaseAccordionItem2 = ({ messageId,time, title, conten
                   </div>
                 </div>
                 <div className='w-full'>
-                  <label className="text-[black] ml-10 text-[15px] block text-left w-full">
+                  <label className="text-[black] ml-10 text-[20px] font-semibold block text-left w-full">
                     {content}
                   </label>
                     <div className="ml-10 w-full flex gap-10">
-                        {messageId === '1' && 
+                        {messageId === '1' && !isEditing && 
                           <textarea
                             name='content1'
                             className="py-2 px-3 block w-full text-sm border border-[#70685a] outline-[#70685a] disabled:opacity-50"
@@ -189,7 +175,7 @@ const WithdrawalVariousPurchaseAccordionItem2 = ({ messageId,time, title, conten
                             required
                           ></textarea>
                       }
-                      {messageId === '2' && 
+                      {messageId === '2'&& !isEditing && 
                         <textarea
                           name='content2'
                           className="py-2 px-3 block w-full text-sm border border-[#70685a] outline-[#70685a] disabled:opacity-50"
@@ -213,9 +199,14 @@ const WithdrawalVariousPurchaseAccordionItem2 = ({ messageId,time, title, conten
               </div> */}
               {/* btn */}
               <div className='mt-5 flex justify-center'>
-                  < button onClick={() => handleSubmit()} type="button" className="w-20 px-3 py-0.5 font-semiblod rounded-lg justify-center text-[#70685a] text-[15px] bg-[#ebe6e0] hover:bg-blue-700 focus:outline-none">
+                {isEditing ?
+                  < button onClick={() => handleSubmit1()} type="button" className="w-20 px-3 py-0.5 font-semiblod rounded-lg justify-center text-[#70685a] text-[15px] bg-[#ebe6e0] hover:bg-blue-700 focus:outline-none">
                     送る
+                  </button>:
+                  < button onClick={() => handleSubmit2()} type="button" className="w-20 px-3 py-0.5 font-semiblod rounded-lg justify-center text-[#70685a] text-[15px] bg-[#ebe6e0] hover:bg-blue-700 focus:outline-none">
+                    更新
                   </button>
+                }
               </div>
             </div>
           </div>

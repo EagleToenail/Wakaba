@@ -11,16 +11,13 @@ export default function WithdrawVariousPurchase() {
     const location = useLocation();
     const pathname = location.pathname; // Just the path
     const parts = pathname.split('/'); // Split the path by "/"
-    const destinationURL = parts[1]; 
-    console.log('destinationaURL',destinationURL);
 
     const data = useSelector(state => state.data);
     const totalData = data.data;
-    // console.log('totalData',totalData)
+    console.log('totalData',totalData)
 
     const userStoreName = localStorage.getItem('storename');
     const userId = localStorage.getItem('userId');
-    const role = localStorage.getItem('role');
 
     const now = new Date();
 
@@ -41,11 +38,11 @@ export default function WithdrawVariousPurchase() {
     const handleColorChange = (color) => {
         setTextColor(color);
     };
-    const [textMessageColor, setTextMessageColor] = useState('black');
-    // Handle button click
-    const handleMessageColorChange = (color) => {
-        setTextMessageColor(color);
-    };
+    // const [textMessageColor, setTextMessageColor] = useState('black');
+    // // Handle button click
+    // const handleMessageColorChange = (color) => {
+    //     setTextMessageColor(color);
+    // };
     // search selectbox================
 
     const [users, setUsers] = useState([]);
@@ -145,35 +142,39 @@ export default function WithdrawVariousPurchase() {
     const [messages, setMessages] = useState([]);
     
     const [tempContent1, setTempContent1] = useState({
+        question_id:'1',
         time: '',
         title: '',
         content:'',
         senderId:userId,
-        receiver:'',
+        receiverId:'',
         id:'',
     });
     const [tempContent2, setTempContent2] = useState({
+        question_id:'2',
         time: '',
         title: '',
         content:'',
         senderId:userId,
-        receiver:'',
+        receiverId:'',
         id:'',
     });
     const [tempContent3, setTempContent3] = useState({
+        question_id:'1',
         time: '',
         title: '',
         content:'',
         senderId:userId,
-        receiver:'',
+        receiverId:'',
         id:'',
     });
     const [tempContent4, setTempContent4] = useState({
+        question_id:'2',
         time: '',
         title: '',
         content:'',
         senderId:userId,
-        receiver:'',
+        receiverId:'',
         id:'',
     });
     //fetch message data related user
@@ -208,6 +209,7 @@ export default function WithdrawVariousPurchase() {
 
             // Filter out items with the specified titles
             const filteredData = response.data.filter(item => !titlesToExclude.includes(item.title));
+            console.log('filteredData111',filteredData,itemA)
             setMessages(filteredData);
           })
           .catch(error => {
@@ -217,12 +219,12 @@ export default function WithdrawVariousPurchase() {
     
     useEffect(() => {
         fetchMessages(totalData);
-    }, []);
+    }, [totalData]);
     // send message and file to other user 
     const sendWithdrawalVariousPurchaseMessage = async () => {
         // console.log('sendtododata', reply);
         //console.log('hey1',reply)
-        if ( reply.title != '' && reply.content != '') {
+        if ( reply.title !== '' && reply.content !== '') {
             const formData = new FormData();
             if(messages?.length>0) {
                 if(reply.parentMessageId !== '' && messages[0].permission === '1') {
@@ -327,46 +329,192 @@ export default function WithdrawVariousPurchase() {
     }
 //--------------------------------template questions------------------------
     const template1 = [
-        {   id:'1',
+        {   
+            id: tempContent1.id,
+            question_id:'1',
             time: tempContent1.time,
             title: '今日全て売るつもり?',
             content:tempContent1.content,
             senderId:tempContent1.senderId,
-            receiver:'',
+            receiverId:tempContent1.receiverId,
         },
-        {   id:'2',
+        {   id: tempContent2.id,
+            question_id:'2',
             time: tempContent2.time,
             title: '他店へ持ち込んでいる?',
             content:tempContent2.content,
             senderId:tempContent2.senderId,
-            receiver:'',
+            receiverId:tempContent2.receiverId,
         },
       ];
 
     const template2 = [
-        {   id:'1',
+        {   
+            id: tempContent3.id,
+            question_id:'1',
             time: tempContent3.time,
-            title:'どこのお店？',
+            title:'どこのお店?',
             content:tempContent3.content,
             senderId:tempContent3.senderId,
-            receiver:'',
+            receiverId:tempContent3.receiverId,
         },
-        {   id:'2',
+        {   
+            id: tempContent4.id,
+            question_id:'2',
             time: tempContent4.time,
-            title:'査定額は？',
+            title:'査定額は?',
             content:tempContent4.content,
             senderId:tempContent4.senderId,
-            receiver:'',
+            receiverId:tempContent4.receiverId,
         },
     ];
 
-    const handleDataFromChildAccordion3 = (data) => {
-        console.log('received data from permission4',data)
+    const handleDataFromChildAccordion3 = async(data,question) => {
+        const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+
+        if(!tempContent1.title && question === '今日全て売るつもり?') {
+            if (!wakabaBaseUrl) {
+                throw new Error('API base URL is not defined');
+            }
+            await axios.post(`${wakabaBaseUrl}/withdrawalvariouspurchasemessages/create`,{invoiceid:totalData,time:currentDateTime,templateTitle:question,content:data,senderId:userId})
+            .then(response => {
+                fetchMessages(totalData);
+            })
+            .catch(error => {
+                console.error("There was an error fetching the customer data!", error);
+            });
+        }
+        if(!tempContent2.title && question === '他店へ持ち込んでいる?') {
+            if (!wakabaBaseUrl) {
+                throw new Error('API base URL is not defined');
+            }
+           await axios.post(`${wakabaBaseUrl}/withdrawalvariouspurchasemessages/create`,{invoiceid:totalData,time:currentDateTime,templateTitle:question,content:data,senderId:userId})
+            .then(response => {
+                fetchMessages(totalData);
+            })
+            .catch(error => {
+                console.error("There was an error fetching the customer data!", error);
+            });
+        }
+
     };
 
-    const handleDataFromChildAccordion4 = (data) => {
-        console.log('received data from permission5',data)
+    const handleDataFromChildAccordion4 = async(data,question) => {
+        if(!tempContent3.title && question === 'どこのお店?') {
+            const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+            if (!wakabaBaseUrl) {
+                throw new Error('API base URL is not defined');
+            }
+           await axios.post(`${wakabaBaseUrl}/withdrawalvariouspurchasemessages/create`,{invoiceid:totalData,time:currentDateTime,templateTitle:question,content:data,senderId:userId})
+            .then(response => {
+                fetchMessages(totalData);
+            })
+            .catch(error => {
+                console.error("There was an error fetching the customer data!", error);
+            });
+        }
+        if(!tempContent4.title && question === '査定額は?') {
+            const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+            if (!wakabaBaseUrl) {
+                throw new Error('API base URL is not defined');
+            }
+           await axios.post(`${wakabaBaseUrl}/withdrawalvariouspurchasemessages/create`,{invoiceid:totalData,time:currentDateTime,templateTitle:question,content:data,senderId:userId})
+            .then(response => {
+                fetchMessages(totalData);
+            })
+            .catch(error => {
+                console.error("There was an error fetching the customer data!", error);
+            });
+        }
     };
+    //delete template content
+    const handleDataFromChildAccordion5 = async(id) => {
+        // console.log('received data from permission5',id)
+        const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+        if (!wakabaBaseUrl) {
+            throw new Error('API base URL is not defined');
+        }
+        await axios.post(`${wakabaBaseUrl}/withdrawalvariouspurchasemessages/delete`,{ID:id})
+        .then(response => {
+            fetchMessages(totalData);
+        })
+        .catch(error => {
+            console.error("There was an error fetching the customer data!", error);
+        });
+    }
+    const handleDataFromChildAccordion6 = async(id) => {
+        // console.log('received data from permission6',id)
+        const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+        if (!wakabaBaseUrl) {
+            throw new Error('API base URL is not defined');
+        }
+        await axios.post(`${wakabaBaseUrl}/withdrawalvariouspurchasemessages/delete`,{ID:id})
+        .then(response => {
+            fetchMessages(totalData);
+        })
+        .catch(error => {
+            console.error("There was an error fetching the customer data!", error);
+        });
+    }
+    //----------- template update----------------
+    const handleDataFromChildAccordion7 = async(id,contentData) => {
+        // console.log('received data from permission7',id,contentData)
+        const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+        if (!wakabaBaseUrl) {
+            throw new Error('API base URL is not defined');
+        }
+        await axios.post(`${wakabaBaseUrl}/withdrawalvariouspurchasemessages/update`,{ID:id,content:contentData})
+        .then(response => {
+            fetchMessages(totalData);
+        })
+        .catch(error => {
+            console.error("There was an error fetching the customer data!", error);
+        });
+    }
+    const handleDataFromChildAccordion8 = async(id,contentData) => {
+        // console.log('received data from permission8',id)
+        const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+        if (!wakabaBaseUrl) {
+            throw new Error('API base URL is not defined');
+        }
+        await axios.post(`${wakabaBaseUrl}/withdrawalvariouspurchasemessages/update`,{ID:id,content:contentData})
+        .then(response => {
+            fetchMessages(totalData);
+        })
+        .catch(error => {
+            console.error("There was an error fetching the customer data!", error);
+        });
+    }
+    //------general message delete and update---------------------------
+    const handleDataFromChildAccordion9 = async(id) => {
+        // console.log('received data from permission9',id)
+        const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+        if (!wakabaBaseUrl) {
+            throw new Error('API base URL is not defined');
+        }
+        await axios.post(`${wakabaBaseUrl}/withdrawalvariouspurchasemessages/delete`,{ID:id})
+        .then(response => {
+            fetchMessages(totalData);
+        })
+        .catch(error => {
+            console.error("There was an error fetching the customer data!", error);
+        });
+    }
+    const handleDataFromChildAccordion10 = async(id,contentData) => {
+        // console.log('received data from permission10',id)
+        const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+        if (!wakabaBaseUrl) {
+            throw new Error('API base URL is not defined');
+        }
+        await axios.post(`${wakabaBaseUrl}/withdrawalvariouspurchasemessages/update`,{ID:id,content:contentData})
+        .then(response => {
+            fetchMessages(totalData);
+        })
+        .catch(error => {
+            console.error("There was an error fetching the customer data!", error);
+        });
+    }
+
     return (
         <>
             <div className=" flex flex-col items-center justify-center py-3">
@@ -379,6 +527,9 @@ export default function WithdrawVariousPurchase() {
                                 messages={messages} 
                                 messages1={template1} messages2={template2} invoiceID={totalData}
                                 onSendIdData3={handleDataFromChildAccordion3} onSendIdData4={handleDataFromChildAccordion4}
+                                onSendIdData5={handleDataFromChildAccordion5} onSendIdData6={handleDataFromChildAccordion6}
+                                onSendIdData7={handleDataFromChildAccordion7}  onSendIdData8={handleDataFromChildAccordion8}
+                                onSendIdData9={handleDataFromChildAccordion9}  onSendIdData10={handleDataFromChildAccordion10}
                                 />
                         </div>
                     </div>
@@ -423,9 +574,9 @@ export default function WithdrawVariousPurchase() {
                                             zIndex: 1
                                         }}>
                                             {filteredOptions.length > 0 ? (
-                                                filteredOptions.map((user) => (
+                                                filteredOptions.map((user,Index) => (
                                                     <li
-                                                        key={user.id}
+                                                        key={Index}
                                                         onClick={() => handleOptionClick(user)}
                                                         style={{
                                                             padding: '10px',

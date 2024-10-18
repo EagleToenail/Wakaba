@@ -1,29 +1,24 @@
 
 import React, { useState, useEffect } from 'react';
-import axios from 'axios'; // or use fetch
 
-const WithdrawalVariousPurchaseAccordionItem = ({ messageId,time, title, content, fileUrl, sender, receiver, children,complete,permission, onSendData, users }) => {
+const WithdrawalVariousPurchaseAccordionItem = ({ messageNumber,time, title, content, fileUrl, sender, receiver, children,complete,permission, onSendData, users,onSendData9,onSendData10 }) => {
   const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
-  const [isOpen, setIsOpen] = useState(false);
+  const userId = localStorage.getItem('userId');
 
-  // const [receivedTime, setReceivedTime] = useState('');
+  const [isOpen, setIsOpen] = useState(false);
   const [senderName, setSenderName] = useState('');
   const [receiverName, setReceiverName] = useState('');
 
-  //fetch message data related user
   useEffect(() => {
     users.forEach(user => {
       if (user.id === parseInt(sender)) {
-        setSenderName(user.username); // Assuming 'username' is a property in the message object
-        // console.log('SenderName')
+        setSenderName(user.username);
       }
       if (user.id === parseInt(receiver)) {
-        setReceiverName(user.username); // Assuming 'username' is a property in the message object
-        // console.log('ReceiverName')
+        setReceiverName(user.username);
       }
     });
-  }, []);
-
+  }, [users, sender, receiver]);
 
   const toggleAccordion = () => {
     setIsOpen(!isOpen);
@@ -37,6 +32,22 @@ const WithdrawalVariousPurchaseAccordionItem = ({ messageId,time, title, content
   const handleSubmit = (Index1, Index2, Index3) => {
     onSendData(Index1, Index2, Index3);
   };
+
+  const deleteMessage = () => {
+      onSendData10(messageNumber);
+  }
+
+  const [content1, setContent1] = useState(content);
+  const [isEditing, setIsEditing] = useState(true); // true if content is false
+
+const handleEdit = () => {
+  setIsEditing(!isEditing);
+};
+
+const handleSubmit2 = () => {
+    onSendData10(messageNumber,content1);
+    setIsEditing(!isEditing);
+};
 
   return (
     <div style={{ margin: '10px 0' ,width:'99%'}}>
@@ -83,11 +94,19 @@ const WithdrawalVariousPurchaseAccordionItem = ({ messageId,time, title, content
               <div className='flex mt-5 mb-5'>
                 {/* rect btn */}
                 <div>
-                  <div>
-                    < button type="button" className="w-20 px-3 py-0.5 font-semiblod rounded-lg justify-center text-[#70685a] text-[15px] bg-[#ebe6e0] hover:bg-blue-700 focus:outline-none">
-                      編集
-                    </button>
-                  </div>
+                    {userId === sender && 
+                      <div>
+                        < button type="button" onClick={handleEdit} className="w-20 px-3 py-0.5 font-semiblod rounded-lg justify-center text-[#70685a] text-[15px] bg-[#ebe6e0] hover:bg-blue-700 focus:outline-none">
+                          編集
+                        </button>
+                      </div>}
+                     {userId === sender && 
+                      <div className='mt-2'>
+                        < button type="button" onClick={deleteMessage} className="w-20 px-3 py-0.5 font-semiblod rounded-lg justify-center text-[#70685a] text-[15px] bg-[#ebe6e0] hover:bg-blue-700 focus:outline-none">
+                          削除
+                        </button>
+                      </div>
+                      }
                   {/* rect-btn-gurope 8 */}
                   <div className='flex mt-2'>
                     <div className='mr-1'>
@@ -124,10 +143,22 @@ const WithdrawalVariousPurchaseAccordionItem = ({ messageId,time, title, content
                     </div>
                   </div>
                 </div>
-                <div>
-                  <label className="text-[black] pl-3 text-[15px] block text-left w-full">
+                <div className='w-full'>
+                  <label className="text-[black] ml-10 text-[20px] font-semibold block text-left w-full">
                     {content}
                   </label>
+                    <div className="ml-10 w-full flex gap-10">
+                        {!isEditing && 
+                          <textarea
+                            name='content1'
+                            className="py-2 px-3 block w-full text-sm border border-[#70685a] outline-[#70685a] disabled:opacity-50"
+                            rows="2"
+                            value={content1}
+                            onChange={(e) => setContent1(e.target.value)}
+                            required
+                          ></textarea>
+                        }
+                      </div>
                 </div>
               </div>
 
@@ -141,14 +172,19 @@ const WithdrawalVariousPurchaseAccordionItem = ({ messageId,time, title, content
               </div> */}
               {/* btn */}
               <div className='mt-5 flex justify-center'>
-                {complete !== '1' ?
-                  < button onClick={() => handleSubmit(messageId, sender, receiver)} type="button" className="w-20 px-3 py-0.5 font-semiblod rounded-lg justify-center text-[#70685a] text-[15px] bg-[#ebe6e0] hover:bg-blue-700 focus:outline-none">
+              {isEditing ?
+                complete !== '1' ?
+                  < button onClick={() => handleSubmit(messageNumber, sender, receiver)} type="button" className="w-20 px-3 py-0.5 font-semiblod rounded-lg justify-center text-[#70685a] text-[15px] bg-[#ebe6e0] hover:bg-blue-700 focus:outline-none">
                     返信
                   </button>:
                     < button type="button" className="w-20 px-3 py-0.5 font-semiblod rounded-lg justify-center text-[#70685a] text-[15px] bg-[#ebe6e0] hover:bg-blue-700 focus:outline-none">
                       返信
                     </button>
-                  }
+                  :
+                <button onClick={handleSubmit2} type="button" className="w-20 px-3 py-0.5 font-semiblod rounded-lg justify-center text-[#70685a] text-[15px] bg-[#ebe6e0] hover:bg-blue-700 focus:outline-none">
+                  更新
+                </button>
+                }
               </div>
             </div>
           </div>
@@ -163,7 +199,7 @@ const WithdrawalVariousPurchaseAccordionItem = ({ messageId,time, title, content
           </div>
           ) : (<div className='w-full h-10 flex justify-center'>
             <a href={`${wakabaBaseUrl}/uploads/withdrawalvariouspurchase/${fileUrl}`} download={fileUrl} target="_blank" rel="noopener noreferrer">
-                File Link : {fileUrl}
+              {fileUrl}
             </a>
           </div>
           )}
