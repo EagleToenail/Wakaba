@@ -325,7 +325,7 @@ export default function WithdrawVariousPurchase() {
             parentId: null
         });
     }
-    //-------
+//--------------------------------template questions------------------------
     const template1 = [
         {   id:'1',
             time: tempContent1.time,
@@ -359,6 +359,14 @@ export default function WithdrawVariousPurchase() {
             receiver:'',
         },
     ];
+
+    const handleDataFromChildAccordion3 = (data) => {
+        console.log('received data from permission4',data)
+    };
+
+    const handleDataFromChildAccordion4 = (data) => {
+        console.log('received data from permission5',data)
+    };
     return (
         <>
             <div className=" flex flex-col items-center justify-center py-3">
@@ -368,7 +376,10 @@ export default function WithdrawVariousPurchase() {
                         <div className='w-full h-[400px]'>
                             <WithdrawalVariousPurchaseAccordion onSendIdData={handleDataFromChildAccordion}
                                 onSendIdData1={handleDataFromChildAccordion1} onSendIdData2={handleDataFromChildAccordion2}
-                                messages={messages} messages1={template1} messages2={template2} invoiceID={totalData}/>
+                                messages={messages} 
+                                messages1={template1} messages2={template2} invoiceID={totalData}
+                                onSendIdData3={handleDataFromChildAccordion3} onSendIdData4={handleDataFromChildAccordion4}
+                                />
                         </div>
                     </div>
                     {/* new post */}

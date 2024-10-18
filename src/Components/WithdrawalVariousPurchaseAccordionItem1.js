@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios'; // or use fetch
 
-const WithdrawalVariousPurchaseAccordionItem1 = ({ messageId,time, title, content, sender, receiver, users ,invoiceID}) => {
+const WithdrawalVariousPurchaseAccordionItem1 = ({ messageId,time, title, content, sender, receiver, users ,invoiceID,onSendData3}) => {
   const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
   const userId = localStorage.getItem('userId');
 
@@ -56,50 +56,49 @@ const WithdrawalVariousPurchaseAccordionItem1 = ({ messageId,time, title, conten
   //send message inforamation to parent 
   const handleSubmit = () => {
     if(messageId === '1') {
-      const invoiceid = invoiceID;
-      const time = currentDateTime;
-      const templateTitle = title;
-      const content = selectedOption1;
-      const senderId = userId;
+      // const invoiceid = invoiceID;
+      // const time = currentDateTime;
+      // const templateTitle = title;
+      // const content = selectedOption1;
+      // const senderId = userId;
 
-      console.log('result data',invoiceid,time,templateTitle,content,senderId);
-      const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
-      if (!wakabaBaseUrl) {
-          throw new Error('API base URL is not defined');
-      }
+      // console.log('result data',invoiceid,time,templateTitle,content,senderId);
+      // const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+      // if (!wakabaBaseUrl) {
+      //     throw new Error('API base URL is not defined');
+      // }
 
-      axios.post(`${wakabaBaseUrl}/withdrawalvariouspurchasemessages/create`,{invoiceid:invoiceid,time:time,templateTitle:templateTitle,content:content,senderId:senderId})
-          .then(response => {
-              const data = response.data;
-          })
-          .catch(error => {
-              console.error("There was an error fetching the customer data!", error);
-          });
+      // axios.post(`${wakabaBaseUrl}/withdrawalvariouspurchasemessages/create`,{invoiceid:invoiceid,time:time,templateTitle:templateTitle,content:content,senderId:senderId})
+      //     .then(response => {
+      //         const data = response.data;
+      //     })
+      //     .catch(error => {
+      //         console.error("There was an error fetching the customer data!", error);
+      //     });
     }
     if(messageId === '2') {
-      const invoiceid = invoiceID;
-      const time = currentDateTime;
-      const templateTitle = title;
-      const content = selectedOption2;
-      const senderId = userId;
-      console.log('result data',invoiceid,time,templateTitle,content,senderId);
+    //   const invoiceid = invoiceID;
+    //   const time = currentDateTime;
+    //   const templateTitle = title;
+    //   const content = selectedOption2;
+    //   const senderId = userId;
+    //   console.log('result data',invoiceid,time,templateTitle,content,senderId);
 
-      const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
-      if (!wakabaBaseUrl) {
-          throw new Error('API base URL is not defined');
+    //   const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+    //   if (!wakabaBaseUrl) {
+    //       throw new Error('API base URL is not defined');
+    //   }
+
+    //   axios.post(`${wakabaBaseUrl}/withdrawalvariouspurchasemessages/create`,{invoiceid:invoiceid,time:time,templateTitle:templateTitle,content:content,senderId:senderId})
+    //       .then(response => {
+    //           const data = response.data;
+    //       })
+    //       .catch(error => {
+    //           console.error("There was an error fetching the customer data!", error);
+    //       });
       }
-
-      axios.post(`${wakabaBaseUrl}/withdrawalvariouspurchasemessages/create`,{invoiceid:invoiceid,time:time,templateTitle:templateTitle,content:content,senderId:senderId})
-          .then(response => {
-              const data = response.data;
-          })
-          .catch(error => {
-              console.error("There was an error fetching the customer data!", error);
-          });
-    }
     
   };
-
 
   return (
     <div style={{ margin: '10px 0' ,width:'99%'}}>

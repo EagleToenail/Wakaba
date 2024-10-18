@@ -5,7 +5,7 @@ import WithdrawalVariousPurchaseAccordionItem from './WithdrawalVariousPurchaseA
 import WithdrawalVariousPurchaseAccordionItem1 from './WithdrawalVariousPurchaseAccordionItem1';
 import WithdrawalVariousPurchaseAccordionItem2 from './WithdrawalVariousPurchaseAccordionItem2';
 
-const WithdrawalVariousPurchaseAccordion = ({ onSendIdData,onSendIdData1,onSendIdData2,messages,messages1,messages2,invoiceID}) => {
+const WithdrawalVariousPurchaseAccordion = ({ onSendIdData,onSendIdData1,onSendIdData2,messages,messages1,messages2,invoiceID,onSendIdData3,onSendIdData4}) => {
 
   const userStoreName = localStorage.getItem('storename');
 
@@ -39,6 +39,12 @@ const WithdrawalVariousPurchaseAccordion = ({ onSendIdData,onSendIdData1,onSendI
   };
   const handleDataFromChild2 = (data) => {
     onSendIdData2(data);
+  };
+  const handleDataFromChild3 = (data) => {
+    onSendIdData3(data);
+  };
+  const handleDataFromChild4 = (data) => {
+    onSendIdData4(data);
   };
 
   const renderMessages = (messages) => {
@@ -75,6 +81,7 @@ const WithdrawalVariousPurchaseAccordion = ({ onSendIdData,onSendIdData1,onSendI
         content={message.content}
         sender={message.senderId}
         receiver={message.receiverId}
+        onSendData3={handleDataFromChild3}
         users={users}
         invoiceID={invoiceID}
       />
@@ -90,6 +97,7 @@ const WithdrawalVariousPurchaseAccordion = ({ onSendIdData,onSendIdData1,onSendI
         content={message.content}
         sender={message.senderId}
         receiver={message.receiverId}
+        onSendData4={handleDataFromChild4}
         users={users}
         invoiceID={invoiceID}
       />

@@ -43,9 +43,23 @@ const LayoutWithMainContainer = () => {
     const parts = pathname.split('/'); // Split the path by "/"
     const destinationURL = parts[1]; // This will give you "invoiceforpurchaseofbrought"
 
+
+    const [zoom, setZoom] = useState('1'); // Initial scale set to 100%
+
+    const handleZoomIn = () => {
+      setZoom(prevZoom => Math.min(prevZoom + 0.1, 2)); // Max zoom level of 2
+      // setScale((prevScale) => Math.min(prevScale + 10, 300)); // Max scale of 300%
+    };
+  
+    const handleZoomOut = () => {
+      setZoom(prevZoom => Math.max(prevZoom - 0.1, 0.5)); // Min zoom level of 0.5
+      // setScale((prevScale) => Math.max(prevScale - 10, 100)); // Min scale of 100%
+    };
+
   return (
-    <>
-         {showHeaderAndSidebar && <Header />} 
+    <div style={{ transform: `scale(${zoom})`,transition: 'transform 0.3s ease', transformOrigin: 'top left',}}>
+    {/* // <div style={{ transform: `scale(${scale / 100})`, transformOrigin: '0 0', transition: 'transform 0.2s' }}> */}
+         {showHeaderAndSidebar && <Header zoomout={handleZoomOut} zoomin={handleZoomIn}/>} 
          {showHeaderAndSidebar && <Navbar />} 
          {showHeaderAndSidebar && <Toolbar />}
          <div className='layout-container'>
@@ -56,7 +70,7 @@ const LayoutWithMainContainer = () => {
                 </MainContainer>
             </div>    
           </div> 
-    </>
+    </div>
   );
 };
 
