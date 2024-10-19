@@ -1044,10 +1044,10 @@ const StampRelatedInventoryList = () => {
         <>
             {/* <Titlebar title={title} /> */}
             <DateAndTime />
-            <div className=" flex flex-col items-center justify-center py-3">
+            <div className=" flex flex-col items-center justify-center">
                 <div className="w-full " style={{ maxWidth: '100%' }}>
                     <h2 className="text-[#70685a] text-center text-2xl font-bold flex justify-center">日本の切手・ハガキ・レターパック 在庫リスト</h2>
-                    <div className='flex justify-evenly mt-5 '>
+                    <div className='flex justify-evenly mt-2'>
                         <div>
                             <div className='text-center' style={{ visibility: 'hidden' }}>abc</div>
                             <button type="button" onClick={gotoStampInboundApplication}
@@ -1073,7 +1073,7 @@ const StampRelatedInventoryList = () => {
                     {/* mainpart */}
                     <div className=' stamp-related-inventory-list flex gap-5'>
                         {/* -----stamp sheet------ */}
-                        <div className='stamp-related-inventory-list-one mt-10 w-full'>
+                        <div className='stamp-related-inventory-list-one mt-3 w-full'>
                             {/* first */}
                             <div className='flex justify-center h-11'>
                                 <div className='flex'>
@@ -1269,7 +1269,7 @@ const StampRelatedInventoryList = () => {
                             </div>
                         </div>
                         {/* ------stamp mounting past----- */}
-                        <div className='stamp-related-inventory-list-one mt-10 w-full'>
+                        <div className='stamp-related-inventory-list-one mt-3 w-full'>
                             {/* first */}
                             <div className='flex justify-center h-11'>
                                 <div className='flex'>
@@ -1449,7 +1449,7 @@ const StampRelatedInventoryList = () => {
                             </div>
                         </div>
                         {/* -----stamp rose------ */}
-                        <div className='stamp-related-inventory-list-one mt-10 w-full'>
+                        <div className='stamp-related-inventory-list-one mt-3 w-full'>
                             {/* first */}
                             <div className='flex justify-center h-11'>
                                 <div className='flex'>
@@ -1614,7 +1614,7 @@ const StampRelatedInventoryList = () => {
                             </div>
                         </div>
                         {/* ------Letter pack----- */}
-                        <div className='stamp-related-inventory-list-one mt-10 w-full mr-10 '>
+                        <div className='stamp-related-inventory-list-one mt-3 w-full mr-10 '>
                             {/* first */}
                             <div className='flex justify-center h-11'>
                                 <div className='flex'>

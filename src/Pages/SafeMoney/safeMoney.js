@@ -181,9 +181,9 @@ const SafeMoney = () => {
     return (
         <>
             {/* <Titlebar title={title} /> */}
-            <div className=" flex flex-col items-center justify-center py-3 px-4">
+            <div className=" flex flex-col items-center justify-center py-3">
                 <div className="w-full " >
-                    <div className='safe-money flex justify-around mt-10 '>
+                    <div className='safe-money flex justify-around'>
                         <div className='safe-money-first flex '>
                             <div className='flex'>
                                 <button type="button" onClick={gotoMonthlyIncome}
@@ -195,7 +195,7 @@ const SafeMoney = () => {
                         <div >
                             <h2 className="text-[#70685a] text-center text-2xl font-bold flex justify-center">金庫金  金銭出納帳（入出金履歴)</h2>
                         </div>
-                        <div className='safe-money-second justify-center mt-5' style={{display:'none'}}>
+                        <div className='safe-money-second justify-center mt-2' style={{display:'none'}}>
                             <div className='flex'>
                                 <button type="button"
                                     className="mr-10 px-3  py-1 min-w-[160px] text-[#70685a] rounded-full tracking-wider font-bold outline-none border border-[#70685a] ">月次収支報告書一覧</button>
@@ -203,7 +203,7 @@ const SafeMoney = () => {
                                     className=" mr-3 py-1 min-w-[160px] text-[#70685a] rounded-full tracking-wider font-bold outline-none border border-[#70685a] ">入出金申請</button>
                             </div>
                         </div>
-                        <div className='safe-money-third flex justify-around' style={{ visibility: 'hidden' }}>
+                        <div className='safe-money-third flex justify-around' style={{ display: 'none' }}>
                             <button type="button"
                                 className="py-1 min-w-[160px] text-[#70685a] rounded-full tracking-wider font-bold outline-none border border-[#70685a] ">Purple</button>
                             <button type="button"
@@ -211,14 +211,14 @@ const SafeMoney = () => {
                         </div>
                     </div>
                     {/*  */}
-                    <div className='flex justify-center mt-5' >
+                    <div className='flex justify-center mt-2' >
                         <button className='border border-[#6e6e7c] text-[#6e6e7c] px-2 mr-3 h-8 text-[18px] hover:bg-[#524c3b] hover:text-white transition-all duration-300'>今年</button>
                         <button className='border border-[#6e6e7c] text-[#6e6e7c] px-2 mr-3 text-[18px] hover:bg-[#524c3b] hover:text-white transition-all duration-300'>今月</button>
                         <button className='border border-[#6e6e7c] text-[#6e6e7c] px-2 mr-3 text-[18px] hover:bg-[#524c3b] hover:text-white transition-all duration-300'>前月</button>
                         <button className='border border-[#6e6e7c] text-[#6e6e7c] px-2 mr-3 text-[18px] hover:bg-[#524c3b] hover:text-white transition-all duration-300'>今日まで</button>
                     </div>
                     {/*  */}
-                    <div className='safe-money-search flex mt-3 justify-center'>
+                    <div className='safe-money-search flex mt-1 justify-center'>
                         <div className='flex justify-center mt-5'>
                             <div className='mr-5'>
                                 <select name="status" value={searchParams.status || ''} onChange={handleSearchChange} className="w-40 h-10 text-[#70685a] font-bold border border-[#70685a] px-4 py-1 outline-[#70685a]">
@@ -284,14 +284,14 @@ const SafeMoney = () => {
 
                     </div>
                     {/*  Tabe*/}
-                    <div className=' pb-20 flex justify-center mt-10' >
+                    <div className=' pb-20 flex justify-center mt-5' >
                         <div style={{ width: '100%' ,overflow:'auto'}}>
                             <table className=' text-center w-full' style={Table}>
                                 <thead>
                                     <tr>
                                         <th>NO</th>
                                         <th style={Th} >ステータス</th>
-                                        <th  style={Th} width='30%'>種別</th>
+                                        <th  style={Th}>種別</th>
                                         <th style={Th} >承諾</th>
                                         <th style={Th} >実行者</th>
                                         <th style={Th} >確定日</th>

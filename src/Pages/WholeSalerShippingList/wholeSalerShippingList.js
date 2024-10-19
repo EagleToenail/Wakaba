@@ -214,16 +214,14 @@ const fetchOldSalesData = async (ids) => {
             {/* <Titlebar title={title} /> */}
             <div className="bg-[trasparent] font-[sans-serif]">
                 <div className='flex justify-center'>
-                    <div className="w-full pt-3">
-
-
-                        <div className='flex justify-around mt-10' >
-                            <h2 className="text-[#70685a] text-center text-2xl flex justify-center">業者卸発送一覧</h2>
+                    <div className="w-full">
+                        <div className='flex justify-around mt-1' >
+                            <h2 className="text-[#70685a] font-bold text-center text-2xl flex justify-center">業者卸発送一覧</h2>
                         </div>
 
                         {/*  */}
-                        <div className='whole-saler-shipping flex mt-3 justify-center  pr-40 pl-40'>
-                            <div className='flex justify-center mt-5'>
+                        <div className='whole-saler-shipping flex justify-center  pr-40 pl-40'>
+                            <div className='flex justify-center mt-2'>
                                 <div className=' px-2 mr-2 text-center font-bold'>
                                     <LabelComponent value={'発送日'} className='flex justify-center' />
                                     <div>
@@ -243,7 +241,7 @@ const fetchOldSalesData = async (ids) => {
                                     </div>
                                 </div>
                             </div>
-                            <div className='flex justify-center mt-5'>
+                            <div className='flex justify-center mt-2'>
                                 <div className=' text-[#70685a] px-2 mr-2 font-bold'>
                                     <div className='text-center'>
                                         <LabelComponent value={'卸業者'} className='text-center'/>
@@ -286,7 +284,7 @@ const fetchOldSalesData = async (ids) => {
                         </div>
 
                         {/*  Table1-----------------------------------------*/}
-                        <div className='mt-10 pb-10 w-full flex'>
+                        <div className='mt-3 pb-10 w-full flex'>
                             <div className='w-full' style={{overflow: 'auto' }} >
                                 <table className='text-center w-full' style={Table}>
                                     <thead>

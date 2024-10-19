@@ -79,7 +79,7 @@ const InvoiceForPurchaseList = () => {
             {/* third line */}
             <div className='flex justify-center' >
                 <div className='flex justify-center' >
-                    <div className='flex justify-center mt-5 w-full' >
+                    <div className='flex justify-center mt-2 w-full' >
                         <div className='flex gap-20'>
                             <ButtonComponent  children={'古い顧客'} onClick={gotoCustomer} className='!bg-[#9bd195] text-[#fff] h-11 rounded-lg' />
                             <ButtonComponent  children={'新しい顧客'} onClick={gotoRegisterCustomer} className='!bg-[#a3a1c8] text-[#fff] h-11 rounded-lg' />
@@ -89,7 +89,7 @@ const InvoiceForPurchaseList = () => {
             </div>
 
             {/*  Tabe*/}
-            <div className='mt-10 pb-20 w-full flex justify-center' >
+            <div className='mt-3 pb-20 w-full flex justify-center' >
                 <div style={{ overflow: 'auto',maxWidth:'50em' }} className='w-full'>
                     <table style={Table}>
                         <thead className='sticky top-0 bg-white z-10'>

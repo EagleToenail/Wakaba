@@ -542,7 +542,7 @@ const VendorAssementSheet = () => {
         <>
             {/* <Titlebar title={title} /> */}
             {/* first button line  */}
-            <div className="w-full flex flex-col items-center justify-center py-3 px-4">
+            <div className="w-full flex flex-col items-center justify-center py-3">
                 <div className="w-full flex justify-center">
                     <div className='w-full'>
                         <div className='flex justify-center ml-10 ' >
@@ -727,7 +727,7 @@ const VendorAssementSheet = () => {
                                                     <select name='shipping_address' value={sale.shipping_address || ''} onChange={(e) => handleValueChange(sale.id,Index,e)} className="w-max h-8 text-[#70685a] font-bold px-4 py-1 outline-[#70685a]">
                                                         <option value=''></option>
                                                         {allVendors.length > 0 && allVendors.map((data, index) => (
-                                                            <option key={data.id} value={data.vendor_name}>{data.vendor_name || ''}</option>
+                                                            <option key={`allvendor-${index}`} value={data.vendor_name}>{data.vendor_name || ''}</option>
                                                         ))}
                                                     </select>
                                                 </td>
@@ -786,7 +786,11 @@ const VendorAssementSheet = () => {
                                                     </select>
                                                 </td>
                                                 <td style={Td}>
-                                                    {sale.product_photo != '' ? <ButtonComponent onClick={() => openProductImageModal(sale.product_photo)} children="写真" name='photo' className='w-max !px-5 rounded-lg border border-[#70685a]' style={{ backgroundColor: '#ebe5e1', color: '#626373' }} /> : 'ファイルなし'}
+                                                    {sale.product_photo != '' ?
+                                                        <button onClick={() => openProductImageModal(sale.product_photo)} name='photo' className='w-max'>
+                                                                <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSvgIcon-root MuiSvgIcon-fontSizeMedium svg-icon css-kry165 w-7" fill='#524c3b' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="PhotoOutlinedIcon" title="PhotoOutlined"><path d="M19 5v14H5V5zm0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2m-4.86 8.86-3 3.87L9 13.14 6 17h12z"></path></svg>
+                                                        </button> 
+                                                     : ''}
                                                 </td>
                                                 <td style={Td}>{sale.product_name || ''}</td>
                                                 {isDetailShow ? <td style={Td} >{sale.gold_type || ''}</td> : <td style={{ display: 'none' }}></td>}

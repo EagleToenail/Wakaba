@@ -209,31 +209,23 @@ const CommemorativeCoinchangeDetail = () => {
                     <div className='commemorative-coin w-full flex'>
                         <div className='commemorative-coin-one flex w-[40%] mt-5'>
                             <div className='flex ml-10'>
-                                <div className='text-right font-bold text-[#70685a] w-40'>
-                                    <div className=''>担当</div>
-                                    <div className='mt-1'>TEL</div>
-                                    <div className='mt-1 h-10'>実行予定日</div>
-                                    <div className='mt-1 h-10'>銀行名</div>
+                            <div className='text-right font-bold text-[#70685a] w-40'>
+                                    <div className='h-8 flex flex-col justify-center'>担当</div>
+                                    <div className='h-8 flex flex-col justify-center'>TEL</div>
+                                    <div className='h-10 flex flex-col justify-center'>実行予定日</div>
+                                    <div className='mt-2 h-10 flex flex-col justify-center'>銀行名</div>
                                 </div>
                                 <div className='ml-5 text-left text-[#70685a]'>
-                                    <div>{userData.username}</div>
-                                    <div className='mt-1'>{userData.phone}</div>
-                                    <div className='mt-1'>
+                                    <div className='h-8 flex flex-col justify-center'>{userData.username || '000-000-0000'}</div>
+                                    <div className='h-8 flex flex-col justify-center'>{userData.phone || '000-000-0000'}</div>
+                                    <div className='flex flex-col justify-center'>
                                         <div className='flex'>
                                             <div style={{ flexDirection: 'column', }} className='flex align-center justify-around'>
-                                                <input name="exchange_date" readOnly value={otherData.exchange_date || ''} type="text" required className="w-[170px] h-8 text-[#6e6e7c] border border-[#6e6e7c] text-[20px] px-4 py-1 outline-[#70685a]" />
-                                            </div>
-                                            <div style={{ flexDirection: 'column', }} className='flex flex-col justify-center pl-3'>
-                                                <div style={{ width: '40px', height: '30px', cursor: 'pointer' }}>
-                                                    <div style={{ position: 'relative' }}>
-                                                        <img src={dateimage} style={{ width: '40px', height: '30px', position: 'absolute', cursor: 'pointer' }} alt='calendar'></img>
-                                                        {/* <input type="date"   style={{ position: 'absolute', width: '40px', height: '30px', background: 'transparent', border: 'none', opacity: '0', cursor: 'pointer' }} /> */}
-                                                    </div>
-                                                </div>
+                                                <input name="exchange_date" value={otherData.exchange_date || '~~~'} type="text" required className="w-[170px] h-8 text-[#6e6e7c] border border-[#6e6e7c] text-[20px] px-4 py-1 outline-[#70685a]" readOnly />
                                             </div>
                                         </div>
                                     </div>
-                                    <div className='mt-1'><InputComponent readOnly={true} className='w-60 h-10'  value={otherData.bank_name} /></div>
+                                    <div className='mt-2 flex flex-col justify-center'><InputComponent readOnly className='w-60 h-10' name='bank_name' value={otherData.bank_name || ''} placeholder={'~~~'}/></div>
                                 </div>
                             </div>
                         </div>
@@ -248,7 +240,7 @@ const CommemorativeCoinchangeDetail = () => {
                     <div className='flex justify-center'>
                         <div>
                             <div className='flex w-full'>
-                                <InputComponent name='description' readOnly={true} value={otherData.description} onChange={handleOtherDataChange} placeholder='~~~日に、~~~銀行に、~~円 を両替に持っていきます。' className='!w-full font-bold' />
+                                <InputComponent name='description' readOnly={true} value={otherData.description || ''} onChange={handleOtherDataChange} placeholder='~~~日に、~~~銀行に、~~円 を両替に持っていきます。' className='!w-full font-bold' />
                             </div>
                         </div>
                     </div>
@@ -289,8 +281,8 @@ const CommemorativeCoinchangeDetail = () => {
                                         <thead>
                                             <tr>
                                                 <th >小計3</th>
-                                                <th >{totalNumberOfCoin}</th>
-                                                <th >¥{totalCoinValue}</th>
+                                                <th >{totalNumberOfCoin || ''}</th>
+                                                <th >¥{totalCoinValue || ''}</th>
                                                 <th ></th>
                                                 <th ></th>
                                             </tr>
@@ -327,8 +319,8 @@ const CommemorativeCoinchangeDetail = () => {
                                         <thead>
                                             <tr>
                                                 <th >小計3</th>
-                                                <th >{totalNumberOfBill}</th>
-                                                <th >¥{totalBillValue}</th>
+                                                <th >{totalNumberOfBill || ''}</th>
+                                                <th >¥{totalBillValue || ''}</th>
                                                 <th></th>
                                                 <th></th>
                                             </tr>

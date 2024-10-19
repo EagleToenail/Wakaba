@@ -148,19 +148,19 @@ const StampRelatedReceiptAndIssueHistory = () => {
     return (
         <>
             {/* <Titlebar title={title} /> */}
-            <div className=" flex flex-col items-center justify-center py-3 px-4">
+            <div className=" flex flex-col items-center justify-center">
                 <div className="w-full ">
                     <div className='stamp-inventory flex justify-around'>
-                        <div className='stamp-inventory-one flex justify-around mt-5' style={{ visibility: 'hidden' }}>
+                        <div className='stamp-inventory-one flex justify-around mt-2' style={{ visibility: 'hidden' }}>
                             <button type="button"
                                 className="py-1 min-w-[160px] text-[#70685a] rounded-full tracking-wider font-bold outline-none border border-[#70685a] ">Purple</button>
                             <button type="button"
                                 className="ml-10 py-1 min-w-[160px] text-[#70685a] rounded-full tracking-wider font-bold outline-none border border-[#70685a] ">Purple</button>
                         </div>
-                        <div className='mt-5'>
+                        <div className='mt-2'>
                             <h2 className="text-[#70685a] text-center text-2xl font-bold flex justify-center">日本の切手 ハガキ レターパック  入出庫履歴</h2>
                         </div>
-                        <div className='stamp-inventory-second flex justify-center mt-5' >
+                        <div className='stamp-inventory-second flex justify-center mt-2' >
                             <div className='flex'>
                                 <button type="button" onClick={gotoInboundPage}
                                     className="mr-10 px-3  py-1 min-w-[160px] text-[#70685a] rounded-full tracking-wider font-bold outline-none border border-[#70685a] hover:bg-[#524c3b] hover:text-white transition-all duration-300">入庫申請</button>
@@ -170,15 +170,15 @@ const StampRelatedReceiptAndIssueHistory = () => {
                         </div>
                     </div>
                     {/*  */}
-                    <div className='flex justify-center mt-5' >
+                    <div className='flex justify-center mt-2' >
                         <button onClick={getThisYearData} className='border border-[#6e6e7c] text-[#6e6e7c] px-2 mr-3 h-8 text-[18px] hover:bg-[#524c3b] hover:text-white transition-all duration-300'>今年</button>
                         <button onClick={getThisMonthData}  className='border border-[#6e6e7c] text-[#6e6e7c] px-2 mr-3 text-[18px] hover:bg-[#524c3b] hover:text-white transition-all duration-300'>今月</button>
                         <button onClick={getLastMonthData}  className='border border-[#6e6e7c] text-[#6e6e7c] px-2 mr-3 text-[18px] hover:bg-[#524c3b] hover:text-white transition-all duration-300'>前月</button>
                         <button onClick={getTodayData}  className='border border-[#6e6e7c] text-[#6e6e7c] px-2 mr-3 text-[18px] hover:bg-[#524c3b] hover:text-white transition-all duration-300'>今日まで</button>
                     </div>
                     {/*  */}
-                    <div className='safe-money-search flex mt-3 justify-center'>
-                        <div className='flex justify-center mt-5'>
+                    <div className='safe-money-search flex justify-center'>
+                        <div className='flex justify-center mt-2'>
                             <div className='mr-5'>
                                 <select name="inorout" value={searchParams.inorout || ''} onChange={handleSearchChange} className="w-40 h-10 text-[#70685a] font-bold border border-[#70685a] px-4 py-1 outline-[#70685a]">
                                     <option value=""></option>
@@ -197,7 +197,7 @@ const StampRelatedReceiptAndIssueHistory = () => {
                                 </select>
                             </div>
                         </div>
-                        <div className='flex justify-center mt-5'>
+                        <div className='flex justify-center mt-2'>
                             <div className='flex'>
                                 <div style={{ flexDirection: 'column', }} className='flex align-center justify-around'>
                                     <input name="start_date" value={searchParams.start_date || ''} type="text"  required className="w-full h-8 text-[#6e6e7c] border border-[#6e6e7c] text-[20px] px-4 py-1 outline-[#70685a]" readOnly />
@@ -228,7 +228,7 @@ const StampRelatedReceiptAndIssueHistory = () => {
                                 </div>
                             </div>
                         </div>
-                        <div className='flex justify-center mt-5'>
+                        <div className='flex justify-center mt-2'>
                             <div className=' text-[#70685a] px-2 mr-5 flex flex-col justify-center'>
                                 <label className="text-[#656565] text-[20px] mb-2 block text-center !mb-0">この条件で</label>
                             </div>
@@ -246,7 +246,7 @@ const StampRelatedReceiptAndIssueHistory = () => {
 
 
                     {/*  Tabe*/}
-                    <div className='w-full pb-20 flex justify-center mt-10' >
+                    <div className='w-full pb-20 flex justify-center mt-3' >
                         <div className='w-full' style={{overflow:'auto'}}>
                             <table className=' text-center w-full' style={Table}>
                                 <thead>

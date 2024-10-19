@@ -248,7 +248,7 @@ const MonthlyIncome = () => {
     return (
         <>
             {/* <Titlebar title={title} /> */}
-                <div className='monthly-income flex justify-around mt-10'>
+                <div className='monthly-income flex justify-around mt-2'>
                     <div className='monthly-income-first flex'>
                         <button type="button" onClick={()=>getThisMonthData()}
                             className="mr-10  py-1 min-w-[160px] text-[#70685a] rounded-full tracking-wider font-bold outline-none border border-[#70685a] hover:bg-[#524c3b] hover:text-white transition-all duration-300">当月分表示</button>
@@ -272,14 +272,14 @@ const MonthlyIncome = () => {
                     </div>
                 </div>
                 {/*  */}
-                <div className='flex justify-center mt-5'>
+                <div className='flex justify-center mt-2'>
                     <button onClick={()=>getThisYearData()} className='border border-[#6e6e7c] text-[#6e6e7c] px-2 mr-3 h-8 text-[18px] cursor-pointer hover:bg-[#524c3b] hover:text-white transition-all duration-300'>今年</button>
                     <button onClick={()=>getLastMonthData()} className='border border-[#6e6e7c] text-[#6e6e7c] px-2 mr-3 text-[18px] cursor-pointer hover:bg-[#524c3b] hover:text-white transition-all duration-300'>今月</button>
                     <button onClick={()=>getThisMonthData()} className='border border-[#6e6e7c] text-[#6e6e7c] px-2 mr-3 text-[18px] cursor-pointer hover:bg-[#524c3b] hover:text-white transition-all duration-300'>前月</button>
                     <button onClick={()=>getTodayData()} className='border border-[#6e6e7c] text-[#6e6e7c] px-2 mr-3 text-[18px] cursor-pointer hover:bg-[#524c3b] hover:text-white transition-all duration-300'>今日まで</button>
                 </div>
                 {/*  */}
-                <div className='monthly-income-date flex mt-3 justify-center'>
+                <div className='monthly-income-date flex justify-center'>
                     <div className='flex justify-center mt-3'>
                         <div className='flex'>
                             <div style={{  flexDirection: 'column', }} className='flex align-center justify-around'>
@@ -327,7 +327,7 @@ const MonthlyIncome = () => {
 
                 </div>
                 {/*  */}
-                <div className='flex mt-5'>
+                <div className='flex mt-3'>
                     <div className='w-max' style={{ marginLeft: '10%' }}>
                         <div className='text-center text-[#656565] text-[15px] font-bold '>前月末金庫残</div>
                         <div className='border border-[#6e6e7c] text-[#6e6e7c] px-2 text-center'>¥9,999,999</div>
@@ -355,7 +355,7 @@ const MonthlyIncome = () => {
                         </button>
                     </div>
                     <div style={{width:'100%',overflow:'auto'}} >
-                    <table className='text-center w-max mt-5' style={Table}>
+                    <table className='text-center w-max mt-2' style={Table}>
                         <thead>
                             <tr>
                                 <th style={Th}>日付</th>

@@ -9,6 +9,8 @@ import axios from 'axios';
 
 const StampPurchaseInterestRateChange = () => {
     // const title = 'タイトルタイトル';
+    const role = localStorage.getItem('role');
+
     const Table = {
         borderCollapse: 'collapse',
         color: '#70685a',
@@ -170,9 +172,11 @@ const StampPurchaseInterestRateChange = () => {
                         <div className='stamp-rate-two w-[40%] flex justify-center mt-5'>
                             <ButtonComponent onClick={sendRateData} children="申請" className='py-2'/>
                         </div>
+                        {role === '2' ? 
                         <div className='stamp-rate-two w-[30%] flex justify-center mt-5'>
                             <ButtonComponent children="変更を許可" className='!bg-[#9bd195] !py-1 !px-5'/>
                         </div>
+                        : <div className='stamp-rate-two w-[30%] mt-5'></div>}
                     </div>
                 </div>
             </div>

@@ -443,7 +443,7 @@ const CommemorativeCoinExchange = () => {
                                             </div>
                                         </div>
                                     </div>
-                                    <div className='mt-2 flex flex-col justify-center'><InputComponent className='w-60 h-10' name='bank_name' value={otherData.bank_name || '~~~'} onChange={handleOtherDataChange}/></div>
+                                    <div className='mt-2 flex flex-col justify-center'><InputComponent className='w-60 h-10' name='bank_name' value={otherData.bank_name || ''} placeholder={'~~~'} onChange={handleOtherDataChange}/></div>
                                 </div>
                             </div>
                         </div>

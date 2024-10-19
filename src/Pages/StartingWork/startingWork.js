@@ -32,13 +32,13 @@ const StartingWork = () => {
         <>
             {/* <Titlebar title={title} /> */}
             <DateAndTime />
-            <div className="bg-[trasparent] font-[sans-serif] mt-12">
+            <div className="bg-[trasparent] font-[sans-serif]">
                 <div className=" flex flex-col items-center justify-center px-4">
-                    <div className="w-full pt-3" style={{ maxWidth: '80em' }}>
+                    <div className="w-full" style={{ maxWidth: '80em' }}>
                         <div className=" rounded-2xl">
                             <h2 className="text-[#70685a] text-center text-2xl font-bold flex justify-center">始業作業</h2>
                             <h2 className="text-[#ff0000] text-center text-2xl font-bold flex justify-center !mt-3">オープン時間の10:00までに、全て完了してください</h2>
-                            <form className=" space-y-6 !mt-10">
+                            <form className=" space-y-2 !mt-2">
                                 {/* new */}
                                 <div className='flex'>
                                     <div style={{ width: '10%' }} className='flex align-center justify-end'>
@@ -193,12 +193,12 @@ const StartingWork = () => {
                                         <label className="text-[#70685a] fold-semiblod mb-1 block text-center text-[20px] py-1 !mb-0">12.</label>
                                     </div>
                                     <div style={{ width: '85%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                        <label className="text-[#70685a] fold-semiblod mb-1 block text-left text-[20px] mr-10 py-1 !mb-0">【新人】ー人ロープレ</label>
+                                        <label className="text-[#70685a] fold-semiblod block text-left text-[20px] mr-10 py-1 !mb-0">【新人】ー人ロープレ</label>
                                     </div>
                                 </div>
 
 
-                                <div className='flex justify-between !mt-5' >
+                                <div className='flex justify-between !mt-1' >
 
                                     <div className="!mt-5 flex" style={{ marginBottom: '10px', width: '70%', paddingLeft: '30%' }}>
                                         <div className='w-full flex justify-center'>

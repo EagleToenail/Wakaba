@@ -109,14 +109,14 @@ setTimeout(clearStorage, timeUntilOneMinuteBeforeMidnight);
 
 //----------------------go to admin top----------------------------
   const gotoAdminTop = () => {
-    if(userData.role_flag===4){
+    if(userData.role_flag==='4'){
       navigate('/admin/managementSettingSuperAdministratorTOP');
     }
-    if(userData.role_flag===3){
+    if(userData.role_flag==='3'){
       navigate('/admin/managementheadquaterstop');
     }
     
-    if(userData.role_flag===2){
+    if(userData.role_flag==='2'){
       navigate('/admin/ownerstop');
     }
   }

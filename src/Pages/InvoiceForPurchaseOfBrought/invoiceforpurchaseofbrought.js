@@ -89,7 +89,7 @@ const InvoicePurchaseOfBrought = () => {
 
     const userStoreName = localStorage.getItem('storename');
     const userId = localStorage.getItem('userId');
-    const username = localStorage.getItem('username');
+    const username = localStorage.getItem('fullname');
     const role = localStorage.getItem('role')
 
     const [users, setUsers] = useState([]);
@@ -299,6 +299,7 @@ const InvoicePurchaseOfBrought = () => {
         gold_type:'',
         gross_weight:'',
         price_gram:'',
+        serial_number:'',
         action_type:'',
         movable:'',
         tester:'',
@@ -629,6 +630,7 @@ const InvoicePurchaseOfBrought = () => {
             formData.append('gold_type', salesSlipData.gold_type);
             formData.append('gross_weight', salesSlipData.gross_weight);
             formData.append('price_gram', salesSlipData.price_gram);
+            formData.append('serial_number', salesSlipData.serial_number);
             formData.append('action_type', salesSlipData.action_type);
             formData.append('movable', salesSlipData.movable);
             formData.append('tester', salesSlipData.tester);
@@ -687,6 +689,7 @@ const InvoicePurchaseOfBrought = () => {
                         gold_type:'',
                         gross_weight:'',
                         price_gram:'',
+                        serial_number:'',
                         action_type:'',
                         movable:'',
                         tester:'',
@@ -801,6 +804,7 @@ const InvoicePurchaseOfBrought = () => {
             formData.append('gold_type', salesSlipData.gold_type);
             formData.append('gross_weight', salesSlipData.gross_weight);
             formData.append('price_gram', salesSlipData.price_gram);
+            formData.append('serial_number', salesSlipData.serial_number);
             formData.append('action_type', salesSlipData.action_type);
             formData.append('movable', salesSlipData.movable);
             formData.append('tester', salesSlipData.tester);
@@ -856,6 +860,7 @@ const InvoicePurchaseOfBrought = () => {
                             gold_type:'',
                             gross_weight:'',
                             price_gram:'',
+                            serial_number:'',
                             action_type:'',
                             movable:'',
                             tester:'',
@@ -914,6 +919,7 @@ const InvoicePurchaseOfBrought = () => {
             gold_type:'',
             gross_weight:'',
             price_gram:'',
+            serial_number:'',
             action_type:'',
             movable:'',
             tester:'',
@@ -982,6 +988,7 @@ const InvoicePurchaseOfBrought = () => {
                     gold_type:'',
                     gross_weight:'',
                     price_gram:'',
+                    serial_number:'',
                     action_type:'',
                     movable:'',
                     tester:'',
@@ -1257,8 +1264,20 @@ const InvoicePurchaseOfBrought = () => {
                     product_type_three: '',
                     product_type_four: '',
 
-                    metal_type:'',
-                    price_per_gram:'',
+                    gold_type:'',
+                    gross_weight:'',
+                    price_gram:'',
+                    serial_number:'',
+                    action_type:'',
+                    movable:'',
+                    tester:'',
+                    model_number_one:'',
+                    box_guarantee:'',
+                    rank:'',
+                    brand:'',
+                    capacity:'',
+                    percent:'',
+                    notes:'',
     
                     product_photo: '',
                     product_name: '',
@@ -1637,6 +1656,23 @@ useEffect(() => {
       })
       .catch(error => console.log(error));
   }, []);
+//-----------------------------------------brand capacity percent----------------------------------------------
+const brandValues = [
+    "リキュールブランドA",  // Liqueur Brand A
+    "ウイスキーブランドB",  // Whiskey Brand B
+    "生酒ブランドC",        // Nama Sake Brand C
+    "スパークリングワインブランドD", // Sparkling Wine Brand D
+    "ウィスキーブランドE",  // Whiskey Brand E
+    "ブランデーブランドF",  // Brandy Brand F
+    "ワインブランドG",      // Wine Brand G
+    "コニャックブランドH",  // Cognac Brand H
+    "銘柄ブランドI",        // Brand Name I
+    "焼酎ブランドJ",        // Shochu Brand J
+    "紹興酒ブランドK",      // Shaoxing Wine Brand K
+    "清酒ブランドL"         // Sake Brand L
+  ];
+  const capacityValues = ['700','750'];
+  const percentValues = ['40%','43%'];
 //---------------------------------------------------------------------------------------
     return (<>
         {/* <Titlebar title={title} /> */}
@@ -1718,96 +1754,96 @@ useEffect(() => {
             <div className="invoice-purchase-brought flex  justify-center ">
                 <div className="w-full flex justify-center" >
                     <div className="w-full rounded-2xl">
-                        <form className=" space-y-1">
+                        <form className=" space-y-3">
                             {/* new */}
                             <div className='flex'>
-                                <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <label className="text-[#70685a] font-bold mb-2 block text-center mr-10 py-1 !mb-0">本人確認書類</label>
+                                <div style={{ width: '20%', flexDirection: 'column', }} className='flex align-center justify-around'>
+                                    <label className="text-[#70685a] font-bold mb-2 block text-center mr-10 !mb-0">本人確認書類</label>
                                 </div>
                                 <div style={{ width: '75%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <label className="w-full text-[#70685a] text-[20px]  px-4 py-2 outline-[#70685a]">マイナンバーカ一ド</label>
+                                    <label className="w-full text-[#70685a] text-[20px]  px-4 outline-[#70685a]">マイナンバーカ一ド</label>
                                 </div>
                             </div>
                             {/* new */}
                             <div className='flex'>
                                 <div style={{ width: '20%', flexDirection: 'column', }} className='!mb-0 flex align-center justify-around'>
-                                    <label className="text-[#70685a] font-bold mb-2 block text-center mr-10 py-1 !mb-0">顧客番号</label>
+                                    <label className="text-[#70685a] font-bold mb-2 block text-center mr-10 !mb-0">顧客番号</label>
                                 </div>
                                 <div style={{ width: '30%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <label className="text-[#70685a] text-[20px] font-bold mb-2 block text-left mr-10 py-2 !mb-0">{customer.id}</label>
+                                    <label className="text-[#70685a] text-[20px] font-bold mb-2 block text-left mr-10 !mb-0">{customer.id || ''}</label>
                                 </div>
                                 <div style={{ width: '20%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-3 !mb-0">VIP</label>
+                                    <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 !mb-0">VIP</label>
                                 </div>
                             </div>
                             {/* new */}
                             <div className='flex'>
                                 <div style={{ width: '20%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <label className="text-[#70685a] font-bold mb-2 block text-center mr-10 py-1 !mb-0">お名前</label>
+                                    <label className="text-[#70685a] font-bold mb-2 block text-center mr-10 !mb-0">お名前</label>
                                 </div>
                                 <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <label className="w-full text-[#70685a] text-[20px]  py-2 outline-[#70685a]">{customer.full_name}</label>
+                                    <label className="w-full text-[#70685a] text-[20px] outline-[#70685a]">{customer.full_name || ''}</label>
                                 </div>
                                 <div style={{ width: '5%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <label className="text-[#70685a] font-bold mb-2 block text-left mr-10 py-3 !mb-0">{customer.gender}</label>
+                                    <label className="text-[#70685a] font-bold mb-2 block text-left mr-10 !mb-0">{customer.gender || ''}</label>
                                 </div>
                                 <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">カタカナ</label>
+                                    <label className="text-[#70685a] font-bold mb-2 block text-center mr-10 !mb-0">カタカナ</label>
                                 </div>
                                 <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <label className="w-full text-[#70685a] text-[20px]  px-4 py-2 outline-[#70685a]">{customer.katakana_name}</label>
+                                    <label className="w-full text-[#70685a] text-[20px]  px-4 outline-[#70685a]">{customer.katakana_name || ''}</label>
                                 </div>
                             </div>
                             {/* new */}
                             <div className='flex'>
                                 <div style={{ width: '20%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <label className="text-[#70685a] font-bold mb-2 block text-center mr-10 py-1 !mb-0">お電話番号</label>
+                                    <label className="text-[#70685a] font-bold mb-2 block text-center mr-10 !mb-0">お電話番号</label>
                                 </div>
                                 <div style={{ width: '20%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <label className="w-full text-[#70685a] text-[20px] py-2 outline-[#70685a]">{customer.phone_number}</label>
+                                    <label className="w-full text-[#70685a] text-[20px] outline-[#70685a]">{customer.phone_number || ''}</label>
                                 </div>
                                 <div style={{ width: '20%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <label className="text-[#70685a] font-bold mb-2 block text-center py-1 !mb-0">生年月日</label>
+                                    <label className="text-[#70685a] font-bold mb-2 block text-center !mb-0">生年月日</label>
                                 </div>
                                 <div style={{ width: '20%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <label className="w-full text-[#70685a] text-[20px]  px-4 py-2 outline-[#70685a]">{customer.birthday}</label>
+                                    <label className="w-full text-[#70685a] text-[20px]  px-4 outline-[#70685a]">{customer.birthday || ''}</label>
                                 </div>
                                 <div style={{ width: '10%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <label className="w-full text-[#70685a] text-[20px]  px-4 py-2 outline-[#70685a]">{customer.age || ''}才</label>
+                                    <label className="w-full text-[#70685a] text-[20px]  px-4 outline-[#70685a]">{customer.age || ''}才</label>
                                 </div>
                             </div>
                             {/* new */}
                             <div className='flex'>
                                 <div style={{ width: '20%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <label className="text-[#70685a] font-bold mb-2 block text-center mr-10 py-1 !mb-0">ご住所</label>
+                                    <label className="text-[#70685a] font-bold mb-2 block text-center mr-10 !mb-0">ご住所</label>
                                 </div>
-                                <div style={{ width: '20%', }} className='flex justify-end'>
-                                    <label className="w-full text-[#70685a] text-[20px]  py-2 outline-[#70685a]">{customer.address}</label>
-                                </div>
-                                <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <label className="text-[#70685a] font-bold mb-2 block text-center py-1 !mb-0">e-mail</label>
+                                <div style={{ width: '30%', }} className='flex justify-end'>
+                                    <label className="w-full text-[#70685a] text-[20px]  outline-[#70685a]">{customer.address || ''}</label>
                                 </div>
                                 <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <label className="w-full text-[#70685a] text-[20px]  px-4 py-2 outline-[#70685a]">{customer.email}</label>
+                                    <label className="text-[#70685a] font-bold mb-2 block text-center mr-10 !mb-0">e-mail</label>
+                                </div>
+                                <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
+                                    <label className="w-full text-[#70685a] text-[20px]  px-4 outline-[#70685a]">{customer.email ||''}</label>
                                 </div>
                             </div>
                             {/* new */}
                             <div className='flex'>
                                 <div style={{ width: '20%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <label className="text-[#70685a] font-bold mb-2 block text-center mr-10 py-1 !mb-0">ご職業</label>
+                                    <label className="text-[#70685a] font-bold mb-2 block text-center mr-10 !mb-0">ご職業</label>
                                 </div>
                                 <div style={{ width: '75%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <label className="w-full text-[#70685a] text-[20px] py-2 outline-[#70685a]">{customer.job}</label>
+                                    <label className="w-full text-[#70685a] text-[20px] outline-[#70685a]">{customer.job || ''}</label>
                                 </div>
                             </div>
 
                             {/* new */}
                             <div className='flex'>
                                 <div style={{ width: '20%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <label className="text-[#70685a] font-bold mb-2 block text-center mr-10 py-1 !mb-0">特記事項</label>
+                                    <label className="text-[#70685a] font-bold mb-2 block text-center mr-10 !mb-0">特記事項</label>
                                 </div>
                                 <div style={{ width: '75%', flexDirection: 'column', }} className='flex align-center justify-around relative group mx-auto'>
-                                    <label className="w-full text-[#70685a] text-[20px] py-2 outline-[#70685a] ellipsis">{customer.special_note || '盗品持ち込みの可能性があるため要注意'}</label>
+                                    <label className="w-full text-[#70685a] text-[20px] outline-[#70685a] ellipsis">{customer.special_note || '盗品持ち込みの可能性があるため要注意'}</label>
                                     <div class="absolute shadow-lg hidden group-hover:block bg-[#333] text-white font-semibold px-3 py-[6px] text-[13px] left-0 mx-auto w-max -bottom-10 rounded before:w-4 before:h-4 before:rotate-45 before:bg-[#333] before:absolute before:z-[-1] before:-top-1 before:left-0  before:right-0 before:mx-auto">
                                         {customer.special_note || '盗品持ち込みの可能性があるため要注意'}
                                     </div>
@@ -2107,7 +2143,7 @@ useEffect(() => {
                                 {isDetailShow ? <th style={Th} >テスター</th> : <th style={{ display: 'none' }}></th>}
                                 {isDetailShow ? <th style={Th} >箱ギャラ</th> : <th style={{ display: 'none' }}></th>}
                                 {isDetailShow ? <th style={Th} >ランク</th> : <th style={{ display: 'none' }}></th>}
-                                {isDetailShow ? <th style={Th} >銘柄</th> : <th style={{ display: 'none' }}></th>}
+                                {isDetailShow ? <th style={Th} >種類</th> : <th style={{ display: 'none' }}></th>}
                                 {isDetailShow ? <th style={Th} >容量</th> : <th style={{ display: 'none' }}></th>}
                                 {isDetailShow ? <th style={Th} >度数</th> : <th style={{ display: 'none' }}></th>}
                                 {isDetailShow ? <th style={Th} >備考</th> : <th style={{ display: 'none' }}></th>}
@@ -2198,8 +2234,8 @@ useEffect(() => {
                                 <td style={Td}>
                                     <div style={{ flexDirection: 'column', }} className='flex justify-center'>
                                         <div className='flex justify-center py-1'>
-                                            < button type="button" onClick={() => handleButtonClick(sendInputRef)} className="w-20 flex justify-center font-blod rounded-lg text-[#70685a] text-[18px] bg-[#ebe6e0] hover:bg-blue-700 focus:outline-none">
-                                                <svg className="w-7 h-7 flex justify-center " focusable="false" aria-hidden="true" fill='#524c3b' viewBox="0 0 24 24" data-testid="FileUploadOutlinedIcon" title="FileUploadOutlined"><path d="M18 15v3H6v-3H4v3c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2v-3zM7 9l1.41 1.41L11 7.83V16h2V7.83l2.59 2.58L17 9l-5-5z"></path></svg>
+                                            < button type="button" onClick={() => handleButtonClick(sendInputRef)} className="w-7 flex justify-center">
+                                                <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSvgIcon-root MuiSvgIcon-fontSizeMedium svg-icon css-kry165 w-7" fill='#524c3b' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CloudUploadOutlinedIcon" tabindex="-1" title="CloudUploadOutlined"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96M19 18H6c-2.21 0-4-1.79-4-4 0-2.05 1.53-3.76 3.56-3.97l1.07-.11.5-.95C8.08 7.14 9.94 6 12 6c2.62 0 4.88 1.86 5.39 4.43l.3 1.5 1.53.11c1.56.1 2.78 1.41 2.78 2.96 0 1.65-1.35 3-3 3M8 13h2.55v3h2.9v-3H16l-4-4z"></path></svg>
                                             </button>
                                             <input type="file" name="fileUrl" ref={sendInputRef} style={{ display: 'none' }} onChange={(e) => handleFileChange(e)} />
                                         </div>
@@ -2223,6 +2259,12 @@ useEffect(() => {
                                     <td style={Td}>
                                         <InputComponent name='price_gram' type='text' onChange={handleChange} value={salesSlipData.price_gram || ''} className='w-20 h-8 text-[#70685a]' />
                                     </td> :  <td style={Td}></td>    
+                                 : <td style={{ display: 'none' }}></td>}
+                                {isDetailShow ? (salesSlipData.product_type_one === '時計' || salesSlipData.product_type_one === 'バッグ' 
+                                     || salesSlipData.product_type_one === '財布' || salesSlipData.product_type_one === 'カメラ' || salesSlipData.product_type_one === '楽器' || salesSlipData.product_type_one === 'スマホタブレット') ?
+                                    <td style={Td}>
+                                        <InputComponent name='serial_number' type='text' onChange={handleChange} value={salesSlipData.serial_number || ''} className='w-20 h-8 text-[#70685a]' />
+                                    </td>  : <td style={Td}></td>
                                  : <td style={{ display: 'none' }}></td>}
                                 {isDetailShow ? (salesSlipData.product_type_one === '時計' || salesSlipData.product_type_one === 'バッグ' 
                                      || salesSlipData.product_type_one === '財布' || salesSlipData.product_type_one === 'アクセサリー' || salesSlipData.product_type_one === 'カメラ') ?
@@ -2257,17 +2299,32 @@ useEffect(() => {
                                  : <td style={{ display: 'none' }}></td>}
                                 {isDetailShow ? salesSlipData.product_type_one === '洋酒' ?
                                     <td style={Td}>
-                                        <InputComponent name='box_guarantee' type='text' onChange={handleChange} value={salesSlipData.box_guarantee || ''} className='w-20 h-8 text-[#70685a]' />
+                                        <InputComponent list='wine-brands' name='brand' type='text' onChange={handleChange} value={salesSlipData.brand || ''} className='w-20 h-8 text-[#70685a]' />
+                                        <datalist id="wine-brands">
+                                            {brandValues.map((brand, index) => (
+                                                <option key={index} value={brand} />
+                                            ))}
+                                        </datalist>
                                     </td> : <td style={Td}></td>
                                  : <td style={{ display: 'none' }}></td>}
                                 {isDetailShow ? salesSlipData.product_type_one === '洋酒' ?
                                     <td style={Td}>
-                                        <InputComponent name='capacity' type='text' onChange={handleChange} value={salesSlipData.capacity || ''} className='w-20 h-8 text-[#70685a]' />
+                                        <InputComponent list='wine-capacities' name='capacity' type='text' onChange={handleChange} value={salesSlipData.capacity || ''} className='w-20 h-8 text-[#70685a]' />
+                                        <datalist id="wine-capacities">
+                                            {capacityValues.map((capacity, index) => (
+                                                <option key={index} value={capacity} />
+                                            ))}
+                                        </datalist>
                                     </td> : <td style={Td}></td>
                                  : <td style={{ display: 'none' }}></td>}
                                 {isDetailShow ? salesSlipData.product_type_one === '洋酒' ?
                                     <td style={Td}>
-                                        <InputComponent name='percent' type='text' onChange={handleChange} value={salesSlipData.percent || ''} className='w-20 h-8 text-[#70685a]' />
+                                        <InputComponent list='wine-percents' name='percent' type='text' onChange={handleChange} value={salesSlipData.percent || ''} className='w-20 h-8 text-[#70685a]' />
+                                        <datalist id="wine-percents">
+                                            {percentValues.map((percent, index) => (
+                                                <option key={index} value={percent} />
+                                            ))}
+                                        </datalist>
                                     </td> : <td style={Td}></td>
                                     : <td style={{ display: 'none' }}></td>}
                                 {isDetailShow ?
@@ -2344,7 +2401,11 @@ useEffect(() => {
                                         {isshow ? <td style={Td} >{salesData.product_type_three || ''}</td> : <td style={{ display: 'none' }}></td>}
                                         {isshow ? <td style={Td} >{salesData.product_type_four || ''}</td> : <td style={{ display: 'none' }}></td>}
                                         <td style={Td}>
-                                            {salesData.product_photo != '' ? <ButtonComponent onClick={() => openProductImageModal(salesData.product_photo)} children="写真" name='photo' className='w-max !px-5 rounded-lg border border-[#70685a]' style={{ backgroundColor: '#ebe5e1', color: '#626373' }} /> : 'ファイルなし'}
+                                            {salesData.product_photo != '' ? 
+                                            <button onClick={() => openProductImageModal(salesData.product_photo)} name='photo' className='w-max'>
+                                                <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSvgIcon-root MuiSvgIcon-fontSizeMedium svg-icon css-kry165 w-7" fill='#524c3b' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="PhotoOutlinedIcon" title="PhotoOutlined"><path d="M19 5v14H5V5zm0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2m-4.86 8.86-3 3.87L9 13.14 6 17h12z"></path></svg>
+                                            </button> 
+                                             : ''}
                                         </td>
                                         <td style={Td1} onClick={() => handleProductClick(Index)}
                                             onMouseOver={() => handleMouseOver(Index)}
@@ -2421,6 +2482,7 @@ useEffect(() => {
                                          : <td style={{ display: 'none' }}></td>}
                                         {isDetailShow ? <td style={Td} >{salesData.gross_weight || ''}</td> : <td style={{ display: 'none' }}></td>}
                                         {isDetailShow ? <td style={Td} >{salesData.price_gram || ''}</td> : <td style={{ display: 'none' }}></td>}
+                                        {isDetailShow ? <td style={Td} >{salesData.serial_number || ''}</td> : <td style={{ display: 'none' }}></td>}
                                         {isDetailShow ? <td style={Td} >{salesData.model_number_one || ''}</td> : <td style={{ display: 'none' }}></td>}
                                         {isDetailShow ? <td style={Td} >{salesData.action_type || ''}</td> : <td style={{ display: 'none' }}></td>}
                                         {isDetailShow ? <td style={Td} >{salesData.movable || ''}</td> : <td style={{ display: 'none' }}></td>}
@@ -2852,6 +2914,8 @@ useEffect(() => {
                                     <option value=""></option>
                                     <option value="まだ利用する">まだ利用する</option>
                                     <option value="もう利用しない">もう利用しない</option>
+                                    <option value="本日売却予定">本日売却予定</option>
+                                    <option value="査定額次第で売却">査定額次第で売却</option>
                                 </select>
                             </div>
                             <InputComponent name='comment4' value={modalValue.comment4 || ''} onChange={handleCommentChange} className="w-full ml-3 mt-2 text-[#70685a] mb-2 block text-left  mr-10 py-1 !mb-0 !h-8" placeholder={''} />

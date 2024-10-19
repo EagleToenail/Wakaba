@@ -28,8 +28,6 @@ const Login = () => {
                 password: password,
             };
 
-            console.log('payload',payload);
-
             // API URL should be stored in your environment variables
             const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
 
@@ -46,6 +44,7 @@ const Login = () => {
             localStorage.setItem('username', response.data.payload.username);
             localStorage.setItem('storename', response.data.payload.storename);
             localStorage.setItem('role', response.data.payload.role);
+            localStorage.setItem('fullname',response.data.fullname);
             localStorage.setItem(
                 'cache',
                 JSON.stringify({
