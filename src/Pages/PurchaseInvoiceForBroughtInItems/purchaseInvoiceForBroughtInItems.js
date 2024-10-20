@@ -61,6 +61,29 @@ const PurchaseInvoiceForBroughtInItems = () => {
     //     clearReduxData();
     // }
 
+    //---------------------------whole hearing data
+    const [nextItems,setNextItems] = useState([]);
+    const [sendDM, setSendDM] = useState([]);
+
+    const getNextItems = () => {
+        if (purchaseInformation.totalSalesSlipData?.length > 0) {
+            const data = purchaseInformation.wholeHearingData;
+
+            const labelsFromIndex4To19 = data
+                .filter(item => item.Index >= 4 && item.Index <= 19) // Filter based on Index
+                .map(item => item.label); // Map to extract labels
+            setNextItems(labelsFromIndex4To19);
+            const labelsFromIndex20To21 = data
+                .filter(item => item.Index >= 20 && item.Index <= 21) // Filter based on Index
+                .map(item => item.label); // Map to extract labels
+            setSendDM(labelsFromIndex20To21);
+        }
+    }
+
+    useEffect(() => {
+        getNextItems();
+    }, [purchaseInformation]); // Recalculate whenever purchaseInformation changes
+
     const [totalQuantity, setTotalQuantity] = useState('');
     const [totalPrice, setTotalPrice] = useState('');
 
@@ -497,6 +520,33 @@ const PurchaseInvoiceForBroughtInItems = () => {
                                             <label className="text-[#70685a] font-bold mb-2 block text-left mr-3 pt-1 mr-30 ml-2 !mb-0 flex flex-col justify-center"> 規約を熟読して了承しました。</label>
                                         </div>
 
+                                    </div>
+                                </div>
+                            </div>                            
+                            {/* ----------------whole hearing data--------------- */}
+                            <div>
+                                <div className='flex justify-center'>
+                                    <div>
+                                        <div className='flex'>
+                                            <label className="text-[#70685a] text-[18px] mb-2 block text-left mr-10 py-1 !mb-0">次回お持ちいただくご予定の商品はございますか？</label>
+                                        </div>
+                                        <div className='ml-10 flex gap-5'>
+                                            {nextItems?.length > 0 && nextItems.map((item, index) => (
+                                                <div key={index}>{item}</div>
+                                            ))}      
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className='flex justify-center'>
+                                    <div>
+                                        <div className='flex'>
+                                            <label className="text-[#70685a] text-[18px] mb-2 block text-left mr-10 py-1 !mb-0">DM等、各種ご案内をお送りしてもよろしいですか？</label>
+                                        </div>
+                                        <div className='ml-10 flex gap-5'>
+                                            {sendDM?.length > 0 && sendDM.map((item, index) => (
+                                                <div key={index}>{item}</div>
+                                            ))}      
+                                        </div>
                                     </div>
                                 </div>
                             </div>

@@ -551,7 +551,33 @@ const SalesSlip = () => {
         }
 
     }
-//---------------------------------------------------------------------------------------------------------------
+//-----------------------------------------------------drop down----------------------------------------------------------
+    // const [isOpen, setIsOpen] = useState(false);
+    // const [searchTerm, setSearchTerm] = useState('');
+    // const [selectedUsers1, setSelectedUsers1] = useState([]);
+
+    // const users1 = [
+    // 'Bonnie Green',
+    // 'Jese Leos',
+    // 'Michael Gough',
+    // 'Robert Wall',
+    // 'Joseph Mcfall',
+    // 'Leslie Livingston',
+    // 'Roberta Casas',
+    // ];
+
+    // const toggleDropdown = () => setIsOpen(!isOpen);
+
+    // const handleCheckboxChange1 = (user) => {
+    // setSelectedUsers1((prev) =>
+    //     prev.includes(user) ? prev.filter((u) => u !== user) : [...prev, user]
+    // );
+    // };
+
+    // const filteredUsers1 = users1.filter((user) =>
+    //     user.toLowerCase().includes(searchTerm.toLowerCase())
+    // );
+//------------------------------------------------------------------------------------------------------------------------
     return (
         <>
             {/* <Titlebar title={title} /> */}
@@ -619,7 +645,7 @@ const SalesSlip = () => {
                                     <thead className='sticky top-0 bg-[white] z-10'>
                                         <tr>
                                             <th rowSpan={2} className='px-2'></th>
-                                            <th rowSpan={2} className='px-2'>ID</th>
+                                            <th rowSpan={2} style={Th} className='px-2'>ID</th>
                                             <th rowSpan={2} style={Th} className='px-2'>わかばNo</th>
                                             <th rowSpan={2} style={Th} className='px-1'>
                                                 <ButtonComponent onClick={openShowStatusFilterModal} children="ステータス" className='w-max !px-5 rounded-lg border border-[#70685a]' style={{ backgroundColor: '#ebe5e1', color: '#626373' }} /> 
@@ -703,7 +729,7 @@ const SalesSlip = () => {
                                                         className='w-5' 
                                                     />
                                                 </td>
-                                                <td>{sale.id || ''}</td>
+                                                <td style={Td}>{sale.id || ''}</td>
                                                 <td style={Td}>{sale.wakaba_number  || ''}</td>
                                                 <td style={Td}>
                                                     <select name='product_status' value={sale.product_status || ''} onChange={(e) => handleValueChange(sale.id,Index,e)} className="w-40 h-8 text-[#70685a] font-bold px-4 py-1 outline-[#70685a]">
@@ -731,21 +757,21 @@ const SalesSlip = () => {
                                                 <td style={Td}>{sale.trading_date || ''}</td>
                                                 <td style={Td}>{sale.shipping_date || ''}</td>
                                                 <td style={Td}>{sale.deposit_date || ''}</td>
-                                                <td style={Td}>{sale.Customer ? sale.Customer.full_name : 'Name not available'}</td>
+                                                <td style={Td}>{sale.Customer ? sale.Customer.full_name : ''}</td>
                                                 {isshow ? 
-                                                    <td style={Td}>{sale.Customer ? sale.Customer.katakana_name : 'katakana_name not available'}</td>
+                                                    <td style={Td}>{sale.Customer ? sale.Customer.katakana_name : ''}</td>
                                                     : <td style={{ display: 'none' }}></td>}
                                                 {isshow ? 
-                                                    <td style={Td}>{sale.Customer ? sale.Customer.phone_number : 'phone_number not available'}</td>
+                                                    <td style={Td}>{sale.Customer ? sale.Customer.phone_number : ''}</td>
                                                     : <td style={{ display: 'none' }}></td>}
                                                 {isshow ? 
-                                                    <td style={Td}>{sale.Customer ? sale.Customer.address : 'address not available'}</td>
+                                                    <td style={Td}>{sale.Customer ? sale.Customer.address : ''}</td>
                                                     : <td style={{ display: 'none' }}></td>}
                                                 {isshow ? 
-                                                    <td style={Td}>{sale.Customer ? sale.Customer.visit_type : 'visit_type not available'}</td>
+                                                    <td style={Td}>{sale.Customer ? sale.Customer.visit_type : ''}</td>
                                                     : <td style={{ display: 'none' }}></td>}
                                                 {isshow ? 
-                                                    <td style={Td}>{sale.Customer ? sale.Customer.brand_type : 'brand_type not available'}</td>
+                                                    <td style={Td}>{sale.Customer ? sale.Customer.brand_type : ''}</td>
                                                     : <td style={{ display: 'none' }}></td>}
                                                 {isshow ? 
                                                     <td style={Td}>{sale.store_name || ''}</td>
@@ -809,7 +835,7 @@ const SalesSlip = () => {
                                                 <td style={Td}>
                                                     <div className="relative w-max group mx-auto">
                                                         <button type="button" onClick={() => openEstimate(Index)}
-                                                            className="px-3 py-1 rounded text-[#626373] tracking-wider font-semibold border border-[#70685a] bg-[#ebe5e1]">
+                                                            className="px-3 py-1 max-width-[15px] rounded text-[#626373] tracking-wider font-semibold border border-[#70685a] bg-[#ebe5e1]">
                                                             {sale.number_of_vendor || '0'}
                                                         </button>
                                                         <div className="absolute shadow-lg hidden group-hover:block bg-[#fff] text-[#626373] font-semibold px-3 py-2 text-[15px] right-full mr-3 top-0 bottom-0 my-auto h-max w-max rounded before:w-4 before:h-4 before:rotate-45 before:bg-[#333] before:absolute before:z-[-1] before:bottom-0 before:top-0 before:my-auto before:-right-1 before:mx-auto">
@@ -839,6 +865,54 @@ const SalesSlip = () => {
                                 </table>
                             </div>
                         </div>
+                        {/* -----------dropdown--------- */}
+    {/* <div className="relative">
+      <button
+        onClick={toggleDropdown}
+        className="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300"
+      >
+        Dropdown search
+        <svg className="w-2.5 h-2.5 ms-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+          <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 4 4 4-4"/>
+        </svg>
+      </button>
+
+      {isOpen && (
+        <div className="absolute z-10 bg-white rounded-lg shadow w-60">
+          <div className="p-3">
+            <label htmlFor="input-group-search" className="sr-only">Search</label>
+            <div className="relative">
+              <input
+                type="text"
+                id="input-group-search"
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                placeholder="Search user"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+            </div>
+          </div>
+          <ul className="h-48 px-3 pb-3 overflow-y-auto text-sm text-gray-700">
+            {filteredUsers1.map((user) => (
+              <li key={user}>
+                <div className="flex items-center p-2 rounded hover:bg-gray-100">
+                  <input
+                    id={`checkbox-${user}`}
+                    type="checkbox"
+                    checked={selectedUsers1.includes(user)}
+                    onChange={() => handleCheckboxChange1(user)}
+                    className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
+                  />
+                  <label htmlFor={`checkbox-${user}`} className="w-full ms-2 text-sm font-medium text-gray-900">{user}</label>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+    </div> */}
+                        {/* ---------------------------- */}
+
                     </div>
                 </div>
             </div>

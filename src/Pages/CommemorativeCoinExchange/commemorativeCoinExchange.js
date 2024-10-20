@@ -41,7 +41,6 @@ const CommemorativeCoinExchange = () => {
     //fetch sheet data
     useEffect(() => {
         const fetchData = async () => {
-
             const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
             if (!wakabaBaseUrl) {
                 throw new Error('API base URL is not defined');
@@ -56,10 +55,11 @@ const CommemorativeCoinExchange = () => {
         const updatedData = coinData.map(data => ({
             ...data,
             numberOfCoins: 0,
-            totalCoinValue: 0
+            totalCoinValue: 0,
+            newNumberOfCoins: data.numberOfCoins
         }));
         setCoinRows(updatedData);
-        // console.log('updated data',updatedData)
+        console.log('updated data',updatedData)
     }
 
     const [inputCoinShow, setInputCoinShow] = useState(false);
@@ -109,7 +109,7 @@ const CommemorativeCoinExchange = () => {
     const [editedCoinRow, setEditedCoinRow] = useState({
         coinValue: '',
         numberOfCoins: '0',
-        totalCoinValue: '0'
+        totalCoinValue: '0',
     });
     const handleCoinInputChange = (e) => {
         const { name, value } = e.target;
@@ -161,12 +161,24 @@ const CommemorativeCoinExchange = () => {
             setNewCoinRow((prev) => ({ ...prev, coinValue: '' }));
         }
     }
+    //new version
+    const calculateCoin1 = (index,data) => {
+        if (index !== undefined) {
+            const coinValue = parseInt(data[index].coinValue) || 0;
+            const numberOfCoins = parseInt(data[index].numberOfCoins) || 0;
+            const calculatedProduct = coinValue * numberOfCoins;
+            const updatedRows = data.map((r, i) => 
+                i === index ? { ...r, totalCoinValue: calculatedProduct} : r
+            );
+            setCoinRows(updatedRows);
+        }
+    };
     //calculate second table
     const calculateCoinTotal = () => {
         // Calculate the sum
         const totalnumberofCoin = coinRows.reduce((sum, item) => {
             if (item.coinValue) {
-                return parseInt(sum) + parseInt(item.numberOfCoins);
+                return parseInt(sum) + parseInt(item.numberOfCoins) || 0;
             }
             return sum;
         }, 0);
@@ -205,7 +217,8 @@ const CommemorativeCoinExchange = () => {
         const updatedData = BillData.map(data => ({
             ...data,
             numberOfBills: 0,
-            totalBillValue: 0
+            totalBillValue: 0,
+            newNumberOfBills: data.numberOfBills
         }));
         setBillRows(updatedData);
         // console.log('updated data',updatedData)
@@ -310,6 +323,18 @@ const CommemorativeCoinExchange = () => {
             setNewBillRow((prev) => ({ ...prev, billValue: '' }));
         }
     }
+    //new version
+    const calculateBill1 = (index,data) => {
+        if (index !== undefined) {
+            const billValue = parseInt(data[index].billValue) || 0;
+            const numberOfBills = parseInt(data[index].numberOfBills) || 0;
+            const calculatedProduct = billValue * numberOfBills;
+            const updatedRows = data.map((r, i) => 
+                i === index ? { ...r, totalBillValue: calculatedProduct} : r
+            );
+            setBillRows(updatedRows);
+        }
+    };
     //calculate second table
     const calculateBillTotal = () => {
         // Calculate the sum
@@ -459,7 +484,7 @@ const CommemorativeCoinExchange = () => {
                         <div>
                             <div className='flex w-full'>
                                 <label className='!w-full font-bold text-[18px] text-[#70685a]' >
-                                    {otherData.exchange_date || '~~~'}日に、{otherData.bank_name || '~~~'}銀行に、{parseInt(totalCoinValue) + parseInt(totalBillValue) || '~~~'}円 を両替に持っていきます。
+                                    <span className='text-[20px]'>{otherData.exchange_date || '~~~'}</span>日に、<span className='text-[20px]'>{otherData.bank_name || '~~~'}</span>銀行に、<span className='text-[20px]'>{parseInt(totalCoinValue) + parseInt(totalBillValue) || '~~~'}</span>円 を両替に持っていきます。
                                 </label>
                             </div>
                         </div>
@@ -501,6 +526,7 @@ const CommemorativeCoinExchange = () => {
                                         <thead>
                                             <tr>
                                                 <th >小計3</th>
+                                                <th ></th>
                                                 <th >{totalNumberOfCoin}</th>
                                                 <th >¥{totalCoinValue}</th>
                                                 <th ></th>
@@ -508,30 +534,26 @@ const CommemorativeCoinExchange = () => {
                                             </tr>
                                             <tr>
                                                 <th >額面(円) </th>
+                                                <th >在庫数</th>
                                                 <th >数</th>
                                                 <th >小計1(￥)</th>
-                                                <th >{editCoinIndex === -1 ? '編集する' : 'セーブ'}</th>
-                                                <th className='whitespace-nowrap pl-3'>{editCoinIndex === -1 ? '削除' : '戻る'}</th>
+                                                {/* <th >{editCoinIndex === -1 ? '編集する' : 'セーブ'}</th>
+                                                <th className='whitespace-nowrap pl-3'>{editCoinIndex === -1 ? '' : '戻る'}</th> */}
                                             </tr>
                                         </thead>
                                         <tbody>
                                             {coinRows?.length > 0 && coinRows.map((row, Index) => (
-                                                <tr key={Index} >
+                                                <tr key={Index}  style={{display:'none'}}>
+                                                    <td style={Td}>{row.coinValue || ''}</td>
                                                     <td style={Td}>
-                                                        {editCoinIndex === Index ? (
-                                                            <InputComponent disabled={true} name='coinValue' value={editedCoinRow.coinValue || ''} onChange={handleCoinInputChange} className='w-full h-8 text-[#70685a]' />
-                                                        ) : (row.coinValue || '')}
+                                                        {row.newNumberOfCoins || ''}
                                                     </td>
                                                     <td style={Td}>
                                                         {editCoinIndex === Index ? (
                                                             <InputComponent name='numberOfCoins' type="number" value={editedCoinRow.numberOfCoins || ''} onChange={handleCoinInputChange} className='w-full h-8 text-[#70685a] border-[red]' />
                                                         ) : (row.numberOfCoins || '')}
                                                     </td>
-                                                    <td style={Td}>
-                                                        {editCoinIndex === Index ? (
-                                                            <InputComponent disabled={true} name='totalCoinValue' value={editedCoinRow.totalCoinValue || ''} onChange={handleCoinInputChange} className='w-full h-8 text-[#70685a]' />
-                                                        ) : (row.totalCoinValue || '')}
-                                                    </td>
+                                                    <td style={Td}>{row.totalCoinValue || ''}</td>
                                                     <td style={Td}>
                                                         {editCoinIndex === Index ? (
                                                             <div>
@@ -547,23 +569,46 @@ const CommemorativeCoinExchange = () => {
                                                             </div>
                                                         )}
                                                     </td>
-                                                    <td style={Td}>
+                                                    <td>
                                                         {editCoinIndex === Index ? (
                                                             <div>
                                                                 <button onClick={() => handleCoinCancelClick(Index)} className='w-7'>
                                                                     <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium  MuiSvgIcon-root MuiSvgIcon-fontSizeLarge  css-1hkft75" fill='#524c3b' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="KeyboardReturnOutlinedIcon" title="KeyboardReturnOutlined"><path d="M19 7v4H5.83l3.58-3.59L8 6l-6 6 6 6 1.41-1.41L5.83 13H21V7z"></path></svg>
                                                                 </button>
                                                             </div>
-                                                        ) : (
-                                                            <div>
-                                                                <button onClick={() => handleCoinDeleteClick(Index)} className='w-7'>
-                                                                    <svg className="flex flex-col justify-center" focusable="false" aria-hidden="true" viewBox="0 0 23 23" fill='#524c3b' data-testid="CancelOutlinedIcon" title="CancelOutlined"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8m3.59-13L12 10.59 8.41 7 7 8.41 10.59 12 7 15.59 8.41 17 12 13.41 15.59 17 17 15.59 13.41 12 17 8.41z"></path></svg>
-                                                                </button>
-                                                            </div>
+                                                        ) : (''
+                                                            // <div>
+                                                            //     <button onClick={() => handleCoinDeleteClick(Index)} className='w-7'>
+                                                            //         <svg className="flex flex-col justify-center" focusable="false" aria-hidden="true" viewBox="0 0 23 23" fill='#524c3b' data-testid="CancelOutlinedIcon" title="CancelOutlined"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8m3.59-13L12 10.59 8.41 7 7 8.41 10.59 12 7 15.59 8.41 17 12 13.41 15.59 17 17 15.59 13.41 12 17 8.41z"></path></svg>
+                                                            //     </button>
+                                                            // </div>
                                                         )}
                                                     </td>
                                                 </tr>
                                             ))}
+            {coinRows?.length > 0 && coinRows.map((row, index) => (
+                <tr key={index}>
+                    <td style={Td}>{row.coinValue || ''}</td>
+                    <td style={Td}>{row.newNumberOfCoins || ''}</td>
+                    <td style={Td}>
+                        <InputComponent
+                            name='numberOfCoins'
+                            type="number"
+                            value={row.numberOfCoins || ''}
+                            onChange={(e) => {
+                                const value = e.target.value;
+                                const updatedRows = coinRows.map((r, i) => 
+                                    i === index ? { ...r, numberOfCoins: value } : r
+                                );
+                                setCoinRows(updatedRows);
+                                calculateCoin1(index,updatedRows);
+                            }}
+                            className='w-full h-8 text-[#70685a]'
+                        />
+                    </td>
+                    <td style={Td}>{row.totalCoinValue || ''}</td>
+                </tr>
+            ))}
                                             {inputCoinShow ?
                                                 <tr>
                                                     <td style={Td}>
@@ -623,6 +668,7 @@ const CommemorativeCoinExchange = () => {
                                         <thead>
                                             <tr>
                                                 <th >小計3</th>
+                                                <th ></th>
                                                 <th >{totalNumberOfBill}</th>
                                                 <th >¥{totalBillValue}</th>
                                                 <th></th>
@@ -630,19 +676,21 @@ const CommemorativeCoinExchange = () => {
                                             </tr>
                                             <tr>
                                                 <th >額面 </th>
+                                                <th >在庫数</th>
                                                 <th >数</th>
                                                 <th >小計1</th>
                                                 <th >{editBillIndex === -1 ? '編集する' : 'セーブ'}</th>
-                                                <th className='whitespace-nowrap pl-3'>{editBillIndex === -1 ? '削除' : '戻る'}</th>
+                                                <th className='whitespace-nowrap pl-3'>{editBillIndex === -1 ? '' : '戻る'}</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             {billRows?.length > 0 && billRows.map((row, Index) => (
-                                                <tr key={Index} >
+                                                <tr key={Index}  style={{display:'none'}}>
                                                     <td style={Td}>
-                                                        {editBillIndex === Index ? (
-                                                            <InputComponent disabled={true} name='billValue' value={editedBillRow.billValue || ''} onChange={handleBillInputChange} className='w-full h-8 text-[#70685a]' />
-                                                        ) : (row.billValue || '')}
+                                                        {row.billValue || ''}
+                                                    </td>
+                                                    <td style={Td}>
+                                                        {row.newNumberOfBills || ''}
                                                     </td>
                                                     <td style={Td}>
                                                         {editBillIndex === Index ? (
@@ -650,9 +698,7 @@ const CommemorativeCoinExchange = () => {
                                                         ) : (row.numberOfBills || '')}
                                                     </td>
                                                     <td style={Td}>
-                                                        {editBillIndex === Index ? (
-                                                            <InputComponent disabled={true} name='totalBillValue' value={editedBillRow.totalBillValue || ''} onChange={handleBillInputChange} className='w-full h-8 text-[#70685a]' />
-                                                        ) : (row.totalBillValue || '')}
+                                                        {row.totalBillValue || ''}
                                                     </td>
                                                     <td style={Td}>
                                                         {editBillIndex === Index ? (
@@ -669,23 +715,46 @@ const CommemorativeCoinExchange = () => {
                                                             </div>
                                                         )}
                                                     </td>
-                                                    <td style={Td}>
+                                                    <td>
                                                         {editBillIndex === Index ? (
                                                             <div>
                                                                 <button onClick={() => handleBillCancelClick(Index)} className='w-7'>
                                                                     <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium  MuiSvgIcon-root MuiSvgIcon-fontSizeLarge  css-1hkft75" fill='#524c3b' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="KeyboardReturnOutlinedIcon" title="KeyboardReturnOutlined"><path d="M19 7v4H5.83l3.58-3.59L8 6l-6 6 6 6 1.41-1.41L5.83 13H21V7z"></path></svg>
                                                                 </button>
                                                             </div>
-                                                        ) : (
-                                                            <div>
-                                                                <button onClick={() => handleBillDeleteClick(Index)} className='w-7'>
-                                                                    <svg className="flex flex-col justify-center" focusable="false" aria-hidden="true" viewBox="0 0 23 23" fill='#524c3b' data-testid="CancelOutlinedIcon" title="CancelOutlined"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8m3.59-13L12 10.59 8.41 7 7 8.41 10.59 12 7 15.59 8.41 17 12 13.41 15.59 17 17 15.59 13.41 12 17 8.41z"></path></svg>
-                                                                </button>
-                                                            </div>
+                                                        ) : (''
+                                                            // <div>
+                                                            //     <button onClick={() => handleBillDeleteClick(Index)} className='w-7'>
+                                                            //         <svg className="flex flex-col justify-center" focusable="false" aria-hidden="true" viewBox="0 0 23 23" fill='#524c3b' data-testid="CancelOutlinedIcon" title="CancelOutlined"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8m3.59-13L12 10.59 8.41 7 7 8.41 10.59 12 7 15.59 8.41 17 12 13.41 15.59 17 17 15.59 13.41 12 17 8.41z"></path></svg>
+                                                            //     </button>
+                                                            // </div>
                                                         )}
                                                     </td>
                                                 </tr>
                                             ))}
+            {billRows?.length > 0 && billRows.map((row, index) => (
+                <tr key={index}>
+                    <td style={Td}>{row.billValue || ''}</td>
+                    <td style={Td}>{row.newNumberOfBills || ''}</td>
+                    <td style={Td}>
+                        <InputComponent
+                            name='numberOfBills'
+                            type="number"
+                            value={row.numberOfBills || ''}
+                            onChange={(e) => {
+                                const value = e.target.value;
+                                const updatedRows = billRows.map((r, i) => 
+                                    i === index ? { ...r, numberOfBills: value } : r
+                                );
+                                setBillRows(updatedRows);
+                                calculateBill1(index,updatedRows);
+                            }}
+                            className='w-full h-8 text-[#70685a]'
+                        />
+                    </td>
+                    <td style={Td}>{row.totalBillValue || ''}</td>
+                </tr>
+            ))}
                                             {inputBillShow ?
                                                 <tr>
                                                     <td style={Td}>

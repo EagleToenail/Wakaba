@@ -57,6 +57,7 @@ import EndOfWorkReportToOwner from './Pages/EndOfWorkReportToOwner/endOfWorkRepo
 import StampRelatedInventoryList from './Pages/StampRelatedInventoryList/stampRelatedInventoryList';//stamp-related inventory application form #58
 import StampRelatedInboundApplicationForm from './Pages/StampRelatedInboundApplicationForm/stampRelatedInboundApplicationForm';//inbound #59
 import StampRelatedOutboundApplicationForm from './Pages/StampRelatedOutboundApplicationForm/stampRelatedOutboundApplicationForm';//outbound #60
+import StampRelatedOutboundApplicationFormNew from './Pages/StampRelatedOutboundApplicationForm/stampRelatedOutboundApplicationFormNew';//outbound new
 import StampRelatedReceiptAndIssueHistory from './Pages/StampRelatedReceiptAndIssueHistory/stampRelatedReceiptAndIssueHistory';//stamp related receipt and issue history #61
 import StampShippingHistoryDetail from './Pages/StampShippingHistoryDetail/stampShippingHistoryDetail';//#history detail
 import StampRelatedPurchaseStatement from './Pages/StampRelatedPurchaseStatement/stampRelatedPurchaseStatement'//stamp related purcase statement #62
@@ -178,6 +179,7 @@ function App() {
             <Route path='/stamprelatedinventorylist' element={<StampRelatedInventoryList/>}/>
             <Route path='/stamprelatedinboundapplicationform' element={<StampRelatedInboundApplicationForm/>}/>
             <Route path='/stamprelatedoutboundapplicationform' element={<StampRelatedOutboundApplicationForm/>}/>
+            <Route path='/stamprelatedoutboundapplicationformnew' element={<StampRelatedOutboundApplicationFormNew/>}/>
             <Route path='/stamprelatedreceiptandissuehistory' element={<StampRelatedReceiptAndIssueHistory/>}/>
             <Route path='/stampshippinghistorydetail/:id' element={<StampShippingHistoryDetail/>}/>
             <Route path='/stamprelatedpurchasestatement/:id' element={<StampRelatedPurchaseStatement/>}/>

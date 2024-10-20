@@ -583,7 +583,7 @@ const VendorAssementSheet = () => {
                                     <thead className='sticky top-0 bg-[white] z-10'>
                                         <tr>
                                             <th rowSpan={2} className='px-2'></th>
-                                            <th rowSpan={2} className='px-2'>ID</th>
+                                            <th rowSpan={2} style={Th} className='px-2'>ID</th>
                                             <th rowSpan={2} style={Th} className='px-2'>わかばNo</th>
                                             <th rowSpan={2} style={Th} className='px-1'>
                                                 <ButtonComponent onClick={openShowStatusFilterModal} children="ステータス" className='w-max !px-5 rounded-lg border border-[#70685a]' style={{ backgroundColor: '#ebe5e1', color: '#626373' }} /> 
@@ -705,7 +705,7 @@ const VendorAssementSheet = () => {
                                                         className='w-5' 
                                                     />
                                                 </td>
-                                                <td>{sale.id || ''}</td>
+                                                <td style={Td}>{sale.id || ''}</td>
                                                 <td style={Td}>{sale.wakaba_number  || ''}</td>
                                                 <td style={Td}>
                                                     <select name='product_status' value={sale.product_status || ''} onChange={(e) => handleValueChange(sale.id,Index,e)} className="w-40 h-8 text-[#70685a] font-bold px-4 py-1 outline-[#70685a]">
@@ -734,21 +734,21 @@ const VendorAssementSheet = () => {
                                                 <td style={Td}>{sale.trading_date || ''}</td>
                                                 <td style={Td}>{sale.shipping_date || ''}</td>
                                                 <td style={Td}>{sale.deposit_date || ''}</td>
-                                                <td style={Td}>{sale.Customer ? sale.Customer.full_name : 'Name not available'}</td>
+                                                <td style={Td}>{sale.Customer ? sale.Customer.full_name : ''}</td>
                                                 {isshow ? 
-                                                    <td style={Td}>{sale.Customer ? sale.Customer.katakana_name : 'katakana_name not available'}</td>
+                                                    <td style={Td}>{sale.Customer ? sale.Customer.katakana_name : ''}</td>
                                                     : <td style={{ display: 'none' }}></td>}
                                                 {isshow ? 
-                                                    <td style={Td}>{sale.Customer ? sale.Customer.phone_number : 'phone_number not available'}</td>
+                                                    <td style={Td}>{sale.Customer ? sale.Customer.phone_number : ''}</td>
                                                     : <td style={{ display: 'none' }}></td>}
                                                 {isshow ? 
-                                                    <td style={Td}>{sale.Customer ? sale.Customer.address : 'address not available'}</td>
+                                                    <td style={Td}>{sale.Customer ? sale.Customer.address : ''}</td>
                                                     : <td style={{ display: 'none' }}></td>}
                                                 {isshow ? 
-                                                    <td style={Td}>{sale.Customer ? sale.Customer.visit_type : 'visit_type not available'}</td>
+                                                    <td style={Td}>{sale.Customer ? sale.Customer.visit_type : ''}</td>
                                                     : <td style={{ display: 'none' }}></td>}
                                                 {isshow ? 
-                                                    <td style={Td}>{sale.Customer ? sale.Customer.brand_type : 'brand_type not available'}</td>
+                                                    <td style={Td}>{sale.Customer ? sale.Customer.brand_type : ''}</td>
                                                     : <td style={{ display: 'none' }}></td>}
                                                 {isshow ? 
                                                     <td style={Td}>{sale.store_name || ''}</td>

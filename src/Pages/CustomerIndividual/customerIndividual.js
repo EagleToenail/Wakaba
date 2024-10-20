@@ -465,16 +465,16 @@ const CustomerIndividual = () => {
                         <form className=" space-y-2 pt-2">
                             {/* new */}
                             <div className='flex'>
-                                <div style={{ width: '25%', flexDirection: 'column', }} className='!mb-0 flex align-center justify-around'>
-                                    <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">店舗名</label>
+                                <div style={{ width: '20%', flexDirection: 'column', }} className='!mb-0 flex align-center justify-around'>
+                                    <label className="text-[#70685a] font-bold mb-2 block text-center mr-10 py-1 !mb-0">店舗名</label>
                                 </div>
-                                <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
+                                <div style={{ width: '30%', flexDirection: 'column', }} className='flex align-center justify-around'>
                                     <label name="storename" className="text-[#70685a] font-bold mb-2 block text-left mr-10 py-2 !mb-0">{customer.shop}</label>
                                 </div>
-                                <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-3 !mb-0">訪問タイプ</label>
+                                <div style={{ width: '20%', flexDirection: 'column', }} className='flex align-center justify-around'>
+                                    <label className="text-[#70685a] font-bold mb-2 block text-center mr-10 py-3 !mb-0">訪問タイプ</label>
                                 </div>
-                                <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
+                                <div style={{ width: '30%', flexDirection: 'column', }} className='flex align-center justify-around'>
                                     <select id="visit_type" name="visit_type" value={customer.visit_type || ''} required onChange={handleCustomerChange} className="w-full text-[#70685a] font-bold border border-[#70685a] px-4 py-2 outline-[#70685a]">
                                         <option value="" disabled></option>
                                         <option value="折りたたまれた">折りたたまれた</option>
@@ -488,28 +488,25 @@ const CustomerIndividual = () => {
                             </div>
                             {/* new */}
                             <div className='flex'>
-                                <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">お名前</label>
+                                <div style={{ width: '20%', flexDirection: 'column', }} className='flex align-center justify-around'>
+                                    <label className="text-[#70685a] font-bold mb-2 block text-center mr-10 py-1 !mb-0">お名前</label>
                                 </div>
-                                <div style={{ width: '50%', flexDirection: 'column', }} className='flex align-center justify-around'>
+                                <div style={{ width: '30%', flexDirection: 'column', }} className='flex align-center justify-around'>
                                     <input name="full_name" value={customer.full_name} onChange={handleCustomerChange} type="text" required className="w-full text-[#70685a] border border-[#70685a] px-4 py-2 outline-[#70685a]" />
                                 </div>
-                            </div>
-                            {/* new */}
-                            <div className='flex'>
-                                <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">カタカナ名</label>
+                                <div style={{ width: '20%', flexDirection: 'column', }} className='flex align-center justify-around'>
+                                    <label className="text-[#70685a] font-bold mb-2 block text-center mr-10 py-1 !mb-0">カタカナ名</label>
                                 </div>
-                                <div style={{ width: '75%', flexDirection: 'column', }} className='flex align-center justify-around'>
+                                <div style={{ width: '30%', flexDirection: 'column', }} className='flex align-center justify-around'>
                                     <input name="katakana_name" value={customer.katakana_name} onChange={handleCustomerChange} type="text" required className="w-full text-[#70685a] border border-[#70685a] px-4 py-2 outline-[#70685a]" />
                                 </div>
                             </div>
                             {/* new */}
                             <div className='flex'>
-                                <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">お電話番号</label>
+                                <div style={{ width: '20%', flexDirection: 'column', }} className='flex align-center justify-around'>
+                                    <label className="text-[#70685a] font-bold mb-2 block text-center mr-10 py-1 !mb-0">お電話番号</label>
                                 </div>
-                                <div style={{ width: '35%', flexDirection: 'column', }} className='flex align-center justify-around'>
+                                <div style={{ width: '30%', flexDirection: 'column', }} className='flex align-center justify-around'>
                                     <InputComponent name="phone_number" value={customer.phone_number} onChange={handleCustomerChange} type='tel' pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" placeholder="123-4567-7890" required/>
                                 </div>
                             </div>
