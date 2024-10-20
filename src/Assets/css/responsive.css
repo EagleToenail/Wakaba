@@ -176,7 +176,7 @@
         width: 100% !important;
     }
   }
-  @media screen and (max-width: 1750px) {
+  @media screen and (max-width: 1000px) {
 
     .invoice-purchase-brought {
         display: block !important;
@@ -186,7 +186,7 @@
       width: 100% !important;
     }
   }
-  @media screen and (max-width: 1750px) {
+  @media screen and (max-width: 1000px) {
 
     .invoice-purchase-brought-buttons {
       justify-content: space-around;

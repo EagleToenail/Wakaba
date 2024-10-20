@@ -1640,44 +1640,46 @@ const sendPurchaseData = () => {
                                     <ButtonComponent onClick={openItemsImageModal} children="全体撮影" className='w-max h-11 !px-5 bg-[transparent] !text-[#e87a00]' style={{ border: '1px solid #e87a00' }} />
                                     <ButtonComponent onClick={openItemsDocModal} children="紙書類撮影" className='w-max h-11 !px-5 bg-[transparent] !text-[#e87a00]' style={{ border: '1px solid #e87a00' }} />
                                 </div>
-                                <div className='invoice-purchase-brought-buttons w-[25%] ml-5 flex justify-around'>
-                                    {
-                                        role === '2' &&
-                                        totalSalesSlipData?.length > 0 &&
-                                        ['査定中', 'お預かり'].includes(totalSalesSlipData[0].product_status) && (
-                                            <ButtonComponent onClick={handleApproveWaiting}
-                                            children="許可申請"
-                                            className="w-max h-11 !px-5"
-                                            style={{ color: 'white' }}
-                                            />
-                                        )
-                                    }
-                                    <div className='flex justify-center'>
-                                        {totalSalesSlipData?.length > 0 && totalSalesSlipData[0].product_status === '承認された' && 
-                                            <button type="button" onClick={sendPurchaseData}
-                                                className="mr-10 h-11 min-w-[160px] text-[#e87a00] rounded-full tracking-wider font-bold outline-none border border-[2px] border-[#e87a00] ">お客様へ提示</button>
+                                <div className='invoice-purchase-brought-buttons flex w-[50%]'>
+                                    <div className=' w-1/2 ml-5 flex justify-around'>
+                                        {
+                                            role === '2' &&
+                                            totalSalesSlipData?.length > 0 &&
+                                            ['査定中', 'お預かり'].includes(totalSalesSlipData[0].product_status) && (
+                                                <ButtonComponent onClick={handleApproveWaiting}
+                                                children="許可申請"
+                                                className="w-max h-11 !px-5"
+                                                style={{ color: 'white' }}
+                                                />
+                                            )
                                         }
+                                        <div className='flex justify-center'>
+                                            {totalSalesSlipData?.length > 0 && totalSalesSlipData[0].product_status === '承認された' && 
+                                                <button type="button" onClick={sendPurchaseData}
+                                                    className="mr-10 h-11 min-w-[160px] text-[#e87a00] rounded-full tracking-wider font-bold outline-none border border-[2px] border-[#e87a00] ">お客様へ提示</button>
+                                            }
+                                        </div>
                                     </div>
-                                </div>
-                                <div className='invoice-purchase-brought-buttons w-[25%] ml-5 flex justify-around'>
-                                    {role === '2' && totalSalesSlipData?.length > 0 && totalSalesSlipData[0].product_status === '承認待ち' &&
-                                        <button onClick={purchasePermission} className='w-max text-white rounded-md bg-[#9bd195] h-11 !px-5 hover:bg-green-600 hover:text-white transition-all duration-300' >
-                                            全て決裁を許可
-                                        </button>
-                                    }
-                                    {
-                                        totalSalesSlipData?.length > 0 &&
-                                        !['査定中', 'お預かり', '承認待ち'].includes(totalSalesSlipData[0].product_status) && (
-                                            <button
-                                            className="w-max text-[red] rounded-md border border-[red] h-11 !px-5 hover:bg-green-600 hover:text-white transition-all duration-300"
-                                            >
-                                            許可済
+                                    <div className='w-1/2 ml-5 flex justify-around'>
+                                        {role === '2' && totalSalesSlipData?.length > 0 && totalSalesSlipData[0].product_status === '承認待ち' &&
+                                            <button onClick={purchasePermission} className='w-max text-white rounded-md bg-[#9bd195] h-11 !px-5 hover:bg-green-600 hover:text-white transition-all duration-300' >
+                                                全て決裁を許可
                                             </button>
-                                        )
-                                    }
-                                    <div>
-                                        <label className="text-[#70685a] font-bold mb-2 block text-left  !mb-0">接客担当 <span className='ml-3 text-[17px]'>{staffData.purchase_staff ||''}</span></label>
-                                        <label className="text-[#70685a] font-bold mb-2 block text-left  !mb-0">支払担当 <span className='ml-3 text-[17px]'>{staffData.payment_staff ||'OOO'}</span></label>
+                                        }
+                                        {
+                                            totalSalesSlipData?.length > 0 &&
+                                            !['査定中', 'お預かり', '承認待ち'].includes(totalSalesSlipData[0].product_status) && (
+                                                <button
+                                                className="w-max text-[red] rounded-md border border-[red] h-11 !px-5 hover:bg-green-600 hover:text-white transition-all duration-300"
+                                                >
+                                                許可済
+                                                </button>
+                                            )
+                                        }
+                                        <div>
+                                            <label className="text-[#70685a] font-bold mb-2 block text-left  !mb-0">接客担当 <span className='ml-3 text-[17px]'>{staffData.purchase_staff ||''}</span></label>
+                                            <label className="text-[#70685a] font-bold mb-2 block text-left  !mb-0">支払担当 <span className='ml-3 text-[17px]'>{staffData.payment_staff ||'OOO'}</span></label>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

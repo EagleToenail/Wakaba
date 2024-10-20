@@ -602,10 +602,12 @@ const VendorAssementSheet = () => {
                                             </th>
 
                                             <th style={Th} colSpan={isshow ? 7:1}>
-                                                <div className='flex justify-center w-40'>
-                                                    個人情報
-                                                    <div className='flex flex-col justify-center'>
-                                                        {isshow ? <button ><img src={rightArrow} className='h-5' alt='' onClick={openSubtable} ></img></button> : <button><img src={leftArrow} className='h-5' alt='' onClick={closeSubtable}></img></button>}
+                                                <div className='flex justify-center'>
+                                                    <div className='flex justify-center w-40'>
+                                                        個人情報
+                                                        <div className='flex flex-col justify-center'>
+                                                            {isshow ? <button ><img src={rightArrow} className='h-5' alt='' onClick={openSubtable} ></img></button> : <button><img src={leftArrow} className='h-5' alt='' onClick={closeSubtable}></img></button>}
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </th>

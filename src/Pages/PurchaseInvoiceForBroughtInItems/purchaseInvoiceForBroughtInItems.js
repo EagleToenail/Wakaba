@@ -294,7 +294,8 @@ const PurchaseInvoiceForBroughtInItems = () => {
                 <Titlebar title={title} />
                 <div id='purchaseInvoice' className="bg-[trasparent] font-[sans-serif]">
                     <div className='flex justify-center'>
-                        <div className="w-full pt-3 pl-5 pr-5" style={{ maxWidth: '80em' }}>
+                        {/* <div className="w-full pt-3 pl-5 pr-5" style={{ maxWidth: '80em' }}> */}
+                        <div className="w-full pt-3 pl-5 pr-5">
                             <h2 className="text-[#70685a] text-center font-bold flex justify-end mt-3" style={{ paddingRight: '1%' }}><span className='mr-5'>来店時間</span>&nbsp;{formattedDateTime}</h2>
                             {/* header */}
                             <div className='flex justify-between'>

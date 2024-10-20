@@ -409,7 +409,7 @@ const SalesSlip = () => {
         });
     }
     //filter by state
-    const filteredStatus = ['査定中','お預かり','成約済','買取済','発送中','約定済','オークション出品済','オークション発送済','廃棄','基準外','返品・返金'];
+    const filteredStatus = ['査定中','お預かり','承認待ち','承認された','買取済','発送中','約定済','オークション出品済','オークション発送済','廃棄','基準外','返品・返金'];
     const [showStatusFilter, setShowStatusFilter] = useState(false);
     const closeShowStatusFilterModal = () => {
         setShowStatusFilter(false);
@@ -664,10 +664,12 @@ const SalesSlip = () => {
                                             </th>
 
                                             <th style={Th} colSpan={isshow ? 7:1}>
-                                                <div className='flex justify-center w-40'>
-                                                    個人情報
-                                                    <div className='flex flex-col justify-center'>
-                                                        {isshow ? <button ><img src={rightArrow} className='h-5' alt='' onClick={openSubtable} ></img></button> : <button><img src={leftArrow} className='h-5' alt='' onClick={closeSubtable}></img></button>}
+                                                <div className='flex justify-center'>
+                                                    <div className='flex justify-center w-40'>
+                                                        個人情報
+                                                        <div className='flex flex-col justify-center'>
+                                                            {isshow ? <button ><img src={rightArrow} className='h-5' alt='' onClick={openSubtable} ></img></button> : <button><img src={leftArrow} className='h-5' alt='' onClick={closeSubtable}></img></button>}
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </th>
@@ -835,7 +837,7 @@ const SalesSlip = () => {
                                                 <td style={Td}>
                                                     <div className="relative w-max group mx-auto">
                                                         <button type="button" onClick={() => openEstimate(Index)}
-                                                            className="px-3 py-1 max-width-[15px] rounded text-[#626373] tracking-wider font-semibold border border-[#70685a] bg-[#ebe5e1]">
+                                                            className="w-10 px-3 py-1 rounded text-[#626373] tracking-wider font-semibold border border-[#70685a] bg-[#ebe5e1]">
                                                             {sale.number_of_vendor || '0'}
                                                         </button>
                                                         <div className="absolute shadow-lg hidden group-hover:block bg-[#fff] text-[#626373] font-semibold px-3 py-2 text-[15px] right-full mr-3 top-0 bottom-0 my-auto h-max w-max rounded before:w-4 before:h-4 before:rotate-45 before:bg-[#333] before:absolute before:z-[-1] before:bottom-0 before:top-0 before:my-auto before:-right-1 before:mx-auto">

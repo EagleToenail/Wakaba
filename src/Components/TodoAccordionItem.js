@@ -76,7 +76,7 @@ const completeFunction = () => {
                  style={{ border: permission === '1' ? '1px solid #ccc' : 'none',
                   background: permission === '1' ? '#f9f9f9' : 'transparent',}} >
         <div className='new-post-receive w-full flex h-13'>
-          <div className='new-post-receive-message flex' style={{ width: '75%' }}>
+        <div className='new-post-receive-message flex' style={{ width: '80%' }}>
             <div className='flex'>
               <div>
                 <div className='w-30'>
@@ -91,13 +91,15 @@ const completeFunction = () => {
               </div>
             </div>
           </div>
-          <div className='new-post-receive-name flex justify-between ' style={{ width: '25%' }}>
-            <div className='flex'>
-              <div className='w-7 h-7 rounded-full border border-[#70685a]'></div>
-              <div>
-                <label className="text-[black] pl-3 block text-center">{receiverName || ''}</label>
+          <div className='new-post-receive-name flex justify-between ' style={{ width: '20%' }}>
+              <div className='flex'>
+                {receiver &&
+                  <div className='w-7 h-7 rounded-full border border-[#70685a]'></div>
+                }
+                <div>
+                  <label className="text-[black] pl-3 block text-center">{receiverName || ''}</label>
+                </div>
               </div>
-            </div>
             <div className='flex'>
               <div className='w-7 h-7 rounded-full border border-[#70685a] bg-[#70685a]'></div>
               <div>
