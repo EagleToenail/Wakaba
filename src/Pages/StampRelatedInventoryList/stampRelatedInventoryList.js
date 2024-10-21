@@ -1062,7 +1062,7 @@ const StampRelatedInventoryList = () => {
             <DateAndTime />
             <div className=" flex flex-col items-center justify-center">
                 <div className="w-full " style={{ maxWidth: '100%' }}>
-                    <h2 className="text-[#70685a] text-center text-2xl font-bold flex justify-center">日本の切手・ハガキ・レターパック 在庫リスト</h2>
+                    {/* <h2 className="text-[#70685a] text-center text-2xl font-bold flex justify-center">日本の切手・ハガキ・レターパック 在庫リスト</h2> */}
                     <div className='flex justify-evenly mt-2'>
                         <div>
                             <div className='text-center' style={{ visibility: 'hidden' }}>abc</div>

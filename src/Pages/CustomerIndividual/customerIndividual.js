@@ -92,6 +92,7 @@ const CustomerIndividual = () => {
         email: '',
         idCard_url: '',
         cardType: '',
+        idcard_number:'',
         avatar_url: '',
         prefeature: '',
         city: '',
@@ -236,6 +237,7 @@ const CustomerIndividual = () => {
         formDataObj.append('age', customer.age);
         formDataObj.append('gender', customer.gender);
         formDataObj.append('cardType', customer.cardType);
+        formDataObj.append('idcard_number', customer.idcard_number);
         formDataObj.append('prefeature', customer.prefeature);
         formDataObj.append('city', customer.city);
         formDataObj.append('address', customer.address);
@@ -472,7 +474,7 @@ const CustomerIndividual = () => {
                                     <label name="storename" className="text-[#70685a] font-bold mb-2 block text-left mr-10 py-2 !mb-0">{customer.shop}</label>
                                 </div>
                                 <div style={{ width: '20%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <label className="text-[#70685a] font-bold mb-2 block text-center mr-10 py-3 !mb-0">訪問タイプ</label>
+                                    <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-3 !mb-0">訪問タイプ</label>
                                 </div>
                                 <div style={{ width: '30%', flexDirection: 'column', }} className='flex align-center justify-around'>
                                     <select id="visit_type" name="visit_type" value={customer.visit_type || ''} required onChange={handleCustomerChange} className="w-full text-[#70685a] font-bold border border-[#70685a] px-4 py-2 outline-[#70685a]">
@@ -495,7 +497,7 @@ const CustomerIndividual = () => {
                                     <input name="full_name" value={customer.full_name} onChange={handleCustomerChange} type="text" required className="w-full text-[#70685a] border border-[#70685a] px-4 py-2 outline-[#70685a]" />
                                 </div>
                                 <div style={{ width: '20%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <label className="text-[#70685a] font-bold mb-2 block text-center mr-10 py-1 !mb-0">カタカナ名</label>
+                                    <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">カタカナ名</label>
                                 </div>
                                 <div style={{ width: '30%', flexDirection: 'column', }} className='flex align-center justify-around'>
                                     <input name="katakana_name" value={customer.katakana_name} onChange={handleCustomerChange} type="text" required className="w-full text-[#70685a] border border-[#70685a] px-4 py-2 outline-[#70685a]" />
@@ -533,7 +535,7 @@ const CustomerIndividual = () => {
                                     <label className="text-[#70685a] font-bold mb-2 block text-right py-1 !mb-0">{customer.age}才</label>
                                 </div>
                                 <div style={{ width: '20%', flexDirection: 'column', }} className='flex flex-col justify-center text-right'>
-                                    <label className="text-[#70685a] font-bold mb-2 block text-center mr-10 py-1 !mb-0 mr-3">性別</label>
+                                    <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">性別</label>
                                 </div>
                                 <div style={{ width: '15%', flexDirection: 'column', }} className='flex align-center justify-around'>
                                     <select id="gender" name="gender" required onChange={handleCustomerChange} value={customer.gender} className="w-full text-[#70685a] font-bold border border-[#70685a] px-4 py-2 outline-[#70685a]">
@@ -552,7 +554,7 @@ const CustomerIndividual = () => {
                                     <InputComponent name="job" value={customer.job} onChange={handleCustomerChange} type='text' required />
                                 </div>
                                 <div style={{ width: '20%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <label className="text-[#70685a] font-bold mb-2 block text-center mr-10 py-1 !mb-0">email</label>
+                                    <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">email</label>
                                 </div>
                                 <div style={{ width: '30%', flexDirection: 'column', }} className='flex align-center justify-around'>
                                     <InputComponent name="email" value={customer.email} onChange={handleCustomerChange} type='email' required />
@@ -567,7 +569,7 @@ const CustomerIndividual = () => {
                                     <InputComponent name="trigger" value={customer.trigger} onChange={handleCustomerChange} type='text' required />
                                 </div>
                                 <div style={{ width: '20%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <label className="text-[#70685a] font-bold mb-2 block text-center mr-10 py-1 !mb-0">ブランドタイプ</label>
+                                    <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">ブランドタイプ</label>
                                 </div>
                                 <div style={{ width: '30%', flexDirection: 'column', }} className='flex align-center justify-around'>
                                     <InputComponent name="brand_type" value={customer.brand_type} onChange={handleCustomerChange} type='text' required />
@@ -578,7 +580,7 @@ const CustomerIndividual = () => {
                                 <div style={{ width: '20%', flexDirection: 'column', }} className='flex align-center justify-around'>
                                     <label className="text-[#70685a] font-bold mb-2 block text-center mr-10 py-1 !mb-0">本人確認書類</label>
                                 </div>
-                                <div style={{ width: '10%', flexDirection: 'column', }} className='flex align-center justify-around'>
+                                <div style={{ width: '5%', flexDirection: 'column', }} className='flex align-center justify-around'>
                                     <button type="button" onClick={() => handleButtonClick(idcardInputRef)}
                                         className="w-9 h-9 inline-flex items-center justify-center text-[#70685a] border border-[#70685a] outline-none hover:bg-purple-700 active:bg-purple-600">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="14px" fill="black" className="inline" viewBox="0 0 512 512">
@@ -590,8 +592,8 @@ const CustomerIndividual = () => {
                                     <input type="file" name='idcardUpload' ref={idcardInputRef} style={{ display: 'none' }} onChange={(e) => handleFileChange(e, setIdcardFile, setAvatarImagePreview)} />
                                     {/* {idcardFile && <p>{idcardFile.name}</p>} */}
                                 </div>
-                                <div style={{ width: '30%', flexDirection: 'column', }} className='flex ml-3 align-center justify-around'>
-                                    <select id="cardType" name="cardType" value={customer.cardType} required onChange={handleCustomerChange} className="w-full h-9 text-[#70685a] text-[15px] font-bold border border-[#70685a] px-4 py-2 outline-[#70685a]">
+                                <div style={{ width: '24%', flexDirection: 'column', }} className='flex ml-3 align-center justify-around'>
+                                    <select name="cardType" value={customer.cardType} required onChange={handleCustomerChange} className="w-full h-9 text-[#70685a] text-[15px] font-bold border border-[#70685a] px-4 py-2 outline-[#70685a]">
                                         <option value="" disabled></option>
                                         <option value="運転免許証">運転免許証</option>
                                         <option value="運転経歴証明書">運転経歴証明書</option>
@@ -604,6 +606,12 @@ const CustomerIndividual = () => {
                                     <button type="button" onClick={() => handleButtonClick(avatarImageInputRef)} className="py-2 text-[#70685a] rounded-full tracking-wider font-medium outline-none border border-[#70685a] ">画像と情報表示</button>
                                     <input type="file" name="avatarimageUpload" ref={avatarImageInputRef} style={{ display: 'none' }} onChange={(e) => handleFileChange(e, setAvatarImageFile, setIdCardImagePreview)} />
                                     {/* {avatarimageFile && <p>Selected Image: {avatarimageFile.name}</p>} */}
+                                </div>
+                                <div style={{ width: '20%', flexDirection: 'column', }} className='flex align-center justify-around'>
+                                    <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">身分証No.</label>
+                                </div>
+                                <div style={{ width: '30%', flexDirection: 'column', }} className='flex align-center justify-around'>
+                                    <InputComponent name="idcard_number" value={customer.idcard_number} onChange={handleCustomerChange} type='number' required />
                                 </div>
                             </div>
                             {/* new */}

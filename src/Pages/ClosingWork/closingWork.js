@@ -28,7 +28,7 @@ const ClosingWork = () => {
                 <div className=" flex flex-col items-center justify-center px-4">
                     <div className="w-full" style={{ maxWidth: '80em' }}>
                         <div className=" rounded-2xl">
-                            <h2 className="text-[#70685a] text-center text-2xl font-bold flex justify-center">終業作業</h2>
+                            {/* <h2 className="text-[#70685a] text-center text-2xl font-bold flex justify-center">終業作業</h2> */}
                             <form className=" space-y-2 !mt-2">
                                 {/* new */}
                                 <div className='flex'>

@@ -62,27 +62,27 @@ const PurchaseInvoiceForBroughtInItems = () => {
     // }
 
     //---------------------------whole hearing data
-    const [nextItems,setNextItems] = useState([]);
-    const [sendDM, setSendDM] = useState([]);
+    // const [nextItems,setNextItems] = useState([]);
+    // const [sendDM, setSendDM] = useState([]);
 
-    const getNextItems = () => {
-        if (purchaseInformation.totalSalesSlipData?.length > 0) {
-            const data = purchaseInformation.wholeHearingData;
+    // const getNextItems = () => {
+    //     if (purchaseInformation.totalSalesSlipData?.length > 0) {
+    //         const data = purchaseInformation.wholeHearingData;
 
-            const labelsFromIndex4To19 = data
-                .filter(item => item.Index >= 4 && item.Index <= 19) // Filter based on Index
-                .map(item => item.label); // Map to extract labels
-            setNextItems(labelsFromIndex4To19);
-            const labelsFromIndex20To21 = data
-                .filter(item => item.Index >= 20 && item.Index <= 21) // Filter based on Index
-                .map(item => item.label); // Map to extract labels
-            setSendDM(labelsFromIndex20To21);
-        }
-    }
+    //         const labelsFromIndex4To19 = data
+    //             .filter(item => item.Index >= 4 && item.Index <= 19) // Filter based on Index
+    //             .map(item => item.label); // Map to extract labels
+    //         setNextItems(labelsFromIndex4To19);
+    //         const labelsFromIndex20To21 = data
+    //             .filter(item => item.Index >= 20 && item.Index <= 21) // Filter based on Index
+    //             .map(item => item.label); // Map to extract labels
+    //         setSendDM(labelsFromIndex20To21);
+    //     }
+    // }
 
-    useEffect(() => {
-        getNextItems();
-    }, [purchaseInformation]); // Recalculate whenever purchaseInformation changes
+    // useEffect(() => {
+    //     getNextItems();
+    // }, [purchaseInformation]); // Recalculate whenever purchaseInformation changes
 
     const [totalQuantity, setTotalQuantity] = useState('');
     const [totalPrice, setTotalPrice] = useState('');
@@ -128,6 +128,7 @@ const PurchaseInvoiceForBroughtInItems = () => {
             axios.get(`${wakabaBaseUrl}/customer/getCustomerById/${customerId}`)
                 .then(response => {
                     setCustomer(response.data);
+                    checkedFunction(response.data.item1, response.data.item2, response.data.item3, response.data.item4, response.data.item5)
                     // console.log('customerdata', response.data);
                 })
                 .catch(error => {
@@ -249,21 +250,177 @@ const PurchaseInvoiceForBroughtInItems = () => {
             console.error('Error generating PDF:', error);
         }
     };
+    //---------------whole hearing control part---------------
+    const [pairs, setPairs] = useState([
+        { checked: false, value: '' },
+        { checked: false, value: '' },
+        { checked: false, value: '' },
+        { checked: false, value: '' },
+    ]);
+
+    const [additionalCheckboxes, setAdditionalCheckboxes] = useState(Array(22).fill(false));
+
+    // Array of labels corresponding to the additional checkboxes
+    const additionalLabels = [
+        '以前も利用したことがある',
+        '店舗を見て',
+        'インターネットを見て',
+        '紹介されて',
+        'ダイヤモンド',
+        '色石',
+        'ネックレス',
+        '指輪',
+        '時計',
+        'ブランド品',
+        '切手',
+        '中国切手',
+        '古銭',
+        '金券',
+        'テレカ',
+        'カメラ',
+        'スマートフォン',
+        '食器',
+        'ホビー',
+        '楽器',
+        '可',
+        '不可'
+    ];
+
+    const itemLabels = [
+        'Item 2 Label', // Label for item2
+        'Item 3 Label', // Label for item3
+        'Item 4 Label', // Label for item4
+        'Item 5 Label'  // Label for item5
+    ];
+
+    const handlePairCheckboxChange = (index) => {
+        const newPairs = [...pairs];
+        newPairs[index].checked = !newPairs[index].checked;
+        setPairs(newPairs);
+    };
+
+    const handleInputChange = (index, value) => {
+        const newPairs = [...pairs];
+        newPairs[index].value = value;
+        setPairs(newPairs);
+    };
+
+    const handleAdditionalCheckboxChange = (index) => {
+        const newCheckboxes = [...additionalCheckboxes];
+        newCheckboxes[index] = !newCheckboxes[index];
+        setAdditionalCheckboxes(newCheckboxes);
+    };
+
+    const handleSubmit = () => {
+        const updatedCustomer = { ...customer };
+        const checkedValues = [];
+
+        // Collect values for each pair
+        pairs.forEach((pair, i) => {
+            if (pair.checked) {
+                checkedValues.push({ label: additionalLabels[i], value: pair.value });
+
+                // Update customer state based on index
+                updatedCustomer[`item${i + 2}`] = pair.value; // item2 to item5
+            }
+        });
+
+        // Collect additional checked checkboxes
+        const additionalChecked = [];
+        additionalCheckboxes.forEach((isChecked, i) => {
+            if (isChecked) {
+                additionalChecked.push({ label: additionalLabels[i], index: i + 1 });
+            }
+        });
+
+        // Set additionalChecked in the customer state
+        updatedCustomer.item1 = additionalChecked.map(item => item.label);
+
+        // Finally, set the updated customer state
+        setCustomer(updatedCustomer);
+    };
+
+    useEffect(() => {
+        handleSubmit();
+    }, [pairs, additionalCheckboxes]);
+    const [wholeHearingData, setWholeHearingData] = useState([]);
+    const checkedFunction = (item1, item2, item3, item4, item5) => {
+        if (item1?.length > 0) {
+            const array = item1.split(',').map(Number);
+            setAdditionalCheckboxes(array);
+            updateValueAtIndex(0, item2);
+            updateValueAtIndex(1, item3);
+            updateValueAtIndex(2, item4);
+            updateValueAtIndex(3, item5);
+
+            // Collecting the labels and input values
+            const checkedLabelsAndValues = [];
+
+            // Add labels and values for additional checkboxes
+            array.forEach((index) => {
+                if (index < additionalLabels.length) {
+                    checkedLabelsAndValues.push({
+                        label: additionalLabels[index],
+                        checked: true,
+                        Index: index
+                    });
+                }
+            });
+
+            const items = [item2, item3, item4, item5];
+            items.forEach((item, index) => {
+                updateValueAtIndex(index, item); // Update state
+                if (item) {
+                    checkedLabelsAndValues.push({ label: itemLabels[index], value: item });
+                }
+            });
+            // Log or return the checked labels and values
+            console.log('Checked Labels and Values:', checkedLabelsAndValues);
+            setWholeHearingData(checkedLabelsAndValues);
+            return checkedLabelsAndValues;
+        }
+        return [];
+    };
+
+    const updateValueAtIndex = (index, newValue) => {
+        setPairs(prevPairs => {
+            const newPairs = [...prevPairs];
+            newPairs[index] = { ...newPairs[index], checked: true, value: newValue };
+            return newPairs;
+        });
+    };
+
+    // Save function
+    const itemsSave = () => {
+        const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+        if (!wakabaBaseUrl) {
+            throw new Error('API base URL is not defined');
+        }
+
+        axios.post(`${wakabaBaseUrl}/customer/updatecustomeritem`, customer)
+            .then(response => {
+                console.log('Customer data updated successfully:', response.data);
+            })
+            .catch(error => {
+                console.error("There was an error fetching the customer data!", error);
+            });
+    };
+    //--------------------------------------------------------
 
     const confirmAgree = async () => {
         // handleSavePageAsPDF();
         const dataUrl = sigCanvas.current.toDataURL();
         if (checked === 'agree' && dataUrl != null) {
             const payload = purchaseInformation.totalSalesSlipData;
-            console.log('payload',payload)
-                try {
-                    const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+            console.log('payload', payload)
+            try {
+                const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
 
-                    if (!wakabaBaseUrl) {
-                        throw new Error('API base URL is not defined');
-                    }
-                    const payload = purchaseInformation.totalSalesSlipData;
-                    const response = await axios.post(`${wakabaBaseUrl}/purchaseinvoice/confirm`, { dataUrl, payload })
+                if (!wakabaBaseUrl) {
+                    throw new Error('API base URL is not defined');
+                }
+                const payload = purchaseInformation.totalSalesSlipData;
+                const response = await axios.post(`${wakabaBaseUrl}/purchaseinvoice/confirm`, { dataUrl, payload })
                     .then(response => {
                         window.scrollTo({ top: 0, behavior: 'smooth' });
                         navigate('/salesslip');
@@ -271,12 +428,12 @@ const PurchaseInvoiceForBroughtInItems = () => {
                     .catch(error => {
                         console.error("There was an error fetching the customer data!", error);
                     });
-                } catch (error) {
-                    console.error('Error submitting form:', error);
-                    // Handle error here
-                }
-            } else {
-                setError('リクエストの処理にエラーが発生しました。もう一度ご確認ください。');//There was an error processing your request. Please check again.
+            } catch (error) {
+                console.error('Error submitting form:', error);
+                // Handle error here
+            }
+        } else {
+            setError('リクエストの処理にエラーが発生しました。もう一度ご確認ください。');//There was an error processing your request. Please check again.
         }
 
     }
@@ -304,7 +461,9 @@ const PurchaseInvoiceForBroughtInItems = () => {
                                     <div className='flex'>
                                         <label className="text-[#70685a] font-bold mb-2 block text-left mr-3 !mb-0">事業者名</label>
                                         <div>
-                                            <label className="text-[#70685a] font-bold mb-2 block text-left !mb-0">OOOO OOOO OOOOOO</label>
+                                            <label className="text-[#70685a] font-bold mb-2 block text-left !mb-0">
+                                                <input type='text' className='!h-6 w-40'></input>
+                                            </label>
                                             <label className="text-[#70685a] font-bold mb-2 block text-left text-[13px] !mb-0">(登録 **************)</label>
                                         </div>
                                     </div>
@@ -322,17 +481,21 @@ const PurchaseInvoiceForBroughtInItems = () => {
                                 </div>
                                 <div style={{ width: '25%' }}>
                                     <div className='flex pt-3 w-full justify-end'>
-                                        <label className="w-[70%] text-[#70685a] font-bold mb-2 block text-left mr-3 !mb-0">接客担当</label>
-                                        <label className="text-[#70685a] font-bold mb-2 block text-left !mb-0">OOOO</label>
+                                        <div className='w-1/2 flex justify-between'>
+                                            <label className="w-[70%] text-[#70685a] font-bold mb-2 block text-left mr-3 !mb-0">接客担当</label>
+                                            <label className="text-[#70685a] font-bold mb-2 block text-left !mb-0">{purchaseInformation.totalSalesSlipData[0].purchase_staff || ''}</label>
+                                        </div>
                                     </div>
-                                    <div className='flex w-full justify-end'>
-                                        <label className="w-[70%] text-[#70685a] font-bold mb-2 block text-left mr-3 !mb-0">支払担当</label>
-                                        <label className="text-[#70685a] font-bold mb-2 block text-left !mb-0">OOOO</label>
+                                    <div className='flex pt-3 w-full justify-end'>
+                                        <div className='w-1/2 flex justify-between'>
+                                            <label className="w-[70%] text-[#70685a] font-bold mb-2 block text-left mr-3 !mb-0">支払担当</label>
+                                            <label className="text-[#70685a] font-bold mb-2 block text-left !mb-0">{purchaseInformation.totalSalesSlipData[0].payment_staff || 'OOO'}</label>
+                                        </div>
                                     </div>
-                                    <div className='flex w-full justify-end'>
+                                    {/* <div className='flex w-full justify-end'>
                                         <label className=" w-[70%] text-[#70685a] font-bold mb-2 block text-left mr-3 !mb-0">次回の現金還元額</label>
                                         <label className="text-[#70685a] font-bold mb-2 block text-left !mb-0">OOOO</label>
-                                    </div>
+                                    </div> */}
                                 </div>
                             </div>
                             {/* first line */}
@@ -366,8 +529,8 @@ const PurchaseInvoiceForBroughtInItems = () => {
                                 <div style={{ width: '60%' }} className='flex justify-between'>
                                     <label className="text-[#70685a]  mb-2 block text-left !mb-0">{customer.phone_number}</label>
                                     <div className='flex'>
-                                        <label className="text-[#70685a] font-bold mb-2 block text-left !mb-0 mr-5">e-mail</label>
-                                        <label className="text-[#70685a]  mb-2 block text-left !mb-0 ">OOOO OOO</label>
+                                        <label className="text-[#70685a] font-bold mb-2 block text-left !mb-0 mr-5">E-mail</label>
+                                        <label className="text-[#70685a]  mb-2 block text-left !mb-0 ">{customer.email}</label>
                                     </div>
                                     <div className='flex'>
                                         <label className="text-[#70685a] font-bold mb-2 block text-left !mb-0 mr-5">ご職業</label>
@@ -517,15 +680,15 @@ const PurchaseInvoiceForBroughtInItems = () => {
 
                                     <div style={{ width: '55%', paddingLeft: '6.3%' }} className='flex'>
                                         <div className='flex'>
-                                            <input type='checkbox' className='flex flex-col justify-center'  name='agree' checked={checked === 'agree'} onChange={() => handleCheckboxChange('agree')} />
+                                            <input type='checkbox' className='flex flex-col justify-center' name='agree' checked={checked === 'agree'} onChange={() => handleCheckboxChange('agree')} />
                                             <label className="text-[#70685a] font-bold mb-2 block text-left mr-3 pt-1 mr-30 ml-2 !mb-0 flex flex-col justify-center"> 規約を熟読して了承しました。</label>
                                         </div>
 
                                     </div>
                                 </div>
-                            </div>                            
+                            </div>
                             {/* ----------------whole hearing data--------------- */}
-                            <div>
+                            {/* <div>
                                 <div className='flex justify-center'>
                                     <div>
                                         <div className='flex'>
@@ -547,6 +710,174 @@ const PurchaseInvoiceForBroughtInItems = () => {
                                             {sendDM?.length > 0 && sendDM.map((item, index) => (
                                                 <div key={index}>{item}</div>
                                             ))}      
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> */}
+                            {/* Text area */}
+                            <div className='w-full flex justify-center' >
+                                <div className=" h-full w-full mt-5" style={{ maxWidth: '50em' }}>
+                                    {/* Text area */}
+                                    <label className="text-[#70685a] text-[20px] font-bold mb-2 block text-left mr-10 py-1 !mb-0">全体ヒアリング</label>
+                                    <div className="px-3 w-full h-[120px] overflow-y-scroll">
+                                        <div>
+                                            <div className='flex'>
+                                                <label className="text-[#70685a] text-[18px] mb-2 block text-left mr-10 py-1">項目1</label>
+                                                <label className="text-[#70685a] text-[18px] mb-2 block text-left mr-10 py-1 !mb-0">何を見てご来店いただきましたか？</label>
+                                            </div>
+                                            <div className='ml-20 text-[17px]'>
+                                                <div className='flex justify-between'>
+                                                    {['以前も利用したことがある', '店舗を見て', 'インターネットを見て', '紹介されて'].map((label, index) => {
+                                                        const id = `additional-checkbox-${index}`; // Unique ID for each checkbox
+                                                        return (
+                                                            <div className="flex items-center" key={index}>
+                                                                <input
+                                                                    type="checkbox"
+                                                                    id={id}
+                                                                    checked={additionalCheckboxes[index]}
+                                                                    onChange={() => handleAdditionalCheckboxChange(index)}
+                                                                    className="w-4 h-4 mr-3"
+                                                                />
+                                                                <label htmlFor={id} className="text-[#70685a]">{label}</label>
+                                                            </div>
+                                                        );
+                                                    })}
+                                                </div>
+                                                <div className="flex items-center">
+                                                    <input
+                                                        type="checkbox"
+                                                        id="pair-checkbox-0"
+                                                        checked={pairs[0].checked}
+                                                        onChange={() => handlePairCheckboxChange(0)}
+                                                        className="w-4 h-4 mr-3"
+                                                    />
+                                                    <label htmlFor="pair-checkbox-0" className="text-[#70685a] mr-3">店舗以外の看板・広告を見て</label>
+                                                    <InputComponent
+                                                        value={pairs[0].value}
+                                                        onChange={(e) => handleInputChange(0, e.target.value)}
+                                                        disabled={!pairs[0].checked}
+                                                        className="w-40 text-[#70685a] mb-2 block text-left mr-10 py-1 !mb-0 !h-8"
+                                                        placeholder={'広告を見た場所'}
+                                                    />
+                                                </div>
+                                                <div className='flex gap-10'>
+                                                    {[
+                                                        { label: '折込チラシを見て', placeholder: '新聞銘柄' },
+                                                        { label: 'その他', placeholder: 'その他詳細' }
+                                                    ].map((item, index) => {
+                                                        const id = `pair-checkbox-${index + 1}`; // Unique ID for each checkbox
+                                                        return (
+                                                            <div className="flex items-center" key={index}>
+                                                                <input
+                                                                    type="checkbox"
+                                                                    id={id}
+                                                                    checked={pairs[index + 1].checked}
+                                                                    onChange={() => handlePairCheckboxChange(index + 1)}
+                                                                    className="w-4 h-4 mr-3"
+                                                                />
+                                                                <label htmlFor={id} className="text-[#70685a] mr-3">{item.label}</label>
+                                                                <InputComponent
+                                                                    value={pairs[index + 1].value}
+                                                                    onChange={(e) => handleInputChange(index + 1, e.target.value)}
+                                                                    disabled={!pairs[index + 1].checked}
+                                                                    className="w-40 text-[#70685a] mb-2 block text-left mr-10 py-1 !mb-0 !h-8"
+                                                                    placeholder={item.placeholder}
+                                                                />
+                                                            </div>
+                                                        );
+                                                    })}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <div className='flex'>
+                                                <label className="text-[#70685a] text-[18px] mb-2 block text-left mr-10 py-1">項目2</label>
+                                                <label className="text-[#70685a] text-[18px] mb-2 block text-left mr-10 py-1 !mb-0">次回お持ちいただくご予定の商品はございますか？</label>
+                                            </div>
+                                            <div className='ml-20 text-[17px]'>
+                                                <div className='flex flex-wrap gap-5'>
+                                                    {[
+                                                        'ダイヤモンド',
+                                                        '色石',
+                                                        'ネックレス',
+                                                        '指輪',
+                                                        '時計',
+                                                        'ブランド品',
+                                                        '切手',
+                                                        '中国切手',
+                                                        '古銭',
+                                                        '金券',
+                                                        'テレカ',
+                                                        'カメラ',
+                                                        'スマートフォン',
+                                                        '食器',
+                                                        'ホビー',
+                                                        '楽器'
+                                                    ].map((item, index) => {
+                                                        const checkboxIndex = index + 4; // Adjust the index for additionalCheckboxes
+                                                        const id = `checkbox-${checkboxIndex}`; // Unique ID for each checkbox
+                                                        return (
+                                                            <div className="flex items-center" key={id}>
+                                                                <input
+                                                                    type="checkbox"
+                                                                    id={id}
+                                                                    className="w-4 h-4 mr-3"
+                                                                    checked={additionalCheckboxes[checkboxIndex] || false}
+                                                                    onChange={() => handleAdditionalCheckboxChange(checkboxIndex)}
+                                                                />
+                                                                <label htmlFor={id} className="text-[#70685a]">{item}</label>
+                                                            </div>
+                                                        );
+                                                    })}
+                                                </div>
+
+                                                <div className='flex items-center gap-5'>
+                                                    <input
+                                                        type="checkbox"
+                                                        id="pair-checkbox-3"
+                                                        checked={pairs[3].checked}
+                                                        onChange={() => handlePairCheckboxChange(3)}
+                                                        className="w-4 h-4 mr-3"
+                                                    />
+                                                    <label htmlFor="pair-checkbox-3" className="text-[#70685a] mr-3">その他</label>
+                                                    <InputComponent
+                                                        value={pairs[3].value}
+                                                        onChange={(e) => handleInputChange(3, e.target.value)}
+                                                        disabled={!pairs[3].checked}
+                                                        className="w-40 text-[#70685a] mb-2 block text-left mr-10 py-1 !mb-0 !h-8"
+                                                        placeholder={'その他詳細'}
+                                                    />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <div className='flex'>
+                                                <label className="text-[#70685a] text-[18px] mb-2 block text-left mr-10 py-1">項目3</label>
+                                                <label className="text-[#70685a] text-[18px] mb-2 block text-left mr-10 py-1 !mb-0">DM等、各種ご案内をお送りしてもよろしいですか？</label>
+                                            </div>
+                                            <div className='ml-20 mb-10'>
+                                                <div className='flex gap-10 text-[17px]'>
+                                                    {[
+                                                        { label: '可', index: 20 },
+                                                        { label: '不可', index: 21 }
+                                                    ].map(({ label, index }) => {
+                                                        const id = `checkbox-${index}`;
+                                                        return (
+                                                            <div className="flex items-center" key={id}>
+                                                                <input
+                                                                    type="checkbox"
+                                                                    id={id}
+                                                                    className="w-4 h-4 mr-3"
+                                                                    checked={additionalCheckboxes[index] || false}
+                                                                    onChange={() => handleAdditionalCheckboxChange(index)}
+                                                                />
+                                                                <label htmlFor={id} className="text-[#70685a]">{label}</label>
+                                                            </div>
+                                                        );
+                                                    })}
+                                                </div>
+                                            </div>
+
                                         </div>
                                     </div>
                                 </div>
@@ -585,7 +916,9 @@ const PurchaseInvoiceForBroughtInItems = () => {
                             {/* Button */}
                             <div className="flex justify-center pt-5 mb-10" >
                                 <div className='w-full pt-1 flex justify-center' style={{ maxWidth: '80em' }}>
-                                    <ButtonComponent children={'買取を了承します'} className="!py-2" onClick={confirmAgree} />
+                                    {purchaseInformation.totalSalesSlipData?.length > 0 && purchaseInformation.totalSalesSlipData[0].product_status === '承認された' &&
+                                        <ButtonComponent children={'買取を了承します'} className="!py-2" onClick={confirmAgree} />
+                                    }
                                 </div>
                             </div>
 

@@ -68,6 +68,7 @@ const CustomerIndividualCreate = () => {
         age: '',
         job: '',
         email:'',
+        idcard_number:'',
         idCard_url: '',
         cardType: '',
         avatar_url: '',
@@ -175,6 +176,7 @@ const CustomerIndividualCreate = () => {
         formDataObj.append('email', customer.email);
         formDataObj.append('trigger', customer.trigger);
         formDataObj.append('brand_type', customer.brand_type);
+        formDataObj.append('idcard_number', customer.idcard_number);
         formDataObj.append('cardType', customer.cardType);
         formDataObj.append('prefeature', customer.prefeature);
         formDataObj.append('city', customer.city);
@@ -221,7 +223,7 @@ const CustomerIndividualCreate = () => {
                             </div>
                         </div>
                     </div>
-                    <h2 className="text-[#70685a] text-center text-2xl font-bold flex justify-center !mt-5">顧客 個別情報(作成する画面)</h2>
+                    <h2 className="text-[#70685a] text-center text-2xl font-bold flex justify-center">顧客 個別情報(作成する画面)</h2>
                     <div className='w-full flex justify-center gap-20 mt-5'>
                         <label className="text-[#70685a] font-bold mb-2 block text-left flex justify-end" style={{ flexDirection: 'column', width: '20%',visibility:'hidden' }}><u> <Link to='/customerlist'>キャンセル</Link></u></label>
                         <ButtonComponent name="keep" className='' onClick={openCreateCheckModal} children="作成する" />
@@ -303,7 +305,7 @@ const CustomerIndividualCreate = () => {
                                     <label className="text-[#70685a] font-bold mb-2 block text-right py-1 !mb-0">{customer.age}才</label>
                                 </div>
                                 <div style={{ width: '20%', flexDirection: 'column', }} className='flex flex-col justify-center text-right'>
-                                    <label className="text-[#70685a] font-bold mb-2 block text-right py-1 !mb-0 mr-3">性別</label>
+                                    <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">性別</label>
                                 </div>
                                 <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
                                     <select id="gender" name="gender" required onChange={handleCustomerChange} value={customer.gender} className="w-full text-[#70685a] font-bold border border-[#70685a] px-4 py-2 outline-[#70685a]">
@@ -357,7 +359,7 @@ const CustomerIndividualCreate = () => {
                                 <div style={{ width: '20%', flexDirection: 'column', }} className='flex align-center justify-around'>
                                     <label className="text-[#70685a] font-bold mb-2 block text-center mr-10 py-1 !mb-0">本人確認書類</label>
                                 </div>
-                                <div style={{ width: '10%', flexDirection: 'column', }} className='flex align-center justify-around'>
+                                <div style={{ width: '5%', flexDirection: 'column', }} className='flex align-center justify-around'>
                                     <button type="button" onClick={() => handleButtonClick(idcardInputRef)}
                                         className="w-9 h-9 inline-flex items-center justify-center text-[#70685a] border border-[#70685a] outline-none hover:bg-purple-700 active:bg-purple-600">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="14px" fill="black" className="inline" viewBox="0 0 512 512">
@@ -369,7 +371,7 @@ const CustomerIndividualCreate = () => {
                                     <input type="file" name='idcardUpload' ref={idcardInputRef} style={{ display: 'none' }} onChange={(e) => handleFileChange(e, setIdcardFile, setAvatarImagePreview)} />
                                     {/* {idcardFile && <p>{idcardFile.name}</p>} */}
                                 </div>
-                                <div style={{ width: '30%', flexDirection: 'column'}} className='flex align-center justify-around ml-3'>
+                                <div style={{ width: '24%', flexDirection: 'column'}} className='flex align-center justify-around ml-3'>
                                     <select id="cardType" name="cardType" value={customer.cardType} required onChange={handleCustomerChange} className="w-full h-9 text-[#70685a] text-[15px] font-bold border border-[#70685a] px-4 py-2 outline-[#70685a]">
                                         <option value="" disabled></option>
                                         <option value="運転免許証">運転免許証</option>
@@ -383,6 +385,12 @@ const CustomerIndividualCreate = () => {
                                     <button type="button" onClick={() => handleButtonClick(avatarImageInputRef)} className="py-2 text-[#70685a] rounded-full tracking-wider font-medium outline-none border border-[#70685a] ">画像と情報表示</button>
                                     <input type="file" name="avatarimageUpload" ref={avatarImageInputRef} style={{ display: 'none' }} onChange={(e) => handleFileChange(e, setAvatarImageFile, setIdCardImagePreview)} />
                                     {/* {avatarimageFile && <p>Selected Image: {avatarimageFile.name}</p>} */}
+                                </div>
+                                <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
+                                    <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">身分証No.</label>
+                                </div>
+                                <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
+                                    <InputComponent name="idcard_number" value={customer.idcard_number} onChange={handleCustomerChange} type='number' required />
                                 </div>
                             </div>
                             {/* new */}
@@ -408,7 +416,7 @@ const CustomerIndividualCreate = () => {
                                     <label className="text-[#70685a] font-bold mb-2 block text-center mr-10 py-1 !mb-0">都道府県</label>
                                 </div>
                                 <div style={{ width: '30%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <select id="prefeature" value={customer.prefeature} required onChange={handleCustomerChange} name="prefeature" className="w-full h-10 text-[#70685a] font-bold border border-[#70685a] px-4 py-1 outline-[#70685a]">
+                                    <select value={customer.prefeature} required onChange={handleCustomerChange} name="prefeature" className="w-full h-10 text-[#70685a] font-bold border border-[#70685a] px-4 py-1 outline-[#70685a]">
                                         <option value="" disabled></option>
                                         <option value="北海道">北海道</option>
                                         <option value="青森県">青森県</option>

@@ -2350,7 +2350,7 @@ const brandValues = [
                                                     className="px-6 py-2.5 rounded text-[#70685a] text-sm tracking-wider font-semibold border-none outline-none">{salesData.gold_type || ''}</div>
                                                 <div
                                                     className="absolute shadow-lg hidden group-hover:block bg-[#fff] text-[#70685a] font-semibold px-3 py-2 text-[13px] left-full ml-3 top-0 bottom-0 my-auto h-max w-max rounded before:w-4 before:h-4 before:rotate-45 before:bg-[#333] before:absolute before:z-[-1] before:bottom-0 before:top-0 before:my-auto before:-left-1 before:mx-auto">
-                                                {priceData ? `Retanaka: ${priceData.name}, Price: $${priceData.price}` : 'Price not available'}
+                                                {priceData ? `Retanaka: ${priceData.name}, Price: ${priceData.price}` : 'Price not available'}
                                                 </div>
                                             </div>
                                         </td>
@@ -2642,7 +2642,7 @@ const brandValues = [
             {/* result */}
             <div className="flex justify-center">
                 <div className='w-full pb-20' style={{ maxWidth: '80em' }}>
-                    <div className='flex flex-col justify-center pt-3 w-full'>
+                    <div className='flex flex-col justify-center w-full'>
                         <div className='invoice-purchase-brought flex justify-center pt-3 '>
                             <div className='invoice-purchase-brought-one flex justify-center w-[50%]'>
                                 <input type='checkbox' className='mr-3' />

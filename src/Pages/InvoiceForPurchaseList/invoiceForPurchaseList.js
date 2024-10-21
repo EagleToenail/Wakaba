@@ -74,7 +74,7 @@ const InvoiceForPurchaseList = () => {
             {/* <Titlebar title={title} /> */}
             <DateAndTime />
             {/* title */}
-            <h2 className="text-[#70685a] text-center text-2xl font-bold flex justify-center">購入の請求書</h2>
+            {/* <h2 className="text-[#70685a] text-center text-2xl font-bold flex justify-center">購入の請求書</h2> */}
 
             {/* third line */}
             <div className='flex justify-center' >

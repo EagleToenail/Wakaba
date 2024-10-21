@@ -192,9 +192,9 @@ const SafeMoney = () => {
                                     className=" mr-3 py-1 min-w-[160px] text-[#70685a] rounded-full tracking-wider font-bold outline-none border border-[#70685a] hover:bg-[#524c3b] hover:text-white transition-all duration-300">入出金申請</button>
                             </div>
                         </div>
-                        <div >
+                        {/* <div >
                             <h2 className="text-[#70685a] text-center text-2xl font-bold flex justify-center">金庫金  金銭出納帳（入出金履歴)</h2>
-                        </div>
+                        </div> */}
                         <div className='safe-money-second justify-center mt-2' style={{display:'none'}}>
                             <div className='flex'>
                                 <button type="button"

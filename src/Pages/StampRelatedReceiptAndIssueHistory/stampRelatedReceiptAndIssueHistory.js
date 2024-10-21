@@ -157,9 +157,9 @@ const StampRelatedReceiptAndIssueHistory = () => {
                             <button type="button"
                                 className="ml-10 py-1 min-w-[160px] text-[#70685a] rounded-full tracking-wider font-bold outline-none border border-[#70685a] ">Purple</button>
                         </div>
-                        <div className='mt-2'>
+                        {/* <div className='mt-2'>
                             <h2 className="text-[#70685a] text-center text-2xl font-bold flex justify-center">日本の切手 ハガキ レターパック  入出庫履歴</h2>
-                        </div>
+                        </div> */}
                         <div className='stamp-inventory-second flex justify-center mt-2' >
                             <div className='flex'>
                                 <button type="button" onClick={gotoInboundPage}

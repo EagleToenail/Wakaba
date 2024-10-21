@@ -255,9 +255,9 @@ const MonthlyIncome = () => {
                         <button type="button" onClick={()=>getTodayData()}
                             className=" mr-3 py-1 min-w-[160px] text-[#70685a] rounded-full tracking-wider font-bold outline-none border border-[#70685a] hover:bg-[#524c3b] hover:text-white transition-all duration-300">本日分表示</button>
                     </div>
-                    <div className='flex justify-center'>
+                    {/* <div className='flex justify-center'>
                         <h2 className="text-[#656565] text-center text-2xl font-bold flex justify-center">月次収支報告書&nbsp;一覧</h2>
-                    </div>
+                    </div> */}
                     <div className='monthly-income-second flex justify-around' style={{display:'none'}}>
                         <button type="button" 
                             className="  py-1 min-w-[160px] text-[#70685a] rounded-full tracking-wider font-bold outline-none border border-[#70685a] ">当月分表示</button>

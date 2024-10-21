@@ -37,25 +37,43 @@ export default function Header({zoomout,zoomin}) {
     setIsOpen(!isOpen);
   };
   const navigate = useNavigate();
-  const [date, setDate] = useState(new Date());
+
+  const [dateTime, setDateTime] = useState(new Date());
 
   useEffect(() => {
-    // Update the date once on component mount
-    setDate(new Date());
+      // Update the date and time every minute
+      const intervalId = setInterval(() => {
+          const now = new Date();
+          const tokyoTime = new Date(now.toLocaleString('en-US', { timeZone: 'Asia/Tokyo' }));
+          setDateTime(tokyoTime);
+      }, 60000); // Update every 60,000 milliseconds (1 minute)
+
+      // Clear the interval on component unmount
+      return () => clearInterval(intervalId);
   }, []);
 
   // Map of days of the week to Japanese kanji
   const dayKanji = ['日', '月', '火', '水', '木', '金', '土'];
 
-  // Format the date as YYYY/MM/DD (Kanji)
+  // Format the date and time as YYYY/MM/DD (Kanji) HH:MM
   const formatDate = (date) => {
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are 0-based
-    const day = String(date.getDate()).padStart(2, '0');
-    const dayOfWeek = date.getDay(); // Get day of week (0: Sunday, 1: Monday, ..., 6: Saturday)
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are 0-based
+      const day = String(date.getDate()).padStart(2, '0');
+      const dayOfWeek = date.getDay(); // Get day of week (0: Sunday, 1: Monday, ..., 6: Saturday)
 
-    return `${year}/${month}/${day} (${dayKanji[dayOfWeek]})`;
+      return `${year}/${month}/${day} (${dayKanji[dayOfWeek]})`;
   };
+  const formatTime = (date) => {
+      const hours = String(date.getHours()).padStart(2, '0');
+      const minutes = String(date.getMinutes()).padStart(2, '0');
+
+      return `${hours}:${minutes}`;
+  };
+
+  const formattedDate = formatDate(dateTime);
+  const formattedTime = formatTime(dateTime);
+
   const [userData, setUserData] = useState([]);
   const userId = localStorage.getItem('userId');
   
@@ -85,7 +103,6 @@ export default function Header({zoomout,zoomin}) {
         console.error("There was an error fetching the customer data!", error);
       });
   }, [userId]);
-  const formattedDate = formatDate(date);
 //------------------------------auto log out function----------------------------------
 const clearStorage = () => {
   localStorage.clear();
@@ -134,7 +151,7 @@ setTimeout(clearStorage, timeUntilOneMinuteBeforeMidnight);
           <svg className=" h-10 px-3" fill="#655b4a" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path className='bg-white' fillRule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clipRule="evenodd"></path></svg>
         </div>
         <div className='flex flex-wrap items-center justify-between w-full'>
-          <div className='text-[#655b4a] block font-semibold text-[20px] cursor-pointer'>WAKABA 業務システム&nbsp;<span className='text-[10px]'>ver0.1</span></div>
+          <div className='text-[#655b4a] block font-semibold text-[20px] cursor-pointer'>WAKABA 業務システム&nbsp;<span className='text-[10px]'>ver0.1</span><span className='text-[20px]'>&nbsp;{formattedTime}</span></div>
           <div id="collapseMenu" style={{ display: isOpen ? 'block' : 'none' }}
             className='max-lg:hidden lg:!block max-lg:before:fixed max-lg:before:bg-black max-lg:before:opacity-50 max-lg:before:inset-0 max-lg:before:z-50'>
             <button id="toggleClose" className='lg:hidden fixed top-2 right-4 z-[100] rounded-full bg-white p-3' onClick={handleClick}>
@@ -147,7 +164,6 @@ setTimeout(clearStorage, timeUntilOneMinuteBeforeMidnight);
                   data-original="#000000"></path>
               </svg>
             </button>
-
             <ul
               className='lg:flex  max-lg:space-y-3 max-lg:fixed max-lg:bg-white max-lg:w-1/2 max-lg:min-w-[300px] max-lg:top-0 max-lg:left-0 max-lg:p-6 max-lg:h-full max-lg:shadow-md max-lg:overflow-auto z-50'>
               <li className='max-lg:border-b-0 border-gray-300 max-lg:py-3 px-3'>

@@ -1,6 +1,6 @@
 import React, {useState,useEffect} from 'react';
 
-const Login = () => {
+const PickDate = () => {
     
     const [dateTime, setDateTime] = useState(new Date());
 
@@ -40,4 +40,4 @@ const Login = () => {
     );
 };
 
-export default Login;
+export default PickDate;

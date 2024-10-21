@@ -215,9 +215,9 @@ const fetchOldSalesData = async (ids) => {
             <div className="bg-[trasparent] font-[sans-serif]">
                 <div className='flex justify-center'>
                     <div className="w-full">
-                        <div className='flex justify-around mt-1' >
+                        {/* <div className='flex justify-around mt-1' >
                             <h2 className="text-[#70685a] font-bold text-center text-2xl flex justify-center">業者卸発送一覧</h2>
-                        </div>
+                        </div> */}
 
                         {/*  */}
                         <div className='whole-saler-shipping flex justify-center  pr-40 pl-40'>

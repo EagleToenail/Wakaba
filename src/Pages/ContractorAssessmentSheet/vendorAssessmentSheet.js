@@ -1,5 +1,5 @@
-import React,{ useState, useEffect } from 'react';
-import {Link ,useNavigate} from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 import { useDispatch } from 'react-redux';
@@ -11,7 +11,6 @@ import rightArrow from '../../Assets/img/left-arrow.png';
 
 // import Titlebar from '../../Components/Common/Titlebar';
 import InputComponent from '../../Components/Common/InputComponent';
-import ButtonComponent from '../../Components/Common/ButtonComponent';
 import LabelComponent from '../../Components/Common/LabelComponent';
 import ImageShowModal from '../../Components/Modal/ImageShowModal';
 
@@ -26,9 +25,9 @@ const VendorAssementSheet = () => {
         width: '100%',
         alignItems: 'center',
         borderCollapse: 'collapse', // Ensures borders collapse properly
-        padding:'3px'
+        padding: '3px'
     };
-    
+
     const Th = {
         border: '1px solid #70685a',
         color: '#70685a',
@@ -39,7 +38,7 @@ const VendorAssementSheet = () => {
         top: 0, // Position at the top
         zIndex: 10, // Ensure header appears above other content
     };
-    
+
     const Td = {
         border: '1px solid #70685a',
         color: '#70685a',
@@ -58,19 +57,19 @@ const VendorAssementSheet = () => {
 
     const [sales, setSales] = useState([]);
     // Fetch sales data
-    useEffect( () => {
+    useEffect(() => {
         handleCategory('貴金属');
     }, []);
 
     const [users, setUsers] = useState([]);
     // Fetch user data
     useEffect(() => {
-        const fetchUser = async() => {
+        const fetchUser = async () => {
             const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
             if (!wakabaBaseUrl) {
                 throw new Error('API base URL is not defined');
             }
-    
+
             await axios.get(`${wakabaBaseUrl}/user/getUserList`)
                 .then(response => {
                     const data = response.data;
@@ -82,22 +81,22 @@ const VendorAssementSheet = () => {
         }
         fetchUser();
     }, []);
-    const handleCategory = async(value) => {
+    const handleCategory = async (value) => {
         setShowYahoo(false);
         const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
         if (!wakabaBaseUrl) {
             throw new Error('API base URL is not defined');
         }
         // console.log(`${wakabaBaseUrl}/sales/filter`);
-        await axios.post(`${wakabaBaseUrl}/sales/filter`,{ value: value })
+        await axios.post(`${wakabaBaseUrl}/sales/filter`, { value: value })
             .then(response => {
                 const salesData = response.data;
-                if(salesData?.length>0) {
-                    const updatedData111 = salesData.map((data,Index) => ({
+                if (salesData?.length > 0) {
+                    const updatedData111 = salesData.map((data, Index) => ({
                         ...data,
                         estimate_wholesaler: JSON.parse(data.estimate_wholesaler),
                         // comment: JSON.parse(data.comment),
-                    })); 
+                    }));
                     setSales(updatedData111);
                 }
             })
@@ -110,10 +109,10 @@ const VendorAssementSheet = () => {
     // Handle checkbox change
     const handleCheckboxChange = (event) => {
         const value = event.target.value;
-        setCheckedValues((prevValues) => 
-        prevValues.includes(value)
-            ? prevValues.filter((v) => v !== value) // Uncheck
-            : [...prevValues, value] // Check
+        setCheckedValues((prevValues) =>
+            prevValues.includes(value)
+                ? prevValues.filter((v) => v !== value) // Uncheck
+                : [...prevValues, value] // Check
         );
     };
     //send shipping data
@@ -121,58 +120,44 @@ const VendorAssementSheet = () => {
         clearReduxData();
         updateData(checkedValues);
         // console.log('checked values',checkedValues);
-        if(checkedValues && checkedValues.length !==0){
+        if (checkedValues && checkedValues.length !== 0) {
             navigate('/purchaserequestformforwholesaler');
         }
 
     };
 
-    const [showYahoo,setShowYahoo] = useState(false);
-     //  -------------------------------select box-------------------------------
-     const [product1s, setProduct1s] = useState([]);
-     // Fetch product1 data
-     useEffect(() => {
-         const fetchCategory1 = async () => {
-             const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
-             if (!wakabaBaseUrl) {
-                 throw new Error('API base URL is not defined');
-             }
- 
-             axios.get(`${wakabaBaseUrl}/ProductType1s`)
-                 .then(response => {
-                     setProduct1s(response.data);
-                 })
-                 .catch(error => {
-                     console.error("There was an error fetching the customer data!", error);
-                 });
-         }
-         fetchCategory1();
-     }, []);
- 
-     const [category1, setCategory1] = useState('');
- 
-     const handleCategory1Change = (e, productList) => {
-         const selectedCategory = e.target.value; // Get the selected category
-         const selectedResult = productList.find(product => product.category === selectedCategory);//need id
-         setCategory1(selectedCategory);
-         handleCategory(selectedCategory);
-     };
-   // show subtd 
-   const [isshow, setIsShow] = useState(false);
+    const [showYahoo, setShowYahoo] = useState(false);
+    //  -------------------------------select box-------------------------------
+    const [product1s, setProduct1s] = useState([]);
+    // Fetch product1 data
+    useEffect(() => {
+        const fetchCategory1 = async () => {
+            const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+            if (!wakabaBaseUrl) {
+                throw new Error('API base URL is not defined');
+            }
 
-   const openSubtable = () => {
-       setIsShow(false);
-   };
-   const closeSubtable = () => {
-       setIsShow(true);
-   };  
-    //--------------------shwo all -----------------
-    const showAll = () => {
-        handleCategory('');
-        setCategory1('');
-    }
+            axios.get(`${wakabaBaseUrl}/ProductType1s`)
+                .then(response => {
+                    setProduct1s(response.data);
+                })
+                .catch(error => {
+                    console.error("There was an error fetching the customer data!", error);
+                });
+        }
+        fetchCategory1();
+    }, []);
+
+    const [category1, setCategory1] = useState('貴金属');
+
+    const handleCategory1Change = (e, productList) => {
+        const selectedCategory = e.target.value; // Get the selected category
+        const selectedResult = productList.find(product => product.category === selectedCategory);//need id
+        setCategory1(selectedCategory);
+        handleCategory(selectedCategory);
+    };
     //-----------------------------------item detail---------------------------------------
-    const [isDetailShow ,setIsDetailShow] = useState(false);
+    const [isDetailShow, setIsDetailShow] = useState(false);
     const openItemDetailShow = () => {
         setIsDetailShow(!isDetailShow)
     }
@@ -186,7 +171,7 @@ const VendorAssementSheet = () => {
     const closeProductImageModal = () => {
         setShowProductImage(false);
     }
-//----------------------estimate------------------------------
+    //----------------------estimate------------------------------
     //get  vendor list form vendor table
     const [vendors, setVendors] = useState([]);
     const [allVendors, setAllVendors] = useState([]);
@@ -206,7 +191,7 @@ const VendorAssementSheet = () => {
     }
 
     useEffect(() => {
-        const fetchAllVendor = async() =>{
+        const fetchAllVendor = async () => {
             const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
             if (!wakabaBaseUrl) {
                 throw new Error('API base URL is not defined');
@@ -229,66 +214,98 @@ const VendorAssementSheet = () => {
     const [showEstimate, setShowEstimate] = useState(false);
     const openEstimate = (index) => {
         setShowEstimate(true);
-        
+
         //setShowInputPurchase(!showInputPurchase);
         // setEditIndex(index);
-        console.log('selectedtotalSalesData',sales[index])
+        console.log('selectedtotalSalesData', sales[index])
         // setSalesSlipData(sales[index]); // Populate the input fields with the selected row's data
         setEstimateValues(sales[index].estimate_wholesaler);
-        if(sales[index].product_type_one){
+        if (sales[index].product_type_one) {
             const selectedResult = product1s.find(product => product.category === sales[index].product_type_one);
-            console.log('selectedResult',selectedResult)
+            console.log('selectedResult', selectedResult)
             getVendorList(selectedResult.id);
         }
-            
+
     }
 
     const saveEstimate = () => {
         setShowEstimate(false);
     }
-//--------------------------filter function----------------------------------
+    //--------------------------filter function----------------------------------
     const now = new Date();
     // Format the date as YYYY-MM-DD
     const optionsDate = { year: 'numeric', month: '2-digit', day: '2-digit', timeZone: 'Asia/Tokyo' };
     const formattedDate = new Intl.DateTimeFormat('ja-JP', optionsDate).format(now).replace(/\//g, '-');
     // Split the formatted date to get year and month
-    const [currentyear, currentmonth,currentday] = formattedDate.split('-').map(part => part.trim());
+    const [currentyear, currentmonth, currentday] = formattedDate.split('-').map(part => part.trim());
 
-    const [showDateFilter, setShowDateFilter] = useState(false)
-    const [selectedDateType, setSelectedDateType] = useState('');
-    const [year, setYear] = useState(currentyear);
-    const [month, setMonth] = useState(currentmonth);
-    const [day, setDay] = useState(currentday);
-    const [startDate, setStartDate] = useState(formattedDate);
-    const [endDate, setEndDate] = useState(formattedDate);
+    const [isDateOpen1, setIsDateOpen1] = useState(false);
+    const [isDateOpen2, setIsDateOpen2] = useState(false);
+    const [isDateOpen3, setIsDateOpen3] = useState(false);
+    const [selectedOption1, setSelectedOption1] = useState('');
+    const [year1, setYear1] = useState('');
+    const [month1, setMonth1] = useState('');
+    const [day1, setDay1] = useState('');
+    const [startDate1, setStartDate1] = useState('');
+    const [endDate1, setEndDate1] = useState('');
 
-    const openShowFilterModal = (type) => {
-        setSelectedDateType(type);
-        setShowDateFilter(true);
+    const toggleDateDropdown1 = () => {
+        if (isDateOpen1) {
+            setYear1('');
+            setMonth1('');
+            setDay1('');
+            setStartDate1('');
+            setEndDate1('');
+        }
+        setIsDateOpen1((prev) => !prev);
+    };
+    const toggleDateDropdown2 = () => {
+        if (isDateOpen2) {
+            setYear1('');
+            setMonth1('');
+            setDay1('');
+            setStartDate1('');
+            setEndDate1('');
+        }
+        setIsDateOpen2((prev) => !prev);
+    };
+    const toggleDateDropdown3 = () => {
+        if (isDateOpen3) {
+            setYear1('');
+            setMonth1('');
+            setDay1('');
+            setStartDate1('');
+            setEndDate1('');
+        }
+        setIsDateOpen3((prev) => !prev);
     };
 
-    const closeShowFilterModal = () => {
-        setShowDateFilter(false);
-    }
+    const handleDateOptionChange1 = (option) => {
+        setSelectedOption1(option);
+        // Reset other values when a new option is selected
+    };
+
+
     // filter by date
-    const handleDateFilter = async(type) => {
-        setShowDateFilter(false);
-        const date = `${year}-${month}-${day}`;
+    const handleDateFilter = async (data, type) => {
+        const searchdate = data;
         // console.log(type,date)
         const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
         if (!wakabaBaseUrl) {
             throw new Error('API base URL is not defined');
         }
-        await axios.post(`${wakabaBaseUrl}/sales/filterDate`,{ type: type,date:date })
+        await axios.post(`${wakabaBaseUrl}/sales/filterDate`, { type: type, date: searchdate })
             .then(response => {
                 const salesData = response.data;
-                if(salesData?.length>0) {
-                    const updatedData111 = salesData.map((data,Index) => ({
+                if (salesData?.length > 0) {
+                    const updatedData111 = salesData.map((data, Index) => ({
                         ...data,
                         estimate_wholesaler: JSON.parse(data.estimate_wholesaler),
-                        // comment: JSON.parse(data.comment),
-                    })); 
+                        comment: JSON.parse(data.comment),
+                    }));
                     setSales(updatedData111);
+                } else {
+                    setSales([]);
                 }
             })
             .catch(error => {
@@ -296,130 +313,162 @@ const VendorAssementSheet = () => {
             });
     }
     // filter by start date and end date
-    const handleTerminalDateFilter = async(type) => {
-        setShowDateFilter(false);
+    const handleTerminalDateFilter = async (start, end, type) => {
         if (!wakabaBaseUrl) {
             throw new Error('API base URL is not defined');
         }
-        await axios.post(`${wakabaBaseUrl}/sales/filterDateTerminal`,{ type: type,startDate:startDate,endDate:endDate })
+        await axios.post(`${wakabaBaseUrl}/sales/filterDateTerminal`, { type: type, startDate: start, endDate: end })
             .then(response => {
                 const salesData = response.data;
-                if(salesData?.length>0) {
-                    const updatedData111 = salesData.map((data,Index) => ({
+                if (salesData?.length > 0) {
+                    const updatedData111 = salesData.map((data, Index) => ({
                         ...data,
                         estimate_wholesaler: JSON.parse(data.estimate_wholesaler),
-                        // comment: JSON.parse(data.comment),
-                    })); 
+                        comment: JSON.parse(data.comment),
+                    }));
                     setSales(updatedData111);
+                } else {
+                    setSales([]);
                 }
             })
             .catch(error => {
                 console.error("There was an error fetching the customer data!", error);
             });
     }
-    //filter by staff
-    const [showVendorFilter, setShowVendorFilter] = useState(false);
-    const closeShowVendorFilterModal = () => {
-        setShowVendorFilter(false);
-    }
-    const openShowVendorFilterModal = () => {
-        setShowVendorFilter(true);
-    }
-    
-    const [searchQuery, setSearchQuery] = useState('');
-    const filteredVendors = allVendors?.filter(vendor =>
-        vendor.vendor_name.toLowerCase().includes(searchQuery.toLowerCase())
-    );
-
-    const [selectedVendors, setSelectedVendors] = useState([]);
-
-    const handleVendorCheckboxChange = (vendor) => {
-        setSelectedVendors((prevSelected) => {
-        if (prevSelected.includes(vendor.vendor_name)) {
-            return prevSelected.filter(name => name !== vendor.vendor_name);
-        } else {
-            return [...prevSelected, vendor.vendor_name];
+    const handleDateSearchClick = (type) => {
+        if (selectedOption1 === 'year1') {
+            const data = `${year1}`;
+            handleDateFilter(data, type);
+            setMonth1('');
+            setDay1('');
+            setStartDate1('');
+            setEndDate1('');
         }
-        });
+        if (selectedOption1 === 'month1') {
+            const data = `${currentyear}-${month1}`;
+            handleDateFilter(data, type);
+            setYear1(currentyear);
+            setDay1('');
+            setStartDate1('');
+            setEndDate1('');
+        }
+        if (selectedOption1 === 'day1') {
+            const data = `${currentyear}-${currentmonth}-${day1}`;
+            handleDateFilter(data, type);
+            setYear1(currentyear);
+            setMonth1(currentmonth);
+            setStartDate1('');
+            setEndDate1('');
+        }
+        if (selectedOption1 === 'period1') {
+            handleTerminalDateFilter(startDate1, endDate1, type);
+            setYear1('');
+            setMonth1('');
+            setDay1('');
+        }
+    }
+    //filter by staff
+    const [isUserOpen, setIsUserOpen] = useState(false);
+    const [searchUserTerm, setSearchUserTerm] = useState('');
+    const [selectedUsers, setSelectedUsers] = useState([]);
+
+    const toggleUserDropdown = () => {
+        setIsUserOpen(!isUserOpen);
     };
 
-    const searchVendorInformation = async() => {
-        setShowVendorFilter(false);
-        // const clientsToFind = ["Client A", "Client C"];
+    const handleUserCheckboxChange = (user) => {
+        setSelectedUsers((prev) =>
+            prev.includes(user) ? prev.filter((u) => u !== user) : [...prev, user]
+        );
+    };
+
+    const filteredUsers = users?.length > 0 ? users.filter((user) => user.full_name.toLowerCase().includes(searchUserTerm.toLowerCase())) : [];
+
+    const searchStaffInformation = async () => {
         const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
         if (!wakabaBaseUrl) {
             throw new Error('API base URL is not defined');
         }
-        // console.log(`${wakabaBaseUrl}/sales/getSalesList`);
-        await axios.post(`${wakabaBaseUrl}/sales/getSalesListByCategory1`,{cat1:category1})
-        .then(response => {
-            const salesData = response.data;
-            if(salesData?.length>0) {
-                const updatedData111 = salesData.map((data,Index) => ({
-                    ...data,
-                    estimate_wholesaler: JSON.parse(data.estimate_wholesaler),
-                    comment: JSON.parse(data.comment),
-                })); 
-                const filteredSales = updatedData111.filter(sale => 
-                    selectedVendors.includes(sale.shipping_address)
-                );
-                setSales(filteredSales);
-            }
-        })
-        .catch(error => {
-            console.error("There was an error fetching the customer data!", error);
-        });
+        console.log(category1, 'category1');
+        await axios.post(`${wakabaBaseUrl}/sales/getSalesListByCategory1`, { cat1: category1 })
+            .then(response => {
+                const salesData = response.data;
+                if (salesData?.length > 0) {
+                    const updatedData111 = salesData.map((data, Index) => ({
+                        ...data,
+                        estimate_wholesaler: JSON.parse(data.estimate_wholesaler),
+                        comment: JSON.parse(data.comment),
+                    }));
+                    if (selectedUsers?.length > 0) {
+                        const filteredSales = updatedData111.filter(sale =>
+                            selectedUsers.includes(sale.purchase_staff)
+                        );
+                        setSales(filteredSales);
+                    } else {
+                        setSales(updatedData111);
+                    }
+                }
+            })
+            .catch(error => {
+                console.error("There was an error fetching the customer data!", error);
+            });
     }
+    useEffect(() => {
+        searchStaffInformation();
+    }, [selectedUsers]);
     //filter by state
-    const filteredStatus = ['査定中','お預かり','成約済','買取済','発送中','約定済','オークション出品済','オークション発送済','廃棄','基準外','返品・返金'];
-    const [showStatusFilter, setShowStatusFilter] = useState(false);
-    const closeShowStatusFilterModal = () => {
-        setShowStatusFilter(false);
-    }
-    const openShowStatusFilterModal = () => {
-        setShowStatusFilter(true);
-    }
+    const productStatuses = ['査定中', 'お預かり', '承認待ち', '承認された', '買取済', '発送中', '約定済', 'オークション出品済', 'オークション発送済', '廃棄', '基準外', '返品・返金'];
+    const [isOpen, setIsOpen] = useState(false);
+    const [searchTerm, setSearchTerm] = useState('');
+    const [selectedStatuses, setSelectedStatuses] = useState([]);
 
-    const [selectedStatus, setSelectedStatus] = useState([]);
+    const toggleDropdown = () => setIsOpen(!isOpen);
 
     const handleStatusCheckboxChange = (status) => {
-        setSelectedStatus((prevSelected) => {
-        if (prevSelected.includes(status)) {
-            return prevSelected.filter(name => name !== status);
-        } else {
-            return [...prevSelected, status];
-        }
-        });
+        setSelectedStatuses((prev) =>
+            prev.includes(status) ? prev.filter((s) => s !== status) : [...prev, status]
+        );
     };
 
-    const searchStatusInformation = async() => {
-        setShowStatusFilter(false);
+    const filteredStatuses = productStatuses.filter((status) =>
+        status.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
+    const searchStatusInformation = async () => {
         // const clientsToFind = ["Client A", "Client C"];
         const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
         if (!wakabaBaseUrl) {
             throw new Error('API base URL is not defined');
         }
         // console.log(`${wakabaBaseUrl}/sales/getSalesList`);
-        await axios.post(`${wakabaBaseUrl}/sales/getSalesListByCategory1`,{cat1:category1})
-        .then(response => {
-            const salesData = response.data;
-            if(salesData?.length>0) {
-                const updatedData111 = salesData.map((data,Index) => ({
-                    ...data,
-                    estimate_wholesaler: JSON.parse(data.estimate_wholesaler),
-                    // comment: JSON.parse(data.comment),
-                })); 
-                const filteredSales = updatedData111.filter(sale => 
-                    selectedStatus.includes(sale.product_status)
-                );
-                setSales(filteredSales);
-            }
-        })
-        .catch(error => {
-            console.error("There was an error fetching the customer data!", error);
-        });
+        await axios.post(`${wakabaBaseUrl}/sales/getSalesListByCategory1`, { cat1: category1 })
+            .then(response => {
+                const salesData = response.data;
+                if (salesData?.length > 0) {
+                    const updatedData111 = salesData.map((data, Index) => ({
+                        ...data,
+                        estimate_wholesaler: JSON.parse(data.estimate_wholesaler),
+                        comment: JSON.parse(data.comment),
+                    }));
+                    if (selectedStatuses?.length > 0) {
+                        const filteredSales = updatedData111.filter(sale =>
+                            selectedStatuses.includes(sale.product_status)
+                        );
+                        setSales(filteredSales);
+                    } else {
+                        setSales(updatedData111);
+                    }
+
+                }
+            })
+            .catch(error => {
+                console.error("There was an error fetching the customer data!", error);
+            });
     }
-//--------------------------------------hanlde edit some value in sales Slip-------------------------------------
+    useEffect(() => {
+        searchStatusInformation();
+    }, [selectedStatuses]);
+    //--------------------------------------hanlde edit some value in sales Slip-------------------------------------
     const [product2s, setProduct2s] = useState([]);
     // Fetch product1 data
     const fetchProduct2 = (id) => {
@@ -474,11 +523,11 @@ const VendorAssementSheet = () => {
             });
     }, []);
 
-    const handleValueChange = async(id,index,e) => {
+    const handleValueChange = async (id, index, e) => {
         const name = e.target.name;
         const value = e.target.value;
         // console.log('id,name,value',id,index,name,value);
-        if(name === 'product_type_one') {
+        if (name === 'product_type_one') {
             const selectedResult = product1s.find(product => product.category === value);
             fetchProduct2(selectedResult.id);
         }
@@ -488,32 +537,32 @@ const VendorAssementSheet = () => {
             throw new Error('API base URL is not defined');
         }
         // console.log(`${wakabaBaseUrl}/sales/getSalesList`);
-        await axios.post(`${wakabaBaseUrl}/sales/eidtSales`,{id:id,name:name,value:value,cat1:category1})
-        .then(response => {
-            const salesData = response.data;
-            if(salesData?.length>0) {
-                const updatedData111 = salesData.map((data,Index) => ({
-                    ...data,
-                    estimate_wholesaler: JSON.parse(data.estimate_wholesaler),
-                    // comment: JSON.parse(data.comment),
-                })); 
-                setSales(updatedData111);
-            }
-        })
-        .catch(error => {
-            console.error("There was an error fetching the customer data!", error);
-        });
+        await axios.post(`${wakabaBaseUrl}/sales/eidtSales`, { id: id, name: name, value: value, cat1: category1 })
+            .then(response => {
+                const salesData = response.data;
+                if (salesData?.length > 0) {
+                    const updatedData111 = salesData.map((data, Index) => ({
+                        ...data,
+                        estimate_wholesaler: JSON.parse(data.estimate_wholesaler),
+                        // comment: JSON.parse(data.comment),
+                    }));
+                    setSales(updatedData111);
+                }
+            })
+            .catch(error => {
+                console.error("There was an error fetching the customer data!", error);
+            });
     };
     const handleProduct2Select = (index) => {
         const categoryone = sales[index].product_type_one;
         // console.log('categoryone',categoryone,index);
-        if(categoryone) {
+        if (categoryone) {
             const selectedResult = product1s.find(product => product.category === categoryone);
             fetchProduct2(selectedResult.id);
         }
 
     }
-//-----------------------open and close vendor -----------------------------------
+    //-----------------------open and close vendor -----------------------------------
     const [isvendorshow, setIsVendorShow] = useState(false);
 
     const openVendortable = () => {
@@ -533,11 +582,11 @@ const VendorAssementSheet = () => {
             setBooleanArray(newArray); // Update the state
         }
     };
-//---------------------------------------------------------------------------------------------------------------
-   //goto salesslip
-   const gotoSalesSlip = () => {
+    //---------------------------------------------------------------------------------------------------------------
+    //goto salesslip
+    const gotoSalesSlip = () => {
         navigate('/salesslip');
-   }
+    }
     return (
         <>
             {/* <Titlebar title={title} /> */}
@@ -546,13 +595,23 @@ const VendorAssementSheet = () => {
                 <div className="w-full flex justify-center">
                     <div className='w-full'>
                         <div className='flex justify-center ml-10 ' >
-                            <div className='contractor-assessment-sheet flex justify-between w-full '>
-                                <div className='flex justify-center mt-2 w-full' >
+                            <div className='contractor-assessment-sheet flex justify-between w-full'>
+                                <div className='flex justify-center mt-2 w-full gap-10' >
                                     <button onClick={gotoSalesSlip} className='w-[200px] font-bold bg-[transparent] rounded-md border border-[#424242] text-[#424242] h-11 !text-2xl !px-0 hover:bg-[#524c3b] hover:text-white transition-all duration-300' >売上表</button>
-                                    <ButtonComponent children={'業者査定シート'} className='!w-[350px] h-11 !bg-[#424242] border border-[#424242] !text-2xl !px-0' style={{ marginLeft: '30px' }} />
-                                    {/* <ButtonComponent className='!w-[200px] h-11 !bg-[transparent] border border-[#424242] !text-[#424242] !text-2xl !px-0' style={{ marginLeft: '30px' }} >
-                                        <Link to="/yahooauction">ヤフオク</Link>
-                                    </ButtonComponent> */}
+                                    <button className='w-max h-11 bg-[#424242] text-[#fff] rounded-md border border-[#424242] text-2xl px-3' >
+                                        業者査定シート
+                                    </button>
+                                    {/* second selectbox line  */}
+                                    <div className='w-max flex justify-center'>
+                                        <select name="category1" value={category1} onChange={(e) => handleCategory1Change(e, product1s)} className='w-max h-11 text-[#70685a] font-bold border border-[#70685a] rounded-md px-4 py-1 outline-[#70685a]' >
+                                            {/* <option value="" disabled>商品タイプ1</option> */}
+                                            {product1s.map((option, index) => (
+                                                <option key={option.id} value={option.category || ''}>
+                                                    {option.category || ''}
+                                                </option>
+                                            ))}
+                                        </select>
+                                    </div>
                                 </div>
                                 <div className='flex justify-center mt-2 w-full' >
                                     <div>
@@ -565,17 +624,7 @@ const VendorAssementSheet = () => {
                             </div>
                         </div>
 
-                        {/* second selectbox line  */}
-                        <div className='w-full flex justify-center mt-1'>
-                            <select name="category1" value={category1} onChange={(e) => handleCategory1Change(e, product1s)} className='w-max h-11 text-[#70685a] font-bold border border-[#70685a] px-4 py-1 outline-[#70685a]' >
-                                {/* <option value="" disabled>商品タイプ1</option> */}
-                                {product1s.map((option, index) => (
-                                    <option key={option.id} value={option.category || ''}>
-                                        {option.category || ''}
-                                    </option>
-                                ))}
-                            </select>
-                        </div>
+
                         {/*  Tabe*/}
                         <div className='mt-3 w-full flex'>
                             <div className='w-full h-[600px] overflow-scroll '>
@@ -584,39 +633,402 @@ const VendorAssementSheet = () => {
                                         <tr>
                                             <th rowSpan={2} className='px-2'></th>
                                             <th rowSpan={2} style={Th} className='px-2'>ID</th>
-                                            <th rowSpan={2} style={Th} className='px-2'>わかばNo</th>
                                             <th rowSpan={2} style={Th} className='px-1'>
-                                                <ButtonComponent onClick={openShowStatusFilterModal} children="ステータス" className='w-max !px-5 rounded-lg border border-[#70685a]' style={{ backgroundColor: '#ebe5e1', color: '#626373' }} /> 
+                                                {/* -----------dropdown--------- */}
+                                                <div className="relative">
+                                                    <button
+                                                        onClick={toggleDropdown}
+                                                        className="inline-flex items-center px-4 py-1 text-sm font-bold text-center text-[#626373] bg-[#ebe5e1] border border-[#70685a] rounded-lg hover:bg-[#524c3b] hover:text-white transition-all duration-300"
+                                                    >
+                                                        ステータス
+                                                        <svg className="w-2.5 h-2.5 ms-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                                                            <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 4 4 4-4" />
+                                                        </svg>
+                                                    </button>
+
+                                                    {isOpen && (
+                                                        <div className="absolute z-10 bg-white rounded-lg shadow w-50">
+                                                            <div className="p-3">
+                                                                <label htmlFor="input-group-search" className="sr-only">Search</label>
+                                                                <div className="relative">
+                                                                    <input
+                                                                        type="text"
+                                                                        id="input-group-search"
+                                                                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                                                        placeholder="検索..."
+                                                                        value={searchTerm}
+                                                                        onChange={(e) => setSearchTerm(e.target.value)}
+                                                                    />
+                                                                </div>
+                                                            </div>
+                                                            <ul className="h-48 px-3 pb-3 overflow-y-auto text-sm text-gray-700">
+                                                                {filteredStatuses.map((status) => (
+                                                                    <li key={status}>
+                                                                        <div className="flex items-center p-2 rounded hover:bg-gray-100">
+                                                                            <input
+                                                                                id={`checkbox-${status}`}
+                                                                                type="checkbox"
+                                                                                checked={selectedStatuses.includes(status)}
+                                                                                onChange={() => handleStatusCheckboxChange(status)}
+                                                                                className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
+                                                                            />
+                                                                            <label htmlFor={`checkbox-${status}`} className="w-full ms-2 text-sm font-medium text-gray-900">{status}</label>
+                                                                        </div>
+                                                                    </li>
+                                                                ))}
+                                                            </ul>
+                                                        </div>
+                                                    )}
+                                                </div>
+                                                {/* ---------------------------- */}
                                             </th>
                                             <th className='px-2' style={Th} rowSpan={2}>
-                                                <ButtonComponent onClick={openShowVendorFilterModal} children="卸し先" className='w-max !px-5 rounded-lg border border-[#70685a]' style={{ backgroundColor: '#ebe5e1', color: '#626373' }} /> 
-                                            </th>
-                                            <th  className='px-2' style={Th} rowSpan={2}> 
-                                                <ButtonComponent onClick={() => openShowFilterModal('買取日')}  children="買取日" className='w-max !px-5 rounded-lg border border-[#70685a]' style={{ backgroundColor: '#ebe5e1', color: '#626373' }} /> 
-                                            </th>
-                                            <th  className='px-2' style={Th} rowSpan={2}>
-                                                <ButtonComponent onClick={() => openShowFilterModal('卸日')}  children="卸日" className='w-max !px-5 rounded-lg border border-[#70685a]' style={{ backgroundColor: '#ebe5e1', color: '#626373' }} /> 
-                                            </th>
-                                            <th  className='px-2' style={Th} rowSpan={2}>
-                                                <ButtonComponent  onClick={() => openShowFilterModal('入金日')}  children="入金日" className='w-max !px-5 rounded-lg border border-[#70685a]' style={{ backgroundColor: '#ebe5e1', color: '#626373' }} /> 
-                                            </th>
+                                                <div className="relative">
+                                                    <button
+                                                        onClick={toggleUserDropdown}
+                                                        className="inline-flex items-center px-4 py-1 text-sm font-bold text-center text-[#626373] bg-[#ebe5e1] border border-[#70685a] rounded-lg hover:bg-[#524c3b] hover:text-white transition-all duration-300"
+                                                    >
+                                                        買取担当
+                                                        <svg className="w-2.5 h-2.5 ms-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                                                            <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 4 4 4-4" />
+                                                        </svg>
+                                                    </button>
 
-                                            <th style={Th} colSpan={isshow ? 7:1}>
-                                                <div className='flex justify-center'>
-                                                    <div className='flex justify-center w-40'>
-                                                        個人情報
-                                                        <div className='flex flex-col justify-center'>
-                                                            {isshow ? <button ><img src={rightArrow} className='h-5' alt='' onClick={openSubtable} ></img></button> : <button><img src={leftArrow} className='h-5' alt='' onClick={closeSubtable}></img></button>}
+                                                    {isUserOpen && (
+                                                        <div className="absolute z-10 bg-white rounded-lg shadow w-40">
+                                                            <div className="p-3">
+                                                                <label htmlFor="input-group-search" className="sr-only">Search</label>
+                                                                <div className="relative">
+                                                                    <input
+                                                                        type="text"
+                                                                        id="input-group-search"
+                                                                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                                                        placeholder="検索..."
+                                                                        value={searchTerm}
+                                                                        onChange={(e) => setSearchUserTerm(e.target.value)}
+                                                                    />
+                                                                </div>
+                                                            </div>
+                                                            <ul className="h-48 px-3 pb-3 overflow-y-auto text-sm text-gray-700">
+                                                                {filteredUsers.map((user) => (
+                                                                    <li key={user.id}>
+                                                                        <div className="flex items-center p-2 rounded hover:bg-gray-100">
+                                                                            <input
+                                                                                id={`checkbox-${user.full_name}`}
+                                                                                type="checkbox"
+                                                                                checked={selectedUsers.includes(user.full_name)}
+                                                                                onChange={() => handleUserCheckboxChange(user.full_name)}
+                                                                                className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
+                                                                            />
+                                                                            <label htmlFor={`checkbox-${user.full_name}`} className="w-full ms-2 text-sm font-medium text-gray-900">{user.full_name}</label>
+                                                                        </div>
+                                                                    </li>
+                                                                ))}
+                                                            </ul>
                                                         </div>
-                                                    </div>
+                                                    )}
                                                 </div>
                                             </th>
+                                            <th className='px-2' style={Th} rowSpan={2}>
+                                                <div className="relative">
+                                                    <button
+                                                        onClick={toggleDateDropdown1}
+                                                        className="inline-flex items-center px-4 py-1 text-sm font-bold text-center text-[#626373] bg-[#ebe5e1] border border-[#70685a] rounded-lg hover:bg-[#524c3b] hover:text-white transition-all duration-300"
+                                                    >
+                                                        買取日
+                                                        <svg className="w-2.5 h-2.5 ms-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                                                            <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 4 4 4-4" />
+                                                        </svg>
+                                                    </button>
 
+                                                    {isDateOpen1 && (
+                                                        <div className="absolute z-10 bg-white rounded-lg shadow w-100">
+                                                            <ul className="h-48 px-3 pb-3 overflow-y-auto text-sm text-gray-700">
+                                                                <li>
+                                                                    <div className="flex items-center p-2 rounded hover:bg-gray-100">
+                                                                        <input
+                                                                            id='year1'
+                                                                            type="radio"
+                                                                            name="dateOption1"
+                                                                            checked={selectedOption1 === 'year1'}
+                                                                            onChange={() => handleDateOptionChange1('year1')}
+                                                                            className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
+                                                                        />
+                                                                        <label htmlFor='year1' className="w-max mr-2 ms-2 text-sm font-medium text-gray-900">
+                                                                            年指定
+                                                                        </label>
+                                                                        <InputComponent name='year1' value={year1} onChange={(e) => setYear1(e.target.value)} type='number' className="w-[100px] text-[#70685a] mb-2 block text-left py-1 !mb-0 !h-8" placeholder={'2024'} />
+                                                                    </div>
+                                                                </li>
+                                                                <li>
+                                                                    <div className="flex items-center p-2 rounded hover:bg-gray-100">
+                                                                        <input
+                                                                            id='month1'
+                                                                            type="radio"
+                                                                            name="dateOption1"
+                                                                            checked={selectedOption1 === 'month1'}
+                                                                            onChange={() => handleDateOptionChange1('month1')}
+                                                                            className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
+                                                                        />
+                                                                        <label htmlFor='month1' className="w-max mr-2 ms-2 text-sm font-medium text-gray-900">
+                                                                            月指定
+                                                                        </label>
+                                                                        <InputComponent name='month1' value={month1} onChange={(e) => setMonth1(e.target.value)} type='number' className="w-20 text-[#70685a] mb-2 block text-left py-1 !mb-0 !h-8" placeholder={'01'} />
+                                                                    </div>
+                                                                </li>
+                                                                <li>
+                                                                    <div className="flex items-center p-2 rounded hover:bg-gray-100">
+                                                                        <input
+                                                                            id='day1'
+                                                                            type="radio"
+                                                                            name="dateOption1"
+                                                                            checked={selectedOption1 === 'day1'}
+                                                                            onChange={() => handleDateOptionChange1('day1')}
+                                                                            className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
+                                                                        />
+                                                                        <label htmlFor='day1' className="w-max mr-2 ms-2 text-sm font-medium text-gray-900">
+                                                                            日指定
+                                                                        </label>
+                                                                        <InputComponent name='day1' value={day1} onChange={(e) => setDay1(e.target.value)} type='number' className="w-20 text-[#70685a] mb-2 block text-left py-1 !mb-0 !h-8" placeholder={'01'} />
+                                                                    </div>
+                                                                </li>
+                                                                <li>
+                                                                    <div className="flex items-center p-2 rounded hover:bg-gray-100">
+                                                                        <input
+                                                                            id='period1'
+                                                                            type="radio"
+                                                                            name="dateOption1"
+                                                                            checked={selectedOption1 === 'period1'}
+                                                                            onChange={() => handleDateOptionChange1('period1')}
+                                                                            className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
+                                                                        />
+                                                                        <label htmlFor='period1' className="w-full ms-2 text-sm font-medium text-gray-900">
+                                                                            期間指定
+                                                                        </label>
+
+                                                                        <InputComponent name='startDate1' value={startDate1} onChange={(e) => setStartDate1(e.target.value)} type='date' placeholder={'10/15/2024'} className="w-40 text-[#70685a] mb-2 block text-left py-1 !mb-0 !h-8" />
+                                                                        <label htmlFor='period' className="w-full ms-2 text-sm font-medium text-gray-900">
+                                                                            ~
+                                                                        </label>
+                                                                        <InputComponent name='endDate1' value={endDate1} onChange={(e) => setEndDate1(e.target.value)} type='date' placeholder={'10/15/2024'} className="w-40 text-[#70685a] mb-2 block text-left py-1 !mb-0 !h-8" />
+                                                                    </div>
+                                                                </li>
+                                                                <li>
+                                                                    <div className="w-full flex items-center p-2 rounded hover:bg-gray-100">
+                                                                        <div className='w-full text-[#656565] px-2 mr-2 flex justify-center'>
+                                                                            < button type="button" onClick={() => handleDateSearchClick('買取日')} className="w-20 h-8 px-3 py-1 font-bold tracking-wide rounded-lg justify-center text-white text-[15px] bg-[#a3a1c8] hover:bg-blue-700 focus:outline-none">
+                                                                                検索
+                                                                            </button>
+                                                                        </div>
+                                                                    </div>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            </th>
+                                            <th className='px-2' style={Th} rowSpan={2}>
+                                                <div className="relative">
+                                                    <button
+                                                        onClick={toggleDateDropdown2}
+                                                        className="inline-flex items-center px-4 py-1 text-sm font-bold text-center text-[#626373] bg-[#ebe5e1] border border-[#70685a] rounded-lg hover:bg-[#524c3b] hover:text-white transition-all duration-300"
+                                                    >
+                                                        卸日
+                                                        <svg className="w-2.5 h-2.5 ms-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                                                            <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 4 4 4-4" />
+                                                        </svg>
+                                                    </button>
+
+                                                    {isDateOpen2 && (
+                                                        <div className="absolute z-10 bg-white rounded-lg shadow w-100">
+                                                            <ul className="h-48 px-3 pb-3 overflow-y-auto text-sm text-gray-700">
+                                                                <li>
+                                                                    <div className="flex items-center p-2 rounded hover:bg-gray-100">
+                                                                        <input
+                                                                            id='year1'
+                                                                            type="radio"
+                                                                            name="dateOption1"
+                                                                            checked={selectedOption1 === 'year1'}
+                                                                            onChange={() => handleDateOptionChange1('year1')}
+                                                                            className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
+                                                                        />
+                                                                        <label htmlFor='year1' className="w-max mr-2 ms-2 text-sm font-medium text-gray-900">
+                                                                            年指定
+                                                                        </label>
+                                                                        <InputComponent name='year1' value={year1} onChange={(e) => setYear1(e.target.value)} type='number' className="w-[100px] text-[#70685a] mb-2 block text-left py-1 !mb-0 !h-8" placeholder={'2024'} />
+                                                                    </div>
+                                                                </li>
+                                                                <li>
+                                                                    <div className="flex items-center p-2 rounded hover:bg-gray-100">
+                                                                        <input
+                                                                            id='month1'
+                                                                            type="radio"
+                                                                            name="dateOption1"
+                                                                            checked={selectedOption1 === 'month1'}
+                                                                            onChange={() => handleDateOptionChange1('month1')}
+                                                                            className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
+                                                                        />
+                                                                        <label htmlFor='month1' className="w-max mr-2 ms-2 text-sm font-medium text-gray-900">
+                                                                            月指定
+                                                                        </label>
+                                                                        <InputComponent name='month1' value={month1} onChange={(e) => setMonth1(e.target.value)} type='number' className="w-20 text-[#70685a] mb-2 block text-left py-1 !mb-0 !h-8" placeholder={'01'} />
+                                                                    </div>
+                                                                </li>
+                                                                <li>
+                                                                    <div className="flex items-center p-2 rounded hover:bg-gray-100">
+                                                                        <input
+                                                                            id='day1'
+                                                                            type="radio"
+                                                                            name="dateOption1"
+                                                                            checked={selectedOption1 === 'day1'}
+                                                                            onChange={() => handleDateOptionChange1('day1')}
+                                                                            className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
+                                                                        />
+                                                                        <label htmlFor='day1' className="w-max mr-2 ms-2 text-sm font-medium text-gray-900">
+                                                                            日指定
+                                                                        </label>
+                                                                        <InputComponent name='day1' value={day1} onChange={(e) => setDay1(e.target.value)} type='number' className="w-20 text-[#70685a] mb-2 block text-left py-1 !mb-0 !h-8" placeholder={'01'} />
+                                                                    </div>
+                                                                </li>
+                                                                <li>
+                                                                    <div className="flex items-center p-2 rounded hover:bg-gray-100">
+                                                                        <input
+                                                                            id='period1'
+                                                                            type="radio"
+                                                                            name="dateOption1"
+                                                                            checked={selectedOption1 === 'period1'}
+                                                                            onChange={() => handleDateOptionChange1('period1')}
+                                                                            className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
+                                                                        />
+                                                                        <label htmlFor='period1' className="w-full ms-2 text-sm font-medium text-gray-900">
+                                                                            期間指定
+                                                                        </label>
+
+                                                                        <InputComponent name='startDate1' value={startDate1} onChange={(e) => setStartDate1(e.target.value)} type='date' placeholder={'10/15/2024'} className="w-40 text-[#70685a] mb-2 block text-left py-1 !mb-0 !h-8" />
+                                                                        <label htmlFor='period' className="w-full ms-2 text-sm font-medium text-gray-900">
+                                                                            ~
+                                                                        </label>
+                                                                        <InputComponent name='endDate1' value={endDate1} onChange={(e) => setEndDate1(e.target.value)} type='date' placeholder={'10/15/2024'} className="w-40 text-[#70685a] mb-2 block text-left py-1 !mb-0 !h-8" />
+                                                                    </div>
+                                                                </li>
+                                                                <li>
+                                                                    <div className="w-full flex items-center p-2 rounded hover:bg-gray-100">
+                                                                        <div className='w-full text-[#656565] px-2 mr-2 flex justify-center'>
+                                                                            < button type="button" onClick={() => handleDateSearchClick('卸日')} className="w-20 h-8 px-3 py-1 font-bold tracking-wide rounded-lg justify-center text-white text-[15px] bg-[#a3a1c8] hover:bg-blue-700 focus:outline-none">
+                                                                                検索
+                                                                            </button>
+                                                                        </div>
+                                                                    </div>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            </th>
+                                            <th className='px-2' style={Th} rowSpan={2}>
+                                                <div className="relative">
+                                                    <button
+                                                        onClick={toggleDateDropdown3}
+                                                        className="inline-flex items-center px-4 py-1 text-sm font-bold text-center text-[#626373] bg-[#ebe5e1] border border-[#70685a] rounded-lg hover:bg-[#524c3b] hover:text-white transition-all duration-300"
+                                                    >
+                                                        入金日
+                                                        <svg className="w-2.5 h-2.5 ms-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                                                            <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 4 4 4-4" />
+                                                        </svg>
+                                                    </button>
+
+                                                    {isDateOpen3 && (
+                                                        <div className="absolute z-10 bg-white rounded-lg shadow w-100">
+                                                            <ul className="h-48 px-3 pb-3 overflow-y-auto text-sm text-gray-700">
+                                                                <li>
+                                                                    <div className="flex items-center p-2 rounded hover:bg-gray-100">
+                                                                        <input
+                                                                            id='year1'
+                                                                            type="radio"
+                                                                            name="dateOption1"
+                                                                            checked={selectedOption1 === 'year1'}
+                                                                            onChange={() => handleDateOptionChange1('year1')}
+                                                                            className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
+                                                                        />
+                                                                        <label htmlFor='year1' className="w-max mr-2 ms-2 text-sm font-medium text-gray-900">
+                                                                            年指定
+                                                                        </label>
+                                                                        <InputComponent name='year1' value={year1} onChange={(e) => setYear1(e.target.value)} type='number' className="w-[100px] text-[#70685a] mb-2 block text-left py-1 !mb-0 !h-8" placeholder={'2024'} />
+                                                                    </div>
+                                                                </li>
+                                                                <li>
+                                                                    <div className="flex items-center p-2 rounded hover:bg-gray-100">
+                                                                        <input
+                                                                            id='month1'
+                                                                            type="radio"
+                                                                            name="dateOption1"
+                                                                            checked={selectedOption1 === 'month1'}
+                                                                            onChange={() => handleDateOptionChange1('month1')}
+                                                                            className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
+                                                                        />
+                                                                        <label htmlFor='month1' className="w-max mr-2 ms-2 text-sm font-medium text-gray-900">
+                                                                            月指定
+                                                                        </label>
+                                                                        <InputComponent name='month1' value={month1} onChange={(e) => setMonth1(e.target.value)} type='number' className="w-20 text-[#70685a] mb-2 block text-left py-1 !mb-0 !h-8" placeholder={'01'} />
+                                                                    </div>
+                                                                </li>
+                                                                <li>
+                                                                    <div className="flex items-center p-2 rounded hover:bg-gray-100">
+                                                                        <input
+                                                                            id='day1'
+                                                                            type="radio"
+                                                                            name="dateOption1"
+                                                                            checked={selectedOption1 === 'day1'}
+                                                                            onChange={() => handleDateOptionChange1('day1')}
+                                                                            className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
+                                                                        />
+                                                                        <label htmlFor='day1' className="w-max mr-2 ms-2 text-sm font-medium text-gray-900">
+                                                                            日指定
+                                                                        </label>
+                                                                        <InputComponent name='day1' value={day1} onChange={(e) => setDay1(e.target.value)} type='number' className="w-20 text-[#70685a] mb-2 block text-left py-1 !mb-0 !h-8" placeholder={'01'} />
+                                                                    </div>
+                                                                </li>
+                                                                <li>
+                                                                    <div className="flex items-center p-2 rounded hover:bg-gray-100">
+                                                                        <input
+                                                                            id='period1'
+                                                                            type="radio"
+                                                                            name="dateOption1"
+                                                                            checked={selectedOption1 === 'period1'}
+                                                                            onChange={() => handleDateOptionChange1('period1')}
+                                                                            className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
+                                                                        />
+                                                                        <label htmlFor='period1' className="w-full ms-2 text-sm font-medium text-gray-900">
+                                                                            期間指定
+                                                                        </label>
+
+                                                                        <InputComponent name='startDate1' value={startDate1} onChange={(e) => setStartDate1(e.target.value)} type='date' placeholder={'10/15/2024'} className="w-40 text-[#70685a] mb-2 block text-left py-1 !mb-0 !h-8" />
+                                                                        <label htmlFor='period' className="w-full ms-2 text-sm font-medium text-gray-900">
+                                                                            ~
+                                                                        </label>
+                                                                        <InputComponent name='endDate1' value={endDate1} onChange={(e) => setEndDate1(e.target.value)} type='date' placeholder={'10/15/2024'} className="w-40 text-[#70685a] mb-2 block text-left py-1 !mb-0 !h-8" />
+                                                                    </div>
+                                                                </li>
+                                                                <li>
+                                                                    <div className="w-full flex items-center p-2 rounded hover:bg-gray-100">
+                                                                        <div className='w-full text-[#656565] px-2 mr-2 flex justify-center'>
+                                                                            < button type="button" onClick={() => handleDateSearchClick('入金日')} className="w-20 h-8 px-3 py-1 font-bold tracking-wide rounded-lg justify-center text-white text-[15px] bg-[#a3a1c8] hover:bg-blue-700 focus:outline-none">
+                                                                                検索
+                                                                            </button>
+                                                                        </div>
+                                                                    </div>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            </th>
                                             <th style={Th} rowSpan={2} >カテゴリ-1 </th>
                                             <th style={Th} rowSpan={2} >カテゴリ-2</th>
                                             <th style={Th} rowSpan={2} >カテゴリ-3</th>
                                             <th style={Th} rowSpan={2} >カテゴリ-4</th>
                                             <th style={Th} rowSpan={2} >画像</th>
+                                            <th rowSpan={2} style={Th} className='px-2'>わかばNo</th>
                                             <th style={Th} rowSpan={2} >
                                                 <div className='flex justify-center'>
                                                     商品名
@@ -643,8 +1055,6 @@ const VendorAssementSheet = () => {
                                             <th style={Th} rowSpan={2} ><span className='!px-1'>最高査定業者</span></th>
                                             {/* <th style={Th} rowSpan={2} ><span className='!px-1'>その他の査定額</span></th> */}
                                             <th style={Th} rowSpan={2} ><span className='!px-1'>買取額</span></th>
-                                            <th style={Th} rowSpan={2} ><span className='!px-1'>売上額</span></th>
-                                            <th style={Th} rowSpan={2} ><span className='!px-1'>粗利益</span></th>
                                             <th style={Th} rowSpan={2} ><span className='!px-1'>真贋</span></th>
                                             <th style={Th} rowSpan={2}>
                                                 <div>
@@ -657,7 +1067,7 @@ const VendorAssementSheet = () => {
                                                         {vendor.vendor_name}
                                                         <div className='flex flex-col justify-center'>
                                                             <button className='!w-10 flex flex-col justify-center' >
-                                                                <img src={booleanArray[index] ? rightArrow : leftArrow} className='h-4' alt='' onClick={() => toggleBoolean(index)}/>
+                                                                <img src={booleanArray[index] ? rightArrow : leftArrow} className='h-4' alt='' onClick={() => toggleBoolean(index)} />
                                                             </button>
                                                         </div>
                                                     </div>
@@ -665,52 +1075,43 @@ const VendorAssementSheet = () => {
                                             ))}
                                         </tr>
                                         <tr>
-                                            <th style={Th}className='px-2'>顧客名</th>
-                                            {isshow ? <th style={Th} className='px-2'>ヨミガナ</th> : <th style={{ display: 'none' }}></th>}
-                                            {isshow ? <th style={Th} className='px-2'>電話番号</th> : <th style={{ display: 'none' }}></th>}
-                                            {isshow ? <th style={Th} className='px-2'>住所</th> : <th style={{ display: 'none' }}></th>}
-                                            {isshow ? <th style={Th} className='px-2'>来店種別</th> : <th style={{ display: 'none' }}></th>}
-                                            {isshow ? <th style={Th} className='px-2'>銘柄</th> : <th style={{ display: 'none' }}></th>}
-                                            {isshow ? <th style={Th} className='px-2'>販売店名</th> : <th style={{ display: 'none' }}></th>}
-
-                                                {(isvendorshow && allVendors?.length > 0) && allVendors.map((vendor, index) => (
-                                                    <>
-                                                        {booleanArray[index] ? (
+                                            {(isvendorshow && allVendors?.length > 0) && allVendors.map((vendor, index) => (
+                                                <>
+                                                    {booleanArray[index] ? (
                                                         <>
                                                             <th key={`expected-date-${index}`} style={Th} className='px-2'>仮査定日</th>
                                                             <th key={`assessment-amount-${index}`} style={Th} className='px-2'>仮査定額</th>
                                                             <th key={`actual-date-${index}`} style={Th} className='px-2'>本査定日</th>
                                                             <th key={`actual-amount-${index}`} style={Th} className='px-2'>本査定額</th>
                                                         </>
-                                                        ) : (
+                                                    ) : (
                                                         <>
                                                             <th key={`hidden-th-1-${index}`} style={{ display: 'none' }}></th>
                                                             <th key={`hidden-th-2-${index}`} style={{ display: 'none' }}></th>
                                                             <th key={`hidden-th-3-${index}`} style={{ display: 'none' }}></th>
                                                             <th key={`actual-amount-${index}`} style={Th} className='px-2'>本査定額</th>
                                                         </>
-                                                        )}
-                                                        
-                                                    </>
-                                                ))}
-                                            </tr>
+                                                    )}
+
+                                                </>
+                                            ))}
+                                        </tr>
                                     </thead>
                                     <tbody>
-                                        {sales.map((sale,Index) => (
-                                            <tr  key={sale.id}>
+                                        {sales.map((sale, Index) => (
+                                            <tr key={sale.id}>
                                                 <td className='flex items-center h-6 pt-4'>
-                                                    <input 
-                                                        type='checkbox' 
-                                                        disabled={sale.product_status !== '買取済'} 
-                                                        value={sale.id} 
-                                                        onChange={handleCheckboxChange} 
-                                                        className='w-5' 
+                                                    <input
+                                                        type='checkbox'
+                                                        disabled={sale.product_status !== '買取済'}
+                                                        value={sale.id}
+                                                        onChange={handleCheckboxChange}
+                                                        className='w-5'
                                                     />
                                                 </td>
                                                 <td style={Td}>{sale.id || ''}</td>
-                                                <td style={Td}>{sale.wakaba_number  || ''}</td>
                                                 <td style={Td}>
-                                                    <select name='product_status' value={sale.product_status || ''} onChange={(e) => handleValueChange(sale.id,Index,e)} className="w-40 h-8 text-[#70685a] font-bold px-4 py-1 outline-[#70685a]">
+                                                    <select name='product_status' value={sale.product_status || ''} onChange={(e) => handleValueChange(sale.id, Index, e)} className="w-40 h-8 text-[#70685a] font-bold px-4 py-1 outline-[#70685a]">
                                                         <option value="査定中">査定中</option>
                                                         <option value="お預かり">お預かり</option>
                                                         <option value="承認待ち">承認待ち</option>
@@ -726,37 +1127,17 @@ const VendorAssementSheet = () => {
                                                     </select>
                                                 </td>
                                                 <td style={Td}>
-                                                    <select name='shipping_address' value={sale.shipping_address || ''} onChange={(e) => handleValueChange(sale.id,Index,e)} className="w-max h-8 text-[#70685a] font-bold px-4 py-1 outline-[#70685a]">
-                                                        <option value=''></option>
-                                                        {allVendors.length > 0 && allVendors.map((data, index) => (
-                                                            <option key={`allvendor-${index}`} value={data.vendor_name}>{data.vendor_name || ''}</option>
+                                                    <select name='purchase_staff' value={sale.purchase_staff || ''} onChange={(e) => handleValueChange(sale.id, Index, e)} className="w-40 h-8 text-[#70685a] font-bold px-4 py-1 outline-[#70685a]">
+                                                        {users.length > 0 && users.map((user, index) => (
+                                                            <option key={user.id} value={user.full_name}>{user.full_name || ''}</option>
                                                         ))}
                                                     </select>
                                                 </td>
                                                 <td style={Td}>{sale.trading_date || ''}</td>
                                                 <td style={Td}>{sale.shipping_date || ''}</td>
                                                 <td style={Td}>{sale.deposit_date || ''}</td>
-                                                <td style={Td}>{sale.Customer ? sale.Customer.full_name : ''}</td>
-                                                {isshow ? 
-                                                    <td style={Td}>{sale.Customer ? sale.Customer.katakana_name : ''}</td>
-                                                    : <td style={{ display: 'none' }}></td>}
-                                                {isshow ? 
-                                                    <td style={Td}>{sale.Customer ? sale.Customer.phone_number : ''}</td>
-                                                    : <td style={{ display: 'none' }}></td>}
-                                                {isshow ? 
-                                                    <td style={Td}>{sale.Customer ? sale.Customer.address : ''}</td>
-                                                    : <td style={{ display: 'none' }}></td>}
-                                                {isshow ? 
-                                                    <td style={Td}>{sale.Customer ? sale.Customer.visit_type : ''}</td>
-                                                    : <td style={{ display: 'none' }}></td>}
-                                                {isshow ? 
-                                                    <td style={Td}>{sale.Customer ? sale.Customer.brand_type : ''}</td>
-                                                    : <td style={{ display: 'none' }}></td>}
-                                                {isshow ? 
-                                                    <td style={Td}>{sale.store_name || ''}</td>
-                                                    : <td style={{ display: 'none' }}></td>}
                                                 <td style={Td}>
-                                                    <select name='product_type_one' value={sale.product_type_one || ''} onChange={(e) => handleValueChange(sale.id,Index,e)} className="w-[100px] h-8 text-[#70685a] font-bold px-4 py-1 outline-[#70685a]">
+                                                    <select name='product_type_one' value={sale.product_type_one || ''} onChange={(e) => handleValueChange(sale.id, Index, e)} className="w-[100px] h-8 text-[#70685a] font-bold px-4 py-1 outline-[#70685a]">
                                                         <option value=''></option>
                                                         {product1s.length > 0 && product1s.map((type, index) => (
                                                             <option key={type.id} value={type.category}>{type.category || ''}</option>
@@ -764,7 +1145,7 @@ const VendorAssementSheet = () => {
                                                     </select>
                                                 </td>
                                                 <td style={Td}>
-                                                    <select name='product_type_two' value={sale.product_type_two || ''} onChange={(e) => handleValueChange(sale.id,Index,e)} onClick={() => handleProduct2Select(Index)} className="w-[80px] h-8 text-[#70685a] font-bold px-4 py-1 outline-[#70685a]">
+                                                    <select name='product_type_two' value={sale.product_type_two || ''} onChange={(e) => handleValueChange(sale.id, Index, e)} onClick={() => handleProduct2Select(Index)} className="w-[80px] h-8 text-[#70685a] font-bold px-4 py-1 outline-[#70685a]">
                                                         <option value=''></option>
                                                         {product2s.length > 0 && product2s.map((type, index) => (
                                                             <option key={type.id} value={type.category}>{type.category || ''}</option>
@@ -772,7 +1153,7 @@ const VendorAssementSheet = () => {
                                                     </select>
                                                 </td>
                                                 <td style={Td}>
-                                                    <select name='product_type_three' value={sale.product_type_three || ''} onChange={(e) => handleValueChange(sale.id,Index,e)} className="w-[80px] h-8 text-[#70685a] font-bold px-4 py-1 outline-[#70685a]">
+                                                    <select name='product_type_three' value={sale.product_type_three || ''} onChange={(e) => handleValueChange(sale.id, Index, e)} className="w-[80px] h-8 text-[#70685a] font-bold px-4 py-1 outline-[#70685a]">
                                                         <option value=''></option>
                                                         {product3s.length > 0 && product3s.map((type, index) => (
                                                             <option key={type.id} value={type.category}>{type.category || ''}</option>
@@ -780,7 +1161,7 @@ const VendorAssementSheet = () => {
                                                     </select>
                                                 </td>
                                                 <td style={Td}>
-                                                    <select name='product_type_four' value={sale.product_type_four || ''} onChange={(e) => handleValueChange(sale.id,Index,e)}  className="w-[80px] h-8 text-[#70685a] font-bold px-4 py-1 outline-[#70685a]">
+                                                    <select name='product_type_four' value={sale.product_type_four || ''} onChange={(e) => handleValueChange(sale.id, Index, e)} className="w-[80px] h-8 text-[#70685a] font-bold px-4 py-1 outline-[#70685a]">
                                                         <option value=''></option>
                                                         {product4s.length > 0 && product4s.map((type, index) => (
                                                             <option key={type.id} value={type.category}>{type.category || ''}</option>
@@ -790,10 +1171,11 @@ const VendorAssementSheet = () => {
                                                 <td style={Td}>
                                                     {sale.product_photo != '' ?
                                                         <button onClick={() => openProductImageModal(sale.product_photo)} name='photo' className='w-max'>
-                                                                <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSvgIcon-root MuiSvgIcon-fontSizeMedium svg-icon css-kry165 w-7" fill='#524c3b' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="PhotoOutlinedIcon" title="PhotoOutlined"><path d="M19 5v14H5V5zm0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2m-4.86 8.86-3 3.87L9 13.14 6 17h12z"></path></svg>
-                                                        </button> 
-                                                     : ''}
+                                                            <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSvgIcon-root MuiSvgIcon-fontSizeMedium svg-icon css-kry165 w-7" fill='#524c3b' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="PhotoOutlinedIcon" title="PhotoOutlined"><path d="M19 5v14H5V5zm0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2m-4.86 8.86-3 3.87L9 13.14 6 17h12z"></path></svg>
+                                                        </button>
+                                                        : ''}
                                                 </td>
+                                                <td style={Td}>{sale.wakaba_number || ''}</td>
                                                 <td style={Td}>{sale.product_name || ''}</td>
                                                 {isDetailShow ? <td style={Td} >{sale.gold_type || ''}</td> : <td style={{ display: 'none' }}></td>}
                                                 {isDetailShow ? <td style={Td} >{sale.gross_weight || ''}</td> : <td style={{ display: 'none' }}></td>}
@@ -811,49 +1193,30 @@ const VendorAssementSheet = () => {
                                                 <td style={Td}>{sale.quantity}</td>
                                                 <td style={Td}>{sale.highest_estimate_price || ''}</td>
                                                 <td style={Td}>{sale.highest_estimate_vendor || ''}</td>
-                                                {/* <td style={Td}>
-                                                    <div className="relative w-max group mx-auto">
-                                                        <button type="button" onClick={() => openEstimate(Index)}
-                                                            className="px-3 py-1 rounded text-[#626373] tracking-wider font-semibold border border-[#70685a] bg-[#ebe5e1]">
-                                                            {sale.number_of_vendor || '0'}
-                                                        </button>
-                                                        <div className="absolute shadow-lg hidden group-hover:block bg-[#fff] text-[#626373] font-semibold px-3 py-2 text-[15px] right-full mr-3 top-0 bottom-0 my-auto h-max w-max rounded before:w-4 before:h-4 before:rotate-45 before:bg-[#333] before:absolute before:z-[-1] before:bottom-0 before:top-0 before:my-auto before:-right-1 before:mx-auto">
-                                                            {allVendors?.length>0 && allVendors.map((vendor, index) => (
-                                                                sale.estimate_wholesaler[vendor.vendor_name] && 
-                                                                <div key={index} className='flex justify-between'>
-                                                                    <p>{vendor.vendor_name}:</p>
-                                                                    <p className='pl-3'>{sale.estimate_wholesaler[vendor.vendor_name] || ''}</p>
-                                                                </div>
-                                                            ))}
-                                                        </div>
-                                                    </div>
-                                                </td> */}
                                                 <td style={Td}>{sale.purchase_price || ''}</td>
-                                                <td style={Td}>{sale.sales_amount || ''}</td>
-                                                <td style={Td}>{sale.gross_profit || ''}</td>
                                                 <td style={Td}>
                                                     {sale.fixed_checkout === 'real' ?
                                                         <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSvgIcon-root MuiSvgIcon-fontSizeMedium svg-icon css-kry165" fill='#626373' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="FiberManualRecordOutlinedIcon" title="FiberManualRecordOutlined"><path d="M12 6c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6 2.69-6 6-6m0-2c-4.42 0-8 3.58-8 8s3.58 8 8 8 8-3.58 8-8-3.58-8-8-8"></path></svg>
-                                                        :  <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSvgIcon-root MuiSvgIcon-fontSizeMedium svg-icon css-kry165" fill='#626373' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CloseOutlinedIcon" title="CloseOutlined"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
+                                                        : <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSvgIcon-root MuiSvgIcon-fontSizeMedium svg-icon css-kry165" fill='#626373' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CloseOutlinedIcon" title="CloseOutlined"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
                                                     }
                                                 </td>
                                                 <td style={Td} className='w-10'>{sale.number_of_vendor || ''}</td>
                                                 {(isvendorshow && allVendors?.length > 0) && allVendors.map((vendor, index) => (
                                                     <>
                                                         {booleanArray[index] ? (
-                                                        <>
-                                                            <td key={`expected-deposit-date-${index}`} style={Td} className='px-2'>{sale.expected_deposit_date || ''}</td>
-                                                            <td key={`assessment-amount-${index}`} style={Td} className='px-2'>{sale.assessment_amount || ''}</td>
-                                                            <td key={`deposit-date-${index}`} style={Td} className='px-2'>{sale.deposit_date || ''}</td>
-                                                            <td key={`sales-amount-${index}`} style={Td} className='px-2'>{sale.sales_amount || ''}</td>
-                                                        </>
+                                                            <>
+                                                                <td key={`expected-deposit-date-${index}`} style={Td} className='px-2'>{sale.expected_deposit_date || ''}</td>
+                                                                <td key={`assessment-amount-${index}`} style={Td} className='px-2'>{sale.assessment_amount || ''}</td>
+                                                                <td key={`deposit-date-${index}`} style={Td} className='px-2'>{sale.deposit_date || ''}</td>
+                                                                <td key={`sales-amount-${index}`} style={Td} className='px-2'>{sale.sales_amount || ''}</td>
+                                                            </>
                                                         ) : (
-                                                        <>
-                                                            <td key={`hidden-td-1-${index}`} style={{ display: 'none' }}></td>
-                                                            <td key={`hidden-td-2-${index}`} style={{ display: 'none' }}></td>
-                                                            <td key={`hidden-td-3-${index}`} style={{ display: 'none' }}></td>
-                                                            <td key={`sales-amount-${index}`} style={Td} className='px-2'>{sale.sales_amount || ''}</td>
-                                                        </>
+                                                            <>
+                                                                <td key={`hidden-td-1-${index}`} style={{ display: 'none' }}></td>
+                                                                <td key={`hidden-td-2-${index}`} style={{ display: 'none' }}></td>
+                                                                <td key={`hidden-td-3-${index}`} style={{ display: 'none' }}></td>
+                                                                <td key={`sales-amount-${index}`} style={Td} className='px-2'>{sale.sales_amount || ''}</td>
+                                                            </>
                                                         )}
                                                     </>
                                                 ))}
@@ -868,152 +1231,29 @@ const VendorAssementSheet = () => {
                     </div>
                 </div>
             </div>
-        {/* ---------show product photo-------- */}
-        {showProductImage && <ImageShowModal itemsImagePreview={itemImagePreview}  onClose={closeProductImageModal} />}
-        {/* -------------show estimate------------- */}
-        {showEstimate &&
-            <div
-                className="fixed inset-0 p-4 flex flex-wrap justify-center items-center w-full h-full z-[1000] before:fixed before:inset-0 before:w-full before:h-full before:bg-[rgba(0,0,0,0.5)] overflow-auto font-[sans-serif]">
-                <div className="w-full max-w-md bg-white shadow-lg rounded-2xl p-8 relative">
-                    <div className="text-center">
-                        <div className='flex justify-center w-full'>
-                            <table className='text-center w-full' style={Table}>
-                                <thead className='bg-white z-10 h-11 w-full'>
-                                    <tr>
-                                        <th style={Th}>ベンダー名</th>
-                                        <th style={Th}>見積もり</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {vendors?.length>0 && vendors.map((vendor, index) => (
-                                        <tr key={vendor.id} className='!h-8'>
-                                            <td style={Td}>{vendor.vendor_name || ''}</td>
-                                            <td style={Td}>
-                                                {estimateValues[vendor.vendor_name] || ''}
-                                            </td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-
-                            </table>
-                        </div>
-                    </div>
-        
-                    <div className="flex justify-center w-full mt-5">
-                        <button type="button" onClick={saveEstimate}
-                            className="px-5 py-1 rounded-full w-1/2 font-bold text-white border-none outline-none bg-[#524c3b] hover:bg-[#524c3b] hover:text-white transition-all duration-300">閉じる</button>
-                    </div>
-                </div>
-            </div>
-        }
-        {/* ---------date filter modal----------- */}
-        {showDateFilter &&
-            <div className="fixed inset-0 p-4 flex justify-center items-center w-full h-full z-[1000] before:fixed before:inset-0 before:w-full before:h-full before:bg-[rgba(0,0,0,0.5)] overflow-auto font-[sans-serif]">
-                <div className="w-full max-w-lg bg-white shadow-lg rounded-lg p-6 relative">
-                    <div className="flex items-center pb-3 border-b border-gray-300">
-                        <h3 className="text-gray-800 text-xl font-bold flex-1">{selectedDateType}</h3>
-                        <svg onClick={closeShowFilterModal} xmlns="http://www.w3.org/2000/svg" className="w-3 ml-2 cursor-pointer shrink-0 fill-gray-400 hover:fill-red-500"
-                            viewBox="0 0 320.591 320.591">
-                            <path
-                                d="M30.391 318.583a30.37 30.37 0 0 1-21.56-7.288c-11.774-11.844-11.774-30.973 0-42.817L266.643 10.665c12.246-11.459 31.462-10.822 42.921 1.424 10.362 11.074 10.966 28.095 1.414 39.875L51.647 311.295a30.366 30.366 0 0 1-21.256 7.288z"
-                                data-original="#000000"></path>
-                            <path
-                                d="M287.9 318.583a30.37 30.37 0 0 1-21.257-8.806L8.83 51.963C-2.078 39.225-.595 20.055 12.143 9.146c11.369-9.736 28.136-9.736 39.504 0l259.331 257.813c12.243 11.462 12.876 30.679 1.414 42.922-.456.487-.927.958-1.414 1.414a30.368 30.368 0 0 1-23.078 7.288z"
-                                data-original="#000000"></path>
-                        </svg>
-                    </div>
-
-                    <div className="my-6">
-                        <div>
-                            <div className='flex w-full mt-1 gap-3 ml-3'>
-                                <InputComponent name='year' value={year} onChange={(e) => setYear(e.target.value)} type='number' className="w-[100px] text-[#70685a] mb-2 block text-left py-1 !mb-0 !h-8" placeholder={'2024'} />
-                                <div className='w-max flex flex-col justify-center'>
-                                    <label className='text-[#70685a] text-[15px]'>年</label>
-                                </div>
-                                <InputComponent name='month' value={month} onChange={(e) => setMonth(e.target.value)}  type='number' className="w-20 text-[#70685a] mb-2 block text-left py-1 !mb-0 !h-8" placeholder={'01'} />
-                                <div className='w-max flex flex-col justify-center'>
-                                    <label className='text-[#70685a] text-[15px]'>月</label>
-                                </div>
-                                <InputComponent name='day' value={day} onChange={(e) => setDay(e.target.value)}  type='number' className="w-20 text-[#70685a] mb-2 block text-left py-1 !mb-0 !h-8" placeholder={'01'} />
-                                <div className='w-max flex flex-col justify-center'>
-                                    <label className='text-[#70685a] text-[15px]'>日</label>
-                                </div>
-                                <div className='flex justify-center'>
-                                    <div className=' text-[#656565] px-2 mr-2 flex flex-col justify-center'>
-                                        < button onClick={() => handleDateFilter(selectedDateType)} type="button" className="w-20 h-8 px-3 py-1 font-bold tracking-wide rounded-lg justify-center text-white text-[15px] bg-[#a3a1c8] hover:bg-blue-700 focus:outline-none">
-                                            検索
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div>
-                            <div className='flex w-full mt-3 gap-3 ml-3'>
-                                <InputComponent name='startDate' value={startDate} onChange={(e) => setStartDate(e.target.value)} type='date' placeholder={'10/15/2024'} className="w-40 text-[#70685a] mb-2 block text-left py-1 !mb-0 !h-8" />
-                                <div className='flex flex-col justify-center'>
-                                    <label className="text-[#656565] block text-center text-[15px] !mb-0">~</label>
-                                </div>
-                                <InputComponent name='endDate'  value={endDate} onChange={(e) => setEndDate(e.target.value)}  type='date' placeholder={'10/15/2024'} className="w-40 text-[#70685a] mb-2 block text-left py-1 !mb-0 !h-8" />
-                                <div className='ml-3 flex justify-center'>
-                                    <div className=' text-[#656565] px-2 mr-2 flex flex-col justify-center'>
-                                        < button type="button" onClick={() => handleTerminalDateFilter(selectedDateType)} className="w-20 h-8 px-3 py-1 font-bold tracking-wide rounded-lg justify-center text-white text-[15px] bg-[#a3a1c8] hover:bg-blue-700 focus:outline-none">
-                                            検索
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                    </div>
-                    <div className="border-t border-gray-300 pt-6 flex justify-end gap-4">
-                        <button type="button" onClick={closeShowFilterModal}
-                            className="px-4 py-2 rounded-lg text-gray-800 text-sm border-none outline-none tracking-wide bg-gray-200 hover:bg-gray-300 active:bg-gray-200">キャンセル</button>
-                    </div>
-                </div>
-            </div>
-        }
-        {/* ---------staff filter modal-------- */}
-        {showVendorFilter &&
-            <div className="fixed inset-0 p-4 flex justify-center items-center w-full h-full z-[1000] before:fixed before:inset-0 before:w-full before:h-full before:bg-[rgba(0,0,0,0.5)] overflow-auto font-[sans-serif]">
-                <div className="w-full max-w-lg bg-white shadow-lg rounded-lg p-6 relative">
-                    <div className="flex items-center pb-3 border-b border-gray-300">
-                        <h3 className="text-gray-800 text-xl font-bold flex-1">卸し先</h3>
-                        <svg onClick={closeShowVendorFilterModal} xmlns="http://www.w3.org/2000/svg" className="w-3 ml-2 cursor-pointer shrink-0 fill-gray-400 hover:fill-red-500"
-                            viewBox="0 0 320.591 320.591">
-                            <path
-                                d="M30.391 318.583a30.37 30.37 0 0 1-21.56-7.288c-11.774-11.844-11.774-30.973 0-42.817L266.643 10.665c12.246-11.459 31.462-10.822 42.921 1.424 10.362 11.074 10.966 28.095 1.414 39.875L51.647 311.295a30.366 30.366 0 0 1-21.256 7.288z"
-                                data-original="#000000"></path>
-                            <path
-                                d="M287.9 318.583a30.37 30.37 0 0 1-21.257-8.806L8.83 51.963C-2.078 39.225-.595 20.055 12.143 9.146c11.369-9.736 28.136-9.736 39.504 0l259.331 257.813c12.243 11.462 12.876 30.679 1.414 42.922-.456.487-.927.958-1.414 1.414a30.368 30.368 0 0 1-23.078 7.288z"
-                                data-original="#000000"></path>
-                        </svg>
-                    </div>
-
-                    <div className="my-6">
-                        <div className='mt-3 w-full'>
-                            <input
-                                type='text'
-                                placeholder='検索...'
-                                value={searchQuery}
-                                onChange={(e) => setSearchQuery(e.target.value)}
-                                className='mb-2 p-1 border rounded'
-                            />
-                            <div className='w-full h-[350px] overflow-y-scroll '>
-                                <table style={Table}>
-                                    <thead className='sticky top-0 bg-[white] z-10'>
+            {/* ---------show product photo-------- */}
+            {showProductImage && <ImageShowModal itemsImagePreview={itemImagePreview} onClose={closeProductImageModal} />}
+            {/* -------------show estimate------------- */}
+            {showEstimate &&
+                <div
+                    className="fixed inset-0 p-4 flex flex-wrap justify-center items-center w-full h-full z-[1000] before:fixed before:inset-0 before:w-full before:h-full before:bg-[rgba(0,0,0,0.5)] overflow-auto font-[sans-serif]">
+                    <div className="w-full max-w-md bg-white shadow-lg rounded-2xl p-8 relative">
+                        <div className="text-center">
+                            <div className='flex justify-center w-full'>
+                                <table className='text-center w-full' style={Table}>
+                                    <thead className='bg-white z-10 h-11 w-full'>
                                         <tr>
-                                            <th className='px-2'></th>
-                                            <th className='px-2'></th>
+                                            <th style={Th}>ベンダー名</th>
+                                            <th style={Th}>見積もり</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {filteredVendors.length > 0 && filteredVendors.map((data, index) => (
-                                            <tr  key={data.id}>
-                                                <td style={Td}><input type='checkbox' value={data.vendor_name|| ''} 
-                                                onChange={() => handleVendorCheckboxChange(data)}
-                                                checked={selectedVendors.includes(data.vendor_name)} 
-                                                className='w-5'/></td>
-                                                <td style={Td}>{data.vendor_name || ''}</td>
+                                        {vendors?.length > 0 && vendors.map((vendor, index) => (
+                                            <tr key={vendor.id} className='!h-8'>
+                                                <td style={Td}>{vendor.vendor_name || ''}</td>
+                                                <td style={Td}>
+                                                    {estimateValues[vendor.vendor_name] || ''}
+                                                </td>
                                             </tr>
                                         ))}
                                     </tbody>
@@ -1021,68 +1261,14 @@ const VendorAssementSheet = () => {
                                 </table>
                             </div>
                         </div>
-                    </div>
-                    <div className="border-t border-gray-300 pt-6 flex justify-end gap-4">
-                        <button type="button" onClick={closeShowVendorFilterModal}
-                            className="px-4 py-2 rounded-lg text-gray-800 text-sm border-none outline-none tracking-wide bg-gray-200 hover:bg-gray-300 active:bg-gray-200">キャンセル</button>
-                    <button type="button" onClick={searchVendorInformation}
-                            className="px-4 py-2 rounded-lg text-white text-sm border-none outline-none tracking-wide bg-blue-600 hover:bg-blue-700 active:bg-blue-600">検索</button>
-                    </div>
-                </div>
-            </div>
-        }
-        {/* ---------status filter modal-------- */}
-        {showStatusFilter &&
-            <div className="fixed inset-0 p-4 flex justify-center items-center w-full h-full z-[1000] before:fixed before:inset-0 before:w-full before:h-full before:bg-[rgba(0,0,0,0.5)] overflow-auto font-[sans-serif]">
-                <div className="w-full max-w-lg bg-white shadow-lg rounded-lg p-6 relative">
-                    <div className="flex items-center pb-3 border-b border-gray-300">
-                        <h3 className="text-gray-800 text-xl font-bold flex-1">ステータス</h3>
-                        <svg onClick={closeShowStatusFilterModal} xmlns="http://www.w3.org/2000/svg" className="w-3 ml-2 cursor-pointer shrink-0 fill-gray-400 hover:fill-red-500"
-                            viewBox="0 0 320.591 320.591">
-                            <path
-                                d="M30.391 318.583a30.37 30.37 0 0 1-21.56-7.288c-11.774-11.844-11.774-30.973 0-42.817L266.643 10.665c12.246-11.459 31.462-10.822 42.921 1.424 10.362 11.074 10.966 28.095 1.414 39.875L51.647 311.295a30.366 30.366 0 0 1-21.256 7.288z"
-                                data-original="#000000"></path>
-                            <path
-                                d="M287.9 318.583a30.37 30.37 0 0 1-21.257-8.806L8.83 51.963C-2.078 39.225-.595 20.055 12.143 9.146c11.369-9.736 28.136-9.736 39.504 0l259.331 257.813c12.243 11.462 12.876 30.679 1.414 42.922-.456.487-.927.958-1.414 1.414a30.368 30.368 0 0 1-23.078 7.288z"
-                                data-original="#000000"></path>
-                        </svg>
-                    </div>
 
-                    <div className="my-6">
-                        <div className='mt-3 w-full'>
-                            <div className='w-full h-[350px] overflow-y-scroll '>
-                                <table style={Table}>
-                                    <thead className='sticky top-0 bg-[white] z-10'>
-                                        <tr>
-                                            <th className='px-2'></th>
-                                            <th className='px-2'></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {filteredStatus.length > 0 && filteredStatus.map((status, index) => (
-                                            <tr  key={status.id}>
-                                                <td style={Td}><input type='checkbox' value={status|| ''} 
-                                                onChange={() => handleStatusCheckboxChange(status)}
-                                                checked={selectedStatus.includes(status)} 
-                                                className='w-5'/></td>
-                                                <td style={Td}>{status || ''}</td>
-                                            </tr>
-                                        ))}
-                                    </tbody>
-
-                                </table>
-                            </div>
+                        <div className="flex justify-center w-full mt-5">
+                            <button type="button" onClick={saveEstimate}
+                                className="px-5 py-1 rounded-full w-1/2 font-bold text-white border-none outline-none bg-[#524c3b] hover:bg-[#524c3b] hover:text-white transition-all duration-300">閉じる</button>
                         </div>
                     </div>
-                    <div className="border-t border-gray-300 pt-6 flex justify-end gap-4">
-                        <button type="button" onClick={closeShowStatusFilterModal}
-                            className="px-4 py-2 rounded-lg text-gray-800 text-sm border-none outline-none tracking-wide bg-gray-200 hover:bg-gray-300 active:bg-gray-200">キャンセル</button>
-                    <button type="button" onClick={searchStatusInformation}
-                            className="px-4 py-2 rounded-lg text-white text-sm border-none outline-none tracking-wide bg-blue-600 hover:bg-blue-700 active:bg-blue-600">検索</button>
-                    </div>
                 </div>
-            </div>
-        }
+            }
         </>
     );
 };

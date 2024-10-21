@@ -164,9 +164,9 @@ const CommemorativeCoinHistoryList = () => {
                             <button type="button"
                                 className="py-1 min-w-[160px] text-[#70685a] rounded-full tracking-wider font-bold outline-none border border-[#70685a] ">Purple</button>
                         </div>
-                        <div className='mt-2 flex flex-col justify-center'>
+                        {/* <div className='mt-2 flex flex-col justify-center'>
                             <h2 className="text-[#70685a] text-center text-2xl font-bold flex justify-center">記念硬貨/お札   両替履歴一覧</h2>
-                        </div>
+                        </div> */}
                         <div className='stamp-inventory-second flex justify-center mt-2' >
                             <div className='w-full'>
                                 <div className='flex justify-center'>
