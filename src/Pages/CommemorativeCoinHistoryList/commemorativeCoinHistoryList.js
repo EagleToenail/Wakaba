@@ -284,9 +284,9 @@ const CommemorativeCoinHistoryList = () => {
                                             <td style={Td}>{history.bank_name}</td>
                                             <td style={Td}>{history.application_date}</td>
                                             <td style={Td}>{history.exchange_date}</td>
-                                            <td style={Td}>{history.total_coin_values}</td>
-                                            <td style={Td}>{history.total_bill_values}</td>
-                                            <td style={Td}>{history.total_values}</td>
+                                            <td style={Td} className='text-right'>{(parseInt(history.total_coin_values || 0)).toLocaleString()}</td>
+                                            <td style={Td} className='text-right'>{(parseInt(history.total_bill_values || 0)).toLocaleString()}</td>
+                                            <td style={Td} className='text-right'>{(parseInt(history.total_values || 0)).toLocaleString()}</td>
                                             <td className='w-max' onClick={() => handleDetailClick(history.id)}>
                                                 <div className='flex justify-center'>
                                                         <svg className="w-7 h-7" fill='#70685a' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="ContentCopyIcon" title="ContentCopy"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2m0 16H8V7h11z"></path></svg>

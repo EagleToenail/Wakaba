@@ -383,23 +383,23 @@ const MonthlyIncome = () => {
                             {monthlyIncome?.length>0 && monthlyIncome.map((Data,Index) => (
                                 <tr key={Data.id}>
                                     <td style={Td}>{Data.date || ''}</td>
-                                    <td style={Td}>
+                                    <td style={Td} className='text-right'>
                                         {editIndex === Index ?(
                                             <InputComponent type="number" name='total_withdrawal' value={editedRow.total_withdrawal || ''} onChange={handleInputChange} className='w-max h-8 text-[#70685a]' />
-                                        ):(Data.total_withdrawal || '')}
+                                        ):((Data.total_withdrawal !== null && Data.total_withdrawal !== '') ? Data.total_withdrawal.toLocaleString() : '' || '')}
                                     </td>
-                                    <td style={Td}>
+                                    <td style={Td} className='text-right'>
                                         {editIndex === Index ?(
                                             <InputComponent type="number" name='total_purchase_price' value={editedRow.total_purchase_price || ''} onChange={handleInputChange} className='w-max h-8 text-[#70685a]' />
-                                        ):(Data.total_purchase_price || '')}
+                                        ):((Data.total_withdrawal !== null && Data.total_withdrawal !== '') ? Data.total_purchase_price.toLocaleString() : '' || '')}
                                     </td>
-                                    <td style={Td}>
-                                        {parseInt(Data.total_withdrawal || '') - parseInt(Data.total_purchase_price || '') || ''}
+                                    <td style={Td} className='text-right'>
+                                        {parseInt(Data.total_purchase_price || '') - parseInt(Data.total_purchase_price || '') || ''}
                                     </td>
                                     <td style={Td}>
                                         {editIndex === Index ?(
                                             <InputComponent type="number" name='safe_deposite_extra' value={editedRow.safe_deposite_extra || ''} onChange={handleInputChange} className='w-max h-8 text-[#70685a]' />
-                                        ):(Data.safe_deposite_extra || '')}
+                                        ):((Data.safe_deposite_extra !== null && Data.safe_deposite_extra !== '') ? Data.safe_deposite_extra : '' || '')}
                                     </td>
                                     <td style={Td}>
                                         {editIndex === Index ?(

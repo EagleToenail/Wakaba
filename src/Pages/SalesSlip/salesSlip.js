@@ -578,7 +578,6 @@ const SalesSlip = () => {
     const handleValueChange = async (id, index, e) => {
         const name = e.target.name;
         const value = e.target.value;
-        // console.log('id,name,value',id,index,name,value);
         if (name === 'product_type_one') {
             const selectedResult = product1s.find(product => product.category === value);
             fetchProduct2(selectedResult.id);
@@ -688,7 +687,7 @@ const SalesSlip = () => {
                                 <option value="aaa" disabled>商品タイプ1</option>
                                 <option value="">すべて表示</option>
                                 {product1s.map((option, index) => (
-                                    <option key={option.id} value={option.category || ''}>
+                                    <option key={`option-product1-${index}`} value={option.category || ''}>
                                         {option.category || ''}
                                     </option>
                                 ))}
@@ -697,7 +696,7 @@ const SalesSlip = () => {
 
                         {/*  Table*/}
                         <div className='mt-3 w-full flex'>
-                            <div className='w-full h-[600px] overflow-scroll'>
+                            <div className='w-full h-[600px]'>
                                 <table style={Table} className='pb-5'>
                                     <thead className='sticky top-0 bg-[white] z-10'>
                                         <tr>
@@ -734,7 +733,7 @@ const SalesSlip = () => {
                                                             </div>
                                                             <ul className="h-48 px-3 pb-3 overflow-y-auto text-sm text-gray-700">
                                                                 {filteredStatuses.map((status) => (
-                                                                    <li key={status}>
+                                                                    <li key={`status-${status}`}>
                                                                         <div className="flex items-center p-2 rounded hover:bg-gray-100">
                                                                             <input
                                                                                 id={`checkbox-${status}`}
@@ -784,7 +783,7 @@ const SalesSlip = () => {
                                                             </div>
                                                             <ul className="h-48 px-3 pb-3 overflow-y-auto text-sm text-gray-700">
                                                                 {filteredUsers.map((user) => (
-                                                                    <li key={user.id}>
+                                                                    <li key={`option-product1-${user.id}`}>
                                                                         <div className="flex items-center p-2 rounded hover:bg-gray-100">
                                                                             <input
                                                                                 id={`checkbox-${user.full_name}`}
@@ -1140,21 +1139,29 @@ const SalesSlip = () => {
                                             <th style={Th} rowSpan={2} >最高査定業者 </th>
                                             <th style={Th} rowSpan={2} >買取額</th>
                                             <th style={Th} rowSpan={2} >売上額</th>
-                                            <th style={Th} rowSpan={2} >粗利益</th>
+                                            <th style={Th} rowSpan={2} > 粗利益</th>
                                             <th style={Th} rowSpan={2}>
                                                 <div>
                                                     {isvendorshow ? <button className='!w-10 flex justify-center'><img src={rightArrow} className='h-5 w-10' alt='' onClick={openVendortable} ></img></button> : <button className='!w-10 flex justify-center'><img src={leftArrow} className='h-5 w-10' alt='' onClick={closeVendortable}></img></button>}
                                                 </div>
                                             </th>
                                             {(isvendorshow && allVendors?.length > 0) && allVendors.map((vendor, index) => (
-                                                <th key={index} style={Th} colSpan={booleanArray[index] ? 4 : 1}>
-                                                    <div className='flex justify-center'>
-                                                        {vendor.vendor_name}
-                                                        <div className='flex flex-col justify-center'>
-                                                            <button className='!w-10 flex flex-col justify-center' >
-                                                                <img src={booleanArray[index] ? rightArrow : leftArrow} className='h-4' alt='' onClick={() => toggleBoolean(index)} />
-                                                            </button>
+                                                <th key={`${vendor.vendor_name}-${index}`} style={Th} colSpan={booleanArray[index] ? 4 : 1} className='relative w-max group mx-auto'>
+                                                    <div className='w-full flex justify-center px-6 tracking-wider'>
+                                                        <div className='flex justify-center'>
+                                                            {booleanArray[index] ?
+                                                                <div className='w-max'>{vendor.vendor_name}</div>
+                                                                : <div className='w-[60px] truncate'>{vendor.vendor_name}</div>
+                                                            }
+                                                            <div className='flex flex-col justify-center'>
+                                                                <button className='flex flex-col justify-center' >
+                                                                    <img src={booleanArray[index] ? rightArrow : leftArrow} className='h-4' alt='' onClick={() => toggleBoolean(index)} />
+                                                                </button>
+                                                            </div>
                                                         </div>
+                                                    </div>
+                                                    <div className="absolute shadow-lg hidden group-hover:block bg-[#333] text-white font-semibold px-3 py-[6px] text-[13px] right-0 left-0 mx-auto w-max -top-10 rounded before:w-4 before:h-4 before:rotate-45 before:bg-[#333] before:absolute before:z-[-1] before:-bottom-1 before:left-0  before:right-0 before:mx-auto">
+                                                        {vendor.vendor_name}
                                                     </div>
                                                 </th>
                                             ))}
@@ -1183,7 +1190,7 @@ const SalesSlip = () => {
                                                             <th key={`hidden-th-1-${index}`} style={{ display: 'none' }}></th>
                                                             <th key={`hidden-th-2-${index}`} style={{ display: 'none' }}></th>
                                                             <th key={`hidden-th-3-${index}`} style={{ display: 'none' }}></th>
-                                                            <th key={`actual-amount-${index}`} style={Th} className='px-2'>本査定額</th>
+                                                            <th key={`actual-amount-${index}`} style={Th} className='px-2 w-10'>本査定額</th>
                                                         </>
                                                     )}
 
@@ -1304,27 +1311,27 @@ const SalesSlip = () => {
                                                 {isDetailShow ? <td style={Td} >{sale.percent || ''}</td> : <td style={{ display: 'none' }}></td>}
                                                 {isDetailShow ? <td style={Td} >{sale.notes || ''}</td> : <td style={{ display: 'none' }}></td>}
                                                 <td style={Td}>{sale.quantity}</td>
-                                                <td style={Td}>{sale.highest_estimate_price.toLocaleString() || ''}</td>
+                                                <td style={Td} className='text-right'>{(sale.highest_estimate_price || 0).toLocaleString()}</td>
                                                 <td style={Td}>{sale.highest_estimate_vendor || ''}</td>
-                                                <td style={Td}>{sale.purchase_price || ''}</td>
-                                                <td style={Td}>{sale.sales_amount || ''}</td>
-                                                <td style={Td}>{sale.gross_profit || ''}</td>
+                                                <td style={Td} className='text-right'>{(sale.purchase_price || 0).toLocaleString()}</td>
+                                                <td style={Td} className='text-right'>{(sale.sales_amount || 0).toLocaleString()}</td>
+                                                <td style={Td} className='text-right'>{(sale.gross_profit || 0).toLocaleString()}</td>
                                                 <td style={Td} className='w-10'>{sale.number_of_vendor || ''}</td>
                                                 {(isvendorshow && allVendors?.length > 0) && allVendors.map((vendor, index) => (
                                                     <>
                                                         {booleanArray[index] ? (
                                                             <>
                                                                 <td key={`expected-deposit-date-${index}`} style={Td} className='px-2'>{sale.expected_deposit_date || ''}</td>
-                                                                <td key={`assessment-amount-${index}`} style={Td} className='px-2'>{sale.assessment_amount || ''}</td>
+                                                                <td key={`assessment-amount-${index}`} style={Td} className='px-2 text-right'>{(sale.assessment_amount || 0).toLocaleString()}</td>
                                                                 <td key={`deposit-date-${index}`} style={Td} className='px-2'>{sale.deposit_date || ''}</td>
-                                                                <td key={`sales-amount-${index}`} style={Td} className='px-2'>{sale.sales_amount || ''}</td>
+                                                                <td key={`sales-amount-${index}`} style={Td} className='px-2 text-right'>{(sale.sales_amount || 0).toLocaleString()}</td>
                                                             </>
                                                         ) : (
                                                             <>
                                                                 <td key={`hidden-td-1-${index}`} style={{ display: 'none' }}></td>
                                                                 <td key={`hidden-td-2-${index}`} style={{ display: 'none' }}></td>
                                                                 <td key={`hidden-td-3-${index}`} style={{ display: 'none' }}></td>
-                                                                <td key={`sales-amount-${index}`} style={Td} className='px-2'>{sale.sales_amount || ''}</td>
+                                                                <td key={`sales-amount-${index}`} style={Td} className='px-2 text-right !w-10'>{(sale.sales_amount || 0).toLocaleString()}</td>
                                                             </>
                                                         )}
                                                     </>

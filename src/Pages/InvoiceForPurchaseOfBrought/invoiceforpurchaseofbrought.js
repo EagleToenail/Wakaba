@@ -959,6 +959,7 @@ const InvoicePurchaseOfBrought = () => {
             }
             await axios.post(`${wakabaBaseUrl}/purchaseinvoice/delete`, { id: itemid, customerId: id, userId: userId, userStoreName: userStoreName })
                 .then(response => {
+                    toast.success('データが正常に削除されました！', { autoClose: 3000 });//remove
                     const invoiceData = response.data;
                     if (invoiceData?.length > 0) {
                         const updatedData111 = invoiceData.map((data, Index) => ({
@@ -967,9 +968,10 @@ const InvoicePurchaseOfBrought = () => {
                             comment: JSON.parse(data.comment),
                         }));
                         setTotalSalesSlipData(updatedData111);
-                        toast.success('データが正常に削除されました！', { autoClose: 3000 });//remove
                         setItemsImagePreview(`${wakabaBaseUrl}/uploads/product/${response.data[0].entire_items_url}`);
                         setItemsDocPreview(`${wakabaBaseUrl}/uploads/product/${response.data[0].document_url}`);
+                    }else {
+                        setTotalSalesSlipData([]);
                     }
                     setShowInputPurchase(false);
                     setSalesSlipData({
@@ -1951,9 +1953,9 @@ const InvoicePurchaseOfBrought = () => {
                                                         <th className='whitespace-nowrap' width='5%'></th>
                                                         <th className='whitespace-nowrap' width='5%'></th>
                                                         <th className='whitespace-nowrap' width='10%'>合計</th>
-                                                        <th className='whitespace-nowrap' width='5%'>{totalSales}</th>
-                                                        <th className='whitespace-nowrap' width='5%'>{totalGrossProfit}</th>
-                                                        <th className='whitespace-nowrap' width='5%'>{totalPurchasePrice}</th>
+                                                        <th className='whitespace-nowrap' width='5%'>{(totalSales || 0).toLocaleString()}</th>
+                                                        <th className='whitespace-nowrap' width='5%'>{(totalGrossProfit || 0).toLocaleString()}</th>
+                                                        <th className='whitespace-nowrap' width='5%'>{(totalPurchasePrice || 0).toLocaleString()}</th>
                                                     </tr>
                                                     <tr>
                                                         <th className='whitespace-nowrap' width='5%'>{customerPastVisitHistory.length}</th>
@@ -1985,9 +1987,9 @@ const InvoicePurchaseOfBrought = () => {
                                                             <td style={Td}>{pastVisit.total_amount}</td>
                                                             <td style={Td}>{pastVisit.category}</td>
                                                             <td style={Td}>{pastVisit.product_name}</td>
-                                                            <td style={Td}>{pastVisit.total_sales}</td>
+                                                            <td style={Td} className='text-right'>{(pastVisit.total_sales || 0).toLocaleString()}</td>
                                                             <td style={Td}>{pastVisit.total_gross_profit}</td>
-                                                            <td style={Td}>{pastVisit.total_purchase_price}</td>
+                                                            <td style={Td} className='text-right'>{(pastVisit.total_purchase_price || 0).toLocaleString()}</td>
                                                         </tr>
                                                     ))}
                                                 </tbody>
@@ -2579,10 +2581,10 @@ const InvoicePurchaseOfBrought = () => {
                                         <td style={Td}> {salesData.quantity || ''} </td>
                                         <td style={Td}> {salesData.reason_application || ''} </td>
                                         <td style={Td}> {salesData.interest_rate || ''} </td>
-                                        <td style={Td}>{salesData.purchase_price || ''}</td>
+                                        <td style={Td}  className='text-right'>{(salesData.purchase_price || 0).toLocaleString()}</td>
                                         <td style={Td}>{salesData.supervisor_direction || ''}</td>
                                         <td style={Td}> {salesData.highest_estimate_vendor || ''} </td>
-                                        <td style={Td}> {salesData.highest_estimate_price || ''} </td>
+                                        <td style={Td}  className='text-right'> {(salesData.highest_estimate_price || 0).toLocaleString()} </td>
                                         <td style={Td}>
 
                                             <div className="relative w-max group mx-auto">
@@ -2622,6 +2624,24 @@ const InvoicePurchaseOfBrought = () => {
                                     </tr>
                                 )
                             })}
+                            <tr>
+                                <td></td>     
+                                <td></td>     
+                                <td></td>     
+                                <td></td>     
+                                <td></td>     
+                                <td colSpan={3}>
+                                    <div className='flex justify-end text-right mt-2'>
+                                        <span className='text-[#70685a] font-bold'>買取点数&nbsp;{totalQuantity || ''}点</span>
+                                        <span className='text-[#70685a] font-bold ml-5'>買取合計&nbsp;&nbsp;{(totalPrice || 0).toLocaleString()}円</span>
+                                    </div>
+                                </td>         
+                                <td></td>     
+                                <td></td>     
+                                <td></td>     
+                                <td></td>     
+                                <td></td>        
+                            </tr>
                         </tbody>
 
                     </table>
@@ -2830,11 +2850,10 @@ const InvoicePurchaseOfBrought = () => {
                     </div> */}
                 </div>
             </div>
-            <div className='flex justify-center gap-10 mt-2'>
-                {/* <label className="text-[#70685a] font-bold mb-2 block text-left !mb-0" style={{ visibility: 'hidden' }}>Total purchase price 999,999,999 yen</label> */}
+            {/* <div className='flex justify-center gap-10 mt-2'>
                 <label className="text-[#70685a] font-bold mb-2 block text-left !mb-0">買取点数&nbsp;{totalQuantity || ''}点</label>
-                <label className="text-[#70685a] font-bold mb-2 block text-left !mb-0">買取合計&nbsp;&nbsp;{totalPrice || ''}円</label>
-            </div>
+                <label className="text-[#70685a] font-bold mb-2 block text-left !mb-0">買取合計&nbsp;&nbsp;{(totalPrice || 0).toLocaleString()}円</label>
+            </div> */}
             {/* result */}
             <div className="flex justify-center">
                 <div className='w-full pb-20' style={{ maxWidth: '80em' }}>

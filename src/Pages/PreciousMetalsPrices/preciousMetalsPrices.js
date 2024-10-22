@@ -111,13 +111,13 @@ const PreciousMetalsPrices = () => {
                                                     )}
 
                                                 </td>
-                                                <td style={Td_today}>{item.price}</td>
-                                                <td style={Td}>{item.price}</td>
-                                                <td style={Td}>{item.price}</td>
-                                                <td style={Td}>{item.price}</td>
-                                                <td style={Td}>{item.price}</td>
-                                                <td style={Td}>{item.price}</td>
-                                                <td style={Td}>{item.price}</td>
+                                                <td style={Td_today}>{item.price.toLocaleString() }</td>
+                                                <td style={Td}>{item.price.toLocaleString() }</td>
+                                                <td style={Td}>{item.price.toLocaleString() }</td>
+                                                <td style={Td}>{item.price.toLocaleString() }</td>
+                                                <td style={Td}>{item.price.toLocaleString() }</td>
+                                                <td style={Td}>{item.price.toLocaleString() }</td>
+                                                <td style={Td}>{item.price.toLocaleString() }</td>
                                                 <td>
                                                     <div className='ml-5 w-5'>
 

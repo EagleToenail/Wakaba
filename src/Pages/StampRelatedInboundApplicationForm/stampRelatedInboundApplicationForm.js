@@ -1077,17 +1077,17 @@ const StampRelatedInventoryApplicationForm = () => {
                                             <tr>
                                                 <td>下記合計</td>
                                                 <td style={Td}>{parseInt(totalNumberOfSheet1) + parseInt(totalNumberOfSheet2) || ''}</td>
-                                                <td style={Td}>{parseInt(totalFaceValue1) + parseInt(totalFaceValue2) || ''}</td>
+                                                <td style={Td} className='text-right'>{(parseInt(totalFaceValue1 || 0) + parseInt(totalFaceValue2 || 0)).toLocaleString()}</td>
                                             </tr>
                                             <tr>
                                                 <td>50円以上</td>
                                                 <td style={Td}>{parseInt(totalNumberOfSheet1) || ''}</td>
-                                                <td style={Td}>{parseInt(totalFaceValue1) || ''}</td>
+                                                <td style={Td} className='text-right'>{(parseInt(totalFaceValue1 || 0)).toLocaleString()}</td>
                                             </tr>
                                             <tr>
                                                 <td>50円未満</td>
                                                 <td style={Td}>{parseInt(totalNumberOfSheet2) || ''}</td>
-                                                <td style={Td}>{parseInt(totalFaceValue2) || ''}</td>
+                                                <td style={Td} className='text-right'>{(parseInt(totalFaceValue2 || 0)).toLocaleString()}</td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -1113,7 +1113,7 @@ const StampRelatedInventoryApplicationForm = () => {
 
                                                 {sheetRows?.length > 0 && sheetRows.map((row, Index) => (
                                                     <tr key={Index} >
-                                                        <td style={Td}>
+                                                        <td style={Td} className='text-right'>
                                                             {editSheetIndex === Index ? (
                                                                 <InputComponent disabled={true} name='stampValue' value={editedSheetRow.stampValue || ''} onChange={handleSheetInputChange} className='w-full h-8 text-[#70685a]' />
                                                             ) : (row.stampValue || '')}
@@ -1123,20 +1123,20 @@ const StampRelatedInventoryApplicationForm = () => {
                                                                 <InputComponent disabled={true} name='numberOfSides' value={editedSheetRow.numberOfSides || ''} onChange={handleSheetInputChange} className='w-full h-8 text-[#70685a]' />
                                                             ) : (row.numberOfSides || '')}
                                                         </td>
-                                                        <td style={Td}>
+                                                        <td style={Td} className='text-right'>
                                                             {editSheetIndex === Index ? (
                                                                 <InputComponent disabled={true} name='sheetValue' value={editedSheetRow.sheetValue || ''} onChange={handleSheetInputChange} className='w-full h-8 text-[#70685a]' />
-                                                            ) : (row.sheetValue || '')}
+                                                            ) : (parseInt(row.sheetValue || 0)).toLocaleString()}
                                                         </td>
-                                                        <td style={Td}>
+                                                        <td style={Td} className='text-right'>
                                                             {editSheetIndex === Index ? (
                                                                 <InputComponent name='numberOfSheets' type='number' value={editedSheetRow.numberOfSheets || ''} onChange={handleSheetInputChange} className='w-20 h-8 text-[#70685a] !border-[red]' />
-                                                            ) : (row.numberOfSheets || '')}
+                                                            ) : (parseInt(row.numberOfSheets || 0)).toLocaleString()}
                                                         </td>
-                                                        <td style={Td}>
+                                                        <td style={Td} className='text-right'>
                                                             {editSheetIndex === Index ? (
                                                                 <InputComponent disabled={true} name='totalFaceValue' value={editedSheetRow.totalFaceValue || ''} onChange={handleSheetInputChange} className='w-full h-8 text-[#70685a]' />
-                                                            ) : (row.totalFaceValue || '')}
+                                                            ) : (parseInt(row.totalFaceValue || 0)).toLocaleString()}
                                                         </td>
                                                         <td style={Td}>
                                                             {editSheetIndex === Index ? (
@@ -1262,17 +1262,17 @@ const StampRelatedInventoryApplicationForm = () => {
                                             <tr>
                                                 <td>下記合計</td>
                                                 <td style={Td}>{parseInt(totalNumberOfPasting1) + parseInt(totalNumberOfPasting2) || ''}</td>
-                                                <td style={Td}>{parseInt(totalPastingFaceValue1) + parseInt(totalPastingFaceValue2) || ''}</td>
+                                                <td style={Td} className='text-right'>{(parseInt(totalPastingFaceValue1 || 0) + parseInt(totalPastingFaceValue2 || 0)).toLocaleString()}</td>
                                             </tr>
                                             <tr>
                                                 <td>50円以上</td>
                                                 <td style={Td}>{parseInt(totalNumberOfPasting1) || ''}</td>
-                                                <td style={Td}>{parseInt(totalPastingFaceValue1) || ''}</td>
+                                                <td style={Td} className='text-right'>{(parseInt(totalPastingFaceValue1 || 0)).toLocaleString()}</td>
                                             </tr>
                                             <tr>
                                                 <td>50円未満</td>
                                                 <td style={Td}>{parseInt(totalNumberOfPasting2) || ''}</td>
-                                                <td style={Td}>{parseInt(totalPastingFaceValue2) || ''}</td>
+                                                <td style={Td} className='text-right'>{(parseInt(totalPastingFaceValue2 || 0)).toLocaleString()}</td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -1285,10 +1285,10 @@ const StampRelatedInventoryApplicationForm = () => {
                                         <table className=' text-center w-full' style={Table}>
                                             <thead className='!h-8 text-[14px]'>
                                                 <tr>
-                                                    <th style={Th} className='pl-1'>切手1枚の額面</th>
-                                                    <th style={Th} className='pl-1 pr-1'>台紙額面</th>
+                                                    <th style={Th} className='pl-1'>切手1枚の額面(￥)</th>
+                                                    <th style={Th} className='pl-1 pr-1'>台紙額面(￥)</th>
                                                     <th style={Th} className='pr-1'>台紙数</th>
-                                                    <th style={Th} >額面総額</th>
+                                                    <th style={Th} >額面総額(￥)</th>
                                                     <th style={Th}>{editPastingIndex === -1 ? '編集する' : 'セーブ'}</th>
                                                     <th style={Th} className='whitespace-nowrap pl-3'>{editPastingIndex === -1 ? '削除' : '戻る'}</th>
                                                 </tr>
@@ -1296,25 +1296,25 @@ const StampRelatedInventoryApplicationForm = () => {
                                             <tbody>
                                                 {pastingRows?.length > 0 && pastingRows.map((row, Index) => (
                                                     <tr key={Index} >
-                                                        <td style={Td}>
+                                                        <td style={Td} className='text-right'>
                                                             {editPastingIndex === Index ? (
                                                                 <InputComponent disabled={true} name='stampValue' value={editedPastingRow.stampValue || ''} onChange={handlePastingInputChange} className='w-full h-8 text-[#70685a]' />
                                                             ) : (row.stampValue || '')}
                                                         </td>
-                                                        <td style={Td}>
+                                                        <td style={Td} className='text-right'>
                                                             {editPastingIndex === Index ? (
                                                                 <InputComponent disabled={true} name='mountValue' value={editedPastingRow.mountValue || ''} onChange={handlePastingInputChange} className='w-full h-8 text-[#70685a]' />
-                                                            ) : (row.mountValue || '')}
+                                                            ) : (parseInt(row.mountValue || 0)).toLocaleString()}
                                                         </td>
-                                                        <td style={Td}>
+                                                        <td style={Td} className='text-right'>
                                                             {editPastingIndex === Index ? (
                                                                 <InputComponent name='numberOfMounts' type='number' value={editedPastingRow.numberOfMounts || ''} onChange={handlePastingInputChange} className='w-20 border-[red] h-8 text-[#70685a]' />
-                                                            ) : (row.numberOfMounts || '')}
+                                                            ) : (parseInt(row.numberOfMounts || 0)).toLocaleString()}
                                                         </td>
-                                                        <td style={Td}>
+                                                        <td style={Td} className='text-right'>
                                                             {editPastingIndex === Index ? (
                                                                 <InputComponent disabled={true} name='totalFaceValue' value={editedPastingRow.totalFaceValue || ''} onChange={handlePastingInputChange} className='w-full h-8 text-[#70685a]' />
-                                                            ) : (row.totalFaceValue || '')}
+                                                            ) : (parseInt(row.totalFaceValue || 0)).toLocaleString()}
                                                         </td>
                                                         <td style={Td}>
                                                             {editPastingIndex === Index ? (
@@ -1431,17 +1431,17 @@ const StampRelatedInventoryApplicationForm = () => {
                                             <tr>
                                                 <td>下記合計</td>
                                                 <td style={Td}>{parseInt(totalNumberOfRose1) + parseInt(totalNumberOfRose2) || ''}</td>
-                                                <td style={Td}>{parseInt(totalRoseFaceValue1) + parseInt(totalRoseFaceValue2) || ''}</td>
+                                                <td style={Td} className='text-right'>{(parseInt(totalRoseFaceValue1 || 0) + parseInt(totalRoseFaceValue2 || 0)).toLocaleString()}</td>
                                             </tr>
                                             <tr>
                                                 <td>50円以上</td>
                                                 <td style={Td}>{parseInt(totalNumberOfRose1) || ''}</td>
-                                                <td style={Td}>{parseInt(totalRoseFaceValue1) || ''}</td>
+                                                <td style={Td} className='text-right'>{(parseInt(totalRoseFaceValue1 || 0)).toLocaleString()}</td>
                                             </tr>
                                             <tr>
                                                 <td>50円未満</td>
                                                 <td style={Td}>{parseInt(totalNumberOfRose2) || ''}</td>
-                                                <td style={Td}>{parseInt(totalRoseFaceValue2) || ''}</td>
+                                                <td style={Td} className='text-right'>{(parseInt(totalRoseFaceValue2 || 0)).toLocaleString()}</td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -1465,7 +1465,7 @@ const StampRelatedInventoryApplicationForm = () => {
                                             <tbody>
                                                 {roseRows?.length > 0 && roseRows.map((row, Index) => (
                                                     <tr key={Index} >
-                                                        <td style={Td}>
+                                                        <td style={Td} className='text-right'>
                                                             {editRoseIndex === Index ? (
                                                                 <InputComponent disabled={true} name='stampValue' value={editedRoseRow.stampValue || ''} onChange={handleRoseInputChange} className='w-full h-8 text-[#70685a]' />
                                                             ) : (row.stampValue || '')}
@@ -1475,10 +1475,10 @@ const StampRelatedInventoryApplicationForm = () => {
                                                                 <InputComponent  name='numberOfSheets' type="number" value={editedRoseRow.numberOfSheets || ''} onChange={handleRoseInputChange} className='w-20 h-8 text-[#70685a] border-[red]' />
                                                             ) : (row.numberOfSheets || '')}
                                                         </td>
-                                                        <td style={Td}>
+                                                        <td style={Td} className='text-right'>
                                                             {editRoseIndex === Index ? (
                                                                 <InputComponent disabled={true} name='totalFaceValue' value={editedRoseRow.totalFaceValue || ''} onChange={handleRoseInputChange} className='w-full h-8 text-[#70685a]' />
-                                                            ) : (row.totalFaceValue || '')}
+                                                            ) : (parseInt(row.totalFaceValue || 0)).toLocaleString()}
                                                         </td>
                                                         <td style={Td}>
                                                             {editRoseIndex === Index ? (
@@ -1586,7 +1586,7 @@ const StampRelatedInventoryApplicationForm = () => {
                                                 <tr>
                                                     <td>下記合計</td>
                                                     <td style={Td}>{parseInt(totalNumberOfPack1) + parseInt(totalNumberOfPack2) || ''}</td>
-                                                    <td style={Td}>{parseInt(totalPackFaceValue1) + parseInt(totalPackFaceValue2) || ''}</td>
+                                                    <td style={Td} className='text-right'>{(parseInt(totalPackFaceValue1 || 0) + parseInt(totalPackFaceValue2 || 0)).toLocaleString()}</td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -1617,20 +1617,20 @@ const StampRelatedInventoryApplicationForm = () => {
                                                                 <InputComponent disabled={true} name='type' value={editedPackRow.type || ''} onChange={handlePackInputChange} className='w-full h-8 text-[#70685a]' />
                                                             ) : (row.type || '')}
                                                         </td>
-                                                        <td style={Td}>
+                                                        <td style={Td} className='text-right'>
                                                             {editPackIndex === Index ? (
                                                                 <InputComponent disabled={true} name='stampValue' value={editedPackRow.stampValue || ''} onChange={handlePackInputChange} className='w-full h-8 text-[#70685a]' />
-                                                            ) : (row.stampValue || '')}
+                                                            ) : (parseInt(row.stampValue || 0)).toLocaleString()}
                                                         </td>
                                                         <td style={Td}>
                                                             {editPackIndex === Index ? (
                                                                 <InputComponent name='numberOfSheets' type='number' value={editedPackRow.numberOfSheets || ''} onChange={handlePackInputChange} className='w-20 h-8 text-[#70685a] border-[red]' />
                                                             ) : (row.numberOfSheets || '')}
                                                         </td>
-                                                        <td style={Td}>
+                                                        <td style={Td} className='text-right'>
                                                             {editPackIndex === Index ? (
                                                                 <InputComponent disabled={true} name='totalFaceValue' value={editedPackRow.totalFaceValue || ''} onChange={handlePackInputChange} className='w-full h-8 text-[#70685a]' />
-                                                            ) : (row.totalFaceValue || '')}
+                                                            ) : (parseInt(row.totalFaceValue || 0)).toLocaleString()}
                                                         </td>
                                                         <td style={Td}>
                                                             {editPackIndex === Index ? (
@@ -1745,17 +1745,17 @@ const StampRelatedInventoryApplicationForm = () => {
                                                     <tr>
                                                         <td>下記合計</td>
                                                         <td style={Td}>{parseInt(totalNumberOfCard1) + parseInt(totalNumberOfCard2) || ''}</td>
-                                                        <td style={Td}>{parseInt(totalCardFaceValue1) + parseInt(totalCardFaceValue2) || ''}</td>
+                                                        <td style={Td} className='text-right'>{(parseInt(totalCardFaceValue1 || 0) + parseInt(totalCardFaceValue2 || 0)).toLocaleString()}</td>
                                                     </tr>
                                                     <tr>
                                                         <td>50円以上</td>
                                                         <td style={Td}>{parseInt(totalNumberOfCard1) || ''}</td>
-                                                        <td style={Td}>{parseInt(totalCardFaceValue1) || ''}</td>
+                                                        <td style={Td} className='text-right'>{(parseInt(totalCardFaceValue1 || 0)).toLocaleString()}</td>
                                                     </tr>
                                                     <tr>
                                                         <td>50円未満</td>
                                                         <td style={Td}>{parseInt(totalNumberOfCard2) || ''}</td>
-                                                        <td style={Td}>{parseInt(totalCardFaceValue2) || ''}</td>
+                                                        <td style={Td} className='text-right'>{(parseInt(totalCardFaceValue2 || 0)).toLocaleString()}</td>
                                                     </tr>
                                                 </tbody>
                                             </table>
@@ -1777,21 +1777,21 @@ const StampRelatedInventoryApplicationForm = () => {
                                                     </thead>
                                                     <tbody>
                                                         {cardRows?.length > 0 && cardRows.map((row, Index) => (
-                                                            <tr key={Index} >
+                                                            <tr key={Index}  className='text-right'>
                                                                 <td style={Td}>
                                                                     {editCardIndex === Index ? (
                                                                         <InputComponent disabled={true} name='stampValue' value={editedCardRow.stampValue || ''} onChange={handleCardInputChange} className='w-full h-8 text-[#70685a]' />
-                                                                    ) : (row.stampValue || '')}
+                                                                    ) : (parseInt(row.stampValue || 0)).toLocaleString()}
                                                                 </td>
                                                                 <td style={Td}>
                                                                     {editCardIndex === Index ? (
                                                                         <InputComponent name='numberOfSheets' type='number' value={editedCardRow.numberOfSheets || ''} onChange={handleCardInputChange} className='w-20 h-8 text-[#70685a] border-[red]' />
                                                                     ) : (row.numberOfSheets || '')}
                                                                 </td>
-                                                                <td style={Td}>
+                                                                <td style={Td} className='text-right'>
                                                                     {editCardIndex === Index ? (
                                                                         <InputComponent disabled={true} name='totalFaceValue' value={editedCardRow.totalFaceValue || ''} onChange={handleCardInputChange} className='w-full h-8 text-[#70685a]' />
-                                                                    ) : (row.totalFaceValue || '')}
+                                                                    ) : (parseInt(row.totalFaceValue || 0)).toLocaleString()}
                                                                 </td>
                                                                 <td style={Td}>
                                                                     {editCardIndex === Index ? (

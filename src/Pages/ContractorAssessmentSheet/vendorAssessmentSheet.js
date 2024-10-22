@@ -294,7 +294,7 @@ const VendorAssementSheet = () => {
         if (!wakabaBaseUrl) {
             throw new Error('API base URL is not defined');
         }
-        await axios.post(`${wakabaBaseUrl}/sales/filterDate`, { type: type, date: searchdate })
+        await axios.post(`${wakabaBaseUrl}/sales/filterDate`, { type: type, date: searchdate,cat1:category1})
             .then(response => {
                 const salesData = response.data;
                 if (salesData?.length > 0) {
@@ -317,7 +317,7 @@ const VendorAssementSheet = () => {
         if (!wakabaBaseUrl) {
             throw new Error('API base URL is not defined');
         }
-        await axios.post(`${wakabaBaseUrl}/sales/filterDateTerminal`, { type: type, startDate: start, endDate: end })
+        await axios.post(`${wakabaBaseUrl}/sales/filterDateTerminal`, { type: type, startDate: start, endDate: end,cat1:category1 })
             .then(response => {
                 const salesData = response.data;
                 if (salesData?.length > 0) {
@@ -627,7 +627,7 @@ const VendorAssementSheet = () => {
 
                         {/*  Tabe*/}
                         <div className='mt-3 w-full flex'>
-                            <div className='w-full h-[600px] overflow-scroll '>
+                            <div className='w-full h-[600px]'>
                                 <table style={Table} className='pb-5'>
                                     <thead className='sticky top-0 bg-[white] z-10'>
                                         <tr>
@@ -1062,14 +1062,22 @@ const VendorAssementSheet = () => {
                                                 </div>
                                             </th>
                                             {(isvendorshow && allVendors?.length > 0) && allVendors.map((vendor, index) => (
-                                                <th key={index} style={Th} colSpan={booleanArray[index] ? 4 : 1}>
-                                                    <div className='flex justify-center'>
-                                                        {vendor.vendor_name}
-                                                        <div className='flex flex-col justify-center'>
-                                                            <button className='!w-10 flex flex-col justify-center' >
-                                                                <img src={booleanArray[index] ? rightArrow : leftArrow} className='h-4' alt='' onClick={() => toggleBoolean(index)} />
-                                                            </button>
+                                                <th key={`${vendor.vendor_name}-${index}`} style={Th} colSpan={booleanArray[index] ? 4 : 1} className='relative w-max group mx-auto'>
+                                                    <div className='w-full flex justify-center px-6 tracking-wider'>
+                                                        <div className='flex justify-center'>
+                                                            {booleanArray[index] ?
+                                                                <div className='w-max'>{vendor.vendor_name}</div>
+                                                                : <div className='w-[60px] truncate'>{vendor.vendor_name}</div>
+                                                            }
+                                                            <div className='flex flex-col justify-center'>
+                                                                <button className='flex flex-col justify-center' >
+                                                                    <img src={booleanArray[index] ? rightArrow : leftArrow} className='h-4' alt='' onClick={() => toggleBoolean(index)} />
+                                                                </button>
+                                                            </div>
                                                         </div>
+                                                    </div>
+                                                    <div className="absolute shadow-lg hidden group-hover:block bg-[#333] text-white font-semibold px-3 py-[6px] text-[13px] right-0 left-0 mx-auto w-max -top-10 rounded before:w-4 before:h-4 before:rotate-45 before:bg-[#333] before:absolute before:z-[-1] before:-bottom-1 before:left-0  before:right-0 before:mx-auto">
+                                                        {vendor.vendor_name}
                                                     </div>
                                                 </th>
                                             ))}
@@ -1191,9 +1199,11 @@ const VendorAssementSheet = () => {
                                                 {isDetailShow ? <td style={Td} >{sale.percent || ''}</td> : <td style={{ display: 'none' }}></td>}
                                                 {isDetailShow ? <td style={Td} >{sale.notes || ''}</td> : <td style={{ display: 'none' }}></td>}
                                                 <td style={Td}>{sale.quantity}</td>
-                                                <td style={Td}>{sale.highest_estimate_price || ''}</td>
+                                                <td style={Td}>
+                                                    {(sale.highest_estimate_price || 0).toLocaleString()}
+                                                </td>
                                                 <td style={Td}>{sale.highest_estimate_vendor || ''}</td>
-                                                <td style={Td}>{sale.purchase_price || ''}</td>
+                                                <td style={Td} className='text-right'>{(sale.purchase_price || '').toLocaleString()}</td>
                                                 <td style={Td}>
                                                     {sale.fixed_checkout === 'real' ?
                                                         <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSvgIcon-root MuiSvgIcon-fontSizeMedium svg-icon css-kry165" fill='#626373' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="FiberManualRecordOutlinedIcon" title="FiberManualRecordOutlined"><path d="M12 6c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6 2.69-6 6-6m0-2c-4.42 0-8 3.58-8 8s3.58 8 8 8 8-3.58 8-8-3.58-8-8-8"></path></svg>
@@ -1206,16 +1216,16 @@ const VendorAssementSheet = () => {
                                                         {booleanArray[index] ? (
                                                             <>
                                                                 <td key={`expected-deposit-date-${index}`} style={Td} className='px-2'>{sale.expected_deposit_date || ''}</td>
-                                                                <td key={`assessment-amount-${index}`} style={Td} className='px-2'>{sale.assessment_amount || ''}</td>
+                                                                <td key={`assessment-amount-${index}`} style={Td} className='px-2 text-right'>{(sale.assessment_amount != null && sale.assessment_amount !== '') ? sale.assessment_amount.toLocaleString() : ''  || ''}</td>
                                                                 <td key={`deposit-date-${index}`} style={Td} className='px-2'>{sale.deposit_date || ''}</td>
-                                                                <td key={`sales-amount-${index}`} style={Td} className='px-2'>{sale.sales_amount || ''}</td>
+                                                                <td key={`sales-amount-${index}`} style={Td} className='px-2 text-right'>{(sale.sales_amount || 0).toLocaleString()}</td>
                                                             </>
                                                         ) : (
                                                             <>
                                                                 <td key={`hidden-td-1-${index}`} style={{ display: 'none' }}></td>
                                                                 <td key={`hidden-td-2-${index}`} style={{ display: 'none' }}></td>
                                                                 <td key={`hidden-td-3-${index}`} style={{ display: 'none' }}></td>
-                                                                <td key={`sales-amount-${index}`} style={Td} className='px-2'>{sale.sales_amount || ''}</td>
+                                                                <td key={`sales-amount-${index}`} style={Td} className='px-2 text-right'>{(sale.sales_amount || 0).toLocaleString()}</td>
                                                             </>
                                                         )}
                                                     </>

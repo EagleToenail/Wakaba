@@ -745,9 +745,9 @@ const CustomerIndividual = () => {
                                                     <th className='whitespace-nowrap' width='5%'></th>
                                                     <th className='whitespace-nowrap' width='5%'></th>
                                                     <th className='whitespace-nowrap' width='10%'>合計</th>
-                                                    <th className='whitespace-nowrap' width='5%'>{totalSales}</th>
-                                                    <th className='whitespace-nowrap' width='5%'>{totalGrossProfit}</th>
-                                                    <th className='whitespace-nowrap' width='5%'>{totalPurchasePrice}</th>
+                                                    <th className='whitespace-nowrap' width='5%'>{(totalSales || 0).toLocaleString()}</th>
+                                                    <th className='whitespace-nowrap' width='5%'>{(totalGrossProfit || 0).toLocaleString()}</th>
+                                                    <th className='whitespace-nowrap' width='5%'>{(totalPurchasePrice || 0).toLocaleString()}</th>
                                                 </tr>
                                                 <tr>
                                                     <th className='whitespace-nowrap' width='5%'>{customerPastVisitHistory.length}</th>
@@ -796,12 +796,12 @@ const CustomerIndividual = () => {
                                                         </td>
                                                         <td style={Td}>{pastVisit.visit_date}</td>
                                                         <td style={Td}>{pastVisit.applicable}</td>
-                                                        <td style={Td}>{pastVisit.total_amount}</td>
+                                                        <td style={Td}>{(pastVisit.total_amount || 0).toLocaleString()}</td>
                                                         <td style={Td}>{pastVisit.category}</td>
                                                         <td style={Td}>{pastVisit.product_name}</td>
-                                                        <td style={Td}>{pastVisit.total_sales}</td>
-                                                        <td style={Td}>{pastVisit.total_gross_profit}</td>
-                                                        <td style={Td}>{pastVisit.total_purchase_price}</td>
+                                                        <td style={Td} className='text-right'>{(pastVisit.total_sales || 0).toLocaleString()}</td>
+                                                        <td style={Td} className='text-right'>{(pastVisit.total_gross_profit || 0).toLocaleString()}</td>
+                                                        <td style={Td} className='text-right'>{(pastVisit.total_purchase_price || 0).toLocaleString()}</td>
                                                     </tr>
                                                 ))}
                                             </tbody>

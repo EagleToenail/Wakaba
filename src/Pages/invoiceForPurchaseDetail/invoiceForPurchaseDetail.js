@@ -1815,9 +1815,9 @@ const InvoicePurchaseOfDetail = () => {
                                                         <th className='whitespace-nowrap' width='5%'></th>
                                                         <th className='whitespace-nowrap' width='5%'></th>
                                                         <th className='whitespace-nowrap' width='10%'>合計</th>
-                                                        <th className='whitespace-nowrap' width='5%'>{totalSales || ''}</th>
-                                                        <th className='whitespace-nowrap' width='5%'>{totalGrossProfit || ''}</th>
-                                                        <th className='whitespace-nowrap' width='5%'>{totalPurchasePrice || ''}</th>
+                                                        <th className='whitespace-nowrap' width='5%'>{(totalSales || 0).toLocaleString()}</th>
+                                                        <th className='whitespace-nowrap' width='5%'>{(totalGrossProfit || 0).toLocaleString()}</th>
+                                                        <th className='whitespace-nowrap' width='5%'>{(totalPurchasePrice || 0).toLocaleString()}</th>
                                                     </tr>
                                                     <tr>
                                                         <th className='whitespace-nowrap' width='5%'>{customerPastVisitHistory.length || ''}</th>
@@ -1846,12 +1846,12 @@ const InvoicePurchaseOfDetail = () => {
                                                             </td>
                                                             <td style={Td}>{pastVisit.visit_date || ''}</td>
                                                             <td style={Td}>{pastVisit.applicable || ''}</td>
-                                                            <td style={Td}>{pastVisit.total_amount || ''}</td>
+                                                            <td style={Td} className='text-right'>{(pastVisit.total_amount || 0).toLocaleString()}</td>
                                                             <td style={Td}>{pastVisit.category || ''}</td>
                                                             <td style={Td}>{pastVisit.product_name || ''}</td>
-                                                            <td style={Td}>{pastVisit.total_sales || ''}</td>
+                                                            <td style={Td} className='text-right'>{(pastVisit.total_sales || 0).toLocaleString()}</td>
                                                             <td style={Td}>{pastVisit.total_gross_profit || ''}</td>
-                                                            <td style={Td}>{pastVisit.total_purchase_price || ''}</td>
+                                                            <td style={Td} className='text-right'>{(pastVisit.total_purchase_price || 0).toLocaleString()}</td>
                                                         </tr>
                                                     ))}
                                                 </tbody>
@@ -2098,10 +2098,10 @@ const InvoicePurchaseOfDetail = () => {
                                 <th style={Th} width='10%'>申請の根拠</th>
                                 <th style={Th} >利率(%)</th>
                                 {/* <th style={Th} >申請額</th> */}
-                                <th style={Th} >買取額</th>
+                                <th style={Th}>買取額</th>
                                 <th style={Th} >上司指示額</th>
                                 <th style={Th} >最高査定業者</th>
-                                <th style={Th} >最高査定額</th>
+                                <th style={Th}>最高査定額</th>
                                 <th style={Th} >
                                     業者
                                     {/* {isvendorshow ? <button><img src={rightArrow} className='h-4' alt='' onClick={openVendortable} ></img></button> : <button><img src={leftArrow} className='h-4' alt='' onClick={closeVendortable}></img></button>} */}
@@ -2452,27 +2452,13 @@ const InvoicePurchaseOfDetail = () => {
                                         {isDetailShow ? <td style={Td} >{salesData.percent || ''}</td> : <td style={{ display: 'none' }}></td>}
                                         {isDetailShow ? <td style={Td} >{salesData.notes || ''}</td> : <td style={{ display: 'none' }}></td>}
                                         <td style={Td}> {salesData.quantity || ''} </td>
-                                        {/* {salesData.product_type_one === '貴金属' ? 
-                                        <td style={Td}> {salesData.metal_type || ''} </td> : <td style={Td}> {''} </td>
-                                    }
-                                    {salesData.product_type_one === '貴金属' ? 
-                                        <td style={Td}> {salesData.price_per_gram || ''} </td> :<td style={Td}> {''} </td>
-                                    } */}
                                         <td style={Td}> {salesData.reason_application || ''} </td>
                                         <td style={Td}> {salesData.interest_rate || ''} </td>
-                                        {/* <td style={Td}> {salesData.product_price || ''} </td> */}
-                                        <td style={Td}>{salesData.purchase_price || ''}</td>
+                                        <td style={Td}  className='text-right'>{(salesData.purchase_price || 0).toLocaleString()}</td>
                                         <td style={Td}>{salesData.supervisor_direction || ''}</td>
                                         <td style={Td}> {salesData.highest_estimate_vendor || ''} </td>
-                                        <td style={Td}> {salesData.highest_estimate_price || ''} </td>
+                                        <td style={Td}  className='text-right'> {(salesData.highest_estimate_price || 0).toLocaleString()} </td>
                                         <td style={Td}>
-                                            {/* <ButtonComponent children={salesData.number_of_vendor || ''} className='w-max !px-5 rounded-lg border border-[#70685a]' style={{ backgroundColor: '#ebe5e1', color: '#626373' }} />
-                                        <div className="absolute shadow-lg hidden group-hover:block bg-[#333] text-white font-semibold px-3 py-[6px] text-[13px] right-0 left-0 mx-auto w-max -bottom-10 rounded before:w-4 before:h-4 before:rotate-45 before:bg-[#333] before:absolute before:z-[-1] before:-top-1 before:left-0  before:right-0 before:mx-auto">
-                                        <p>This is line 1 of </p>
-                                        <p>This is line 2 of </p>
-                                        <p>This is line 3 of </p>
-                                        </div> */}
-
                                             <div className="relative w-max group mx-auto">
                                                 <button type="button" onClick={() => openEstimate(Index)}
                                                     className="px-3 py-1 rounded text-[#626373] tracking-wider font-semibold border border-[#70685a] bg-[#ebe5e1]">
@@ -2511,6 +2497,24 @@ const InvoicePurchaseOfDetail = () => {
                                     </tr>
                                 )
                             })}
+                            <tr>
+                                <td></td>     
+                                <td></td>     
+                                <td></td>     
+                                <td></td>     
+                                <td></td>     
+                                <td colSpan={3}>
+                                    <div className='flex justify-end text-right mt-2'>
+                                        <span className='text-[#70685a] font-bold'>買取点数&nbsp;{totalQuantity || ''}点</span>
+                                        <span className='text-[#70685a] font-bold ml-5'>買取合計&nbsp;&nbsp;{(totalPrice || 0).toLocaleString()}円</span>
+                                    </div>
+                                </td>         
+                                <td></td>     
+                                <td></td>     
+                                <td></td>     
+                                <td></td>     
+                                <td></td>        
+                            </tr>
                         </tbody>
 
                     </table>
@@ -2711,11 +2715,10 @@ const InvoicePurchaseOfDetail = () => {
                     </div> */}
                 </div>
             </div>
-            <div className='flex justify-center gap-10 mt-5'>
-                {/* <label className="text-[#70685a] font-bold mb-2 block text-left !mb-0" style={{ visibility: 'hidden' }}>Total purchase price 999,999,999 yen</label> */}
+            {/* <div className='flex justify-center gap-10 mt-5'>
                 <label className="text-[#70685a] font-bold mb-2 block text-left !mb-0">買取点数&nbsp;{totalQuantity || ''}点</label>
-                <label className="text-[#70685a] font-bold mb-2 block text-left !mb-0">買取合計&nbsp;&nbsp;{totalPrice || ''}円</label>
-            </div>
+                <label className="text-[#70685a] font-bold mb-2 block text-left !mb-0">買取合計&nbsp;&nbsp;{(totalPrice || 0).toLocaleString()}円</label>
+            </div> */}
             {/* result */}
             <div className="flex justify-center">
                 <div className='w-full pb-20' style={{ maxWidth: '80em' }}>
