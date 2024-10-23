@@ -93,8 +93,10 @@ const CommemorativeCoinHistoryList = () => {
         if (!wakabaBaseUrl) {
             throw new Error('API base URL is not defined');
         }
-        axios.post(`${wakabaBaseUrl}/stampshippinghistory`, {payload:date})
+        console.log('payload',date)
+        axios.post(`${wakabaBaseUrl}/coinexchangehistorybydate`, {payload:date})
         .then(response => {
+            console.log('response',response.data)
                 setCoinHistory(response.data);
         })
         .catch(error => {

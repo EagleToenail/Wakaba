@@ -259,7 +259,7 @@ const CommemorativeCoinchangeDetail = () => {
                                 <div>合計金額</div>
                             </div>
                             <div className='ml-5 text-left text-[#70685a]' >
-                                <div>¥{parseInt(totalCoinValue) + parseInt(totalBillValue)}</div>
+                                <div>¥{(parseInt(totalCoinValue || 0) + parseInt(totalBillValue || 0)).toLocaleString()}</div>
                             </div>
                         </div>
                     </div>
@@ -282,7 +282,7 @@ const CommemorativeCoinchangeDetail = () => {
                                             <tr>
                                                 <th >小計3</th>
                                                 <th >{totalNumberOfCoin || ''}</th>
-                                                <th >¥{totalCoinValue || ''}</th>
+                                                <th >¥{(parseInt(totalCoinValue || 0)).toLocaleString()}</th>
                                                 <th ></th>
                                                 <th ></th>
                                             </tr>
@@ -298,8 +298,8 @@ const CommemorativeCoinchangeDetail = () => {
                                                     <td style={Td}>{row.coinValue || ''}</td>
                                                     <td style={Td}>{row.numberOfCoins || ''}
                                                     </td>
-                                                    <td style={Td}>
-                                                        {row.totalCoinValue || ''}
+                                                    <td style={Td} className='text-right'>
+                                                        {(parseInt(row.totalCoinValue || 0)).toLocaleString()}
                                                     </td>
                                                 </tr>
                                             ))}
@@ -320,7 +320,7 @@ const CommemorativeCoinchangeDetail = () => {
                                             <tr>
                                                 <th >小計3</th>
                                                 <th >{totalNumberOfBill || ''}</th>
-                                                <th >¥{totalBillValue || ''}</th>
+                                                <th >¥{(parseInt(totalBillValue || 0)).toLocaleString()}</th>
                                                 <th></th>
                                                 <th></th>
                                             </tr>
@@ -339,8 +339,8 @@ const CommemorativeCoinchangeDetail = () => {
                                                     <td style={Td}>
                                                         {row.numberOfBills || ''}
                                                     </td>
-                                                    <td style={Td}>
-                                                        {row.totalBillValue || ''}
+                                                    <td style={Td} className='text-right'>
+                                                        {(parseInt(row.totalBillValue || 0)).toLocaleString()}
                                                     </td>
                                                 </tr>
                                             ))}

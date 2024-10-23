@@ -2,17 +2,17 @@ import {React, useState , useEffect} from 'react';
 import { useNavigate} from 'react-router-dom';
 import axios from 'axios';
 import '../../Assets/css/showtable.css';
-import ButtonComponent from '../../Components/Common/ButtonComponent';
 import InputComponent from '../../Components/Common/InputComponent';
 import {useDispatch, useSelector } from 'react-redux';
 import { setClearData } from '../../redux/sales/actions';
 import html2canvas from 'html2canvas';
 import { jsPDF } from 'jspdf';
+import ImageShowModal from '../../Components/Modal/ImageShowModal';
 
 
 const PurchaseRequestFormForWholeSaler = () => {
     // const title = 'タイトルタイトル';
-
+    const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
     const Table = {
         borderCollapse: 'collapse',
         color: '#70685a',
@@ -90,29 +90,9 @@ const PurchaseRequestFormForWholeSaler = () => {
          }); // Reset editedRow state
     };
     // search selectbox product1================
-
-    const [product1s, setProduct1s] = useState([]);
+    const [category1, setCategory1] = useState('');
     // Fetch product1 data
-    useEffect(() => {
-        const fetchCategory1 = async() => {
-            const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
-            if (!wakabaBaseUrl) {
-                throw new Error('API base URL is not defined');
-            }
-    
-            axios.get(`${wakabaBaseUrl}/ProductType1s`)
-                .then(response => {
-                    setProduct1s(response.data);
-                    fetchSalesData(response.data);
-                })
-                .catch(error => {
-                    console.error("There was an error fetching the customer data!", error);
-                });
-        }
-        fetchCategory1();
-    }, []);
-
-      const fetchSalesData = async (category1) => {
+    const fetchSalesData = async (category1) => {
         if (salesDataIds?.length > 0) {
           const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
           
@@ -135,6 +115,25 @@ const PurchaseRequestFormForWholeSaler = () => {
           }
         }
       };
+
+    useEffect(() => {
+        const fetchCategory1 = async() => {
+            const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+            if (!wakabaBaseUrl) {
+                throw new Error('API base URL is not defined');
+            }
+    
+            axios.get(`${wakabaBaseUrl}/ProductType1s`)
+                .then(response => {
+                    setCategory1(response.data);
+                    fetchSalesData(response.data);
+                })
+                .catch(error => {
+                    console.error("There was an error fetching the customer data!", error);
+                });
+        }
+        fetchCategory1();
+    }, []);
 
     // fetch vendor names
     const [categoryVendors , setCategoryVendors] = useState([]);
@@ -235,7 +234,35 @@ const PurchaseRequestFormForWholeSaler = () => {
             console.error('Error generating PDF:', error);
         }
     };
+    //--------------------show  product photo---------------------
+    const [showProductImage, setShowProductImage] = useState(false);
+    const [itemImagePreview, setItemImagePreview] = useState(`${wakabaBaseUrl}/uploads/product/`);
+    const openProductImageModal = (link) => {
+        setShowProductImage(true);
+        setItemImagePreview(`${wakabaBaseUrl}/uploads/product/${link}`);
+    }
+    const closeProductImageModal = () => {
+        setShowProductImage(false);
+    }
+    //---------------------------Value Change---------------------------------
+    const handleValueChange = async (id, index, e) => {
+        const name = e.target.name;
+        const value = e.target.value;
+        console.log('id,index',id,index,name,value);
 
+        const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+        if (!wakabaBaseUrl) {
+            throw new Error('API base URL is not defined');
+        }
+        await axios.post(`${wakabaBaseUrl}/wholesalershipping/eidtShipping`, { id: id, name: name, value: value})
+            .then(response => {
+                fetchSalesData(category1);
+            })
+            .catch(error => {
+                console.error("There was an error fetching the customer data!", error);
+            });
+    };
+    //------------------------------------------------------------------------------
     const sendShippingData = async() =>{
         clearReduxData();
         console.log('wholeSalesPurchase',wholeSalesPurchase)
@@ -266,6 +293,25 @@ const PurchaseRequestFormForWholeSaler = () => {
                   setWholeSalesPurchase(updatedData);
             }
         }
+    //calculate sum
+    const [totalPrice, setTotalPrice] = useState('0');
+
+    // Calculate total price
+    const calculateTotalPrice = () => {
+        if (wholeSalesPurchase?.length > 0) {
+            const total = wholeSalesPurchase.reduce((sum, item) => {
+                const price = parseInt(item.highest_estimate_price);
+                console.log(price, 'price');
+                return sum + (isNaN(price) ? 0 : price); // Handle non-numeric values
+            }, 0); // Start sum at 0
+            setTotalPrice(total);
+            console.log(total, 'total');
+        }
+    };
+
+    useEffect(() => {
+        calculateTotalPrice();
+    }, [wholeSalesPurchase,calculateTotalPrice]); // Recalculate whenever purchaseInformation changes
 
     return (
         <>
@@ -282,7 +328,7 @@ const PurchaseRequestFormForWholeSaler = () => {
                             <label className='w-max flex flex-col justify-center h-10' >卸業者</label>
                         </div>
                         <div>
-                            <select name="shipping_address" value={wholeSalesPurchase?.length>0 && wholeSalesPurchase[0].shipping_address || ''} onChange={handleShipChange} className="w-40 h-10 text-[#70685a] font-bold border border-[#70685a] px-4 py-1 outline-[#70685a]">
+                            <select name="shipping_address" value={wholeSalesPurchase?.length>0 && (wholeSalesPurchase[0].shipping_address || '')} onChange={handleShipChange} className="w-40 h-10 text-[#70685a] font-bold border border-[#70685a] px-4 py-1 outline-[#70685a]">
                                 <option value=""></option>
                                 {(categoryVendors && categoryVendors.length !== 0) && categoryVendors.map((vendor, index) => (
                                     <option key={index} value={vendor.vendor_name}>{vendor.vendor_name}</option>
@@ -324,7 +370,7 @@ const PurchaseRequestFormForWholeSaler = () => {
                                 <th ></th>
                                 <th ></th>
                                 <th >
-                                    <div className='flex'>
+                                    <div className='flex justify-center'>
                                         <input type='checkbox' className='w-4 mr-1'/> 
                                         <div className='flex flex-col justify-center'>
                                             記載する
@@ -353,7 +399,7 @@ const PurchaseRequestFormForWholeSaler = () => {
                                 <th  style={Th} >仮査定日</th>
                                 <th style={Th} >仮査定額</th>
                                 <th style={Th} >他社 最高査定額</th>
-                                <th style={Th}  >最高査定額業者</th>
+                                <th style={Th}  >最高査定額業者名</th>
                                 <th style={{display:'none'}}>{editIndex === -1 ? '編集する' : 'セーブ'}</th>
                                 <th className='whitespace-nowrap pl-3' style={{display:'none'}}>{editIndex === -1 ? '' : 'キャンセル'}</th>
                             </tr>
@@ -363,7 +409,7 @@ const PurchaseRequestFormForWholeSaler = () => {
                                 <tr key={saleData.id}>
                                     <td>{Index + 1}</td>
                                     <td style={Td} className='w-40'>
-                                        <select name="shipping_status" value={saleData.shipping_status || ''} onChange={handleShipChange} className="w-full h-8 text-[#70685a] font-bold px-4 py-1 outline-[#70685a]">
+                                        <select name="shipping_status" value={saleData.shipping_status || ''} onChange={(e) => handleValueChange(saleData.id, Index, e)} className="w-full h-8 text-[#70685a] font-bold px-4 py-1 outline-[#70685a]">
                                             <option value=""></option>
                                             <option value="申請中">申請中</option>
                                             <option value="発送中">発送中</option>
@@ -376,7 +422,7 @@ const PurchaseRequestFormForWholeSaler = () => {
                                     </td>
                                     <td style={Td}>{'000'}</td>
                                     <td style={Td} className='w-40'>
-                                        <select name="shipper" value={saleData.shipper} onChange={handleShipChange}   className="w-40 h-8 text-[#70685a] font-bold px-4 py-1 outline-[#70685a]">
+                                        <select name="shipper" value={saleData.shipper || ''} onChange={(e) => handleValueChange(saleData.id, Index, e)} className="w-40 h-8 text-[#70685a] font-bold px-4 py-1 outline-[#70685a]">
                                             <option value=""></option>
                                             {users?.length>0 && users.map((user, index) => (
                                                 <option key={index} value={user.full_name}>{user.full_name || ''}</option>
@@ -386,12 +432,20 @@ const PurchaseRequestFormForWholeSaler = () => {
                                     <td style={Td}>{saleData.wakaba_number || ''}</td>
                                     <td style={Td}>{saleData.product_type_one || ''}</td>
                                     <td style={Td}>{saleData.product_type_two || ''}</td>
+                                    <td style={Td}>{saleData.brand || ''}</td>
                                     <td style={Td}>{saleData.product_name || ''}</td>
-                                    <td style={Td}>{saleData.quantity}</td>
-                                    <td style={Td}>{saleData.gross_weight || ''}</td>
-                                    <td style={Td}>{saleData.gold_type || ''}</td>
-                                    <td style={Td}>{saleData.purchase_price || ''}</td>
+                                    <td style={Td}>{saleData.model_number_one || ''}</td>
+                                    <td style={Td}>{saleData.gold_type || ''}{'/'}{saleData.gross_weight || ''}{saleData.model_number_one || ''}</td>
+                                    <td style={Td}>{saleData.rank || ''}</td>
                                     <td style={Td}>
+                                        {saleData.product_photo !== '' ?
+                                            <button onClick={() => openProductImageModal(saleData.product_photo)} name='photo' className='w-max'>
+                                                <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSvgIcon-root MuiSvgIcon-fontSizeMedium svg-icon css-kry165 w-7" fill='#524c3b' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="PhotoOutlinedIcon" title="PhotoOutlined"><path d="M19 5v14H5V5zm0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2m-4.86 8.86-3 3.87L9 13.14 6 17h12z"></path></svg>
+                                            </button>
+                                        : ''}
+                                    </td>
+                                    <td style={Td}>{saleData.quantity}</td>
+                                    {/* <td style={Td}>
                                         {editIndex === Index ?(
                                             <InputComponent name='rank' value={editedRow.rank || ''} onChange={handleInputChange} className='w-max h-8 text-[#70685a]' />
                                         ):(saleData.assessment_date)}
@@ -408,23 +462,22 @@ const PurchaseRequestFormForWholeSaler = () => {
                                         {editIndex === Index ?(
                                             <InputComponent type="number" name='product_price' value={editedRow.product_price || ''} onChange={handleInputChange} className='w-max h-8 text-[#70685a]' />
                                         ):(saleData.product_price)}
-                                    </td>
+                                    </td> */}
                                     <td style={Td}>
+                                        {saleData.assessment_date || ''}
+                                    </td>
+                                    <td style={Td} className='text-right'>
+                                        {(parseInt(saleData.highest_estimate_price || 0)).toLocaleString()}
+                                    </td>
+                                    <td style={Td} className='text-right'>
                                         {editIndex === Index ?(
                                             <InputComponent type="number" name='highest_estimate_price' value={editedRow.highest_estimate_price || ''} onChange={handleInputChange} className='w-max h-8 text-[#70685a]' />
-                                        ):(saleData.highest_estimate_price)}
+                                        ):(parseInt(saleData.highest_estimate_price || 0)).toLocaleString()}
                                     </td>
                                     <td style={Td}>
-                                        {editIndex === Index ?(
-                                            <select name="highest_estimate_vendor" value={editedRow.highest_estimate_vendor || ''} onChange={handleInputChange} className="w-max h-10 text-[#70685a] font-bold border border-[#70685a] px-4 py-1 outline-[#70685a]">
-                                                <option value=""></option>
-                                                {(categoryVendors && categoryVendors.length !== 0) && categoryVendors.map((vendor, index) => (
-                                                    <option key={index} value={vendor.vendor_name}>{vendor.vendor_name}</option>
-                                                ))}
-                                            </select>
-                                       ):(saleData.highest_estimate_vendor)}
+                                        {saleData.highest_estimate_vendor}
                                     </td>
-                                    <td style={Td}>
+                                    <td style={{display:'none'}}>
                                     {editIndex === Index ? (
                                         <div>
                                             <button onClick={() => handleSaveClick(Index)} className='w-7'>
@@ -439,7 +492,7 @@ const PurchaseRequestFormForWholeSaler = () => {
                                         </div>
                                         )}
                                     </td>
-                                    <td>
+                                    <td style={{display:'none'}}>
                                         {editIndex === Index ? (
                                         <div>
                                             <button onClick={() => handleCancelClick(Index)} className='w-7'>
@@ -451,13 +504,67 @@ const PurchaseRequestFormForWholeSaler = () => {
                                     </td>
                                 </tr>
                             ))}
-
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td className='font-bold text-[18px] text-right'>{(parseInt(totalPrice || 0)).toLocaleString()}</td>
+                                <td className='font-bold text-[18px] text-right'>{(parseInt(totalPrice || 0)).toLocaleString()}</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td className='font-bold text-[17px]'>
+                                    <div className='flex justify-end'>
+                                        <div>
+                                            <div className='text-left'>仮査定額</div>
+                                            <div className='text-left'>合計</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td className='font-bold text-[17px]'>
+                                    <div className='flex justify-end'>
+                                        <div>
+                                            <div className='text-left'>最高額合計</div>
+                                            <div className='text-left'>(仮査定合む)</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td></td>
+                            </tr>
                         </tbody>
 
                     </table>
                 </div>
             </div>
-        </div>    
+        </div> 
+        {showProductImage && <ImageShowModal itemsImagePreview={itemImagePreview} onClose={closeProductImageModal} />}   
         </>
     );
 };

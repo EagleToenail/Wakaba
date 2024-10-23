@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 // import { Link } from 'react-router-dom';
 // import Titlebar from '../../Components/Common/Titlebar';
 import DateAndTime from '../../Components/Common/PickData';
+import axios from 'axios';
 
 
 const PreciousMetalsPrices = () => {
@@ -56,6 +57,7 @@ const PreciousMetalsPrices = () => {
               });
             });
             setData(data);
+            getData(data);
             console.log('data',data)
           })
           .catch(error => console.log(error));
@@ -69,9 +71,55 @@ const PreciousMetalsPrices = () => {
     const formattedDates = dates.map((date) => {
       const month = date.getMonth() + 1;
       const day = date.getDate();
-      console.log(day);
+    //   console.log(day);
       return `${month.toString().padStart(2, '0')}/${day.toString().padStart(2, '0')}`;
     });
+    //-------------------------------auto save----------------------------------
+    const getData = async(data1) => {
+        const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+        if (!wakabaBaseUrl) {
+            throw new Error('API base URL is not defined');
+        }
+       
+        const payload = data1.reduce((acc, item) => {
+            acc[item.name] = item.price;
+            return acc;
+          }, {});
+          console.log(payload,'payload')
+        await axios.post(`${wakabaBaseUrl}/preciousmetalprice/autosave`, {payload:payload})
+            .then(response => {
+                    setData(response.data)
+            })
+            .catch(error => {
+                console.error("There was an error fetching the customer data!", error);
+            });
+    };
+      
+        // const now = new Date();
+      
+        // // Create a Date object for the next occurrence of 00:01:00 in JST
+        // const nextMidnight = new Date();
+        // nextMidnight.setHours(0, 1, 0, 0); // Set to 00:01:00 JST
+      
+        // // Adjust to JST
+        // const options = { timeZone: 'Asia/Tokyo' };
+        // const jstNow = new Intl.DateTimeFormat('en-US', options).format(now);
+        // const jstDate = new Date(`${new Date().toLocaleDateString()} ${jstNow}`);
+      
+        // // Calculate time until 00:01:00 JST
+        // let timeUntilNextCall = nextMidnight.getTime() - jstDate.getTime();
+      
+        // // If it's already past 00:01:00 JST, schedule for the next day
+        // if (timeUntilNextCall < 0) {
+        //   nextMidnight.setDate(nextMidnight.getDate() + 1); // Move to the next day
+        //   timeUntilNextCall = nextMidnight.getTime() - jstDate.getTime(); // Recalculate the time
+        // }
+      
+        // // Schedule the getData function
+        // setTimeout(() => {
+        //   getData();
+        // }, timeUntilNextCall);
+
     return (
         <>
             {/* <Titlebar title={title} /> */}
@@ -99,7 +147,7 @@ const PreciousMetalsPrices = () => {
                                     </thead>
                                     <tbody>
                                         {data.map((item, index) => (
-                                            <tr>
+                                            <tr key={index}>
                                                 <td style={Td}>
                                                     {index === data.length - 1 ? (
                                                         <span> Sv</span>

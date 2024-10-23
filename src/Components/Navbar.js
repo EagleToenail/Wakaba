@@ -18,7 +18,6 @@ export default function Navbar({sendURL}) {
   };
 
   const currentURL = sendURL;
-  console.log('currentURl',currentURL)
    const changeURL = () => {
     switch (currentURL) {
       case 'startingwork':

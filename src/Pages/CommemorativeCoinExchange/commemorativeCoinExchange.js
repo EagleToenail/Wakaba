@@ -504,7 +504,7 @@ const CommemorativeCoinExchange = () => {
                                 <div>合計金額</div>
                             </div>
                             <div className='ml-5 text-left text-[#70685a]' >
-                                <div>¥{parseInt(totalCoinValue) + parseInt(totalBillValue)}</div>
+                                <div>¥{(parseInt(totalCoinValue || 0) + parseInt(totalBillValue || 0)).toLocaleString()}</div>
                             </div>
                         </div>
                     </div>
@@ -528,7 +528,7 @@ const CommemorativeCoinExchange = () => {
                                                 <th >小計3</th>
                                                 <th ></th>
                                                 <th >{totalNumberOfCoin}</th>
-                                                <th >¥{totalCoinValue}</th>
+                                                <th >¥{(parseInt(totalCoinValue || 0)).toLocaleString()}</th>
                                                 <th ></th>
                                                 <th ></th>
                                             </tr>
@@ -544,7 +544,7 @@ const CommemorativeCoinExchange = () => {
                                         <tbody>
                                             {coinRows?.length > 0 && coinRows.map((row, Index) => (
                                                 <tr key={Index}  style={{display:'none'}}>
-                                                    <td style={Td}>{row.coinValue || ''}</td>
+                                                    <td style={Td} className='text-right'>{(parseInt(row.coinValue || 0)).toLocaleString()}</td>
                                                     <td style={Td}>
                                                         {row.newNumberOfCoins || ''}
                                                     </td>
@@ -553,7 +553,7 @@ const CommemorativeCoinExchange = () => {
                                                             <InputComponent name='numberOfCoins' type="number" value={editedCoinRow.numberOfCoins || ''} onChange={handleCoinInputChange} className='w-full h-8 text-[#70685a] border-[red]' />
                                                         ) : (row.numberOfCoins || '')}
                                                     </td>
-                                                    <td style={Td}>{row.totalCoinValue || ''}</td>
+                                                    <td style={Td} className='text-right'>{(parseInt(row.totalCoinValue || 0)).toLocaleString()}</td>
                                                     <td style={Td}>
                                                         {editCoinIndex === Index ? (
                                                             <div>
@@ -670,7 +670,7 @@ const CommemorativeCoinExchange = () => {
                                                 <th >小計3</th>
                                                 <th ></th>
                                                 <th >{totalNumberOfBill}</th>
-                                                <th >¥{totalBillValue}</th>
+                                                <th >¥{(parseInt(totalBillValue || 0)).toLocaleString()}</th>
                                                 <th></th>
                                                 <th></th>
                                             </tr>
@@ -686,8 +686,8 @@ const CommemorativeCoinExchange = () => {
                                         <tbody>
                                             {billRows?.length > 0 && billRows.map((row, Index) => (
                                                 <tr key={Index}  style={{display:'none'}}>
-                                                    <td style={Td}>
-                                                        {row.billValue || ''}
+                                                    <td style={Td} className='text-right'>
+                                                        {(parseInt(row.billValue || 0)).toLocaleString()}
                                                     </td>
                                                     <td style={Td}>
                                                         {row.newNumberOfBills || ''}
@@ -697,8 +697,8 @@ const CommemorativeCoinExchange = () => {
                                                             <InputComponent name='numberOfBills' type="number" value={editedBillRow.numberOfBills || ''} onChange={handleBillInputChange} className='w-full h-8 text-[#70685a] border-[red]' />
                                                         ) : (row.numberOfBills || '')}
                                                     </td>
-                                                    <td style={Td}>
-                                                        {row.totalBillValue || ''}
+                                                    <td style={Td} className='text-right'>
+                                                        {(parseInt(row.totalBillValue || 0)).toLocaleString()}
                                                     </td>
                                                     <td style={Td}>
                                                         {editBillIndex === Index ? (
