@@ -46,7 +46,7 @@ const LayoutWithMainContainer1 = () => {
   return (
     <>
          {showHeaderAndSidebar && <Header />} 
-         {showHeaderAndSidebar && <Navbar />} 
+         {showHeaderAndSidebar && <Navbar sendURL = {destinationURL}/>} 
          {showHeaderAndSidebar && <Toolbar />}
          <div className='layout-container'>
             {showHeaderAndSidebar &&<div className='layout-sidebar' style={{width:`${sidebarWidth}px`}}><Sidebar /></div>} 

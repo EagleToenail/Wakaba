@@ -1,11 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Link, useNavigate, useParams, useLocation } from 'react-router-dom';
-// import Titlebar from '../../Components/Common/Titlebar';
+import {useNavigate, useParams } from 'react-router-dom';
 import '../../Assets/css/showtable.css'
 import '../../Assets/css/firstTd.css'
 import InputComponent from '../../Components/Common/InputComponent';
 import ButtonComponent from '../../Components/Common/ButtonComponent';
-import dateimage from '../../Assets/img/datepicker.png';
 import DateAndTime from '../../Components/Common/PickData';
 import axios from 'axios';
 import { toast } from 'react-toastify';
@@ -20,6 +18,7 @@ import rightArrow from '../../Assets/img/left-arrow.png';
 
 import ConfirmationModal from '../../Components/Modal/SuccessModal';
 import ImageShowModal from '../../Components/Modal/ImageShowModal';
+import { current } from '@reduxjs/toolkit';
 
 const InvoicePurchaseOfDetail = () => {
     // const title = 'タイトルタイトル';
@@ -50,9 +49,9 @@ const InvoicePurchaseOfDetail = () => {
     //received data using redux
     const data = useSelector((state) => state.data);
     const stampData = data.data;
-    const clearReduxData = () => {
-        dispatch(setClearData());
-    }
+    // const clearReduxData = () => {
+    //     dispatch(setClearData());
+    // }
 
     const Table = {
         borderCollapse: 'collapse',
@@ -104,7 +103,6 @@ const InvoicePurchaseOfDetail = () => {
                     const invoiceData = response.data;
                     if (invoiceData?.length > 0) {
                         const customerId = invoiceData[0].customer_id;
-                        console.log('customerId', customerId)
                         setId(customerId);
                         const updatedData111 = invoiceData.map((data, Index) => ({
                             ...data,
@@ -254,7 +252,6 @@ const InvoicePurchaseOfDetail = () => {
 
             await axios.post(`${wakabaBaseUrl}/profile/getProfileById`, { userId })
                 .then(response => {
-                    const user = response.data;
                     // console.log('user profile',user)
                     setUserData(response.data);
                     if (!response.data) {
@@ -410,8 +407,6 @@ const InvoicePurchaseOfDetail = () => {
             if (!wakabaBaseUrl) {
                 throw new Error('API base URL is not defined');
             }
-            const payload = totalSalesSlipData;
-            // await axios.post(`${wakabaBaseUrl}/vendor/getVendorListselected`, {payload:payload})
             await axios.get(`${wakabaBaseUrl}/vendor/getVendorListAll`)
                 .then(response => {
                     setAllVendors(response.data);
@@ -484,140 +479,6 @@ const InvoicePurchaseOfDetail = () => {
     }
     // Filter the options based on the query
     const [showInputPurchase, setShowInputPurchase] = useState(false);
-    //add Data
-    const addSlesItem = async () => {
-
-        if (showInputPurchase) {
-            console.log('purchase data', salesSlipData, estimateValues);
-
-            const formData = new FormData();
-            formData.append('userStoreName', userStoreName);
-            formData.append('trading_date', salesSlipData.trading_date);
-            formData.append('number', salesSlipData.number);
-            formData.append('purchase_staff', salesSlipData.purchase_staff);
-            formData.append('purchase_staff_id', salesSlipData.purchase_staff_id);
-            formData.append('customer_id', salesSlipData.customer_id);
-            formData.append('store_name', salesSlipData.store_name);
-            formData.append('hearing', salesSlipData.hearing);
-            formData.append('product_type_one', salesSlipData.product_type_one);
-            formData.append('product_type_two', salesSlipData.product_type_two);
-            formData.append('product_type_three', salesSlipData.product_type_three);
-            formData.append('product_type_four', salesSlipData.product_type_four);
-            formData.append('product_name', salesSlipData.product_name);
-            formData.append('quantity', salesSlipData.quantity);
-            formData.append('reason_application', salesSlipData.reason_application);
-            formData.append('interest_rate', salesSlipData.interest_rate);
-            formData.append('product_price', salesSlipData.product_price);
-            formData.append('highest_estimate_vendor', salesSlipData.highest_estimate_vendor);
-            formData.append('highest_estimate_price', salesSlipData.highest_estimate_price);
-            formData.append('number_of_vendor', salesSlipData.number_of_vendor);
-            formData.append('supervisor_direction', salesSlipData.supervisor_direction);
-            formData.append('purchase_result', salesSlipData.purchase_result);
-            formData.append('purchase_price', salesSlipData.purchase_price);
-
-            formData.append('estimate_wholesaler', JSON.stringify(estimateValues));
-
-            if (sendFile) formData.append('product_photo', sendFile);
-            try {
-                const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
-
-                if (!wakabaBaseUrl) {
-                    throw new Error('API base URL is not defined');
-                }
-
-                await axios.post(`${wakabaBaseUrl}/purchaseinvoice/create`, formData, {
-                    headers: {
-                        'Content-Type': 'multipart/form-data'
-                    }
-                }).then(response => {
-                    const invoiceData = response.data;
-                    if (invoiceData?.length > 0) {
-                        const updatedData111 = invoiceData.map((data, Index) => ({
-                            ...data,
-                            estimate_wholesaler: JSON.parse(data.estimate_wholesaler),
-                        }));
-                        setTotalSalesSlipData(updatedData111);
-
-                        setItemsImagePreview(`${wakabaBaseUrl}/uploads/product/${response.data[0].entire_items_url}`);
-                        setItemsDocPreview(`${wakabaBaseUrl}/uploads/product/${response.data[0].document_url}`);
-                    }
-                    setShowInputPurchase(false);
-                    setSalesSlipData({
-                        trading_date: salesSlipData.trading_date,
-                        number: '',
-                        purchase_staff: salesSlipData.purchase_staff,
-                        purchase_staff_id: userId,
-                        customer_id: salesSlipData.customer_id,
-                        store_name: salesSlipData.store_name,
-                        hearing: salesSlipData.hearing,
-                        product_type_one: '',
-                        product_type_two: '',
-                        product_type_three: '',
-                        product_type_four: '',
-
-                        metal_type: '',
-                        price_per_gram: '',
-
-                        product_photo: '',
-                        product_name: '',
-                        comment: '',
-                        quantity: '0',
-                        reason_application: '',
-                        interest_rate: '0',
-                        product_price: '0',
-                        highest_estimate_vendor: '',
-                        highest_estimate_price: '0',
-                        number_of_vendor: '',
-                        supervisor_direction: '',
-                        purchase_result: '',
-                        purchase_price: '0',
-                        estimate_wholesaler: '',
-                    });
-                    setEstimateValues({});
-                })
-                    .catch(error => {
-                        console.error("There was an error fetching the customer data!", error);
-                    });
-            } catch (error) {
-                console.error('Error sending message:', error);
-            }
-
-        } else {
-            setSalesSlipData({
-                trading_date: currentDay,
-                number: '',
-                purchase_staff: userData.fullname,
-                purchase_staff_id: userId,
-                customer_id: id,
-                store_name: userData.store_name,
-                hearing: '',
-                product_type_one: '',
-                product_type_two: '',
-                product_type_three: '',
-                product_type_four: '',
-
-                metal_type: '',
-                price_per_gram: '',
-
-                product_photo: '',
-                product_name: '',
-                comment: '',
-                quantity: '0',
-                reason_application: '',
-                interest_rate: '0',
-                product_price: '0',
-                highest_estimate_vendor: '',
-                highest_estimate_price: '0',
-                number_of_vendor: '',
-                supervisor_direction: '',
-                purchase_result: '',
-                purchase_price: '0',
-                estimate_wholesaler: '',
-            });
-            setShowInputPurchase(true);
-        }
-
-    }
     //Edit one of tatalsalesSlipdata
     const editSalesItem = (index) => {
 
@@ -927,13 +788,13 @@ const InvoicePurchaseOfDetail = () => {
     }
 
     // send Purchase data
-    const sendPurchaseDataToReceipt = () => {
-        const numberOfInvoice = customerPastVisitHistory.length;
-        const purchaseData = { numberOfInvoice, totalSalesSlipData, id };
-        // console.log('send purchase data',purchaseData,id);
-        updateData(purchaseData);
-        navigate('/customerreceipt');
-    }
+    // const sendPurchaseDataToReceipt = () => {
+    //     const numberOfInvoice = customerPastVisitHistory.length;
+    //     const purchaseData = { numberOfInvoice, totalSalesSlipData, id };
+    //     // console.log('send purchase data',purchaseData,id);
+    //     updateData(purchaseData);
+    //     navigate('/customerreceipt');
+    // }
 
     //   const [isOpen, setIsOpen] = useState(false);
     const [isshow, setIsShow] = useState(false);
@@ -1507,7 +1368,8 @@ const InvoicePurchaseOfDetail = () => {
     }
     const saveEstimate = () => {
         setShowEstimate(false);
-        saveSalesItem();
+        // saveSalesItem();
+        console.log('currentDay estimate',currentDay,estimateValues);
     }
     //-----------------------------------item detail---------------------------------------
     const [isDetailShow, setIsDetailShow] = useState(false);
@@ -1576,18 +1438,18 @@ const InvoicePurchaseOfDetail = () => {
     }, []);
     //-----------------------------------------brand capacity percent----------------------------------------------
     const brandValues = [
-        "リキュールブランドA",  // Liqueur Brand A
-        "ウイスキーブランドB",  // Whiskey Brand B
-        "生酒ブランドC",        // Nama Sake Brand C
-        "スパークリングワインブランドD", // Sparkling Wine Brand D
-        "ウィスキーブランドE",  // Whiskey Brand E
-        "ブランデーブランドF",  // Brandy Brand F
-        "ワインブランドG",      // Wine Brand G
-        "コニャックブランドH",  // Cognac Brand H
-        "銘柄ブランドI",        // Brand Name I
-        "焼酎ブランドJ",        // Shochu Brand J
-        "紹興酒ブランドK",      // Shaoxing Wine Brand K
-        "清酒ブランドL"         // Sake Brand L
+        'ウイスキー',
+        '生酒',
+        'スパークリングワイン',
+        'ウィスキー',
+        'リキュール',
+        'ブランデー',
+        'ワイン',
+        'コニャック',
+        '銘柄',
+        '焼酎',
+        '紹興酒',
+        '清酒'
     ];
     const capacityValues = ['700', '750'];
     const percentValues = ['40%', '43%'];
@@ -1643,7 +1505,10 @@ const InvoicePurchaseOfDetail = () => {
                         <div className='w-full mt-2 '>
                             <div className='invoice-purchase-brought flex justify-between'>
                                 <div className='invoice-purchase-brought-buttons w-[50%] flex justify-around pr-10'>
-                                    {/* <ButtonComponent onClick={sendPurchaseDataToReceipt} children="預り証発行" className='w-max h-11 !px-5 bg-[transparent] !text-[#e87a00]' style={{ border: '1px solid #e87a00' }} /> */}
+                                    {totalSalesSlipData.length >0 && totalSalesSlipData[0].customer_receipt === '1' ? 
+                                        <ButtonComponent children="預り証発行済" className='w-max h-11 !px-5 bg-[transparent] !text-[#7fe374]' style={{ border: '1px solid #7fe374' }} />
+                                    : <ButtonComponent children="預り証発行" className='w-max h-11 !px-5 bg-[transparent] !text-[#e87a00]' style={{ border: '1px solid #e87a00' }} />
+                                    }
                                     <ButtonComponent onClick={openItemsImageModal} children="全体撮影" className='w-max h-11 !px-5 bg-[transparent] !text-[#e87a00]' style={{ border: '1px solid #e87a00' }} />
                                     <ButtonComponent onClick={openItemsDocModal} children="紙書類撮影" className='w-max h-11 !px-5 bg-[transparent] !text-[#e87a00]' style={{ border: '1px solid #e87a00' }} />
                                 </div>
@@ -2121,7 +1986,7 @@ const InvoicePurchaseOfDetail = () => {
                         <tbody>
                             {
                                 totalSalesSlipData?.length > 0 &&
-                                (totalSalesSlipData[0].product_status === 'お預かり' ||
+                                (totalSalesSlipData[0].product_status === '査定中' || totalSalesSlipData[0].product_status === 'お預かり' ||
                                     totalSalesSlipData[0].product_status === '承認待ち') &&
 
                                 <tr className='!h-8'>
@@ -2480,14 +2345,14 @@ const InvoicePurchaseOfDetail = () => {
                                             <td key={index} style={Td}> {salesData.estimate_wholesaler[vendor.vendor_name] || ''} </td>
                                         ))}
                                         <td style={Td}>{salesData.purchase_result || ''}</td>
-                                        {salesData.product_status === 'お預かり' &&
+                                        {(salesData.product_status === '査定中' || salesData.product_status === 'お預かり' || salesData.product_status === '承認待ち') &&
                                             <td className='w-8 bg-transparent'>
                                                 <div onClick={() => editSalesItem(Index)} className='w-7 ml-2'>
                                                     <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium  MuiSvgIcon-root MuiSvgIcon-fontSizeLarge  css-1hkft75" fill='#524c3b' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="EditCalendarOutlinedIcon" title="EditCalendarOutlined"><path d="M5 10h14v2h2V6c0-1.1-.9-2-2-2h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h7v-2H5zm0-4h14v2H5zm17.84 10.28-.71.71-2.12-2.12.71-.71c.39-.39 1.02-.39 1.41 0l.71.71c.39.39.39 1.02 0 1.41m-3.54-.7 2.12 2.12-5.3 5.3H14v-2.12z"></path></svg>
                                                 </div>
                                             </td>
                                         }
-                                        {salesData.product_status === 'お預かり' &&
+                                        {(salesData.product_status === '査定中' || salesData.product_status === 'お預かり' || salesData.product_status === '承認待ち') &&
                                             <td className='w-8 bg-transparent'>
                                                 <div onClick={() => removeSalesItem(salesData.id)} className='w-7 ml-2'>
                                                     <svg focusable="false" aria-hidden="true" viewBox="0 0 23 23" fill='#524c3b' data-testid="CancelOutlinedIcon" title="CancelOutlined"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8m3.59-13L12 10.59 8.41 7 7 8.41 10.59 12 7 15.59 8.41 17 12 13.41 15.59 17 17 15.59 13.41 12 17 8.41z"></path></svg>
@@ -3034,8 +2899,8 @@ const InvoicePurchaseOfDetail = () => {
                             <table className='text-center w-full' style={Table}>
                                 <thead className='bg-white z-10 h-11 w-full'>
                                     <tr>
-                                        <th style={Th}>ベンダー名</th>
-                                        <th style={Th}>見積もり</th>
+                                        <th style={Th}>業者名</th>
+                                        <th style={Th}>査定額</th>
                                     </tr>
                                 </thead>
                                 <tbody>

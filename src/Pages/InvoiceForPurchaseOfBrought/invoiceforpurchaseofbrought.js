@@ -1784,7 +1784,10 @@ const InvoicePurchaseOfBrought = () => {
                         <div className='w-full mt-2'>
                             <div className='invoice-purchase-brought flex justify-between'>
                                 <div className='invoice-purchase-brought-buttons w-[50%] flex justify-around pr-10'>
-                                    <ButtonComponent onClick={sendPurchaseDataToReceipt} children="預り証発行済" className='w-max h-11 !px-5 bg-[transparent] !text-[#7fe374]' style={{ border: '1px solid #7fe374' }} />
+                                    {totalSalesSlipData.length >0 && totalSalesSlipData[0].customer_receipt === '1' ? 
+                                     <ButtonComponent children="預り証発行済" onClick={sendPurchaseDataToReceipt} className='w-max h-11 !px-5 bg-[transparent] !text-[#7fe374]' style={{ border: '1px solid #7fe374' }} />
+                                     : <ButtonComponent children="預り証発行" onClick={sendPurchaseDataToReceipt} className='w-max h-11 !px-5 bg-[transparent] !text-[#e87a00]' style={{ border: '1px solid #e87a00' }} />
+                                    }
                                     <ButtonComponent onClick={openItemsImageModal} children="全体撮影" className='w-max h-11 !px-5 bg-[transparent] !text-[#e87a00]' style={{ border: '1px solid #e87a00' }} />
                                     <ButtonComponent onClick={openItemsDocModal} children="紙書類撮影" className='w-max h-11 !px-5 bg-[transparent] !text-[#e87a00]' style={{ border: '1px solid #e87a00' }} />
                                 </div>
@@ -3184,8 +3187,8 @@ const InvoicePurchaseOfBrought = () => {
                             <table className='text-center w-full' style={Table}>
                                 <thead className='bg-white z-10 h-11 w-full'>
                                     <tr>
-                                        <th style={Th}>ベンダー名</th>
-                                        <th style={Th}>見積もり</th>
+                                        <th style={Th}>業者名</th>
+                                        <th style={Th}>査定額</th>
                                     </tr>
                                 </thead>
                                 <tbody>

@@ -95,7 +95,7 @@ const InvoiceForPurchaseList = () => {
                         <thead className='sticky top-0 bg-white z-10'>
                             <tr>
                                 <th style={Th} width='5%'>NO</th>
-                                <th style={Th} width='5%'>IDs</th>
+                                <th style={Th} width='5%'>買取計算書</th>
                                 <th style={Th} width='5%' >買取日</th>
                                 <th style={Th} width='5%'>買取担当</th>
                                 <th style={Th} width='5%'>お客様</th>   
@@ -108,10 +108,13 @@ const InvoiceForPurchaseList = () => {
                             {(purchaseInvoice && purchaseInvoice.length !==0) && purchaseInvoice.map((data,Index) => (
                                 <tr key={Index}>
                                     <td style={Td}>{Index + 1}</td>
-                                    <td style={Td}>{data.invoice_ids}</td>
+                                    <td style={Td}>{data.invoiceID}</td>
                                     <td style={Td}>{data.trading_date}</td>
                                     <td style={Td}>{data.purchase_staff}</td>
-                                    <td style={Td}>{data.Customer ? data.Customer.full_name : 'Name not available'}</td>
+                                    <td style={Td}>{data.Customer ? data.Customer.full_name : ''}</td>
+                                    {data.product_status === '査定中' && 
+                                        <td style={Td}>下書き</td>
+                                    }
                                     {data.product_status === 'お預かり' && 
                                         <td style={Td}>下書き</td>
                                     }
@@ -119,7 +122,7 @@ const InvoiceForPurchaseList = () => {
                                         <td style={Td} className='bg-[yellow]'>承認待ち</td>
                                     }
                                     {
-                                        (data.product_status !== 'お預かり' && data.product_status !== '承認待ち') && (
+                                        (data.product_status !== '査定中' && data.product_status !== 'お預かり' && data.product_status !== '承認待ち') && (
                                             <td style={Td} className='bg-[#9bd195]'>承認済み</td>
                                         )
                                     }

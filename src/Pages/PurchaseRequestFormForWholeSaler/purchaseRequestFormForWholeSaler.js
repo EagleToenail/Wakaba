@@ -1,10 +1,8 @@
 import {React, useState , useEffect} from 'react';
 import { useNavigate} from 'react-router-dom';
 import axios from 'axios';
-// import Titlebar from '../../Components/Common/Titlebar';
 import '../../Assets/css/showtable.css';
 import ButtonComponent from '../../Components/Common/ButtonComponent';
-import LabelComponent from '../../Components/Common/LabelComponent';
 import InputComponent from '../../Components/Common/InputComponent';
 import {useDispatch, useSelector } from 'react-redux';
 import { setClearData } from '../../redux/sales/actions';
@@ -160,18 +158,18 @@ const PurchaseRequestFormForWholeSaler = () => {
     // }, []);
     }
 
-    const [shipData,setShipData] = useState({
-        shipping_status:'',
-        shipper:'',
-        shipping_date:'',
-        shipping_address:'',
-    });
+    // const [shipData,setShipData] = useState({
+    //     shipping_status:'',
+    //     shipper:'',
+    //     shipping_date:'',
+    //     shipping_address:'',
+    // });
     const handleShipChange = (e) => {
         const { name, value } = e.target;
-        setShipData((prevData) => ({
-            ...prevData,
-            [name]: value,
-        }));
+        // setShipData((prevData) => ({
+        //     ...prevData,
+        //     [name]: value,
+        // }));
         updateShippingData(name,value);
     };
 
@@ -260,20 +258,6 @@ const PurchaseRequestFormForWholeSaler = () => {
     // update shipping data
         const updateShippingData = (name,value) => {
             console.log('updateVendor',value)
-            if(name === 'shipping_status') {
-                const updatedData = wholeSalesPurchase.map(data => ({
-                    ...data,
-                    shipping_status: value // Replace with your desired value or logic
-                }));
-                  setWholeSalesPurchase(updatedData);
-            }
-            if(name === 'shipper') {
-                const updatedData = wholeSalesPurchase.map(data => ({
-                    ...data,
-                    shipper: value // Replace with your desired value or logic
-                }));
-                  setWholeSalesPurchase(updatedData);
-            }
             if(name === 'shipping_address') {
                 const updatedData = wholeSalesPurchase.map(data => ({
                     ...data,
@@ -287,33 +271,11 @@ const PurchaseRequestFormForWholeSaler = () => {
         <>
             {/* <Titlebar title={title} /> */}
         <div id='shipping'>
-            <div className='flex justify-around' >
+            <div className='flex justify-around'>
                 <h2 className="text-[#70685a] text-center text-2xl font-bold flex justify-center">業者卸依頼書</h2>
             </div>
-
             {/*  */}
             <div className='purchase-request-wholesaler w-full flex justify-center mt-5'>
-                <div className='flex justify-center'>
-                    <div className='mr-5'>
-                        <select name="shipping_status" onChange={handleShipChange} className="w-60 h-10 text-[#70685a] font-bold border border-[#70685a] px-4 py-1 outline-[#70685a]">
-                            <option value=""></option>
-                            <option value="発送中">発送中</option>
-                            <option value="約定済">約定済</option>
-                            <option value="約定済＋返送依頼">約定済＋返送依頼</option>
-                            <option value="返送依頼">返送依頼</option>
-                            <option value="入金待ち">入金待ち</option>
-                            <option value="入金済">入金済</option>
-                        </select>
-                    </div>
-                    <div className='mr-5'>
-                        <select name="shipper" onChange={handleShipChange}   className="w-40 h-10 text-[#70685a] font-bold border border-[#70685a] px-4 py-1 outline-[#70685a]">
-                            <option value=""></option>
-                            {users?.length>0 && users.map((user, index) => (
-                                <option key={index} value={user.username}>{user.username || ''}</option>
-                            ))}
-                        </select>
-                    </div>
-                </div>
                 <div className='flex justify-center'>
                     <div className=' text-[#70685a] px-2 mr-2 font-bold flex'>
                         <div className='text-center flex flex-col justify-center pr-1'>
@@ -339,40 +301,89 @@ const PurchaseRequestFormForWholeSaler = () => {
                 </div>
             </div>
  
-
             {/*  Tabe*/}
             <div className='mt-10 pb-20 w-full flex'>
                 <div style={{ width: '100%', overflow: 'auto' }}>
                     <table className='text-center w-full' style={Table}>
-                        <thead className='sticky top-0 bg-white z-10'> 
+                        <thead className='sticky top-0 bg-white z-10'>
+                            <tr>
+                                <th className='px-2' ></th>
+                                <th ></th>
+                                <th ></th>
+                                <th ></th>
+                                <th ></th>
+                                <th ></th>
+                                <th ></th>
+                                <th ></th>
+                                <th ></th>
+                                <th ></th>
+                                <th ></th>
+                                <th ></th>
+                                <th ></th>
+                                <th ></th>
+                                <th ></th>
+                                <th ></th>
+                                <th >
+                                    <div className='flex'>
+                                        <input type='checkbox' className='w-4 mr-1'/> 
+                                        <div className='flex flex-col justify-center'>
+                                            記載する
+                                        </div>
+                                    </div>
+                                </th>
+                                <th ></th>
+                                <th style={{display:'none'}}>{editIndex === -1 ? '編集する' : 'セーブ'}</th>
+                                <th className='whitespace-nowrap pl-3' style={{display:'none'}} >{editIndex === -1 ? '' : 'キャンセル'}</th>
+                            </tr> 
                             <tr>
                                 <th className='px-2' style={Th}></th>
-                                {/* <th  style={Th} >ステー夕ス</th>
+                                <th  style={Th} >ステー夕ス</th>
                                 <th  style={Th} >発送予定者</th>
-                                <th  style={Th} >発送担当者</th> */}
+                                <th  style={Th} >発送担当者</th>
                                 <th style={Th} >わかばNo.</th>
                                 <th style={Th} >カテゴリ一1</th>
                                 <th style={Th} >カテゴリ一2</th>
+                                <th style={Th} >ブランド名</th>
                                 <th style={Th} >商品</th>
-                                <th style={Th} >数</th>
-                                <th style={Th} >金種</th>
-                                <th style={Th} >g/種面</th>
-                                <th style={Th} >買取額</th>
+                                <th style={Th} >型番</th>
+                                <th style={Th} >備考(金種/詳細仕様他)</th>
                                 <th style={Th} >RANK</th>
                                 <th  style={Th} >画像</th>
+                                <th style={Th} >個数</th>
                                 <th  style={Th} >仮査定日</th>
                                 <th style={Th} >仮査定額</th>
                                 <th style={Th} >他社 最高査定額</th>
                                 <th style={Th}  >最高査定額業者</th>
-                                <th style={Th}>{editIndex === -1 ? '編集する' : 'セーブ'}</th>
-                                <th className='whitespace-nowrap pl-3'>{editIndex === -1 ? '' : 'キャンセル'}</th>
+                                <th style={{display:'none'}}>{editIndex === -1 ? '編集する' : 'セーブ'}</th>
+                                <th className='whitespace-nowrap pl-3' style={{display:'none'}}>{editIndex === -1 ? '' : 'キャンセル'}</th>
                             </tr>
                         </thead>
                         <tbody>
                             { wholeSalesPurchase?.length >0 && wholeSalesPurchase.map((saleData,Index) => (
                                 <tr key={saleData.id}>
                                     <td>{Index + 1}</td>
-                                    <td style={Td}>{saleData.id || ''}</td>
+                                    <td style={Td} className='w-40'>
+                                        <select name="shipping_status" value={saleData.shipping_status || ''} onChange={handleShipChange} className="w-full h-8 text-[#70685a] font-bold px-4 py-1 outline-[#70685a]">
+                                            <option value=""></option>
+                                            <option value="申請中">申請中</option>
+                                            <option value="発送中">発送中</option>
+                                            <option value="約定済">約定済</option>
+                                            <option value="約定済＋返送依頼">約定済＋返送依頼</option>
+                                            <option value="返送依頼">返送依頼</option>
+                                            <option value="入金待ち">入金待ち</option>
+                                            <option value="入金済">入金済</option>
+                                        </select>
+                                    </td>
+                                    <td style={Td}>{'000'}</td>
+                                    <td style={Td} className='w-40'>
+                                        <select name="shipper" value={saleData.shipper} onChange={handleShipChange}   className="w-40 h-8 text-[#70685a] font-bold px-4 py-1 outline-[#70685a]">
+                                            <option value=""></option>
+                                            {users?.length>0 && users.map((user, index) => (
+                                                <option key={index} value={user.full_name}>{user.full_name || ''}</option>
+                                            ))}
+                                        </select>
+                                    </td>
+                                    <td style={Td}>{saleData.wakaba_number || ''}</td>
                                     <td style={Td}>{saleData.product_type_one || ''}</td>
                                     <td style={Td}>{saleData.product_type_two || ''}</td>
                                     <td style={Td}>{saleData.product_name || ''}</td>

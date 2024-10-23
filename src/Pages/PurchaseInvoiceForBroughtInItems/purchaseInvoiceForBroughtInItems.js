@@ -84,8 +84,29 @@ const PurchaseInvoiceForBroughtInItems = () => {
     //     getNextItems();
     // }, [purchaseInformation]); // Recalculate whenever purchaseInformation changes
 
+    // Fetch product1 data
+    const [product1s, setProduct1s] = useState([]);
+    useEffect(() => {
+    const fetchCategory1 = async() => {
+        const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+        if (!wakabaBaseUrl) {
+            throw new Error('API base URL is not defined');
+        }
+
+        await axios.get(`${wakabaBaseUrl}/ProductType1s`)
+            .then(response => {
+                setProduct1s(response.data);
+            })
+            .catch(error => {
+                console.error("There was an error fetching the customer data!", error);
+            });
+    }
+    fetchCategory1();
+    }, []);
+
     const [totalQuantity, setTotalQuantity] = useState('');
     const [totalPrice, setTotalPrice] = useState('');
+    const [wakabaPoint,setWakabaPoint] = useState('');
 
     // Calculate total quantity
     const calculateTotalQuantity = () => {
@@ -104,6 +125,25 @@ const PurchaseInvoiceForBroughtInItems = () => {
         }
     };
 
+    //Calculate wakaba point
+    const calculateWakabaPoint = () => {
+        console.log('ok')
+        if (purchaseInformation.totalSalesSlipData?.length > 0) {
+            console.log('ok1',product1s)
+            const combinedData = purchaseInformation.totalSalesSlipData.map(sale => {
+                const matchingPrice = product1s.find(point => point.category === sale.product_type_one);
+                console.log('matchingPrice',matchingPrice)   
+                return {
+                  ...sale,
+                  wakaba_point: matchingPrice ? matchingPrice.wakaba_point : null, // Add price or null if not found
+                };
+              });
+              console.log('combinedData',combinedData)
+            const total = combinedData.reduce((sum, item) => parseFloat(sum) + (parseFloat(parseFloat(item.wakaba_point) * parseFloat(item.quantity)) || 0), 0);
+            setWakabaPoint(total);
+        }
+    }
+
     const formatQuantityForDisplay = (quantity) => {
         // Convert the number to a string and remove any leading zeros
         return quantity.toString().replace(/^0+/, '');
@@ -113,6 +153,10 @@ const PurchaseInvoiceForBroughtInItems = () => {
         calculateTotalQuantity();
         calculateTotalPrice();
     }, [purchaseInformation]); // Recalculate whenever purchaseInformation changes
+
+    useEffect(() => {
+        calculateWakabaPoint();
+    }, [purchaseInformation,product1s]); // Recalculate whenever purchaseInformation changes
 
     const [customer, setCustomer] = useState([]);
 
@@ -464,7 +508,7 @@ const PurchaseInvoiceForBroughtInItems = () => {
                                             <label className="text-[#70685a] font-bold mb-2 block text-left !mb-0">
                                                 <input type='text' className='!h-6 w-40'></input>
                                             </label>
-                                            <label className="text-[#70685a] font-bold mb-2 block text-left text-[13px] !mb-0">(登録 **************)</label>
+                                            <label className="text-[#70685a] font-bold mb-2 block text-left text-[10px] !mb-0">(登録 **************)</label>
                                         </div>
                                     </div>
                                     <div className='flex'>
@@ -565,7 +609,7 @@ const PurchaseInvoiceForBroughtInItems = () => {
                                 <div style={{ width: '20%' }}>
                                     <label className="text-[#70685a] font-bold mb-2 block text-right mr-3 !mb-0">次回のポイント還元額</label>
                                 </div>
-                                <label className="text-[#70685a]  mb-2 block text-left !mb-0 ">OOOO OOO</label>
+                                <label className="text-[#70685a]  mb-2 block text-left !mb-0 ">{wakabaPoint || 0}</label>
                             </div>
                             {/* table */}
                             <div className="flex justify-center">
@@ -667,8 +711,8 @@ const PurchaseInvoiceForBroughtInItems = () => {
                             <div className="flex justify-center" >
                                 <div className='w-full pt-1 flex justify-center' style={{ maxWidth: '80em' }}>
 
-                                    <div style={{ width: '39%', height: '150px' }} className='flex'>
-                                        <div className='border border-[black] h-wull w-full'>
+                                    <div className='w-[80%] h-60 flex'>
+                                        <div className='border border-[black] h-full w-full'>
 
                                         </div>
                                     </div>
@@ -719,7 +763,7 @@ const PurchaseInvoiceForBroughtInItems = () => {
                                 <div className=" h-full w-full mt-5" style={{ maxWidth: '50em' }}>
                                     {/* Text area */}
                                     <label className="text-[#70685a] text-[20px] font-bold mb-2 block text-left mr-10 py-1 !mb-0">全体ヒアリング</label>
-                                    <div className="px-3 w-full h-[120px] overflow-y-scroll">
+                                    <div className="px-3 w-full">
                                         <div>
                                             <div className='flex'>
                                                 <label className="text-[#70685a] text-[18px] mb-2 block text-left mr-10 py-1">項目1</label>
@@ -901,12 +945,13 @@ const PurchaseInvoiceForBroughtInItems = () => {
                             <div className="flex justify-center" >
                                 <div className='w-full pt-1 flex justify-center' style={{ maxWidth: '80em' }}>
 
-                                    <div style={{ width: '70%', height: '200px' }} className='flex'>
+                                    <div className='w-full flex'>
                                         <div className='w-full h-full flex justify-center'>
                                             <SignatureCanvas
                                                 ref={sigCanvas}
                                                 penColor='black'
-                                                canvasProps={{ width: 500, height: 200, className: 'signature-canvas,pt-2 border border-[black]' }}
+                                                // canvasProps={{ width: 1000, height: 200, className: 'signature-canvas,pt-2 border border-[black]' }}
+                                                canvasProps={{className: 'w-full h-60 signature-canvas,pt-2 border border-[black]' }}
                                                 backgroundColor='white'
                                             />
                                         </div>

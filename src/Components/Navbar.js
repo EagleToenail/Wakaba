@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-export default function Navbar() {
+export default function Navbar({sendURL}) {
 
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
@@ -16,6 +16,59 @@ export default function Navbar() {
       setActiveIndex(index);
       navigate(route);
   };
+
+  const currentURL = sendURL;
+  console.log('currentURl',currentURL)
+   const changeURL = () => {
+    switch (currentURL) {
+      case 'startingwork':
+        setActiveIndex(0);
+            break;
+      case 'invoiceforpurchaselist':
+        setActiveIndex(1);
+        break;
+      case 'salesslip':
+        setActiveIndex(2);
+        break;
+      case 'vendorassessmentsheet':
+        setActiveIndex(3);
+        break;
+      case 'wholesalershippinglist':
+        setActiveIndex(4);
+        break;
+      case 'monthlyincome':
+        setActiveIndex(5);
+        break;
+      case 'safemoney':
+        setActiveIndex(6);
+        break;
+      case 'stamprelatedinventorylist':
+        setActiveIndex(7);
+        break;
+      case 'stamprelatedreceiptandissuehistory':
+        setActiveIndex(8);
+        break;
+      case 'commemorativecoinhistorylist':
+        setActiveIndex(9);
+        break;
+      case 'customerlist':
+        setActiveIndex(10);
+        break;
+      case '#':
+        setActiveIndex(11);
+        break;
+      case 'closingwork':
+        setActiveIndex(12);
+        break;
+      default:
+        setActiveIndex(null);
+        break;
+    }
+   }
+
+  useEffect(()=> {
+    changeURL();
+  },[currentURL])
 
   return (
     <>

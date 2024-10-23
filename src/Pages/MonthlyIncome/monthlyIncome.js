@@ -394,7 +394,7 @@ const MonthlyIncome = () => {
                                         ):((Data.total_withdrawal !== null && Data.total_withdrawal !== '') ? Data.total_purchase_price.toLocaleString() : '' || '')}
                                     </td>
                                     <td style={Td} className='text-right'>
-                                        {parseInt(Data.total_purchase_price || '') - parseInt(Data.total_purchase_price || '') || ''}
+                                        {(parseInt(Data.total_purchase_price || 0) - parseInt(Data.total_purchase_price || 0)).toLocaleString()}
                                     </td>
                                     <td style={Td}>
                                         {editIndex === Index ?(
@@ -446,16 +446,16 @@ const MonthlyIncome = () => {
                                             <InputComponent type="number" name='one' value={editedRow.one || ''} onChange={handleInputChange} className='w-max h-8 text-[#70685a]' />
                                         ):(Data.one || '')}
                                     </td>
-                                    <td style={Td}>{10000*parseInt(Data.ten_thousand)
-                                                + 5000*parseInt(Data.five_thousand)
-                                                + 1000*parseInt(Data.one_thousand)
-                                                + 500*parseInt(Data.five_hundred)
-                                                + 100*parseInt(Data.one_hundred)
-                                                + 50*parseInt(Data.fifty)
-                                                + 10*parseInt(Data.ten)
-                                                + 5*parseInt(Data.five)
-                                                + 1*parseInt(Data.one)
-                                                || ''}
+                                    <td style={Td} className='text-right'>{(10000*parseInt(Data.ten_thousand || 0)
+                                                + 5000*parseInt(Data.five_thousand || 0)
+                                                + 1000*parseInt(Data.one_thousand || 0)
+                                                + 500*parseInt(Data.five_hundred || 0)
+                                                + 100*parseInt(Data.one_hundred || 0)
+                                                + 50*parseInt(Data.fifty || 0)
+                                                + 10*parseInt(Data.ten || 0)
+                                                + 5*parseInt(Data.five || 0)
+                                                + 1*parseInt(Data.one || 0)
+                                                ).toLocaleString()}
                                     </td>
                                     <td style={Td}>{Data.sales_balance}</td>
                                     <td style={Td}>{Data.sales_variance}</td>

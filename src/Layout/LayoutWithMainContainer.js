@@ -60,7 +60,7 @@ const LayoutWithMainContainer = () => {
     <div style={{ transform: `scale(${zoom})`,transition: 'transform 0.3s ease', transformOrigin: 'top left',}}>
     {/* // <div style={{ transform: `scale(${scale / 100})`, transformOrigin: '0 0', transition: 'transform 0.2s' }}> */}
          {showHeaderAndSidebar && <Header zoomout={handleZoomOut} zoomin={handleZoomIn}/>} 
-         {showHeaderAndSidebar && <Navbar />} 
+         {showHeaderAndSidebar && <Navbar sendURL = {destinationURL}/>} 
          {showHeaderAndSidebar && <Toolbar />}
          <div className='layout-container'>
             {showHeaderAndSidebar &&<div className='layout-sidebar' style={{width:`${sidebarWidth}px`}}><Sidebar /></div>} 

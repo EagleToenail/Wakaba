@@ -205,7 +205,7 @@ export default function TabContent1() {
                         <div 
                             className="w-6 h-6 rounded-md text-[#655b4a] bg-[#655b4a] tracking-wider font-medium  outline-none text-[15px]"></div>&nbsp;
                         <div style={{visibility:unReadTodoCount === 0 ? 'hidden' : ''}}
-                            className="w-6 h-6 inline-flex items-center justify-center text-[10px] text-bold rounded-full border-none outline-none bg-[yellow] hover:bg-purple-700 active:bg-purple-600">
+                            className="w-6 h-6 inline-flex items-center font-bold justify-center text-[12px] text-bold rounded-full border-none outline-none bg-[yellow] hover:bg-purple-700 active:bg-purple-600">
                             {unReadTodoCount}
                         </div>
                         <Link
