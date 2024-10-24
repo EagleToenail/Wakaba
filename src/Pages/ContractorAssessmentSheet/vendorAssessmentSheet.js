@@ -1062,7 +1062,7 @@ const VendorAssementSheet = () => {
                                                 </div>
                                             </th>
                                             {(isvendorshow && allVendors?.length > 0) && allVendors.map((vendor, index) => (
-                                                <th key={`${vendor.vendor_name}-${index}`} style={Th} colSpan={booleanArray[index] ? 4 : 1} className='relative w-max group mx-auto'>
+                                                <th key={vendor.id} style={Th} colSpan={booleanArray[index] ? 4 : 1} className='relative w-max group mx-auto'>
                                                     <div className='w-full flex justify-center px-6 tracking-wider'>
                                                         <div className='flex justify-center'>
                                                             {booleanArray[index] ?

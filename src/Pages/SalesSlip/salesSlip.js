@@ -1145,8 +1145,8 @@ const SalesSlip = () => {
                                                     {isvendorshow ? <button className='!w-10 flex justify-center'><img src={rightArrow} className='h-5 w-10' alt='' onClick={openVendortable} ></img></button> : <button className='!w-10 flex justify-center'><img src={leftArrow} className='h-5 w-10' alt='' onClick={closeVendortable}></img></button>}
                                                 </div>
                                             </th>
-                                            {(isvendorshow && allVendors?.length > 0) && allVendors.map((vendor, index) => (
-                                                <th key={`${vendor.vendor_name}-${index}`} style={Th} colSpan={booleanArray[index] ? 4 : 1} className='relative w-max group mx-auto'>
+                                            {(isvendorshow && allVendors?.length > 0) && allVendors.map((vendor,index) => (
+                                                <th key={vendor.id} style={Th} colSpan={booleanArray[index] ? 4 : 1} className='relative w-max group mx-auto'>
                                                     <div className='w-full flex justify-center px-6 tracking-wider'>
                                                         <div className='flex justify-center'>
                                                             {booleanArray[index] ?
@@ -1154,7 +1154,7 @@ const SalesSlip = () => {
                                                                 : <div className='w-[60px] truncate'>{vendor.vendor_name}</div>
                                                             }
                                                             <div className='flex flex-col justify-center'>
-                                                                <button className='flex flex-col justify-center' >
+                                                                <button className='flex flex-col justify-center'>
                                                                     <img src={booleanArray[index] ? rightArrow : leftArrow} className='h-4' alt='' onClick={() => toggleBoolean(index)} />
                                                                 </button>
                                                             </div>

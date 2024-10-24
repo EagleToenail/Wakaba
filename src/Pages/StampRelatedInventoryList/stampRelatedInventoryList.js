@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Link, useNavigate, useParams, useLocation } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, } from 'react-router-dom';
 // import Titlebar from '../../Components/Common/Titlebar';
 import StampSheet from '../../Assets/img/stampsheet.png'
 import LetterPack from '../../Assets/img/letterpack.png'
@@ -1112,17 +1112,17 @@ const StampRelatedInventoryList = () => {
                                             <tr>
                                                 <td>下記合計</td>
                                                 <td style={Td}>{parseInt(totalNumberOfSheet1) + parseInt(totalNumberOfSheet2)}</td>
-                                                <td style={Td} className='text-right'>{(parseInt(totalFaceValue1 || 0) + parseInt(totalFaceValue2 || 0)).toLocaleString()}</td>
+                                                <td style={Td} className='text-right'>￥{(parseInt(totalFaceValue1 || 0) + parseInt(totalFaceValue2 || 0)).toLocaleString()}</td>
                                             </tr>
                                             <tr>
                                                 <td>50円以上</td>
                                                 <td style={Td}>{parseInt(totalNumberOfSheet1) || ''}</td>
-                                                <td style={Td} className='text-right'>{(parseInt(totalFaceValue1 || 0)).toLocaleString()}</td>
+                                                <td style={Td} className='text-right'>￥{(parseInt(totalFaceValue1 || 0)).toLocaleString()}</td>
                                             </tr>
                                             <tr>
                                                 <td>50円未満</td>
                                                 <td style={Td}>{parseInt(totalNumberOfSheet2) || ''}</td>
-                                                <td style={Td} className='text-right'>{(parseInt(totalFaceValue2 || 0)).toLocaleString()}</td>
+                                                <td style={Td} className='text-right'>￥{(parseInt(totalFaceValue2 || 0)).toLocaleString()}</td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -1136,11 +1136,11 @@ const StampRelatedInventoryList = () => {
                                             <thead className='!h-8 text-[14px]'>
                                                 <tr>
                                                     <th style={Th} >選択</th>
-                                                    <th style={Th} className='pl-1'>切手1枚の額面(￥)</th>
+                                                    <th style={Th} className='pl-1'>切手1枚の額面</th>
                                                     <th style={Th} className='pl-1 pr-1'>面数</th>
-                                                    <th style={Th} className='pl-1 pr-1' >シート額面(￥)</th>
+                                                    <th style={Th} className='pl-1 pr-1' >シート額面</th>
                                                     <th style={Th} className='pr-1'>シート数</th>
-                                                    <th style={Th} >額面総額(￥)</th>
+                                                    <th style={Th} >額面総額</th>
                                                     {userRole === '3' &&
                                                         <th style={Th}>{editSheetIndex === -1 ? '編集する' : 'セーブ'}</th>
                                                     }
@@ -1155,9 +1155,9 @@ const StampRelatedInventoryList = () => {
                                                     <tr key={Index} >
                                                         <td> <input type="checkbox" className='!h-6' value={row.id} onChange={handleCheckboxChange1}/></td>
                                                         <td style={Td} className='text-right'>
-                                                            {editSheetIndex === Index ? (
-                                                                <InputComponent disabled={true} name='stampValue' value={editedSheetRow.stampValue || ''} onChange={handleSheetInputChange} className='w-full h-8 text-[#70685a]' />
-                                                            ) : ((parseInt(row.stampValue || 0)).toLocaleString())}
+                                                            ￥{editSheetIndex === Index ? (
+                                                                    <InputComponent disabled={true} name='stampValue' value={editedSheetRow.stampValue || ''} onChange={handleSheetInputChange} className='w-full h-8 text-[#70685a]' />
+                                                                ) : ((parseInt(row.stampValue || 0)).toLocaleString())}
                                                         </td>
                                                         <td style={Td}>
                                                             {editSheetIndex === Index ? (
@@ -1165,9 +1165,9 @@ const StampRelatedInventoryList = () => {
                                                             ) : (row.numberOfSides || '')}
                                                         </td>
                                                         <td style={Td} className='text-right'>
-                                                            {editSheetIndex === Index ? (
-                                                                <InputComponent disabled={true} name='sheetValue' value={editedSheetRow.sheetValue || ''} onChange={handleSheetInputChange} className='w-full h-8 text-[#70685a]' />
-                                                            ) : ((parseInt(row.sheetValue || 0)).toLocaleString())}
+                                                            ￥{editSheetIndex === Index ? (
+                                                                    <InputComponent disabled={true} name='sheetValue' value={editedSheetRow.sheetValue || ''} onChange={handleSheetInputChange} className='w-full h-8 text-[#70685a]' />
+                                                                ) : ((parseInt(row.sheetValue || 0)).toLocaleString())}
                                                         </td>
                                                         <td style={Td}>
                                                             {editSheetIndex === Index ? (
@@ -1175,9 +1175,9 @@ const StampRelatedInventoryList = () => {
                                                             ) : (row.numberOfSheets || '')}
                                                         </td>
                                                         <td style={Td} className='text-right'>
-                                                            {editSheetIndex === Index ? (
-                                                                <InputComponent disabled={true} name='totalFaceValue' value={editedSheetRow.totalFaceValue || ''} onChange={handleSheetInputChange} className='w-full h-8 text-[#70685a]' />
-                                                            ) : ((parseInt(row.totalFaceValue || 0)).toLocaleString())}
+                                                            ￥{editSheetIndex === Index ? (
+                                                                    <InputComponent disabled={true} name='totalFaceValue' value={editedSheetRow.totalFaceValue || ''} onChange={handleSheetInputChange} className='w-full h-8 text-[#70685a]' />
+                                                                ) : ((parseInt(row.totalFaceValue || 0)).toLocaleString())}
                                                         </td>
                                                         {userRole === '3' &&
                                                         <td style={Td}>
@@ -1308,17 +1308,17 @@ const StampRelatedInventoryList = () => {
                                             <tr>
                                                 <td>下記合計</td>
                                                 <td style={Td}>{parseInt(totalNumberOfPasting1) + parseInt(totalNumberOfPasting2) || ''}</td>
-                                                <td style={Td} className='text-right'>{(parseInt(totalPastingFaceValue1 || 0) + parseInt(totalPastingFaceValue2 || 0)).toLocaleString()}</td>
+                                                <td style={Td} className='text-right'>￥{(parseInt(totalPastingFaceValue1 || 0) + parseInt(totalPastingFaceValue2 || 0)).toLocaleString()}</td>
                                             </tr>
                                             <tr>
                                                 <td>50円以上</td>
                                                 <td style={Td}>{parseInt(totalNumberOfPasting1) || ''}</td>
-                                                <td style={Td} className='text-right'>{(parseInt(totalPastingFaceValue1 || 0)).toLocaleString()}</td>
+                                                <td style={Td} className='text-right'>￥{(parseInt(totalPastingFaceValue1 || 0)).toLocaleString()}</td>
                                             </tr>
                                             <tr>
                                                 <td>50円未満</td>
                                                 <td style={Td}>{parseInt(totalNumberOfPasting2) || ''}</td>
-                                                <td style={Td}  className='text-right'>{(parseInt(totalPastingFaceValue2 || 0)).toLocaleString()}</td>
+                                                <td style={Td}  className='text-right'>￥{(parseInt(totalPastingFaceValue2 || 0)).toLocaleString()}</td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -1332,10 +1332,10 @@ const StampRelatedInventoryList = () => {
                                             <thead className='!h-8 text-[14px]'>
                                                 <tr>
                                                     <th style={Th} >選択</th>
-                                                    <th style={Th} className='pl-1'>切手1枚の額面(￥)</th>
-                                                    <th style={Th} className='pl-1 pr-1'>台紙額面(￥)</th>
+                                                    <th style={Th} className='pl-1'>切手1枚の額面</th>
+                                                    <th style={Th} className='pl-1 pr-1'>台紙額面</th>
                                                     <th style={Th} className='pr-1'>台紙数</th>
-                                                    <th style={Th} >額面総額(￥)</th>
+                                                    <th style={Th} >額面総額</th>
                                                     {userRole === '3' &&  
                                                     <th style={Th}>{editPastingIndex === -1 ? '編集する' : 'セーブ'}</th>
                                                     }                                                       
@@ -1349,12 +1349,12 @@ const StampRelatedInventoryList = () => {
                                                     <tr key={Index} >
                                                         <td> <input type="checkbox" className='!h-6' value={row.id} onChange={handleCheckboxChange2} /></td>
                                                         <td style={Td} className='text-right'>
-                                                            {editPastingIndex === Index ? (
+                                                            ￥{editPastingIndex === Index ? (
                                                                 <InputComponent disabled={true} name='stampValue' value={editedPastingRow.stampValue || ''} onChange={handlePastingInputChange} className='w-full h-8 text-[#70685a]' />
                                                             ) : (row.stampValue || '')}
                                                         </td>
                                                         <td style={Td} className='text-right'>
-                                                            {editPastingIndex === Index ? (
+                                                            ￥{editPastingIndex === Index ? (
                                                                 <InputComponent disabled={true} name='mountValue' value={editedPastingRow.mountValue || ''} onChange={handlePastingInputChange} className='w-full h-8 text-[#70685a]' />
                                                             ) : ((parseInt(row.mountValue || 0).toLocaleString()))}
                                                         </td>
@@ -1364,7 +1364,7 @@ const StampRelatedInventoryList = () => {
                                                             ) : (row.numberOfMounts || '')}
                                                         </td>
                                                         <td style={Td} className='text-right'>
-                                                            {editPastingIndex === Index ? (
+                                                            ￥{editPastingIndex === Index ? (
                                                                 <InputComponent disabled={true} name='totalFaceValue' value={editedPastingRow.totalFaceValue || ''} onChange={handlePastingInputChange} className='w-full h-8 text-[#70685a]' />
                                                             ) : ((parseInt(row.totalFaceValue || 0)).toLocaleString())}
                                                         </td>
@@ -1488,17 +1488,17 @@ const StampRelatedInventoryList = () => {
                                             <tr>
                                                 <td>下記合計</td>
                                                 <td style={Td}>{parseInt(totalNumberOfRose1) + parseInt(totalNumberOfRose2) || ''}</td>
-                                                <td style={Td} className='text-right'>{(parseInt(totalRoseFaceValue1 || 0) + parseInt(totalRoseFaceValue2 || 0)).toLocaleString()}</td>
+                                                <td style={Td} className='text-right'>￥{(parseInt(totalRoseFaceValue1 || 0) + parseInt(totalRoseFaceValue2 || 0)).toLocaleString()}</td>
                                             </tr>
                                             <tr>
                                                 <td>50円以上</td>
                                                 <td style={Td}>{parseInt(totalNumberOfRose1) || ''}</td>
-                                                <td style={Td} className='text-right'>{(parseInt(totalRoseFaceValue1 || 0)).toLocaleString()}</td>
+                                                <td style={Td} className='text-right'>￥{(parseInt(totalRoseFaceValue1 || 0)).toLocaleString()}</td>
                                             </tr>
                                             <tr>
                                                 <td>50円未満</td>
                                                 <td style={Td}>{parseInt(totalNumberOfRose2) || ''}</td>
-                                                <td style={Td} className='text-right'>{(parseInt(totalRoseFaceValue2 || 0)).toLocaleString()}</td>
+                                                <td style={Td} className='text-right'>￥{(parseInt(totalRoseFaceValue2 || 0)).toLocaleString()}</td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -1513,9 +1513,9 @@ const StampRelatedInventoryList = () => {
                                             <thead className='!h-8 text-[14px]'>
                                                 <tr>
                                                     <th style={Th} >選択</th>
-                                                    <th style={Th}>切手1枚の額面(￥)</th>
+                                                    <th style={Th}>切手1枚の額面</th>
                                                     <th style={Th}>枚数</th>
-                                                    <th style={Th}>額面総額(￥)</th>
+                                                    <th style={Th}>額面総額</th>
                                                     {userRole === '3' &&  
                                                     <th style={Th}>{editRoseIndex === -1 ? '編集する' : 'セーブ'}</th>
                                                     }
@@ -1526,10 +1526,10 @@ const StampRelatedInventoryList = () => {
                                             </thead>
                                             <tbody>
                                                 {roseRows?.length > 0 && roseRows.map((row, Index) => (
-                                                    <tr key={Index} className='text-right'>
+                                                    <tr key={Index}>
                                                         <td> <input type="checkbox" className='!h-6' value={row.id} onChange={handleCheckboxChange3}/></td>
                                                         <td style={Td} className='text-right'>
-                                                            {editRoseIndex === Index ? (
+                                                            ￥{editRoseIndex === Index ? (
                                                                 <InputComponent disabled={true} name='stampValue' value={editedRoseRow.stampValue || ''} onChange={handleRoseInputChange} className='w-full h-8 text-[#70685a]' />
                                                             ) : (row.stampValue || '')}
                                                         </td>
@@ -1539,7 +1539,7 @@ const StampRelatedInventoryList = () => {
                                                             ) : (row.numberOfSheets || '')}
                                                         </td>
                                                         <td style={Td} className='text-right'>
-                                                            {editRoseIndex === Index ? (
+                                                            ￥{editRoseIndex === Index ? (
                                                                 <InputComponent disabled={true} name='totalFaceValue' value={editedRoseRow.totalFaceValue || ''} onChange={handleRoseInputChange} className='w-full h-8 text-[#70685a]' />
                                                             ) : ((parseInt(row.totalFaceValue || 0).toLocaleString()))}
                                                         </td>
@@ -1654,7 +1654,7 @@ const StampRelatedInventoryList = () => {
                                                 <tr>
                                                     <td className='whitespace-nowrap'>下記合計</td>
                                                     <td style={Td}>{parseInt(totalNumberOfPack1) + parseInt(totalNumberOfPack2) || ''}</td>
-                                                    <td style={Td} className='text-right'>{(parseInt(totalPackFaceValue1 || 0) + parseInt(totalPackFaceValue2 || 0)).toLocaleString()}</td>
+                                                    <td style={Td} className='text-right'>￥{(parseInt(totalPackFaceValue1 || 0) + parseInt(totalPackFaceValue2 || 0)).toLocaleString()}</td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -1671,9 +1671,9 @@ const StampRelatedInventoryList = () => {
                                                 <tr>
                                                     <th style={Th} >選択</th>
                                                     <th style={Th}>種別</th>
-                                                    <th style={Th}>額面(￥)</th>
+                                                    <th style={Th}>額面</th>
                                                     <th style={Th} >枚数</th>
-                                                    <th style={Th}>額面総額(￥)</th>
+                                                    <th style={Th}>額面総額</th>
                                                     {userRole === '3' &&  
                                                     <th style={Th}>{editPackIndex === -1 ? '編集する' : 'セーブ'}</th>
                                                     }
@@ -1692,7 +1692,7 @@ const StampRelatedInventoryList = () => {
                                                             ) : (row.type || '')}
                                                         </td>
                                                         <td style={Td} className='text-right'>
-                                                            {editPackIndex === Index ? (
+                                                            ￥{editPackIndex === Index ? (
                                                                 <InputComponent disabled={true} name='stampValue' value={editedPackRow.stampValue || ''} onChange={handlePackInputChange} className='w-full h-8 text-[#70685a]' />
                                                             ) : (row.stampValue || '')}
                                                         </td>
@@ -1702,7 +1702,7 @@ const StampRelatedInventoryList = () => {
                                                             ) : ((parseInt(row.numberOfSheets || 0).toLocaleString()))}
                                                         </td>
                                                         <td style={Td} className='text-right'>
-                                                            {editPackIndex === Index ? (
+                                                            ￥{editPackIndex === Index ? (
                                                                 <InputComponent disabled={true} name='totalFaceValue' value={editedPackRow.totalFaceValue || ''} onChange={handlePackInputChange} className='w-full h-8 text-[#70685a]' />
                                                             ) : ((parseInt(row.totalFaceValue || 0).toLocaleString()))}
                                                         </td>
@@ -1824,17 +1824,17 @@ const StampRelatedInventoryList = () => {
                                                     <tr>
                                                         <td className='whitespace-nowrap'>下記合計</td>
                                                         <td style={Td}>{parseInt(totalNumberOfCard1 || 0) + parseInt(totalNumberOfCard2 || 0)}</td>
-                                                        <td style={Td} className='text-right'>{(parseInt(totalCardFaceValue1 || 0) + parseInt(totalCardFaceValue2 || 0)).toLocaleString()}</td>
+                                                        <td style={Td} className='text-right'>￥{(parseInt(totalCardFaceValue1 || 0) + parseInt(totalCardFaceValue2 || 0)).toLocaleString()}</td>
                                                     </tr>
                                                     <tr>
                                                         <td className='whitespace-nowrap'>50円以上</td>
                                                         <td style={Td}>{parseInt(totalNumberOfCard1) || ''}</td>
-                                                        <td style={Td} className='text-right'>{(parseInt(totalCardFaceValue1 || 0)).toLocaleString()}</td>
+                                                        <td style={Td} className='text-right'>￥{(parseInt(totalCardFaceValue1 || 0)).toLocaleString()}</td>
                                                     </tr>
                                                     <tr>
                                                         <td className='whitespace-nowrap'>50円未満</td>
                                                         <td style={Td}>{parseInt(totalNumberOfCard2) || ''}</td>
-                                                        <td style={Td} className='text-right'>{(parseInt(totalCardFaceValue2 || 0).toLocaleString())}</td>
+                                                        <td style={Td} className='text-right'>￥{(parseInt(totalCardFaceValue2 || 0).toLocaleString())}</td>
                                                     </tr>
                                                 </tbody>
                                             </table>
@@ -1848,9 +1848,9 @@ const StampRelatedInventoryList = () => {
                                                     <thead>
                                                         <tr>
                                                             <th style={Th}>選択</th>
-                                                            <th style={Th}>額面(￥)</th>
+                                                            <th style={Th}>額面</th>
                                                             <th style={Th} >枚数</th>
-                                                            <th style={Th}>額面総額(￥)</th>
+                                                            <th style={Th}>額面総額</th>
                                                             {userRole === '3' &&  
                                                             <th style={Th}>{editCardIndex === -1 ? '編集する' : 'セーブ'}</th>
                                                             }
@@ -1864,7 +1864,7 @@ const StampRelatedInventoryList = () => {
                                                             <tr key={Index} >
                                                                 <td> <input type="checkbox" className='!h-6' value={row.id} onChange={handleCheckboxChange5}/></td>
                                                                 <td style={Td} className='text-right'>
-                                                                    {editCardIndex === Index ? (
+                                                                    ￥{editCardIndex === Index ? (
                                                                         <InputComponent disabled={true} name='stampValue' value={editedCardRow.stampValue || ''} onChange={handleCardInputChange} className='w-full h-8 text-[#70685a]' />
                                                                     ) : (row.stampValue || '')}
                                                                 </td>
@@ -1874,7 +1874,7 @@ const StampRelatedInventoryList = () => {
                                                                     ) : (row.numberOfSheets || '')}
                                                                 </td>
                                                                 <td style={Td} className='text-right'>
-                                                                    {editCardIndex === Index ? (
+                                                                    ￥{editCardIndex === Index ? (
                                                                         <InputComponent disabled={true} name='totalFaceValue' value={editedCardRow.totalFaceValue || ''} onChange={handleCardInputChange} className='w-full h-8 text-[#70685a]' />
                                                                     ) : (parseInt(row.totalFaceValue || 0)).toLocaleString()}
                                                                 </td>

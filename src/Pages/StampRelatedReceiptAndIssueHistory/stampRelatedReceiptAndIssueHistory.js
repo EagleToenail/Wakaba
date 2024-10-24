@@ -273,9 +273,9 @@ const StampRelatedReceiptAndIssueHistory = () => {
                                         <td style={Td}>{history.inorout}</td>
                                         <td style={Td}>{history.stamp_type}</td>
                                         <td style={Td}>{history.stamp_status}</td>
-                                        <td style={Td} className='text-right'>{(parseInt(history.totalFaceValue || 0)).toLocaleString()}</td>
-                                        <td style={Td} className='text-right'>{(parseInt(history.five_up_facevalue || 0)).toLocaleString()}</td>
-                                        <td style={Td} className='text-right'>{(parseInt(history.five_down_facevalue || 0)).toLocaleString()}</td>
+                                        <td style={Td} className='text-right'>￥{(parseInt(history.totalFaceValue || 0)).toLocaleString()}</td>
+                                        <td style={Td} className='text-right'>￥{(parseInt(history.five_up_facevalue || 0)).toLocaleString()}</td>
+                                        <td style={Td} className='text-right'>￥{(parseInt(history.five_down_facevalue || 0)).toLocaleString()}</td>
                                         <td style={Td}>{history.reason}</td>
                                         <td onClick={() => handleDetailClick(history.id)}>
                                             <div className='flex justify-center'>
