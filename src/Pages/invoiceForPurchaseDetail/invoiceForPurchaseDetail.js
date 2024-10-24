@@ -1512,46 +1512,42 @@ const InvoicePurchaseOfDetail = () => {
                                     <ButtonComponent onClick={openItemsImageModal} children="全体撮影" className='w-max h-11 !px-5 bg-[transparent] !text-[#e87a00]' style={{ border: '1px solid #e87a00' }} />
                                     <ButtonComponent onClick={openItemsDocModal} children="紙書類撮影" className='w-max h-11 !px-5 bg-[transparent] !text-[#e87a00]' style={{ border: '1px solid #e87a00' }} />
                                 </div>
-                                <div className='invoice-purchase-brought-buttons flex w-[50%]'>
-                                    <div className=' w-1/2 ml-5 flex justify-between'>
-                                        {
-                                            role === '2' &&
-                                            totalSalesSlipData?.length > 0 &&
-                                            ['査定中', 'お預かり'].includes(totalSalesSlipData[0].product_status) && (
-                                                <ButtonComponent onClick={handleApproveWaiting}
-                                                    children="許可申請"
-                                                    className="w-max h-11 !px-5"
-                                                    style={{ color: 'white' }}
-                                                />
-                                            )
-                                        }
-                                        <div className='flex justify-center'>
-                                            {/* {totalSalesSlipData?.length > 0 && totalSalesSlipData[0].product_status === '承認された' &&  */}
-                                            <button type="button" onClick={sendPurchaseData}
-                                                className="mr-10 h-11 min-w-[160px] text-[#e87a00] rounded-full tracking-wider font-bold outline-none border border-[2px] border-[#e87a00] ">お客様へ提示</button>
-                                            {/* } */}
-                                        </div>
+                                <div className='invoice-purchase-brought-buttons flex justify-around w-[50%]'>
+                                    {
+                                        role === '2' &&
+                                        totalSalesSlipData?.length > 0 &&
+                                        ['査定中', 'お預かり'].includes(totalSalesSlipData[0].product_status) && (
+                                            <ButtonComponent onClick={handleApproveWaiting}
+                                                children="許可申請"
+                                                className="w-max h-11 !px-5"
+                                                style={{ color: 'white' }}
+                                            />
+                                        )
+                                    }
+                                    <div className='flex justify-center'>
+                                        <button type="button" onClick={sendPurchaseData}
+                                            className="mr-10 h-11 min-w-[160px] text-[#e87a00] rounded-full tracking-wider font-bold outline-none border border-[2px] border-[#e87a00] ">
+                                                お客様へ提示
+                                        </button>
                                     </div>
-                                    <div className='w-1/2 ml-5 flex justify-around'>
-                                        {role === '2' && totalSalesSlipData?.length > 0 && totalSalesSlipData[0].product_status === '承認待ち' &&
-                                            <button onClick={purchasePermission} className='w-max text-white rounded-md bg-[#9bd195] h-11 !px-5 hover:bg-green-600 hover:text-white transition-all duration-300' >
-                                                全て決裁を許可
+                                    {role === '2' && totalSalesSlipData?.length > 0 && totalSalesSlipData[0].product_status === '承認待ち' &&
+                                        <button onClick={purchasePermission} className='w-max text-white rounded-md bg-[#9bd195] h-11 !px-5 hover:bg-green-600 hover:text-white transition-all duration-300' >
+                                            全て決裁を許可
+                                        </button>
+                                    }
+                                    {
+                                        totalSalesSlipData?.length > 0 &&
+                                        !['査定中', 'お預かり', '承認待ち'].includes(totalSalesSlipData[0].product_status) && (
+                                            <button
+                                                className="w-max text-[red] font-bold rounded-md border border-[red] h-11 !px-5 hover:bg-green-600 hover:text-white transition-all duration-300"
+                                            >
+                                                許可済
                                             </button>
-                                        }
-                                        {
-                                            totalSalesSlipData?.length > 0 &&
-                                            !['査定中', 'お預かり', '承認待ち'].includes(totalSalesSlipData[0].product_status) && (
-                                                <button
-                                                    className="w-max text-[red] rounded-md border border-[red] h-11 !px-5 hover:bg-green-600 hover:text-white transition-all duration-300"
-                                                >
-                                                    許可済
-                                                </button>
-                                            )
-                                        }
-                                        <div>
-                                            <label className="text-[#70685a] font-bold mb-2 block text-left  !mb-0">接客担当 <span className='ml-3 text-[17px]'>{staffData.purchase_staff || ''}</span></label>
-                                            <label className="text-[#70685a] font-bold mb-2 block text-left  !mb-0">支払担当 <span className='ml-3 text-[17px]'>{staffData.payment_staff || 'OOO'}</span></label>
-                                        </div>
+                                        )
+                                    }
+                                    <div>
+                                        <label className="text-[#70685a] font-bold mb-2 block text-left  !mb-0">接客担当 <span className='ml-3 text-[17px]'>{staffData.purchase_staff || ''}</span></label>
+                                        <label className="text-[#70685a] font-bold mb-2 block text-left  !mb-0">支払担当 <span className='ml-3 text-[17px]'>{staffData.payment_staff || 'OOO'}</span></label>
                                     </div>
                                 </div>
                             </div>
@@ -1569,7 +1565,7 @@ const InvoicePurchaseOfDetail = () => {
                                     <label className="text-[#70685a] font-bold mb-2 block text-center mr-10 !mb-0">本人確認書類</label>
                                 </div>
                                 <div style={{ width: '75%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <label className="w-full text-[#70685a] text-[20px]  px-4 outline-[#70685a]">マイナンバーカ一ド</label>
+                                    <label className="w-full text-[#70685a] text-[20px] outline-[#70685a]">マイナンバーカ一ド</label>
                                 </div>
                             </div>
                             {/* new */}
@@ -1589,17 +1585,17 @@ const InvoicePurchaseOfDetail = () => {
                                 <div style={{ width: '20%', flexDirection: 'column', }} className='flex align-center justify-around'>
                                     <label className="text-[#70685a] font-bold mb-2 block text-center mr-10 !mb-0">お名前</label>
                                 </div>
-                                <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
+                                <div style={{ width: '20%', flexDirection: 'column', }} className='flex align-center justify-around'>
                                     <label className="w-full text-[#70685a] text-[20px] outline-[#70685a]">{customer.full_name || ''}</label>
+                                </div>
+                                <div style={{ width: '20%', flexDirection: 'column', }} className='flex align-center justify-around'>
+                                    <label className="text-[#70685a] font-bold mb-2 block text-center mr-10 !mb-0">カタカナ</label>
+                                </div>
+                                <div style={{ width: '30%', flexDirection: 'column', }} className='flex align-center justify-around'>
+                                    <label className="w-full text-[#70685a] text-[20px]  px-4 outline-[#70685a]">{customer.katakana_name || ''}</label>
                                 </div>
                                 <div style={{ width: '5%', flexDirection: 'column', }} className='flex align-center justify-around'>
                                     <label className="text-[#70685a] font-bold mb-2 block text-left mr-10 !mb-0">{customer.gender || ''}</label>
-                                </div>
-                                <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <label className="text-[#70685a] font-bold mb-2 block text-center mr-10 !mb-0">カタカナ</label>
-                                </div>
-                                <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <label className="w-full text-[#70685a] text-[20px]  px-4 outline-[#70685a]">{customer.katakana_name || ''}</label>
                                 </div>
                             </div>
                             {/* new */}
@@ -1611,7 +1607,7 @@ const InvoicePurchaseOfDetail = () => {
                                     <label className="w-full text-[#70685a] text-[20px] outline-[#70685a]">{customer.phone_number || ''}</label>
                                 </div>
                                 <div style={{ width: '20%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <label className="text-[#70685a] font-bold mb-2 block text-center !mb-0">生年月日</label>
+                                    <label className="text-[#70685a] font-bold mb-2 block text-center mr-10 !mb-0">生年月日</label>
                                 </div>
                                 <div style={{ width: '20%', flexDirection: 'column', }} className='flex align-center justify-around'>
                                     <label className="w-full text-[#70685a] text-[20px]  px-4 outline-[#70685a]">{customer.birthday || ''}</label>
@@ -1625,14 +1621,8 @@ const InvoicePurchaseOfDetail = () => {
                                 <div style={{ width: '20%', flexDirection: 'column', }} className='flex align-center justify-around'>
                                     <label className="text-[#70685a] font-bold mb-2 block text-center mr-10 !mb-0">ご住所</label>
                                 </div>
-                                <div style={{ width: '30%', }} className='flex justify-end'>
+                                <div style={{ width: '70%', }} className='flex justify-end'>
                                     <label className="w-full text-[#70685a] text-[20px]  outline-[#70685a]">{customer.address || ''}</label>
-                                </div>
-                                <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <label className="text-[#70685a] font-bold mb-2 block text-center mr-10 !mb-0">e-mail</label>
-                                </div>
-                                <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <label className="w-full text-[#70685a] text-[20px]  px-4 outline-[#70685a]">{customer.email || ''}</label>
                                 </div>
                             </div>
                             {/* new */}
@@ -1640,8 +1630,14 @@ const InvoicePurchaseOfDetail = () => {
                                 <div style={{ width: '20%', flexDirection: 'column', }} className='flex align-center justify-around'>
                                     <label className="text-[#70685a] font-bold mb-2 block text-center mr-10 !mb-0">ご職業</label>
                                 </div>
-                                <div style={{ width: '75%', flexDirection: 'column', }} className='flex align-center justify-around'>
+                                <div style={{ width: '20%', flexDirection: 'column', }} className='flex align-center justify-around'>
                                     <label className="w-full text-[#70685a] text-[20px] outline-[#70685a]">{customer.job || ''}</label>
+                                </div>
+                                <div style={{ width: '20%', flexDirection: 'column', }} className='flex align-center justify-around'>
+                                    <label className="text-[#70685a] font-bold mb-2 block text-center mr-10 !mb-0">e-mail</label>
+                                </div>
+                                <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
+                                    <label className="w-full text-[#70685a] text-[20px]  px-4 outline-[#70685a]">{customer.email || ''}</label>
                                 </div>
                             </div>
 
@@ -1650,7 +1646,7 @@ const InvoicePurchaseOfDetail = () => {
                                 <div style={{ width: '20%', flexDirection: 'column', }} className='flex align-center justify-around'>
                                     <label className="text-[#70685a] font-bold mb-2 block text-center mr-10 !mb-0">特記事項</label>
                                 </div>
-                                <div style={{ width: '75%', flexDirection: 'column', }} className='flex align-center justify-around relative group mx-auto'>
+                                <div style={{ width: '75%', flexDirection: 'column', }} className=' relative group'>
                                     <label className="w-full text-[#70685a] text-[20px] outline-[#70685a] ellipsis">{customer.special_note || '盗品持ち込みの可能性があるため要注意'}</label>
                                     <div className="absolute shadow-lg hidden group-hover:block bg-[#333] text-white font-semibold px-3 py-[6px] text-[13px] left-0 mx-auto w-max -bottom-10 rounded before:w-4 before:h-4 before:rotate-45 before:bg-[#333] before:absolute before:z-[-1] before:-top-1 before:left-0  before:right-0 before:mx-auto">
                                         {customer.special_note || '盗品持ち込みの可能性があるため要注意'}

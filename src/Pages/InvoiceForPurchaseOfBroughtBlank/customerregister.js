@@ -4,10 +4,10 @@ import '../../Assets/css/showtable.css'
 import dateimage from '../../Assets/img/datepicker.png';
 import InputComponent from '../../Components/Common/InputComponent';
 import ButtonComponent from '../../Components/Common/ButtonComponent';
-import {toast} from 'react-toastify';
+import { toast } from 'react-toastify';
 
 
-const CustomerUpdateForPurchase = ({ id , wholeHearingSave}) => {
+const CustomerUpdateForPurchase = ({ id, wholeHearingSave }) => {
 
     const userStoreName = localStorage.getItem('storename');
 
@@ -21,15 +21,16 @@ const CustomerUpdateForPurchase = ({ id , wholeHearingSave}) => {
         birthday: '',
         age: '',
         job: '',
-        email:'',
+        email: '',
         idCard_url: '',
         cardType: '',
+        idcard_number: '',
         avatar_url: '',
         prefeature: '',
         city: '',
         gender: '',
         trigger: '',
-        brand_type:'',
+        brand_type: '',
         shop: '',
         special_note: '',
 
@@ -37,12 +38,12 @@ const CustomerUpdateForPurchase = ({ id , wholeHearingSave}) => {
 
     useEffect(() => {
         const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
-        const fetchCustomerData = async() => {
+        const fetchCustomerData = async () => {
             if (!wakabaBaseUrl) {
                 throw new Error('API base URL is not defined');
             }
             if (id) {
-               await  axios.get(`${wakabaBaseUrl}/customer/getCustomerById/${id}`)
+                await axios.get(`${wakabaBaseUrl}/customer/getCustomerById/${id}`)
                     .then(response => {
                         // console.log("data", response.data)
                         setCustomer(response.data);
@@ -115,6 +116,7 @@ const CustomerUpdateForPurchase = ({ id , wholeHearingSave}) => {
         formDataObj.append('email', customer.email);
         formDataObj.append('trigger', customer.trigger);
         formDataObj.append('cardType', customer.cardType);
+        formDataObj.append('idcard_number', customer.idcard_number);
         formDataObj.append('prefeature', customer.prefeature);
         formDataObj.append('city', customer.city);
         formDataObj.append('address', customer.address);
@@ -123,7 +125,7 @@ const CustomerUpdateForPurchase = ({ id , wholeHearingSave}) => {
 
         if (avatarimageFile) formDataObj.append('avatarimage', avatarimageFile);
         if (idcardFile) formDataObj.append('idcard', idcardFile);
-        console.log('cutomerData',customer)
+        console.log('cutomerData', customer)
 
         try {
             const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
@@ -139,10 +141,10 @@ const CustomerUpdateForPurchase = ({ id , wholeHearingSave}) => {
                 }
             );
             console.log('Response:', response.data);
-            toast.success('データが正常に作成されました！',{ autoClose: 3000 });//create
+            toast.success('データが正常に作成されました！', { autoClose: 3000 });//create
             setCustomer(response.data)
             wholeHearingSave(response.data.id);
-           
+
         } catch (error) {
             console.error('Error submitting form:', error);
             // Handle error here
@@ -177,6 +179,12 @@ const CustomerUpdateForPurchase = ({ id , wholeHearingSave}) => {
                                         <option value="紹介">紹介</option>
                                         <option value="他の人">他の人</option>
                                     </select>
+                                </div>
+                                <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
+                                    <label className="text-[#70685a] font-bold mb-2 block text-center mr-10 py-1 !mb-0">身分証No.</label>
+                                </div>
+                                <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
+                                    <input name="idcard_number" value={customer.idcard_number} onChange={handleCustomerChange} type='number' required className="w-full text-[#70685a] border border-[#70685a] px-4 py-2 outline-[#70685a]" />
                                 </div>
                             </div>
                             {/* new */}
@@ -248,7 +256,7 @@ const CustomerUpdateForPurchase = ({ id , wholeHearingSave}) => {
                                     <label className="text-[#70685a] font-bold mb-2 block text-center mr-10 py-1 !mb-0">Email</label>
                                 </div>
                                 <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <InputComponent name="email" value={customer.email ||''} onChange={handleCustomerChange} type="email" required />
+                                    <InputComponent name="email" value={customer.email || ''} onChange={handleCustomerChange} type="email" required />
                                 </div>
                                 <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
                                     <label className="text-[#70685a] font-bold mb-2 block text-center mr-10 py-1 !mb-0">トリガー</label>

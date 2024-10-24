@@ -1739,18 +1739,18 @@ const InvoicePurchaseOfBrought = () => {
     }, []);
     //-----------------------------------------brand capacity percent----------------------------------------------
     const brandValues = [
-        "リキュールブランドA",  // Liqueur Brand A
-        "ウイスキーブランドB",  // Whiskey Brand B
-        "生酒ブランドC",        // Nama Sake Brand C
-        "スパークリングワインブランドD", // Sparkling Wine Brand D
-        "ウィスキーブランドE",  // Whiskey Brand E
-        "ブランデーブランドF",  // Brandy Brand F
-        "ワインブランドG",      // Wine Brand G
-        "コニャックブランドH",  // Cognac Brand H
-        "銘柄ブランドI",        // Brand Name I
-        "焼酎ブランドJ",        // Shochu Brand J
-        "紹興酒ブランドK",      // Shaoxing Wine Brand K
-        "清酒ブランドL"         // Sake Brand L
+        'ウイスキー',
+        '生酒',
+        'スパークリングワイン',
+        'ウィスキー',
+        'リキュール',
+        'ブランデー',
+        'ワイン',
+        'コニャック',
+        '銘柄',
+        '焼酎',
+        '紹興酒',
+        '清酒'
     ];
     const capacityValues = ['700', '750'];
     const percentValues = ['40%', '43%'];
@@ -1791,24 +1791,8 @@ const InvoicePurchaseOfBrought = () => {
                                     <ButtonComponent onClick={openItemsImageModal} children="全体撮影" className='w-max h-11 !px-5 bg-[transparent] !text-[#e87a00]' style={{ border: '1px solid #e87a00' }} />
                                     <ButtonComponent onClick={openItemsDocModal} children="紙書類撮影" className='w-max h-11 !px-5 bg-[transparent] !text-[#e87a00]' style={{ border: '1px solid #e87a00' }} />
                                 </div>
-                                <div className='invoice-purchase-brought-buttons w-[25%] ml-5 flex justify-between'>
+                                <div className='invoice-purchase-brought-buttons w-[50%] ml-5 flex justify-around'>
                                     <ButtonComponent children="許可申請" onClick={handleApproveWaiting} className='w-max h-11 !px-5' style={{ color: 'white', }} />
-                                    {/* <div className='flex justify-center'>
-                                        <button type="button" onClick={sendPurchaseData}
-                                            className="mr-10 h-11  py-1 min-w-[160px] text-[#e87a00] text-[20px] rounded-full tracking-wider font-bold outline-none border border-[2px] border-[#e87a00] ">お客様へ提示</button>
-                                    </div> */}
-                                </div>
-                                <div className='invoice-purchase-brought-buttons w-[25%] ml-5 flex justify-between'>
-                                    {/* {role === '2' &&
-                                        <button onClick={purchasePermission} className='w-max text-xl text-white rounded-md bg-[#9bd195] h-11 !px-5 hover:bg-green-600 hover:text-white transition-all duration-300' >
-                                            全て決裁を許可
-                                        </button>
-                                    } */}
-                                    {/* {totalSalesSlipData?.length > 0 && totalSalesSlipData[0].product_status !== '査定中' && totalSalesSlipData[0].product_status !== 'お預かり' &&
-                                        <button className='w-max text-xl text-[red] rounded-md border border-[red] h-11 !px-5 hover:bg-green-600 hover:text-white transition-all duration-300' >
-                                            許可済
-                                        </button>
-                                    } */}
                                     <div>
                                         <div className='flex'>
                                             <label className="text-[#70685a] font-bold mb-2 block text-right pt-1 mr-3  !mb-0">接客担当</label>
@@ -1838,14 +1822,14 @@ const InvoicePurchaseOfBrought = () => {
             <div className="invoice-purchase-brought flex  justify-center ">
                 <div className="w-full flex justify-center" >
                     <div className="w-full rounded-2xl">
-                        <form className=" space-y-3">
+                    <form className=" space-y-3">
                             {/* new */}
                             <div className='flex'>
                                 <div style={{ width: '20%', flexDirection: 'column', }} className='flex align-center justify-around'>
                                     <label className="text-[#70685a] font-bold mb-2 block text-center mr-10 !mb-0">本人確認書類</label>
                                 </div>
                                 <div style={{ width: '75%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <label className="w-full text-[#70685a] text-[20px]  px-4 outline-[#70685a]">マイナンバーカ一ド</label>
+                                    <label className="w-full text-[#70685a] text-[20px] outline-[#70685a]">マイナンバーカ一ド</label>
                                 </div>
                             </div>
                             {/* new */}
@@ -1865,17 +1849,17 @@ const InvoicePurchaseOfBrought = () => {
                                 <div style={{ width: '20%', flexDirection: 'column', }} className='flex align-center justify-around'>
                                     <label className="text-[#70685a] font-bold mb-2 block text-center mr-10 !mb-0">お名前</label>
                                 </div>
-                                <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
+                                <div style={{ width: '20%', flexDirection: 'column', }} className='flex align-center justify-around'>
                                     <label className="w-full text-[#70685a] text-[20px] outline-[#70685a]">{customer.full_name || ''}</label>
+                                </div>
+                                <div style={{ width: '20%', flexDirection: 'column', }} className='flex align-center justify-around'>
+                                    <label className="text-[#70685a] font-bold mb-2 block text-center mr-10 !mb-0">カタカナ</label>
+                                </div>
+                                <div style={{ width: '30%', flexDirection: 'column', }} className='flex align-center justify-around'>
+                                    <label className="w-full text-[#70685a] text-[20px]  px-4 outline-[#70685a]">{customer.katakana_name || ''}</label>
                                 </div>
                                 <div style={{ width: '5%', flexDirection: 'column', }} className='flex align-center justify-around'>
                                     <label className="text-[#70685a] font-bold mb-2 block text-left mr-10 !mb-0">{customer.gender || ''}</label>
-                                </div>
-                                <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <label className="text-[#70685a] font-bold mb-2 block text-center mr-10 !mb-0">カタカナ</label>
-                                </div>
-                                <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <label className="w-full text-[#70685a] text-[20px]  px-4 outline-[#70685a]">{customer.katakana_name || ''}</label>
                                 </div>
                             </div>
                             {/* new */}
@@ -1887,7 +1871,7 @@ const InvoicePurchaseOfBrought = () => {
                                     <label className="w-full text-[#70685a] text-[20px] outline-[#70685a]">{customer.phone_number || ''}</label>
                                 </div>
                                 <div style={{ width: '20%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <label className="text-[#70685a] font-bold mb-2 block text-center !mb-0">生年月日</label>
+                                    <label className="text-[#70685a] font-bold mb-2 block text-center mr-10 !mb-0">生年月日</label>
                                 </div>
                                 <div style={{ width: '20%', flexDirection: 'column', }} className='flex align-center justify-around'>
                                     <label className="w-full text-[#70685a] text-[20px]  px-4 outline-[#70685a]">{customer.birthday || ''}</label>
@@ -1901,14 +1885,8 @@ const InvoicePurchaseOfBrought = () => {
                                 <div style={{ width: '20%', flexDirection: 'column', }} className='flex align-center justify-around'>
                                     <label className="text-[#70685a] font-bold mb-2 block text-center mr-10 !mb-0">ご住所</label>
                                 </div>
-                                <div style={{ width: '30%', }} className='flex justify-end'>
+                                <div style={{ width: '70%', }} className='flex justify-end'>
                                     <label className="w-full text-[#70685a] text-[20px]  outline-[#70685a]">{customer.address || ''}</label>
-                                </div>
-                                <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <label className="text-[#70685a] font-bold mb-2 block text-center mr-10 !mb-0">e-mail</label>
-                                </div>
-                                <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <label className="w-full text-[#70685a] text-[20px]  px-4 outline-[#70685a]">{customer.email || ''}</label>
                                 </div>
                             </div>
                             {/* new */}
@@ -1916,8 +1894,14 @@ const InvoicePurchaseOfBrought = () => {
                                 <div style={{ width: '20%', flexDirection: 'column', }} className='flex align-center justify-around'>
                                     <label className="text-[#70685a] font-bold mb-2 block text-center mr-10 !mb-0">ご職業</label>
                                 </div>
-                                <div style={{ width: '75%', flexDirection: 'column', }} className='flex align-center justify-around'>
+                                <div style={{ width: '20%', flexDirection: 'column', }} className='flex align-center justify-around'>
                                     <label className="w-full text-[#70685a] text-[20px] outline-[#70685a]">{customer.job || ''}</label>
+                                </div>
+                                <div style={{ width: '20%', flexDirection: 'column', }} className='flex align-center justify-around'>
+                                    <label className="text-[#70685a] font-bold mb-2 block text-center mr-10 !mb-0">E-mail</label>
+                                </div>
+                                <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
+                                    <label className="w-full text-[#70685a] text-[20px]  px-4 outline-[#70685a]">{customer.email || ''}</label>
                                 </div>
                             </div>
 
@@ -1926,9 +1910,9 @@ const InvoicePurchaseOfBrought = () => {
                                 <div style={{ width: '20%', flexDirection: 'column', }} className='flex align-center justify-around'>
                                     <label className="text-[#70685a] font-bold mb-2 block text-center mr-10 !mb-0">特記事項</label>
                                 </div>
-                                <div style={{ width: '75%', flexDirection: 'column', }} className='flex align-center justify-around relative group mx-auto'>
+                                <div style={{ width: '75%', flexDirection: 'column', }} className=' relative group'>
                                     <label className="w-full text-[#70685a] text-[20px] outline-[#70685a] ellipsis">{customer.special_note || '盗品持ち込みの可能性があるため要注意'}</label>
-                                    <div class="absolute shadow-lg hidden group-hover:block bg-[#333] text-white font-semibold px-3 py-[6px] text-[13px] left-0 mx-auto w-max -bottom-10 rounded before:w-4 before:h-4 before:rotate-45 before:bg-[#333] before:absolute before:z-[-1] before:-top-1 before:left-0  before:right-0 before:mx-auto">
+                                    <div className="absolute shadow-lg hidden group-hover:block bg-[#333] text-white font-semibold px-3 py-[6px] text-[13px] left-0 mx-auto w-max -bottom-10 rounded before:w-4 before:h-4 before:rotate-45 before:bg-[#333] before:absolute before:z-[-1] before:-top-1 before:left-0  before:right-0 before:mx-auto">
                                         {customer.special_note || '盗品持ち込みの可能性があるため要注意'}
                                     </div>
                                 </div>
@@ -2648,215 +2632,8 @@ const InvoicePurchaseOfBrought = () => {
                         </tbody>
 
                     </table>
-                    {/* {showInputPurchase ?
-                        <table className='text-center w-full mt-10' style={Table}>
-                            <thead className='bg-white z-10 h-11 w-full'>
-                                <tr>
-                                    <th style={Th} >商品番号</th>
-                                    <th style={Th} >ヒアリング</th>
-                                    <th style={Th} >
-                                        力テゴリ-1
-                                        {isshow ? <button><img src={rightArrow} className='h-4' alt='' onClick={openSubtable} ></img></button> : <button><img src={leftArrow} className='h-4' alt='' onClick={closeSubtable}></img></button>}
-                                    </th>
-                                    {isshow ? <th style={Th} >力テゴリ-2</th> : <th style={{ display: 'none' }}></th>}
-                                    {isshow ? <th style={Th} >力テゴリ-3</th> : <th style={{ display: 'none' }}></th>}
-                                    {isshow ? <th style={Th} >力テゴリ-4</th> : <th style={{ display: 'none' }}></th>}
-                                    <th style={Th} >画像</th>
-                                    <th style={Th} width='10%'>商品名</th>
-                                    <th style={Th} className='!w-40'>個数</th>
-                                    {salesSlipData.product_type_one === '貴金属' &&
-                                        <th style={Th} >金種</th>
-                                    }
-                                     {salesSlipData.product_type_one === '貴金属' &&
-                                        <th style={Th} className='!w-20'>g/額面</th>
-                                     }
-                                    <th style={Th} width='10%'>申請の根拠</th>
-                                    <th style={Th} >利率(%)</th>
-                                    <th style={Th} className='!w-20'>申請額</th>
-                                    <th style={Th} >最高査定業者</th>
-                                    <th style={Th} >最高査定額</th>
-                                    <th style={Th} >
-                                        業者
-                                        {isvendorshow ? <button><img src={rightArrow} className='h-4' alt='' onClick={openVendortable} ></img></button> : <button><img src={leftArrow} className='h-4' alt='' onClick={closeVendortable}></img></button>}
-                                    </th>
-                                    {isvendorshow && vendors.map((vendor, index) => (
-                                        <th key={index} style={Th}>{vendor.vendor_name}</th>
-                                    ))}
-                                    <th style={Th} >上司指示額</th>
-                                    <th style={Th} >結果</th>
-                                    <th style={Th} >買取額</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr className='!h-8'>
-                                    <td style={Td}>
-                                        <InputComponent name='number' onChange={handleChange} value={salesSlipData.number || ''} className='w-full h-8 text-[#70685a]' />
-                                    </td>
-                                    <td style={Td} >
-                                        <select name="hearing" value={salesSlipData.hearing || ''} onChange={handleChange} className="w-full h-8 text-[#70685a] font-bold outline-[#70685a]">
-                                            <option value="" disabled></option>
-                                            <option value="済">済</option>
-                                        </select>
-                                    </td>
-                                    <td style={Td}>
-                                        <select
-                                            name="product_type_one"
-                                            value={salesSlipData.product_type_one || ''}
-                                            onChange={(e) => handleCategory1Change(e, product1s)}
-                                            className='h-8 w-full'
-                                        >
-                                            <option value="" disabled>商品タイプ1</option>
-                                            {product1s.map((option, index) => (
-                                                <option key={option.id} value={option.category || ''}>
-                                                    {option.category || ''}
-                                                </option>
-                                            ))}
-                                        </select>
-                                    </td>
-                                    {isshow ? <td style={Td}>
-                                        <select
-                                            name="product_type_two"
-                                            value={salesSlipData.product_type_two || ''}
-                                            onChange={handleChange}
-                                            className='h-8 w-full'
-                                        >
-                                            <option value="" disabled>商品タイプ2</option>
-                                            {product2s.map((option, index) => (
-                                                <option key={index} value={option.category || ''}>
-                                                    {option.category || ''}
-                                                </option>
-                                            ))}
-                                        </select>
-                                    </td> : <td style={{ display: 'none' }}></td>}
-                                    {isshow ? <td style={Td}>
-                                        <input
-                                            list="product3s"
-                                            id="product_type_three"
-                                            name="product_type_three"
-                                            value={salesSlipData.product_type_three || ''}
-                                            onChange={handleChange}
-                                            className='h-8 w-full'
-                                        />
-                                        <datalist id="product3s">
-                                            {product3s.map((option, index) => (
-                                                <option key={index} value={option.category || ''} />
-                                            ))}
-                                        </datalist>
-                                    </td> : <td style={{ display: 'none' }}></td>}
-                                    {isshow ? <td style={Td}>
-                                        <input
-                                            list="product4s"
-                                            id="product_type_four"
-                                            name="product_type_four"
-                                            value={salesSlipData.product_type_four || ''}
-                                            onChange={handleChange}
-                                            className='h-8 w-full'
-                                        />
-                                        <datalist id="product4s">
-                                            {product4s.map((option, index) => (
-                                                <option key={index} value={option.category || ''} />
-                                            ))}
-                                        </datalist>
-                                    </td> : <td style={{ display: 'none' }}></td>}
-                                    <td style={Td}>
-                                        <div style={{ flexDirection: 'column', }} className='flex justify-center'>
-                                            <div className='flex justify-center py-1'>
-                                                < button type="button" onClick={() => handleButtonClick(sendInputRef)} className="w-20 flex justify-center font-blod rounded-lg text-[#70685a] text-[18px] bg-[#ebe6e0] hover:bg-blue-700 focus:outline-none">
-                                                    <svg className="w-7 h-7 flex justify-center " focusable="false" aria-hidden="true" fill='#524c3b' viewBox="0 0 24 24" data-testid="FileUploadOutlinedIcon" title="FileUploadOutlined"><path d="M18 15v3H6v-3H4v3c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2v-3zM7 9l1.41 1.41L11 7.83V16h2V7.83l2.59 2.58L17 9l-5-5z"></path></svg>
-                                                </button>
-                                                <input type="file" name="fileUrl" ref={sendInputRef} style={{ display: 'none' }} onChange={(e) => handleFileChange(e)} />
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td style={Td}>
-                                        <InputComponent name='product_name' onChange={handleChange} value={salesSlipData.product_name || ''} className='w-full h-8 text-[#70685a]' />
-                                    </td>
-                                    <td style={Td}>
-                                        <InputComponent name='quantity' type='number' onChange={handleChange} value={salesSlipData.quantity || ''} className='w-full h-8 text-[#70685a]' />
-                                    </td>
-                                    {salesSlipData.product_type_one === '貴金属' &&
-                                        <td style={Td}>
-                                            <InputComponent name='metal_type' type='text' onChange={handleChange} value={salesSlipData.metal_type || ''} className='w-20 h-8 text-[#70685a]' />
-                                        </td>
-                                    }
-                                     {salesSlipData.product_type_one === '貴金属' &&
-                                        <td style={Td}>
-                                            <InputComponent name='price_per_gram' type='number' onChange={handleChange} value={salesSlipData.price_per_gram || ''} className='w-20 h-8 text-[#70685a]' />
-                                        </td>
-                                    }
-                                    <td style={Td}>
-                                        <InputComponent name='reason_application' onChange={handleChange} value={salesSlipData.reason_application || ''} className='w-full h-8 text-[#70685a]' />
-                                    </td>
-                                    <td style={Td}>
-                                        <InputComponent name='interest_rate' type='number' onChange={handleChange} value={salesSlipData.interest_rate || ''} className='w-20 h-8 text-[#70685a]' />
-                                    </td>
-                                    <td style={Td}>
-                                        <InputComponent name='product_price' type='number' onChange={handleChange} value={salesSlipData.product_price || ''} className='w-20 h-8 text-[#70685a]' />
-                                    </td>
-                                    <td style={Td}>
-                                        <InputComponent name='highest_estimate_vendor' onChange={handleChange} value={salesSlipData.highest_estimate_vendor || ''} className='w-full h-8 text-[#70685a]' />
-                                    </td>
-                                    <td style={Td}>
-                                        <InputComponent name='highest_estimate_price' type='number' onChange={handleChange} value={salesSlipData.highest_estimate_price || ''} className='w-full h-8 text-[#70685a]' />
-                                    </td>
-                                    <td style={Td}>
-                                        <InputComponent name='number_of_vendor' type='number' onChange={handleChange} value={salesSlipData.number_of_vendor || ''} className='w-20 h-8 text-[#70685a]' />
-                                    </td>
-                                    {isvendorshow && vendors.map((vendor, index) => (
-                                        <td style={Td} key={index}>
-                                            <InputComponent name={vendor.vendor_name} onChange={(e) => handleEstimateChange(vendor.vendor_name, e.target.value)} value={estimateValues[vendor.vendor_name] || ''} className='w-full h-8 text-[#70685a] border border-[red]' />
-                                        </td>
-                                    ))}
-                                    <td style={Td}>
-                                        <InputComponent name='supervisor_direction' onChange={handleChange} value={salesSlipData.supervisor_direction || ''} className='w-full h-8 text-[#70685a]' />
-                                    </td>
-                                    <td style={Td}>
-                                        <select name="purchase_result" value={salesSlipData.purchase_result || ''} onChange={handleChange} className="w-full h-10 text-[#70685a] font-bold border border-[#70685a] outline-[#70685a]">
-                                            <option value="" disabled></option>
-                                            <option value="賛成">賛成</option>
-                                            <option value="反対">反対</option>
-                                        </select>
-                                    </td>
-                                    <td style={Td}>
-                                        <div className='w-full flex justify-center'>
-                                            <InputComponent name='purchase_price' onChange={handleChange} type='number' value={salesSlipData.purchase_price || ''} className='w-40 h-8 text-[#70685a]' />
-                                        </div>
-                                    </td>
-                                </tr>
-                            </tbody>
-
-                        </table>
-                        : ''} */}
-                    {/* <div className='flex justify-center gap-10 mt-5'>
-                        {editIndex === -1 ? (
-                            <div className='flex justify-center mb-3' >
-                                <button type="button" onClick={() => addSlesItem()}
-                                    className="w-7 h-7 inline-flex items-center justify-center text-[#70685a] border border-[#70685a] outline-none hover:bg-purple-700 active:bg-purple-600">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="14px" fill="#70685a" className="inline" viewBox="0 0 512 512">
-                                        <path
-                                            d="M467 211H301V45c0-24.853-20.147-45-45-45s-45 20.147-45 45v166H45c-24.853 0-45 20.147-45 45s20.147 45 45 45h166v166c0 24.853 20.147 45 45 45s45-20.147 45-45V301h166c24.853 0 45-20.147 45-45s-20.147-45-45-45z"
-                                            data-original="#000000" />
-                                    </svg>
-                                </button>
-                            </div>
-                        ) : (
-                            <div className='flex gap-20'>
-                                <button className='w-[70px]  whitespace-nowrap font-bold text-[#70685a] border border-[#70685a] text-[18px]' onClick={saveSalesItem}>
-                                    保存
-                                </button>
-                                <button className='w-[120px] whitespace-nowrap font-bold text-[#70685a] border border-[#70685a] text-[18px]' onClick={cancelSalesItem}>
-                                    キャンセル
-                                </button>
-                            </div>
-                        )}
-
-                    </div> */}
                 </div>
             </div>
-            {/* <div className='flex justify-center gap-10 mt-2'>
-                <label className="text-[#70685a] font-bold mb-2 block text-left !mb-0">買取点数&nbsp;{totalQuantity || ''}点</label>
-                <label className="text-[#70685a] font-bold mb-2 block text-left !mb-0">買取合計&nbsp;&nbsp;{(totalPrice || 0).toLocaleString()}円</label>
-            </div> */}
             {/* result */}
             <div className="flex justify-center">
                 <div className='w-full pb-20' style={{ maxWidth: '80em' }}>
