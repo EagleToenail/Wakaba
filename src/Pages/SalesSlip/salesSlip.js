@@ -802,7 +802,6 @@ const SalesSlip = () => {
                                                 </div>
                                             </th>
                                             <th className='px-2' style={Th} rowSpan={2}>
-                                                {/* <ButtonComponent onClick={() => openShowFilterModal('買取日')} children="買取日" className='w-max !px-5 rounded-lg border border-[#70685a]' style={{ backgroundColor: '#ebe5e1', color: '#626373' }} /> */}
                                                 <div className="relative">
                                                     <button
                                                         onClick={toggleDateDropdown1}

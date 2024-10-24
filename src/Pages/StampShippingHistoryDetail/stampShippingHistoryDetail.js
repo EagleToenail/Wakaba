@@ -475,18 +475,18 @@ const StampShippingDetail = () => {
                                         <thead className='sticky top-0 bg-[#ebe6e0] h-8'>
                                             <tr>
                                                 <th style={Th}></th>
-                                                <th style={Th}>額面(￥)</th>
+                                                <th style={Th}>額面</th>
                                                 <th style={Th}>枚数</th>
-                                                <th style={Th}>小計(￥)</th>
+                                                <th style={Th}>小計</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             { sheetRows?.length >0 && sheetRows.map((data, Index) => (
                                                 <tr key={Index}>
                                                     <td style={Td}>切手シート</td>
-                                                    <td style={Td} className='text-right'>{(parseInt(data.sheetValue || 0)).toLocaleString()}</td>
+                                                    <td style={Td} className='text-right'>¥{(parseInt(data.sheetValue || 0)).toLocaleString()}</td>
                                                     <td style={Td}>{data.numberOfSheets || ''}</td>
-                                                    <td style={Td} className='text-right'>{(parseInt(data.totalFaceValue || 0)).toLocaleString()}</td>
+                                                    <td style={Td} className='text-right'>¥{(parseInt(data.totalFaceValue || 0)).toLocaleString()}</td>
                                                     {/* <td style={Td}>
                                                         {editIndex === Index ? (
                                                             <InputComponent name='percent' value={editedRow.percent || ''} onChange={handleInputChange} type='number' className='w-full h-8 text-[#70685a]' />
@@ -504,7 +504,7 @@ const StampShippingDetail = () => {
                                                     <td style={Td}>切手台紙貼り</td>
                                                     <td style={Td}>{data.mountValue || ''}</td>
                                                     <td style={Td}>{data.numberOfMounts || ''}</td>
-                                                    <td style={Td} className='text-right'>{(parseInt(data.totalFaceValue || 0)).toLocaleString()}</td>
+                                                    <td style={Td} className='text-right'>¥{(parseInt(data.totalFaceValue || 0)).toLocaleString()}</td>
                                                 </tr>
                                             ))}
                                             { roseRows?.length >0 && roseRows.map((data, Index) => (
@@ -512,7 +512,7 @@ const StampShippingDetail = () => {
                                                     <td style={Td}>切手バラ</td>
                                                     <td style={Td}>{data.stampValue || ''}</td>
                                                     <td style={Td}>{data.numberOfSheets || ''}</td>
-                                                    <td style={Td} className='text-right'>{(parseInt(data.totalFaceValue || 0)).toLocaleString()}</td>
+                                                    <td style={Td} className='text-right'>¥{(parseInt(data.totalFaceValue || 0)).toLocaleString()}</td>
                                                 </tr>
                                             ))}
                                             { packRows?.length >0 && packRows.map((data, Index) => (
@@ -520,7 +520,7 @@ const StampShippingDetail = () => {
                                                     <td style={Td}>レ夕一パック</td>
                                                     <td style={Td}>{data.stampValue || ''}</td>
                                                     <td style={Td}>{data.numberOfSheets || ''}</td>
-                                                    <td style={Td} className='text-right'>{(parseInt(data.totalFaceValue || 0)).toLocaleString()}</td>
+                                                    <td style={Td} className='text-right'>¥{(parseInt(data.totalFaceValue || 0)).toLocaleString()}</td>
                                                 </tr>
                                             ))}
                                             { cardRows?.length >0 && cardRows.map((data, Index) => (
@@ -528,26 +528,26 @@ const StampShippingDetail = () => {
                                                     <td style={Td}>ハガキ</td>
                                                     <td style={Td}>{data.stampValue || ''}</td>
                                                     <td style={Td}>{data.numberOfSheets || ''}</td>
-                                                    <td style={Td} className='text-right'>{(parseInt(data.totalFaceValue || 0)).toLocaleString()}</td>
+                                                    <td style={Td} className='text-right'>¥{(parseInt(data.totalFaceValue || 0)).toLocaleString()}</td>
                                                 </tr>
                                             ))}
                                             <tr className='bg-[#a2d97a]'>
                                                 <td style={Td}></td>
                                                 <td style={Td}>{''}</td>
                                                 <td style={Td}>{totalNumberOfStamp}</td>
-                                                <td style={Td} className='text-right'>{(parseInt(totalStampFaceValue || 0)).toLocaleString()}</td>
+                                                <td style={Td} className='text-right'>¥{(parseInt(totalStampFaceValue || 0)).toLocaleString()}</td>
                                             </tr>
                                             <tr>
                                                 <td style={Td}>手数料</td>
                                                 <td style={Td}>{''}</td>
                                                 <td style={Td}>1枚5円</td>
-                                                <td style={Td} className='text-right'>{(5 * parseInt(totalNumberOfStamp || 0)).toLocaleString()}</td>
+                                                <td style={Td} className='text-right'>¥{(5 * parseInt(totalNumberOfStamp || 0)).toLocaleString()}</td>
                                             </tr>
                                             <tr className='bg-[#a2d97a]'>
                                                 <td style={Td}>合計金額</td>
                                                 <td style={Td}>{''}</td>
                                                 <td style={Td}>{''}</td>
-                                                <td style={Td} className='text-right'>{(parseInt(totalStampFaceValue || 0) - 5 * parseInt(totalNumberOfStamp || 0)).toLocaleString()}</td>
+                                                <td style={Td} className='text-right'>¥{(parseInt(totalStampFaceValue || 0) - 5 * parseInt(totalNumberOfStamp || 0)).toLocaleString()}</td>
                                             </tr>
                                             {/* {inorout === '出庫' &&
                                             <tr>

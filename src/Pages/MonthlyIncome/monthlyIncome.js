@@ -384,22 +384,22 @@ const MonthlyIncome = () => {
                                 <tr key={Data.id}>
                                     <td style={Td}>{Data.date || ''}</td>
                                     <td style={Td} className='text-right'>
-                                        {editIndex === Index ?(
+                                        ￥{editIndex === Index ?(
                                             <InputComponent type="number" name='total_withdrawal' value={editedRow.total_withdrawal || ''} onChange={handleInputChange} className='w-max h-8 text-[#70685a]' />
-                                        ):((Data.total_withdrawal !== null && Data.total_withdrawal !== '') ? Data.total_withdrawal.toLocaleString() : '' || '')}
+                                        ):(parseInt(Data.total_withdrawal || 0)).toLocaleString()}
                                     </td>
                                     <td style={Td} className='text-right'>
-                                        {editIndex === Index ?(
+                                        ￥{editIndex === Index ?(
                                             <InputComponent type="number" name='total_purchase_price' value={editedRow.total_purchase_price || ''} onChange={handleInputChange} className='w-max h-8 text-[#70685a]' />
-                                        ):((Data.total_withdrawal !== null && Data.total_withdrawal !== '') ? Data.total_purchase_price.toLocaleString() : '' || '')}
+                                        ):(parseInt(Data.total_purchase_price || 0)).toLocaleString()}
                                     </td>
                                     <td style={Td} className='text-right'>
-                                        {(parseInt(Data.total_purchase_price || 0) - parseInt(Data.total_purchase_price || 0)).toLocaleString()}
+                                        ￥{(parseInt(Data.total_purchase_price || 0) - parseInt(Data.total_purchase_price || 0)).toLocaleString()}
                                     </td>
-                                    <td style={Td}>
-                                        {editIndex === Index ?(
+                                    <td style={Td} className='text-right'>
+                                        ￥{editIndex === Index ?(
                                             <InputComponent type="number" name='safe_deposite_extra' value={editedRow.safe_deposite_extra || ''} onChange={handleInputChange} className='w-max h-8 text-[#70685a]' />
-                                        ):((Data.safe_deposite_extra !== null && Data.safe_deposite_extra !== '') ? Data.safe_deposite_extra : '' || '')}
+                                        ):(parseInt(Data.safe_deposite_extra || 0 )).toLocaleString()}
                                     </td>
                                     <td style={Td}>
                                         {editIndex === Index ?(
@@ -446,7 +446,7 @@ const MonthlyIncome = () => {
                                             <InputComponent type="number" name='one' value={editedRow.one || ''} onChange={handleInputChange} className='w-max h-8 text-[#70685a]' />
                                         ):(Data.one || '')}
                                     </td>
-                                    <td style={Td} className='text-right'>{(10000*parseInt(Data.ten_thousand || 0)
+                                    <td style={Td} className='text-right'>¥{(10000*parseInt(Data.ten_thousand || 0)
                                                 + 5000*parseInt(Data.five_thousand || 0)
                                                 + 1000*parseInt(Data.one_thousand || 0)
                                                 + 500*parseInt(Data.five_hundred || 0)
@@ -457,8 +457,8 @@ const MonthlyIncome = () => {
                                                 + 1*parseInt(Data.one || 0)
                                                 ).toLocaleString()}
                                     </td>
-                                    <td style={Td}>{Data.sales_balance}</td>
-                                    <td style={Td}>{Data.sales_variance}</td>
+                                    <td style={Td} className='text-right'>¥{parseInt(Data.sales_balance || 0).toLocaleString()}</td>
+                                    <td style={Td} className='text-right'>¥{parseInt(Data.sales_variance || 0).toLocaleString()}</td>
                                     <td style={Td}>
                                     {editIndex === Index ? (
                                         <div>
