@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Link, useNavigate, useParams, useLocation } from 'react-router-dom';
+import {useNavigate, useParams } from 'react-router-dom';
 // import Titlebar from '../../Components/Common/Titlebar';
 import '../../Assets/css/showtable.css'
 import '../../Assets/css/firstTd.css'
 import InputComponent from '../../Components/Common/InputComponent';
 import ButtonComponent from '../../Components/Common/ButtonComponent';
-import dateimage from '../../Assets/img/datepicker.png';
+// import dateimage from '../../Assets/img/datepicker.png';
 import DateAndTime from '../../Components/Common/PickData';
 import { toast } from 'react-toastify';
 import axios from 'axios';
@@ -30,7 +30,7 @@ const InvoicePurchaseOfBrought = () => {
     const optionsDate = { year: 'numeric', month: '2-digit', day: '2-digit', timeZone: 'Asia/Tokyo' };
     const formattedDate = new Intl.DateTimeFormat('ja-JP', optionsDate).format(now).replace(/\//g, '-');
     // Split the formatted date to get year and month
-    const [currentyear, currentmonth, currentday] = formattedDate.split('-').map(part => part.trim());
+    const [currentyear, currentmonth] = formattedDate.split('-').map(part => part.trim());
     const currentDay = new Intl.DateTimeFormat('ja-JP', optionsDate).format(now).replace(/\//g, '-');
 
     const navigate = useNavigate();
@@ -52,9 +52,9 @@ const InvoicePurchaseOfBrought = () => {
     const data = useSelector((state) => state.data);
     const stampData = data.data;
     // console.log('stampData',stampData);
-    const clearReduxData = () => {
-        dispatch(setClearData());
-    }
+    // const clearReduxData = () => {
+    //     dispatch(setClearData());
+    // }
 
     const Table = {
         borderCollapse: 'collapse',
@@ -90,7 +90,7 @@ const InvoicePurchaseOfBrought = () => {
     const userStoreName = localStorage.getItem('storename');
     const userId = localStorage.getItem('userId');
     const username = localStorage.getItem('fullname');
-    const role = localStorage.getItem('role')
+    // const role = localStorage.getItem('role')
 
     const [users, setUsers] = useState([]);
     // Fetch user data
@@ -495,8 +495,6 @@ const InvoicePurchaseOfBrought = () => {
             if (!wakabaBaseUrl) {
                 throw new Error('API base URL is not defined');
             }
-            const payload = totalSalesSlipData;
-            // await axios.post(`${wakabaBaseUrl}/vendor/getVendorListselected`, {payload:payload})
             await axios.get(`${wakabaBaseUrl}/vendor/getVendorListAll`)
                 .then(response => {
                     setAllVendors(response.data);

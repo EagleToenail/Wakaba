@@ -87,11 +87,11 @@ const MainContainer = ({children,destinationURL}) => {
 
       </div>
       <div className="bottom-pane" style={{ height: `${100 - position - 15}%` }}>
-        {destinationURL == 'invoiceforpurchaseofbrought' ? (<WithdrawVariousPurchase/> ): ('')}
-        {destinationURL == 'invoiceforpurchaseofbroughtblank' ? (<WithdrawVariousPurchase/> ): ('')}
-        {destinationURL == 'todolist' ? (<ShowSalesSlip/> ): ('')}
-        {destinationURL == 'applicationfordisposalpermission' ? (<MultiRowShowSalesSlip/> ): ('')}
-        {destinationURL == 'purchaserequest' ? (<PurchaseToRShop/> ): ('')}
+        {destinationURL === 'invoiceforpurchaseofbrought' ? (<WithdrawVariousPurchase/> ): ('')}
+        {destinationURL === 'invoiceforpurchaseofbroughtblank' ? (<WithdrawVariousPurchase/> ): ('')}
+        {destinationURL === 'todolist' ? (<ShowSalesSlip/> ): ('')}
+        {destinationURL === 'applicationfordisposalpermission' ? (<MultiRowShowSalesSlip/> ): ('')}
+        {destinationURL === 'purchaserequest' ? (<PurchaseToRShop/> ): ('')}
       </div>
     </div>
   );

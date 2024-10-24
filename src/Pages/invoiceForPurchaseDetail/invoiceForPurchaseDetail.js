@@ -10,15 +10,14 @@ import { toast } from 'react-toastify';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { setData } from '../../redux/sales/actions';
-import { setClearData } from '../../redux/sales/actions';
-import { setCustomerID } from '../../redux/sales/actions';
+// import { setClearData } from '../../redux/sales/actions';
+// import { setCustomerID } from '../../redux/sales/actions';
 
 import leftArrow from '../../Assets/img/right-arrow.png';
 import rightArrow from '../../Assets/img/left-arrow.png';
 
 import ConfirmationModal from '../../Components/Modal/SuccessModal';
 import ImageShowModal from '../../Components/Modal/ImageShowModal';
-import { current } from '@reduxjs/toolkit';
 
 const InvoicePurchaseOfDetail = () => {
     // const title = 'タイトルタイトル';
@@ -29,7 +28,7 @@ const InvoicePurchaseOfDetail = () => {
     const optionsDate = { year: 'numeric', month: '2-digit', day: '2-digit', timeZone: 'Asia/Tokyo' };
     const formattedDate = new Intl.DateTimeFormat('ja-JP', optionsDate).format(now).replace(/\//g, '-');
     // Split the formatted date to get year and month
-    const [currentyear, currentmonth, currentday] = formattedDate.split('-').map(part => part.trim());
+    const [currentyear, currentmonth] = formattedDate.split('-').map(part => part.trim());
     const currentDay = new Intl.DateTimeFormat('ja-JP', optionsDate).format(now).replace(/\//g, '-');
 
     const navigate = useNavigate();
@@ -43,9 +42,9 @@ const InvoicePurchaseOfDetail = () => {
     const updateData = (data) => {
         dispatch(setData(data));
     };
-    const sendCustomerId = (data) => {
-        dispatch(setCustomerID(data));
-    };
+    // const sendCustomerId = (data) => {
+    //     dispatch(setCustomerID(data));
+    // };
     //received data using redux
     const data = useSelector((state) => state.data);
     const stampData = data.data;
@@ -123,7 +122,7 @@ const InvoicePurchaseOfDetail = () => {
                 });
         }
         fetchInvoiceData();
-    }, []);
+    }, []);// eslint-disable-next-line react-hooks/exhaustive-deps
 
     const fetchInvoiceHistoryData = async () => {
         const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
@@ -499,7 +498,6 @@ const InvoicePurchaseOfDetail = () => {
 
         let maxValue = 0; // Start with 0
         let maxKey = ''; // To store the corresponding key
-        let hasValidValue = false; // Flag to check if there's any valid value
 
         Object.entries(estimateValues).forEach(([key, value]) => {
             let currentValue;
@@ -514,7 +512,6 @@ const InvoicePurchaseOfDetail = () => {
             }
 
             if (currentValue !== null && currentValue >= 0) {
-                hasValidValue = true; // Mark that we have a valid value
 
                 if (currentValue > maxValue) {
                     maxValue = currentValue;
@@ -809,32 +806,23 @@ const InvoicePurchaseOfDetail = () => {
         setIsShow(true);
     };
     //   const [isOpen, setIsOpen] = useState(false);
-    const [isvendorshow, setIsVendorShow] = useState(false);
+    // const [isvendorshow, setIsVendorShow] = useState(false);
 
-    const openVendortable = () => {
-        // setIsOpen(true);
-        setIsVendorShow(false);
-    };
+    // const openVendortable = () => {
+    //     // setIsOpen(true);
+    //     setIsVendorShow(false);
+    // };
 
-    const closeVendortable = () => {
-        // setIsOpen(false);
-        setIsVendorShow(true);
-    };
+    // const closeVendortable = () => {
+    //     // setIsOpen(false);
+    //     setIsVendorShow(true);
+    // };
 
     // file upload
     const [sendFile, setSendFile] = useState(null);
     const sendInputRef = useRef(null);
     const handleFileChange = (event) => {
-        const file = event.target.files[0];
-        if (file) {
-            // Create a URL for the file to display as a preview
-            const fileURL = URL.createObjectURL(file);
-        }
         setSendFile(event.target.files[0]);
-        setSalesSlipData({
-            ...salesSlipData,
-            ['product_photo']: file,
-        });
     };
 
     const handleButtonClick = (sendInputRef) => {
@@ -906,8 +894,6 @@ const InvoicePurchaseOfDetail = () => {
         question4: '',
         comment4: '',
     });
-
-    const modalRef = useRef(null);
 
     const handleProductClick = (item) => {
         setSelectedProduct(item);
@@ -1031,16 +1017,6 @@ const InvoicePurchaseOfDetail = () => {
 
     };
 
-    const handleKeyDown = (e) => {
-        if (e.key === 'Enter') {
-            // e.preventDefault(); // Prevent the default behavior (form submission)
-            setEditRow((prev) => ({
-                ...prev,
-                comment: prev.comment // Add a newline character
-            }));
-            return;
-        }
-    };
     //---------------whole hearing control part---------------
     const [pairs, setPairs] = useState([
         { checked: false, value: '' },
@@ -1182,28 +1158,28 @@ const InvoicePurchaseOfDetail = () => {
     };
 
     // Save function
-    const itemsSave = () => {
-        const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
-        if (!wakabaBaseUrl) {
-            throw new Error('API base URL is not defined');
-        }
+    // const itemsSave = () => {
+    //     const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+    //     if (!wakabaBaseUrl) {
+    //         throw new Error('API base URL is not defined');
+    //     }
 
-        axios.post(`${wakabaBaseUrl}/customer/updatecustomeritem`, customer)
-            .then(response => {
-                console.log('Customer data updated successfully:', response.data);
-            })
-            .catch(error => {
-                console.error("There was an error fetching the customer data!", error);
-            });
-    };
+    //     axios.post(`${wakabaBaseUrl}/customer/updatecustomeritem`, customer)
+    //         .then(response => {
+    //             console.log('Customer data updated successfully:', response.data);
+    //         })
+    //         .catch(error => {
+    //             console.error("There was an error fetching the customer data!", error);
+    //         });
+    // };
 
 
     //--------------------------------------------------------
     //go to stamps related page #62(stamp related purchase statement)
-    const gotoStampsPurchase = () => {
-        sendCustomerId(id);//send customerId
-        navigate(`/stamprelatedpurchasestatement/${id}`);
-    }
+    // const gotoStampsPurchase = () => {
+    //     sendCustomerId(id);//send customerId
+    //     navigate(`/stamprelatedpurchasestatement/${id}`);
+    // }
     //--------------------show  product photo---------------------
     const [showProductImage, setShowProductImage] = useState(false);
     const [itemImagePreview, setItemImagePreview] = useState(`${wakabaBaseUrl}/uploads/product/`);
@@ -1368,7 +1344,7 @@ const InvoicePurchaseOfDetail = () => {
     }
     const saveEstimate = () => {
         setShowEstimate(false);
-        // saveSalesItem();
+        saveSalesItem();
         console.log('currentDay estimate',currentDay,estimateValues);
     }
     //-----------------------------------item detail---------------------------------------
@@ -1454,19 +1430,19 @@ const InvoicePurchaseOfDetail = () => {
     const capacityValues = ['700', '750'];
     const percentValues = ['40%', '43%'];
     //-----------------------------------------google line friend------------------------------------
-    const handleCustomerCheckboxChange = () => {
-        setCustomer(prev => ({
-            ...prev,
-            line_friend: prev.line_friend === 'yes' ? 'no' : 'yes',
-        }));
-    };
+    // const handleCustomerCheckboxChange = () => {
+    //     setCustomer(prev => ({
+    //         ...prev,
+    //         line_friend: prev.line_friend === 'yes' ? 'no' : 'yes',
+    //     }));
+    // };
     //---------------------------------------send Data------------------------------------------------
     const sendPurchaseData = () => {
         //---------
         // if(totalSalesSlipData[0].product_status === '承認された') {
         const numberOfInvoice = invoiceID;
 
-        if (totalSalesSlipData.length != 0 && totalSalesSlipData != null && numberOfInvoice) {
+        if (totalSalesSlipData.length !== 0 && totalSalesSlipData !== null && numberOfInvoice) {
             const purchaseData = { id, numberOfInvoice, totalSalesSlipData, stampData, wholeHearingData };
             console.log('send purchase data', purchaseData, id);
             updateData(purchaseData);// to sign page using redux
@@ -1489,7 +1465,7 @@ const InvoicePurchaseOfDetail = () => {
                                 <div className='w-3 h-3 bg-[#70685a]'></div>
                             </div>
                             <div className='flex flex-col justify-center ml-2'>
-                                <label className="text-[#70685a] font-bold mb-2 block text-left mr-10 !mb-0 flex">買取計算書No.{totalSalesSlipData?.length > 0 && invoiceID || ''}</label>
+                                <label className="text-[#70685a] font-bold mb-2 block text-left mr-10 !mb-0 flex">買取計算書No.{(totalSalesSlipData?.length > 0 && invoiceID) || ''}</label>
                             </div>
 
                         </div>
@@ -1965,18 +1941,11 @@ const InvoicePurchaseOfDetail = () => {
                                 <th style={Th}>最高査定額</th>
                                 <th style={Th} >
                                     業者
-                                    {/* {isvendorshow ? <button><img src={rightArrow} className='h-4' alt='' onClick={openVendortable} ></img></button> : <button><img src={leftArrow} className='h-4' alt='' onClick={closeVendortable}></img></button>} */}
                                 </th>
-                                {isvendorshow && allVendors.map((vendor, index) => (
+                                {/* {isvendorshow && allVendors.map((vendor, index) => (
                                     <th key={index} style={Th}>{vendor.vendor_name}</th>
-                                ))}
+                                ))} */}
                                 <th style={Th} >結果</th>
-                                {/* {totalSalesSlipData?.length > 0 && totalSalesSlipData[0].product_status === 'お預かり' &&
-                                    <th style={Th}>編集</th>
-                                }
-                                 {totalSalesSlipData?.length > 0 && totalSalesSlipData[0].product_status === 'お預かり' &&
-                                 <th style={Th}>削除</th>
-                                 } */}
                             </tr>
                         </thead>
                         <tbody>
@@ -2181,11 +2150,11 @@ const InvoicePurchaseOfDetail = () => {
                                             {salesSlipData.number_of_vendor || '0'}
                                         </button>
                                     </td>
-                                    {isvendorshow && vendors?.length > 0 && vendors.map((vendor, index) => (
+                                    {/* {isvendorshow && vendors?.length > 0 && vendors.map((vendor, index) => (
                                         <td style={Td} key={index}>
                                             <InputComponent name={vendor.vendor_name || ''} onChange={(e) => handleEstimateChange(vendor.vendor_name, e.target.value)} value={estimateValues[vendor.vendor_name] || ''} className='w-full h-8 text-[#70685a] border border-[red]' />
                                         </td>
-                                    ))}
+                                    ))} */}
                                     <td style={Td}>
                                         <select name="purchase_result" value={salesSlipData.purchase_result || ''} onChange={handleChange} className="w-full h-10 text-[#70685a] font-bold border border-[#70685a] outline-[#70685a]">
                                             <option value="" disabled></option>
@@ -2220,7 +2189,7 @@ const InvoicePurchaseOfDetail = () => {
                                         {isshow ? <td style={Td} >{salesData.product_type_three || ''}</td> : <td style={{ display: 'none' }}></td>}
                                         {isshow ? <td style={Td} >{salesData.product_type_four || ''}</td> : <td style={{ display: 'none' }}></td>}
                                         <td style={Td}>
-                                            {salesData.product_photo != '' ?
+                                            {salesData.product_photo !== '' ?
                                                 <button onClick={() => openProductImageModal(salesData.product_photo)} name='photo' className='w-max'>
                                                     <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSvgIcon-root MuiSvgIcon-fontSizeMedium svg-icon css-kry165 w-7" fill='#524c3b' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="PhotoOutlinedIcon" title="PhotoOutlined"><path d="M19 5v14H5V5zm0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2m-4.86 8.86-3 3.87L9 13.14 6 17h12z"></path></svg>
                                                 </button>
@@ -2282,8 +2251,14 @@ const InvoicePurchaseOfDetail = () => {
                                                     </div>
                                                 }
                                                 <div className="text-center">
-                                                    <div className='flex justify-center w-full'>
-                                                        {!salesData.product_photo ? "" : <img src={`${wakabaBaseUrl}/uploads/product/${salesData.product_photo}`} alt="Image Preview" className='h-[100px] p-1 rounded-lg' />}
+                                                <div className='flex justify-center w-full'>
+                                                    {!salesData.product_photo ? "" : 
+                                                        <img 
+                                                        src={`${wakabaBaseUrl}/uploads/product/${salesData.product_photo}`} 
+                                                        alt={salesData.product_name || "Product image"} // Use a meaningful description
+                                                        className='h-[100px] p-1 rounded-lg' 
+                                                        />
+                                                    }
                                                     </div>
                                                 </div>
                                             </div>
@@ -2337,9 +2312,9 @@ const InvoicePurchaseOfDetail = () => {
                                                 </div>
                                             </div>
                                         </td>
-                                        {isvendorshow && allVendors.map((vendor, index) => (
+                                        {/* {isvendorshow && allVendors.map((vendor, index) => (
                                             <td key={index} style={Td}> {salesData.estimate_wholesaler[vendor.vendor_name] || ''} </td>
-                                        ))}
+                                        ))} */}
                                         <td style={Td}>{salesData.purchase_result || ''}</td>
                                         {(salesData.product_status === '査定中' || salesData.product_status === 'お預かり' || salesData.product_status === '承認待ち') &&
                                             <td className='w-8 bg-transparent'>
@@ -2784,9 +2759,14 @@ const InvoicePurchaseOfDetail = () => {
                     <div className="h-40 flex flex-col bg-gray-50 p-4 rounded-lg mt-4">
                         <div style={{ flexDirection: 'column', }} className='flex h-full felx-col justify-center'>
                             <div className='flex justify-center w-full'>
-                                {itemsImagePreview == `${wakabaBaseUrl}/uploads/product/` ? "" : <img src={itemsImagePreview} alt="Image Preview" className='h-[100px] p-1 rounded-lg' />}
+                                {itemsImagePreview === `${wakabaBaseUrl}/uploads/product/` ? "" : 
+                                    <img 
+                                    src={itemsImagePreview} 
+                                    alt={itemsImagePreview ? "Product preview" : "No image available"} // Use a descriptive alt text
+                                    className='h-[100px] p-1 rounded-lg' 
+                                    />
+                                }
                             </div>
-
                         </div>
                     </div>
                     <div className="border-t border-gray-200 pt-3 flex justify-between gap-5 mt-3">
@@ -2835,7 +2815,7 @@ const InvoicePurchaseOfDetail = () => {
                     <div className="h-40 flex flex-col bg-gray-50 p-4 rounded-lg mt-4">
                         <div style={{ flexDirection: 'column', }} className='flex h-full felx-col justify-center'>
                             <div className='flex justify-center w-full'>
-                                {itemsImageDocPreview == `${wakabaBaseUrl}/uploads/product/` ? "" : <img src={itemsImageDocPreview} alt="Image Preview" className='h-[100px] p-1 rounded-lg' />}
+                                {itemsImageDocPreview === `${wakabaBaseUrl}/uploads/product/` ? "" : <img src={itemsImageDocPreview} alt="Image Preview" className='h-[100px] p-1 rounded-lg' />}
                             </div>
 
                         </div>

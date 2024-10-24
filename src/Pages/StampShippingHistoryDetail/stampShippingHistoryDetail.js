@@ -1,12 +1,12 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Link, useNavigate, useParams, useLocation } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 // import Titlebar from '../../Components/Common/Titlebar';
 // import StampSheet from '../../Assets/img/stampsheet.png'
 // import LetterPack from '../../Assets/img/letterpack.png'
 // import StampRose from '../../Assets/img/stamprose.png'
 // import PostCard from '../../Assets/img/postcard.png'
 // import LabelComponent from '../../Components/Common/LabelComponent';
-import InputComponent from '../../Components/Common/InputComponent';
+// import InputComponent from '../../Components/Common/InputComponent';
 import DateAndTime from '../../Components/Common/PickData';
 import axios from 'axios';
 

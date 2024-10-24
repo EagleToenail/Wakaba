@@ -47,7 +47,6 @@ const dataReducer = (state = initialState, action) => {
     default:
       return state;
   }
-  console.log('state',state)
 };
 
 export default dataReducer;

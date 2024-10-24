@@ -1,5 +1,5 @@
 import { React, useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 // import Titlebar from '../../Components/Common/Titlebar';
 import ButtonComponent from '../../Components/Common/ButtonComponent';
 import InputComponent from '../../Components/Common/InputComponent';
@@ -19,12 +19,12 @@ const StampPurchaseInterestRateChange = () => {
         alignItem: 'center'
     };
 
-    const Th = {
-        border: '1px solid #70685a',
-        borderCollapse: 'collapse',
-        color: '#70685a',
-        fontSize: '15px'
-    };
+    // const Th = {
+    //     border: '1px solid #70685a',
+    //     borderCollapse: 'collapse',
+    //     color: '#70685a',
+    //     fontSize: '15px'
+    // };
     const Td = {
         border: '1px solid #70685a',
         borderCollapse: 'collapse',
@@ -82,9 +82,9 @@ const StampPurchaseInterestRateChange = () => {
     };
 
     //delete one of tatalsaleSlipdata
-    const handleDeleteClick = (index) => {
-        setStampRate(stampRate.filter((_, i) => i !== index));
-    };
+    // const handleDeleteClick = (index) => {
+    //     setStampRate(stampRate.filter((_, i) => i !== index));
+    // };
 
     const sendRateData = () => {
         const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;

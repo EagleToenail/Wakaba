@@ -8,7 +8,7 @@ export default function WithdrawalBankATM() {
 
     const userStoreName = localStorage.getItem('storename');
     const userId = localStorage.getItem('userId');
-    const role = localStorage.getItem('role');
+    // const role = localStorage.getItem('role');
 
     const now = new Date();
 
@@ -29,11 +29,11 @@ export default function WithdrawalBankATM() {
     const handleColorChange = (color) => {
         setTextColor(color);
     };
-    const [textMessageColor, setTextMessageColor] = useState('black');
-    // Handle button click
-    const handleMessageColorChange = (color) => {
-        setTextMessageColor(color);
-    };
+    // const [textMessageColor, setTextMessageColor] = useState('black');
+    // // Handle button click
+    // const handleMessageColorChange = (color) => {
+    //     setTextMessageColor(color);
+    // };
     // search selectbox================
 
     const [users, setUsers] = useState([]);
@@ -119,11 +119,11 @@ export default function WithdrawalBankATM() {
     const [sendFile, setSendFile] = useState(null);
     const sendInputRef = useRef(null);
     const handleFileChange = (event) => {
-        const file = event.target.files[0];
-        if (file) {
-            // Create a URL for the file to display as a preview
-            const fileURL = URL.createObjectURL(file);
-        }
+        // const file = event.target.files[0];
+        // if (file) {
+        //     // Create a URL for the file to display as a preview
+        //     const fileURL = URL.createObjectURL(file);
+        // }
         setSendFile(event.target.files[0]);
     };
 
@@ -166,7 +166,7 @@ export default function WithdrawalBankATM() {
     // send message and file to other user 
     const sendWithdrawalBankATMMessage = async () => {
         // console.log('sendtododata', reply);
-        if (reply.title != '' && reply.content != '' && reply.senderId != '' && reply.receiverId != '') {
+        if (reply.title !== '' && reply.content !== '' && reply.senderId !== '' && reply.receiverId !== '') {
             const formData = new FormData();
             if(messages?.length>0) {
                 if(reply.parentMessageId !== '' && messages[0].permission === '1') {

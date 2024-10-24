@@ -1,4 +1,4 @@
-import React , {useState,useEffect,useRef} from 'react';
+import React , {useState,useEffect} from 'react';
 import { useNavigate } from 'react-router-dom';
 // import Titlebar from '../../Components/Common/Titlebar';
 import '../../Assets/css/showtable.css';
@@ -43,7 +43,7 @@ const CustomerReceipt = () => {
 
     const userStoreName = localStorage.getItem('storename');
     const userId = localStorage.getItem('userId');
-    const role = localStorage.getItem('role')
+    // const role = localStorage.getItem('role')
 
     const [customer, setCustomer] = useState([]);
 
@@ -243,7 +243,7 @@ const CustomerReceipt = () => {
                                         <div>店舗名</div>
                                     </div>
                                     <div className='ml-5 text-left'>
-                                        <div>{purchaseData.totalSalesSlipData?.length >0 && purchaseData.totalSalesSlipData[0].store_name || 'OOO'}</div>
+                                        <div>{(purchaseData.totalSalesSlipData?.length >0 && purchaseData.totalSalesSlipData[0].store_name) || 'OOO'}</div>
                                     </div>
                                 </div>
                             </div>
@@ -253,7 +253,7 @@ const CustomerReceipt = () => {
                                         <div>担当</div>
                                     </div>
                                     <div className='ml-5 text-left'>
-                                        <div>{purchaseData.totalSalesSlipData?.length >0 && purchaseData.totalSalesSlipData[0].purchase_staff || 'OOO'}</div>
+                                        <div>{(purchaseData.totalSalesSlipData?.length >0 && purchaseData.totalSalesSlipData[0].purchase_staff) || 'OOO'}</div>
                                     </div>
                                 </div>
                             </div>

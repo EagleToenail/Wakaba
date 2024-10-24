@@ -25,11 +25,11 @@ export default function TODOList() {
     const handleColorChange = (color) => {
         setTextColor(color);
     };
-    const [textMessageColor, setTextMessageColor] = useState('black');
-    // Handle button click
-    const handleMessageColorChange = (color) => {
-        setTextMessageColor(color);
-    };
+    // const [textMessageColor, setTextMessageColor] = useState('black');
+    // // Handle button click
+    // const handleMessageColorChange = (color) => {
+    //     setTextMessageColor(color);
+    // };
     // search selectbox================
 
     const [users, setUsers] = useState([]);
@@ -112,11 +112,11 @@ export default function TODOList() {
     const [sendFile, setSendFile] = useState(null);
     const sendInputRef = useRef(null);
     const handleFileChange = (event) => {
-        const file = event.target.files[0];
-        if (file) {
-            // Create a URL for the file to display as a preview
-            const fileURL = URL.createObjectURL(file);
-        }
+        // const file = event.target.files[0];
+        // if (file) {
+        //     // Create a URL for the file to display as a preview
+        //     const fileURL = URL.createObjectURL(file);
+        // }
         setSendFile(event.target.files[0]);
     };
 
@@ -158,7 +158,7 @@ export default function TODOList() {
     // send message and file to other user 
     const sendWithdrawalApplyMessage = async () => {
         // console.log('sendtododata', reply);
-        if (reply.title != '' && reply.content != '' && reply.senderId != '' && reply.receiverId != '') {
+        if (reply.title !== '' && reply.content !== '' && reply.senderId !=='' && reply.receiverId !== '') {
             const formData = new FormData();
             formData.append('time', reply.time);
             formData.append('title', reply.title);

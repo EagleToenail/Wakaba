@@ -1,50 +1,32 @@
-import React,{ useState, useEffect } from 'react';
-import {Link ,useNavigate} from 'react-router-dom';
-import axios from 'axios';
+import React,{ useState } from 'react';
+// import {useNavigate} from 'react-router-dom';
+// import axios from 'axios';
 // import Titlebar from '../../Components/Common/Titlebar';
 import '../../../Assets/css/showtable.css'
-import InputComponent from '../../../Components/Common/InputComponent';
-import ButtonComponent from '../../../Components/Common/ButtonComponent';
+// import InputComponent from '../../../Components/Common/InputComponent';
+// import ButtonComponent from '../../../Components/Common/ButtonComponent';
 import dateimage from '../../../Assets/img/datepicker.png';
 import LineChart from '../../../Components/Chart/LineChart';
 
 
 const CustomerVisitRateTrend = () => {
     // const title = 'タイトルタイトル';
-    const navigate = useNavigate(); // Use useNavigate instead of useHistory
-    const Table = {
-        borderCollapse: 'collapse',
-        color: '#70685a',
-        textAlign: 'center',
-        width: '100%',
-        alignItem: 'center'
-    };
-
-    const Th = {
-        whiteSpace:'nowrap'
-    };
-    const Td = {
-        border: '1px solid #6e6e7c',
-        borderCollapse: 'collapse',
-        color: '#6e6e7c',
-        fontSize: '15px',
-        whiteSpace:'nowrap'
-    };
+    // const navigate = useNavigate(); // Use useNavigate instead of useHistor
 
     //fetch data to backend
-    const getCashRegisterData = (date) =>{
-        const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
-        if (!wakabaBaseUrl) {
-            throw new Error('API base URL is not defined');
-        }
-        axios.post(`${wakabaBaseUrl}/cashregister`, {payload:date})
-        .then(response => {
+    // const getCashRegisterData = (date) =>{
+    //     const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+    //     if (!wakabaBaseUrl) {
+    //         throw new Error('API base URL is not defined');
+    //     }
+    //     axios.post(`${wakabaBaseUrl}/cashregister`, {payload:date})
+    //     .then(response => {
 
-        })
-        .catch(error => {
-            console.error("There was an error fetching the customer data!", error);
-        });
-    }
+    //     })
+    //     .catch(error => {
+    //         console.error("There was an error fetching the customer data!", error);
+    //     });
+    // }
 
     const [searchParams, setSearchParams] = useState({
         status: '',
@@ -61,19 +43,19 @@ const CustomerVisitRateTrend = () => {
         });
     };
     //get data from start date to end date
-    const getPeriodCashRegister = () => {
-        const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
-        if (!wakabaBaseUrl) {
-            throw new Error('API base URL is not defined');
-        }
-        axios.post(`${wakabaBaseUrl}/cashregisterperiod`, {params: searchParams})
-        .then(response => {
+    // const getPeriodCashRegister = () => {
+    //     const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+    //     if (!wakabaBaseUrl) {
+    //         throw new Error('API base URL is not defined');
+    //     }
+    //     axios.post(`${wakabaBaseUrl}/cashregisterperiod`, {params: searchParams})
+    //     .then(response => {
 
-        })
-        .catch(error => {
-            console.error("There was an error fetching the customer data!", error);
-        });
-    }
+    //     })
+    //     .catch(error => {
+    //         console.error("There was an error fetching the customer data!", error);
+    //     });
+    // }
 
     const [activeValue, setActiveValue] = useState('');
     // State to track if the select box is active

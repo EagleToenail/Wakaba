@@ -190,7 +190,7 @@ const SalesSlip = () => {
 
     const handleCategory1Change = (e, productList) => {
         const selectedCategory = e.target.value; // Get the selected category
-        const selectedResult = productList.find(product => product.category === selectedCategory);//need id
+        // const selectedResult = productList.find(product => product.category === selectedCategory);//need id
         setCategory1(selectedCategory);
         handleCategory(selectedCategory);
     };
@@ -264,21 +264,21 @@ const SalesSlip = () => {
     const [estimateValues, setEstimateValues] = useState({});
 
     const [showEstimate, setShowEstimate] = useState(false);
-    const openEstimate = (index) => {
-        setShowEstimate(true);
+    // const openEstimate = (index) => {
+    //     setShowEstimate(true);
 
-        //setShowInputPurchase(!showInputPurchase);
-        // setEditIndex(index);
-        console.log('selectedtotalSalesData', sales[index])
-        // setSalesSlipData(sales[index]); // Populate the input fields with the selected row's data
-        setEstimateValues(sales[index].estimate_wholesaler);
-        if (sales[index].product_type_one) {
-            const selectedResult = product1s.find(product => product.category === sales[index].product_type_one);
-            console.log('selectedResult', selectedResult)
-            getVendorList(selectedResult.id);
-        }
+    //     //setShowInputPurchase(!showInputPurchase);
+    //     // setEditIndex(index);
+    //     console.log('selectedtotalSalesData', sales[index])
+    //     // setSalesSlipData(sales[index]); // Populate the input fields with the selected row's data
+    //     setEstimateValues(sales[index].estimate_wholesaler);
+    //     if (sales[index].product_type_one) {
+    //         const selectedResult = product1s.find(product => product.category === sales[index].product_type_one);
+    //         console.log('selectedResult', selectedResult)
+    //         getVendorList(selectedResult.id);
+    //     }
 
-    }
+    // }
 
     const saveEstimate = () => {
         setShowEstimate(false);
@@ -289,7 +289,7 @@ const SalesSlip = () => {
     const optionsDate = { year: 'numeric', month: '2-digit', day: '2-digit', timeZone: 'Asia/Tokyo' };
     const formattedDate = new Intl.DateTimeFormat('ja-JP', optionsDate).format(now).replace(/\//g, '-');
     // Split the formatted date to get year and month
-    const [currentyear, currentmonth, currentday] = formattedDate.split('-').map(part => part.trim());
+    const [currentyear, currentmonth] = formattedDate.split('-').map(part => part.trim());
 
     const [isDateOpen1, setIsDateOpen1] = useState(false);
     const [isDateOpen2, setIsDateOpen2] = useState(false);
@@ -1290,7 +1290,7 @@ const SalesSlip = () => {
                                                     </select>
                                                 </td>
                                                 <td style={Td}>
-                                                    {sale.product_photo != '' ?
+                                                    {sale.product_photo !== '' ?
                                                         <button onClick={() => openProductImageModal(sale.product_photo)} name='photo' className='w-max'>
                                                             <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSvgIcon-root MuiSvgIcon-fontSizeMedium svg-icon css-kry165 w-7" fill='#524c3b' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="PhotoOutlinedIcon" title="PhotoOutlined"><path d="M19 5v14H5V5zm0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2m-4.86 8.86-3 3.87L9 13.14 6 17h12z"></path></svg>
                                                         </button>

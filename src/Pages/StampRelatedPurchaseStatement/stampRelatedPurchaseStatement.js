@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Link, useNavigate, useParams, useLocation } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import {useNavigate, useParams } from 'react-router-dom';
 // import Titlebar from '../../Components/Common/Titlebar';
 import StampSheet from '../../Assets/img/stampsheet.png'
 import LetterPack from '../../Assets/img/letterpack.png'
@@ -7,10 +7,10 @@ import StampRose from '../../Assets/img/stamprose.png'
 import PostCard from '../../Assets/img/postcard.png'
 import LabelComponent from '../../Components/Common/LabelComponent';
 import InputComponent from '../../Components/Common/InputComponent';
-import DateAndTime from '../../Components/Common/PickData';
+// import DateAndTime from '../../Components/Common/PickData';
 import axios from 'axios';
-import { useDispatch ,useSelector} from 'react-redux';
-import { setClearData } from '../../redux/sales/actions';
+import { useDispatch } from 'react-redux';
+// import { setClearData } from '../../redux/sales/actions';
 import { setStampsData } from '../../redux/sales/actions';
 
 
@@ -41,9 +41,9 @@ const StampRelatedPurchaseStatement = () => {
         whiteSpace: 'nowrap'
     };
 
-    const userStoreName = localStorage.getItem('storename');
+    // const userStoreName = localStorage.getItem('storename');
     const userId = localStorage.getItem('userId');
-    const role = localStorage.getItem('role');
+    // const role = localStorage.getItem('role');
 
     const [userData, setUserData] = useState([]);
     useEffect(() => {
@@ -144,40 +144,40 @@ const StampRelatedPurchaseStatement = () => {
         } else {
             setNewSheetRow((prev) => ({ ...prev, sheetValue: '' }));
         }
-    }, [newSheetRow.stampValue, newSheetRow.numberOfSides]);
+    }, [newSheetRow,newSheetRow.stampValue, newSheetRow.numberOfSides]);
 
     // Add a new row to the table
-    const handleAddSheetRow = async() => {
-        if (inputSheetShow) {
-            try {
-                const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
-                if (!wakabaBaseUrl) {
-                    throw new Error('API base URL is not defined');
-                }
-                await axios.post(`${wakabaBaseUrl}/stampsheet/create`, newSheetRow)
-                .then(response => {
-                    // console.log('success',response.data)
-                    // setSheetRows(response.data);
-                    initialSheetData(response.data);
-                })
-                .catch(error => {
-                    console.error("There was an error fetching the customer data!", error);
-                }); // Send newRow data to the server
-                // setSheetRows((prevSheetRows) => [...prevSheetRows, { ...newSheetRow, id: Date.now() }]);
-                setNewSheetRow({
-                    stampValue: '',
-                    numberOfSides: '',
-                    sheetValue: '',
-                    numberOfSheets: '0',
-                    totalFaceValue: '0',
-                    purchasePrice: '0'
-                });
-              } catch (error) {
-                console.error('Error adding row:', error);
-              }
-        }
-        setInputSheetShow(!inputSheetShow);
-    };
+    // const handleAddSheetRow = async() => {
+    //     if (inputSheetShow) {
+    //         try {
+    //             const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+    //             if (!wakabaBaseUrl) {
+    //                 throw new Error('API base URL is not defined');
+    //             }
+    //             await axios.post(`${wakabaBaseUrl}/stampsheet/create`, newSheetRow)
+    //             .then(response => {
+    //                 // console.log('success',response.data)
+    //                 // setSheetRows(response.data);
+    //                 initialSheetData(response.data);
+    //             })
+    //             .catch(error => {
+    //                 console.error("There was an error fetching the customer data!", error);
+    //             }); // Send newRow data to the server
+    //             // setSheetRows((prevSheetRows) => [...prevSheetRows, { ...newSheetRow, id: Date.now() }]);
+    //             setNewSheetRow({
+    //                 stampValue: '',
+    //                 numberOfSides: '',
+    //                 sheetValue: '',
+    //                 numberOfSheets: '0',
+    //                 totalFaceValue: '0',
+    //                 purchasePrice: '0'
+    //             });
+    //           } catch (error) {
+    //             console.error('Error adding row:', error);
+    //           }
+    //     }
+    //     setInputSheetShow(!inputSheetShow);
+    // };
     //edit and delete
     const [editSheetIndex, setEditSheetIndex] = useState(-1);
     const [editedSheetRow, setEditedSheetRow] = useState({
@@ -231,9 +231,9 @@ const StampRelatedPurchaseStatement = () => {
     };
 
     //delete one of tatalsaleSlipdata
-    const handleSheetDeleteClick = (index) => {
-        setSheetRows(sheetRows.filter((_, i) => i !== index));
-    };
+    // const handleSheetDeleteClick = (index) => {
+    //     setSheetRows(sheetRows.filter((_, i) => i !== index));
+    // };
     //calculate
     const calculateSheet = (numberofsheets) => {
         const { sheetValue } = editedSheetRow;
@@ -347,35 +347,35 @@ const StampRelatedPurchaseStatement = () => {
         }));
     };
     // Add a new row to the table
-    const handleAddRoseRow = async() => {
-        if (inputRoseShow) {
-            try {
-                const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
-                if (!wakabaBaseUrl) {
-                    throw new Error('API base URL is not defined');
-                }
-                await axios.post(`${wakabaBaseUrl}/stamprose/create`, newRoseRow)
-                .then(response => {
-                    // console.log('success',response.data)
-                    // setSheetRows(response.data);
-                    initialRoseData(response.data);
-                })
-                .catch(error => {
-                    console.error("There was an error fetching the customer data!", error);
-                }); // Send newRow data to the server
-                //setRoseRows((prevRoseRows) => [...prevRoseRows, { ...newRoseRow, id: Date.now() }]);
-                setNewRoseRow({
-                    stampValue: '',
-                    numberOfSheets: '0',
-                    totalFaceValue: '0',
-                    purchasePrice: '0'
-                });
-              } catch (error) {
-                console.error('Error adding row:', error);
-              }
-        }
-        setInputRoseShow(!inputRoseShow);
-    };
+    // const handleAddRoseRow = async() => {
+    //     if (inputRoseShow) {
+    //         try {
+    //             const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+    //             if (!wakabaBaseUrl) {
+    //                 throw new Error('API base URL is not defined');
+    //             }
+    //             await axios.post(`${wakabaBaseUrl}/stamprose/create`, newRoseRow)
+    //             .then(response => {
+    //                 // console.log('success',response.data)
+    //                 // setSheetRows(response.data);
+    //                 initialRoseData(response.data);
+    //             })
+    //             .catch(error => {
+    //                 console.error("There was an error fetching the customer data!", error);
+    //             }); // Send newRow data to the server
+    //             //setRoseRows((prevRoseRows) => [...prevRoseRows, { ...newRoseRow, id: Date.now() }]);
+    //             setNewRoseRow({
+    //                 stampValue: '',
+    //                 numberOfSheets: '0',
+    //                 totalFaceValue: '0',
+    //                 purchasePrice: '0'
+    //             });
+    //           } catch (error) {
+    //             console.error('Error adding row:', error);
+    //           }
+    //     }
+    //     setInputRoseShow(!inputRoseShow);
+    // };
     //edit and delete
     const [editRoseIndex, setEditRoseIndex] = useState(-1);
     const [editedRoseRow, setEditedRoseRow] = useState({
@@ -422,9 +422,9 @@ const StampRelatedPurchaseStatement = () => {
     };
 
     //delete one of tatalsaleSlipdata
-    const handleRoseDeleteClick = (index) => {
-        setRoseRows(roseRows.filter((_, i) => i !== index));
-    };
+    // const handleRoseDeleteClick = (index) => {
+    //     setRoseRows(roseRows.filter((_, i) => i !== index));
+    // };
     //calculate
     const calculateRose = (numberofsheets) => {
         const { stampValue } = editedRoseRow;
@@ -538,37 +538,37 @@ const StampRelatedPurchaseStatement = () => {
         }));
     };
     // Add a new row to the table
-    const handleAddPackRow = async() => {
-        if (inputPackShow) {
-            try {
-                const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
-                if (!wakabaBaseUrl) {
-                    throw new Error('API base URL is not defined');
-                }
-                await axios.post(`${wakabaBaseUrl}/stamppack/create`, newPackRow)
-                .then(response => {
-                    // console.log('success',response.data)
-                    // setSheetRows(response.data);
-                    initialPackData(response.data);
-                })
-                .catch(error => {
-                    console.error("There was an error fetching the customer data!", error);
-                }); // Send newRow data to the server
-                //setPackRows((prevPackRows) => [...prevPackRows, { ...newPackRow, id: Date.now() }]);
-                setNewPackRow({
-                    type: '',
-                    stampValue: '',
-                    numberOfSheets: '0',
-                    totalFaceValue: '0',
-                    purchasePrice: '0'
-                });
-              } catch (error) {
-                console.error('Error adding row:', error);
-              }
+    // const handleAddPackRow = async() => {
+    //     if (inputPackShow) {
+    //         try {
+    //             const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+    //             if (!wakabaBaseUrl) {
+    //                 throw new Error('API base URL is not defined');
+    //             }
+    //             await axios.post(`${wakabaBaseUrl}/stamppack/create`, newPackRow)
+    //             .then(response => {
+    //                 // console.log('success',response.data)
+    //                 // setSheetRows(response.data);
+    //                 initialPackData(response.data);
+    //             })
+    //             .catch(error => {
+    //                 console.error("There was an error fetching the customer data!", error);
+    //             }); // Send newRow data to the server
+    //             //setPackRows((prevPackRows) => [...prevPackRows, { ...newPackRow, id: Date.now() }]);
+    //             setNewPackRow({
+    //                 type: '',
+    //                 stampValue: '',
+    //                 numberOfSheets: '0',
+    //                 totalFaceValue: '0',
+    //                 purchasePrice: '0'
+    //             });
+    //           } catch (error) {
+    //             console.error('Error adding row:', error);
+    //           }
 
-        }
-        setInputPackShow(!inputPackShow);
-    };
+    //     }
+    //     setInputPackShow(!inputPackShow);
+    // };
     //edit and delete
     const [editPackIndex, setEditPackIndex] = useState(-1);
     const [editedPackRow, setEditedPackRow] = useState({
@@ -618,9 +618,9 @@ const StampRelatedPurchaseStatement = () => {
     };
 
     //delete one of tatalsaleSlipdata
-    const handlePackDeleteClick = (index) => {
-        setPackRows(packRows.filter((_, i) => i !== index));
-    };
+    // const handlePackDeleteClick = (index) => {
+    //     setPackRows(packRows.filter((_, i) => i !== index));
+    // };
     //calculate
     const calculatePack = (numberofsheets) => {
         const { stampValue } = editedPackRow;
@@ -733,35 +733,35 @@ const StampRelatedPurchaseStatement = () => {
         }));
     };
     // Add a new row to the table
-    const handleAddCardRow = async() => {
-        if (inputCardShow) {
-            try {
-                const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
-                if (!wakabaBaseUrl) {
-                    throw new Error('API base URL is not defined');
-                }
-                await axios.post(`${wakabaBaseUrl}/stampcard/create`, newCardRow)
-                .then(response => {
-                    // console.log('success',response.data)
-                    // setSheetRows(response.data);
-                    initialCardData(response.data);
-                })
-                .catch(error => {
-                    console.error("There was an error fetching the customer data!", error);
-                }); // Send newRow data to the server
-                //setCardRows((prevCardRows) => [...prevCardRows, { ...newCardRow, id: Date.now() }]);
-                setNewCardRow({
-                    stampValue: '',
-                    numberOfSheets: '0',
-                    totalFaceValue: '0',
-                    purchasePrice: '0'
-                });
-              } catch (error) {
-                console.error('Error adding row:', error);
-              }
-        }
-        setInputCardShow(!inputCardShow);
-    };
+    // const handleAddCardRow = async() => {
+    //     if (inputCardShow) {
+    //         try {
+    //             const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+    //             if (!wakabaBaseUrl) {
+    //                 throw new Error('API base URL is not defined');
+    //             }
+    //             await axios.post(`${wakabaBaseUrl}/stampcard/create`, newCardRow)
+    //             .then(response => {
+    //                 // console.log('success',response.data)
+    //                 // setSheetRows(response.data);
+    //                 initialCardData(response.data);
+    //             })
+    //             .catch(error => {
+    //                 console.error("There was an error fetching the customer data!", error);
+    //             }); // Send newRow data to the server
+    //             //setCardRows((prevCardRows) => [...prevCardRows, { ...newCardRow, id: Date.now() }]);
+    //             setNewCardRow({
+    //                 stampValue: '',
+    //                 numberOfSheets: '0',
+    //                 totalFaceValue: '0',
+    //                 purchasePrice: '0'
+    //             });
+    //           } catch (error) {
+    //             console.error('Error adding row:', error);
+    //           }
+    //     }
+    //     setInputCardShow(!inputCardShow);
+    // };
     //edit and delete
     const [editCardIndex, setEditCardIndex] = useState(-1);
     const [editedCardRow, setEditedCardRow] = useState({
@@ -808,9 +808,9 @@ const StampRelatedPurchaseStatement = () => {
     };
 
     //delete one of tatalsaleSlipdata
-    const handleCardDeleteClick = (index) => {
-        setCardRows(cardRows.filter((_, i) => i !== index));
-    };
+    // const handleCardDeleteClick = (index) => {
+    //     setCardRows(cardRows.filter((_, i) => i !== index));
+    // };
     //calculate
     const calculateCard = (numberofsheets) => {
         const { stampValue } = editedCardRow;
@@ -1043,7 +1043,7 @@ const StampRelatedPurchaseStatement = () => {
                                             <div className='text-center flex justify-center'>
                                                 <LabelComponent value="買取利率(%)" className='text-center flex justify-center' style={{ width: '100px', fontWeight: 'bold' }} />
                                             </div>
-                                            <InputComponent  value={stampRate?.length>0 && stampRate[0].percent || ''}  type="number" style={{ width: '100px', height: '30px' }} disabled={true}/>
+                                            <InputComponent  value={(stampRate?.length>0 && stampRate[0].percent) || ''}  type="number" style={{ width: '100px', height: '30px' }} disabled={true}/>
                                         </div>
                                     </div>
                                 </div>
@@ -1261,7 +1261,7 @@ const StampRelatedPurchaseStatement = () => {
                                             <div>
                                                 <LabelComponent value="買取利率(%)" className='text-center flex justify-center' style={{ width: '100px', fontWeight: 'bold' }} />
                                             </div>
-                                            <InputComponent value={stampRate?.length>0 && stampRate[1].percent || ''} type='number' style={{ width: '100px', height: '30px' }} disabled={true}/>
+                                            <InputComponent value={(stampRate?.length>0 && stampRate[1].percent) || ''} type='number' style={{ width: '100px', height: '30px' }} disabled={true}/>
                                         </div>
                                     </div>
                                 </div>
@@ -1447,7 +1447,7 @@ const StampRelatedPurchaseStatement = () => {
                                             <div className='text-center flex justify-center'>
                                                 <LabelComponent value="買取利率(%)" style={{ width: '100px', fontWeight: 'bold' }} />
                                             </div>
-                                            <InputComponent value={stampRate?.length>0 && stampRate[2].percent || ''} tylpe='number' style={{ width: '100px', height: '30px' }} disabled={true}/>
+                                            <InputComponent value={(stampRate?.length>0 && stampRate[2].percent) || ''} tylpe='number' style={{ width: '100px', height: '30px' }} disabled={true}/>
                                         </div>
                                     </div>
                                 </div>
@@ -1641,7 +1641,7 @@ const StampRelatedPurchaseStatement = () => {
                                                         <div >
                                                             <LabelComponent value="買取利率(%)" className='text-center flex justify-center' style={{ width: '100px', fontWeight: 'bold' }} />
                                                         </div>
-                                                        <InputComponent value={stampRate?.length>0 && stampRate[3].percent || ''} type='number' style={{ width: '100px', height: '30px' }} disabled={true}/>
+                                                        <InputComponent value={(stampRate?.length>0 && stampRate[3].percent) || ''} type='number' style={{ width: '100px', height: '30px' }} disabled={true}/>
                                                     </div>
                                                 </div>
                                             </div>

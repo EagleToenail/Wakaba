@@ -1,27 +1,33 @@
-export default async ({ title, body, icon }) => {
+const createDesktopNotification = async ({ title, body, icon }) => {
   try {
     const errData = {};
 
+    // Check if the browser supports notifications
     if (!('Notification' in window)) {
-      // check if the browser supports notifications
-      errData.message = 'This browser does not support desktop notification';
-      throw errData;
+      errData.message = 'This browser does not support desktop notifications';
+      throw new Error(errData.message);
     }
 
-    if (
-      document.visibilityState === 'hidden' &&
-      Notification.permission === 'granted'
-    ) {
+    // Check if the document is hidden and permission is granted
+    if (document.visibilityState === 'hidden' && Notification.permission === 'granted') {
       const notif = new Notification(title, { body, icon });
 
-      notif.onerror = (error1) => {
-        throw error1;
+      // Handle notification error
+      notif.onerror = (error) => {
+        console.error('Notification error:', error);
       };
     } else {
-      // ask the user for permission
-      await Notification.requestPermission();
+      // Ask the user for permission if not granted
+      const permission = await Notification.requestPermission();
+      if (permission === 'granted') {
+        new Notification(title, { body, icon });
+      } else {
+        console.error('Notification permission denied');
+      }
     }
-  } catch (error0) {
-    console.error(error0.message);
+  } catch (error) {
+    console.error('Error:', error.message);
   }
 };
+
+export default createDesktopNotification;

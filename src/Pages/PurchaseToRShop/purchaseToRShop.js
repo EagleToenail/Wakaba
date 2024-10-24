@@ -35,11 +35,11 @@ export default function TODOList() {
     const handleColorChange = (color) => {
         setTextColor(color);
     };
-    const [textMessageColor, setTextMessageColor] = useState('black');
-    // Handle button click
-    const handleMessageColorChange = (color) => {
-        setTextMessageColor(color);
-    };
+    // const [textMessageColor, setTextMessageColor] = useState('black');
+    // // Handle button click
+    // const handleMessageColorChange = (color) => {
+    //     setTextMessageColor(color);
+    // };
     // search selectbox================
     const [users, setUsers] = useState([]);
     const [query, setQuery] = useState('');
@@ -168,7 +168,7 @@ export default function TODOList() {
     // send message and file to other user 
     const sendRShopMessage = async () => {
         // console.log('sendtododata', reply);
-        if (shippingIds?.length>0 && reply.title != '' && reply.content != '' && reply.senderId != '' && reply.receiverId != '') {
+        if (shippingIds?.length>0 && reply.title !== '' && reply.content !== '' && reply.senderId !== '' && reply.receiverId !== '') {
             const formData = new FormData();
             if(messages?.length>0) {
                 console.log('afasfasdfa',messages[0].permission)

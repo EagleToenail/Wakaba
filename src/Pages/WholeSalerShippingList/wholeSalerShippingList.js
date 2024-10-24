@@ -1,13 +1,10 @@
 import React, { useState,useEffect } from 'react';
-// import { Link } from 'react-router-dom';
-// import Titlebar from '../../Components/Common/Titlebar';
-import { useNavigate} from 'react-router-dom';
+// import { useNavigate} from 'react-router-dom';
 import '../../Assets/css/showtable.css';
 import '../../Assets/css/firstTd.css';
 import '../../Assets/css/lastTd.css';
 
 import axios from 'axios';
-// import { useSelector } from 'react-redux';
 import LabelComponent from '../../Components/Common/LabelComponent';
 import InputComponent from '../../Components/Common/InputComponent';
 import ButtonComponent from '../../Components/Common/ButtonComponent';
@@ -45,10 +42,10 @@ const WholeSalerShippingList = () => {
 
     };
 
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
 
     const userStoreName = localStorage.getItem('storename');
-    const userId = localStorage.getItem('userId');
+    // const userId = localStorage.getItem('userId');
 
     const [wholeSalesPurchase, setWholeSalesPurchase] = useState([]);
     const [oldWholeSalesPurchase, setOldWholeSalesPurchase] = useState([]);
@@ -115,11 +112,6 @@ const WholeSalerShippingList = () => {
         handleSearch();
     }, []);
 
-    const [date, setDate] = useState('');
-    const handleDateChange = (event) => {
-        setDate(event.target.value); // Update the date state with the selected date
-    };
-
     // fetch vendor names
     const [allVendors , setAllVendors] = useState([]);
     useEffect(() => {
@@ -175,9 +167,9 @@ const WholeSalerShippingList = () => {
     }
 // only need for new package
     const [showPackage, setShowPackage] = useState(false);
-    const handleShowPackage = ()=> {
-        setShowPackage(!showPackage);
-    }
+    // const handleShowPackage = ()=> {
+    //     setShowPackage(!showPackage);
+    // }
 // need for old package
 const handleShowOldPackage = (ids)=> {
     if(ids?.length > 0){
