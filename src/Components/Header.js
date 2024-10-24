@@ -124,6 +124,79 @@ if (timeUntilOneMinuteBeforeMidnight < 0) {
 }
 setTimeout(clearStorage, timeUntilOneMinuteBeforeMidnight);
 
+//-------------------------auto save precious metal-----------------------------------
+const optionsDate = { year: 'numeric', month: '2-digit', day: '2-digit', timeZone: 'Asia/Tokyo' };
+const currentDay = new Intl.DateTimeFormat('ja-JP', optionsDate).format(now).replace(/\//g, '/');
+
+const desiredKeys = [
+  'K24特定品',
+  'K24',
+  'K22',
+  'K20',
+  'K18',
+  'K15',
+  'K14',
+  'K12',
+  'K10',
+  'K9',
+  'Pt特定品',
+  'Pt1000',
+  'Pt950',
+  'Pt900',
+  'Pt850',
+  'Pt800',
+  'Pt750',
+  'SV'
+];
+const getData = async(data1) => {
+  const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+  if (!wakabaBaseUrl) {
+      throw new Error('API base URL is not defined');
+  }
+  const priceArray = data1.map(item => item.price);
+  const resultObject = desiredKeys.reduce((acc, key, index) => {
+      acc[key] = priceArray[index];
+      return acc;
+  }, {});
+  resultObject.date = currentDay;
+  // console.log('resultObject',resultObject)
+  await axios.post(`${wakabaBaseUrl}/preciousmetalprice/autosave`, {payload:resultObject})
+      .then(response => {
+              // setData(response.data)
+      })
+      .catch(error => {
+          console.error("There was an error fetching the customer data!", error);
+      });
+};
+
+const getPreciousMetalData = () => {
+  const url = "https://gold.tanaka.co.jp/retanaka/price/";
+  fetch(url)
+    .then(response => response.text())
+    .then(html => {
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(html, "text/html");
+
+      const priceTables = doc.querySelectorAll("table.price_table");
+      const data = [];
+
+      priceTables.forEach(table => {
+        const rows = table.querySelectorAll("tbody tr");
+        rows.forEach(row => {
+          const cols = row.querySelectorAll("th, td");
+          if (cols.length > 1) {
+            const name = cols[0].textContent.trim();
+            const price = cols[1].textContent.trim();
+            data.push({ name, price });
+          }
+        });
+      });
+      getData(data);
+    })
+    .catch(error => console.log(error));
+}
+setTimeout(getPreciousMetalData, timeUntilOneMinuteBeforeMidnight);
+
 //----------------------go to admin top----------------------------
   const gotoAdminTop = () => {
     if(userData.role_flag==='4'){
