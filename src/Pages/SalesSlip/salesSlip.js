@@ -70,6 +70,7 @@ const SalesSlip = () => {
                         comment: JSON.parse(data.comment),
                     }));
                     setSales(updatedData111);
+                    console.log('updatedData111',updatedData111);
                 }
             })
             .catch(error => {
@@ -1320,8 +1321,8 @@ const SalesSlip = () => {
                                                     <>
                                                         {booleanArray[index] ? (
                                                             <>
-                                                                <td key={`expected-deposit-date-${index}`} style={Td} className='px-2'>{sale.expected_deposit_date || ''}</td>
-                                                                <td key={`assessment-amount-${index}`} style={Td} className='px-2 text-right'>{(sale.assessment_amount || 0).toLocaleString()}</td>
+                                                                <td key={`expected-deposit-date-${index}`} style={Td} className='px-2'>{sale.assessment_date || ''}</td>
+                                                                <td key={`assessment-amount-${index}`} style={Td} className='px-2 text-right'>{(sale.estimate_wholesaler[vendor.vendor_name] || 0).toLocaleString()}</td>
                                                                 <td key={`deposit-date-${index}`} style={Td} className='px-2'>{sale.deposit_date || ''}</td>
                                                                 <td key={`sales-amount-${index}`} style={Td} className='px-2 text-right'>{(sale.sales_amount || 0).toLocaleString()}</td>
                                                             </>

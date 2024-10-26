@@ -14,7 +14,7 @@ import axios from 'axios';
 import { useDispatch,useSelector} from 'react-redux';
 import { setClearData } from '../../redux/sales/actions';
 
-const StampRelatedOutventoryApplicationFormNew = () => {
+const StampRelatedOutventoryApplicationFormNew1 = () => {
     // const title = 'タイトルタイトル';
     const navigate = useNavigate();
 
@@ -562,6 +562,31 @@ const StampRelatedOutventoryApplicationFormNew = () => {
         }
 
     }
+//----------------------------------Create Modal--------------------------------------------
+const [outBound, setOutBound] = useState({
+    letterPack: { pack1: 370, pack2: 520, pack11: 0, pack22: 0 },
+    looseStamps: { stamp1: 0, stamp2: 0, stamp3: 0, stamp4: 0, stamp5: 0, stamp6: 0, stamp7: 0 },
+  });
+
+  const handleOutBoundChange = (category, item, value) => {
+    setOutBound(prevState => ({
+      ...prevState,
+      [category]: {
+        ...prevState[category],
+        [item]: value,
+      },
+    }));
+  };
+
+  const [isShow, setIsShow] = useState(false);
+  const showModal = () => {
+    setIsShow(true);
+  }
+  const onClose = () => {
+    setIsShow(false)
+  }
+
+//------------------------------------------------------------------------------
 
     return (
         <>
@@ -747,6 +772,178 @@ const StampRelatedOutventoryApplicationFormNew = () => {
                                             <td style={Td}>{''}</td>
                                             <td style={Td} className='text-right'>￥{(parseInt(totalStampFaceValue || 0) - 5 * parseInt(totalNumberOfStamp || 0)).toLocaleString()}</td>
                                         </tr>
+                                        <tr>
+                                                <td style={Td}>レ夕一パック</td>
+                                                <td style={Td}>
+                                                    <InputComponent value={outBound.letterPack.pack2 || ''} 
+                                                        onChange={e => handleOutBoundChange('letterPack', 'pack2', parseInt(e.target.value))} 
+                                                        type='number' className='w-full !h-8 text-[#70685a]' />
+                                                </td>
+                                                <td style={Td}>
+                                                    <InputComponent value={outBound.letterPack.pack22 || ''} 
+                                                    onChange={e => handleOutBoundChange('letterPack', 'pack22', parseInt(e.target.value))} 
+                                                    type='number' className='w-full !h-8 text-[#70685a]' />
+                                                </td>
+                                                <td style={Td} className='text-right'>￥{(parseInt(outBound.letterPack.pack2 || 0) * parseInt(outBound.letterPack.pack22 || 0)).toLocaleString()}</td>
+                                            </tr>
+                                            <tr className='bg-[#d9af7a]'>
+                                                <td style={Td}>レターパ合計</td>
+                                                <td style={Td}>合計枚数</td>
+                                                <td style={Td} className='text-right'>￥{(parseInt(outBound.letterPack.pack11 || 0) + parseInt(outBound.letterPack.pack22 || 0)).toLocaleString()}</td>
+                                                <td style={Td} className='text-right'>￥{(parseInt(outBound.letterPack.pack1 || 0) * parseInt(outBound.letterPack.pack11 || 0) +
+                                                                parseInt(outBound.letterPack.pack2 || 0) * parseInt(outBound.letterPack.pack22 || 0)).toLocaleString() }
+                                                </td>
+                                            </tr>
+                                            <tr className='bg-[#d9af7a]'>
+                                                <td style={Td}>切手お釣り</td>
+                                                <td style={Td}>{}</td>
+                                                <td style={Td}>{}</td>
+                                                <td style={Td} className='text-right'>￥{(parseInt(totalStampFaceValue || 0) - 5 * parseInt(totalNumberOfStamp || 0) -
+                                                                parseInt(outBound.letterPack.pack1 || 0) * parseInt(outBound.letterPack.pack11 || 0) -
+                                                                parseInt(outBound.letterPack.pack2 || 0) * parseInt(outBound.letterPack.pack22 || 0)).toLocaleString() }
+                                                </td>
+                                            </tr>
+                                            {/* ------------------------second table------------------------- */}
+                                            <tr className='h-6'>
+                                                <td style={Td}>レ夕一パック</td>
+                                                <td style={Td}>
+                                                    <InputComponent value={outBound.letterPack.pack1 || ''} 
+                                                        onChange={e => handleOutBoundChange('letterPack', 'pack1', parseInt(e.target.value))} 
+                                                        type='number' className='w-full !h-8 text-[#70685a]' />
+                                                </td>
+                                                <td style={Td}>
+                                                    <InputComponent value={outBound.letterPack.pack11 || ''} 
+                                                    onChange={e => handleOutBoundChange('letterPack', 'pack11', parseInt(e.target.value))} 
+                                                    type='number' className='w-full !h-8 text-[#70685a]' />
+                                                </td>
+                                                <td style={Td} className='text-right'>￥{(parseInt(outBound.letterPack.pack1 || 0) * parseInt(outBound.letterPack.pack11 || 0)).toLocaleString()}</td>
+                                            </tr>
+                                            <tr>
+                                                <td style={Td}>レ夕一パック</td>
+                                                <td style={Td}>
+                                                    <InputComponent value={outBound.letterPack.pack2 || ''} 
+                                                        onChange={e => handleOutBoundChange('letterPack', 'pack2', parseInt(e.target.value))} 
+                                                        type='number' className='w-full !h-8 text-[#70685a]' />
+                                                </td>
+                                                <td style={Td}>
+                                                    <InputComponent value={outBound.letterPack.pack22 || ''} 
+                                                    onChange={e => handleOutBoundChange('letterPack', 'pack22', parseInt(e.target.value))} 
+                                                    type='number' className='w-full !h-8 text-[#70685a]' />
+                                                </td>
+                                                <td style={Td} className='text-right'>￥{(parseInt(outBound.letterPack.pack2 || 0) * parseInt(outBound.letterPack.pack22 || 0)).toLocaleString()}</td>
+                                            </tr>
+                                            <tr className='bg-[#d9af7a]'>
+                                                <td style={Td}>レターパ合計</td>
+                                                <td style={Td}>合計枚数</td>
+                                                <td style={Td} className='text-right'>￥{(parseInt(outBound.letterPack.pack11) + parseInt(outBound.letterPack.pack22)).toLocaleString()}</td>
+                                                <td style={Td} className='text-right'>￥{(parseInt(outBound.letterPack.pack1) * parseInt(outBound.letterPack.pack11) +
+                                                                parseInt(outBound.letterPack.pack2) * parseInt(outBound.letterPack.pack22)).toLocaleString()}
+                                                </td>
+                                            </tr>
+                                            <tr className='bg-[#d9af7a]'>
+                                                <td style={Td}>切手お釣り</td>
+                                                <td style={Td}>{}</td>
+                                                <td style={Td}>{}</td>
+                                                <td style={Td} className='text-right'>￥{(parseInt(totalStampFaceValue) - 5 * parseInt(totalNumberOfStamp) -
+                                                                parseInt(outBound.letterPack.pack1) * parseInt(outBound.letterPack.pack11) -
+                                                                parseInt(outBound.letterPack.pack2) * parseInt(outBound.letterPack.pack22)).toLocaleString() }
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style={Td}>返金切手</td>
+                                                <td style={Td}>{}</td>
+                                                <td style={Td}>{}</td>
+                                                <td style={Td}>{}</td>
+                                            </tr>
+                                            <tr>
+                                                <td style={Td}>500円切手</td>
+                                                <td style={Td}>500</td>
+                                                <td style={Td}>
+                                                    <InputComponent value={outBound.looseStamps.stamp1 || ''} 
+                                                    onChange={e => handleOutBoundChange('looseStamps', 'stamp1',  parseInt(e.target.value))} 
+                                                    type='number' className='w-full !h-8 text-[#70685a]' />
+                                                </td>
+                                                <td style={Td} className='text-right'>￥{(500 * parseInt(outBound.looseStamps.stamp1 || 0)).toLocaleString()}</td>
+                                            </tr>
+                                            <tr>
+                                                <td style={Td}>100円切手</td>
+                                                <td style={Td}>100</td>
+                                                <td style={Td}>
+                                                    <InputComponent value={outBound.looseStamps.stamp2 || ''} 
+                                                    onChange={e => handleOutBoundChange('looseStamps', 'stamp2',  parseInt(e.target.value))} 
+                                                    type='number' className='w-full !h-8 text-[#70685a]' />
+                                                </td>
+                                                <td style={Td} className='text-right'>￥{(100 * parseInt(outBound.looseStamps.stamp2 || 0)).toLocaleString()}</td>
+                                            </tr>
+                                            <tr>
+                                                <td style={Td}>50円切手</td>
+                                                <td style={Td}>50</td>
+                                                <td style={Td}>
+                                                    <InputComponent value={outBound.looseStamps.stamp3 || ''} 
+                                                    onChange={e => handleOutBoundChange('looseStamps', 'stamp3',  parseInt(e.target.value))} 
+                                                    type='number' className='w-full !h-8 text-[#70685a]' />
+                                                </td>
+                                                <td style={Td} className='text-right'>￥{(50 * parseInt(outBound.looseStamps.stamp3 || 0)).toLocaleString()}</td>
+                                            </tr>
+                                            <tr>
+                                                <td style={Td}>20円切手</td>
+                                                <td style={Td}>20</td>
+                                                <td style={Td}>
+                                                    <InputComponent value={outBound.looseStamps.stamp4 || ''} 
+                                                    onChange={e => handleOutBoundChange('looseStamps', 'stamp4',  parseInt(e.target.value))} 
+                                                    type='number' className='w-full !h-8 text-[#70685a]' />
+                                                </td>
+                                                <td style={Td} className='text-right'>￥{(20 * parseInt(outBound.looseStamps.stamp4 || 0)).toLocaleString()}</td>
+                                            </tr>
+                                            <tr>
+                                                <td style={Td}>10円切手</td>
+                                                <td style={Td}>10</td>
+                                                <td style={Td}>
+                                                    <InputComponent value={outBound.looseStamps.stamp5 || ''} 
+                                                    onChange={e => handleOutBoundChange('looseStamps', 'stamp5',  parseInt(e.target.value))} 
+                                                    type='number' className='w-full !h-8 text-[#70685a]' />
+                                                </td>
+                                                <td style={Td} className='text-right'>￥{(10 * parseInt(outBound.looseStamps.stamp5 || 0)).toLocaleString()}</td>
+                                            </tr>
+                                            <tr>
+                                                <td style={Td}>5円切手</td>
+                                                <td style={Td}>5</td>
+                                                <td style={Td}>
+                                                    <InputComponent value={outBound.looseStamps.stamp6 || ''} 
+                                                    onChange={e => handleOutBoundChange('looseStamps', 'stamp6',  parseInt(e.target.value))} 
+                                                    type='number' className='w-full !h-8 text-[#70685a]' />
+                                                </td>
+                                                <td style={Td} className='text-right'>￥{(5 * parseInt(outBound.looseStamps.stamp6 || 0)).toLocaleString()}</td>
+                                            </tr>
+                                            <tr>
+                                                <td style={Td}>1円切手</td>
+                                                <td style={Td}>1</td>
+                                                <td style={Td}>
+                                                    <InputComponent value={outBound.looseStamps.stamp7 || ''} 
+                                                    onChange={e => handleOutBoundChange('looseStamps', 'stamp7',  parseInt(e.target.value))} 
+                                                    type='number' className='w-full !h-8 text-[#70685a]' />
+                                                </td>
+                                                <td style={Td} className='text-right'>￥{(parseInt(outBound.looseStamps.stamp7 || 0)).toLocaleString()}</td>
+                                            </tr>
+                                            <tr className='bg-[#d9af7a]'>
+                                                <td style={Td}>合計返金切手</td>
+                                                <td style={Td}>{}</td>
+                                                <td style={Td}>{}</td>
+                                                <td style={Td} className='text-right'>￥{(parseInt(outBound.looseStamps.stamp1 || 0) * 500 + parseInt(outBound.looseStamps.stamp2 || 0) * 100 +
+                                                parseInt(outBound.looseStamps.stamp3 || 0) * 50 + parseInt(outBound.looseStamps.stamp4 || 0) * 20 +
+                                                parseInt(outBound.looseStamps.stamp5 || 0) * 10 + parseInt(outBound.looseStamps.stamp6 || 0) * 5 +
+                                                parseInt(outBound.looseStamps.stamp7 || 0)).toLocaleString()}</td>
+                                            </tr>
+                                            <tr className='bg-[#d9af7a]'>
+                                                <td style={Td}>残差異</td>
+                                                <td style={Td}>{}</td>
+                                                <td style={Td}>{}</td>
+                                                <td style={Td} className='text-right'>￥{(parseInt(totalStampFaceValue || 0) - 5 * parseInt(totalNumberOfStamp || 0) - 
+                                                (parseInt(outBound.looseStamps.stamp1 || 0) * 500 + parseInt(outBound.looseStamps.stamp2 || 0) * 100 +
+                                                parseInt(outBound.looseStamps.stamp3 || 0) * 50 + parseInt(outBound.looseStamps.stamp4 || 0) * 20 +
+                                                parseInt(outBound.looseStamps.stamp5 || 0) * 10 + parseInt(outBound.looseStamps.stamp6 || 0) * 5 +
+                                                parseInt(outBound.looseStamps.stamp7 || 0))).toLocaleString()}</td>
+                                            </tr>
                                     </tbody>
 
                                 </table>
@@ -760,4 +957,4 @@ const StampRelatedOutventoryApplicationFormNew = () => {
     );
 };
 
-export default StampRelatedOutventoryApplicationFormNew;
+export default StampRelatedOutventoryApplicationFormNew1;

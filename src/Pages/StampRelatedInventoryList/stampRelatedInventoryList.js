@@ -1038,7 +1038,7 @@ const StampRelatedInventoryList = () => {
         
         const sendData = {checkedValues1,checkedValues2,checkedValues3,checkedValues4,checkedValues5};
         updateData(sendData);
-        navigate('/stamprelatedoutboundapplicationform');
+        navigate('/stamprelatedoutboundapplicationformnew1');
     }
     // goto create outbound new application page
     const gotoStampOutboundApplicationNew = () => {

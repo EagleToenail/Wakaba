@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Link, useNavigate, useParams, useLocation } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import LabelComponent from '../../Components/Common/LabelComponent';
 import ButtonComponent from '../../Components/Common/ButtonComponent';
@@ -7,7 +7,6 @@ import InputComponent from '../../Components/Common/InputComponent';
 import DateAndTime from '../../Components/Common/PickData';
 import dateimage from '../../Assets/img/datepicker.png';
 import axios from 'axios';
-import user from '../../redux/features/user';
 
 const CommemorativeCoinExchange = () => {
     // const title = 'タイトルタイトル';
@@ -20,12 +19,6 @@ const CommemorativeCoinExchange = () => {
         alignItem: 'center'
     };
 
-    // const Th = {
-    //     border: '1px solid #70685a',
-    //     borderCollapse: 'collapse',
-    //     color: '#70685a',
-    //     fontSize: '15px'
-    // };
     const Td = {
         border: '1px solid #70685a',
         borderCollapse: 'collapse',
@@ -59,7 +52,7 @@ const CommemorativeCoinExchange = () => {
             newNumberOfCoins: data.numberOfCoins
         }));
         setCoinRows(updatedData);
-        console.log('updated data',updatedData)
+        console.log('updated data', updatedData)
     }
 
     const [inputCoinShow, setInputCoinShow] = useState(false);
@@ -147,9 +140,9 @@ const CommemorativeCoinExchange = () => {
     };
 
     //delete one of tatalsaleSlipdata
-    const handleCoinDeleteClick = (index) => {
-        setCoinRows(coinRows.filter((_, i) => i !== index));
-    };
+    // const handleCoinDeleteClick = (index) => {
+    //     setCoinRows(coinRows.filter((_, i) => i !== index));
+    // };
     //calculate
     const calculateCoin = (numberofcoins) => {
         const { coinValue } = editedCoinRow;
@@ -162,13 +155,13 @@ const CommemorativeCoinExchange = () => {
         }
     }
     //new version
-    const calculateCoin1 = (index,data) => {
+    const calculateCoin1 = (index, data) => {
         if (index !== undefined) {
             const coinValue = parseInt(data[index].coinValue) || 0;
             const numberOfCoins = parseInt(data[index].numberOfCoins) || 0;
             const calculatedProduct = coinValue * numberOfCoins;
-            const updatedRows = data.map((r, i) => 
-                i === index ? { ...r, totalCoinValue: calculatedProduct} : r
+            const updatedRows = data.map((r, i) =>
+                i === index ? { ...r, totalCoinValue: calculatedProduct } : r
             );
             setCoinRows(updatedRows);
         }
@@ -274,7 +267,7 @@ const CommemorativeCoinExchange = () => {
     });
     const handleBillInputChange = (e) => {
         const { name, value } = e.target;
-        console.log('aaa',name)
+        console.log('aaa', name)
         setEditedBillRow({ ...editedBillRow, [name]: value });
         if (name === 'numberOfBills') {
             calculateBill(value);
@@ -324,13 +317,13 @@ const CommemorativeCoinExchange = () => {
         }
     }
     //new version
-    const calculateBill1 = (index,data) => {
+    const calculateBill1 = (index, data) => {
         if (index !== undefined) {
             const billValue = parseInt(data[index].billValue) || 0;
             const numberOfBills = parseInt(data[index].numberOfBills) || 0;
             const calculatedProduct = billValue * numberOfBills;
-            const updatedRows = data.map((r, i) => 
-                i === index ? { ...r, totalBillValue: calculatedProduct} : r
+            const updatedRows = data.map((r, i) =>
+                i === index ? { ...r, totalBillValue: calculatedProduct } : r
             );
             setBillRows(updatedRows);
         }
@@ -360,21 +353,21 @@ const CommemorativeCoinExchange = () => {
     const [userData, setUserData] = useState([]);
     const userId = localStorage.getItem('userId');
     useEffect(() => {
-  
-      const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
-  
-      if (!wakabaBaseUrl) {
-        throw new Error('API base URL is not defined');
-      }
-  
-      axios.post(`${wakabaBaseUrl}/profiledata`, { userId })
-        .then(response => {
-          setUserData(response.data);
-          console.log(response.data);
-        })
-        .catch(error => {
-          console.error("There was an error fetching the customer data!", error);
-        });
+
+        const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+
+        if (!wakabaBaseUrl) {
+            throw new Error('API base URL is not defined');
+        }
+
+        axios.post(`${wakabaBaseUrl}/profiledata`, { userId })
+            .then(response => {
+                setUserData(response.data);
+                console.log(response.data);
+            })
+            .catch(error => {
+                console.error("There was an error fetching the customer data!", error);
+            });
     }, [userId]);
 
     const now = new Date();
@@ -396,7 +389,7 @@ const CommemorativeCoinExchange = () => {
         }));
     };
 
-      const sendCoinAndBillData = async() => {
+    const sendCoinAndBillData = async () => {
         const coinFilteredArray = coinRows.filter(obj => obj.numberOfCoins !== 0);
         const coinids = coinFilteredArray.map(obj => obj.id);
         const coinvalues = coinFilteredArray.map(obj => obj.numberOfCoins);
@@ -419,8 +412,10 @@ const CommemorativeCoinExchange = () => {
             if (!wakabaBaseUrl) {
                 throw new Error('API base URL is not defined');
             }
-            const coinAndBillData = {staff_name,phone,application_date,bank_name,exchange_date,total_coin_values,total_bill_values,
-                description,coinids,coinvalues,billids,billvalues}
+            const coinAndBillData = {
+                staff_name, phone, application_date, bank_name, exchange_date, total_coin_values, total_bill_values,
+                description, coinids, coinvalues, billids, billvalues
+            }
             await axios.post(`${wakabaBaseUrl}/coinandbillexchange/create`, coinAndBillData)
                 .then(response => {
                     // console.log('success',response.data)
@@ -432,7 +427,7 @@ const CommemorativeCoinExchange = () => {
         } catch (error) {
             console.error('Error adding row:', error);
         }
-      }
+    }
     //-----------------------------------------------------------------------------------
     return (
         <>
@@ -468,13 +463,13 @@ const CommemorativeCoinExchange = () => {
                                             </div>
                                         </div>
                                     </div>
-                                    <div className='mt-2 flex flex-col justify-center'><InputComponent className='w-60 h-10' name='bank_name' value={otherData.bank_name || ''} placeholder={'~~~'} onChange={handleOtherDataChange}/></div>
+                                    <div className='mt-2 flex flex-col justify-center'><InputComponent className='w-60 h-10' name='bank_name' value={otherData.bank_name || ''} placeholder={'~~~'} onChange={handleOtherDataChange} /></div>
                                 </div>
                             </div>
                         </div>
                         <div className='commemorative-coin-one flex justify-between gap-5 mt-5 w-[20%]'>
                             <div className='text-xl font-bold text-[#70685a] cursor-pointer pt-2' style={{ visibility: 'hidden' }}>PDF</div>
-                            <ButtonComponent children={'Print'} className='h-11 !text-xl !px-10'onClick={sendCoinAndBillData} />
+                            <ButtonComponent children={'Print'} className='h-11 !text-xl !px-10' onClick={sendCoinAndBillData} />
                             <div className='text-xl font-bold text-[#70685a] cursor-pointer pt-2'>PDF</div>
                         </div>
                         <div className='commemorative-coin-one w-[40%] flex text-left pt-5'>
@@ -543,7 +538,7 @@ const CommemorativeCoinExchange = () => {
                                         </thead>
                                         <tbody>
                                             {coinRows?.length > 0 && coinRows.map((row, Index) => (
-                                                <tr key={Index}  style={{display:'none'}}>
+                                                <tr key={Index} style={{ display: 'none' }}>
                                                     <td style={Td} className='text-right'>{(parseInt(row.coinValue || 0)).toLocaleString()}</td>
                                                     <td style={Td}>
                                                         {row.newNumberOfCoins || ''}
@@ -586,29 +581,29 @@ const CommemorativeCoinExchange = () => {
                                                     </td>
                                                 </tr>
                                             ))}
-            {coinRows?.length > 0 && coinRows.map((row, index) => (
-                <tr key={index}>
-                    <td style={Td}>{row.coinValue || ''}</td>
-                    <td style={Td}>{row.newNumberOfCoins || ''}</td>
-                    <td style={Td}>
-                        <InputComponent
-                            name='numberOfCoins'
-                            type="number"
-                            value={row.numberOfCoins || ''}
-                            onChange={(e) => {
-                                const value = e.target.value;
-                                const updatedRows = coinRows.map((r, i) => 
-                                    i === index ? { ...r, numberOfCoins: value } : r
-                                );
-                                setCoinRows(updatedRows);
-                                calculateCoin1(index,updatedRows);
-                            }}
-                            className='w-full h-8 text-[#70685a]'
-                        />
-                    </td>
-                    <td style={Td}>{row.totalCoinValue || ''}</td>
-                </tr>
-            ))}
+                                            {coinRows?.length > 0 && coinRows.map((row, index) => (
+                                                <tr key={index}>
+                                                    <td style={Td}>{row.coinValue || ''}</td>
+                                                    <td style={Td}>{row.newNumberOfCoins || ''}</td>
+                                                    <td style={Td}>
+                                                        <InputComponent
+                                                            name='numberOfCoins'
+                                                            type="number"
+                                                            value={row.numberOfCoins || ''}
+                                                            onChange={(e) => {
+                                                                const value = e.target.value;
+                                                                const updatedRows = coinRows.map((r, i) =>
+                                                                    i === index ? { ...r, numberOfCoins: value } : r
+                                                                );
+                                                                setCoinRows(updatedRows);
+                                                                calculateCoin1(index, updatedRows);
+                                                            }}
+                                                            className='w-full h-8 text-[#70685a]'
+                                                        />
+                                                    </td>
+                                                    <td style={Td}>{row.totalCoinValue || ''}</td>
+                                                </tr>
+                                            ))}
                                             {inputCoinShow ?
                                                 <tr>
                                                     <td style={Td}>
@@ -685,7 +680,7 @@ const CommemorativeCoinExchange = () => {
                                         </thead>
                                         <tbody>
                                             {billRows?.length > 0 && billRows.map((row, Index) => (
-                                                <tr key={Index}  style={{display:'none'}}>
+                                                <tr key={Index} style={{ display: 'none' }}>
                                                     <td style={Td} className='text-right'>
                                                         {(parseInt(row.billValue || 0)).toLocaleString()}
                                                     </td>
@@ -732,29 +727,29 @@ const CommemorativeCoinExchange = () => {
                                                     </td>
                                                 </tr>
                                             ))}
-            {billRows?.length > 0 && billRows.map((row, index) => (
-                <tr key={index}>
-                    <td style={Td}>{row.billValue || ''}</td>
-                    <td style={Td}>{row.newNumberOfBills || ''}</td>
-                    <td style={Td}>
-                        <InputComponent
-                            name='numberOfBills'
-                            type="number"
-                            value={row.numberOfBills || ''}
-                            onChange={(e) => {
-                                const value = e.target.value;
-                                const updatedRows = billRows.map((r, i) => 
-                                    i === index ? { ...r, numberOfBills: value } : r
-                                );
-                                setBillRows(updatedRows);
-                                calculateBill1(index,updatedRows);
-                            }}
-                            className='w-full h-8 text-[#70685a]'
-                        />
-                    </td>
-                    <td style={Td}>{row.totalBillValue || ''}</td>
-                </tr>
-            ))}
+                                            {billRows?.length > 0 && billRows.map((row, index) => (
+                                                <tr key={index}>
+                                                    <td style={Td}>{row.billValue || ''}</td>
+                                                    <td style={Td}>{row.newNumberOfBills || ''}</td>
+                                                    <td style={Td}>
+                                                        <InputComponent
+                                                            name='numberOfBills'
+                                                            type="number"
+                                                            value={row.numberOfBills || ''}
+                                                            onChange={(e) => {
+                                                                const value = e.target.value;
+                                                                const updatedRows = billRows.map((r, i) =>
+                                                                    i === index ? { ...r, numberOfBills: value } : r
+                                                                );
+                                                                setBillRows(updatedRows);
+                                                                calculateBill1(index, updatedRows);
+                                                            }}
+                                                            className='w-full h-8 text-[#70685a]'
+                                                        />
+                                                    </td>
+                                                    <td style={Td}>{row.totalBillValue || ''}</td>
+                                                </tr>
+                                            ))}
                                             {inputBillShow ?
                                                 <tr>
                                                     <td style={Td}>
