@@ -322,7 +322,7 @@ const CustomerList = () => {
                                         <div className={`flex justify-center ${isshow ? 'w-max' : 'w-20 overflow-hidden'}`}>{customer.address || ''}</div>
                                     </td>
                                     <td style={Td}>
-                                        <select name="cardType" value={customer.cardType} required onChange={(e) => handleValueChange(customer.id,Index,e)} className="w-40 text-[#70685a] py-1 outline-[#70685a]">
+                                        <select name="cardType" value={customer.cardType || ''} required onChange={(e) => handleValueChange(customer.id,Index,e)} className="w-40 text-[#70685a] py-1 outline-[#70685a]">
                                             <option value="" disabled></option>
                                             <option value="運転免許証">運転免許証</option>
                                             <option value="運転経歴証明書">運転経歴証明書</option>

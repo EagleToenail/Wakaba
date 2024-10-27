@@ -434,7 +434,7 @@ const CustomerIndividual = () => {
                                 <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 !mb-0">来店時間</label>
                             </div>
                             <div style={{ width: '50%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                <label className="text-[#70685a] font-bold block text-left mr-10 py-1 !mb-0">{formattedDateTime}</label>
+                                <label className="text-[#70685a] font-bold block text-left mr-10 py-1 !mb-0">{formattedDateTime || ''}</label>
                             </div>
                         </div>
                         {/* new */}
@@ -443,7 +443,7 @@ const CustomerIndividual = () => {
                                 <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">顧客番号</label>
                             </div>
                             <div style={{ width: '50%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                <label className="text-[#70685a] font-bold mb-2 block text-left mr-10 py-1 !mb-0">{customer.id}</label>
+                                <label className="text-[#70685a] font-bold mb-2 block text-left mr-10 py-1 !mb-0">{customer.id || ''}</label>
                             </div>
                         </div>
                     </div>
@@ -471,7 +471,7 @@ const CustomerIndividual = () => {
                                     <label className="text-[#70685a] font-bold mb-2 block text-center mr-10 py-1 !mb-0">店舗名</label>
                                 </div>
                                 <div style={{ width: '30%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <label name="storename" className="text-[#70685a] font-bold mb-2 block text-left mr-10 py-2 !mb-0">{customer.shop}</label>
+                                    <label name="storename" className="text-[#70685a] font-bold mb-2 block text-left mr-10 py-2 !mb-0">{customer.shop || ''}</label>
                                 </div>
                                 <div style={{ width: '20%', flexDirection: 'column', }} className='flex align-center justify-around'>
                                     <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-3 !mb-0">訪問タイプ</label>
@@ -494,13 +494,13 @@ const CustomerIndividual = () => {
                                     <label className="text-[#70685a] font-bold mb-2 block text-center mr-10 py-1 !mb-0">お名前</label>
                                 </div>
                                 <div style={{ width: '30%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <input name="full_name" value={customer.full_name} onChange={handleCustomerChange} type="text" required className="w-full text-[#70685a] border border-[#70685a] px-4 py-2 outline-[#70685a]" />
+                                    <input name="full_name" value={customer.full_name || ''} onChange={handleCustomerChange} type="text" required className="w-full text-[#70685a] border border-[#70685a] px-4 py-2 outline-[#70685a]" />
                                 </div>
                                 <div style={{ width: '20%', flexDirection: 'column', }} className='flex align-center justify-around'>
                                     <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">カタカナ名</label>
                                 </div>
                                 <div style={{ width: '30%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <input name="katakana_name" value={customer.katakana_name} onChange={handleCustomerChange} type="text" required className="w-full text-[#70685a] border border-[#70685a] px-4 py-2 outline-[#70685a]" />
+                                    <input name="katakana_name" value={customer.katakana_name || ''} onChange={handleCustomerChange} type="text" required className="w-full text-[#70685a] border border-[#70685a] px-4 py-2 outline-[#70685a]" />
                                 </div>
                             </div>
                             {/* new */}
@@ -509,7 +509,7 @@ const CustomerIndividual = () => {
                                     <label className="text-[#70685a] font-bold mb-2 block text-center mr-10 py-1 !mb-0">お電話番号</label>
                                 </div>
                                 <div style={{ width: '30%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <InputComponent name="phone_number" value={customer.phone_number} onChange={handleCustomerChange} type='tel' pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" placeholder="123-4567-7890" required/>
+                                    <InputComponent name="phone_number" value={customer.phone_number || ''} onChange={handleCustomerChange} type='tel' pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" placeholder="123-4567-7890" required/>
                                 </div>
                             </div>
                             {/* new */}
@@ -519,7 +519,7 @@ const CustomerIndividual = () => {
                                 </div>
 
                                 <div style={{ width: '18%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <input name="birthdayValue" type="text" value={customer.birthday} required className="w-full text-[#70685a] border border-[#70685a] px-4 py-1 text-[15px] outline-[#70685a]" readOnly />
+                                    <input name="birthdayValue" type="text" value={customer.birthday || ''} required className="w-full text-[#70685a] border border-[#70685a] px-4 py-1 text-[15px] outline-[#70685a]" readOnly />
                                 </div>
                                 <div style={{ width: '5%', flexDirection: 'column', }} className='flex flex-col justify-center pl-3'>
                                     <div style={{ width: '40px', height: '30px', cursor: 'pointer' }}>
@@ -532,13 +532,13 @@ const CustomerIndividual = () => {
                                 </div>
 
                                 <div style={{ width: '7%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <label className="text-[#70685a] font-bold mb-2 block text-right py-1 !mb-0">{customer.age}才</label>
+                                    <label className="text-[#70685a] font-bold mb-2 block text-right py-1 !mb-0">{customer.age || '0'}才</label>
                                 </div>
                                 <div style={{ width: '20%', flexDirection: 'column', }} className='flex flex-col justify-center text-right'>
                                     <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">性別</label>
                                 </div>
                                 <div style={{ width: '15%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <select id="gender" name="gender" required onChange={handleCustomerChange} value={customer.gender} className="w-full text-[#70685a] font-bold border border-[#70685a] px-4 py-2 outline-[#70685a]">
+                                    <select id="gender" name="gender" required onChange={handleCustomerChange} value={customer.gender || ''} className="w-full text-[#70685a] font-bold border border-[#70685a] px-4 py-2 outline-[#70685a]">
                                         <option value="" disabled></option>
                                         <option value="man">男</option>
                                         <option value="woman">女</option>
@@ -551,13 +551,13 @@ const CustomerIndividual = () => {
                                     <label className="text-[#70685a] font-bold mb-2 block text-center mr-10 py-1 !mb-0">ご職業</label>
                                 </div>
                                 <div style={{ width: '30%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <InputComponent name="job" value={customer.job} onChange={handleCustomerChange} type='text' required />
+                                    <InputComponent name="job" value={customer.job || ''} onChange={handleCustomerChange} type='text' required />
                                 </div>
                                 <div style={{ width: '20%', flexDirection: 'column', }} className='flex align-center justify-around'>
                                     <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">email</label>
                                 </div>
                                 <div style={{ width: '30%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <InputComponent name="email" value={customer.email} onChange={handleCustomerChange} type='email' required />
+                                    <InputComponent name="email" value={customer.email || ''} onChange={handleCustomerChange} type='email' required />
                                 </div>
                             </div>
                             {/* new */}
@@ -566,13 +566,13 @@ const CustomerIndividual = () => {
                                     <label className="text-[#70685a] font-bold mb-2 block text-center mr-10 py-1 !mb-0">トリガー</label>
                                 </div>
                                 <div style={{ width: '30%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <InputComponent name="trigger" value={customer.trigger} onChange={handleCustomerChange} type='text' required />
+                                    <InputComponent name="trigger" value={customer.trigger || ''} onChange={handleCustomerChange} type='text' required />
                                 </div>
                                 <div style={{ width: '20%', flexDirection: 'column', }} className='flex align-center justify-around'>
                                     <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">ブランドタイプ</label>
                                 </div>
                                 <div style={{ width: '30%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <InputComponent name="brand_type" value={customer.brand_type} onChange={handleCustomerChange} type='text' required />
+                                    <InputComponent name="brand_type" value={customer.brand_type || ''} onChange={handleCustomerChange} type='text' required />
                                 </div>
                             </div>
                             {/* new */}
@@ -593,7 +593,7 @@ const CustomerIndividual = () => {
                                     {/* {idcardFile && <p>{idcardFile.name}</p>} */}
                                 </div>
                                 <div style={{ width: '24%', flexDirection: 'column', }} className='flex ml-3 align-center justify-around'>
-                                    <select name="cardType" value={customer.cardType} required onChange={handleCustomerChange} className="w-full h-9 text-[#70685a] text-[15px] font-bold border border-[#70685a] px-4 py-2 outline-[#70685a]">
+                                    <select name="cardType" value={customer.cardType || ''} required onChange={handleCustomerChange} className="w-full h-9 text-[#70685a] text-[15px] font-bold border border-[#70685a] px-4 py-2 outline-[#70685a]">
                                         <option value="" disabled></option>
                                         <option value="運転免許証">運転免許証</option>
                                         <option value="運転経歴証明書">運転経歴証明書</option>
@@ -611,7 +611,7 @@ const CustomerIndividual = () => {
                                     <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">身分証No.</label>
                                 </div>
                                 <div style={{ width: '30%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <InputComponent name="idcard_number" value={customer.idcard_number} onChange={handleCustomerChange} type='number' required />
+                                    <InputComponent name="idcard_number" value={customer.idcard_number || ''} onChange={handleCustomerChange} type='number' required />
                                 </div>
                             </div>
                             {/* new */}
@@ -637,7 +637,7 @@ const CustomerIndividual = () => {
                                     <label className="text-[#70685a] font-bold mb-2 block text-center mr-10 py-1 !mb-0">都道府県</label>
                                 </div>
                                 <div style={{ width: '30%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <select id="prefeature" value={customer.prefeature} required onChange={handleCustomerChange} name="prefeature" className="w-full h-10 text-[#70685a] font-bold border border-[#70685a] px-4 py-1 outline-[#70685a]">
+                                    <select id="prefeature" value={customer.prefeature || ''} required onChange={handleCustomerChange} name="prefeature" className="w-full h-10 text-[#70685a] font-bold border border-[#70685a] px-4 py-1 outline-[#70685a]">
                                         <option value="" disabled></option>
                                         <option value="北海道">北海道</option>
                                         <option value="青森県">青森県</option>
@@ -692,7 +692,7 @@ const CustomerIndividual = () => {
                                     <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">市町村</label>
                                 </div>
                                 <div style={{ width: '30%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <input name="city" type="text" value={customer.city} onChange={handleCustomerChange} required className="w-full text-[#70685a] border border-[#70685a] px-4 py-2 outline-[#70685a]" />
+                                    <input name="city" type="text" value={customer.city || ''} onChange={handleCustomerChange} required className="w-full text-[#70685a] border border-[#70685a] px-4 py-2 outline-[#70685a]" />
                                 </div>
                             </div>
                             {/* new */}
@@ -701,7 +701,7 @@ const CustomerIndividual = () => {
                                     <label className="text-[#70685a] font-bold mb-2 block text-center mr-10 py-1 !mb-0">住所詳細</label>
                                 </div>
                                 <div style={{ width: '80%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <input name="address" type="text" value={customer.address} onChange={handleCustomerChange} required className="w-full text-[#70685a] border border-[#70685a] px-4 py-2 outline-[#70685a]" />
+                                    <input name="address" type="text" value={customer.address || ''} onChange={handleCustomerChange} required className="w-full text-[#70685a] border border-[#70685a] px-4 py-2 outline-[#70685a]" />
                                 </div>
                             </div>
                             {/* new */}
@@ -710,7 +710,7 @@ const CustomerIndividual = () => {
                                     <label className="text-[#70685a] font-bold mb-2 block text-center mr-10 py-1 !mb-0">特記事項</label>
                                 </div>
                                 <div style={{ width: '80%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <input name="special_note" type="text" value={customer.special_note} onChange={handleCustomerChange} required className="w-full text-[#70685a] border border-[#70685a] px-4 py-2 outline-[#70685a]" />
+                                    <input name="special_note" type="text" value={customer.special_note || ''} onChange={handleCustomerChange} required className="w-full text-[#70685a] border border-[#70685a] px-4 py-2 outline-[#70685a]" />
                                 </div>
                             </div>
 
@@ -794,11 +794,11 @@ const CustomerIndividual = () => {
                                                                 </div>
                                                             </div>
                                                         </td>
-                                                        <td style={Td}>{pastVisit.visit_date}</td>
-                                                        <td style={Td}>{pastVisit.applicable}</td>
+                                                        <td style={Td}>{pastVisit.visit_date || ''}</td>
+                                                        <td style={Td}>{pastVisit.applicable || ''}</td>
                                                         <td style={Td}>{(pastVisit.total_amount || 0).toLocaleString()}</td>
-                                                        <td style={Td}>{pastVisit.category}</td>
-                                                        <td style={Td}>{pastVisit.product_name}</td>
+                                                        <td style={Td}>{pastVisit.category || ''}</td>
+                                                        <td style={Td}>{pastVisit.product_name || ''}</td>
                                                         <td style={Td} className='text-right'>{(pastVisit.total_sales || 0).toLocaleString()}</td>
                                                         <td style={Td} className='text-right'>{(pastVisit.total_gross_profit || 0).toLocaleString()}</td>
                                                         <td style={Td} className='text-right'>{(pastVisit.total_purchase_price || 0).toLocaleString()}</td>
@@ -850,7 +850,7 @@ const CustomerIndividual = () => {
         />
         <label htmlFor="pair-checkbox-0" className="text-[#70685a] mr-3">店舗以外の看板・広告を見て</label>
         <InputComponent 
-            value={pairs[0].value} 
+            value={pairs[0].value || ''} 
             onChange={(e) => handleInputChange(0, e.target.value)} 
             disabled={!pairs[0].checked} 
             className="w-40 text-[#70685a] mb-2 block text-left mr-10 py-1 !mb-0 !h-8" 
@@ -874,7 +874,7 @@ const CustomerIndividual = () => {
                     />
                     <label htmlFor={id} className="text-[#70685a] mr-3">{item.label}</label>
                     <InputComponent 
-                        value={pairs[index + 1].value} 
+                        value={pairs[index + 1].value || ''} 
                         onChange={(e) => handleInputChange(index + 1, e.target.value)} 
                         disabled={!pairs[index + 1].checked} 
                         className="w-40 text-[#70685a] mb-2 block text-left mr-10 py-1 !mb-0 !h-8" 
@@ -938,7 +938,7 @@ const CustomerIndividual = () => {
         />
         <label htmlFor="pair-checkbox-3" className="text-[#70685a] mr-3">その他</label>
         <InputComponent 
-            value={pairs[3].value} 
+            value={pairs[3].value || ''} 
             onChange={(e) => handleInputChange(3, e.target.value)} 
             disabled={!pairs[3].checked} 
             className="w-40 text-[#70685a] mb-2 block text-left mr-10 py-1 !mb-0 !h-8" 

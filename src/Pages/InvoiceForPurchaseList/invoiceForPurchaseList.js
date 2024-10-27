@@ -3,7 +3,7 @@ import { Link ,useNavigate} from 'react-router-dom';
 // import Titlebar from '../../Components/Common/Titlebar';
 import ButtonComponent from '../../Components/Common/ButtonComponent';
 import DateAndTime from '../../Components/Common/PickData';
-import dateimage from '../../Assets/img/datepicker.png';
+// import dateimage from '../../Assets/img/datepicker.png';
 
 import axios from 'axios';
 
@@ -55,18 +55,34 @@ const InvoiceForPurchaseList = () => {
         fetchInvoiceList();
     }, []);
 
+    const setInvoiceStatus = async(data) => {
+        const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+        if (!wakabaBaseUrl) {
+            throw new Error('API base URL is not defined');
+        }
+        await axios.post(`${wakabaBaseUrl}/purchaseinvoice/setinvoicestatus`,{userId:userId})
+            .then(response => {
+                navigate(data);
+            })
+            .catch(error => {
+                console.error("There was an error fetching the customer data!", error);
+            });
+    }
+
     //no new customer
     const gotoCustomer = () => {
-            navigate('/customerlist')
+        const data = '/customerlist';
+        setInvoiceStatus(data);
     }
-    //new customer
     const gotoRegisterCustomer =()=> {
-        navigate('/invoiceforpurchaseofbroughtblank');
+        const data = '/invoiceforpurchaseofbroughtblank';
+        setInvoiceStatus(data);
+        // navigate('/invoiceforpurchaseofbroughtblank');
     }
 
     //goto invoice for purchase detail page
     const gotoInvoiceForPurchaseDetail = (id) => {
-        navigate(`/invoiceforpurchasedetail/${id}`)
+        navigate(`/invoiceforpurchasedetail/${id}`);
     }
 
     return (
