@@ -34,6 +34,7 @@ import CustomerIndividualCreate from './Pages/CustomerIndividualCreate/customerI
 import PurchaseToRShop from './Pages/PurchaseToRShop/purchaseToRShop';//Purchase application to R shop
 import InvoiceForPurchaseOfBrought from './Pages/InvoiceForPurchaseOfBrought/invoiceforpurchaseofbrought';//Application for invoice for purchase of brought-in goods
 import InvoiceForPurchaseOfBroughtBlank from './Pages/InvoiceForPurchaseOfBroughtBlank/invoiceforpurchaseofbroughtblank';//Application for invoice for purchase of brought blank-in goods
+import InvoiceForPurchaseBlankDetail from './Pages/InvoiceForPurchaseOfBroughtBlank/invoiceforpurchaseofbroughtblankdetail';//Application for invoice for purchase of brought blank detail
 import InvoiceForPurchaseList from './Pages/InvoiceForPurchaseList/invoiceForPurchaseList';//invoice for purchase list
 import InvoiceForPurchaseDetail from './Pages/invoiceForPurchaseDetail/invoiceForPurchaseDetail';//invoice for detail
 import PurchaseInvoiceForBroughtInItems from './Pages/PurchaseInvoiceForBroughtInItems/purchaseInvoiceForBroughtInItems';//Purchase invoice for brought-in items(for customer presentaion)
@@ -167,6 +168,7 @@ function App() {
             <Route path='/customerindividualcreate' element={<CustomerIndividualCreate/>}/> 
             <Route path='/invoiceforpurchaselist' element={<InvoiceForPurchaseList/>}/>
             <Route path='/invoiceforpurchasedetail/:invoiceid' element={<InvoiceForPurchaseDetail/>}/>
+            <Route path='/invoiceforpurchaseblankdetail/:invoiceid' element={<InvoiceForPurchaseBlankDetail/>}/>
             <Route path='/wholesalershippinglist' element={<WholeSalerShippingList/>}/>
             <Route path='/purchaserequestformforwholesaler' element={<PurchaseRequestFormForWholeSaler/>}/>
             <Route path='/salesslip' element={<SalesSlip/>}/>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import {useNavigate} from 'react-router-dom';
+import {useNavigate, useParams} from 'react-router-dom';
 // import Titlebar from '../../Components/Common/Titlebar';
 import '../../Assets/css/showtable.css'
 import '../../Assets/css/firstTd.css'
@@ -21,10 +21,12 @@ import { setCustomerID } from '../../redux/sales/actions';
 import leftArrow from '../../Assets/img/right-arrow.png';
 import rightArrow from '../../Assets/img/left-arrow.png';
 
-const InvoicePurchaseOfBroughtBlank = () => {
+const InvoicePurchaseOfBroughtBlankDetail = () => {
     // const title = 'タイトルタイトル';
 
     const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+    
+    const navigate = useNavigate();
 
     const now = new Date();
     // Format the date as YYYY-MM-DD
@@ -85,79 +87,11 @@ const InvoicePurchaseOfBroughtBlank = () => {
     const username = localStorage.getItem('fullname');
     const role = localStorage.getItem('role');
 
-    // fetch registered product item
-    useEffect(() => {
-        clearReduxData();
-        const fetch = async () => {
-            const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
-
-            if (!wakabaBaseUrl) {
-                throw new Error('API base URL is not defined');
-            }
-
-            await axios.post(`${wakabaBaseUrl}/purchaseinvoice/getregistereddata`, { id: '0', userStoreName: userStoreName, userId: userId })
-                .then(response => {
-                    const invoiceData = response.data;
-                    if (invoiceData?.length > 0) {
-                        const updatedData111 = invoiceData.map((data, Index) => ({
-                            ...data,
-                            estimate_wholesaler: JSON.parse(data.estimate_wholesaler),
-                            comment: JSON.parse(data.comment),
-                        }));
-                        setTotalSalesSlipData(updatedData111);
-                        setItemsImagePreview(`${wakabaBaseUrl}/uploads/product/${response.data[0].entire_items_url}`);
-                        setItemsDocPreview(`${wakabaBaseUrl}/uploads/product/${response.data[0].document_url}`);
-                    }
-                    setShowInputPurchase(false);
-                })
-                .catch(error => {
-                    console.error("There was an error fetching the customer data!", error);
-                });
-        }
-        fetch();
-    }, []);
-
+    const { invoiceid } = useParams();
     const [invoiceID, setInvoiceID] = useState('');
-    //fetch invoiceID data
-    useEffect(() => {
-        const fetch = async () => {
-            const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
 
-            if (!wakabaBaseUrl) {
-                throw new Error('API base URL is not defined');
-            }
-
-            await axios.get(`${wakabaBaseUrl}/purchaseinvoice/getinvoicenumber`)
-                .then(response => {
-                    setInvoiceID(response.data.invoiceID);
-                    //console.log('invoiceID',response.data)
-                })
-                .catch(error => {
-                    console.error("There was an error fetching the customer data!", error);
-                });
-        }
-        fetch();
-    }, []);
-
-    const [users, setUsers] = useState([]);
-    // Fetch user data
-    useEffect(() => {
-        const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
-        if (!wakabaBaseUrl) {
-            throw new Error('API base URL is not defined');
-        }
-
-        axios.post(`${wakabaBaseUrl}/user/getStoreProfileList`, { storeName: userStoreName })
-            .then(response => {
-                const data = response.data;
-                setUsers(data);
-            })
-            .catch(error => {
-                console.error("There was an error fetching the customer data!", error);
-            });
-    }, []);
-
-    const navigate = useNavigate();
+    const [itemsImagePreview, setItemsImagePreview] = useState("");
+    const [itemsImageDocPreview, setItemsDocPreview] = useState("");
 
     const [customer, setCustomer] = useState({
         full_name: '',
@@ -249,6 +183,61 @@ const InvoicePurchaseOfBroughtBlank = () => {
         purchase_staff: username,
         payment_staff: '',
     });
+
+    //fetch registered data
+    useEffect(() => {
+        const fetchInvoiceData = async () => {
+            const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+
+            if (!wakabaBaseUrl) {
+                throw new Error('API base URL is not defined');
+            }
+            await axios.post(`${wakabaBaseUrl}/purchaseinvoice/invoicedetail`, { id: invoiceid })
+                .then(response => {
+                    console.log(response.data)
+                    const invoiceData = response.data;
+                    if (invoiceData?.length > 0) {
+                        const customerId = invoiceData[0].customer_id;
+                        // setId(customerId);
+                        const updatedData111 = invoiceData.map((data, Index) => ({
+                            ...data,
+                            estimate_wholesaler: JSON.parse(data.estimate_wholesaler),
+                            comment: JSON.parse(data.comment),
+                        }));
+                        setTotalSalesSlipData(updatedData111);
+                        setItemsImagePreview(`${wakabaBaseUrl}/uploads/product/${response.data[0].entire_items_url}`);
+                        setItemsDocPreview(`${wakabaBaseUrl}/uploads/product/${response.data[0].document_url}`);
+                        setInvoiceID(response.data[0].invoiceID);
+                        // fetchCustomerPastVisitHistory(customerId);
+                        // fetchCustomerData(customerId);
+                    }
+                    setShowInputPurchase(false);
+                })
+                .catch(error => {
+                    console.error("There was an error fetching the invoice data!", error);
+                });
+        }
+        fetchInvoiceData();
+    }, []);// eslint-disable-next-line react-hooks/exhaustive-deps
+
+    const [users, setUsers] = useState([]);
+    // Fetch user data
+    useEffect(() => {
+        const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+        if (!wakabaBaseUrl) {
+            throw new Error('API base URL is not defined');
+        }
+
+        axios.post(`${wakabaBaseUrl}/user/getStoreProfileList`, { storeName: userStoreName })
+            .then(response => {
+                const data = response.data;
+                setUsers(data);
+            })
+            .catch(error => {
+                console.error("There was an error fetching the customer data!", error);
+            });
+    }, []);
+
     //select pruchase staff name and payment staff name
     useEffect(() => {
         if (totalSalesSlipData?.length > 0) {
@@ -485,160 +474,6 @@ const InvoicePurchaseOfBroughtBlank = () => {
 
 
     const [showInputPurchase, setShowInputPurchase] = useState(false);
-    //add Data
-    const addSlesItem = async () => {
-
-        console.log('purchase data', salesSlipData, estimateValues);
-
-        let maxValue = 0; // Start with 0
-        let maxKey = ''; // To store the corresponding key
-        let hasValidValue = false; // Flag to check if there's any valid value
-
-        Object.entries(estimateValues).forEach(([key, value]) => {
-            let currentValue;
-
-            if (value.includes('~')) {
-                const [minValue] = value.split('~').map(Number);
-                currentValue = Math.floor(minValue); // Ensure it's an integer
-            } else if (value) {
-                currentValue = Math.floor(Number(value)); // Ensure it's an integer
-            } else {
-                currentValue = 0; // Non-valid value
-            }
-
-            if (currentValue !== null && currentValue >= 0) {
-                hasValidValue = true; // Mark that we have a valid value
-
-                if (currentValue > maxValue) {
-                    maxValue = currentValue;
-                    maxKey = key; // Update corresponding key
-                }
-            }
-        });
-
-        const formData = new FormData();
-        formData.append('userStoreName', userStoreName);
-        formData.append('trading_date', salesSlipData.trading_date);
-        formData.append('number', salesSlipData.number);
-        formData.append('purchase_staff', salesSlipData.purchase_staff);
-        formData.append('payment_staff', staffData.payment_staff);
-        formData.append('purchase_staff_id', salesSlipData.purchase_staff_id);
-        formData.append('customer_id', salesSlipData.customer_id);
-        formData.append('store_name', salesSlipData.store_name);
-        formData.append('product_type_one', salesSlipData.product_type_one);
-        formData.append('product_type_two', salesSlipData.product_type_two);
-        formData.append('product_type_three', salesSlipData.product_type_three);
-        formData.append('product_type_four', salesSlipData.product_type_four);
-        formData.append('product_name', salesSlipData.product_name);
-        formData.append('quantity', salesSlipData.quantity);
-        formData.append('reason_application', salesSlipData.reason_application);
-        formData.append('interest_rate', salesSlipData.interest_rate);
-        formData.append('product_price', salesSlipData.product_price);
-        formData.append('highest_estimate_vendor', maxKey);
-        formData.append('highest_estimate_price', maxValue);
-        formData.append('number_of_vendor', salesSlipData.number_of_vendor);
-        formData.append('supervisor_direction', salesSlipData.supervisor_direction);
-        formData.append('purchase_result', salesSlipData.purchase_result);
-        formData.append('purchase_price', salesSlipData.purchase_price);
-
-        formData.append('gold_type', salesSlipData.gold_type);
-        formData.append('gross_weight', salesSlipData.gross_weight);
-        formData.append('price_gram', salesSlipData.price_gram);
-        formData.append('serial_number', salesSlipData.serial_number);
-        formData.append('action_type', salesSlipData.action_type);
-        formData.append('movable', salesSlipData.movable);
-        formData.append('tester', salesSlipData.tester);
-        formData.append('model_number_one', salesSlipData.model_number_one);
-        formData.append('box_guarantee', salesSlipData.box_guarantee);
-        formData.append('rank', salesSlipData.rank);
-        formData.append('brand', salesSlipData.brand);
-        formData.append('capacity', salesSlipData.capacity);
-        formData.append('percent', salesSlipData.percent);
-        formData.append('notes', salesSlipData.notes);
-        formData.append('invoiceID', invoiceID);
-
-        formData.append('estimate_wholesaler', JSON.stringify(estimateValues));
-        formData.append('comment', '{"question1":"","comment1":"","question2":"","comment2":"","buyyear":"","buymonth":"","comment3":"","question4":"","comment4":""}');
-
-        if (sendFile) formData.append('product_photo', sendFile);
-        try {
-            const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
-
-            if (!wakabaBaseUrl) {
-                throw new Error('API base URL is not defined');
-            }
-
-            await axios.post(`${wakabaBaseUrl}/purchaseinvoice/create`, formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data'
-                }
-            }).then(response => {
-                const invoiceData = response.data;
-                if (invoiceData?.length > 0) {
-                    const updatedData111 = invoiceData.map((data, Index) => ({
-                        ...data,
-                        estimate_wholesaler: JSON.parse(data.estimate_wholesaler),
-                        comment: JSON.parse(data.comment),
-                    }));
-                    setTotalSalesSlipData(updatedData111);
-                    toast.success('データが正常に作成されました！', { autoClose: 3000 });//create
-                    setItemsImagePreview(`${wakabaBaseUrl}/uploads/product/${response.data[0].entire_items_url}`);
-                    setItemsDocPreview(`${wakabaBaseUrl}/uploads/product/${response.data[0].document_url}`);
-                }
-                setShowInputPurchase(false);
-                setSalesSlipData({
-                    trading_date: currentDay,
-                    number: '',
-                    purchase_staff: username,
-                    purchase_staff_id: userId,
-                    customer_id: childData,
-                    store_name: userStoreName,
-                    hearing: '',
-                    product_type_one: '',
-                    product_type_two: '',
-                    product_type_three: '',
-                    product_type_four: '',
-
-                    gold_type: '',
-                    gross_weight: '',
-                    price_gram: '',
-                    serial_number: '',
-                    action_type: '',
-                    movable: '',
-                    tester: '',
-                    model_number_one: '',
-                    box_guarantee: '',
-                    rank: '',
-                    brand: '',
-                    capacity: '',
-                    percent: '',
-                    notes: '',
-
-                    product_photo: '',
-                    product_name: '',
-                    comment: '',
-                    quantity: '0',
-                    reason_application: '',
-                    interest_rate: '0',
-                    product_price: '0',
-                    highest_estimate_vendor: '',
-                    highest_estimate_price: '0',
-                    number_of_vendor: '',
-                    supervisor_direction: '',
-                    purchase_result: '',
-                    purchase_price: '0',
-                    estimate_wholesaler: '',
-                });
-                setEstimateValues({});
-            })
-                .catch(error => {
-                    console.error("There was an error fetching the customer data!", error);
-                });
-        } catch (error) {
-            console.error('Error sending message:', error);
-        }
-
-    }
 
     //Edit one of tatalsalesSlipdata
     const editSalesItem = (index) => {
@@ -654,11 +489,11 @@ const InvoicePurchaseOfBroughtBlank = () => {
     };
     //Save one of tatalsalesSlipdata
     const saveSalesItem = async () => {
+        if(!salesSlipData.id) {
+            return;
+        }
         setShowInputPurchase(!showInputPurchase);
-        // const updatedData = totalSalesSlipData.map((row, index) =>
-        //     index === editIndex ? { ...row, ...salesSlipData } : row
-        // );
-        // setTotalSalesSlipData(updatedData);
+
         let maxValue = 0; // Start with 0
         let maxKey = ''; // To store the corresponding key
         let hasValidValue = false; // Flag to check if there's any valid value
@@ -1456,8 +1291,6 @@ const InvoicePurchaseOfBroughtBlank = () => {
     const handleItemsButtonClick = (inputRef) => {
         inputRef.current.click();
     };
-    const [itemsImagePreview, setItemsImagePreview] = useState("");
-    const [itemsImageDocPreview, setItemsDocPreview] = useState("");
 
     const itemsImageUpload = async () => {
         const formDataObj = new FormData();
@@ -1597,15 +1430,6 @@ const InvoicePurchaseOfBroughtBlank = () => {
     const [isDetailShow, setIsDetailShow] = useState(false);
     const openItemDetailShow = () => {
         setIsDetailShow(!isDetailShow)
-    }
-    //----------------------------------create data----------------------------------------
-    const handleInvoiceForPurchaseData = () => {
-        if (salesSlipData.id) {
-            saveSalesItem();
-
-        } else {
-            addSlesItem();
-        }
     }
     //------------------------------------precious metal--------------------------------------
     const [preciousMetalData, setPreciousMetalData] = useState([]);
@@ -1998,230 +1822,235 @@ const InvoicePurchaseOfBroughtBlank = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            <tr className='!h-6'>
-                                <td></td>
-                                <td style={Td}>
-                                    <InputComponent name='number' onChange={handleChange} disabled={true} value={salesSlipData.id || ''} className='w-full h-8 text-[#70685a]' />
-                                </td>
-                                <td style={Td}>
-                                    <select
-                                        name="product_type_one"
-                                        value={salesSlipData.product_type_one || ''}
-                                        onChange={(e) => handleCategory1Change(e, product1s)}
-                                        className='h-8 w-full'
-                                    >
-                                        <option value="" disabled>商品タイプ1</option>
-                                        {product1s.map((option, index) => (
-                                            <option key={option.id} value={option.category || ''}>
-                                                {option.category || ''}
-                                            </option>
-                                        ))}
-                                    </select>
-                                </td>
-                                {isshow ? <td style={Td}>
-                                    <select
-                                        name="product_type_two"
-                                        value={salesSlipData.product_type_two || ''}
-                                        onChange={handleChange}
-                                        className='h-8 w-full'
-                                    >
-                                        <option value="" disabled>商品タイプ2</option>
-                                        {product2s.map((option, index) => (
-                                            <option key={index} value={option.category || ''}>
-                                                {option.category || ''}
-                                            </option>
-                                        ))}
-                                    </select>
-                                </td> : <td style={{ display: 'none' }}></td>}
-                                {isshow ? <td style={Td}>
-                                    <input
-                                        list="product3s"
-                                        id="product_type_three"
-                                        name="product_type_three"
-                                        value={salesSlipData.product_type_three || ''}
-                                        onChange={handleChange}
-                                        className='h-8 w-full'
-                                    />
-                                    <datalist id="product3s">
-                                        {product3s.map((option, index) => (
-                                            <option key={index} value={option.category || ''} />
-                                        ))}
-                                    </datalist>
-                                </td> : <td style={{ display: 'none' }}></td>}
-                                {isshow ? <td style={Td}>
-                                    <input
-                                        list="product4s"
-                                        id="product_type_four"
-                                        name="product_type_four"
-                                        value={salesSlipData.product_type_four || ''}
-                                        onChange={handleChange}
-                                        className='h-8 w-full'
-                                    />
-                                    <datalist id="product4s">
-                                        {product4s.map((option, index) => (
-                                            <option key={index} value={option.category || ''} />
-                                        ))}
-                                    </datalist>
-                                </td> : <td style={{ display: 'none' }}></td>}
-                                <td style={Td}>
-                                    <div style={{ flexDirection: 'column', }} className='flex justify-center'>
-                                        <div className='flex justify-center py-1'>
-                                            < button type="button" onClick={() => handleButtonClick(sendInputRef)} className="w-7 flex justify-center">
-                                                <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSvgIcon-root MuiSvgIcon-fontSizeMedium svg-icon css-kry165 w-7" fill='#524c3b' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CloudUploadOutlinedIcon" tabindex="-1" title="CloudUploadOutlined"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96M19 18H6c-2.21 0-4-1.79-4-4 0-2.05 1.53-3.76 3.56-3.97l1.07-.11.5-.95C8.08 7.14 9.94 6 12 6c2.62 0 4.88 1.86 5.39 4.43l.3 1.5 1.53.11c1.56.1 2.78 1.41 2.78 2.96 0 1.65-1.35 3-3 3M8 13h2.55v3h2.9v-3H16l-4-4z"></path></svg>
-                                            </button>
-                                            <input type="file" name="fileUrl" ref={sendInputRef} style={{ display: 'none' }} onChange={(e) => handleFileChange(e)} />
-                                        </div>
-                                    </div>
-                                </td>
-                                <td style={Td}>
-                                    <InputComponent name='product_name' onChange={handleChange} value={salesSlipData.product_name || ''} className='w-full h-8 text-[#70685a]' />
-                                </td>
+                            {
+                                    totalSalesSlipData?.length > 0 &&
+                                    (totalSalesSlipData[0].product_status === '査定中' || totalSalesSlipData[0].product_status === 'お預かり' ||
+                                        totalSalesSlipData[0].product_status === '承認待ち') &&
+                                        <tr className='!h-6'>
+                                            <td></td>
+                                            <td style={Td}>
+                                                <InputComponent name='number' onChange={handleChange} disabled={true} value={salesSlipData.id || ''} className='w-full h-8 text-[#70685a]' />
+                                            </td>
+                                            <td style={Td}>
+                                                <select
+                                                    name="product_type_one"
+                                                    value={salesSlipData.product_type_one || ''}
+                                                    onChange={(e) => handleCategory1Change(e, product1s)}
+                                                    className='h-8 w-full'
+                                                >
+                                                    <option value="" disabled>商品タイプ1</option>
+                                                    {product1s.map((option, index) => (
+                                                        <option key={option.id} value={option.category || ''}>
+                                                            {option.category || ''}
+                                                        </option>
+                                                    ))}
+                                                </select>
+                                            </td>
+                                            {isshow ? <td style={Td}>
+                                                <select
+                                                    name="product_type_two"
+                                                    value={salesSlipData.product_type_two || ''}
+                                                    onChange={handleChange}
+                                                    className='h-8 w-full'
+                                                >
+                                                    <option value="" disabled>商品タイプ2</option>
+                                                    {product2s.map((option, index) => (
+                                                        <option key={index} value={option.category || ''}>
+                                                            {option.category || ''}
+                                                        </option>
+                                                    ))}
+                                                </select>
+                                            </td> : <td style={{ display: 'none' }}></td>}
+                                            {isshow ? <td style={Td}>
+                                                <input
+                                                    list="product3s"
+                                                    id="product_type_three"
+                                                    name="product_type_three"
+                                                    value={salesSlipData.product_type_three || ''}
+                                                    onChange={handleChange}
+                                                    className='h-8 w-full'
+                                                />
+                                                <datalist id="product3s">
+                                                    {product3s.map((option, index) => (
+                                                        <option key={index} value={option.category || ''} />
+                                                    ))}
+                                                </datalist>
+                                            </td> : <td style={{ display: 'none' }}></td>}
+                                            {isshow ? <td style={Td}>
+                                                <input
+                                                    list="product4s"
+                                                    id="product_type_four"
+                                                    name="product_type_four"
+                                                    value={salesSlipData.product_type_four || ''}
+                                                    onChange={handleChange}
+                                                    className='h-8 w-full'
+                                                />
+                                                <datalist id="product4s">
+                                                    {product4s.map((option, index) => (
+                                                        <option key={index} value={option.category || ''} />
+                                                    ))}
+                                                </datalist>
+                                            </td> : <td style={{ display: 'none' }}></td>}
+                                            <td style={Td}>
+                                                <div style={{ flexDirection: 'column', }} className='flex justify-center'>
+                                                    <div className='flex justify-center py-1'>
+                                                        < button type="button" onClick={() => handleButtonClick(sendInputRef)} className="w-7 flex justify-center">
+                                                            <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSvgIcon-root MuiSvgIcon-fontSizeMedium svg-icon css-kry165 w-7" fill='#524c3b' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CloudUploadOutlinedIcon" tabindex="-1" title="CloudUploadOutlined"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96M19 18H6c-2.21 0-4-1.79-4-4 0-2.05 1.53-3.76 3.56-3.97l1.07-.11.5-.95C8.08 7.14 9.94 6 12 6c2.62 0 4.88 1.86 5.39 4.43l.3 1.5 1.53.11c1.56.1 2.78 1.41 2.78 2.96 0 1.65-1.35 3-3 3M8 13h2.55v3h2.9v-3H16l-4-4z"></path></svg>
+                                                        </button>
+                                                        <input type="file" name="fileUrl" ref={sendInputRef} style={{ display: 'none' }} onChange={(e) => handleFileChange(e)} />
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td style={Td}>
+                                                <InputComponent name='product_name' onChange={handleChange} value={salesSlipData.product_name || ''} className='w-full h-8 text-[#70685a]' />
+                                            </td>
 
-                                {isDetailShow ? salesSlipData.product_type_one === '貴金属' ?
-                                    <td style={Td}>
-                                        <InputComponent name='gold_type' type='text' onChange={handleChange} value={salesSlipData.gold_type || ''} className='w-20 h-8 text-[#70685a]' />
-                                    </td> : <td style={Td}></td>
-                                    : <td style={{ display: 'none' }}></td>}
-                                {isDetailShow ? salesSlipData.product_type_one === '貴金属' ?
-                                    <td style={Td}>
-                                        <InputComponent name='gross_weight' type='text' onChange={handleChange} value={salesSlipData.gross_weight || ''} className='w-20 h-8 text-[#70685a]' />
-                                    </td> : <td style={Td}></td>
-                                    : <td style={{ display: 'none' }}></td>}
-                                {isDetailShow ? salesSlipData.product_type_one === '貴金属' ?
-                                    <td style={Td}>
-                                        <InputComponent name='price_gram' type='text' onChange={handleChange} value={salesSlipData.price_gram || ''} className='w-20 h-8 text-[#70685a]' />
-                                    </td> : <td style={Td}></td>
-                                    : <td style={{ display: 'none' }}></td>}
-                                {isDetailShow ? (salesSlipData.product_type_one === '時計' || salesSlipData.product_type_one === 'バッグ'
-                                    || salesSlipData.product_type_one === '財布' || salesSlipData.product_type_one === 'カメラ' || salesSlipData.product_type_one === '楽器' || salesSlipData.product_type_one === 'スマホタブレット') ?
-                                    <td style={Td}>
-                                        <InputComponent name='serial_number' type='text' onChange={handleChange} value={salesSlipData.serial_number || ''} className='w-20 h-8 text-[#70685a]' />
-                                    </td> : <td style={Td}></td>
-                                    : <td style={{ display: 'none' }}></td>}
-                                {isDetailShow ? (salesSlipData.product_type_one === '時計' || salesSlipData.product_type_one === 'バッグ'
-                                    || salesSlipData.product_type_one === '財布' || salesSlipData.product_type_one === 'アクセサリー' || salesSlipData.product_type_one === 'カメラ') ?
-                                    <td style={Td}>
-                                        <InputComponent name='model_number_one' type='text' onChange={handleChange} value={salesSlipData.model_number_one || ''} className='w-20 h-8 text-[#70685a]' />
-                                    </td> : <td style={Td}></td>
-                                    : <td style={{ display: 'none' }}></td>}
-                                {isDetailShow ? salesSlipData.product_type_one === '時計' ?
-                                    <td style={Td}>
-                                        <InputComponent name='action_type' type='text' onChange={handleChange} value={salesSlipData.action_type || ''} className='w-20 h-8 text-[#70685a]' />
-                                    </td> : <td style={Td}></td>
-                                    : <td style={{ display: 'none' }}></td>}
-                                {isDetailShow ? salesSlipData.product_type_one === '時計' ?
-                                    <td style={Td}>
-                                        <InputComponent name='movable' type='text' onChange={handleChange} value={salesSlipData.movable || ''} className='w-20 h-8 text-[#70685a]' />
-                                    </td> : <td style={Td}></td>
-                                    : <td style={{ display: 'none' }}></td>}
-                                {isDetailShow ? salesSlipData.product_type_one === '時計' ?
-                                    <td style={Td}>
-                                        <InputComponent name='tester' type='text' onChange={handleChange} value={salesSlipData.tester || ''} className='w-20 h-8 text-[#70685a]' />
-                                    </td> : <td style={Td}></td>
-                                    : <td style={{ display: 'none' }}></td>}
-                                {isDetailShow ? salesSlipData.product_type_one === '時計' ?
-                                    <td style={Td}>
-                                        <InputComponent name='box_guarantee' type='text' onChange={handleChange} value={salesSlipData.box_guarantee || ''} className='w-20 h-8 text-[#70685a]' />
-                                    </td> : <td style={Td}></td>
-                                    : <td style={{ display: 'none' }}></td>}
-                                {isDetailShow ? (salesSlipData.product_type_one === '時計' || salesSlipData.product_type_one === 'アクセサリー' || salesSlipData.product_type_one === 'カメラ') ?
-                                    <td style={Td}>
-                                        <InputComponent name='rank' type='text' onChange={handleChange} value={salesSlipData.rank || ''} className='w-20 h-8 text-[#70685a]' />
-                                    </td> : <td style={Td}></td>
-                                    : <td style={{ display: 'none' }}></td>}
-                                {isDetailShow ? salesSlipData.product_type_one === '洋酒' ?
-                                    <td style={Td}>
-                                        <InputComponent list='wine-brands' name='brand' type='text' onChange={handleChange} value={salesSlipData.brand || ''} className='w-20 h-8 text-[#70685a]' />
-                                        <datalist id="wine-brands">
-                                            {brandValues.map((brand, index) => (
-                                                <option key={index} value={brand} />
-                                            ))}
-                                        </datalist>
-                                    </td> : <td style={Td}></td>
-                                    : <td style={{ display: 'none' }}></td>}
-                                {isDetailShow ? salesSlipData.product_type_one === '洋酒' ?
-                                    <td style={Td}>
-                                        <InputComponent list='wine-capacities' name='capacity' type='text' onChange={handleChange} value={salesSlipData.capacity || ''} className='w-20 h-8 text-[#70685a]' />
-                                        <datalist id="wine-capacities">
-                                            {capacityValues.map((capacity, index) => (
-                                                <option key={index} value={capacity} />
-                                            ))}
-                                        </datalist>
-                                    </td> : <td style={Td}></td>
-                                    : <td style={{ display: 'none' }}></td>}
-                                {isDetailShow ? salesSlipData.product_type_one === '洋酒' ?
-                                    <td style={Td}>
-                                        <InputComponent list='wine-percents' name='percent' type='text' onChange={handleChange} value={salesSlipData.percent || ''} className='w-20 h-8 text-[#70685a]' />
-                                        <datalist id="wine-percents">
-                                            {percentValues.map((percent, index) => (
-                                                <option key={index} value={percent} />
-                                            ))}
-                                        </datalist>
-                                    </td> : <td style={Td}></td>
-                                    : <td style={{ display: 'none' }}></td>}
-                                {isDetailShow ?
-                                    <td style={Td}>
-                                        <InputComponent name='notes' type='text' onChange={handleChange} value={salesSlipData.notes || ''} className='w-20 h-8 text-[#70685a]' />
-                                    </td>
-                                    : <td style={{ display: 'none' }}></td>}
+                                            {isDetailShow ? salesSlipData.product_type_one === '貴金属' ?
+                                                <td style={Td}>
+                                                    <InputComponent name='gold_type' type='text' onChange={handleChange} value={salesSlipData.gold_type || ''} className='w-20 h-8 text-[#70685a]' />
+                                                </td> : <td style={Td}></td>
+                                                : <td style={{ display: 'none' }}></td>}
+                                            {isDetailShow ? salesSlipData.product_type_one === '貴金属' ?
+                                                <td style={Td}>
+                                                    <InputComponent name='gross_weight' type='text' onChange={handleChange} value={salesSlipData.gross_weight || ''} className='w-20 h-8 text-[#70685a]' />
+                                                </td> : <td style={Td}></td>
+                                                : <td style={{ display: 'none' }}></td>}
+                                            {isDetailShow ? salesSlipData.product_type_one === '貴金属' ?
+                                                <td style={Td}>
+                                                    <InputComponent name='price_gram' type='text' onChange={handleChange} value={salesSlipData.price_gram || ''} className='w-20 h-8 text-[#70685a]' />
+                                                </td> : <td style={Td}></td>
+                                                : <td style={{ display: 'none' }}></td>}
+                                            {isDetailShow ? (salesSlipData.product_type_one === '時計' || salesSlipData.product_type_one === 'バッグ'
+                                                || salesSlipData.product_type_one === '財布' || salesSlipData.product_type_one === 'カメラ' || salesSlipData.product_type_one === '楽器' || salesSlipData.product_type_one === 'スマホタブレット') ?
+                                                <td style={Td}>
+                                                    <InputComponent name='serial_number' type='text' onChange={handleChange} value={salesSlipData.serial_number || ''} className='w-20 h-8 text-[#70685a]' />
+                                                </td> : <td style={Td}></td>
+                                                : <td style={{ display: 'none' }}></td>}
+                                            {isDetailShow ? (salesSlipData.product_type_one === '時計' || salesSlipData.product_type_one === 'バッグ'
+                                                || salesSlipData.product_type_one === '財布' || salesSlipData.product_type_one === 'アクセサリー' || salesSlipData.product_type_one === 'カメラ') ?
+                                                <td style={Td}>
+                                                    <InputComponent name='model_number_one' type='text' onChange={handleChange} value={salesSlipData.model_number_one || ''} className='w-20 h-8 text-[#70685a]' />
+                                                </td> : <td style={Td}></td>
+                                                : <td style={{ display: 'none' }}></td>}
+                                            {isDetailShow ? salesSlipData.product_type_one === '時計' ?
+                                                <td style={Td}>
+                                                    <InputComponent name='action_type' type='text' onChange={handleChange} value={salesSlipData.action_type || ''} className='w-20 h-8 text-[#70685a]' />
+                                                </td> : <td style={Td}></td>
+                                                : <td style={{ display: 'none' }}></td>}
+                                            {isDetailShow ? salesSlipData.product_type_one === '時計' ?
+                                                <td style={Td}>
+                                                    <InputComponent name='movable' type='text' onChange={handleChange} value={salesSlipData.movable || ''} className='w-20 h-8 text-[#70685a]' />
+                                                </td> : <td style={Td}></td>
+                                                : <td style={{ display: 'none' }}></td>}
+                                            {isDetailShow ? salesSlipData.product_type_one === '時計' ?
+                                                <td style={Td}>
+                                                    <InputComponent name='tester' type='text' onChange={handleChange} value={salesSlipData.tester || ''} className='w-20 h-8 text-[#70685a]' />
+                                                </td> : <td style={Td}></td>
+                                                : <td style={{ display: 'none' }}></td>}
+                                            {isDetailShow ? salesSlipData.product_type_one === '時計' ?
+                                                <td style={Td}>
+                                                    <InputComponent name='box_guarantee' type='text' onChange={handleChange} value={salesSlipData.box_guarantee || ''} className='w-20 h-8 text-[#70685a]' />
+                                                </td> : <td style={Td}></td>
+                                                : <td style={{ display: 'none' }}></td>}
+                                            {isDetailShow ? (salesSlipData.product_type_one === '時計' || salesSlipData.product_type_one === 'アクセサリー' || salesSlipData.product_type_one === 'カメラ') ?
+                                                <td style={Td}>
+                                                    <InputComponent name='rank' type='text' onChange={handleChange} value={salesSlipData.rank || ''} className='w-20 h-8 text-[#70685a]' />
+                                                </td> : <td style={Td}></td>
+                                                : <td style={{ display: 'none' }}></td>}
+                                            {isDetailShow ? salesSlipData.product_type_one === '洋酒' ?
+                                                <td style={Td}>
+                                                    <InputComponent list='wine-brands' name='brand' type='text' onChange={handleChange} value={salesSlipData.brand || ''} className='w-20 h-8 text-[#70685a]' />
+                                                    <datalist id="wine-brands">
+                                                        {brandValues.map((brand, index) => (
+                                                            <option key={index} value={brand} />
+                                                        ))}
+                                                    </datalist>
+                                                </td> : <td style={Td}></td>
+                                                : <td style={{ display: 'none' }}></td>}
+                                            {isDetailShow ? salesSlipData.product_type_one === '洋酒' ?
+                                                <td style={Td}>
+                                                    <InputComponent list='wine-capacities' name='capacity' type='text' onChange={handleChange} value={salesSlipData.capacity || ''} className='w-20 h-8 text-[#70685a]' />
+                                                    <datalist id="wine-capacities">
+                                                        {capacityValues.map((capacity, index) => (
+                                                            <option key={index} value={capacity} />
+                                                        ))}
+                                                    </datalist>
+                                                </td> : <td style={Td}></td>
+                                                : <td style={{ display: 'none' }}></td>}
+                                            {isDetailShow ? salesSlipData.product_type_one === '洋酒' ?
+                                                <td style={Td}>
+                                                    <InputComponent list='wine-percents' name='percent' type='text' onChange={handleChange} value={salesSlipData.percent || ''} className='w-20 h-8 text-[#70685a]' />
+                                                    <datalist id="wine-percents">
+                                                        {percentValues.map((percent, index) => (
+                                                            <option key={index} value={percent} />
+                                                        ))}
+                                                    </datalist>
+                                                </td> : <td style={Td}></td>
+                                                : <td style={{ display: 'none' }}></td>}
+                                            {isDetailShow ?
+                                                <td style={Td}>
+                                                    <InputComponent name='notes' type='text' onChange={handleChange} value={salesSlipData.notes || ''} className='w-20 h-8 text-[#70685a]' />
+                                                </td>
+                                                : <td style={{ display: 'none' }}></td>}
 
-                                <td style={Td}>
-                                    <InputComponent name='quantity' type='number' onChange={handleChange} value={salesSlipData.quantity || ''} className='w-40 h-8 text-[#70685a]' />
-                                </td>
-                                <td style={Td}>
-                                    <InputComponent name='reason_application' onChange={handleChange} value={salesSlipData.reason_application || ''} className='w-full h-8 text-[#70685a]' />
-                                </td>
-                                <td style={Td}>
-                                    <InputComponent name='interest_rate' type='number' onChange={handleChange} value={salesSlipData.interest_rate || ''} className='w-20 h-8 text-[#70685a]' />
-                                </td>
-                                <td style={Td}>
-                                    <div className='w-full flex justify-center'>
-                                        <InputComponent name='purchase_price' onChange={handleChange} type='number' value={salesSlipData.purchase_price || ''} className='w-40 h-8 text-[#70685a]' />
-                                    </div>
-                                </td>
-                                <td style={Td}>
-                                    <InputComponent name='supervisor_direction' onChange={handleChange} value={salesSlipData.supervisor_direction || ''} className='w-full h-8 text-[#70685a]' />
-                                </td>
-                                <td style={Td}>
-                                    <InputComponent name='highest_estimate_vendor' onChange={handleChange} value={salesSlipData.highest_estimate_vendor || ''} className='w-full h-8 text-[#70685a]' disabled />
-                                </td>
-                                <td style={Td}>
-                                    <InputComponent name='highest_estimate_price' type='number' onChange={handleChange} value={salesSlipData.highest_estimate_price || ''} className='w-full h-8 text-[#70685a]' disabled />
-                                </td>
-                                <td style={Td}>
-                                    <InputComponent name='number_of_vendor' type='number' onChange={handleChange} value={salesSlipData.number_of_vendor || ''} className='w-20 h-8 text-[#70685a]' style={{ display: 'none' }} />
-                                    <button type="button"
-                                        className="px-3 py-1 rounded text-[#626373] tracking-wider font-semibold border border-[#70685a] bg-[#ebe5e1]">
-                                        {salesSlipData.number_of_vendor || '0'}
-                                    </button>
-                                </td>
-                                {isvendorshow && vendors?.length > 0 && vendors.map((vendor, index) => (
-                                    <td style={Td} key={index}>
-                                        <InputComponent name={vendor.vendor_name} onChange={(e) => handleEstimateChange(vendor.vendor_name, e.target.value)} value={estimateValues[vendor.vendor_name] || ''} className='w-full h-8 text-[#70685a] border border-[red]' />
-                                    </td>
-                                ))}
-                                <td style={Td}>
-                                    <select name="purchase_result" value={salesSlipData.purchase_result || ''} onChange={handleChange} className="w-full h-10 text-[#70685a] font-bold border border-[#70685a] outline-[#70685a]">
-                                        <option value="" disabled></option>
-                                        <option value="賛成">賛成</option>
-                                        <option value="反対">反対</option>
-                                    </select>
-                                </td>
-                                <td>
-                                    <div>
-                                        <button onClick={handleInvoiceForPurchaseData} className='w-7'>
-                                            <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium  MuiSvgIcon-root MuiSvgIcon-fontSizeLarge  css-1hkft75" fill='#524c3b' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckOutlinedIcon" title="CheckOutlined"><path d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
-                                        </button>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div>
-                                        <button onClick={cancelSalesItem} className='w-7'>
-                                            <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium  MuiSvgIcon-root MuiSvgIcon-fontSizeLarge  css-1hkft75" fill='#524c3b' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="KeyboardReturnOutlinedIcon" title="KeyboardReturnOutlined"><path d="M19 7v4H5.83l3.58-3.59L8 6l-6 6 6 6 1.41-1.41L5.83 13H21V7z"></path></svg>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
+                                            <td style={Td}>
+                                                <InputComponent name='quantity' type='number' onChange={handleChange} value={salesSlipData.quantity || ''} className='w-40 h-8 text-[#70685a]' />
+                                            </td>
+                                            <td style={Td}>
+                                                <InputComponent name='reason_application' onChange={handleChange} value={salesSlipData.reason_application || ''} className='w-full h-8 text-[#70685a]' />
+                                            </td>
+                                            <td style={Td}>
+                                                <InputComponent name='interest_rate' type='number' onChange={handleChange} value={salesSlipData.interest_rate || ''} className='w-20 h-8 text-[#70685a]' />
+                                            </td>
+                                            <td style={Td}>
+                                                <div className='w-full flex justify-center'>
+                                                    <InputComponent name='purchase_price' onChange={handleChange} type='number' value={salesSlipData.purchase_price || ''} className='w-40 h-8 text-[#70685a]' />
+                                                </div>
+                                            </td>
+                                            <td style={Td}>
+                                                <InputComponent name='supervisor_direction' onChange={handleChange} value={salesSlipData.supervisor_direction || ''} className='w-full h-8 text-[#70685a]' />
+                                            </td>
+                                            <td style={Td}>
+                                                <InputComponent name='highest_estimate_vendor' onChange={handleChange} value={salesSlipData.highest_estimate_vendor || ''} className='w-full h-8 text-[#70685a]' disabled />
+                                            </td>
+                                            <td style={Td}>
+                                                <InputComponent name='highest_estimate_price' type='number' onChange={handleChange} value={salesSlipData.highest_estimate_price || ''} className='w-full h-8 text-[#70685a]' disabled />
+                                            </td>
+                                            <td style={Td}>
+                                                <InputComponent name='number_of_vendor' type='number' onChange={handleChange} value={salesSlipData.number_of_vendor || ''} className='w-20 h-8 text-[#70685a]' style={{ display: 'none' }} />
+                                                <button type="button"
+                                                    className="px-3 py-1 rounded text-[#626373] tracking-wider font-semibold border border-[#70685a] bg-[#ebe5e1]">
+                                                    {salesSlipData.number_of_vendor || '0'}
+                                                </button>
+                                            </td>
+                                            {isvendorshow && vendors?.length > 0 && vendors.map((vendor, index) => (
+                                                <td style={Td} key={index}>
+                                                    <InputComponent name={vendor.vendor_name} onChange={(e) => handleEstimateChange(vendor.vendor_name, e.target.value)} value={estimateValues[vendor.vendor_name] || ''} className='w-full h-8 text-[#70685a] border border-[red]' />
+                                                </td>
+                                            ))}
+                                            <td style={Td}>
+                                                <select name="purchase_result" value={salesSlipData.purchase_result || ''} onChange={handleChange} className="w-full h-10 text-[#70685a] font-bold border border-[#70685a] outline-[#70685a]">
+                                                    <option value="" disabled></option>
+                                                    <option value="賛成">賛成</option>
+                                                    <option value="反対">反対</option>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <div>
+                                                    <button onClick={saveSalesItem} className='w-7'>
+                                                        <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium  MuiSvgIcon-root MuiSvgIcon-fontSizeLarge  css-1hkft75" fill='#524c3b' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckOutlinedIcon" title="CheckOutlined"><path d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
+                                                    </button>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div>
+                                                    <button onClick={cancelSalesItem} className='w-7'>
+                                                        <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium  MuiSvgIcon-root MuiSvgIcon-fontSizeLarge  css-1hkft75" fill='#524c3b' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="KeyboardReturnOutlinedIcon" title="KeyboardReturnOutlined"><path d="M19 7v4H5.83l3.58-3.59L8 6l-6 6 6 6 1.41-1.41L5.83 13H21V7z"></path></svg>
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                            }
                             {totalSalesSlipData?.length > 0 && totalSalesSlipData.map((salesData, Index) => {
                                 const priceData = preciousMetalData.find(price => price.name === salesData.gold_type);
                                 return (
@@ -2769,4 +2598,4 @@ const InvoicePurchaseOfBroughtBlank = () => {
     );
 };
 
-export default InvoicePurchaseOfBroughtBlank;
+export default InvoicePurchaseOfBroughtBlankDetail;

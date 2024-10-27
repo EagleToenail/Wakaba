@@ -494,6 +494,9 @@ const InvoicePurchaseOfDetail = () => {
     };
     //Save one of tatalsalesSlipdata
     const saveSalesItem = async () => {
+        if(!salesSlipData.id) {
+            return;
+        }
         setShowInputPurchase(!showInputPurchase);
 
         let maxValue = 0; // Start with 0
@@ -521,6 +524,7 @@ const InvoicePurchaseOfDetail = () => {
         });
         //  console.log('hightest',maxKey,maxValue)
         const formData = new FormData();
+
         formData.append('userStoreName', userStoreName);
         formData.append('id', salesSlipData.id);
         formData.append('trading_date', salesSlipData.trading_date);

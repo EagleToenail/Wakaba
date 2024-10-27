@@ -1,5 +1,5 @@
 import {React ,useState,useEffect} from 'react';
-import { Link ,useNavigate} from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 // import Titlebar from '../../Components/Common/Titlebar';
 import ButtonComponent from '../../Components/Common/ButtonComponent';
 import DateAndTime from '../../Components/Common/PickData';
@@ -84,6 +84,10 @@ const InvoiceForPurchaseList = () => {
     const gotoInvoiceForPurchaseDetail = (id) => {
         navigate(`/invoiceforpurchasedetail/${id}`);
     }
+    //goto invoice for purchase detail page
+    const gotoInvoiceForPurchaseblankDetail = (id) => {
+        navigate(`/invoiceforpurchaseblankdetail/${id}`);
+    }
 
     return (
         <>
@@ -143,11 +147,19 @@ const InvoiceForPurchaseList = () => {
                                         )
                                     }
                                     <td>
-                                        <div className='flex justify-center'>
-                                            <button className='w-7  h-7 ml-3 mb-1' onClick={()=>gotoInvoiceForPurchaseDetail(data.id)}>
-                                                <svg className=" " fill='#70685a' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="ContentCopyIcon" title="ContentCopy"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2m0 16H8V7h11z"></path></svg>
-                                            </button>
-                                        </div>
+                                        {data.Customer ? 
+                                            <div className='flex justify-center'>
+                                                <button className='w-7  h-7 ml-3 mb-1' onClick={()=>gotoInvoiceForPurchaseDetail(data.id)}>
+                                                    <svg className=" " fill='#70685a' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="ContentCopyIcon" title="ContentCopy"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2m0 16H8V7h11z"></path></svg>
+                                                </button>
+                                            </div>
+                                            : 
+                                            <div className='flex justify-center'>
+                                                <button className='w-7  h-7 ml-3 mb-1' onClick={()=>gotoInvoiceForPurchaseblankDetail(data.id)}>
+                                                    <svg className=" " fill='#70685a' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="ContentCopyIcon" title="ContentCopy"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2m0 16H8V7h11z"></path></svg>
+                                                </button>
+                                            </div>
+                                        }
                                     </td>
                                 </tr>
                             ))}
