@@ -1,15 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, } from 'react-router-dom';
-// import { Link } from 'react-router-dom';
-// import Titlebar from '../../Components/Common/Titlebar';
 import '../../Assets/css/showtable.css';
 import dateimage from '../../Assets/img/datepicker.png';
-// import StampSheet from '../../Assets/img/stampsheet.png'
-// import LetterPack from '../../Assets/img/letterpack.png'
-// import StampRose from '../../Assets/img/stamprose.png'
-// import PostCard from '../../Assets/img/postcard.png'
-// import LabelComponent from '../../Components/Common/LabelComponent';
-// import InputComponent from '../../Components/Common/InputComponent';
 import axios from 'axios';
 
 
@@ -24,13 +16,6 @@ const StampRelatedReceiptAndIssueHistory = () => {
         width: '100%',
         alignItem: 'center'
     };
-
-    // const Th = {
-    //     border: '1px solid #70685a',
-    //     borderCollapse: 'collapse',
-    //     color: '#70685a',
-    //     fontSize: '15px'
-    // };
     const Td = {
         border: '1px solid #70685a',
         borderCollapse: 'collapse',
@@ -157,9 +142,6 @@ const StampRelatedReceiptAndIssueHistory = () => {
                             <button type="button"
                                 className="ml-10 py-1 min-w-[160px] text-[#70685a] rounded-full tracking-wider font-bold outline-none border border-[#70685a] ">Purple</button>
                         </div>
-                        {/* <div className='mt-2'>
-                            <h2 className="text-[#70685a] text-center text-2xl font-bold flex justify-center">日本の切手 ハガキ レターパック  入出庫履歴</h2>
-                        </div> */}
                         <div className='stamp-inventory-second flex justify-center mt-2' >
                             <div className='flex'>
                                 <button type="button" onClick={gotoInboundPage}
@@ -268,15 +250,15 @@ const StampRelatedReceiptAndIssueHistory = () => {
                                 {stampHistory?.length > 0 && stampHistory.map((history, Index) => (
                                     <tr key={Index}>
                                         <td  style={Td}>{Index + 1}</td>
-                                        <td style={Td}>{history.date}</td>
-                                        <td style={Td}>{history.in_charge}</td>
-                                        <td style={Td}>{history.inorout}</td>
-                                        <td style={Td}>{history.stamp_type}</td>
-                                        <td style={Td}>{history.stamp_status}</td>
+                                        <td style={Td}>{history.date || ''}</td>
+                                        <td style={Td}>{history.in_charge || ''}</td>
+                                        <td style={Td}>{history.inorout || ''}</td>
+                                        <td style={Td}>{history.stamp_type || ''}</td>
+                                        <td style={Td}>{history.stamp_status || ''}</td>
                                         <td style={Td} className='text-right'>￥{(parseInt(history.totalFaceValue || 0)).toLocaleString()}</td>
                                         <td style={Td} className='text-right'>￥{(parseInt(history.five_up_facevalue || 0)).toLocaleString()}</td>
                                         <td style={Td} className='text-right'>￥{(parseInt(history.five_down_facevalue || 0)).toLocaleString()}</td>
-                                        <td style={Td}>{history.reason}</td>
+                                        <td style={Td}>{history.reason || ''}</td>
                                         <td onClick={() => handleDetailClick(history.id)}>
                                             <div className='flex justify-center'>
                                                     <svg className="w-7 h-7" fill='#70685a' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="ContentCopyIcon" title="ContentCopy"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2m0 16H8V7h11z"></path></svg>
