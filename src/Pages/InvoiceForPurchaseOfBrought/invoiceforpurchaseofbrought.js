@@ -1448,7 +1448,7 @@ const InvoicePurchaseOfBrought = () => {
             const items = [item2, item3, item4, item5];
             items.forEach((item, index) => {
                 updateValueAtIndex(index, item); // Update state
-                if (item) {
+                if (item && item !== '') {
                     checkedLabelsAndValues.push({ label: itemLabels[index], value: item });
                 }
             });
@@ -1487,7 +1487,7 @@ const InvoicePurchaseOfBrought = () => {
     //go to stamps related page #62(stamp related purchase statement)
     const gotoStampsPurchase = () => {
         sendCustomerId(id);//send customerId
-        navigate(`/stamprelatedpurchasestatement/${id}`);
+        navigate(`/stamprelatedpurchasestatement/${id}?invoiceID=${invoiceID}`);
     }
     //--------------------show  product photo---------------------
     const [showProductImage, setShowProductImage] = useState(false);
@@ -2207,6 +2207,7 @@ const InvoicePurchaseOfBrought = () => {
                                 {isDetailShow ? <th style={Th} >金種</th> : <th style={{ display: 'none' }}></th>}
                                 {isDetailShow ? <th style={Th} >総重量</th> : <th style={{ display: 'none' }}></th>}
                                 {isDetailShow ? <th style={Th} >g/額面</th> : <th style={{ display: 'none' }}></th>}
+                                {isDetailShow ? <th style={Th} >シリアル</th> : <th style={{ display: 'none' }}></th>}
                                 {isDetailShow ? <th style={Th} >型番 </th> : <th style={{ display: 'none' }}></th>}
                                 {isDetailShow ? <th style={Th} >駆動方式</th> : <th style={{ display: 'none' }}></th>}
                                 {isDetailShow ? <th style={Th} >可動 </th> : <th style={{ display: 'none' }}></th>}
@@ -2611,9 +2612,27 @@ const InvoicePurchaseOfBrought = () => {
                             })}
                             <tr>
                                 <td></td>     
+                                <td></td> 
+                                <td></td> 
+                                {isshow ? <td></td> : <td style={{ display: 'none' }}></td>}         
+                                {isshow ? <td></td> : <td style={{ display: 'none' }}></td>}         
+                                {isshow ? <td></td> : <td style={{ display: 'none' }}></td>}              
                                 <td></td>     
-                                <td></td>     
-                                <td></td>     
+                                <td></td> 
+                                {isDetailShow ? <td></td> : <td style={{ display: 'none' }}></td>}      
+                                {isDetailShow ? <td></td> : <td style={{ display: 'none' }}></td>}      
+                                {isDetailShow ? <td></td> : <td style={{ display: 'none' }}></td>}      
+                                {isDetailShow ? <td></td> : <td style={{ display: 'none' }}></td>}      
+                                {isDetailShow ? <td></td> : <td style={{ display: 'none' }}></td>}      
+                                {isDetailShow ? <td></td> : <td style={{ display: 'none' }}></td>}      
+                                {isDetailShow ? <td></td> : <td style={{ display: 'none' }}></td>}      
+                                {isDetailShow ? <td></td> : <td style={{ display: 'none' }}></td>}      
+                                {isDetailShow ? <td></td> : <td style={{ display: 'none' }}></td>}      
+                                {isDetailShow ? <td></td> : <td style={{ display: 'none' }}></td>}      
+                                {isDetailShow ? <td></td> : <td style={{ display: 'none' }}></td>}               
+                                {isDetailShow ? <td></td> : <td style={{ display: 'none' }}></td>}                   
+                                {isDetailShow ? <td></td> : <td style={{ display: 'none' }}></td>}               
+                                {isDetailShow ? <td></td> : <td style={{ display: 'none' }}></td>}                   
                                 <td></td>     
                                 <td colSpan={3}>
                                     <div className='flex justify-end text-right mt-2'>

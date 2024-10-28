@@ -225,7 +225,7 @@ const InvoicePurchaseOfDetail = () => {
                 .then(response => {
                     checkedFunction(response.data.item1, response.data.item2, response.data.item3, response.data.item4, response.data.item5)
                     setCustomer(response.data);
-                    console.log('----fetchcustomer2', response.data)
+                    // console.log('----fetchcustomer2', response.data)
                 })
                 .catch(error => {
                     console.error("There was an error fetching the customer data!", error);
@@ -1115,6 +1115,7 @@ const InvoicePurchaseOfDetail = () => {
         handleSubmit();
     }, [pairs, additionalCheckboxes]);
     const [wholeHearingData, setWholeHearingData] = useState([]);
+
     const checkedFunction = (item1, item2, item3, item4, item5) => {
         if (item1?.length > 0) {
             const array = item1.split(',').map(Number);
@@ -1139,9 +1140,10 @@ const InvoicePurchaseOfDetail = () => {
             });
 
             const items = [item2, item3, item4, item5];
+            console.log(items,'items')
             items.forEach((item, index) => {
                 updateValueAtIndex(index, item); // Update state
-                if (item) {
+                if (item && item !== '') {
                     checkedLabelsAndValues.push({ label: itemLabels[index], value: item });
                 }
             });
@@ -2339,9 +2341,27 @@ const InvoicePurchaseOfDetail = () => {
                             })}
                             <tr>
                                 <td></td>     
+                                <td></td> 
+                                <td></td> 
+                                {isshow ? <td></td> : <td style={{ display: 'none' }}></td>}         
+                                {isshow ? <td></td> : <td style={{ display: 'none' }}></td>}         
+                                {isshow ? <td></td> : <td style={{ display: 'none' }}></td>}              
                                 <td></td>     
-                                <td></td>     
-                                <td></td>     
+                                <td></td> 
+                                {isDetailShow ? <td></td> : <td style={{ display: 'none' }}></td>}      
+                                {isDetailShow ? <td></td> : <td style={{ display: 'none' }}></td>}      
+                                {isDetailShow ? <td></td> : <td style={{ display: 'none' }}></td>}      
+                                {isDetailShow ? <td></td> : <td style={{ display: 'none' }}></td>}      
+                                {isDetailShow ? <td></td> : <td style={{ display: 'none' }}></td>}      
+                                {isDetailShow ? <td></td> : <td style={{ display: 'none' }}></td>}      
+                                {isDetailShow ? <td></td> : <td style={{ display: 'none' }}></td>}      
+                                {isDetailShow ? <td></td> : <td style={{ display: 'none' }}></td>}      
+                                {isDetailShow ? <td></td> : <td style={{ display: 'none' }}></td>}      
+                                {isDetailShow ? <td></td> : <td style={{ display: 'none' }}></td>}      
+                                {isDetailShow ? <td></td> : <td style={{ display: 'none' }}></td>}               
+                                {isDetailShow ? <td></td> : <td style={{ display: 'none' }}></td>}                   
+                                {isDetailShow ? <td></td> : <td style={{ display: 'none' }}></td>}               
+                                {isDetailShow ? <td></td> : <td style={{ display: 'none' }}></td>}                   
                                 <td></td>     
                                 <td colSpan={3}>
                                     <div className='flex justify-end text-right mt-2'>

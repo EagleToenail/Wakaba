@@ -7,7 +7,7 @@ import ButtonComponent from '../../Components/Common/ButtonComponent';
 import { toast } from 'react-toastify';
 
 
-const CustomerUpdateForPurchase = ({ id, wholeHearingSave }) => {
+const CustomerUpdateForPurchase = ({ id }) => {
 
     const userStoreName = localStorage.getItem('storename');
 
@@ -42,7 +42,7 @@ const CustomerUpdateForPurchase = ({ id, wholeHearingSave }) => {
             if (!wakabaBaseUrl) {
                 throw new Error('API base URL is not defined');
             }
-            if (id) {
+            if (id !== '0') {
                 await axios.get(`${wakabaBaseUrl}/customer/getCustomerById/${id}`)
                     .then(response => {
                         // console.log("data", response.data)
@@ -101,9 +101,13 @@ const CustomerUpdateForPurchase = ({ id, wholeHearingSave }) => {
     }
 
     const handleCreateCustomerSubmit = async () => {
+        console.log(id,'id')
         setIsCreateCustomerModalOpen(false);
 
         const formDataObj = new FormData();
+        if(id !== '0') {
+            formDataObj.append('id', id);
+        }
         formDataObj.append('shop', userStoreName);
         formDataObj.append('visit_type', customer.visit_type);
         formDataObj.append('full_name', customer.full_name);
@@ -133,17 +137,19 @@ const CustomerUpdateForPurchase = ({ id, wholeHearingSave }) => {
             if (!wakabaBaseUrl) {
                 throw new Error('API base URL is not defined');
             }
-            const response = await axios.post(`${wakabaBaseUrl}/customer/createCustomer`, formDataObj,
-                {
-                    headers: {
-                        'Content-Type': 'multipart/form-data',
-                    },
-                }
-            );
-            console.log('Response:', response.data);
-            toast.success('データが正常に作成されました！', { autoClose: 3000 });//create
-            setCustomer(response.data)
-            wholeHearingSave(response.data.id);
+            if(id !== '0') {
+                const response = await axios.post(`${wakabaBaseUrl}/customer/updateCustomer`, formDataObj,
+                    {
+                        headers: {
+                            'Content-Type': 'multipart/form-data',
+                        },
+                    }
+                );
+                console.log('Response:', response.data);
+                toast.success('データが正常に作成されました！', { autoClose: 3000 });//create
+                setCustomer(response.data)
+                // wholeHearingSave(response.data.id);
+            }
 
         } catch (error) {
             console.error('Error submitting form:', error);

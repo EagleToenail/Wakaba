@@ -95,10 +95,11 @@ const InvoicePurchaseOfBroughtBlank = () => {
                 throw new Error('API base URL is not defined');
             }
 
-            await axios.post(`${wakabaBaseUrl}/purchaseinvoice/getregistereddata`, { id: '0', userStoreName: userStoreName, userId: userId })
+            await axios.post(`${wakabaBaseUrl}/purchaseinvoice/getregistereddatablank`, {userStoreName: userStoreName, userId: userId })
                 .then(response => {
                     const invoiceData = response.data;
                     if (invoiceData?.length > 0) {
+                        const customerId = invoiceData[0].customer_id;
                         const updatedData111 = invoiceData.map((data, Index) => ({
                             ...data,
                             estimate_wholesaler: JSON.parse(data.estimate_wholesaler),
@@ -107,6 +108,7 @@ const InvoicePurchaseOfBroughtBlank = () => {
                         setTotalSalesSlipData(updatedData111);
                         setItemsImagePreview(`${wakabaBaseUrl}/uploads/product/${response.data[0].entire_items_url}`);
                         setItemsDocPreview(`${wakabaBaseUrl}/uploads/product/${response.data[0].document_url}`);
+                        fetchCustomerData(customerId);
                     }
                     setShowInputPurchase(false);
                 })
@@ -188,6 +190,25 @@ const InvoicePurchaseOfBroughtBlank = () => {
         cupon_item: '',
         cupon_item_number: '',
     });
+
+    //fetch customer data
+    const fetchCustomerData = async (customerId) => {
+        if (!wakabaBaseUrl) {
+            throw new Error('API base URL is not defined');
+        }
+        if (customerId) {
+            await axios.get(`${wakabaBaseUrl}/customer/getCustomerById/${customerId}`)
+                .then(response => {
+                    checkedFunction(response.data.item1, response.data.item2, response.data.item3, response.data.item4, response.data.item5)
+                    setCustomer(response.data);
+                    // console.log('----fetchcustomer2', response.data)
+                })
+                .catch(error => {
+                    console.error("There was an error fetching the customer data!", error);
+                });
+        }
+    }
+
     const [childData, setChildData] = useState('0');//customerId important
 
     const handleCustomerChange = (e) => {
@@ -486,9 +507,9 @@ const InvoicePurchaseOfBroughtBlank = () => {
 
     const [showInputPurchase, setShowInputPurchase] = useState(false);
     //add Data
-    const addSlesItem = async () => {
+    const addSlesItem = async (customerid) => {
 
-        console.log('purchase data', salesSlipData, estimateValues);
+        // console.log('purchase data', salesSlipData, estimateValues);
 
         let maxValue = 0; // Start with 0
         let maxKey = ''; // To store the corresponding key
@@ -523,7 +544,8 @@ const InvoicePurchaseOfBroughtBlank = () => {
         formData.append('purchase_staff', salesSlipData.purchase_staff);
         formData.append('payment_staff', staffData.payment_staff);
         formData.append('purchase_staff_id', salesSlipData.purchase_staff_id);
-        formData.append('customer_id', salesSlipData.customer_id);
+       // formData.append('customer_id', salesSlipData.customer_id);
+        formData.append('customer_id', customerid);
         formData.append('store_name', salesSlipData.store_name);
         formData.append('product_type_one', salesSlipData.product_type_one);
         formData.append('product_type_two', salesSlipData.product_type_two);
@@ -947,6 +969,7 @@ const InvoicePurchaseOfBroughtBlank = () => {
         navigate('/customerreceipt');
 
     }
+
     const sendPurchaseData = () => {
         if (childData) {
             const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
@@ -1222,17 +1245,6 @@ const InvoicePurchaseOfBroughtBlank = () => {
         handleModalClose();
 
     };
-
-    const handleKeyDown = (e) => {
-        if (e.key === 'Enter') {
-            // e.preventDefault(); // Prevent the default behavior (form submission)
-            setEditRow((prev) => ({
-                ...prev,
-                comment: prev.comment // Add a newline character
-            }));
-            return;
-        }
-    };
     //---------------whole hearing control part---------------
     const [pairs, setPairs] = useState([
         { checked: false, value: '' },
@@ -1317,7 +1329,8 @@ const InvoicePurchaseOfBroughtBlank = () => {
         });
 
         // Set additionalChecked in the customer state
-        updatedCustomer.item1 = additionalChecked.map(item => item.label);
+       // updatedCustomer.item1 = additionalChecked.map(item => item.label);
+        updatedCustomer.item1 = additionalChecked.map(item => item.index);
 
         // Finally, set the updated customer state
         setCustomer(updatedCustomer);
@@ -1373,25 +1386,32 @@ const InvoicePurchaseOfBroughtBlank = () => {
 
     // Save function
     const itemsSave = () => {
-        const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
-        if (!wakabaBaseUrl) {
-            throw new Error('API base URL is not defined');
-        }
-
-        axios.post(`${wakabaBaseUrl}/customer/updatecustomeritem`, customer)
+        if(childData === '0') {
+            const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+            if (!wakabaBaseUrl) {
+                throw new Error('API base URL is not defined');
+            }
+            axios.post(`${wakabaBaseUrl}/customer/updatecustomeritem`, customer)
             .then(response => {
                 console.log('Customer data updated successfully:', response.data);
+                setChildData(response.data.id);
+                addSlesItem(response.data.id);
             })
             .catch(error => {
                 console.error("There was an error fetching the customer data!", error);
             });
+        }
+
     };
+
+
 
     //--------------------------------------------------------
     //go to stamps related page #62(stamp related purchase statement)
     const gotoStampsPurchase = () => {
         sendCustomerId(childData);//send customerId
-        navigate(`/stamprelatedpurchasestatement/${childData}`);
+       // navigate(`/stamprelatedpurchasestatement/${childData}`);
+       navigate(`/stamprelatedpurchasestatement/${childData}?invoiceID=${invoiceID}`);
     }
     //--------------------show  product photo---------------------
     const [showProductImage, setShowProductImage] = useState(false);
@@ -1604,7 +1624,11 @@ const InvoicePurchaseOfBroughtBlank = () => {
             saveSalesItem();
 
         } else {
-            addSlesItem();
+            if(childData === '0') {
+                itemsSave();
+            } else {
+                addSlesItem(childData);
+            }
         }
     }
     //------------------------------------precious metal--------------------------------------
@@ -1732,7 +1756,7 @@ const InvoicePurchaseOfBroughtBlank = () => {
                 <div className="w-full flex justify-center mt-2" >
                     <div className=" w-full pr-5">
                         {/* -------customer register--------- */}
-                        <CustomerRegister id={childData} wholeHearingSave={itemsSave} />
+                        <CustomerRegister id={childData} />
                     </div>
                 </div>
                 {/* textarea*/}
@@ -1788,7 +1812,7 @@ const InvoicePurchaseOfBroughtBlank = () => {
                                                         />
                                                         <label htmlFor="pair-checkbox-0" className="text-[#70685a] mr-3">店舗以外の看板・広告を見て</label>
                                                         <InputComponent
-                                                            value={pairs[0].value}
+                                                            value={pairs[0].value || ''}
                                                             onChange={(e) => handleInputChange(0, e.target.value)}
                                                             disabled={!pairs[0].checked}
                                                             className="w-40 text-[#70685a] mb-2 block text-left mr-10 py-1 !mb-0 !h-8"
@@ -1812,7 +1836,7 @@ const InvoicePurchaseOfBroughtBlank = () => {
                                                                     />
                                                                     <label htmlFor={id} className="text-[#70685a] mr-3">{item.label}</label>
                                                                     <InputComponent
-                                                                        value={pairs[index + 1].value}
+                                                                        value={pairs[index + 1].value || ''}
                                                                         onChange={(e) => handleInputChange(index + 1, e.target.value)}
                                                                         disabled={!pairs[index + 1].checked}
                                                                         className="w-40 text-[#70685a] mb-2 block text-left mr-10 py-1 !mb-0 !h-8"
@@ -1876,7 +1900,7 @@ const InvoicePurchaseOfBroughtBlank = () => {
                                                         />
                                                         <label htmlFor="pair-checkbox-3" className="text-[#70685a] mr-3">その他</label>
                                                         <InputComponent
-                                                            value={pairs[3].value}
+                                                            value={pairs[3].value || ''}
                                                             onChange={(e) => handleInputChange(3, e.target.value)}
                                                             disabled={!pairs[3].checked}
                                                             className="w-40 text-[#70685a] mb-2 block text-left mr-10 py-1 !mb-0 !h-8"
@@ -1969,6 +1993,7 @@ const InvoicePurchaseOfBroughtBlank = () => {
                                 {isDetailShow ? <th style={Th} >金種</th> : <th style={{ display: 'none' }}></th>}
                                 {isDetailShow ? <th style={Th} >総重量</th> : <th style={{ display: 'none' }}></th>}
                                 {isDetailShow ? <th style={Th} >g/額面</th> : <th style={{ display: 'none' }}></th>}
+                                {isDetailShow ? <th style={Th} >シリアル</th> : <th style={{ display: 'none' }}></th>}
                                 {isDetailShow ? <th style={Th} >型番 </th> : <th style={{ display: 'none' }}></th>}
                                 {isDetailShow ? <th style={Th} >駆動方式</th> : <th style={{ display: 'none' }}></th>}
                                 {isDetailShow ? <th style={Th} >可動 </th> : <th style={{ display: 'none' }}></th>}
@@ -2372,22 +2397,40 @@ const InvoicePurchaseOfBroughtBlank = () => {
                                 )
                             })}
                             <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
+                                <td></td>     
+                                <td></td> 
+                                <td></td> 
+                                {isshow ? <td></td> : <td style={{ display: 'none' }}></td>}         
+                                {isshow ? <td></td> : <td style={{ display: 'none' }}></td>}         
+                                {isshow ? <td></td> : <td style={{ display: 'none' }}></td>}              
+                                <td></td>     
+                                <td></td> 
+                                {isDetailShow ? <td></td> : <td style={{ display: 'none' }}></td>}      
+                                {isDetailShow ? <td></td> : <td style={{ display: 'none' }}></td>}      
+                                {isDetailShow ? <td></td> : <td style={{ display: 'none' }}></td>}      
+                                {isDetailShow ? <td></td> : <td style={{ display: 'none' }}></td>}      
+                                {isDetailShow ? <td></td> : <td style={{ display: 'none' }}></td>}      
+                                {isDetailShow ? <td></td> : <td style={{ display: 'none' }}></td>}      
+                                {isDetailShow ? <td></td> : <td style={{ display: 'none' }}></td>}      
+                                {isDetailShow ? <td></td> : <td style={{ display: 'none' }}></td>}      
+                                {isDetailShow ? <td></td> : <td style={{ display: 'none' }}></td>}      
+                                {isDetailShow ? <td></td> : <td style={{ display: 'none' }}></td>}      
+                                {isDetailShow ? <td></td> : <td style={{ display: 'none' }}></td>}               
+                                {isDetailShow ? <td></td> : <td style={{ display: 'none' }}></td>}                   
+                                {isDetailShow ? <td></td> : <td style={{ display: 'none' }}></td>}               
+                                {isDetailShow ? <td></td> : <td style={{ display: 'none' }}></td>}                   
+                                <td></td>     
                                 <td colSpan={3}>
                                     <div className='flex justify-end text-right mt-2'>
                                         <span className='text-[#70685a] font-bold'>買取点数&nbsp;{totalQuantity || ''}点</span>
                                         <span className='text-[#70685a] font-bold ml-5'>買取合計&nbsp;&nbsp;{(totalPrice || 0).toLocaleString()}円</span>
                                     </div>
-                                </td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
+                                </td>         
+                                <td></td>     
+                                <td></td>     
+                                <td></td>     
+                                <td></td>     
+                                <td></td>        
                             </tr>
                         </tbody>
 

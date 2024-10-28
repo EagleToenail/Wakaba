@@ -209,7 +209,8 @@ const InvoicePurchaseOfBroughtBlankDetail = () => {
                         setItemsDocPreview(`${wakabaBaseUrl}/uploads/product/${response.data[0].document_url}`);
                         setInvoiceID(response.data[0].invoiceID);
                         // fetchCustomerPastVisitHistory(customerId);
-                        // fetchCustomerData(customerId);
+                        setChildData(customerId);
+                        fetchCustomerData(customerId);
                     }
                     setShowInputPurchase(false);
                 })
@@ -219,6 +220,24 @@ const InvoicePurchaseOfBroughtBlankDetail = () => {
         }
         fetchInvoiceData();
     }, []);// eslint-disable-next-line react-hooks/exhaustive-deps
+
+    //fetch customer data
+    const fetchCustomerData = async (customerId) => {
+        if (!wakabaBaseUrl) {
+            throw new Error('API base URL is not defined');
+        }
+        if (customerId) {
+            await axios.get(`${wakabaBaseUrl}/customer/getCustomerById/${customerId}`)
+                .then(response => {
+                    checkedFunction(response.data.item1, response.data.item2, response.data.item3, response.data.item4, response.data.item5)
+                    setCustomer(response.data);
+                    // console.log('----fetchcustomer2', response.data)
+                })
+                .catch(error => {
+                    console.error("There was an error fetching the customer data!", error);
+                });
+        }
+    }
 
     const [users, setUsers] = useState([]);
     // Fetch user data
@@ -1185,9 +1204,10 @@ const InvoicePurchaseOfBroughtBlankDetail = () => {
             });
 
             const items = [item2, item3, item4, item5];
+            console.log(items,'items')
             items.forEach((item, index) => {
-                updateValueAtIndex(index, item); // Update state
-                if (item) {
+                if (item && item !== '') {
+                    updateValueAtIndex(index, item); // Update state
                     checkedLabelsAndValues.push({ label: itemLabels[index], value: item });
                 }
             });
@@ -1207,26 +1227,27 @@ const InvoicePurchaseOfBroughtBlankDetail = () => {
     };
 
     // Save function
-    const itemsSave = () => {
-        const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
-        if (!wakabaBaseUrl) {
-            throw new Error('API base URL is not defined');
-        }
+    // const itemsSave = () => {
+    //     const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+    //     if (!wakabaBaseUrl) {
+    //         throw new Error('API base URL is not defined');
+    //     }
 
-        axios.post(`${wakabaBaseUrl}/customer/updatecustomeritem`, customer)
-            .then(response => {
-                console.log('Customer data updated successfully:', response.data);
-            })
-            .catch(error => {
-                console.error("There was an error fetching the customer data!", error);
-            });
-    };
+    //     axios.post(`${wakabaBaseUrl}/customer/updatecustomeritem`, customer)
+    //         .then(response => {
+    //             console.log('Customer data updated successfully:', response.data);
+    //         })
+    //         .catch(error => {
+    //             console.error("There was an error fetching the customer data!", error);
+    //         });
+    // };
 
     //--------------------------------------------------------
     //go to stamps related page #62(stamp related purchase statement)
     const gotoStampsPurchase = () => {
         sendCustomerId(childData);//send customerId
-        navigate(`/stamprelatedpurchasestatement/${childData}`);
+        // navigate(`/stamprelatedpurchasestatement/${childData}`);
+        navigate(`/stamprelatedpurchasestatement/${childData}?invoiceID=${invoiceID}`);
     }
     //--------------------show  product photo---------------------
     const [showProductImage, setShowProductImage] = useState(false);
@@ -1556,7 +1577,7 @@ const InvoicePurchaseOfBroughtBlankDetail = () => {
                 <div className="w-full flex justify-center mt-2" >
                     <div className=" w-full pr-5">
                         {/* -------customer register--------- */}
-                        <CustomerRegister id={childData} wholeHearingSave={itemsSave} />
+                        <CustomerRegister id={childData}/>
                     </div>
                 </div>
                 {/* textarea*/}
@@ -1612,7 +1633,7 @@ const InvoicePurchaseOfBroughtBlankDetail = () => {
                                                         />
                                                         <label htmlFor="pair-checkbox-0" className="text-[#70685a] mr-3">店舗以外の看板・広告を見て</label>
                                                         <InputComponent
-                                                            value={pairs[0].value}
+                                                            value={pairs[0].value || ''}
                                                             onChange={(e) => handleInputChange(0, e.target.value)}
                                                             disabled={!pairs[0].checked}
                                                             className="w-40 text-[#70685a] mb-2 block text-left mr-10 py-1 !mb-0 !h-8"
@@ -1636,7 +1657,7 @@ const InvoicePurchaseOfBroughtBlankDetail = () => {
                                                                     />
                                                                     <label htmlFor={id} className="text-[#70685a] mr-3">{item.label}</label>
                                                                     <InputComponent
-                                                                        value={pairs[index + 1].value}
+                                                                        value={pairs[index + 1].value || ''}
                                                                         onChange={(e) => handleInputChange(index + 1, e.target.value)}
                                                                         disabled={!pairs[index + 1].checked}
                                                                         className="w-40 text-[#70685a] mb-2 block text-left mr-10 py-1 !mb-0 !h-8"
@@ -1700,7 +1721,7 @@ const InvoicePurchaseOfBroughtBlankDetail = () => {
                                                         />
                                                         <label htmlFor="pair-checkbox-3" className="text-[#70685a] mr-3">その他</label>
                                                         <InputComponent
-                                                            value={pairs[3].value}
+                                                            value={pairs[3].value || ''}
                                                             onChange={(e) => handleInputChange(3, e.target.value)}
                                                             disabled={!pairs[3].checked}
                                                             className="w-40 text-[#70685a] mb-2 block text-left mr-10 py-1 !mb-0 !h-8"
@@ -1748,7 +1769,7 @@ const InvoicePurchaseOfBroughtBlankDetail = () => {
             </div>
             <div className='w-full flex justify-between mt-1'>
                 <div>
-                    <button type="button" onClick={gotoStampsPurchase}
+                    <button type="button" onClick={gotoStampsPurchase} style={{display:'none'}}
                         className="px-5 py-2.5 rounded-lg text-sm tracking-wider font-bold border border-[#70685a] outline-none bg-transparent hover:bg-[#524c3b] text-[#70685a] hover:text-white transition-all duration-300">
                         切手
                     </button>
@@ -1793,6 +1814,7 @@ const InvoicePurchaseOfBroughtBlankDetail = () => {
                                 {isDetailShow ? <th style={Th} >金種</th> : <th style={{ display: 'none' }}></th>}
                                 {isDetailShow ? <th style={Th} >総重量</th> : <th style={{ display: 'none' }}></th>}
                                 {isDetailShow ? <th style={Th} >g/額面</th> : <th style={{ display: 'none' }}></th>}
+                                {isDetailShow ? <th style={Th} >シリアル</th> : <th style={{ display: 'none' }}></th>}
                                 {isDetailShow ? <th style={Th} >型番 </th> : <th style={{ display: 'none' }}></th>}
                                 {isDetailShow ? <th style={Th} >駆動方式</th> : <th style={{ display: 'none' }}></th>}
                                 {isDetailShow ? <th style={Th} >可動 </th> : <th style={{ display: 'none' }}></th>}
@@ -1895,7 +1917,7 @@ const InvoicePurchaseOfBroughtBlankDetail = () => {
                                                 <div style={{ flexDirection: 'column', }} className='flex justify-center'>
                                                     <div className='flex justify-center py-1'>
                                                         < button type="button" onClick={() => handleButtonClick(sendInputRef)} className="w-7 flex justify-center">
-                                                            <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSvgIcon-root MuiSvgIcon-fontSizeMedium svg-icon css-kry165 w-7" fill='#524c3b' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CloudUploadOutlinedIcon" tabindex="-1" title="CloudUploadOutlined"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96M19 18H6c-2.21 0-4-1.79-4-4 0-2.05 1.53-3.76 3.56-3.97l1.07-.11.5-.95C8.08 7.14 9.94 6 12 6c2.62 0 4.88 1.86 5.39 4.43l.3 1.5 1.53.11c1.56.1 2.78 1.41 2.78 2.96 0 1.65-1.35 3-3 3M8 13h2.55v3h2.9v-3H16l-4-4z"></path></svg>
+                                                            <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSvgIcon-root MuiSvgIcon-fontSizeMedium svg-icon css-kry165 w-7" fill='#524c3b' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CloudUploadOutlinedIcon" title="CloudUploadOutlined"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96M19 18H6c-2.21 0-4-1.79-4-4 0-2.05 1.53-3.76 3.56-3.97l1.07-.11.5-.95C8.08 7.14 9.94 6 12 6c2.62 0 4.88 1.86 5.39 4.43l.3 1.5 1.53.11c1.56.1 2.78 1.41 2.78 2.96 0 1.65-1.35 3-3 3M8 13h2.55v3h2.9v-3H16l-4-4z"></path></svg>
                                                         </button>
                                                         <input type="file" name="fileUrl" ref={sendInputRef} style={{ display: 'none' }} onChange={(e) => handleFileChange(e)} />
                                                     </div>
@@ -2201,22 +2223,40 @@ const InvoicePurchaseOfBroughtBlankDetail = () => {
                                 )
                             })}
                             <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
+                                <td></td>     
+                                <td></td> 
+                                <td></td> 
+                                {isshow ? <td></td> : <td style={{ display: 'none' }}></td>}         
+                                {isshow ? <td></td> : <td style={{ display: 'none' }}></td>}         
+                                {isshow ? <td></td> : <td style={{ display: 'none' }}></td>}              
+                                <td></td>     
+                                <td></td> 
+                                {isDetailShow ? <td></td> : <td style={{ display: 'none' }}></td>}      
+                                {isDetailShow ? <td></td> : <td style={{ display: 'none' }}></td>}      
+                                {isDetailShow ? <td></td> : <td style={{ display: 'none' }}></td>}      
+                                {isDetailShow ? <td></td> : <td style={{ display: 'none' }}></td>}      
+                                {isDetailShow ? <td></td> : <td style={{ display: 'none' }}></td>}      
+                                {isDetailShow ? <td></td> : <td style={{ display: 'none' }}></td>}      
+                                {isDetailShow ? <td></td> : <td style={{ display: 'none' }}></td>}      
+                                {isDetailShow ? <td></td> : <td style={{ display: 'none' }}></td>}      
+                                {isDetailShow ? <td></td> : <td style={{ display: 'none' }}></td>}      
+                                {isDetailShow ? <td></td> : <td style={{ display: 'none' }}></td>}      
+                                {isDetailShow ? <td></td> : <td style={{ display: 'none' }}></td>}               
+                                {isDetailShow ? <td></td> : <td style={{ display: 'none' }}></td>}                   
+                                {isDetailShow ? <td></td> : <td style={{ display: 'none' }}></td>}               
+                                {isDetailShow ? <td></td> : <td style={{ display: 'none' }}></td>}                   
+                                <td></td>     
                                 <td colSpan={3}>
                                     <div className='flex justify-end text-right mt-2'>
                                         <span className='text-[#70685a] font-bold'>買取点数&nbsp;{totalQuantity || ''}点</span>
                                         <span className='text-[#70685a] font-bold ml-5'>買取合計&nbsp;&nbsp;{(totalPrice || 0).toLocaleString()}円</span>
                                     </div>
-                                </td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
+                                </td>         
+                                <td></td>     
+                                <td></td>     
+                                <td></td>     
+                                <td></td>     
+                                <td></td>        
                             </tr>
                         </tbody>
 

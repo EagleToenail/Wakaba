@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {useNavigate, useParams } from 'react-router-dom';
+import {useNavigate, useParams,useLocation  } from 'react-router-dom';
 // import Titlebar from '../../Components/Common/Titlebar';
 import StampSheet from '../../Assets/img/stampsheet.png'
 import LetterPack from '../../Assets/img/letterpack.png'
@@ -17,10 +17,14 @@ import { setStampsData } from '../../redux/sales/actions';
 const StampRelatedPurchaseStatement = () => {
 
     const navigate = useNavigate();
-
+    const location = useLocation();
+    const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+    const queryParams = new URLSearchParams(location.search);
+    const invoiceId = queryParams.get('invoiceID');
     // Fetch customer data
     const { id } = useParams();
     const customerId = id;
+
 
     const Table = {
         borderCollapse: 'collapse',
@@ -44,6 +48,26 @@ const StampRelatedPurchaseStatement = () => {
     // const userStoreName = localStorage.getItem('storename');
     const userId = localStorage.getItem('userId');
     // const role = localStorage.getItem('role');
+
+    const [customer, setCustomer] = useState({});
+
+    const fetchCustomerData = async (customerID) => {
+        if (!wakabaBaseUrl) {
+            throw new Error('API base URL is not defined');
+        }
+        if (customerID) {
+            await axios.get(`${wakabaBaseUrl}/customer/getCustomerById/${customerID}`)
+                .then(response => {
+                    setCustomer(response.data);
+                })
+                .catch(error => {
+                    console.error("There was an error fetching the customer data!", error);
+                });
+        }
+    }
+    useEffect(() => {
+        fetchCustomerData(customerId);
+    }, [customerId]);
 
     const [userData, setUserData] = useState([]);
     useEffect(() => {
@@ -134,17 +158,17 @@ const StampRelatedPurchaseStatement = () => {
         }));
     };
     // multiply
-    useEffect(() => {
-        // Calculate product when sheetValue and numberOfSides are both filled
-        const { stampValue, numberOfSides } = newSheetRow;
-        if (stampValue && numberOfSides) {
-            const calculatedProduct = parseInt(stampValue) * parseInt(numberOfSides);
-            setNewSheetRow((prev) => ({ ...prev, sheetValue: calculatedProduct }));
-            // console.log('multiply', calculatedProduct)
-        } else {
-            setNewSheetRow((prev) => ({ ...prev, sheetValue: '' }));
-        }
-    }, [newSheetRow,newSheetRow.stampValue, newSheetRow.numberOfSides]);
+    // useEffect(() => {
+    //     // Calculate product when sheetValue and numberOfSides are both filled
+    //     const { stampValue, numberOfSides } = newSheetRow;
+    //     if (stampValue && numberOfSides) {
+    //         const calculatedProduct = parseInt(stampValue) * parseInt(numberOfSides);
+    //         setNewSheetRow((prev) => ({ ...prev, sheetValue: calculatedProduct }));
+    //         // console.log('multiply', calculatedProduct)
+    //     } else {
+    //         setNewSheetRow((prev) => ({ ...prev, sheetValue: '' }));
+    //     }
+    // }, [newSheetRow,newSheetRow.stampValue, newSheetRow.numberOfSides]);
 
     // Add a new row to the table
     // const handleAddSheetRow = async() => {
@@ -947,7 +971,8 @@ const StampRelatedPurchaseStatement = () => {
                 } 
                 const username = userData.full_name;
                 const storeName = userData.store_name;
-                const stampData = {currentDay,customerId,username,storeName,userId, stampRate,
+                const invoiceID = invoiceId;
+                const stampData = {currentDay,customerId,invoiceID,username,storeName,userId, stampRate,
                     sheetIds,sheetValues,roseIds,roseValues,packIds,packValues,cardIds,cardValues,
                     totalNumberOfSheet1,totalNumberOfSheet2,totalNumberOfRose1,totalNumberOfRose2,totalNumberOfPack1,totalNumberOfPack2,totalNumberOfCard1,totalNumberOfCard2,
                     totalFaceValue1,totalFaceValue2,totalRoseFaceValue1,totalRoseFaceValue2,totalPackFaceValue1,totalPackFaceValue2,totalCardFaceValue1,totalCardFaceValue2,
@@ -956,7 +981,7 @@ const StampRelatedPurchaseStatement = () => {
                 console.log('stampData',stampData)
                 await axios.post(`${wakabaBaseUrl}/purchaseinvoice/stamps`, stampData)
                 .then(response => {
-                    navigate(`/invoiceforpurchaseofbrought/${customerId}`);
+                    gotoInvoicePurchase();
                 })
                 .catch(error => {
                     console.error("There was an error fetching the customer data!", error);
@@ -970,7 +995,7 @@ const StampRelatedPurchaseStatement = () => {
 //------------------------------------
     // return stamp inventory list page
     const gotoInvoicePurchase = () => {
-        if(customerId === '0') {
+        if(customer && customer.customer_status === 'beforecreating') {
             navigate(`/invoiceforpurchaseofbroughtblank`);
         }else {
             navigate(`/invoiceforpurchaseofbrought/${customerId}`);
