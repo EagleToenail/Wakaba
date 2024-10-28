@@ -682,7 +682,7 @@ const VendorAssementSheet = () => {
                                                 </div>
                                                 {/* ---------------------------- */}
                                             </th>
-                                            <th className='px-2' style={Th} rowSpan={2}>
+                                            <th className='px-1' style={Th} rowSpan={2}>
                                                 <div className="relative">
                                                     <button
                                                         onClick={toggleUserDropdown}
@@ -729,7 +729,7 @@ const VendorAssementSheet = () => {
                                                     )}
                                                 </div>
                                             </th>
-                                            <th className='px-2' style={Th} rowSpan={2}>
+                                            <th className='px-1' style={Th} rowSpan={2}>
                                                 <div className="relative">
                                                     <button
                                                         onClick={toggleDateDropdown1}
@@ -827,7 +827,7 @@ const VendorAssementSheet = () => {
                                                     )}
                                                 </div>
                                             </th>
-                                            <th className='px-2' style={Th} rowSpan={2}>
+                                            <th className='px-1' style={Th} rowSpan={2}>
                                                 <div className="relative">
                                                     <button
                                                         onClick={toggleDateDropdown2}
@@ -925,7 +925,7 @@ const VendorAssementSheet = () => {
                                                     )}
                                                 </div>
                                             </th>
-                                            <th className='px-2' style={Th} rowSpan={2}>
+                                            <th className='px-1' style={Th} rowSpan={2}>
                                                 <div className="relative">
                                                     <button
                                                         onClick={toggleDateDropdown3}
@@ -1023,12 +1023,12 @@ const VendorAssementSheet = () => {
                                                     )}
                                                 </div>
                                             </th>
-                                            <th style={Th} rowSpan={2} >カテゴリ-1 </th>
-                                            <th style={Th} rowSpan={2} >カテゴリ-2</th>
-                                            <th style={Th} rowSpan={2} >カテゴリ-3</th>
-                                            <th style={Th} rowSpan={2} >カテゴリ-4</th>
+                                            <th style={Th} rowSpan={2} >カテゴリ1 </th>
+                                            <th style={Th} rowSpan={2} >カテゴリ2</th>
+                                            <th style={Th} rowSpan={2} >カテゴリ3</th>
+                                            <th style={Th} rowSpan={2} >カテゴリ4</th>
                                             <th style={Th} rowSpan={2} >画像</th>
-                                            <th rowSpan={2} style={Th} className='px-2'>わかばNo</th>
+                                            <th rowSpan={2} style={Th} className='px-1'>わかばNo</th>
                                             <th style={Th} rowSpan={2} >
                                                 <div className='flex justify-center'>
                                                     商品名
@@ -1040,6 +1040,7 @@ const VendorAssementSheet = () => {
                                             {isDetailShow ? <th style={Th} rowSpan={2}>金種</th> : <th style={{ display: 'none' }}></th>}
                                             {isDetailShow ? <th style={Th} rowSpan={2}>総重量</th> : <th style={{ display: 'none' }}></th>}
                                             {isDetailShow ? <th style={Th} rowSpan={2}>g/額面</th> : <th style={{ display: 'none' }}></th>}
+                                            {isDetailShow ? <th style={Th} rowSpan={2}>シリアル</th> : <th style={{ display: 'none' }}></th>}
                                             {isDetailShow ? <th style={Th} rowSpan={2}>型番 </th> : <th style={{ display: 'none' }}></th>}
                                             {isDetailShow ? <th style={Th} rowSpan={2}>駆動方式</th> : <th style={{ display: 'none' }}></th>}
                                             {isDetailShow ? <th style={Th} rowSpan={2}>可動 </th> : <th style={{ display: 'none' }}></th>}
@@ -1119,7 +1120,7 @@ const VendorAssementSheet = () => {
                                                 </td>
                                                 <td style={Td}>{sale.id || ''}</td>
                                                 <td style={Td}>
-                                                    <select name='product_status' value={sale.product_status || ''} onChange={(e) => handleValueChange(sale.id, Index, e)} className="w-40 h-8 text-[#70685a] font-bold px-4 py-1 outline-[#70685a]">
+                                                    <select name='product_status' value={sale.product_status || ''} onChange={(e) => handleValueChange(sale.id, Index, e)} className="w-[120px] h-8 text-[#70685a] font-bold px-4 py-1 outline-[#70685a]">
                                                         <option value="査定中">査定中</option>
                                                         <option value="お預かり">お預かり</option>
                                                         <option value="承認待ち">承認待ち</option>
@@ -1135,7 +1136,7 @@ const VendorAssementSheet = () => {
                                                     </select>
                                                 </td>
                                                 <td style={Td}>
-                                                    <select name='purchase_staff' value={sale.purchase_staff || ''} onChange={(e) => handleValueChange(sale.id, Index, e)} className="w-40 h-8 text-[#70685a] font-bold px-4 py-1 outline-[#70685a]">
+                                                    <select name='purchase_staff' value={sale.purchase_staff || ''} onChange={(e) => handleValueChange(sale.id, Index, e)} className="w-[120px] h-8 text-[#70685a] font-bold px-4 py-1 outline-[#70685a]">
                                                         {users.length > 0 && users.map((user, index) => (
                                                             <option key={user.id} value={user.full_name}>{user.full_name || ''}</option>
                                                         ))}
@@ -1188,6 +1189,7 @@ const VendorAssementSheet = () => {
                                                 {isDetailShow ? <td style={Td} >{sale.gold_type || ''}</td> : <td style={{ display: 'none' }}></td>}
                                                 {isDetailShow ? <td style={Td} >{sale.gross_weight || ''}</td> : <td style={{ display: 'none' }}></td>}
                                                 {isDetailShow ? <td style={Td} >{sale.price_gram || ''}</td> : <td style={{ display: 'none' }}></td>}
+                                                {isDetailShow ? <td style={Td} >{sale.serial_number || ''}</td> : <td style={{ display: 'none' }}></td>}
                                                 {isDetailShow ? <td style={Td} >{sale.model_number_one || ''}</td> : <td style={{ display: 'none' }}></td>}
                                                 {isDetailShow ? <td style={Td} >{sale.action_type || ''}</td> : <td style={{ display: 'none' }}></td>}
                                                 {isDetailShow ? <td style={Td} >{sale.movable || ''}</td> : <td style={{ display: 'none' }}></td>}

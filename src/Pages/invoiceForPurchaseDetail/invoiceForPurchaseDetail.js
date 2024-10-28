@@ -1508,7 +1508,7 @@ const InvoicePurchaseOfDetail = () => {
                                     }
                                     <div className='flex justify-center'>
                                         <button type="button" onClick={sendPurchaseData}
-                                            className="mr-10 h-11 min-w-[160px] text-[#e87a00] rounded-full tracking-wider font-bold outline-none border border-[2px] border-[#e87a00] ">
+                                            className="h-11 min-w-[160px] text-[#e87a00] rounded-full tracking-wider font-bold outline-none border border-[2px] border-[#e87a00] ">
                                                 お客様へ提示
                                         </button>
                                     </div>
@@ -1583,7 +1583,7 @@ const InvoicePurchaseOfDetail = () => {
                             {/* new */}
                             <div className='flex'>
                                 <div style={{ width: '20%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <label className="text-[#70685a] font-bold mb-2 block text-center mr-10 !mb-0">お電話番号</label>
+                                    <label className="text-[#70685a] font-bold mb-2 block text-center mr-10 !mb-0">電話番号</label>
                                 </div>
                                 <div style={{ width: '20%', flexDirection: 'column', }} className='flex align-center justify-around'>
                                     <label className="w-full text-[#70685a] text-[20px] outline-[#70685a]">{customer.phone_number || ''}</label>
@@ -2152,7 +2152,7 @@ const InvoicePurchaseOfDetail = () => {
                                     <td style={Td}>
                                         <InputComponent name='number_of_vendor' type='number' onChange={handleChange} value={salesSlipData.number_of_vendor || ''} className='w-20 h-8 text-[#70685a]' style={{ display: 'none' }} />
                                         <button type="button"
-                                            className="px-3 py-1 rounded text-[#626373] tracking-wider font-semibold border border-[#70685a] bg-[#ebe5e1]">
+                                            className="w-10 px-3 py-1 rounded text-[#626373] tracking-wider font-semibold border border-[#70685a] bg-[#ebe5e1]">
                                             {salesSlipData.number_of_vendor || '0'}
                                         </button>
                                     </td>
@@ -2303,7 +2303,7 @@ const InvoicePurchaseOfDetail = () => {
                                         <td style={Td}>
                                             <div className="relative w-max group mx-auto">
                                                 <button type="button" onClick={() => openEstimate(Index)}
-                                                    className="px-3 py-1 rounded text-[#626373] tracking-wider font-semibold border border-[#70685a] bg-[#ebe5e1]">
+                                                    className="w-10 px-3 py-1 rounded text-[#626373] tracking-wider font-semibold border border-[#70685a] bg-[#ebe5e1]">
                                                     {salesData.number_of_vendor || '0'}
                                                 </button>
                                                 <div className="absolute shadow-lg hidden group-hover:block bg-[#fff] text-[#626373] font-semibold px-3 py-2 text-[15px] right-full mr-3 top-0 bottom-0 my-auto h-max w-max rounded before:w-4 before:h-4 before:rotate-45 before:bg-[#333] before:absolute before:z-[-1] before:bottom-0 before:top-0 before:my-auto before:-right-1 before:mx-auto">
@@ -2345,8 +2345,7 @@ const InvoicePurchaseOfDetail = () => {
                                 <td></td> 
                                 {isshow ? <td></td> : <td style={{ display: 'none' }}></td>}         
                                 {isshow ? <td></td> : <td style={{ display: 'none' }}></td>}         
-                                {isshow ? <td></td> : <td style={{ display: 'none' }}></td>}              
-                                <td></td>     
+                                {isshow ? <td></td> : <td style={{ display: 'none' }}></td>}                        
                                 <td></td> 
                                 {isDetailShow ? <td></td> : <td style={{ display: 'none' }}></td>}      
                                 {isDetailShow ? <td></td> : <td style={{ display: 'none' }}></td>}      

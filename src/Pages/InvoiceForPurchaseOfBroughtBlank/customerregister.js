@@ -211,7 +211,7 @@ const CustomerUpdateForPurchase = ({ id }) => {
                             {/* new */}
                             <div className='flex'>
                                 <div style={{ width: '20%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <label className="text-[#70685a] font-bold mb-2 block text-center mr-10 py-1 !mb-0">お電話番号</label>
+                                    <label className="text-[#70685a] font-bold mb-2 block text-center mr-10 py-1 !mb-0">電話番号</label>
                                 </div>
                                 <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
                                     <InputComponent name="phone_number" value={customer.phone_number || ''} onChange={handleCustomerChange} type='tel' pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" placeholder="123-4567-7890" required />
@@ -274,7 +274,7 @@ const CustomerUpdateForPurchase = ({ id }) => {
                             {/* new */}
                             <div className='flex'>
                                 <div style={{ width: '20%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <label className="text-[#70685a] font-bold mb-2 block text-center mr-10 py-1 !mb-0">ブランドタイプ</label>
+                                    <label className="text-[#70685a] font-bold mb-2 block text-center mr-10 py-1 !mb-0">銘柄</label>
                                 </div>
                                 <div style={{ width: '20%', flexDirection: 'column', }} className='flex align-center justify-around'>
                                     <InputComponent name="brand_type" value={customer.brand_type || ''} onChange={handleCustomerChange} type='text' required />

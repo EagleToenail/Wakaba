@@ -89,7 +89,7 @@ export default function Navbar({sendURL}) {
             <ul className='lg:flex py-2 max-lg:space-y-3 max-lg:fixed max-lg:bg-white max-lg:w-1/2 max-lg:min-w-[300px] max-lg:top-0 max-lg:left-0 max-lg:p-6 max-lg:h-full max-lg:shadow-md max-lg:overflow-auto z-50'>
             {[
                 { label: '始業', route: '/startingwork' },
-                { label: '買取計算', route: '/invoiceforpurchaselist' },
+                { label: '買取計算書', route: '/invoiceforpurchaselist' },
                 { label: '商品一覧', route: '/salesslip' },
                 { label: '業者査定シート', route: '/vendorassessmentsheet' },
                 { label: '業者卸発送一覧', route: '/wholesalershippinglist' },

@@ -265,21 +265,16 @@ const SalesSlip = () => {
     const [estimateValues, setEstimateValues] = useState({});
 
     const [showEstimate, setShowEstimate] = useState(false);
-    // const openEstimate = (index) => {
-    //     setShowEstimate(true);
+    const openEstimate = (index) => {
+        setShowEstimate(true);
 
-    //     //setShowInputPurchase(!showInputPurchase);
-    //     // setEditIndex(index);
-    //     console.log('selectedtotalSalesData', sales[index])
-    //     // setSalesSlipData(sales[index]); // Populate the input fields with the selected row's data
-    //     setEstimateValues(sales[index].estimate_wholesaler);
-    //     if (sales[index].product_type_one) {
-    //         const selectedResult = product1s.find(product => product.category === sales[index].product_type_one);
-    //         console.log('selectedResult', selectedResult)
-    //         getVendorList(selectedResult.id);
-    //     }
+        setEstimateValues(sales[index].estimate_wholesaler);
+        if (sales[index].product_type_one) {
+            const selectedResult = product1s.find(product => product.category === sales[index].product_type_one);
+            getVendorList(selectedResult.id);
+        }
 
-    // }
+    }
 
     const saveEstimate = () => {
         setShowEstimate(false);
@@ -615,25 +610,25 @@ const SalesSlip = () => {
 
     }
     //-----------------------open and close vendor -----------------------------------
-    const [isvendorshow, setIsVendorShow] = useState(false);
+    // const [isvendorshow, setIsVendorShow] = useState(false);
 
-    const openVendortable = () => {
-        setIsVendorShow(false);
-    };
+    // const openVendortable = () => {
+    //     setIsVendorShow(false);
+    // };
 
-    const closeVendortable = () => {
-        setIsVendorShow(true);
-    };
+    // const closeVendortable = () => {
+    //     setIsVendorShow(true);
+    // };
 
-    const [booleanArray, setBooleanArray] = useState(new Array(30).fill(false));
-    const toggleBoolean = (index) => {
-        if (index >= 0 && index < 30) {
-            // console.log('index', index, booleanArray[index]);
-            const newArray = [...booleanArray];
-            newArray[index] = !newArray[index];
-            setBooleanArray(newArray); // Update the state
-        }
-    };
+    // const [booleanArray, setBooleanArray] = useState(new Array(30).fill(false));
+    // const toggleBoolean = (index) => {
+    //     if (index >= 0 && index < 30) {
+    //         // console.log('index', index, booleanArray[index]);
+    //         const newArray = [...booleanArray];
+    //         newArray[index] = !newArray[index];
+    //         setBooleanArray(newArray); // Update the state
+    //     }
+    // };
     //---------------------------------------------------------------------------------------------------------------
     return (
         <>
@@ -701,9 +696,9 @@ const SalesSlip = () => {
                                 <table style={Table} className='pb-5'>
                                     <thead className='sticky top-0 bg-[white] z-10'>
                                         <tr>
-                                            <th rowSpan={2} className='px-2'></th>
-                                            <th rowSpan={2} style={Th} className='px-2'>ID</th>
-                                            <th rowSpan={2} style={Th} className='px-2'>わかばNo</th>
+                                            <th rowSpan={2} className='px-1'></th>
+                                            <th rowSpan={2} style={Th} className='px-1'>ID</th>
+                                            <th rowSpan={2} style={Th} className='px-1'>わかばNo</th>
                                             <th rowSpan={2} style={Th} className='px-1'>
                                                 {/* -----------dropdown--------- */}
                                                 <div className="relative">
@@ -735,7 +730,7 @@ const SalesSlip = () => {
                                                             <ul className="h-48 px-3 pb-3 overflow-y-auto text-sm text-gray-700">
                                                                 {filteredStatuses.map((status) => (
                                                                     <li key={`status-${status}`}>
-                                                                        <div className="flex items-center p-2 rounded hover:bg-gray-100">
+                                                                        <div className="flex pr-2 p-2 rounded hover:bg-gray-100">
                                                                             <input
                                                                                 id={`checkbox-${status}`}
                                                                                 type="checkbox"
@@ -754,7 +749,7 @@ const SalesSlip = () => {
                                                 {/* ---------------------------- */}
 
                                             </th>
-                                            <th className='px-2' style={Th} rowSpan={2}>
+                                            <th className='px-1' style={Th} rowSpan={2}>
                                                 {/* <ButtonComponent onClick={openShowStaffFilterModal} children="買取担当" className='w-max !px-5 rounded-lg border border-[#70685a]' style={{ backgroundColor: '#ebe5e1', color: '#626373' }} /> */}
                                                 <div className="relative">
                                                     <button
@@ -802,7 +797,7 @@ const SalesSlip = () => {
                                                     )}
                                                 </div>
                                             </th>
-                                            <th className='px-2' style={Th} rowSpan={2}>
+                                            <th className='px-1' style={Th} rowSpan={2}>
                                                 <div className="relative">
                                                     <button
                                                         onClick={toggleDateDropdown1}
@@ -900,7 +895,7 @@ const SalesSlip = () => {
                                                     )}
                                                 </div>
                                             </th>
-                                            <th className='px-2' style={Th} rowSpan={2}>
+                                            <th className='px-1' style={Th} rowSpan={2}>
                                                 <div className="relative">
                                                     <button
                                                         onClick={toggleDateDropdown2}
@@ -998,7 +993,7 @@ const SalesSlip = () => {
                                                     )}
                                                 </div>
                                             </th>
-                                            <th className='px-2' style={Th} rowSpan={2}>
+                                            <th className='px-1' style={Th} rowSpan={2}>
                                                 <div className="relative">
                                                     <button
                                                         onClick={toggleDateDropdown3}
@@ -1108,10 +1103,10 @@ const SalesSlip = () => {
                                                 </div>
                                             </th>
 
-                                            <th style={Th} rowSpan={2} >カテゴリ-1 </th>
-                                            <th style={Th} rowSpan={2} >カテゴリ-2</th>
-                                            <th style={Th} rowSpan={2} >カテゴリ-3</th>
-                                            <th style={Th} rowSpan={2} >カテゴリ-4</th>
+                                            <th style={Th} rowSpan={2} className='px-1'>カテゴリ1 </th>
+                                            <th style={Th} rowSpan={2} className='px-1'>カテゴリ2</th>
+                                            <th style={Th} rowSpan={2} className='px-1'>カテゴリ3</th>
+                                            <th style={Th} rowSpan={2} className='px-1'>カテゴリ4</th>
                                             <th style={Th} rowSpan={2} >画像</th>
                                             <th style={Th} rowSpan={2} >
                                                 <div className='flex justify-center'>
@@ -1124,6 +1119,7 @@ const SalesSlip = () => {
                                             {isDetailShow ? <th style={Th} rowSpan={2}>金種</th> : <th style={{ display: 'none' }}></th>}
                                             {isDetailShow ? <th style={Th} rowSpan={2}>総重量</th> : <th style={{ display: 'none' }}></th>}
                                             {isDetailShow ? <th style={Th} rowSpan={2}>g/額面</th> : <th style={{ display: 'none' }}></th>}
+                                            {isDetailShow ? <th style={Th} rowSpan={2}>シリアル</th> : <th style={{ display: 'none' }}></th>}
                                             {isDetailShow ? <th style={Th} rowSpan={2}>型番 </th> : <th style={{ display: 'none' }}></th>}
                                             {isDetailShow ? <th style={Th} rowSpan={2}>駆動方式</th> : <th style={{ display: 'none' }}></th>}
                                             {isDetailShow ? <th style={Th} rowSpan={2}>可動 </th> : <th style={{ display: 'none' }}></th>}
@@ -1140,7 +1136,8 @@ const SalesSlip = () => {
                                             <th style={Th} rowSpan={2} >買取額</th>
                                             <th style={Th} rowSpan={2} >売上額</th>
                                             <th style={Th} rowSpan={2} > 粗利益</th>
-                                            <th style={Th} rowSpan={2}>
+                                            <th style={Th} rowSpan={2} > 業者</th>
+                                            {/* <th style={Th} rowSpan={2}>
                                                 <div>
                                                     {isvendorshow ? <button className='!w-10 flex justify-center'><img src={rightArrow} className='h-5 w-10' alt='' onClick={openVendortable} ></img></button> : <button className='!w-10 flex justify-center'><img src={leftArrow} className='h-5 w-10' alt='' onClick={closeVendortable}></img></button>}
                                                 </div>
@@ -1164,7 +1161,7 @@ const SalesSlip = () => {
                                                         {vendor.vendor_name}
                                                     </div>
                                                 </th>
-                                            ))}
+                                            ))} */}
                                             <th style={Th} rowSpan={2} >真贋</th>
                                         </tr>
                                         <tr>
@@ -1176,7 +1173,7 @@ const SalesSlip = () => {
                                             {isshow ? <th style={Th} className='px-2'>銘柄</th> : <th style={{ display: 'none' }}></th>}
                                             {isshow ? <th style={Th} className='px-2'>販売店名</th> : <th style={{ display: 'none' }}></th>}
 
-                                            {(isvendorshow && allVendors?.length > 0) && allVendors.map((vendor, index) => (
+                                            {/* {(isvendorshow && allVendors?.length > 0) && allVendors.map((vendor, index) => (
                                                 <>
                                                     {booleanArray[index] ? (
                                                         <>
@@ -1195,7 +1192,7 @@ const SalesSlip = () => {
                                                     )}
 
                                                 </>
-                                            ))}
+                                            ))} */}
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -1213,7 +1210,7 @@ const SalesSlip = () => {
                                                 <td style={Td}>{sale.id || ''}</td>
                                                 <td style={Td}>{sale.wakaba_number || ''}</td>
                                                 <td style={Td}>
-                                                    <select name='product_status' value={sale.product_status || ''} onChange={(e) => handleValueChange(sale.id, Index, e)} className="w-40 h-8 text-[#70685a] font-bold px-4 py-1 outline-[#70685a]">
+                                                    <select name='product_status' value={sale.product_status || ''} onChange={(e) => handleValueChange(sale.id, Index, e)} className="w-[120px] h-8 text-[#70685a] font-bold px-4 py-1 outline-[#70685a]">
                                                         <option value="査定中">査定中</option>
                                                         <option value="お預かり">お預かり</option>
                                                         <option value="承認待ち">承認待ち</option>
@@ -1229,7 +1226,7 @@ const SalesSlip = () => {
                                                     </select>
                                                 </td>
                                                 <td style={Td}>
-                                                    <select name='purchase_staff' value={sale.purchase_staff || ''} onChange={(e) => handleValueChange(sale.id, Index, e)} className="w-40 h-8 text-[#70685a] font-bold px-4 py-1 outline-[#70685a]">
+                                                    <select name='purchase_staff' value={sale.purchase_staff || ''} onChange={(e) => handleValueChange(sale.id, Index, e)} className="w-[120px] h-8 text-[#70685a] font-bold px-4 py-1 outline-[#70685a]">
                                                         {users.length > 0 && users.map((user, index) => (
                                                             <option key={user.id} value={user.full_name}>{user.full_name || ''}</option>
                                                         ))}
@@ -1300,6 +1297,7 @@ const SalesSlip = () => {
                                                 {isDetailShow ? <td style={Td} >{sale.gold_type || ''}</td> : <td style={{ display: 'none' }}></td>}
                                                 {isDetailShow ? <td style={Td} >{sale.gross_weight || ''}</td> : <td style={{ display: 'none' }}></td>}
                                                 {isDetailShow ? <td style={Td} >{sale.price_gram || ''}</td> : <td style={{ display: 'none' }}></td>}
+                                                {isDetailShow ? <td style={Td} >{sale.serial_number || ''}</td> : <td style={{ display: 'none' }}></td>}
                                                 {isDetailShow ? <td style={Td} >{sale.model_number_one || ''}</td> : <td style={{ display: 'none' }}></td>}
                                                 {isDetailShow ? <td style={Td} >{sale.action_type || ''}</td> : <td style={{ display: 'none' }}></td>}
                                                 {isDetailShow ? <td style={Td} >{sale.movable || ''}</td> : <td style={{ display: 'none' }}></td>}
@@ -1316,8 +1314,26 @@ const SalesSlip = () => {
                                                 <td style={Td} className='text-right'>{(sale.purchase_price || 0).toLocaleString()}</td>
                                                 <td style={Td} className='text-right'>{(sale.sales_amount || 0).toLocaleString()}</td>
                                                 <td style={Td} className='text-right'>{(sale.gross_profit || 0).toLocaleString()}</td>
-                                                <td style={Td} className='w-10'>{sale.number_of_vendor || ''}</td>
-                                                {(isvendorshow && allVendors?.length > 0) && allVendors.map((vendor, index) => (
+                                                {/* <td style={Td} className='w-10'>{sale.number_of_vendor || ''}</td> */}
+                                                <td style={Td}>
+                                                    <div className="relative w-max group mx-auto">
+                                                        <button type="button" onClick={() => openEstimate(Index)}
+                                                            className="w-10 px-3 py-1 rounded text-[#626373] tracking-wider font-semibold border border-[#70685a] bg-[#ebe5e1]">
+                                                            {sale.number_of_vendor || '0'}
+                                                        </button>
+                                                        <div className="absolute shadow-lg hidden group-hover:block bg-[#fff] text-[#626373] font-semibold px-3 py-2 text-[15px] right-full mr-3 top-0 bottom-0 my-auto h-max w-max rounded before:w-4 before:h-4 before:rotate-45 before:bg-[#333] before:absolute before:z-[-1] before:bottom-0 before:top-0 before:my-auto before:-right-1 before:mx-auto">
+                                                            {allVendors.map((vendor, index) => (
+                                                                sale.estimate_wholesaler[vendor.vendor_name] &&
+                                                                <div key={index} className='flex justify-between'>
+                                                                    <p>{vendor.vendor_name}:</p>
+                                                                    <p className='pl-3'>{sale.estimate_wholesaler[vendor.vendor_name] || ''}</p>
+                                                                </div>
+                                                                // <td key={index} style={Td}> {salesData.estimate_wholesaler[vendor.vendor_name] || ''} </td>
+                                                            ))}
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                {/* {(isvendorshow && allVendors?.length > 0) && allVendors.map((vendor, index) => (
                                                     <>
                                                         {booleanArray[index] ? (
                                                             <>
@@ -1335,7 +1351,7 @@ const SalesSlip = () => {
                                                             </>
                                                         )}
                                                     </>
-                                                ))}
+                                                ))} */}
                                                 <td style={Td}>
                                                     {sale.fixed_checkout === 'real' ?
                                                         <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSvgIcon-root MuiSvgIcon-fontSizeMedium svg-icon css-kry165" fill='#626373' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="FiberManualRecordOutlinedIcon" title="FiberManualRecordOutlined"><path d="M12 6c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6 2.69-6 6-6m0-2c-4.42 0-8 3.58-8 8s3.58 8 8 8 8-3.58 8-8-3.58-8-8-8"></path></svg>
@@ -1365,8 +1381,9 @@ const SalesSlip = () => {
                                 <table className='text-center w-full' style={Table}>
                                     <thead className='bg-white z-10 h-11 w-full'>
                                         <tr>
-                                            <th style={Th}>ベンダー名</th>
-                                            <th style={Th}>見積もり</th>
+                                            <th style={Th}>業者名</th>
+                                            <th style={Th}>査定額</th>
+                                            <th style={Th}>見積日</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -1376,6 +1393,7 @@ const SalesSlip = () => {
                                                 <td style={Td}>
                                                     {estimateValues[vendor.vendor_name] || ''}
                                                 </td>
+                                                <td style={Td}></td>
                                             </tr>
                                         ))}
                                     </tbody>

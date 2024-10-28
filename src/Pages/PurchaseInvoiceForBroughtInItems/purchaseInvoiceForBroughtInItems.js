@@ -961,7 +961,7 @@ const PurchaseInvoiceForBroughtInItems = () => {
                             {/* Button */}
                             <div className="flex justify-center pt-5 mb-10" >
                                 <div className='w-full pt-1 flex justify-center' style={{ maxWidth: '80em' }}>
-                                    {purchaseInformation.totalSalesSlipData?.length > 0 && purchaseInformation.totalSalesSlipData[0].product_status === '承認された' &&
+                                    {purchaseInformation.totalSalesSlipData?.length > 0 && (purchaseInformation.totalSalesSlipData[0].product_status === '承認待ち' || purchaseInformation.totalSalesSlipData[0].product_status === '承認された' ) &&
                                         <ButtonComponent children={'買取を了承します'} className="!py-2" onClick={confirmAgree} />
                                     }
                                 </div>

@@ -808,7 +808,7 @@ const InvoicePurchaseOfBroughtBlankDetail = () => {
                 throw new Error('API base URL is not defined');
             }
             //---------
-            const numberOfInvoice = 1;
+            const numberOfInvoice = invoiceID;
 
             if (totalSalesSlipData.length != 0 && totalSalesSlipData != null) {
                 const purchaseData = { customerID, numberOfInvoice, totalSalesSlipData, StampData };
@@ -1516,7 +1516,7 @@ const InvoicePurchaseOfBroughtBlankDetail = () => {
                             </div>
 
                         </div>
-                        <h2 className="text-[#70685a] text-center text-2xl font-bold flex justify-center !mt-0">持ち込み商品 買取計算書 (承諾申請画面)</h2>
+                        <h2 className="text-[#70685a] text-center text-2xl font-bold flex justify-center !mt-0">新規買取計算書(承諾申請画面)</h2>
                         {/* new */}
 
                         <div style={{ width: '15%', visibility: 'hidden' }} className='flex align-center justify-center'>
@@ -1547,6 +1547,12 @@ const InvoicePurchaseOfBroughtBlankDetail = () => {
                                             </button>
                                         )
                                     }
+                                    <div className='flex justify-center'>
+                                        <button type="button" onClick={sendPurchaseData}
+                                            className="h-11 min-w-[160px] text-[#e87a00] rounded-full tracking-wider font-bold outline-none border border-[2px] border-[#e87a00] ">
+                                                お客様へ提示
+                                        </button>
+                                    </div>
                                     <div>
                                         <div className='flex'>
                                             <label className="text-[#70685a] font-bold mb-2 block text-right pt-1 mr-3  !mb-0">接客担当</label>
@@ -1599,7 +1605,7 @@ const InvoicePurchaseOfBroughtBlankDetail = () => {
                                         <div className='w-full'>
                                             <label className="text-[#70685a] text-[20px] font-bold mb-2 block text-left mr-10 py-1 !mb-0">全体ヒアリング</label>
                                         </div>
-                                        <div className="w-full max-h-[600px]">
+                                        <div className="w-full h-[300px]">
                                             <div>
                                                 <div className='flex'>
                                                     <label className="text-[#70685a] text-[20px] mb-2 block text-left mr-10 py-1">項目1</label>
@@ -1701,7 +1707,7 @@ const InvoicePurchaseOfBroughtBlankDetail = () => {
                                                                     <input
                                                                         type="checkbox"
                                                                         id={id}
-                                                                        className="w-4 h-4 mr-3"
+                                                                        className="w-4 h-4 mr-2"
                                                                         checked={additionalCheckboxes[checkboxIndex] || false}
                                                                         onChange={() => handleAdditionalCheckboxChange(checkboxIndex)}
                                                                     />
@@ -2041,7 +2047,7 @@ const InvoicePurchaseOfBroughtBlankDetail = () => {
                                             <td style={Td}>
                                                 <InputComponent name='number_of_vendor' type='number' onChange={handleChange} value={salesSlipData.number_of_vendor || ''} className='w-20 h-8 text-[#70685a]' style={{ display: 'none' }} />
                                                 <button type="button"
-                                                    className="px-3 py-1 rounded text-[#626373] tracking-wider font-semibold border border-[#70685a] bg-[#ebe5e1]">
+                                                    className="w-10 px-3 py-1 rounded text-[#626373] tracking-wider font-semibold border border-[#70685a] bg-[#ebe5e1]">
                                                     {salesSlipData.number_of_vendor || '0'}
                                                 </button>
                                             </td>
@@ -2187,7 +2193,7 @@ const InvoicePurchaseOfBroughtBlankDetail = () => {
 
                                             <div className="relative w-max group mx-auto">
                                                 <button type="button" onClick={() => openEstimate(Index)}
-                                                    className="px-3 py-1 rounded text-[#626373] tracking-wider font-semibold border border-[#70685a] bg-[#ebe5e1]">
+                                                    className="w-10 px-3 py-1 rounded text-[#626373] tracking-wider font-semibold border border-[#70685a] bg-[#ebe5e1]">
                                                     {salesData.number_of_vendor || '0'}
                                                 </button>
                                                 <div className="absolute shadow-lg hidden group-hover:block bg-[#fff] text-[#626373] font-semibold px-3 py-2 text-[15px] right-full mr-3 top-0 bottom-0 my-auto h-max w-max rounded before:w-4 before:h-4 before:rotate-45 before:bg-[#333] before:absolute before:z-[-1] before:bottom-0 before:top-0 before:my-auto before:-right-1 before:mx-auto">
