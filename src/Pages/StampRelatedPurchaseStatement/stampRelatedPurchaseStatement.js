@@ -158,50 +158,50 @@ const StampRelatedPurchaseStatement = () => {
         }));
     };
     // multiply
-    // useEffect(() => {
-    //     // Calculate product when sheetValue and numberOfSides are both filled
-    //     const { stampValue, numberOfSides } = newSheetRow;
-    //     if (stampValue && numberOfSides) {
-    //         const calculatedProduct = parseInt(stampValue) * parseInt(numberOfSides);
-    //         setNewSheetRow((prev) => ({ ...prev, sheetValue: calculatedProduct }));
-    //         // console.log('multiply', calculatedProduct)
-    //     } else {
-    //         setNewSheetRow((prev) => ({ ...prev, sheetValue: '' }));
-    //     }
-    // }, [newSheetRow,newSheetRow.stampValue, newSheetRow.numberOfSides]);
+    useEffect(() => {
+        // Calculate product when sheetValue and numberOfSides are both filled
+        const { stampValue, numberOfSides } = newSheetRow;
+        if (stampValue && numberOfSides) {
+            const calculatedProduct = parseInt(stampValue) * parseInt(numberOfSides);
+            setNewSheetRow((prev) => ({ ...prev, sheetValue: calculatedProduct }));
+            // console.log('multiply', calculatedProduct)
+        } else {
+            setNewSheetRow((prev) => ({ ...prev, sheetValue: '' }));
+        }
+    }, [newSheetRow,newSheetRow.stampValue, newSheetRow.numberOfSides]);
 
     // Add a new row to the table
-    // const handleAddSheetRow = async() => {
-    //     if (inputSheetShow) {
-    //         try {
-    //             const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
-    //             if (!wakabaBaseUrl) {
-    //                 throw new Error('API base URL is not defined');
-    //             }
-    //             await axios.post(`${wakabaBaseUrl}/stampsheet/create`, newSheetRow)
-    //             .then(response => {
-    //                 // console.log('success',response.data)
-    //                 // setSheetRows(response.data);
-    //                 initialSheetData(response.data);
-    //             })
-    //             .catch(error => {
-    //                 console.error("There was an error fetching the customer data!", error);
-    //             }); // Send newRow data to the server
-    //             // setSheetRows((prevSheetRows) => [...prevSheetRows, { ...newSheetRow, id: Date.now() }]);
-    //             setNewSheetRow({
-    //                 stampValue: '',
-    //                 numberOfSides: '',
-    //                 sheetValue: '',
-    //                 numberOfSheets: '0',
-    //                 totalFaceValue: '0',
-    //                 purchasePrice: '0'
-    //             });
-    //           } catch (error) {
-    //             console.error('Error adding row:', error);
-    //           }
-    //     }
-    //     setInputSheetShow(!inputSheetShow);
-    // };
+    const handleAddSheetRow = async() => {
+        if (inputSheetShow) {
+            try {
+                const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+                if (!wakabaBaseUrl) {
+                    throw new Error('API base URL is not defined');
+                }
+                await axios.post(`${wakabaBaseUrl}/stampsheet/create`, newSheetRow)
+                .then(response => {
+                    // console.log('success',response.data)
+                    // setSheetRows(response.data);
+                    initialSheetData(response.data);
+                })
+                .catch(error => {
+                    console.error("There was an error fetching the customer data!", error);
+                }); // Send newRow data to the server
+                // setSheetRows((prevSheetRows) => [...prevSheetRows, { ...newSheetRow, id: Date.now() }]);
+                setNewSheetRow({
+                    stampValue: '',
+                    numberOfSides: '',
+                    sheetValue: '',
+                    numberOfSheets: '0',
+                    totalFaceValue: '0',
+                    purchasePrice: '0'
+                });
+              } catch (error) {
+                console.error('Error adding row:', error);
+              }
+        }
+        setInputSheetShow(!inputSheetShow);
+    };
     //edit and delete
     const [editSheetIndex, setEditSheetIndex] = useState(-1);
     const [editedSheetRow, setEditedSheetRow] = useState({
@@ -254,10 +254,6 @@ const StampRelatedPurchaseStatement = () => {
         }); // Reset editedRow state
     };
 
-    //delete one of tatalsaleSlipdata
-    // const handleSheetDeleteClick = (index) => {
-    //     setSheetRows(sheetRows.filter((_, i) => i !== index));
-    // };
     //calculate
     const calculateSheet = (numberofsheets) => {
         const { sheetValue } = editedSheetRow;
@@ -272,6 +268,19 @@ const StampRelatedPurchaseStatement = () => {
             setNewSheetRow((prev) => ({ ...prev, sheetValue: '' }));
         }
     }
+    //newcalculatesheet
+    const calculateSheetNew = (index,data) => {
+        if (index !== undefined) {
+            const sheetValue = parseInt(data[index].sheetValue) || 0;
+            const numberofsheets = parseInt(data[index].numberOfSheets) || 0;
+            const calculatedProduct = sheetValue * numberofsheets;
+            const caluclatePruchase =  parseInt(parseInt(calculatedProduct) * (1 - (stampRate[0].percent)/100));
+            const updatedRows = data.map((r, i) => 
+                i === index ? { ...r, totalFaceValue: calculatedProduct,purchasePrice: caluclatePruchase} : r
+            );
+            setSheetRows(updatedRows);
+        }
+    };
      //calculate second table
      const calculateSheetTotal = ()=>{
             // Calculate the sum
@@ -371,35 +380,35 @@ const StampRelatedPurchaseStatement = () => {
         }));
     };
     // Add a new row to the table
-    // const handleAddRoseRow = async() => {
-    //     if (inputRoseShow) {
-    //         try {
-    //             const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
-    //             if (!wakabaBaseUrl) {
-    //                 throw new Error('API base URL is not defined');
-    //             }
-    //             await axios.post(`${wakabaBaseUrl}/stamprose/create`, newRoseRow)
-    //             .then(response => {
-    //                 // console.log('success',response.data)
-    //                 // setSheetRows(response.data);
-    //                 initialRoseData(response.data);
-    //             })
-    //             .catch(error => {
-    //                 console.error("There was an error fetching the customer data!", error);
-    //             }); // Send newRow data to the server
-    //             //setRoseRows((prevRoseRows) => [...prevRoseRows, { ...newRoseRow, id: Date.now() }]);
-    //             setNewRoseRow({
-    //                 stampValue: '',
-    //                 numberOfSheets: '0',
-    //                 totalFaceValue: '0',
-    //                 purchasePrice: '0'
-    //             });
-    //           } catch (error) {
-    //             console.error('Error adding row:', error);
-    //           }
-    //     }
-    //     setInputRoseShow(!inputRoseShow);
-    // };
+    const handleAddRoseRow = async() => {
+        if (inputRoseShow) {
+            try {
+                const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+                if (!wakabaBaseUrl) {
+                    throw new Error('API base URL is not defined');
+                }
+                await axios.post(`${wakabaBaseUrl}/stamprose/create`, newRoseRow)
+                .then(response => {
+                    // console.log('success',response.data)
+                    // setSheetRows(response.data);
+                    initialRoseData(response.data);
+                })
+                .catch(error => {
+                    console.error("There was an error fetching the customer data!", error);
+                }); // Send newRow data to the server
+                //setRoseRows((prevRoseRows) => [...prevRoseRows, { ...newRoseRow, id: Date.now() }]);
+                setNewRoseRow({
+                    stampValue: '',
+                    numberOfSheets: '0',
+                    totalFaceValue: '0',
+                    purchasePrice: '0'
+                });
+              } catch (error) {
+                console.error('Error adding row:', error);
+              }
+        }
+        setInputRoseShow(!inputRoseShow);
+    };
     //edit and delete
     const [editRoseIndex, setEditRoseIndex] = useState(-1);
     const [editedRoseRow, setEditedRoseRow] = useState({
@@ -463,7 +472,20 @@ const StampRelatedPurchaseStatement = () => {
             setNewRoseRow((prev) => ({ ...prev, stampValue: '' }));
         }
     }
-    //      //calculate second table
+    //calculateRoseNew
+    const calculateRoseNew = (index,data) => {
+        if (index !== undefined) {
+            const stampValue = parseInt(data[index].stampValue) || 0;
+            const numberofsheets = parseInt(data[index].numberOfSheets) || 0;
+            const calculatedProduct = stampValue * numberofsheets;
+            const caluclatePruchase =  parseInt(parseInt(calculatedProduct) * (1 - parseInt(stampRate[2].percent)/100));
+            const updatedRows = data.map((r, i) => 
+                i === index ? { ...r, totalFaceValue: calculatedProduct, purchasePrice: caluclatePruchase} : r
+            );
+            setRoseRows(updatedRows);
+        }
+    };
+       //calculate second table
          const calculateRoseTotal = ()=>{
             // Calculate the sum
             const totalnumberofrose1 = roseRows.reduce((sum, item) => {
@@ -562,37 +584,37 @@ const StampRelatedPurchaseStatement = () => {
         }));
     };
     // Add a new row to the table
-    // const handleAddPackRow = async() => {
-    //     if (inputPackShow) {
-    //         try {
-    //             const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
-    //             if (!wakabaBaseUrl) {
-    //                 throw new Error('API base URL is not defined');
-    //             }
-    //             await axios.post(`${wakabaBaseUrl}/stamppack/create`, newPackRow)
-    //             .then(response => {
-    //                 // console.log('success',response.data)
-    //                 // setSheetRows(response.data);
-    //                 initialPackData(response.data);
-    //             })
-    //             .catch(error => {
-    //                 console.error("There was an error fetching the customer data!", error);
-    //             }); // Send newRow data to the server
-    //             //setPackRows((prevPackRows) => [...prevPackRows, { ...newPackRow, id: Date.now() }]);
-    //             setNewPackRow({
-    //                 type: '',
-    //                 stampValue: '',
-    //                 numberOfSheets: '0',
-    //                 totalFaceValue: '0',
-    //                 purchasePrice: '0'
-    //             });
-    //           } catch (error) {
-    //             console.error('Error adding row:', error);
-    //           }
+    const handleAddPackRow = async() => {
+        if (inputPackShow) {
+            try {
+                const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+                if (!wakabaBaseUrl) {
+                    throw new Error('API base URL is not defined');
+                }
+                await axios.post(`${wakabaBaseUrl}/stamppack/create`, newPackRow)
+                .then(response => {
+                    // console.log('success',response.data)
+                    // setSheetRows(response.data);
+                    initialPackData(response.data);
+                })
+                .catch(error => {
+                    console.error("There was an error fetching the customer data!", error);
+                }); // Send newRow data to the server
+                //setPackRows((prevPackRows) => [...prevPackRows, { ...newPackRow, id: Date.now() }]);
+                setNewPackRow({
+                    type: '',
+                    stampValue: '',
+                    numberOfSheets: '0',
+                    totalFaceValue: '0',
+                    purchasePrice: '0'
+                });
+              } catch (error) {
+                console.error('Error adding row:', error);
+              }
 
-    //     }
-    //     setInputPackShow(!inputPackShow);
-    // };
+        }
+        setInputPackShow(!inputPackShow);
+    };
     //edit and delete
     const [editPackIndex, setEditPackIndex] = useState(-1);
     const [editedPackRow, setEditedPackRow] = useState({
@@ -659,6 +681,19 @@ const StampRelatedPurchaseStatement = () => {
             setNewPackRow((prev) => ({ ...prev, stampValue: '' }));
         }
     }
+    //calculatePackNew
+    const calculatePackNew = (index,data) => {
+        if (index !== undefined) {
+            const stampValue = parseInt(data[index].stampValue) || 0;
+            const numberofsheets = parseInt(data[index].numberOfSheets) || 0;
+            const calculatedProduct = stampValue * numberofsheets;
+            const caluclatePruchase =  parseInt(parseInt(calculatedProduct) * (1 - parseInt(stampRate[2].percent)/100));
+            const updatedRows = data.map((r, i) => 
+                i === index ? { ...r, totalFaceValue: calculatedProduct,purchasePrice: caluclatePruchase} : r
+            );
+            setPackRows(updatedRows);
+        }
+    };
     //calculate second table
     const calculatePackTotal = ()=>{
             // Calculate the sum
@@ -849,6 +884,20 @@ const StampRelatedPurchaseStatement = () => {
             setNewPackRow((prev) => ({ ...prev, stampValue: '' }));
         }
     }
+    //calculateCardNew
+    const calculateCardNew = (index,data) => {
+        if (index !== undefined) {
+            const stampValue = parseInt(data[index].stampValue) || 0;
+            const numberofsheets = parseInt(data[index].numberOfSheets) || 0;
+            const calculatedProduct = stampValue * numberofsheets;
+            const caluclatePruchase =  parseInt(parseInt(calculatedProduct) * (1 - parseInt(stampRate[3].percent)/100));
+            const updatedRows = data.map((r, i) => 
+                i === index ? { ...r, totalFaceValue: calculatedProduct,purchasePrice: caluclatePruchase} : r
+            );
+            setCardRows(updatedRows);
+        }
+    };
+
         //calculate second table
          const calculateCardTotal = ()=>{
                 // Calculate the sum
@@ -1121,44 +1170,50 @@ const StampRelatedPurchaseStatement = () => {
                                                     <th style={Th} className='pl-1 pr-1'>シート数</th>
                                                     <th style={Th} >額面総額</th>
                                                     <th style={Th} className='pl-1 pr-1'>買取額</th>
-                                                    <th style={Th}>{editSheetIndex === -1 ? '編集する' : 'セーブ'}</th>
-                                                    <th className='whitespace-nowrap pl-3'>{editSheetIndex === -1 ? '' : '戻る'}</th>
+                                                    {/* <th style={Th} >{editSheetIndex === -1 ? '編集する' : 'セーブ'}</th>
+                                                    <th className='whitespace-nowrap pl-3' style={{display:'none'}}>{editSheetIndex === -1 ? '' : '戻る'}</th> */}
                                                 </tr>
                                             </thead>
                                             <tbody className='!h-8'>
                                                 {sheetRows?.length > 0 && sheetRows.map((row, Index) => (
                                                     <tr key={Index}  className='!h-6'>
                                                         <td style={Td} className='text-right'>
-                                                            ￥{editSheetIndex === Index ? (
-                                                                <InputComponent disabled={true} name='stampValue' value={editedSheetRow.stampValue || ''} onChange={handleSheetInputChange} className='w-full h-8 text-[#70685a]' />
-                                                            ) : (parseInt(row.stampValue || 0)).toLocaleString()}
+                                                            ￥{(parseInt(row.stampValue || 0)).toLocaleString()}
                                                         </td>
                                                         <td style={Td}>
-                                                            {editSheetIndex === Index ? (
-                                                                <InputComponent disabled={true} name='numberOfSides' value={editedSheetRow.numberOfSides || ''} onChange={handleSheetInputChange} className='w-full h-8 text-[#70685a]' />
-                                                            ) : (parseInt(row.numberOfSides || 0)).toLocaleString()}
+                                                            {(parseInt(row.numberOfSides || 0)).toLocaleString()}
                                                         </td>
                                                         <td style={Td} className='text-right'>
-                                                            ￥{editSheetIndex === Index ? (
-                                                                <InputComponent disabled={true} name='sheetValue' value={editedSheetRow.sheetValue || ''} onChange={handleSheetInputChange} className='w-full h-8 text-[#70685a]' />
-                                                            ) : (parseFloat(row.sheetValue || 0)).toLocaleString()}
+                                                            ￥{(parseFloat(row.sheetValue || 0)).toLocaleString()}
                                                         </td>
-                                                        <td style={Td}>
+                                                        {/* <td style={Td}>
                                                             {editSheetIndex === Index ? (
                                                                 <InputComponent type='number' name='numberOfSheets' value={editedSheetRow.numberOfSheets || ''} onChange={handleSheetInputChange} className='!w-20 h-8 text-[#70685a] !border-[red]' />
                                                             ) : (parseInt(row.numberOfSheets || 0))}
+                                                        </td> */}
+                                                        <td style={Td} className='w-40'>
+                                                            <InputComponent
+                                                                name='numberOfSheets'
+                                                                type="number"
+                                                                value={row.numberOfSheets || ''}
+                                                                onChange={(e) => {
+                                                                    const value = e.target.value;
+                                                                    const updatedRows = sheetRows.map((r, i) => 
+                                                                        i === Index ? { ...r, numberOfSheets: value } : r
+                                                                    );
+                                                                    setSheetRows(updatedRows);
+                                                                    calculateSheetNew(Index,updatedRows);
+                                                                }}
+                                                                className='w-40 h-8 text-[#70685a]'
+                                                            />
                                                         </td>
                                                         <td style={Td} className='text-right'>
-                                                            ￥{editSheetIndex === Index ? (
-                                                                <InputComponent disabled={true} name='totalFaceValue' value={editedSheetRow.totalFaceValue || ''} onChange={handleSheetInputChange} className='w-full h-8 text-[#70685a]' />
-                                                            ) : (parseInt(row.totalFaceValue || 0)).toLocaleString()}
+                                                            ￥{(parseInt(row.totalFaceValue || 0)).toLocaleString()}
                                                         </td>
                                                         <td style={Td} className='text-right'>
-                                                            ￥{editSheetIndex === Index ? (
-                                                                <InputComponent disabled={true} name='purchasePrice' value={editedSheetRow.purchasePrice || ''} onChange={handleSheetInputChange} className='w-full h-8 text-[#70685a]' />
-                                                            ) : (parseInt(row.purchasePrice || 0)).toLocaleString()}
+                                                            ￥{(parseInt(row.purchasePrice || 0)).toLocaleString()}
                                                         </td>
-                                                        <td style={Td}>
+                                                        <td style={{display:'none'}}>
                                                             {editSheetIndex === Index ? (
                                                                 <div>
                                                                     <button onClick={() => handleSheetSaveClick(Index)} className='w-7'>
@@ -1173,7 +1228,7 @@ const StampRelatedPurchaseStatement = () => {
                                                                 </div>
                                                             )}
                                                         </td>
-                                                        <td>
+                                                        <td style={{display:'none'}}>
                                                             {editSheetIndex === Index ? (
                                                                 <div>
                                                                     <button onClick={() => handleSheetCancelClick(Index)} className='w-7'>
@@ -1256,7 +1311,7 @@ const StampRelatedPurchaseStatement = () => {
                                             </tbody>
                                         </table>
                                     </div>
-                                    {/* <div className='flex justify-center mt-2'>
+                                    <div className='flex justify-center mt-2'>
                                         <button type="button" onClick={handleAddSheetRow}
                                             className="w-5 h-5 inline-flex items-center justify-center text-[#70685a] border border-[#70685a] outline-none hover:bg-purple-700 active:bg-purple-600">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="14px" fill="#70685a" className="inline" viewBox="0 0 512 512">
@@ -1265,7 +1320,7 @@ const StampRelatedPurchaseStatement = () => {
                                                     data-original="#000000" />
                                             </svg>
                                         </button>
-                                    </div> */}
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -1336,34 +1391,44 @@ const StampRelatedPurchaseStatement = () => {
                                                     <th style={Th}>枚数</th>
                                                     <th style={Th}>額面総額</th>
                                                     <th style={Th}>買取額</th>
-                                                    <th style={Th}>{editRoseIndex === -1 ? '編集する' : 'セーブ'}</th>
-                                                    <th style={Th} className='whitespace-nowrap pl-3'>{editRoseIndex === -1 ? '' : '戻る'}</th>
+                                                    <th style={{display:'none'}}>{editRoseIndex === -1 ? '編集する' : 'セーブ'}</th>
+                                                    <th style={{display:'none'}} className='whitespace-nowrap pl-3'>{editRoseIndex === -1 ? '' : '戻る'}</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 {roseRows?.length > 0 && roseRows.map((row, Index) => (
                                                     <tr key={Index} className='!h-6'>
                                                         <td style={Td} className='text-right'>
-                                                            ￥{editRoseIndex === Index ? (
-                                                                <InputComponent disabled={true} name='stampValue' value={editedRoseRow.stampValue || ''} onChange={handleRoseInputChange} className='w-full h-8 text-[#70685a]' />
-                                                            ) : (parseInt(row.stampValue || 0)).toLocaleString()}
+                                                            ￥{(parseInt(row.stampValue || 0)).toLocaleString()}
                                                         </td>
-                                                        <td style={Td}>
+                                                        {/* <td style={Td}>
                                                             {editRoseIndex === Index ? (
                                                                 <InputComponent type='number' name='numberOfSheets' value={editedRoseRow.numberOfSheets || ''} onChange={handleRoseInputChange} className='w-full h-8 text-[#70685a] !border-[red]' />
                                                             ) : (row.numberOfSheets || '')}
+                                                        </td> */}
+                                                        <td style={Td} className='w-40'>
+                                                            <InputComponent
+                                                                name='numberOfSheets'
+                                                                type="number"
+                                                                value={row.numberOfSheets || ''}
+                                                                onChange={(e) => {
+                                                                    const value = e.target.value;
+                                                                    const updatedRows = roseRows.map((r, i) => 
+                                                                        i === Index ? { ...r, numberOfSheets: value } : r
+                                                                    );
+                                                                    setRoseRows(updatedRows);
+                                                                    calculateRoseNew(Index,updatedRows);
+                                                                }}
+                                                                className='w-40 h-8 text-[#70685a]'
+                                                            />
                                                         </td>
                                                         <td style={Td} className='text-right'>
-                                                            ￥{editRoseIndex === Index ? (
-                                                                <InputComponent disabled={true} name='totalFaceValue' value={editedRoseRow.totalFaceValue || ''} onChange={handleRoseInputChange} className='w-full h-8 text-[#70685a]' />
-                                                            ) : (parseInt(row.totalFaceValue || 0)).toLocaleString()}
+                                                            ￥{(parseInt(row.totalFaceValue || 0)).toLocaleString()}
                                                         </td>
                                                         <td style={Td} className='text-right'>
-                                                            ￥{editRoseIndex === Index ? (
-                                                                <InputComponent disabled={true} name='purchasePrice' value={editedRoseRow.purchasePrice || ''} onChange={handleRoseInputChange} className='w-full h-8 text-[#70685a]' />
-                                                            ) : (parseInt(row.purchasePrice || 0)).toLocaleString()}
+                                                            ￥{(parseInt(row.purchasePrice || 0)).toLocaleString()}
                                                         </td>
-                                                        <td style={Td}>
+                                                        <td style={{display:'none'}}>
                                                             {editRoseIndex === Index ? (
                                                                 <div>
                                                                     <button onClick={() => handleRoseSaveClick(Index)} className='w-7'>
@@ -1378,7 +1443,7 @@ const StampRelatedPurchaseStatement = () => {
                                                                 </div>
                                                             )}
                                                         </td>
-                                                        <td>
+                                                        <td style={{display:'none'}}>
                                                             {editRoseIndex === Index ? (
                                                                 <div>
                                                                     <button onClick={() => handleRoseCancelClick(Index)} className='w-7'>
@@ -1443,7 +1508,7 @@ const StampRelatedPurchaseStatement = () => {
                                         </table>
                                     </div>
                                 </div>
-                                {/* <div className='flex justify-center mt-2'>
+                                <div className='flex justify-center mt-2'>
                                     <button type="button" onClick={handleAddRoseRow}
                                         className="w-5 h-5 inline-flex items-center justify-center text-[#70685a] border border-[#70685a] outline-none hover:bg-purple-700 active:bg-purple-600">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="14px" fill="#70685a" className="inline" viewBox="0 0 512 512">
@@ -1452,7 +1517,7 @@ const StampRelatedPurchaseStatement = () => {
                                                 data-original="#000000" />
                                         </svg>
                                     </button>
-                                </div> */}
+                                </div>
                             </div>
                         </div>
                         {/* ----------------------Letter pack--------------- */}
@@ -1513,8 +1578,8 @@ const StampRelatedPurchaseStatement = () => {
                                                     <th style={Th} className='pl-1 pr-1'>枚数</th>
                                                     <th style={Th} >額面総額</th>
                                                     <th style={Th} className='pr-1'>買取額</th>
-                                                    <th style={Th}>{editPackIndex === -1 ? '編集する' : 'セーブ'}</th>
-                                                    <th style={Th} className='whitespace-nowrap pl-3'>{editPackIndex === -1 ? '' : '戻る'}</th>
+                                                    <th style={{display:'none'}}>{editPackIndex === -1 ? '編集する' : 'セーブ'}</th>
+                                                    <th style={{display:'none'}} className='whitespace-nowrap pl-3'>{editPackIndex === -1 ? '' : '戻る'}</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -1522,34 +1587,42 @@ const StampRelatedPurchaseStatement = () => {
                                                     <tr key={Index} className='!h-6'>
                                                         <td style={Td} >
                                                             <div className='w-20'>
-                                                                {editPackIndex === Index ? (
-                                                                    <InputComponent disabled={true} name='type' value={editedPackRow.type || ''} onChange={handlePackInputChange} className='w-full h-8 text-[#70685a]' />
-                                                                ) : (row.type || '')}
+                                                                {row.type || ''}
                                                             </div>
                                                         </td>
                                                         <td style={Td} >
                                                             <div className='w-20 text-right'>
-                                                                ￥{editPackIndex === Index ? (
-                                                                    <InputComponent disabled={true} name='stampValue' value={editedPackRow.stampValue || ''} onChange={handlePackInputChange} className='w-full h-8 text-[#70685a]' />
-                                                                ) : (parseInt(row.stampValue || 0)).toLocaleString()}
+                                                                ￥{(parseInt(row.stampValue || 0)).toLocaleString()}
                                                             </div>
                                                         </td>
-                                                        <td style={Td}>
+                                                        {/* <td style={Td}>
                                                             {editPackIndex === Index ? (
                                                                 <InputComponent type="number" name='numberOfSheets' value={editedPackRow.numberOfSheets || ''} onChange={handlePackInputChange} className='w-20 h-8 text-[#70685a] !border-[red]' />
                                                             ) : (row.numberOfSheets || '')}
-                                                        </td>
-                                                        <td style={Td} className='text-right'>
-                                                            ￥{editPackIndex === Index ? (
-                                                                <InputComponent disabled={true} name='totalFaceValue' value={editedPackRow.totalFaceValue || ''} onChange={handlePackInputChange} className='w-full h-8 text-[#70685a]' />
-                                                            ) : (parseInt(row.totalFaceValue || 0)).toLocaleString()}
-                                                        </td>
-                                                        <td style={Td} className='text-right'>
-                                                            ￥{editPackIndex === Index ? (
-                                                                <InputComponent disabled={true} name='purchasePrice' value={editedPackRow.purchasePrice || ''} onChange={handlePackInputChange} className='w-full h-8 text-[#70685a]' />
-                                                            ) : (parseInt(row.purchasePrice || 0)).toLocaleString()}
-                                                        </td>
+                                                        </td> */}
                                                         <td style={Td}>
+                                                            <InputComponent
+                                                                name='numberOfSheets'
+                                                                type="number"
+                                                                value={row.numberOfSheets || ''}
+                                                                onChange={(e) => {
+                                                                    const value = e.target.value;
+                                                                    const updatedRows = packRows.map((r, i) => 
+                                                                        i === Index ? { ...r, numberOfSheets: value } : r
+                                                                    );
+                                                                    setPackRows(updatedRows);
+                                                                    calculatePackNew(Index,updatedRows);
+                                                                }}
+                                                                className='w-40 h-8 text-[#70685a]'
+                                                            />
+                                                        </td>
+                                                        <td style={Td} className='text-right'>
+                                                            ￥{(parseInt(row.totalFaceValue || 0)).toLocaleString()}
+                                                        </td>
+                                                        <td style={Td} className='text-right'>
+                                                            ￥{(parseInt(row.purchasePrice || 0)).toLocaleString()}
+                                                        </td>
+                                                        <td style={{display:'none'}}>
                                                             {editPackIndex === Index ? (
                                                                 <div>
                                                                     <button onClick={() => handlePackSaveClick(Index)} className='w-7'>
@@ -1564,7 +1637,7 @@ const StampRelatedPurchaseStatement = () => {
                                                                 </div>
                                                             )}
                                                         </td>
-                                                        <td>
+                                                        <td style={{display:'none'}}>
                                                             {editPackIndex === Index ? (
                                                                 <div>
                                                                     <button onClick={() => handlePackCancelClick(Index)} className='w-7'>
@@ -1639,7 +1712,7 @@ const StampRelatedPurchaseStatement = () => {
                                         </table>
                                     </div>
                                 </div>
-                                {/* <div className='flex justify-center mt-2'>
+                                <div className='flex justify-center mt-2'>
                                     <button type="button" onClick={handleAddPackRow}
                                         className="w-5 h-5 inline-flex items-center justify-center text-[#70685a] border border-[#70685a] outline-none hover:bg-purple-700 active:bg-purple-600">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="14px" fill="#70685a" className="inline" viewBox="0 0 512 512">
@@ -1648,7 +1721,7 @@ const StampRelatedPurchaseStatement = () => {
                                                 data-original="#000000" />
                                         </svg>
                                     </button>
-                                </div> */}
+                                </div>
                                 {/* -----------------------------------------------------Postcard------------------------------------------ */}
                                 <div>
                                     <div className='mt-10'>
@@ -1716,34 +1789,44 @@ const StampRelatedPurchaseStatement = () => {
                                                             <th style={Th} className='w-20' >枚数</th>
                                                             <th style={Th} className='pl-1 pr-1'>額面総額</th>
                                                             <th style={Th} className='pl-1 pr-1'>買取額</th>
-                                                            <th style={Th}>{editCardIndex === -1 ? '編集する' : 'セーブ'}</th>
-                                                            <th style={Th} className='whitespace-nowrap pl-3'>{editCardIndex === -1 ? '' : '戻る'}</th>
+                                                            <th style={{display:'none'}}>{editCardIndex === -1 ? '編集する' : 'セーブ'}</th>
+                                                            <th style={{display:'none'}} className='whitespace-nowrap pl-3'>{editCardIndex === -1 ? '' : '戻る'}</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
                                                         {cardRows?.length > 0 && cardRows.map((row, Index) => (
                                                             <tr key={Index} >
                                                                 <td style={Td} className='text-right'>
-                                                                    ￥{editCardIndex === Index ? (
-                                                                        <InputComponent disabled={true} name='stampValue' value={editedCardRow.stampValue || ''} onChange={handleCardInputChange} className='w-full h-8 text-[#70685a]' />
-                                                                    ) : (parseInt(row.stampValue || 0)).toLocaleString()}
+                                                                    ￥{(parseInt(row.stampValue || 0)).toLocaleString()}
                                                                 </td>
-                                                                <td style={Td}>
+                                                                {/* <td style={Td}>
                                                                     {editCardIndex === Index ? (
                                                                         <InputComponent type='number' name='numberOfSheets' value={editedCardRow.numberOfSheets || ''} onChange={handleCardInputChange} className='w-20 h-8 text-[#70685a] !border-[red]' />
                                                                     ) : (row.numberOfSheets || '')}
-                                                                </td>
-                                                                <td style={Td} className='text-right'>
-                                                                    ￥{editCardIndex === Index ? (
-                                                                        <InputComponent disabled={true} name='totalFaceValue' value={editedCardRow.totalFaceValue || ''} onChange={handleCardInputChange} className='w-full h-8 text-[#70685a]' />
-                                                                    ) : (parseInt(row.totalFaceValue || 0)).toLocaleString()}
-                                                                </td>
-                                                                <td style={Td} className='text-right'>
-                                                                    ￥{editCardIndex === Index ? (
-                                                                        <InputComponent disabled={true} name='purchasePrice' value={editedCardRow.purchasePrice || ''} onChange={handleCardInputChange} className='w-full h-8 text-[#70685a]' />
-                                                                    ) : (parseInt(row.purchasePrice || 0)).toLocaleString()}
-                                                                </td>
+                                                                </td> */}
                                                                 <td style={Td}>
+                                                                    <InputComponent
+                                                                        name='numberOfSheets'
+                                                                        type="number"
+                                                                        value={row.numberOfSheets || ''}
+                                                                        onChange={(e) => {
+                                                                            const value = e.target.value;
+                                                                            const updatedRows = cardRows.map((r, i) => 
+                                                                                i === Index ? { ...r, numberOfSheets: value } : r
+                                                                            );
+                                                                            setCardRows(updatedRows);
+                                                                            calculateCardNew(Index,updatedRows);
+                                                                        }}
+                                                                        className='w-40 h-8 text-[#70685a]'
+                                                                    />
+                                                                </td>
+                                                                <td style={Td} className='text-right'>
+                                                                    ￥{(parseInt(row.totalFaceValue || 0)).toLocaleString()}
+                                                                </td>
+                                                                <td style={Td} className='text-right'>
+                                                                    ￥{(parseInt(row.purchasePrice || 0)).toLocaleString()}
+                                                                </td>
+                                                                <td style={{display:'none'}}>
                                                                     {editCardIndex === Index ? (
                                                                         <div>
                                                                             <button onClick={() => handleCardSaveClick(Index)} className='w-7'>
@@ -1758,7 +1841,7 @@ const StampRelatedPurchaseStatement = () => {
                                                                         </div>
                                                                     )}
                                                                 </td>
-                                                                <td>
+                                                                <td style={{display:'none'}}>
                                                                     {editCardIndex === Index ? (
                                                                         <div>
                                                                             <button onClick={() => handleCardCancelClick(Index)} className='w-7'>

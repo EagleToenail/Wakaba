@@ -163,13 +163,13 @@ const CustomerList = () => {
     return (
         <>
             <div className='customerlist flex justify-around' >
-                <ButtonComponent children={'asdfasfd'} style={{ visibility: 'hidden' }} />
+                {/* <ButtonComponent children={'asdfasfd'} style={{ visibility: 'hidden' }} /> */}
                 {/* <div className='mt-1'>
                     <h2 className="text-[#70685a] text-center text-2xl font-bold flex justify-center">顧客一覧</h2>
                 </div> */}
-                <div className='flex justify-around mt-1'>
+                {/* <div className='flex justify-around mt-1'>
                     <ButtonComponent children={'新規顧客登銀'} className='py-2 text-2xl !text-[#695d50] bg-[#ebe6e0]' ><Link to="/customerindividualcreate">新規顧客登録</Link></ButtonComponent>
-                </div>
+                </div> */}
             </div>
 
             <div className='flex justify-center text-left'>
@@ -234,13 +234,16 @@ const CustomerList = () => {
                             <button
                                 type="submit"
                                 style={{ display: 'flex', alignItems: 'end' }}
-                                className="flex align-end w-20 px-3 py-2 font-bold rounded-md tracking-wide text-[#655b4d] justify-center text-[] bg-[#ebe6e0] hover:bg-blue-700 focus:outline-none"
+                                className="flex align-end w-20 px-3 py-2 font-bold rounded-md tracking-wide text-[#655b4d] justify-center text-[] bg-[#ebe6e0] hover:bg-[#524c3b] hover:text-white transition-all duration-300"
                             >
                                 検索
                             </button>
                         </div>
                         <div className=' text-[#70685a] px-2 mr-5 flex flex-col justify-end'>
                             <label className="text-[#70685a] mb-2 block text-center pb-13">(and条件)</label>
+                        </div>
+                        <div className='text-[#70685a] px-2 mr-2 flex flex-col justify-end'>
+                            <button children={'新規顧客登銀'} className='flex align-end w-40 h-11 px-3 py-2 font-bold rounded-md tracking-wide text-[#655b4d] justify-center bg-[#ebe6e0] hover:bg-[#524c3b] hover:text-white transition-all duration-300' ><Link to="/customerindividualcreate">新規顧客登録</Link></button>
                         </div>
                     </div>
 

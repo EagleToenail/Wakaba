@@ -545,7 +545,7 @@ const CommemorativeCoinExchange = () => {
                                                     </td>
                                                     <td style={Td}>
                                                         {editCoinIndex === Index ? (
-                                                            <InputComponent name='numberOfCoins' type="number" value={editedCoinRow.numberOfCoins || ''} onChange={handleCoinInputChange} className='w-full h-8 text-[#70685a] border-[red]' />
+                                                            <InputComponent name='numberOfCoins' type="number" value={editedCoinRow.numberOfCoins || ''} onChange={handleCoinInputChange} className='!w-[100px] h-8 text-[#70685a] border-[red]' />
                                                         ) : (row.numberOfCoins || '')}
                                                     </td>
                                                     <td style={Td} className='text-right'>{(parseInt(row.totalCoinValue || 0)).toLocaleString()}</td>
@@ -585,7 +585,7 @@ const CommemorativeCoinExchange = () => {
                                                 <tr key={index}>
                                                     <td style={Td}>{row.coinValue || ''}</td>
                                                     <td style={Td}>{row.newNumberOfCoins || ''}</td>
-                                                    <td style={Td}>
+                                                    <td style={Td} className='w-40'>
                                                         <InputComponent
                                                             name='numberOfCoins'
                                                             type="number"
@@ -598,7 +598,7 @@ const CommemorativeCoinExchange = () => {
                                                                 setCoinRows(updatedRows);
                                                                 calculateCoin1(index, updatedRows);
                                                             }}
-                                                            className='w-full h-8 text-[#70685a]'
+                                                            className='w-40 h-8 text-[#70685a]'
                                                         />
                                                     </td>
                                                     <td style={Td}>{row.totalCoinValue || ''}</td>
@@ -674,8 +674,8 @@ const CommemorativeCoinExchange = () => {
                                                 <th >在庫数</th>
                                                 <th >数</th>
                                                 <th >小計1</th>
-                                                <th >{editBillIndex === -1 ? '編集する' : 'セーブ'}</th>
-                                                <th className='whitespace-nowrap pl-3'>{editBillIndex === -1 ? '' : '戻る'}</th>
+                                                <th style={{display:'none'}}>{editBillIndex === -1 ? '編集する' : 'セーブ'}</th>
+                                                <th style={{display:'none'}} className='whitespace-nowrap pl-3'>{editBillIndex === -1 ? '' : '戻る'}</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -695,7 +695,7 @@ const CommemorativeCoinExchange = () => {
                                                     <td style={Td} className='text-right'>
                                                         {(parseInt(row.totalBillValue || 0)).toLocaleString()}
                                                     </td>
-                                                    <td style={Td}>
+                                                    <td style={{display:'none'}}>
                                                         {editBillIndex === Index ? (
                                                             <div>
                                                                 <button onClick={() => handleBillSaveClick(Index)} className='w-7'>
@@ -710,7 +710,7 @@ const CommemorativeCoinExchange = () => {
                                                             </div>
                                                         )}
                                                     </td>
-                                                    <td>
+                                                    <td style={{display:'none'}}>
                                                         {editBillIndex === Index ? (
                                                             <div>
                                                                 <button onClick={() => handleBillCancelClick(Index)} className='w-7'>
@@ -731,7 +731,7 @@ const CommemorativeCoinExchange = () => {
                                                 <tr key={index}>
                                                     <td style={Td}>{row.billValue || ''}</td>
                                                     <td style={Td}>{row.newNumberOfBills || ''}</td>
-                                                    <td style={Td}>
+                                                    <td style={Td} className='w-40'>
                                                         <InputComponent
                                                             name='numberOfBills'
                                                             type="number"
@@ -744,7 +744,7 @@ const CommemorativeCoinExchange = () => {
                                                                 setBillRows(updatedRows);
                                                                 calculateBill1(index, updatedRows);
                                                             }}
-                                                            className='w-full h-8 text-[#70685a]'
+                                                            className='w-40 h-8 text-[#70685a]'
                                                         />
                                                     </td>
                                                     <td style={Td}>{row.totalBillValue || ''}</td>

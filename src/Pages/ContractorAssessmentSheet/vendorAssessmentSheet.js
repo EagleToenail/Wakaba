@@ -33,10 +33,6 @@ const VendorAssementSheet = () => {
         color: '#70685a',
         fontSize: '15px',
         whiteSpace: 'nowrap',
-        backgroundColor: '#ffffff', // Header background color
-        position: 'sticky', // Fix header on scroll
-        top: 0, // Position at the top
-        zIndex: 10, // Ensure header appears above other content
     };
 
     const Td = {
@@ -1206,7 +1202,7 @@ const VendorAssementSheet = () => {
                                                 </td>
                                                 <td style={Td}>{sale.highest_estimate_vendor || ''}</td>
                                                 <td style={Td} className='text-right'>{(sale.purchase_price || '').toLocaleString()}</td>
-                                                <td style={Td}>
+                                                <td style={Td} className='w-5'>
                                                     {sale.fixed_checkout === 'real' ?
                                                         <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSvgIcon-root MuiSvgIcon-fontSizeMedium svg-icon css-kry165" fill='#626373' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="FiberManualRecordOutlinedIcon" title="FiberManualRecordOutlined"><path d="M12 6c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6 2.69-6 6-6m0-2c-4.42 0-8 3.58-8 8s3.58 8 8 8 8-3.58 8-8-3.58-8-8-8"></path></svg>
                                                         : <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSvgIcon-root MuiSvgIcon-fontSizeMedium svg-icon css-kry165" fill='#626373' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CloseOutlinedIcon" title="CloseOutlined"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>

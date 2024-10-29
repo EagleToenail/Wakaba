@@ -180,9 +180,9 @@ const StampRelatedInventoryApplicationForm = () => {
     };
 
     //delete one of tatalsaleSlipdata
-    const handleSheetDeleteClick = (index) => {
-        setSheetRows(sheetRows.filter((_, i) => i !== index));
-    };
+    // const handleSheetDeleteClick = (index) => {
+    //     setSheetRows(sheetRows.filter((_, i) => i !== index));
+    // };
     //calculate
     const calculateSheet = (numberofsheets) => {
         const { sheetValue } = editedSheetRow;
@@ -194,6 +194,18 @@ const StampRelatedInventoryApplicationForm = () => {
             setNewSheetRow((prev) => ({ ...prev, sheetValue: '' }));
         }
     }
+    //newcalculatesheet
+    const calculateSheetNew = (index,data) => {
+        if (index !== undefined) {
+            const sheetValue = parseInt(data[index].sheetValue) || 0;
+            const numberofsheets = parseInt(data[index].numberOfSheets) || 0;
+            const calculatedProduct = sheetValue * numberofsheets;
+            const updatedRows = data.map((r, i) => 
+                i === index ? { ...r, totalFaceValue: calculatedProduct} : r
+            );
+            setSheetRows(updatedRows);
+        }
+    };
          //calculate second table
          const calculateSheetTotal = ()=>{
             // Calculate the sum
@@ -370,9 +382,9 @@ const StampRelatedInventoryApplicationForm = () => {
     };
 
     //delete one of tatalsaleSlipdata
-    const handlePastingDeleteClick = (index) => {
-        setPastingRows(pastingRows.filter((_, i) => i !== index));
-    };
+    // const handlePastingDeleteClick = (index) => {
+    //     setPastingRows(pastingRows.filter((_, i) => i !== index));
+    // };
     //calculate
     const calculatePasting = (numberofmounts) => {
         const { mountValue } = editedPastingRow;
@@ -384,6 +396,18 @@ const StampRelatedInventoryApplicationForm = () => {
             setNewPastingRow((prev) => ({ ...prev, sheetValue: '' }));
         }
     }
+    //calculatingNew
+    const calculatePastingNew = (index,data) => {
+        if (index !== undefined) {
+            const pastingValue = parseInt(data[index].mountValue) || 0;
+            const numberOfMounts = parseInt(data[index].numberOfMounts) || 0;
+            const calculatedProduct = pastingValue * numberOfMounts;
+            const updatedRows = data.map((r, i) => 
+                i === index ? { ...r, totalFaceValue: calculatedProduct} : r
+            );
+            setPastingRows(updatedRows);
+        }
+    };
         //calculate second table
         const calculatePastingTotal = ()=>{
         // Calculate the sum
@@ -540,9 +564,9 @@ const StampRelatedInventoryApplicationForm = () => {
     };
 
     //delete one of tatalsaleSlipdata
-    const handleRoseDeleteClick = (index) => {
-        setRoseRows(roseRows.filter((_, i) => i !== index));
-    };
+    // const handleRoseDeleteClick = (index) => {
+    //     setRoseRows(roseRows.filter((_, i) => i !== index));
+    // };
     //calculate
     const calculateRose = (numberofsheets) => {
         const { stampValue } = editedRoseRow;
@@ -553,6 +577,18 @@ const StampRelatedInventoryApplicationForm = () => {
             setNewRoseRow((prev) => ({ ...prev, stampValue: '' }));
         }
     }
+    //calculateNew
+    const calculateRoseNew = (index,data) => {
+        if (index !== undefined) {
+            const stampValue = parseInt(data[index].stampValue) || 0;
+            const numberofsheets = parseInt(data[index].numberOfSheets) || 0;
+            const calculatedProduct = stampValue * numberofsheets;
+            const updatedRows = data.map((r, i) => 
+                i === index ? { ...r, totalFaceValue: calculatedProduct} : r
+            );
+            setRoseRows(updatedRows);
+        }
+    };
     //      //calculate second table
     const calculateRoseTotal = ()=>{
         // Calculate the sum
@@ -714,9 +750,9 @@ const StampRelatedInventoryApplicationForm = () => {
     };
 
     //delete one of tatalsaleSlipdata
-    const handlePackDeleteClick = (index) => {
-        setPackRows(packRows.filter((_, i) => i !== index));
-    };
+    // const handlePackDeleteClick = (index) => {
+    //     setPackRows(packRows.filter((_, i) => i !== index));
+    // };
     //calculate
     const calculatePack = (numberofsheets) => {
         const { stampValue } = editedPackRow;
@@ -728,6 +764,18 @@ const StampRelatedInventoryApplicationForm = () => {
             setNewPackRow((prev) => ({ ...prev, stampValue: '' }));
         }
     }
+    //calculateNew
+    const calculatePackNew = (index,data) => {
+        if (index !== undefined) {
+            const stampValue = parseInt(data[index].stampValue) || 0;
+            const numberofsheets = parseInt(data[index].numberOfSheets) || 0;
+            const calculatedProduct = stampValue * numberofsheets;
+            const updatedRows = data.map((r, i) => 
+                i === index ? { ...r, totalFaceValue: calculatedProduct} : r
+            );
+            setPackRows(updatedRows);
+        }
+    };
     //calculate second table
     const calculatePackTotal = ()=>{
         // Calculate the sum
@@ -884,9 +932,9 @@ const StampRelatedInventoryApplicationForm = () => {
     };
 
     //delete one of tatalsaleSlipdata
-    const handleCardDeleteClick = (index) => {
-        setCardRows(cardRows.filter((_, i) => i !== index));
-    };
+    // const handleCardDeleteClick = (index) => {
+    //     setCardRows(cardRows.filter((_, i) => i !== index));
+    // };
     //calculate
     const calculateCard = (numberofsheets) => {
         const { stampValue } = editedCardRow;
@@ -898,6 +946,18 @@ const StampRelatedInventoryApplicationForm = () => {
             setNewPackRow((prev) => ({ ...prev, stampValue: '' }));
         }
     }
+    //calculateNew
+    const calculateCardNew = (index,data) => {
+        if (index !== undefined) {
+            const stampValue = parseInt(data[index].stampValue) || 0;
+            const numberofsheets = parseInt(data[index].numberOfSheets) || 0;
+            const calculatedProduct = stampValue * numberofsheets;
+            const updatedRows = data.map((r, i) => 
+                i === index ? { ...r, totalFaceValue: calculatedProduct} : r
+            );
+            setCardRows(updatedRows);
+        }
+    };
     //calculate second table
     const calculateCardTotal = ()=>{
         // Calculate the sum
@@ -1018,10 +1078,10 @@ const StampRelatedInventoryApplicationForm = () => {
         <>
             {/* <Titlebar title={title} /> */}
             <DateAndTime />
-            <div className=" flex flex-col items-center justify-center py-3 px-4">
+            <div className=" flex flex-col items-center justify-center px-4">
                 <div className="w-full">
                     <h2 className="text-[#70685a] text-center text-2xl font-bold flex justify-center">日本の切手・ハガキ・レターパック 出庫申請</h2>
-                    <div className='flex justify-evenly mt-5 '>
+                    <div className='flex justify-evenly mt-2'>
                         <div className='text-center text-[15px]'><u><LabelComponent onClick={gotoStampsInventoryList} className="cursor-pointer" value="在庫一覧へ戻る" /></u></div>
                         <div>
                             < button type="button" onClick={sendStampsInboundData} className="w-full px-5 py-3 font-bold tracking-wide rounded-lg justify-center text-white bg-[#e87a00] hover:bg-blue-700 focus:outline-none">
@@ -1031,7 +1091,7 @@ const StampRelatedInventoryApplicationForm = () => {
                         <div className='text-center text-[15px]'><u><LabelComponent className="cursor-pointer" value="キャンセル" /></u></div>
 
                     </div>
-                    <div className='flex mt-5'>
+                    <div className='flex mt-2'>
                         <div className='w-[30%]'>
                             <div><LabelComponent value="定型文" className='pl-5 font-bold text-right' /></div>
                             <div className='mt-5'><LabelComponent value="用途/理由他" className='pl-5 font-bold text-right' /></div>
@@ -1054,7 +1114,7 @@ const StampRelatedInventoryApplicationForm = () => {
                     {/* ================= mainpart ================*/}
                     <div className=' stamp-related-inventory-list flex gap-5'>
                         {/* -----stamp sheet------ */}
-                        <div className='stamp-related-inventory-list-one mt-10 w-full'>
+                        <div className='stamp-related-inventory-list-one mt-2 w-full'>
                             {/* first */}
                             <div className='flex justify-center h-11'>
                                 <div className='flex'>
@@ -1105,8 +1165,8 @@ const StampRelatedInventoryApplicationForm = () => {
                                                     <th style={Th} className='pl-1 pr-1' >シート額面</th>
                                                     <th style={Th} className='pr-1'>シート数</th>
                                                     <th style={Th} >額面総額</th>
-                                                    <th style={Th}>{editSheetIndex === -1 ? '編集する' : 'セーブ'}</th>
-                                                    <th style={Th} className='whitespace-nowrap pl-3'>{editSheetIndex === -1 ? '削除' : '戻る'}</th>
+                                                    <th style={{display:'none'}}>{editSheetIndex === -1 ? '編集する' : 'セーブ'}</th>
+                                                    <th style={{display:'none'}} className='whitespace-nowrap pl-3'>{editSheetIndex === -1 ? '' : '戻る'}</th>
                                                 </tr>
                                             </thead>
                                             <tbody className='!h-8'>
@@ -1114,31 +1174,39 @@ const StampRelatedInventoryApplicationForm = () => {
                                                 {sheetRows?.length > 0 && sheetRows.map((row, Index) => (
                                                     <tr key={Index} >
                                                         <td style={Td} className='text-right'>
-                                                            ￥{editSheetIndex === Index ? (
-                                                                <InputComponent disabled={true} name='stampValue' value={editedSheetRow.stampValue || ''} onChange={handleSheetInputChange} className='w-full h-8 text-[#70685a]' />
-                                                            ) : (row.stampValue || '')}
+                                                            ￥{(row.stampValue || '')}
                                                         </td>
                                                         <td style={Td}>
-                                                            {editSheetIndex === Index ? (
-                                                                <InputComponent disabled={true} name='numberOfSides' value={editedSheetRow.numberOfSides || ''} onChange={handleSheetInputChange} className='w-full h-8 text-[#70685a]' />
-                                                            ) : (row.numberOfSides || '')}
+                                                            {(row.numberOfSides || '')}
                                                         </td>
                                                         <td style={Td} className='text-right'>
-                                                            ￥{editSheetIndex === Index ? (
-                                                                <InputComponent disabled={true} name='sheetValue' value={editedSheetRow.sheetValue || ''} onChange={handleSheetInputChange} className='w-full h-8 text-[#70685a]' />
-                                                            ) : (parseInt(row.sheetValue || 0)).toLocaleString()}
+                                                            ￥{(parseInt(row.sheetValue || 0)).toLocaleString()}
                                                         </td>
-                                                        <td style={Td} className='text-right'>
+                                                        {/* <td style={Td} className='text-right'>
                                                             {editSheetIndex === Index ? (
                                                                 <InputComponent name='numberOfSheets' type='number' value={editedSheetRow.numberOfSheets || ''} onChange={handleSheetInputChange} className='w-20 h-8 text-[#70685a] !border-[red]' />
                                                             ) : (parseInt(row.numberOfSheets || 0)).toLocaleString()}
+                                                        </td> */}
+                                                        <td style={Td} className='w-40'>
+                                                            <InputComponent
+                                                                name='numberOfSheets'
+                                                                type="number"
+                                                                value={row.numberOfSheets || ''}
+                                                                onChange={(e) => {
+                                                                    const value = e.target.value;
+                                                                    const updatedRows = sheetRows.map((r, i) => 
+                                                                        i === Index ? { ...r, numberOfSheets: value } : r
+                                                                    );
+                                                                    setSheetRows(updatedRows);
+                                                                    calculateSheetNew(Index,updatedRows);
+                                                                }}
+                                                                className='w-40 h-8 text-[#70685a]'
+                                                            />
                                                         </td>
                                                         <td style={Td} className='text-right'>
-                                                            ￥{editSheetIndex === Index ? (
-                                                                <InputComponent disabled={true} name='totalFaceValue' value={editedSheetRow.totalFaceValue || ''} onChange={handleSheetInputChange} className='w-full h-8 text-[#70685a]' />
-                                                            ) : (parseInt(row.totalFaceValue || 0)).toLocaleString()}
+                                                            ￥{(parseInt(row.totalFaceValue || 0)).toLocaleString()}
                                                         </td>
-                                                        <td style={Td}>
+                                                        <td style={{display:'none'}}>
                                                             {editSheetIndex === Index ? (
                                                                 <div>
                                                                     <button onClick={() => handleSheetSaveClick(Index)} className='w-7'>
@@ -1153,19 +1221,19 @@ const StampRelatedInventoryApplicationForm = () => {
                                                                 </div>
                                                             )}
                                                         </td>
-                                                        <td style={Td}>
+                                                        <td style={{display:'none'}}>
                                                             {editSheetIndex === Index ? (
                                                                 <div>
                                                                     <button onClick={() => handleSheetCancelClick(Index)} className='w-7'>
                                                                         <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium  MuiSvgIcon-root MuiSvgIcon-fontSizeLarge  css-1hkft75" fill='#524c3b' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="KeyboardReturnOutlinedIcon" title="KeyboardReturnOutlined"><path d="M19 7v4H5.83l3.58-3.59L8 6l-6 6 6 6 1.41-1.41L5.83 13H21V7z"></path></svg>
                                                                     </button>
                                                                 </div>
-                                                            ) : (
-                                                                <div>
-                                                                    <button onClick={() => handleSheetDeleteClick(Index)} className='w-7'>
-                                                                        <svg className="flex flex-col justify-center" focusable="false" aria-hidden="true" viewBox="0 0 23 23" fill='#524c3b' data-testid="CancelOutlinedIcon" title="CancelOutlined"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8m3.59-13L12 10.59 8.41 7 7 8.41 10.59 12 7 15.59 8.41 17 12 13.41 15.59 17 17 15.59 13.41 12 17 8.41z"></path></svg>
-                                                                    </button>
-                                                                </div>
+                                                            ) : (''
+                                                                // <div>
+                                                                //     <button onClick={() => handleSheetDeleteClick(Index)} className='w-7'>
+                                                                //         <svg className="flex flex-col justify-center" focusable="false" aria-hidden="true" viewBox="0 0 23 23" fill='#524c3b' data-testid="CancelOutlinedIcon" title="CancelOutlined"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8m3.59-13L12 10.59 8.41 7 7 8.41 10.59 12 7 15.59 8.41 17 12 13.41 15.59 17 17 15.59 13.41 12 17 8.41z"></path></svg>
+                                                                //     </button>
+                                                                // </div>
                                                             )}
                                                         </td>
                                                     </tr>
@@ -1239,7 +1307,7 @@ const StampRelatedInventoryApplicationForm = () => {
                             </div>
                         </div>
                         {/* ------stamp mounting past----- */}
-                        <div className='stamp-related-inventory-list-one mt-10 w-full'>
+                        <div className='stamp-related-inventory-list-one mt-2 w-full'>
                             {/* first */}
                             <div className='flex justify-center h-11'>
                                 <div className='flex'>
@@ -1289,34 +1357,44 @@ const StampRelatedInventoryApplicationForm = () => {
                                                     <th style={Th} className='pl-1 pr-1'>台紙額面</th>
                                                     <th style={Th} className='pr-1'>台紙数</th>
                                                     <th style={Th} >額面総額</th>
-                                                    <th style={Th}>{editPastingIndex === -1 ? '編集する' : 'セーブ'}</th>
-                                                    <th style={Th} className='whitespace-nowrap pl-3'>{editPastingIndex === -1 ? '削除' : '戻る'}</th>
+                                                    <th style={{display:'none'}}>{editPastingIndex === -1 ? '編集する' : 'セーブ'}</th>
+                                                    <th style={{display:'none'}} className='whitespace-nowrap pl-3'>{editPastingIndex === -1 ? '' : '戻る'}</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 {pastingRows?.length > 0 && pastingRows.map((row, Index) => (
                                                     <tr key={Index} >
                                                         <td style={Td} className='text-right'>
-                                                            ￥{editPastingIndex === Index ? (
-                                                                <InputComponent disabled={true} name='stampValue' value={editedPastingRow.stampValue || ''} onChange={handlePastingInputChange} className='w-full h-8 text-[#70685a]' />
-                                                            ) : (row.stampValue || '')}
+                                                            ￥{(row.stampValue || '')}
                                                         </td>
                                                         <td style={Td} className='text-right'>
-                                                            ￥{editPastingIndex === Index ? (
-                                                                <InputComponent disabled={true} name='mountValue' value={editedPastingRow.mountValue || ''} onChange={handlePastingInputChange} className='w-full h-8 text-[#70685a]' />
-                                                            ) : (parseInt(row.mountValue || 0)).toLocaleString()}
+                                                            ￥{(parseInt(row.mountValue || 0)).toLocaleString()}
                                                         </td>
-                                                        <td style={Td} className='text-right'>
+                                                        {/* <td style={Td} className='text-right'>
                                                             {editPastingIndex === Index ? (
                                                                 <InputComponent name='numberOfMounts' type='number' value={editedPastingRow.numberOfMounts || ''} onChange={handlePastingInputChange} className='w-20 border-[red] h-8 text-[#70685a]' />
                                                             ) : (parseInt(row.numberOfMounts || 0)).toLocaleString()}
+                                                        </td> */}
+                                                        <td style={Td} className='w-40'>
+                                                            <InputComponent
+                                                                name='numberOfMounts'
+                                                                type="number"
+                                                                value={row.numberOfMounts || ''}
+                                                                onChange={(e) => {
+                                                                    const value = e.target.value;
+                                                                    const updatedRows = pastingRows.map((r, i) => 
+                                                                        i === Index ? { ...r, numberOfMounts: value } : r
+                                                                    );
+                                                                    setPastingRows(updatedRows);
+                                                                    calculatePastingNew(Index,updatedRows);
+                                                                }}
+                                                                className='w-40 h-8 text-[#70685a]'
+                                                            />
                                                         </td>
                                                         <td style={Td} className='text-right'>
-                                                            ￥{editPastingIndex === Index ? (
-                                                                <InputComponent disabled={true} name='totalFaceValue' value={editedPastingRow.totalFaceValue || ''} onChange={handlePastingInputChange} className='w-full h-8 text-[#70685a]' />
-                                                            ) : (parseInt(row.totalFaceValue || 0)).toLocaleString()}
+                                                            ￥{(parseInt(row.totalFaceValue || 0)).toLocaleString()}
                                                         </td>
-                                                        <td style={Td}>
+                                                        <td style={{display:'none'}}>
                                                             {editPastingIndex === Index ? (
                                                                 <div>
                                                                     <button onClick={() => handlePastingSaveClick(Index)} className='w-7'>
@@ -1331,19 +1409,19 @@ const StampRelatedInventoryApplicationForm = () => {
                                                                 </div>
                                                             )}
                                                         </td>
-                                                        <td style={Td}>
+                                                        <td style={{display:'none'}}>
                                                             {editPastingIndex === Index ? (
                                                                 <div>
                                                                     <button onClick={() => handlePastingCancelClick(Index)} className='w-7'>
                                                                         <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium  MuiSvgIcon-root MuiSvgIcon-fontSizeLarge  css-1hkft75" fill='#524c3b' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="KeyboardReturnOutlinedIcon" title="KeyboardReturnOutlined"><path d="M19 7v4H5.83l3.58-3.59L8 6l-6 6 6 6 1.41-1.41L5.83 13H21V7z"></path></svg>
                                                                     </button>
                                                                 </div>
-                                                            ) : (
-                                                                <div>
-                                                                    <button onClick={() => handlePastingDeleteClick(Index)} className='w-7'>
-                                                                        <svg className="flex flex-col justify-center" focusable="false" aria-hidden="true" viewBox="0 0 23 23" fill='#524c3b' data-testid="CancelOutlinedIcon" title="CancelOutlined"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8m3.59-13L12 10.59 8.41 7 7 8.41 10.59 12 7 15.59 8.41 17 12 13.41 15.59 17 17 15.59 13.41 12 17 8.41z"></path></svg>
-                                                                    </button>
-                                                                </div>
+                                                            ) : (''
+                                                                // <div>
+                                                                //     <button onClick={() => handlePastingDeleteClick(Index)} className='w-7'>
+                                                                //         <svg className="flex flex-col justify-center" focusable="false" aria-hidden="true" viewBox="0 0 23 23" fill='#524c3b' data-testid="CancelOutlinedIcon" title="CancelOutlined"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8m3.59-13L12 10.59 8.41 7 7 8.41 10.59 12 7 15.59 8.41 17 12 13.41 15.59 17 17 15.59 13.41 12 17 8.41z"></path></svg>
+                                                                //     </button>
+                                                                // </div>
                                                             )}
                                                         </td>
                                                     </tr>
@@ -1408,7 +1486,7 @@ const StampRelatedInventoryApplicationForm = () => {
                             </div>
                         </div>
                         {/* -----stamp rose------ */}
-                        <div className='stamp-related-inventory-list-one mt-10 w-full'>
+                        <div className='stamp-related-inventory-list-one mt-2 w-full'>
                             {/* first */}
                             <div className='flex justify-center h-11'>
                                 <div className='flex'>
@@ -1458,29 +1536,41 @@ const StampRelatedInventoryApplicationForm = () => {
                                                     <th style={Th}>切手1枚の額面</th>
                                                     <th style={Th}>枚数</th>
                                                     <th style={Th}>額面総額</th>
-                                                    <th style={Th}>{editRoseIndex === -1 ? '編集する' : 'セーブ'}</th>
-                                                    <th style={Th} className='whitespace-nowrap pl-3'>{editRoseIndex === -1 ? '削除' : '戻る'}</th>
+                                                    <th style={{display:'none'}}>{editRoseIndex === -1 ? '編集する' : 'セーブ'}</th>
+                                                    <th style={{display:'none'}} className='whitespace-nowrap pl-3'>{editRoseIndex === -1 ? '' : '戻る'}</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 {roseRows?.length > 0 && roseRows.map((row, Index) => (
                                                     <tr key={Index} >
                                                         <td style={Td} className='text-right'>
-                                                            ￥{editRoseIndex === Index ? (
-                                                                <InputComponent disabled={true} name='stampValue' value={editedRoseRow.stampValue || ''} onChange={handleRoseInputChange} className='w-full h-8 text-[#70685a]' />
-                                                            ) : (row.stampValue || '')}
+                                                            ￥{(row.stampValue || '')}
                                                         </td>
-                                                        <td style={Td}>
+                                                        {/* <td style={Td}>
                                                             {editRoseIndex === Index ? (
                                                                 <InputComponent  name='numberOfSheets' type="number" value={editedRoseRow.numberOfSheets || ''} onChange={handleRoseInputChange} className='w-20 h-8 text-[#70685a] border-[red]' />
                                                             ) : (row.numberOfSheets || '')}
+                                                        </td> */}
+                                                        <td style={Td} className='w-40'>
+                                                            <InputComponent
+                                                                name='numberOfSheets'
+                                                                type="number"
+                                                                value={row.numberOfSheets || ''}
+                                                                onChange={(e) => {
+                                                                    const value = e.target.value;
+                                                                    const updatedRows = roseRows.map((r, i) => 
+                                                                        i === Index ? { ...r, numberOfSheets: value } : r
+                                                                    );
+                                                                    setRoseRows(updatedRows);
+                                                                    calculateRoseNew(Index,updatedRows);
+                                                                }}
+                                                                className='w-40 h-8 text-[#70685a]'
+                                                            />
                                                         </td>
                                                         <td style={Td} className='text-right'>
-                                                            ￥{editRoseIndex === Index ? (
-                                                                <InputComponent disabled={true} name='totalFaceValue' value={editedRoseRow.totalFaceValue || ''} onChange={handleRoseInputChange} className='w-full h-8 text-[#70685a]' />
-                                                            ) : (parseInt(row.totalFaceValue || 0)).toLocaleString()}
+                                                            ￥{(parseInt(row.totalFaceValue || 0)).toLocaleString()}
                                                         </td>
-                                                        <td style={Td}>
+                                                        <td style={{display:'none'}}>
                                                             {editRoseIndex === Index ? (
                                                                 <div>
                                                                     <button onClick={() => handleRoseSaveClick(Index)} className='w-7'>
@@ -1495,19 +1585,19 @@ const StampRelatedInventoryApplicationForm = () => {
                                                                 </div>
                                                             )}
                                                         </td>
-                                                        <td style={Td}>
+                                                        <td style={{display:'none'}}>
                                                             {editRoseIndex === Index ? (
                                                                 <div>
                                                                     <button onClick={() => handleRoseCancelClick(Index)} className='w-7'>
                                                                         <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium  MuiSvgIcon-root MuiSvgIcon-fontSizeLarge  css-1hkft75" fill='#524c3b' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="KeyboardReturnOutlinedIcon" title="KeyboardReturnOutlined"><path d="M19 7v4H5.83l3.58-3.59L8 6l-6 6 6 6 1.41-1.41L5.83 13H21V7z"></path></svg>
                                                                     </button>
                                                                 </div>
-                                                            ) : (
-                                                                <div>
-                                                                    <button onClick={() => handleRoseDeleteClick(Index)} className='w-7'>
-                                                                        <svg className="flex flex-col justify-center" focusable="false" aria-hidden="true" viewBox="0 0 23 23" fill='#524c3b' data-testid="CancelOutlinedIcon" title="CancelOutlined"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8m3.59-13L12 10.59 8.41 7 7 8.41 10.59 12 7 15.59 8.41 17 12 13.41 15.59 17 17 15.59 13.41 12 17 8.41z"></path></svg>
-                                                                    </button>
-                                                                </div>
+                                                            ) : (''
+                                                                // <div>
+                                                                //     <button onClick={() => handleRoseDeleteClick(Index)} className='w-7'>
+                                                                //         <svg className="flex flex-col justify-center" focusable="false" aria-hidden="true" viewBox="0 0 23 23" fill='#524c3b' data-testid="CancelOutlinedIcon" title="CancelOutlined"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8m3.59-13L12 10.59 8.41 7 7 8.41 10.59 12 7 15.59 8.41 17 12 13.41 15.59 17 17 15.59 13.41 12 17 8.41z"></path></svg>
+                                                                //     </button>
+                                                                // </div>
                                                             )}
                                                         </td>
                                                     </tr>
@@ -1562,7 +1652,7 @@ const StampRelatedInventoryApplicationForm = () => {
                             </div>
                         </div>
                         {/* ------Letter pack----- */}
-                        <div className='stamp-related-inventory-list-one mt-10 w-full mr-10'>
+                        <div className='stamp-related-inventory-list-one mt-2 w-full mr-10'>
                             {/* first */}
                             <div className='flex justify-center h-11'>
                                 <div className='flex'>
@@ -1605,34 +1695,44 @@ const StampRelatedInventoryApplicationForm = () => {
                                                     <th style={Th}>額面</th>
                                                     <th style={Th} >枚数</th>
                                                     <th style={Th}>額面総額</th>
-                                                    <th style={Th}>{editPackIndex === -1 ? '編集する' : 'セーブ'}</th>
-                                                    <th style={Th} className='whitespace-nowrap pl-3'>{editPackIndex === -1 ? '削除' : '戻る'}</th>
+                                                    <th style={{display:'none'}}>{editPackIndex === -1 ? '編集する' : 'セーブ'}</th>
+                                                    <th style={{display:'none'}} className='whitespace-nowrap pl-3'>{editPackIndex === -1 ? '' : '戻る'}</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 {packRows?.length > 0 && packRows.map((row, Index) => (
                                                     <tr key={Index} >
                                                         <td style={Td}>
-                                                            {editPackIndex === Index ? (
-                                                                <InputComponent disabled={true} name='type' value={editedPackRow.type || ''} onChange={handlePackInputChange} className='w-full h-8 text-[#70685a]' />
-                                                            ) : (row.type || '')}
+                                                            {(row.type || '')}
                                                         </td>
                                                         <td style={Td} className='text-right'>
-                                                            ￥{editPackIndex === Index ? (
-                                                                <InputComponent disabled={true} name='stampValue' value={editedPackRow.stampValue || ''} onChange={handlePackInputChange} className='w-full h-8 text-[#70685a]' />
-                                                            ) : (parseInt(row.stampValue || 0)).toLocaleString()}
+                                                            ￥{(parseInt(row.stampValue || 0)).toLocaleString()}
                                                         </td>
-                                                        <td style={Td}>
+                                                        {/* <td style={Td}>
                                                             {editPackIndex === Index ? (
                                                                 <InputComponent name='numberOfSheets' type='number' value={editedPackRow.numberOfSheets || ''} onChange={handlePackInputChange} className='w-20 h-8 text-[#70685a] border-[red]' />
                                                             ) : (row.numberOfSheets || '')}
+                                                        </td> */}
+                                                        <td style={Td} className='w-40'>
+                                                            <InputComponent
+                                                                name='numberOfSheets'
+                                                                type="number"
+                                                                value={row.numberOfSheets || ''}
+                                                                onChange={(e) => {
+                                                                    const value = e.target.value;
+                                                                    const updatedRows = packRows.map((r, i) => 
+                                                                        i === Index ? { ...r, numberOfSheets: value } : r
+                                                                    );
+                                                                    setPackRows(updatedRows);
+                                                                    calculatePackNew(Index,updatedRows);
+                                                                }}
+                                                                className='w-40 h-8 text-[#70685a]'
+                                                            />
                                                         </td>
                                                         <td style={Td} className='text-right'>
-                                                            ￥{editPackIndex === Index ? (
-                                                                <InputComponent disabled={true} name='totalFaceValue' value={editedPackRow.totalFaceValue || ''} onChange={handlePackInputChange} className='w-full h-8 text-[#70685a]' />
-                                                            ) : (parseInt(row.totalFaceValue || 0)).toLocaleString()}
+                                                            ￥{(parseInt(row.totalFaceValue || 0)).toLocaleString()}
                                                         </td>
-                                                        <td style={Td}>
+                                                        <td style={{display:'none'}}>
                                                             {editPackIndex === Index ? (
                                                                 <div>
                                                                     <button onClick={() => handlePackSaveClick(Index)} className='w-7'>
@@ -1647,19 +1747,19 @@ const StampRelatedInventoryApplicationForm = () => {
                                                                 </div>
                                                             )}
                                                         </td>
-                                                        <td style={Td}>
+                                                        <td style={{display:'none'}}>
                                                             {editPackIndex === Index ? (
                                                                 <div>
                                                                     <button onClick={() => handlePackCancelClick(Index)} className='w-7'>
                                                                         <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium  MuiSvgIcon-root MuiSvgIcon-fontSizeLarge  css-1hkft75" fill='#524c3b' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="KeyboardReturnOutlinedIcon" title="KeyboardReturnOutlined"><path d="M19 7v4H5.83l3.58-3.59L8 6l-6 6 6 6 1.41-1.41L5.83 13H21V7z"></path></svg>
                                                                     </button>
                                                                 </div>
-                                                            ) : (
-                                                                <div>
-                                                                    <button onClick={() => handlePackDeleteClick(Index)} className='w-7'>
-                                                                        <svg className="flex flex-col justify-center" focusable="false" aria-hidden="true" viewBox="0 0 23 23" fill='#524c3b' data-testid="CancelOutlinedIcon" title="CancelOutlined"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8m3.59-13L12 10.59 8.41 7 7 8.41 10.59 12 7 15.59 8.41 17 12 13.41 15.59 17 17 15.59 13.41 12 17 8.41z"></path></svg>
-                                                                    </button>
-                                                                </div>
+                                                            ) : (''
+                                                                // <div>
+                                                                //     <button onClick={() => handlePackDeleteClick(Index)} className='w-7'>
+                                                                //         <svg className="flex flex-col justify-center" focusable="false" aria-hidden="true" viewBox="0 0 23 23" fill='#524c3b' data-testid="CancelOutlinedIcon" title="CancelOutlined"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8m3.59-13L12 10.59 8.41 7 7 8.41 10.59 12 7 15.59 8.41 17 12 13.41 15.59 17 17 15.59 13.41 12 17 8.41z"></path></svg>
+                                                                //     </button>
+                                                                // </div>
                                                             )}
                                                         </td>
                                                     </tr>
@@ -1771,8 +1871,8 @@ const StampRelatedInventoryApplicationForm = () => {
                                                             <th style={Th}>額面</th>
                                                             <th style={Th} >枚数</th>
                                                             <th style={Th}>額面総額</th>
-                                                            <th style={Th}>{editCardIndex === -1 ? '編集する' : 'セーブ'}</th>
-                                                            <th style={Th} className='whitespace-nowrap pl-3'>{editCardIndex === -1 ? '削除' : '戻る'}</th>
+                                                            <th style={{display:'none'}}>{editCardIndex === -1 ? '編集する' : 'セーブ'}</th>
+                                                            <th style={{display:'none'}} className='whitespace-nowrap pl-3'>{editCardIndex === -1 ? '' : '戻る'}</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -1783,17 +1883,33 @@ const StampRelatedInventoryApplicationForm = () => {
                                                                         <InputComponent disabled={true} name='stampValue' value={editedCardRow.stampValue || ''} onChange={handleCardInputChange} className='w-full h-8 text-[#70685a]' />
                                                                     ) : (parseInt(row.stampValue || 0)).toLocaleString()}
                                                                 </td>
-                                                                <td style={Td}>
+                                                                {/* <td style={Td}>
                                                                     {editCardIndex === Index ? (
                                                                         <InputComponent name='numberOfSheets' type='number' value={editedCardRow.numberOfSheets || ''} onChange={handleCardInputChange} className='w-20 h-8 text-[#70685a] border-[red]' />
                                                                     ) : (row.numberOfSheets || '')}
+                                                                </td> */}
+                                                                <td style={Td} className='w-40'>
+                                                                    <InputComponent
+                                                                        name='numberOfSheets'
+                                                                        type="number"
+                                                                        value={row.numberOfSheets || ''}
+                                                                        onChange={(e) => {
+                                                                            const value = e.target.value;
+                                                                            const updatedRows = cardRows.map((r, i) => 
+                                                                                i === Index ? { ...r, numberOfSheets: value } : r
+                                                                            );
+                                                                            setCardRows(updatedRows);
+                                                                            calculateCardNew(Index,updatedRows);
+                                                                        }}
+                                                                        className='w-40 h-8 text-[#70685a]'
+                                                                    />
                                                                 </td>
                                                                 <td style={Td} className='text-right'>
                                                                     ￥{editCardIndex === Index ? (
                                                                         <InputComponent disabled={true} name='totalFaceValue' value={editedCardRow.totalFaceValue || ''} onChange={handleCardInputChange} className='w-full h-8 text-[#70685a]' />
                                                                     ) : (parseInt(row.totalFaceValue || 0)).toLocaleString()}
                                                                 </td>
-                                                                <td style={Td}>
+                                                                <td style={{display:'none'}}>
                                                                     {editCardIndex === Index ? (
                                                                         <div>
                                                                             <button onClick={() => handleCardSaveClick(Index)} className='w-7'>
@@ -1808,19 +1924,19 @@ const StampRelatedInventoryApplicationForm = () => {
                                                                         </div>
                                                                     )}
                                                                 </td>
-                                                                <td style={Td}>
+                                                                <td style={{display:'none'}}>
                                                                     {editCardIndex === Index ? (
                                                                         <div>
                                                                             <button onClick={() => handleCardCancelClick(Index)} className='w-7'>
                                                                                 <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium  MuiSvgIcon-root MuiSvgIcon-fontSizeLarge  css-1hkft75" fill='#524c3b' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="KeyboardReturnOutlinedIcon" title="KeyboardReturnOutlined"><path d="M19 7v4H5.83l3.58-3.59L8 6l-6 6 6 6 1.41-1.41L5.83 13H21V7z"></path></svg>
                                                                             </button>
                                                                         </div>
-                                                                    ) : (
-                                                                        <div>
-                                                                            <button onClick={() => handleCardDeleteClick(Index)} className='w-7'>
-                                                                                <svg className="flex flex-col justify-center" focusable="false" aria-hidden="true" viewBox="0 0 23 23" fill='#524c3b' data-testid="CancelOutlinedIcon" title="CancelOutlined"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8m3.59-13L12 10.59 8.41 7 7 8.41 10.59 12 7 15.59 8.41 17 12 13.41 15.59 17 17 15.59 13.41 12 17 8.41z"></path></svg>
-                                                                            </button>
-                                                                        </div>
+                                                                    ) : (''
+                                                                        // <div>
+                                                                        //     <button onClick={() => handleCardDeleteClick(Index)} className='w-7'>
+                                                                        //         <svg className="flex flex-col justify-center" focusable="false" aria-hidden="true" viewBox="0 0 23 23" fill='#524c3b' data-testid="CancelOutlinedIcon" title="CancelOutlined"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8m3.59-13L12 10.59 8.41 7 7 8.41 10.59 12 7 15.59 8.41 17 12 13.41 15.59 17 17 15.59 13.41 12 17 8.41z"></path></svg>
+                                                                        //     </button>
+                                                                        // </div>
                                                                     )}
                                                                 </td>
                                                             </tr>

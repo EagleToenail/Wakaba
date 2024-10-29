@@ -33,10 +33,6 @@ const SalesSlip = () => {
         color: '#70685a',
         fontSize: '15px',
         whiteSpace: 'nowrap',
-        backgroundColor: '#ffffff', // Header background color
-        position: 'sticky', // Fix header on scroll
-        top: 0, // Position at the top
-        zIndex: 10, // Ensure header appears above other content
     };
 
     const Td = {
@@ -263,12 +259,14 @@ const SalesSlip = () => {
     }, [sales]);
 
     const [estimateValues, setEstimateValues] = useState({});
+    const [assessmentDate, setAssessmentDate] = useState('');
 
     const [showEstimate, setShowEstimate] = useState(false);
     const openEstimate = (index) => {
         setShowEstimate(true);
 
         setEstimateValues(sales[index].estimate_wholesaler);
+        setAssessmentDate(sales[index].assessment_date);
         if (sales[index].product_type_one) {
             const selectedResult = product1s.find(product => product.category === sales[index].product_type_one);
             getVendorList(selectedResult.id);
@@ -1093,8 +1091,8 @@ const SalesSlip = () => {
                                             </th>
 
                                             <th style={Th} colSpan={isshow ? 7 : 1}>
-                                                <div className='flex justify-center'>
-                                                    <div className='flex justify-center w-40'>
+                                                <div className='w-full flex justify-center'>
+                                                    <div className='flex justify-center min-w-40'>
                                                         個人情報
                                                         <div className='flex flex-col justify-center'>
                                                             {isshow ? <button ><img src={rightArrow} className='h-5' alt='' onClick={openSubtable} ></img></button> : <button><img src={leftArrow} className='h-5' alt='' onClick={closeSubtable}></img></button>}
@@ -1165,13 +1163,13 @@ const SalesSlip = () => {
                                             <th style={Th} rowSpan={2} >真贋</th>
                                         </tr>
                                         <tr>
-                                            <th style={Th} className='px-2'>顧客名</th>
-                                            {isshow ? <th style={Th} className='px-2'>ヨミガナ</th> : <th style={{ display: 'none' }}></th>}
-                                            {isshow ? <th style={Th} className='px-2'>電話番号</th> : <th style={{ display: 'none' }}></th>}
-                                            {isshow ? <th style={Th} className='px-2'>住所</th> : <th style={{ display: 'none' }}></th>}
-                                            {isshow ? <th style={Th} className='px-2'>来店種別</th> : <th style={{ display: 'none' }}></th>}
-                                            {isshow ? <th style={Th} className='px-2'>銘柄</th> : <th style={{ display: 'none' }}></th>}
-                                            {isshow ? <th style={Th} className='px-2'>販売店名</th> : <th style={{ display: 'none' }}></th>}
+                                            <th style={Th} className='px-1'>顧客名</th>
+                                            {isshow ? <th style={Th} className='px-1'>ヨミガナ</th> : <th style={{ display: 'none' }}></th>}
+                                            {isshow ? <th style={Th} className='px-1'>電話番号</th> : <th style={{ display: 'none' }}></th>}
+                                            {isshow ? <th style={Th} className='px-1'>住所</th> : <th style={{ display: 'none' }}></th>}
+                                            {isshow ? <th style={Th} className='px-1'>来店種別</th> : <th style={{ display: 'none' }}></th>}
+                                            {isshow ? <th style={Th} className='px-1'>銘柄</th> : <th style={{ display: 'none' }}></th>}
+                                            {isshow ? <th style={Th} className='px-1'>販売店名</th> : <th style={{ display: 'none' }}></th>}
 
                                             {/* {(isvendorshow && allVendors?.length > 0) && allVendors.map((vendor, index) => (
                                                 <>
@@ -1393,7 +1391,7 @@ const SalesSlip = () => {
                                                 <td style={Td}>
                                                     {estimateValues[vendor.vendor_name] || ''}
                                                 </td>
-                                                <td style={Td}></td>
+                                                <td style={Td}>{estimateValues[vendor.vendor_name] && assessmentDate || ''}</td>
                                             </tr>
                                         ))}
                                     </tbody>
