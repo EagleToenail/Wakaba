@@ -76,11 +76,6 @@ export default function GeneralChat() {
     const handleColorChange = (color) => {
         setTextColor(color);
     };
-    const [textMessageColor, setTextMessageColor] = useState('black');
-    // Handle button click
-    const handleMessageColorChange = (color) => {
-        setTextMessageColor(color);
-    };
     //==============post function=========
     const userId = localStorage.getItem('userId');
     // const [messages, setMessages] = useState([]);
@@ -178,12 +173,13 @@ export default function GeneralChat() {
     }, []);
     // send message and file to other user 
     const sendGeneralChatMessage = async () => {
-        console.log('sendtododata', reply,users);
+        // console.log('sendtododata', reply,users);
         if (reply.title !== '' && reply.content !== '' && reply.senderId !== '' ) {
+            const htmlContent = `<span style="color:${textColor}">${reply.title}</span>`;
             const formData = new FormData();
             formData.append('thread_name', destinationURL);
             formData.append('time', reply.time);
-            formData.append('title', reply.title);
+            formData.append('title', htmlContent);
             formData.append('content', reply.content);
             formData.append('senderId', reply.senderId);
             // formData.append('receiverId', reply.receiverId);
@@ -230,7 +226,7 @@ export default function GeneralChat() {
     const handleDataFromChildAccordion = (data1, data2, data3) => {
         const userId = localStorage.getItem('userId');
         setReply({ parentMessageId: data1, senderId: data2 ,time:currentDateTime})
-        console.log('Data received from child++++++++:', data1, data2, data3, userId);
+        // console.log('Data received from child++++++++:', data1, data2, data3, userId);
     };
     // New post
     const newPost = () => {

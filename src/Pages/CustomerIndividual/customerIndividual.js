@@ -723,7 +723,7 @@ const CustomerIndividual = () => {
                     <div style={{ width: '100%', }} className='flex'>
                         <div className=" h-full w-full">
                             {/*Past visit history of Table area */}
-                            <div className="border border-[#70685a] rounded px-3 w-full mb-5" style={{ height: '260px', overflowX: 'scroll', overflowY: 'scroll' }}>
+                            <div className="border border-[#70685a] rounded px-3 w-full mb-5" style={{ height: '358px', overflowX: 'scroll', overflowY: 'scroll' }}>
                                 <div className='flex justify-between mt-5'>
                                     <label className="text-[#70685a] text-[20px] font-bold mb-2 block text-left mr-10 py-1 !mb-0">過去の訪問履歴</label>
                                     <button type="button" onClick={gotoInvoiceForPurchase}
@@ -815,7 +815,7 @@ const CustomerIndividual = () => {
                             <div className='w-full flex justify-center'>
                                 <div className=" h-full w-full mt-3">
                                     {/* Text area */}
-                                    <div className="border border-[#70685a] rounded px-3 w-full" style={{ height: '315px', overflow: 'auto' }}>
+                                    <div className="border border-[#70685a] rounded px-3 w-full" style={{ height: '220px', overflow: 'auto' }}>
                                         <label className="text-[#70685a] text-[20px] font-bold mb-2 block text-left mr-10 py-1 !mb-0">全体ヒアリング</label>
                                         <div>
                                             <div className='flex'>

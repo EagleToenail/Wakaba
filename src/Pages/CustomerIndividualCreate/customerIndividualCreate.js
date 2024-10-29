@@ -41,22 +41,6 @@ const CustomerIndividualCreate = () => {
 
     const formattedDateTime = formatDateTime(dateTime);
 
-    const Table = {
-        borderCollapse: 'collapse',
-        color: '#70685a',
-        textAlign: 'center',
-        width: '100%',
-        alignItem: 'center',
-
-    };
-
-    const Td = {
-        border: '1px solid #6e6e7c',
-        borderCollapse: 'collapse',
-        color: '#6e6e7c',
-        fontSize: '15px',
-    };
-
     const [customer, setCustomer] = useState({
         id: '',
         full_name: '',
@@ -401,10 +385,10 @@ const CustomerIndividualCreate = () => {
                                 <div style={{ width: '75%', flexDirection: 'column', }} className='flex h-full felx-col justify-center'>
                                     <div className='flex justify-between w-full h-[100px]'>
                                         <div style={{ width: '60%' }} className='border border-[#70685a] rounded-lg flex justify-center'>
-                                            {imageAvatarPreview=="" ? "": <img src={imageAvatarPreview} alt="Image Preview" className='h-[100px] p-1 rounded-lg' />}
+                                            {imageAvatarPreview==="" ? "": <img src={imageAvatarPreview} alt="Image Preview" className='h-[100px] p-1 rounded-lg' />}
                                         </div>
                                         <div style={{ width: '35%',display:'none'}} className='border border-[#70685a] rounded-full flex justify-center'>
-                                            {imageIdCardPreview =="" ? "": <img src={imageIdCardPreview} alt="Image Preview" className='h-[100px] p-1 rounded-full' />}
+                                            {imageIdCardPreview ==="" ? "": <img src={imageIdCardPreview} alt="Image Preview" className='h-[100px] p-1 rounded-full' />}
                                         </div>
                                     </div>
 

@@ -133,7 +133,6 @@ export default function MiniSidebar() {
           }
 
           const userId = localStorage.getItem('userId');
-          const userStoreName = localStorage.getItem('storename');
           await axios.post(`${wakabaBaseUrl}/withdrawvariouspurchaseapproval/alerts`, { userId: userId })
                .then(response => {
                     const unreadCount = response.data;
@@ -153,7 +152,6 @@ export default function MiniSidebar() {
           }
 
           const userId = localStorage.getItem('userId');
-          const userStoreName = localStorage.getItem('storename');
           await axios.post(`${wakabaBaseUrl}/withdrawbankatmmessage/alerts`, { userId: userId })
                .then(response => {
                     const unreadCount = response.data;
@@ -173,7 +171,6 @@ export default function MiniSidebar() {
           }
 
           const userId = localStorage.getItem('userId');
-          const userStoreName = localStorage.getItem('storename');
           await axios.post(`${wakabaBaseUrl}/onsitepurchasemessages/alerts`, { userId: userId })
                .then(response => {
                     const unreadCount = response.data;

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-export default function Header({zoomout,zoomin}) {
+export default function Header() {
 
   const [isOpen, setIsOpen] = useState(false);
   const [data, setData] = useState([]);
@@ -212,12 +212,27 @@ setTimeout(getPreciousMetalData, timeUntilOneMinuteBeforeMidnight);
     }
   }
 //-----------------------zoom function---------------
-   const zoomPlus = () => {
-        // zoomout();
-   }
-   const zoomMinus = () => {
-      // zoomin();
-   }
+  const [zoomLevel, setZoomLevel] = useState(1); // Initial zoom level
+
+  const handleZoomIn = () => {
+      const newZoom = zoomLevel + 0.1; // Increase zoom by 10%
+      setZoomLevel(newZoom);
+      document.body.style.transform = `scale(${newZoom})`;
+      document.body.style.transformOrigin = '0 0'; // Set the origin for scaling
+  };
+
+  const handleZoomOut = () => {
+      const newZoom = zoomLevel > 0.2 ? zoomLevel - 0.1 : zoomLevel; // Decrease zoom by 10% but not below 0.2
+      setZoomLevel(newZoom);
+      document.body.style.transform = `scale(${newZoom})`;
+      document.body.style.transformOrigin = '0 0'; // Set the origin for scaling
+  };
+
+  const handleResetZoom = () => {
+      setZoomLevel(1);
+      document.body.style.transform = 'scale(1)'; // Reset to normal zoom
+  };
+
   return (
     <>
       <header className='flex shadow-md  sm:px-3 bg-[#ebe6e0] font-[sans-serif] max-h-[60px] tracking-wide relative z-50'>
@@ -306,12 +321,12 @@ setTimeout(getPreciousMetalData, timeUntilOneMinuteBeforeMidnight);
                   className="px-5  text-[black] text-sm tracking-wider font-medium outline-none bg-white hover:bg-[#222] active:bg-[#333]">検索</button>
               </Link>
               </li>
-              <li className='max-lg:border-b border-gray-300  max-lg:py-3 px-3'><div onClick={zoomMinus}
+              <li className='max-lg:border-b border-gray-300  max-lg:py-3 px-3'><div onClick={handleZoomIn}
                   className='text-[#655b4a] text-gray-500 block font-semibold text-[15px] w-7'>
                   <svg className="MuiSvgIcon-root jss69" focusable="false" viewBox="0 0 24 24" fill='#655b4a' aria-hidden="true" title="ZoomIn" data-ga-event-category="material-icons" data-ga-event-action="click" data-ga-event-label="ZoomIn"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path><path d="M12 10h-2v2H9v-2H7V9h2V7h1v2h2v1z"></path></svg>
                 </div>
               </li>
-              <li className='max-lg:border-b border-gray-300  max-lg:py-3 px-3'><div onClick={zoomPlus}
+              <li className='max-lg:border-b border-gray-300  max-lg:py-3 px-3'><div onClick={handleZoomOut}
                   className='text-[#655b4a] text-gray-500 block font-semibold text-[15px] w-7'>
                   <svg className="MuiSvgIcon-root jss69" focusable="false" viewBox="0 0 24 24" fill='#655b4a' aria-hidden="true" title="ZoomOut" data-ga-event-category="material-icons" data-ga-event-action="click" data-ga-event-label="ZoomOut"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14zM7 9h5v1H7z"></path></svg>
                 </div>

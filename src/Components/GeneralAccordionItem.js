@@ -67,9 +67,10 @@ const GeneralAccordionItem = ({ messageId, time, title, content, fileUrl, sender
                   <label className="text-[#70685a] font-bold block text-center">ステー夕ス表示</label>
                 </div>
               </div>
-              <div className='text-[black] text-[18px] ml-5'>
+              {/* <div className='text-[black] text-[18px] ml-5'>
                 {title}
-              </div>
+              </div> */}
+              <div className="text-[black] text-[18px] ml-5" dangerouslySetInnerHTML={{ __html: title }} />
             </div>
           </div>
           <div className='new-post-receive-name flex justify-start ' style={{ width: '10%' }}>
