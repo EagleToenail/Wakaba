@@ -1011,7 +1011,7 @@ const StampRelatedPurchaseStatement = () => {
         const cardIds = cardFilteredArray.map(obj => obj.id);
         const cardValues = cardFilteredArray.map(obj => obj.numberOfSheets);
         
-        console.log('result data', purchaseStampData,customerId)
+        // console.log('result data', purchaseStampData,customerId)
         if(customerId !== 'Initial Data') {
             try {
                 const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
@@ -1027,7 +1027,7 @@ const StampRelatedPurchaseStatement = () => {
                     totalFaceValue1,totalFaceValue2,totalRoseFaceValue1,totalRoseFaceValue2,totalPackFaceValue1,totalPackFaceValue2,totalCardFaceValue1,totalCardFaceValue2,
                     totalPurchaseOfSheet1,totalPurchaseOfSheet2,totalPurchaseOfRose1,totalPurchaseOfRose2,totalPurchaseOfPack1,totalPurchaseOfPack2,totalPurchaseOfCard1,totalPurchaseOfCard2,
                 }
-                console.log('stampData',stampData)
+                // console.log('stampData',stampData)
                 await axios.post(`${wakabaBaseUrl}/purchaseinvoice/stamps`, stampData)
                 .then(response => {
                     gotoInvoicePurchase();

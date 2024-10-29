@@ -170,7 +170,7 @@ export default function GeneralChat() {
     }, []);
     // send message and file to other user 
     const sendGeneralChatMessage = async () => {
-        console.log('sendtododata', reply,users);
+        // console.log('sendtododata', reply,users);
         if (reply.title !== '' && reply.content !== '' && reply.senderId !== '' ) {
             const formData = new FormData();
             formData.append('thread_name', destinationURL);

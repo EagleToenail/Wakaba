@@ -118,6 +118,7 @@ midnightJST.setMinutes(midnightJST.getMinutes() - 1); // Set to one minute befor
 
 // Calculate the time until that moment
 let timeUntilOneMinuteBeforeMidnight = midnightJST - now;
+// console.log('timeUntilOneMinuteBeforeMidnight',timeUntilOneMinuteBeforeMidnight,midnightJST,now)
 if (timeUntilOneMinuteBeforeMidnight < 0) {
   midnightJST.setDate(midnightJST.getDate() + 1); // Move to the next day
   timeUntilOneMinuteBeforeMidnight = midnightJST - now; // Recalculate the time

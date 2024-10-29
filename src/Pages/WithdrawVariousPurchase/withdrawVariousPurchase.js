@@ -13,7 +13,7 @@ export default function WithdrawVariousPurchase() {
     const parts = pathname.split('/'); // Split the path by "/"
 
     const data = useSelector(state => state.data);
-    const totalData = data.data;
+    const totalData = data.data;//invoiceID
     console.log('totalData',totalData)
 
     const userStoreName = localStorage.getItem('storename');
@@ -209,7 +209,7 @@ export default function WithdrawVariousPurchase() {
 
             // Filter out items with the specified titles
             const filteredData = response.data.filter(item => !titlesToExclude.includes(item.title));
-            console.log('filteredData111',filteredData,itemA)
+            // console.log('filteredData111',filteredData,itemA)
             setMessages(filteredData);
           })
           .catch(error => {
@@ -222,8 +222,6 @@ export default function WithdrawVariousPurchase() {
     }, [totalData]);
     // send message and file to other user 
     const sendWithdrawalVariousPurchaseMessage = async () => {
-        // console.log('sendtododata', reply);
-        //console.log('hey1',reply)
         if ( reply.title !== '' && reply.content !== '') {
             const formData = new FormData();
             if(messages?.length>0) {
@@ -235,9 +233,7 @@ export default function WithdrawVariousPurchase() {
                     formData.append('read', '0');
                 }
             }
-            //console.log('hey2')
             if(totalData === undefined) return;
-            //console.log('hey3')
             formData.append('invoice_id', totalData);
             formData.append('store_name', userStoreName);
             formData.append('time', reply.time);
@@ -262,7 +258,6 @@ export default function WithdrawVariousPurchase() {
                         'Content-Type': 'multipart/form-data'
                     }
                 }).then(response => {
-                    // console.log('get data',response.data)
                     fetchMessages(totalData);
                     setQuery('');
                     setReply({
@@ -291,28 +286,23 @@ export default function WithdrawVariousPurchase() {
             users.forEach(user => {
                 if (user.id === parseInt(data2)) {
                     setQuery(user.username); // Assuming 'username' is a property in the message object
-                    // console.log('ReceiverName')
                 }
             });
         } else {
             users.forEach(user => {
                 if (user.id === parseInt(data3)) {
                     setQuery(user.username); // Assuming 'username' is a property in the message object
-                    // console.log('ReceiverName')
                 }
             });
         }
 
         setReply({ parentMessageId: data1, senderId: data2, receiverId: data3 ,time:currentDateTime})
-        // console.log('Data received from child++++++++:', data1, data2, data3, userId);
     };
     const handleDataFromChildAccordion1 = (data) => {
         fetchMessages(totalData);
-        // console.log('received data from permission',data)
     };
     const handleDataFromChildAccordion2 = (data) => {
         fetchMessages(totalData);
-        // console.log('received data from complete',data)
     };
     // New post
     const newPost = () => {
@@ -327,7 +317,7 @@ export default function WithdrawVariousPurchase() {
             parentId: null
         });
     }
-//--------------------------------template questions------------------------
+//-----------------------------------------------------template questions-----------------------------------------
     const template1 = [
         {   
             id: tempContent1.id,
@@ -514,6 +504,25 @@ export default function WithdrawVariousPurchase() {
             console.error("There was an error fetching the customer data!", error);
         });
     }
+    //------------------------------------------------------new type template-------------------------------------------------------------------
+    const handleDataFromChildAccordion11 = async (id, title, contentData) => {
+        // console.log('Auto-saving data', id, title, contentData);
+        const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+        if (!wakabaBaseUrl) {
+            throw new Error('API base URL is not defined');
+        }
+
+        try {
+            if (id !== '') {
+                await axios.post(`${wakabaBaseUrl}/withdrawalvariouspurchasemessages/update`, { ID: id, content: contentData });
+            } else {
+                await axios.post(`${wakabaBaseUrl}/withdrawalvariouspurchasemessages/create`, { invoiceid: totalData, time: currentDateTime, templateTitle: title, content: contentData, senderId: userId });
+            }
+            fetchMessages(totalData); // Fetch messages after saving
+        } catch (error) {
+            console.error("There was an error saving the data!", error);
+        }
+    };
 
     return (
         <>
@@ -530,6 +539,8 @@ export default function WithdrawVariousPurchase() {
                                 onSendIdData5={handleDataFromChildAccordion5} onSendIdData6={handleDataFromChildAccordion6}
                                 onSendIdData7={handleDataFromChildAccordion7}  onSendIdData8={handleDataFromChildAccordion8}
                                 onSendIdData9={handleDataFromChildAccordion9}  onSendIdData10={handleDataFromChildAccordion10}
+
+                                onSendIdData11 = {handleDataFromChildAccordion11}
                                 />
                         </div>
                     </div>

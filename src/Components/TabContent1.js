@@ -212,10 +212,10 @@ export default function TabContent1() {
                             className="w-6 h-6 inline-flex items-center font-bold justify-center text-[12px] text-bold rounded-full border-none outline-none bg-[yellow] hover:bg-purple-700 active:bg-purple-600">
                             {unReadTodoCount}
                         </div>
-                        <Link
-                            className="text-[black] font-bold text-[15px] block rounded px-1" to='/todolist'>
+                        <button onClick={() => handleNavigation('/todolist')}
+                            className="text-[black] font-bold text-[15px] block rounded px-1">
                             TODO
-                        </Link>
+                        </button>
                     </li>
                 </ul>
 
