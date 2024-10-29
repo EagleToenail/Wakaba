@@ -1475,7 +1475,7 @@ const InvoicePurchaseOfDetail = () => {
                             </div>
 
                         </div>
-                        <h2 className="text-[#70685a] text-center text-2xl font-bold flex justify-center !mt-0">持ち込み商品 買取計算書 (承諾申請画面)</h2>
+                        <h2 className="text-[#70685a] text-center text-2xl font-bold flex justify-center !mt-0">新規買取計算書（承諾申請画面）</h2>
                         {/* new */}
 
                         <div style={{ width: '15%', visibility: 'hidden' }} className='flex align-center justify-center'>
@@ -1712,7 +1712,7 @@ const InvoicePurchaseOfDetail = () => {
                             <div className=" h-full w-full mt-5">
                                 {/* Text area */}
                                 <label className="text-[#70685a] text-[20px] font-bold mb-2 block text-left mr-10 py-1 !mb-0">全体ヒアリング</label>
-                                <div className="px-3 w-full h-[120px] overflow-y-scroll">
+                                <div className="px-3 w-full h-[170px]">
                                     <div>
                                         <div className='flex'>
                                             <label className="text-[#70685a] text-[18px] mb-2 block text-left mr-10 py-1">項目1</label>
@@ -1782,7 +1782,7 @@ const InvoicePurchaseOfDetail = () => {
                                             </div>
                                         </div>
                                     </div>
-                                    <div>
+                                    <div style={{display:'none'}}>
                                         <div className='flex'>
                                             <label className="text-[#70685a] text-[18px] mb-2 block text-left mr-10 py-1">項目2</label>
                                             <label className="text-[#70685a] text-[18px] mb-2 block text-left mr-10 py-1 !mb-0">次回お持ちいただくご予定の商品はございますか？</label>
@@ -1843,7 +1843,7 @@ const InvoicePurchaseOfDetail = () => {
                                             </div>
                                         </div>
                                     </div>
-                                    <div>
+                                    <div style={{display:'none'}}>
                                         <div className='flex'>
                                             <label className="text-[#70685a] text-[18px] mb-2 block text-left mr-10 py-1">項目3</label>
                                             <label className="text-[#70685a] text-[18px] mb-2 block text-left mr-10 py-1 !mb-0">DM等、各種ご案内をお送りしてもよろしいですか？</label>
@@ -1902,16 +1902,18 @@ const InvoicePurchaseOfDetail = () => {
                             <tr>
                                 <th style={Th} width='2%'>商品番号</th>
                                 <th style={Th}>
-                                    <div className='flex justify-center w-max'>
-                                        力テゴリ-1
-                                        <div className='flex flex-col justify-center'>
-                                            {isshow ? <button><img src={rightArrow} className='h-4' alt='' onClick={openSubtable} ></img></button> : <button><img src={leftArrow} className='h-4' alt='' onClick={closeSubtable}></img></button>}
+                                    <div className='w-full flex justify-center'>
+                                        <div className='flex justify-center w-[100px]'>
+                                            力テゴリ1
+                                            <div className='flex flex-col justify-center'>
+                                                {isshow ? <button><img src={rightArrow} className='h-4' alt='' onClick={openSubtable} ></img></button> : <button><img src={leftArrow} className='h-4' alt='' onClick={closeSubtable}></img></button>}
+                                            </div>
                                         </div>
                                     </div>
                                 </th>
-                                {isshow ? <th style={Th} >力テゴリ-2</th> : <th style={{ display: 'none' }}></th>}
-                                {isshow ? <th style={Th} >力テゴリ-3</th> : <th style={{ display: 'none' }}></th>}
-                                {isshow ? <th style={Th} >力テゴリ-4</th> : <th style={{ display: 'none' }}></th>}
+                                {isshow ? <th style={Th} >力テゴリ2</th> : <th style={{ display: 'none' }}></th>}
+                                {isshow ? <th style={Th} >力テゴリ3</th> : <th style={{ display: 'none' }}></th>}
+                                {isshow ? <th style={Th} >力テゴリ4</th> : <th style={{ display: 'none' }}></th>}
                                 <th style={Th} >画像</th>
                                 <th style={Th} width='10%'>
                                     <div className='w-20'>

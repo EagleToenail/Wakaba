@@ -1675,7 +1675,7 @@ const InvoicePurchaseOfBroughtBlankDetail = () => {
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div>
+                                            <div style={{display:'none'}}>
                                                 <div className='flex'>
                                                     <label className="text-[#70685a] text-[20px] mb-2 block text-left mr-10 py-1">項目2</label>
                                                     <label className="text-[#70685a] text-[20px] mb-2 block text-left mr-10 py-1 !mb-0">次回お持ちいただくご予定の商品はございますか？</label>
@@ -1736,7 +1736,7 @@ const InvoicePurchaseOfBroughtBlankDetail = () => {
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div>
+                                            <div style={{display:'none'}}>
                                                 <div className='flex'>
                                                     <label className="text-[#70685a] text-[18px] mb-2 block text-left mr-10 py-1">項目3</label>
                                                     <label className="text-[#70685a] text-[18px] mb-2 block text-left mr-10 py-1 !mb-0">(各種ご案内)の送付は  可/不可</label>
@@ -1763,7 +1763,6 @@ const InvoicePurchaseOfBroughtBlankDetail = () => {
                                                         })}
                                                     </div>
                                                 </div>
-
                                             </div>
                                         </div>
                                     </div>

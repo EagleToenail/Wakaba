@@ -4,6 +4,8 @@ import InputComponent from '../../Components/Common/InputComponent';
 import LabelComponent from '../../Components/Common/LabelComponent';
 import GeneralAccordion from '../../Components/GeneralAccordion';
 import axios from 'axios';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css'; // Import styles
 
 export default function GeneralChat() {
 
@@ -98,6 +100,12 @@ export default function GeneralChat() {
             [e.target.name]: e.target.value,
         });
     };
+    const handleContentsChange = (value) => {
+        setReply({
+            ...reply,
+            content: value,
+        });
+    };
 
     // file upload
     const [sendFile, setSendFile] = useState(null);
@@ -170,7 +178,7 @@ export default function GeneralChat() {
     }, []);
     // send message and file to other user 
     const sendGeneralChatMessage = async () => {
-        // console.log('sendtododata', reply,users);
+        console.log('sendtododata', reply,users);
         if (reply.title !== '' && reply.content !== '' && reply.senderId !== '' ) {
             const formData = new FormData();
             formData.append('thread_name', destinationURL);
@@ -198,7 +206,6 @@ export default function GeneralChat() {
                     }
                 }).then(response => {
                     console.log(response.data);
-                    fetchMessages();
                     setReply({
                         time: currentDateTime,
                         title: '',
@@ -208,6 +215,7 @@ export default function GeneralChat() {
                         file: null,
                         parentId: null
                     });
+                    fetchMessages();
                 })
                     .catch(error => {
                         console.error("There was an error fetching the customer data!", error);
@@ -299,7 +307,9 @@ export default function GeneralChat() {
                                 <div style={{ width: '85%' }}>
                                     {/* <InputComponent style={{ height: '40px',color:textColor}} className="w-full" name='post_content'/> */}
                                     <div className="space-y-3">
-                                        <textarea name='content' value={reply.content || ''} onChange={handleMessageChange} className="py-2 px-3 block w-full text-sm border border-[#70685a] outline-[#70685a] disabled:opacity-50  " rows="2" ></textarea>
+                                        {/* <textarea name='content' value={reply.content || ''} onChange={handleMessageChange} className="py-2 px-3 block w-full text-sm border border-[#70685a] outline-[#70685a] disabled:opacity-50  " rows="2" ></textarea> */}
+                                        <ReactQuill value={reply.content || ''} onChange={handleContentsChange} modules={GeneralChat.modules} formats={GeneralChat.formats}/>
+                                        {/* <CustomQuill ref={quillRef} value={reply.content} onChange={handleContentsChange} modules={GeneralChat.modules} formats={GeneralChat.formats} /> */}
                                     </div>
 
                                 </div>
@@ -319,3 +329,28 @@ export default function GeneralChat() {
     )
 }
 
+// Define the modules for the editor
+GeneralChat.modules = {
+    toolbar: [
+      [{ header: '1' }, { header: '2' }, { font: [] }],
+      [{ list: 'ordered' }, { list: 'bullet' }],
+      ['bold', 'italic', 'underline', 'strike'], // Text decoration options
+      // ['link', 'image'],
+      ['clean'], // Remove formatting button
+    ],
+  };
+  
+  // Define the formats that you want to use in the editor
+  GeneralChat.formats = [
+    'header',
+    'font',
+    'size',
+    'bold',
+    'italic',
+    'underline',
+    'strike',
+    'list',
+    'bullet',
+    'link',
+  //   'image',
+  ];

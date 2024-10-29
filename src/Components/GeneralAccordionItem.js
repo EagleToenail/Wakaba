@@ -137,10 +137,10 @@ const GeneralAccordionItem = ({ messageId, time, title, content, fileUrl, sender
                   </div>
                 </div>
                 <div>
-                  <label className="w-full text-[black] pl-3 text-[15px] block text-left">
-                  {/* <label className="text-[black] pl-3 text-[15px] block text-left" style={{ width: '100%', overflow: 'scroll' }}> */}
+                  {/* <label className="w-full text-[black] pl-3 text-[15px] block text-left">
                     {content}
-                  </label>
+                  </label> */}
+                  <div className="w-full text-[black] pl-3 text-left" dangerouslySetInnerHTML={{ __html: content }} />
                 </div>
               </div>
 

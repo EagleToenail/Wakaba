@@ -583,6 +583,7 @@ const VendorAssementSheet = () => {
     const gotoSalesSlip = () => {
         navigate('/salesslip');
     }
+     
     return (
         <>
             {/* <Titlebar title={title} /> */}
@@ -1019,10 +1020,19 @@ const VendorAssementSheet = () => {
                                                     )}
                                                 </div>
                                             </th>
-                                            <th style={Th} rowSpan={2} >カテゴリ1 </th>
-                                            <th style={Th} rowSpan={2} >カテゴリ2</th>
-                                            <th style={Th} rowSpan={2} >カテゴリ3</th>
-                                            <th style={Th} rowSpan={2} >カテゴリ4</th>
+                                            {/* <th style={Th}>
+                                                <div className='w-full flex justify-center'>
+                                                    <div className='flex justify-center'>
+                                                        カテゴリ1
+                                                        <div className='flex flex-col justify-center'>
+                                                            {isCatShow ? <button ><img src={rightArrow} className='h-5' alt='' onClick={openCattable} ></img></button> : <button><img src={leftArrow} className='h-5' alt='' onClick={closeCattable}></img></button>}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </th> */}
+                                            <th style={Th} rowSpan={2}>カテゴリ2</th>
+                                            <th style={Th} rowSpan={2}>カテゴリ3</th>
+                                            <th style={Th} rowSpan={2}>カテゴリ4</th>
                                             <th style={Th} rowSpan={2} >画像</th>
                                             <th rowSpan={2} style={Th} className='px-1'>わかばNo</th>
                                             <th style={Th} rowSpan={2} >
@@ -1141,14 +1151,14 @@ const VendorAssementSheet = () => {
                                                 <td style={Td}>{sale.trading_date || ''}</td>
                                                 <td style={Td}>{sale.shipping_date || ''}</td>
                                                 <td style={Td}>{sale.deposit_date || ''}</td>
-                                                <td style={Td}>
+                                                {/* <td style={Td}>
                                                     <select name='product_type_one' value={sale.product_type_one || ''} onChange={(e) => handleValueChange(sale.id, Index, e)} className="w-[100px] h-8 text-[#70685a] font-bold px-4 py-1 outline-[#70685a]">
                                                         <option value=''></option>
                                                         {product1s.length > 0 && product1s.map((type, index) => (
                                                             <option key={type.id} value={type.category}>{type.category || ''}</option>
                                                         ))}
                                                     </select>
-                                                </td>
+                                                </td> */}
                                                 <td style={Td}>
                                                     <select name='product_type_two' value={sale.product_type_two || ''} onChange={(e) => handleValueChange(sale.id, Index, e)} onClick={() => handleProduct2Select(Index)} className="w-[80px] h-8 text-[#70685a] font-bold px-4 py-1 outline-[#70685a]">
                                                         <option value=''></option>

@@ -132,7 +132,7 @@ const InvoicePurchaseOfBroughtBlank = () => {
             await axios.get(`${wakabaBaseUrl}/purchaseinvoice/getinvoicenumber`)
                 .then(response => {
                     setInvoiceID(response.data.invoiceID);
-                    //console.log('invoiceID',response.data)
+                    console.log('invoiceID',response.data)
                 })
                 .catch(error => {
                     console.error("There was an error fetching the customer data!", error);
@@ -1977,15 +1977,15 @@ const InvoicePurchaseOfBroughtBlank = () => {
                                 <th style={Th} width='2%'>商品番号</th>
                                 <th style={Th}>
                                     <div className='flex justify-center w-max'>
-                                        力テゴリ-1
+                                        力テゴリ1
                                         <div className='flex flex-col justify-center'>
                                             {isshow ? <button><img src={rightArrow} className='h-4' alt='' onClick={openSubtable} ></img></button> : <button><img src={leftArrow} className='h-4' alt='' onClick={closeSubtable}></img></button>}
                                         </div>
                                     </div>
                                 </th>
-                                {isshow ? <th style={Th} >力テゴリ-2</th> : <th style={{ display: 'none' }}></th>}
-                                {isshow ? <th style={Th} >力テゴリ-3</th> : <th style={{ display: 'none' }}></th>}
-                                {isshow ? <th style={Th} >力テゴリ-4</th> : <th style={{ display: 'none' }}></th>}
+                                {isshow ? <th style={Th} >力テゴリ2</th> : <th style={{ display: 'none' }}></th>}
+                                {isshow ? <th style={Th} >力テゴリ3</th> : <th style={{ display: 'none' }}></th>}
+                                {isshow ? <th style={Th} >力テゴリ4</th> : <th style={{ display: 'none' }}></th>}
                                 <th style={Th} >画像</th>
                                 <th style={Th}>
                                     <div className='w-full flex justify-center'>

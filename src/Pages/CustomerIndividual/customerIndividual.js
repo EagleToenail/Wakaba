@@ -5,7 +5,7 @@ import '../../Assets/css/showtable.css'
 import dateimage from '../../Assets/img/datepicker.png';
 import InputComponent from '../../Components/Common/InputComponent';
 import ButtonComponent from '../../Components/Common/ButtonComponent';
-import {toast} from 'react-toastify';
+import { toast } from 'react-toastify';
 // import LabelComponent from '../../Components/Common/LabelComponent';
 
 
@@ -69,7 +69,7 @@ const CustomerIndividual = () => {
     //         const part1 = numStr.slice(0, 3);   // First 3 digits
     //         const part2 = numStr.slice(3, 7);   // Next 4 digits
     //         const part3 = numStr.slice(7);      // Remaining digits (if any)
-            
+
     //         // Combine parts with dashes
     //         return part3 ? `${part1}-${part2}-${part3}` : `${part1}-${part2}`;
     //     } else {
@@ -92,7 +92,7 @@ const CustomerIndividual = () => {
         email: '',
         idCard_url: '',
         cardType: '',
-        idcard_number:'',
+        idcard_number: '',
         avatar_url: '',
         prefeature: '',
         city: '',
@@ -104,7 +104,7 @@ const CustomerIndividual = () => {
         item3: '',
         item4: '',
         item5: '',
-        special_note:''
+        special_note: ''
     });
 
     const [customerPastVisitHistory, setCustomerPastVisitHistory] = useState([]);
@@ -120,11 +120,11 @@ const CustomerIndividual = () => {
     // Fetch customerPastVisitHistory data
     useEffect(() => {
         const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
-        const fetch = async() =>{
+        const fetch = async () => {
             if (!wakabaBaseUrl) {
                 throw new Error('API base URL is not defined');
             }
-           await axios.get(`${wakabaBaseUrl}/customer/customerpastvisithistory/${id}`)
+            await axios.get(`${wakabaBaseUrl}/customer/customerpastvisithistory/${id}`)
                 .then(response => {
                     console.log("historydata", response.data)
                     setCustomerPastVisitHistory(response.data || []);
@@ -140,12 +140,12 @@ const CustomerIndividual = () => {
     // fetch customer data
     useEffect(() => {
         const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
-        const fetch = async() => {
+        const fetch = async () => {
             if (!wakabaBaseUrl) {
                 throw new Error('API base URL is not defined');
             }
             if (id) {
-               await  axios.get(`${wakabaBaseUrl}/customer/getCustomerById/${id}`)
+                await axios.get(`${wakabaBaseUrl}/customer/getCustomerById/${id}`)
                     .then(response => {
                         // console.log("data", response.data)
                         setCustomer(response.data);
@@ -224,7 +224,7 @@ const CustomerIndividual = () => {
         setIsKeepModalOpen(false);
         // const formattedNumber = formatPhoneNumber(customer.phone_number);
         // customer.phone_number = formattedNumber;
-        
+
         const formDataObj = new FormData();
         formDataObj.append('id', customer.id);
         formDataObj.append('visit_type', customer.visit_type);
@@ -268,7 +268,7 @@ const CustomerIndividual = () => {
             console.log('Response:', response.data);
             // setAvatarImageFile(null);
             // setIdcardFile(null);
-            toast.success('変更が正常に保存されました！',{ autoClose: 3000 });//update
+            toast.success('変更が正常に保存されました！', { autoClose: 3000 });//update
             navigate('/customerlist');
         } catch (error) {
             console.error('Error submitting form:', error);
@@ -289,7 +289,7 @@ const CustomerIndividual = () => {
             }
             const response = await axios.post(`${wakabaBaseUrl}/customer/deleteCustomer`, { customerId });
             console.log('Response:', response.data);
-            toast.success('データが正常に削除されました！',{ autoClose: 3000 });//remove
+            toast.success('データが正常に削除されました！', { autoClose: 3000 });//remove
             navigate('/customerlist'); // Navigate to the profile page after closing the modal
         } catch (error) {
             console.error('Error submitting form:', error);
@@ -403,7 +403,7 @@ const CustomerIndividual = () => {
     }, [pairs, additionalCheckboxes]);
     //---remake function
     const checkedFunction = (item1, item2, item3, item4, item5) => {
-        if(item1?.length>0) {
+        if (item1?.length > 0) {
             const array = item1.split(',').map(Number);
             setAdditionalCheckboxes(array);
             updateValueAtIndex(0, item2);
@@ -509,7 +509,7 @@ const CustomerIndividual = () => {
                                     <label className="text-[#70685a] font-bold mb-2 block text-center mr-10 py-1 !mb-0">お電話番号</label>
                                 </div>
                                 <div style={{ width: '30%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <InputComponent name="phone_number" value={customer.phone_number || ''} onChange={handleCustomerChange} type='tel' pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" placeholder="123-4567-7890" required/>
+                                    <InputComponent name="phone_number" value={customer.phone_number || ''} onChange={handleCustomerChange} type='tel' pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" placeholder="123-4567-7890" required />
                                 </div>
                             </div>
                             {/* new */}
@@ -727,14 +727,14 @@ const CustomerIndividual = () => {
                                 <div className='flex justify-between mt-5'>
                                     <label className="text-[#70685a] text-[20px] font-bold mb-2 block text-left mr-10 py-1 !mb-0">過去の訪問履歴</label>
                                     <button type="button" onClick={gotoInvoiceForPurchase}
-                                        className="flex px-5 py-1 rounded-lg text-md tracking-wider font-bold border border-[#70685a] outline-none bg-transparent text-[#70685a] transition-all duration-300">
+                                        className="flex px-5 py-1 rounded-lg  text-[#70685a] text-[18px] bg-[transparent] tracking-wider font-bold border border-[#70685a] outline-none transition-all duration-300">
                                         <div className='w-7'>
                                             <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium  MuiSvgIcon-root MuiSvgIcon-fontSizeLarge  css-1hkft75" fill='#524c3b' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="AddCircleOutlineOutlinedIcon" title="AddCircleOutlineOutlined"><path d="M13 7h-2v4H7v2h4v4h2v-4h4v-2h-4zm-1-5C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8"></path></svg>
                                         </div>
-                                        <div><span className='pl-1 text-[20px]'>追加</span></div>
+                                        追加
                                     </button>
                                 </div>
-                                {customerPastVisitHistory ?.length > 0 ?
+                                {customerPastVisitHistory?.length > 0 ?
                                     <div style={{ width: '100%', }} >
                                         <table className='text-center w-full' style={Table}>
                                             <thead>
@@ -811,174 +811,174 @@ const CustomerIndividual = () => {
                                         <label className="text-[#70685a] text-[18px] mb-2 block text-left mr-10 py-1">この顧客の訪問履歴は見つかりませんでした。</label>
                                     </div>}
                             </div>
-                        {/* Text area */}
-                        <div className='w-full flex justify-center'>
-                            <div className=" h-full w-full mt-3">
-                                {/* Text area */}
-                                <div className="border border-[#70685a] rounded px-3 w-full" style={{ height: '315px', overflow: 'auto' }}>
-                                    <label className="text-[#70685a] text-[20px] font-bold mb-2 block text-left mr-10 py-1 !mb-0">全体ヒアリング</label>
-                                    <div>
-                                        <div className='flex'>
-                                            <label className="text-[#70685a] text-[18px] mb-2 block text-left mr-10 py-1">項目1</label>
-                                            <label className="text-[#70685a] text-[18px] mb-2 block text-left mr-10 py-1 !mb-0">何を見てご来店いただきましたか？</label>
+                            {/* Text area */}
+                            <div className='w-full flex justify-center'>
+                                <div className=" h-full w-full mt-3">
+                                    {/* Text area */}
+                                    <div className="border border-[#70685a] rounded px-3 w-full" style={{ height: '315px', overflow: 'auto' }}>
+                                        <label className="text-[#70685a] text-[20px] font-bold mb-2 block text-left mr-10 py-1 !mb-0">全体ヒアリング</label>
+                                        <div>
+                                            <div className='flex'>
+                                                <label className="text-[#70685a] text-[18px] mb-2 block text-left mr-10 py-1">項目1</label>
+                                                <label className="text-[#70685a] text-[18px] mb-2 block text-left mr-10 py-1 !mb-0">何を見てご来店いただきましたか？</label>
+                                            </div>
+                                            <div className='ml-20 text-[17px]'>
+                                                <div className='flex justify-between'>
+                                                    {['以前も利用したことがある', '店舗を見て', 'インターネットを見て', '紹介されて'].map((label, index) => {
+                                                        const id = `additional-checkbox-${index}`; // Unique ID for each checkbox
+                                                        return (
+                                                            <div className="flex items-center" key={index}>
+                                                                <input
+                                                                    type="checkbox"
+                                                                    id={id}
+                                                                    checked={additionalCheckboxes[index]}
+                                                                    onChange={() => handleAdditionalCheckboxChange(index)}
+                                                                    className="w-4 h-4 mr-3"
+                                                                />
+                                                                <label htmlFor={id} className="text-[#70685a]">{label}</label>
+                                                            </div>
+                                                        );
+                                                    })}
+                                                </div>
+                                                <div className="flex items-center">
+                                                    <input
+                                                        type="checkbox"
+                                                        id="pair-checkbox-0"
+                                                        checked={pairs[0].checked}
+                                                        onChange={() => handlePairCheckboxChange(0)}
+                                                        className="w-4 h-4 mr-3"
+                                                    />
+                                                    <label htmlFor="pair-checkbox-0" className="text-[#70685a] mr-3">店舗以外の看板・広告を見て</label>
+                                                    <InputComponent
+                                                        value={pairs[0].value || ''}
+                                                        onChange={(e) => handleInputChange(0, e.target.value)}
+                                                        disabled={!pairs[0].checked}
+                                                        className="w-40 text-[#70685a] mb-2 block text-left mr-10 py-1 !mb-0 !h-8"
+                                                        placeholder={'広告を見た場所'}
+                                                    />
+                                                </div>
+                                                <div className='flex gap-10'>
+                                                    {[
+                                                        { label: '折込チラシを見て', placeholder: '新聞銘柄' },
+                                                        { label: 'その他', placeholder: 'その他詳細' }
+                                                    ].map((item, index) => {
+                                                        const id = `pair-checkbox-${index + 1}`; // Unique ID for each checkbox
+                                                        return (
+                                                            <div className="flex items-center" key={index}>
+                                                                <input
+                                                                    type="checkbox"
+                                                                    id={id}
+                                                                    checked={pairs[index + 1].checked}
+                                                                    onChange={() => handlePairCheckboxChange(index + 1)}
+                                                                    className="w-4 h-4 mr-3"
+                                                                />
+                                                                <label htmlFor={id} className="text-[#70685a] mr-3">{item.label}</label>
+                                                                <InputComponent
+                                                                    value={pairs[index + 1].value || ''}
+                                                                    onChange={(e) => handleInputChange(index + 1, e.target.value)}
+                                                                    disabled={!pairs[index + 1].checked}
+                                                                    className="w-40 text-[#70685a] mb-2 block text-left mr-10 py-1 !mb-0 !h-8"
+                                                                    placeholder={item.placeholder}
+                                                                />
+                                                            </div>
+                                                        );
+                                                    })}
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div className='ml-20 text-[17px]'>
-    <div className='flex justify-between'>
-        {['以前も利用したことがある', '店舗を見て', 'インターネットを見て', '紹介されて'].map((label, index) => {
-            const id = `additional-checkbox-${index}`; // Unique ID for each checkbox
-            return (
-                <div className="flex items-center" key={index}>
-                    <input 
-                        type="checkbox" 
-                        id={id} 
-                        checked={additionalCheckboxes[index]} 
-                        onChange={() => handleAdditionalCheckboxChange(index)}
-                        className="w-4 h-4 mr-3" 
-                    />
-                    <label htmlFor={id} className="text-[#70685a]">{label}</label>
-                </div>
-            );
-        })}
-    </div>
-    <div className="flex items-center">
-        <input 
-            type="checkbox" 
-            id="pair-checkbox-0" 
-            checked={pairs[0].checked} 
-            onChange={() => handlePairCheckboxChange(0)}
-            className="w-4 h-4 mr-3" 
-        />
-        <label htmlFor="pair-checkbox-0" className="text-[#70685a] mr-3">店舗以外の看板・広告を見て</label>
-        <InputComponent 
-            value={pairs[0].value || ''} 
-            onChange={(e) => handleInputChange(0, e.target.value)} 
-            disabled={!pairs[0].checked} 
-            className="w-40 text-[#70685a] mb-2 block text-left mr-10 py-1 !mb-0 !h-8" 
-            placeholder={'広告を見た場所'} 
-        />
-    </div>
-    <div className='flex gap-10'>
-        {[ 
-            { label: '折込チラシを見て', placeholder: '新聞銘柄' },
-            { label: 'その他', placeholder: 'その他詳細' }
-        ].map((item, index) => {
-            const id = `pair-checkbox-${index + 1}`; // Unique ID for each checkbox
-            return (
-                <div className="flex items-center" key={index}>
-                    <input 
-                        type="checkbox" 
-                        id={id} 
-                        checked={pairs[index + 1].checked} 
-                        onChange={() => handlePairCheckboxChange(index + 1)}
-                        className="w-4 h-4 mr-3" 
-                    />
-                    <label htmlFor={id} className="text-[#70685a] mr-3">{item.label}</label>
-                    <InputComponent 
-                        value={pairs[index + 1].value || ''} 
-                        onChange={(e) => handleInputChange(index + 1, e.target.value)} 
-                        disabled={!pairs[index + 1].checked} 
-                        className="w-40 text-[#70685a] mb-2 block text-left mr-10 py-1 !mb-0 !h-8" 
-                        placeholder={item.placeholder} 
-                    />
-                </div>
-            );
-        })}
-    </div>
-</div>
-                                    </div>
-                                    <div>
-                                        <div className='flex'>
-                                            <label className="text-[#70685a] text-[18px] mb-2 block text-left mr-10 py-1">項目2</label>
-                                            <label className="text-[#70685a] text-[18px] mb-2 block text-left mr-10 py-1 !mb-0">次回お持ちいただくご予定の商品はございますか？</label>
-                                        </div>
-                                        <div className='ml-20 text-[17px]'>
-    <div className='flex flex-wrap gap-5'>
-        {[
-            'ダイヤモンド',
-            '色石',
-            'ネックレス',
-            '指輪',
-            '時計',
-            'ブランド品',
-            '切手',
-            '中国切手',
-            '古銭',
-            '金券',
-            'テレカ',
-            'カメラ',
-            'スマートフォン',
-            '食器',
-            'ホビー',
-            '楽器'
-        ].map((item, index) => {
-            const checkboxIndex = index + 4; // Adjust the index for additionalCheckboxes
-            const id = `checkbox-${checkboxIndex}`; // Unique ID for each checkbox
-            return (
-                <div className="flex items-center" key={id}>
-                    <input 
-                        type="checkbox" 
-                        id={id} 
-                        className="w-4 h-4 mr-3" 
-                        checked={additionalCheckboxes[checkboxIndex] || false} 
-                        onChange={() => handleAdditionalCheckboxChange(checkboxIndex)} 
-                    />
-                    <label htmlFor={id} className="text-[#70685a]">{item}</label>
-                </div>
-            );
-        })}
-    </div>
+                                        <div style={{display:'none'}}>
+                                            <div className='flex'>
+                                                <label className="text-[#70685a] text-[18px] mb-2 block text-left mr-10 py-1">項目2</label>
+                                                <label className="text-[#70685a] text-[18px] mb-2 block text-left mr-10 py-1 !mb-0">次回お持ちいただくご予定の商品はございますか？</label>
+                                            </div>
+                                            <div className='ml-20 text-[17px]'>
+                                                <div className='flex flex-wrap gap-5'>
+                                                    {[
+                                                        'ダイヤモンド',
+                                                        '色石',
+                                                        'ネックレス',
+                                                        '指輪',
+                                                        '時計',
+                                                        'ブランド品',
+                                                        '切手',
+                                                        '中国切手',
+                                                        '古銭',
+                                                        '金券',
+                                                        'テレカ',
+                                                        'カメラ',
+                                                        'スマートフォン',
+                                                        '食器',
+                                                        'ホビー',
+                                                        '楽器'
+                                                    ].map((item, index) => {
+                                                        const checkboxIndex = index + 4; // Adjust the index for additionalCheckboxes
+                                                        const id = `checkbox-${checkboxIndex}`; // Unique ID for each checkbox
+                                                        return (
+                                                            <div className="flex items-center" key={id}>
+                                                                <input
+                                                                    type="checkbox"
+                                                                    id={id}
+                                                                    className="w-4 h-4 mr-3"
+                                                                    checked={additionalCheckboxes[checkboxIndex] || false}
+                                                                    onChange={() => handleAdditionalCheckboxChange(checkboxIndex)}
+                                                                />
+                                                                <label htmlFor={id} className="text-[#70685a]">{item}</label>
+                                                            </div>
+                                                        );
+                                                    })}
+                                                </div>
 
-    <div className='flex items-center gap-5'>
-        <input 
-            type="checkbox" 
-            id="pair-checkbox-3" 
-            checked={pairs[3].checked} 
-            onChange={() => handlePairCheckboxChange(3)} 
-            className="w-4 h-4 mr-3" 
-        />
-        <label htmlFor="pair-checkbox-3" className="text-[#70685a] mr-3">その他</label>
-        <InputComponent 
-            value={pairs[3].value || ''} 
-            onChange={(e) => handleInputChange(3, e.target.value)} 
-            disabled={!pairs[3].checked} 
-            className="w-40 text-[#70685a] mb-2 block text-left mr-10 py-1 !mb-0 !h-8" 
-            placeholder={'その他詳細'} 
-        />
-    </div>
-</div>
-                                    </div>
-                                    <div>
-                                        <div className='flex'>
-                                            <label className="text-[#70685a] text-[18px] mb-2 block text-left mr-10 py-1">項目3</label>
-                                            <label className="text-[#70685a] text-[18px] mb-2 block text-left mr-10 py-1 !mb-0">(各種ご案内)の送付は  可/不可</label>
+                                                <div className='flex items-center gap-5'>
+                                                    <input
+                                                        type="checkbox"
+                                                        id="pair-checkbox-3"
+                                                        checked={pairs[3].checked}
+                                                        onChange={() => handlePairCheckboxChange(3)}
+                                                        className="w-4 h-4 mr-3"
+                                                    />
+                                                    <label htmlFor="pair-checkbox-3" className="text-[#70685a] mr-3">その他</label>
+                                                    <InputComponent
+                                                        value={pairs[3].value || ''}
+                                                        onChange={(e) => handleInputChange(3, e.target.value)}
+                                                        disabled={!pairs[3].checked}
+                                                        className="w-40 text-[#70685a] mb-2 block text-left mr-10 py-1 !mb-0 !h-8"
+                                                        placeholder={'その他詳細'}
+                                                    />
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div className='ml-20 mb-10'>
-    <div className='flex gap-10 text-[17px]'>
-        {[
-            { label: '可', index: 20 },
-            { label: '不可', index: 21 }
-        ].map(({ label, index }) => {
-            const id = `checkbox-${index}`;
-            return (
-                <div className="flex items-center" key={id}>
-                    <input 
-                        type="checkbox" 
-                        id={id} 
-                        className="w-4 h-4 mr-3" 
-                        checked={additionalCheckboxes[index] || false} 
-                        onChange={() => handleAdditionalCheckboxChange(index)} 
-                    />
-                    <label htmlFor={id} className="text-[#70685a]">{label}</label>
-                </div>
-            );
-        })}
-    </div>
-</div>
+                                        <div style={{display:'none'}}>
+                                            <div className='flex'>
+                                                <label className="text-[#70685a] text-[18px] mb-2 block text-left mr-10 py-1">項目3</label>
+                                                <label className="text-[#70685a] text-[18px] mb-2 block text-left mr-10 py-1 !mb-0">(各種ご案内)の送付は  可/不可</label>
+                                            </div>
+                                            <div className='ml-20 mb-10'>
+                                                <div className='flex gap-10 text-[17px]'>
+                                                    {[
+                                                        { label: '可', index: 20 },
+                                                        { label: '不可', index: 21 }
+                                                    ].map(({ label, index }) => {
+                                                        const id = `checkbox-${index}`;
+                                                        return (
+                                                            <div className="flex items-center" key={id}>
+                                                                <input
+                                                                    type="checkbox"
+                                                                    id={id}
+                                                                    className="w-4 h-4 mr-3"
+                                                                    checked={additionalCheckboxes[index] || false}
+                                                                    onChange={() => handleAdditionalCheckboxChange(index)}
+                                                                />
+                                                                <label htmlFor={id} className="text-[#70685a]">{label}</label>
+                                                            </div>
+                                                        );
+                                                    })}
+                                                </div>
+                                            </div>
 
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
 
                         </div>
                     </div>
