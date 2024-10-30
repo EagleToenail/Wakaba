@@ -1,10 +1,12 @@
-
 import React, { useState, useEffect } from 'react';
 import axios from 'axios'; // or use fetch
+import {jwtDecode} from 'jwt-decode';
 
 const TodoAccordionItem = ({messageId, time, title, content, fileUrl, sender, receiver, children, parentMessageId,complete,permission, onSendData, onSendData1,onSendData2, users }) => {
 
-  const role = localStorage.getItem('role');
+  const token = localStorage.getItem('token');
+  const decodedToken = jwtDecode(token);
+  const role = decodedToken.role;
 
   const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
   const [isOpen, setIsOpen] = useState(false);
@@ -86,9 +88,10 @@ const completeFunction = () => {
                   <label className="text-[#70685a] font-bold block text-center">ステー夕ス表示</label>
                 </div>
               </div>
-              <div className='text-[black] text-[18px] ml-5'>
+              {/* <div className='text-[black] text-[18px] ml-5'>
                 {title}
-              </div>
+              </div> */}
+              <div className="text-[black] text-[18px] ml-5" dangerouslySetInnerHTML={{ __html: title }} />
             </div>
           </div>
           <div className='new-post-receive-name flex justify-between ' style={{ width: '20%' }}>
@@ -159,9 +162,10 @@ const completeFunction = () => {
                 </div>
                 <div>
                   {/* <label className="text-[black] pl-3 text-[15px] block text-left" style={{ width: '100%', overflow: 'scroll' }}> */}
-                  <label className="w-full text-[black] pl-3 text-[15px] block text-left ">
+                  {/* <label className="w-full text-[black] pl-3 text-[15px] block text-left ">
                     {content}
-                  </label>
+                  </label> */}
+                  <div className="w-full text-[black] pl-3 text-left" dangerouslySetInnerHTML={{ __html: content }} />
                 </div>
               </div>
 

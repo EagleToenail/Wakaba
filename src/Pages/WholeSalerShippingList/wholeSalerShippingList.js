@@ -5,6 +5,7 @@ import '../../Assets/css/firstTd.css';
 import '../../Assets/css/lastTd.css';
 
 import axios from 'axios';
+import {jwtDecode} from 'jwt-decode';
 import LabelComponent from '../../Components/Common/LabelComponent';
 import InputComponent from '../../Components/Common/InputComponent';
 import ButtonComponent from '../../Components/Common/ButtonComponent';
@@ -43,9 +44,9 @@ const WholeSalerShippingList = () => {
     };
 
     // const navigate = useNavigate();
-
-    const userStoreName = localStorage.getItem('storename');
-    // const userId = localStorage.getItem('userId');
+    const token = localStorage.getItem('token');
+    const decodedToken = jwtDecode(token);
+    const userStoreName = decodedToken.storename;
 
     const [wholeSalesPurchase, setWholeSalesPurchase] = useState([]);
     const [oldWholeSalesPurchase, setOldWholeSalesPurchase] = useState([]);

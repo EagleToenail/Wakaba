@@ -4,6 +4,7 @@ import InputComponent from '../../Components/Common/InputComponent';
 import LabelComponent from '../../Components/Common/LabelComponent';
 import StoreAccordion from '../../Components/StoreAccordion';
 import axios from 'axios';
+import {jwtDecode} from 'jwt-decode';
 
 export default function StoreChat() {
 
@@ -52,7 +53,10 @@ export default function StoreChat() {
       }
     }, [location.pathname]); // Update effect to listen for pathname changes
 
-    const userStoreName = localStorage.getItem('storename');
+    const token = localStorage.getItem('token');
+    const decodedToken = jwtDecode(token);
+    const userId = decodedToken.userId;
+    const userStoreName = decodedToken.storename;
 
     const now = new Date();
 
@@ -79,7 +83,6 @@ export default function StoreChat() {
         setTextMessageColor(color);
     };
     //==============post function=========
-    const userId = localStorage.getItem('userId');
     // const [messages, setMessages] = useState([]);
     const [reply, setReply] = useState({
         time: currentDateTime,
@@ -123,7 +126,6 @@ export default function StoreChat() {
         }
   
         // console.log(`${wakabaBaseUrl}/customer/getCustomerList`);
-        const userId = localStorage.getItem('userId');
         const threadName = destinationURL;
         console.log('destinationURL',threadName);
         await axios.post(`${wakabaBaseUrl}/storechat`,{threadName:threadName,storeName:userStoreName})
@@ -219,7 +221,6 @@ export default function StoreChat() {
 
     // Callback function to handle data from child
     const handleDataFromChildAccordion = (data1, data2, data3) => {
-        const userId = localStorage.getItem('userId');
         setReply({ parentMessageId: data1, senderId: data2 ,time:currentDateTime})
         console.log('Data received from child++++++++:', data1, data2, data3, userId);
     };

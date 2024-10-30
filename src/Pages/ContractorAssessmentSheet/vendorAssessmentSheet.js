@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-
+import {jwtDecode} from 'jwt-decode';
 import { useDispatch } from 'react-redux';
 import { setShippingData } from '../../redux/sales/actions';
 import { setClearData } from '../../redux/sales/actions';
@@ -18,6 +18,10 @@ const VendorAssementSheet = () => {
     // const title = 'タイトルタイトル';
     const navigate = useNavigate(); // Use useNavigate instead of useHistory
     const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+
+    const token = localStorage.getItem('token');
+    const decodedToken = jwtDecode(token);
+    const role = decodedToken.role;
 
     const Table = {
         color: '#70685a',
@@ -1125,29 +1129,33 @@ const VendorAssementSheet = () => {
                                                     />
                                                 </td>
                                                 <td style={Td}>{sale.id || ''}</td>
-                                                <td style={Td}>
-                                                    <select name='product_status' value={sale.product_status || ''} onChange={(e) => handleValueChange(sale.id, Index, e)} className="w-[120px] h-8 text-[#70685a] font-bold px-4 py-1 outline-[#70685a]">
-                                                        <option value="査定中">査定中</option>
-                                                        <option value="お預かり">お預かり</option>
-                                                        <option value="承認待ち">承認待ち</option>
-                                                        <option value="承認された">承認された</option>
-                                                        <option value="買取済">買取済</option>
-                                                        <option value="発送中">発送中</option>
-                                                        <option value="約定済">約定済</option>
-                                                        <option value="オークション出品済">オークション出品済</option>
-                                                        <option value="オークション発送済">オークション発送済</option>
-                                                        <option value="廃棄">廃棄</option>
-                                                        <option value="基準外">基準外</option>
-                                                        <option value="返品・返金">返品・返金</option>
-                                                    </select>
-                                                </td>
-                                                <td style={Td}>
-                                                    <select name='purchase_staff' value={sale.purchase_staff || ''} onChange={(e) => handleValueChange(sale.id, Index, e)} className="w-[120px] h-8 text-[#70685a] font-bold px-4 py-1 outline-[#70685a]">
-                                                        {users.length > 0 && users.map((user, index) => (
-                                                            <option key={user.id} value={user.full_name}>{user.full_name || ''}</option>
-                                                        ))}
-                                                    </select>
-                                                </td>
+                                                {role !== '1' ? 
+                                                    <td style={Td}>
+                                                        <select name='product_status' value={sale.product_status || ''} onChange={(e) => handleValueChange(sale.id, Index, e)} className="w-[120px] h-8 text-[#70685a] font-bold px-4 py-1 outline-[#70685a]">
+                                                            <option value="査定中">査定中</option>
+                                                            <option value="お預かり">お預かり</option>
+                                                            <option value="承認待ち">承認待ち</option>
+                                                            <option value="承認された">承認された</option>
+                                                            <option value="買取済">買取済</option>
+                                                            <option value="発送中">発送中</option>
+                                                            <option value="約定済">約定済</option>
+                                                            <option value="オークション出品済">オークション出品済</option>
+                                                            <option value="オークション発送済">オークション発送済</option>
+                                                            <option value="廃棄">廃棄</option>
+                                                            <option value="基準外">基準外</option>
+                                                            <option value="返品・返金">返品・返金</option>
+                                                        </select>
+                                                    </td>
+                                                : <td style={Td}>{sale.product_status || ''}</td>}
+                                                {role !== '1' ? 
+                                                    <td style={Td}>
+                                                        <select name='purchase_staff' value={sale.purchase_staff || ''} onChange={(e) => handleValueChange(sale.id, Index, e)} className="w-[120px] h-8 text-[#70685a] font-bold px-4 py-1 outline-[#70685a]">
+                                                            {users.length > 0 && users.map((user, index) => (
+                                                                <option key={user.id} value={user.full_name}>{user.full_name || ''}</option>
+                                                            ))}
+                                                        </select>
+                                                    </td>
+                                                : <td style={Td}>{sale.purchase_staff || ''}</td>}
                                                 <td style={Td}>{sale.trading_date || ''}</td>
                                                 <td style={Td}>{sale.shipping_date || ''}</td>
                                                 <td style={Td}>{sale.deposit_date || ''}</td>
@@ -1159,30 +1167,36 @@ const VendorAssementSheet = () => {
                                                         ))}
                                                     </select>
                                                 </td> */}
-                                                <td style={Td}>
-                                                    <select name='product_type_two' value={sale.product_type_two || ''} onChange={(e) => handleValueChange(sale.id, Index, e)} onClick={() => handleProduct2Select(Index)} className="w-[80px] h-8 text-[#70685a] font-bold px-4 py-1 outline-[#70685a]">
-                                                        <option value=''></option>
-                                                        {product2s.length > 0 && product2s.map((type, index) => (
-                                                            <option key={type.id} value={type.category}>{type.category || ''}</option>
-                                                        ))}
-                                                    </select>
-                                                </td>
-                                                <td style={Td}>
-                                                    <select name='product_type_three' value={sale.product_type_three || ''} onChange={(e) => handleValueChange(sale.id, Index, e)} className="w-[80px] h-8 text-[#70685a] font-bold px-4 py-1 outline-[#70685a]">
-                                                        <option value=''></option>
-                                                        {product3s.length > 0 && product3s.map((type, index) => (
-                                                            <option key={type.id} value={type.category}>{type.category || ''}</option>
-                                                        ))}
-                                                    </select>
-                                                </td>
-                                                <td style={Td}>
-                                                    <select name='product_type_four' value={sale.product_type_four || ''} onChange={(e) => handleValueChange(sale.id, Index, e)} className="w-[80px] h-8 text-[#70685a] font-bold px-4 py-1 outline-[#70685a]">
-                                                        <option value=''></option>
-                                                        {product4s.length > 0 && product4s.map((type, index) => (
-                                                            <option key={type.id} value={type.category}>{type.category || ''}</option>
-                                                        ))}
-                                                    </select>
-                                                </td>
+                                                {role !== '1' ? 
+                                                    <td style={Td}>
+                                                        <select name='product_type_two' value={sale.product_type_two || ''} onChange={(e) => handleValueChange(sale.id, Index, e)} onClick={() => handleProduct2Select(Index)} className="w-[80px] h-8 text-[#70685a] font-bold px-4 py-1 outline-[#70685a]">
+                                                            <option value=''></option>
+                                                            {product2s.length > 0 && product2s.map((type, index) => (
+                                                                <option key={type.id} value={type.category}>{type.category || ''}</option>
+                                                            ))}
+                                                        </select>
+                                                    </td>
+                                                : <td style={Td}>{sale.product_type_two || ''}</td>}
+                                                {role !== '1' ? 
+                                                    <td style={Td}>
+                                                        <select name='product_type_three' value={sale.product_type_three || ''} onChange={(e) => handleValueChange(sale.id, Index, e)} className="w-[80px] h-8 text-[#70685a] font-bold px-4 py-1 outline-[#70685a]">
+                                                            <option value=''></option>
+                                                            {product3s.length > 0 && product3s.map((type, index) => (
+                                                                <option key={type.id} value={type.category}>{type.category || ''}</option>
+                                                            ))}
+                                                        </select>
+                                                    </td>
+                                                : <td style={Td}>{sale.product_type_three || ''}</td>}
+                                                {role !== '1' ? 
+                                                    <td style={Td}>
+                                                        <select name='product_type_four' value={sale.product_type_four || ''} onChange={(e) => handleValueChange(sale.id, Index, e)} className="w-[80px] h-8 text-[#70685a] font-bold px-4 py-1 outline-[#70685a]">
+                                                            <option value=''></option>
+                                                            {product4s.length > 0 && product4s.map((type, index) => (
+                                                                <option key={type.id} value={type.category}>{type.category || ''}</option>
+                                                            ))}
+                                                        </select>
+                                                    </td>
+                                                : <td style={Td}>{sale.product_type_four || ''}</td>}
                                                 <td style={Td}>
                                                     {sale.product_photo != '' ?
                                                         <button onClick={() => openProductImageModal(sale.product_photo)} name='photo' className='w-max'>

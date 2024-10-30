@@ -5,11 +5,13 @@ import ButtonComponent from '../../Components/Common/ButtonComponent';
 import InputComponent from '../../Components/Common/InputComponent';
 import '../../Assets/css/showtable.css'
 import axios from 'axios';
-
+import {jwtDecode} from 'jwt-decode';
 
 const StampPurchaseInterestRateChange = () => {
     // const title = 'タイトルタイトル';
-    const role = localStorage.getItem('role');
+    const token = localStorage.getItem('token');
+    const decodedToken = jwtDecode(token);
+    const role = decodedToken.role;
 
     const Table = {
         borderCollapse: 'collapse',

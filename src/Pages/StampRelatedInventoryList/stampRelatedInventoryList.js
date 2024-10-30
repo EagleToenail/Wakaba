@@ -9,7 +9,7 @@ import LabelComponent from '../../Components/Common/LabelComponent';
 import InputComponent from '../../Components/Common/InputComponent';
 import DateAndTime from '../../Components/Common/PickData';
 import axios from 'axios';
-
+import {jwtDecode} from 'jwt-decode';
 import { useDispatch } from 'react-redux';
 import { setOutboundStamp } from '../../redux/sales/actions';
 
@@ -42,7 +42,9 @@ const StampRelatedInventoryList = () => {
     dispatch(setOutboundStamp(data));
     };
 
-    const userRole = localStorage.getItem('role');
+    const token = localStorage.getItem('token');
+    const decodedToken = jwtDecode(token);
+    const userRole = decodedToken.role;
     //dynamic Table operation
     //------------Sheet---------------------------------
     const [sheetRows, setSheetRows] = useState([]);

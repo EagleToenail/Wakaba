@@ -6,6 +6,7 @@ import InputComponent from '../../Components/Common/InputComponent';
 import ButtonComponent from '../../Components/Common/ButtonComponent';
 import DateAndTime from '../../Components/Common/PickData';
 import axios from 'axios';
+import {jwtDecode} from 'jwt-decode';
 import { toast } from 'react-toastify';
 
 import { useDispatch, useSelector } from 'react-redux';
@@ -22,6 +23,13 @@ import ImageShowModal from '../../Components/Modal/ImageShowModal';
 const InvoicePurchaseOfDetail = () => {
     // const title = 'タイトルタイトル';
     const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+
+    const token = localStorage.getItem('token');
+    const decodedToken = jwtDecode(token);
+    const userStoreName = decodedToken.storename;
+    const userId = decodedToken.userId;
+    const username = decodedToken.fullname;
+    const role = decodedToken.role;
 
     const now = new Date();
     // Format the date as YYYY-MM-DD
@@ -82,10 +90,6 @@ const InvoicePurchaseOfDetail = () => {
         height: '30px',
         position: 'relative'
     };
-
-    const userStoreName = localStorage.getItem('storename');
-    const userId = localStorage.getItem('userId');
-    const role = localStorage.getItem('role');
 
     const [invoiceID, setInvoiceID] = useState('0');
     // fetch registered product

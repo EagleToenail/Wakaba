@@ -6,9 +6,11 @@ import '../Assets/css/sidebar.css'
 import Tab from './Tab';
 import MiniSidebar from './MiniSidebar';
 
-const Sidebar = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [isshow, setIsShow] = useState(true);
+const Sidebar = ({initialState}) => {
+  // const [isOpen, setIsOpen] = useState(false);
+  // const [isshow, setIsShow] = useState(true);
+  const [isOpen, setIsOpen] = useState(initialState);
+  const [isshow, setIsShow] = useState(!initialState);
 
   const openNav = () => {
     setIsOpen(true);

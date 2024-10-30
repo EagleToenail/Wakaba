@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import {jwtDecode} from 'jwt-decode';
 
 const WithdrawalVariousPurchaseAccordionItem1 = ({messageNumber, messageId, time, title, content, sender, receiver, users, onSendData3 ,onSendData5,onSendData7}) => {
-  const userId = localStorage.getItem('userId');
+
+  const token = localStorage.getItem('token');
+  const decodedToken = jwtDecode(token);
+  const userId = decodedToken.userId;
 
   const now = new Date();
   const optionsDate = { year: 'numeric', month: '2-digit', day: '2-digit', timeZone: 'Asia/Tokyo' };

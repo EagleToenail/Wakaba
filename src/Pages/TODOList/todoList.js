@@ -3,20 +3,19 @@ import InputComponent from '../../Components/Common/InputComponent';
 import LabelComponent from '../../Components/Common/LabelComponent';
 import TodoAccordion from '../../Components/TodoAccrodion';
 import axios from 'axios';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css'; // Import styles
+import {jwtDecode} from 'jwt-decode';
 
 export default function TODOList() {
 
     const now = new Date();
-
-    // Format the date as YYYY-MM-DD
     const optionsDate = { year: 'numeric', month: '2-digit', day: '2-digit', timeZone: 'Asia/Tokyo' };
     const currentDay = new Intl.DateTimeFormat('ja-JP', optionsDate).format(now).replace(/\//g, '-');
 
-    // Format the time as HH:mm:ss
     const optionsTime = { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false, timeZone: 'Asia/Tokyo' };
     const currentTime = new Intl.DateTimeFormat('ja-JP', optionsTime).format(now);
 
-    // Combine date and time
     const currentDateTime = `${currentDay} ${currentTime}`;
 
     //input tag color change function================
@@ -25,12 +24,10 @@ export default function TODOList() {
     const handleColorChange = (color) => {
         setTextColor(color);
     };
-    // const [textMessageColor, setTextMessageColor] = useState('black');
-    // // Handle button click
-    // const handleMessageColorChange = (color) => {
-    //     setTextMessageColor(color);
-    // };
-    // search selectbox================
+
+    const token = localStorage.getItem('token');
+    const decodedToken = jwtDecode(token);
+    const userId = decodedToken.userId;
 
     const [users, setUsers] = useState([]);
     const [query, setQuery] = useState('');
@@ -92,7 +89,6 @@ export default function TODOList() {
     };
 
     //==============post function=========
-    const userId = localStorage.getItem('userId');
     // const [messages, setMessages] = useState([]);
     const [reply, setReply] = useState({
         time: currentDateTime,
@@ -110,7 +106,12 @@ export default function TODOList() {
             [e.target.name]: e.target.value,
         });
     };
-
+    const handleContentsChange = (value) => {
+        setReply({
+            ...reply,
+            content: value,
+        });
+    }
     // file upload
     const [sendFile, setSendFile] = useState(null);
     const sendInputRef = useRef(null);
@@ -136,7 +137,6 @@ export default function TODOList() {
         }
   
         // console.log(`${wakabaBaseUrl}/customer/getCustomerList`);
-        const userId = localStorage.getItem('userId');
         axios.get(`${wakabaBaseUrl}/todomessages/${userId}`)
           .then(response => {
             console.log("all message",response.data)
@@ -209,7 +209,6 @@ export default function TODOList() {
 
     // Callback function to handle data from child
     const handleDataFromChildAccordion = (data1, data2, data3) => {
-        const userId = localStorage.getItem('userId');
         if (data3 === userId) {
             users.forEach(user => {
                 if (user.id === parseInt(data2)) {
@@ -363,7 +362,8 @@ export default function TODOList() {
                                 <div style={{ width: '85%' }}>
                                     {/* <InputComponent style={{ height: '40px',color:textColor}} className="w-full" name='post_content'/> */}
                                     <div className="space-y-3">
-                                        <textarea name='content' value={reply.content || ''} onChange={handleMessageChange} className="py-2 px-3 block w-full text-sm border border-[#70685a] outline-[#70685a] disabled:opacity-50  " rows="2" ></textarea>
+                                        {/* <textarea name='content' value={reply.content || ''} onChange={handleMessageChange} className="py-2 px-3 block w-full text-sm border border-[#70685a] outline-[#70685a] disabled:opacity-50  " rows="2" ></textarea> */}
+                                        <ReactQuill value={reply.content || ''} onChange={handleContentsChange} modules={TODOList.modules} formats={TODOList.formats} className='h-[70px]'/>
                                     </div>
 
                                 </div>
@@ -383,3 +383,28 @@ export default function TODOList() {
     )
 }
 
+// Define the modules for the editor
+TODOList.modules = {
+    toolbar: [
+      [{ header: '1' }, { header: '2' }, { font: [] }],
+      [{ list: 'ordered' }, { list: 'bullet' }],
+      ['bold', 'italic', 'underline', 'strike'], // Text decoration options
+      // ['link', 'image'],
+      ['clean'], // Remove formatting button
+    ],
+  };
+  
+  // Define the formats that you want to use in the editor
+  TODOList.formats = [
+    'header',
+    'font',
+    'size',
+    'bold',
+    'italic',
+    'underline',
+    'strike',
+    'list',
+    'bullet',
+    'link',
+  //   'image',
+  ];

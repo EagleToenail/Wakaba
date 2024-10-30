@@ -49,7 +49,7 @@ const LayoutWithMainContainer1 = () => {
          {showHeaderAndSidebar && <Navbar sendURL = {destinationURL}/>} 
          {showHeaderAndSidebar && <Toolbar />}
          <div className='layout-container'>
-            {showHeaderAndSidebar &&<div className='layout-sidebar' style={{width:`${sidebarWidth}px`}}><Sidebar /></div>} 
+            {showHeaderAndSidebar &&<div className='layout-sidebar' style={{width:`${sidebarWidth}px`}}><Sidebar initialState={true}/></div>} 
             <div className='layout-maincontainer'>
                 <MainContainer1>
                     <Outlet/>

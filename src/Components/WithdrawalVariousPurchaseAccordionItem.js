@@ -1,9 +1,13 @@
 
 import React, { useState, useEffect } from 'react';
+import {jwtDecode} from 'jwt-decode';
 
 const WithdrawalVariousPurchaseAccordionItem = ({ messageNumber,time, title, content, fileUrl, sender, receiver, children,complete,permission, onSendData, users,onSendData9,onSendData10 }) => {
   const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
-  const userId = localStorage.getItem('userId');
+  
+  const token = localStorage.getItem('token');
+  const decodedToken = jwtDecode(token);
+  const userId = decodedToken.userId;
 
   const [isOpen, setIsOpen] = useState(false);
   const [senderName, setSenderName] = useState('');
@@ -66,9 +70,10 @@ const handleSubmit2 = () => {
                   <label className="text-[#70685a] font-bold block text-center">ステー夕ス表示</label>
                 </div>
               </div>
-              <div className='text-[black] text-[18px] ml-5'>
+              {/* <div className='text-[black] text-[18px] ml-5'>
                 {title}
-              </div>
+              </div> */}
+              <div className="text-[black] text-[18px] ml-5" dangerouslySetInnerHTML={{ __html: title }} />
             </div>
           </div>
           <div className='new-post-receive-name flex justify-between ' style={{ width: '25%' }}>
@@ -144,9 +149,10 @@ const handleSubmit2 = () => {
                   </div>
                 </div>
                 <div className='w-full'>
-                  <label className="text-[black] ml-10 text-[20px] font-semibold block text-left w-full">
+                  {/* <label className="text-[black] ml-10 text-[20px] font-semibold block text-left w-full">
                     {content}
-                  </label>
+                  </label> */}
+                  <div className="w-full text-[black] pl-3 text-left" dangerouslySetInnerHTML={{ __html: content }} />
                     <div className="ml-10 w-full flex gap-10">
                         {!isEditing && 
                           <textarea

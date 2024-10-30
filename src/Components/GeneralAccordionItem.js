@@ -1,11 +1,13 @@
 
 import React, { useState, useEffect } from 'react';
 import axios from 'axios'; // or use fetch
+import {jwtDecode} from 'jwt-decode';
 
 const GeneralAccordionItem = ({ messageId, time, title, content, fileUrl, sender, receiver, children, parentMessageId, onSendData, users }) => {
 
-
-  const userId = localStorage.getItem('userId');
+  const token = localStorage.getItem('token');
+  const decodedToken = jwtDecode(token);
+  const userId = decodedToken.userId;
 
   const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
   const [isOpen, setIsOpen] = useState(false);

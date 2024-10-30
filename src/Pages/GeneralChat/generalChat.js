@@ -4,12 +4,18 @@ import InputComponent from '../../Components/Common/InputComponent';
 import LabelComponent from '../../Components/Common/LabelComponent';
 import GeneralAccordion from '../../Components/GeneralAccordion';
 import axios from 'axios';
+import {jwtDecode} from 'jwt-decode';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css'; // Import styles
 
 export default function GeneralChat() {
 
     const location = useLocation();
+
+    const token = localStorage.getItem('token');
+    const decodedToken = jwtDecode(token);
+    const userId = decodedToken.userId;
+    
     // Get the full URL
     const pathname = location.pathname; // Just the path
     const parts = pathname.split('/'); // Split the path by "/"
@@ -77,7 +83,6 @@ export default function GeneralChat() {
         setTextColor(color);
     };
     //==============post function=========
-    const userId = localStorage.getItem('userId');
     // const [messages, setMessages] = useState([]);
     const [reply, setReply] = useState({
         time: currentDateTime,
@@ -127,7 +132,6 @@ export default function GeneralChat() {
         }
   
         // console.log(`${wakabaBaseUrl}/customer/getCustomerList`);
-        const userId = localStorage.getItem('userId');
         const threadName = destinationURL;
         console.log('destinationURL',threadName);
         await axios.post(`${wakabaBaseUrl}/generalchat`,{threadName:threadName})
@@ -224,7 +228,6 @@ export default function GeneralChat() {
 
     // Callback function to handle data from child
     const handleDataFromChildAccordion = (data1, data2, data3) => {
-        const userId = localStorage.getItem('userId');
         setReply({ parentMessageId: data1, senderId: data2 ,time:currentDateTime})
         // console.log('Data received from child++++++++:', data1, data2, data3, userId);
     };
@@ -304,7 +307,7 @@ export default function GeneralChat() {
                                     {/* <InputComponent style={{ height: '40px',color:textColor}} className="w-full" name='post_content'/> */}
                                     <div className="space-y-3">
                                         {/* <textarea name='content' value={reply.content || ''} onChange={handleMessageChange} className="py-2 px-3 block w-full text-sm border border-[#70685a] outline-[#70685a] disabled:opacity-50  " rows="2" ></textarea> */}
-                                        <ReactQuill value={reply.content || ''} onChange={handleContentsChange} modules={GeneralChat.modules} formats={GeneralChat.formats}/>
+                                        <ReactQuill value={reply.content || ''} onChange={handleContentsChange} modules={GeneralChat.modules} formats={GeneralChat.formats} className='h-[70px]'/>
                                         {/* <CustomQuill ref={quillRef} value={reply.content} onChange={handleContentsChange} modules={GeneralChat.modules} formats={GeneralChat.formats} /> */}
                                     </div>
 

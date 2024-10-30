@@ -3,11 +3,14 @@ import InputComponent from '../../Components/Common/InputComponent';
 import LabelComponent from '../../Components/Common/LabelComponent';
 import WithdrawVariousPurchaseApprovalAccordion from '../../Components/WithdrawVariousPurchaseApprovalAccordion';
 import axios from 'axios';
+import {jwtDecode} from 'jwt-decode';
 
 export default function WithdrawVariousPurchaseApproval() {
 
-    const userStoreName = localStorage.getItem('storename');
-    const userId = localStorage.getItem('userId');
+    const token = localStorage.getItem('token');
+    const decodedToken = jwtDecode(token);
+    const userId = decodedToken.userId;
+    const userStoreName = decodedToken.storename;
 
     const now = new Date();
 

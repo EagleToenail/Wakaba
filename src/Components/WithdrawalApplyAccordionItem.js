@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import axios from 'axios'; // or use fetch
+// import axios from 'axios'; // or use fetch
 
 const WithdrawalApplyAccordionItem = ({ time, title, content, fileUrl, sender, receiver, children, parentMessageId, onSendData, users }) => {
   const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;

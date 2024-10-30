@@ -5,6 +5,9 @@ import LabelComponent from '../../Components/Common/LabelComponent';
 import WithdrawalVariousPurchaseAccordion from '../../Components/WithdrawalVariousPurchaseAccordion';
 import axios from 'axios';
 import {useSelector } from 'react-redux';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css'; // Import styles
+import {jwtDecode} from 'jwt-decode';
 
 export default function WithdrawVariousPurchase() {
 
@@ -16,8 +19,10 @@ export default function WithdrawVariousPurchase() {
     const totalData = data.data;//invoiceID
     console.log('totalData',totalData)
 
-    const userStoreName = localStorage.getItem('storename');
-    const userId = localStorage.getItem('userId');
+    const token = localStorage.getItem('token');
+    const decodedToken = jwtDecode(token);
+    const userId = decodedToken.userId;
+    const userStoreName = decodedToken.storename;
 
     const now = new Date();
 
@@ -122,7 +127,12 @@ export default function WithdrawVariousPurchase() {
             [e.target.name]: e.target.value,
         });
     };
-
+    const handleContentsChange = (value) => {
+        setReply({
+            ...reply,
+            content: value,
+        });
+    };
     // file upload
     const [sendFile, setSendFile] = useState(null);
     const sendInputRef = useRef(null);
@@ -223,6 +233,7 @@ export default function WithdrawVariousPurchase() {
     // send message and file to other user 
     const sendWithdrawalVariousPurchaseMessage = async () => {
         if ( reply.title !== '' && reply.content !== '') {
+            const htmlContent = `<span style="color:${textColor}">${reply.title}</span>`;
             const formData = new FormData();
             if(messages?.length>0) {
                 if(reply.parentMessageId !== '' && messages[0].permission === '1') {
@@ -237,7 +248,7 @@ export default function WithdrawVariousPurchase() {
             formData.append('invoice_id', totalData);
             formData.append('store_name', userStoreName);
             formData.append('time', reply.time);
-            formData.append('title', reply.title);
+            formData.append('title', htmlContent);
             formData.append('content', reply.content);
             formData.append('senderId', userId);
             formData.append('receiverId', reply.receiverId);
@@ -560,7 +571,7 @@ export default function WithdrawVariousPurchase() {
                         <div style={{ width: '90%', height: '50px' }} className='text-center'>
                             {/* firstline */}
                             <div className='withdrawal-various-purchase w-full flex justify-between'>
-                                <div style={{ position: 'relative'}} className='mt-3 w-[250px]' ref={dropdownRef}>
+                                <div style={{ position: 'relative'}} className='mt-1 w-[250px]' ref={dropdownRef}>
                                     <input
                                         type="text"
                                         placeholder=""
@@ -645,7 +656,8 @@ export default function WithdrawVariousPurchase() {
                                 <div style={{ width: '85%' }}>
                                     {/* <InputComponent style={{ height: '40px',color:textColor}} className="w-full" name='post_content'/> */}
                                     <div className="space-y-3">
-                                        <textarea name='content' value={reply.content || ''} onChange={handleMessageChange} className="py-2 px-3 block w-full text-sm border border-[#70685a] outline-[#70685a] disabled:opacity-50  " rows="2" ></textarea>
+                                        {/* <textarea name='content' value={reply.content || ''} onChange={handleMessageChange} className="py-2 px-3 block w-full text-sm border border-[#70685a] outline-[#70685a] disabled:opacity-50  " rows="2" ></textarea> */}
+                                        <ReactQuill value={reply.content || ''} onChange={handleContentsChange} modules={WithdrawVariousPurchase.modules} formats={WithdrawVariousPurchase.formats} className='h-[70px]'/>
                                     </div>
 
                                 </div>
@@ -666,3 +678,28 @@ export default function WithdrawVariousPurchase() {
 }
 
 
+// Define the modules for the editor
+WithdrawVariousPurchase.modules = {
+    toolbar: [
+      [{ header: '1' }, { header: '2' }, { font: [] }],
+      [{ list: 'ordered' }, { list: 'bullet' }],
+      ['bold', 'italic', 'underline', 'strike'], // Text decoration options
+      // ['link', 'image'],
+      ['clean'], // Remove formatting button
+    ],
+  };
+  
+  // Define the formats that you want to use in the editor
+  WithdrawVariousPurchase.formats = [
+    'header',
+    'font',
+    'size',
+    'bold',
+    'italic',
+    'underline',
+    'strike',
+    'list',
+    'bullet',
+    'link',
+  //   'image',
+  ];

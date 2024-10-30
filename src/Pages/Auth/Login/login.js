@@ -40,6 +40,7 @@ const Login = () => {
             console.log(response.data);
             // store jwt token on localStorage
             localStorage.setItem('token', response.data.payload.token);
+            
             localStorage.setItem('userId', response.data.payload.userId);
             localStorage.setItem('username', response.data.payload.username);
             localStorage.setItem('storename', response.data.payload.storename);
@@ -51,12 +52,9 @@ const Login = () => {
                 me: payload.ID,
                 })
             );
-            const cache = JSON.parse(localStorage.getItem('cache'));
-            const token = localStorage.getItem('token');
-            const userId = localStorage.getItem('userId');
 
             if(response.data.success) {
-                window.location.href="/logintimecard"
+                navigate("/logintimecard");
             }; 
 
         } catch (error) {

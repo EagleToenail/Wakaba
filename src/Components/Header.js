@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import {jwtDecode} from 'jwt-decode';
 export default function Header() {
 
   const [isOpen, setIsOpen] = useState(false);
@@ -76,6 +77,10 @@ export default function Header() {
 
   const [userData, setUserData] = useState([]);
   const userId = localStorage.getItem('userId');
+
+  const token = localStorage.getItem('token');
+  const decodedToken = jwtDecode(token);
+  // console.log('token-----------------',token,decodedToken.username)
   
   useEffect(() => {
     if (!userId) {
@@ -228,9 +233,21 @@ setTimeout(getPreciousMetalData, timeUntilOneMinuteBeforeMidnight);
       document.body.style.transformOrigin = '0 0'; // Set the origin for scaling
   };
 
-  const handleResetZoom = () => {
-      setZoomLevel(1);
-      document.body.style.transform = 'scale(1)'; // Reset to normal zoom
+  // const handleResetZoom = () => {
+  //     setZoomLevel(1);
+  //     document.body.style.transform = 'scale(1)'; // Reset to normal zoom
+  // };
+
+  const handleRefresh = () => {
+    window.location.reload();
+  };
+
+  const handleGoBack = () => {
+    navigate(-1); // Go back to the previous page
+  };
+
+  const handleGoForward = () => {
+    navigate(1); // Go forward to the next page
   };
 
   return (
@@ -267,20 +284,20 @@ setTimeout(getPreciousMetalData, timeUntilOneMinuteBeforeMidnight);
                     className="px-5  text-[#655b4a] text-sm tracking-wider font-medium outline-none bg-white hover:bg-[#222] active:bg-[#333]">印刷</button>
                 </Link>
               </li>
-              <li className='max-lg:border-b border-gray-300 max-lg:py-3 px-3'><Link
-                className='text-[#655b4a] block font-semibold text-[15px] w-5'>
-                <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-p79yt4" fill="#655b4a" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="ReplayIcon" title="Replay"><path d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8"></path></svg>
-              </Link>
+              <li className='max-lg:border-b border-gray-300 max-lg:py-3 px-3'>
+                <div onClick={handleRefresh} className='text-[#655b4a] block font-semibold text-[15px] w-5'>
+                  <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-p79yt4" fill="#655b4a" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="ReplayIcon" title="Replay"><path d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8"></path></svg>
+                </div>
               </li>
-              <li className='max-lg:border-b border-gray-300  max-lg:py-3 px-3'><Link
-                className='text-[#655b4a] text-gray-500 block font-semibold text-[15px] w-5'>
-                <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-p79yt4" fill="#655b4a" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="KeyboardArrowLeftIcon" title="KeyboardArrowLeft"><path d="M15.41 16.59 10.83 12l4.58-4.59L14 6l-6 6 6 6z"></path></svg>
-              </Link>
+              <li className='max-lg:border-b border-gray-300  max-lg:py-3 px-3'>
+                <div onClick={handleGoBack} className='text-[#655b4a] text-gray-500 block font-semibold text-[15px] w-5'>
+                  <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-p79yt4" fill="#655b4a" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="KeyboardArrowLeftIcon" title="KeyboardArrowLeft"><path d="M15.41 16.59 10.83 12l4.58-4.59L14 6l-6 6 6 6z"></path></svg>
+                </div>
               </li>
-              <li className='max-lg:border-b border-gray-300  max-lg:py-3 px-3'><Link
-                className='text-[#655b4a] text-gray-500 block font-semibold text-[15px] w-5'>
-                <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-p79yt4" fill="#655b4a" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="KeyboardArrowRightIcon" title="KeyboardArrowRight"><path d="M8.59 16.59 13.17 12 8.59 7.41 10 6l6 6-6 6z"></path></svg>
-              </Link>
+              <li className='max-lg:border-b border-gray-300  max-lg:py-3 px-3'>
+                <div onClick={handleGoForward} className='text-[#655b4a] text-gray-500 block font-semibold text-[15px] w-5'>
+                  <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-p79yt4" fill="#655b4a" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="KeyboardArrowRightIcon" title="KeyboardArrowRight"><path d="M8.59 16.59 13.17 12 8.59 7.41 10 6l6 6-6 6z"></path></svg>
+                </div>
               </li>
               <li className='max-lg:border-b border-gray-300 max-lg:py-3 px-3'>
                 {/* <Link

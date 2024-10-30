@@ -1,9 +1,13 @@
 
 import React, { useState, useEffect } from 'react';
 import axios from 'axios'; // or use fetch
+import {jwtDecode} from 'jwt-decode';
 
 const WithdrawalBankATMAccordionItem = ({ messageId, time, title, content, fileUrl, sender, receiver, children, parentMessageId,complete,permission, onSendData, onSendData1,onSendData2, users}) => {
-  const role = localStorage.getItem('role');
+  const token = localStorage.getItem('token');
+  const decodedToken = jwtDecode(token);
+  const role = decodedToken.role;
+  
   const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
   const [isOpen, setIsOpen] = useState(false);
 

@@ -4,6 +4,7 @@ import axios from 'axios';
 import * as bi from 'react-icons/bi';
 import '../../Assets/css/chat.css';
 import Chat from './router/chat';
+import {jwtDecode} from 'jwt-decode';
 
 import { setMaster, setSetting } from '../../redux/features/user';
 import socket from '../../helpers/socket';
@@ -26,14 +27,15 @@ function MainChatPage() {
       
         axios.defaults.headers.Authorization = `Bearer ${token}`;
         // get account setting
-        const userId = localStorage.getItem('userId');
+        const decodedToken = jwtDecode(token);
+        const userId = decodedToken.userId;
        
         const setting = await getSetting({ signal });
         if (setting) {
           dispatch(setSetting(setting));
           const { data } = await axios.post('/users', { userId });
-          console.log("===================")
-          console.log(data.payload)
+          // console.log("===================")
+          // console.log(data.payload)
           // set master
           dispatch(setMaster(data.payload));
 
@@ -49,7 +51,7 @@ function MainChatPage() {
   };
 
   const { setting } = useSelector((state) => state.user);
-  console.log('setting1',setting);
+
   useEffect(() => {
     const abortCtrl = new AbortController();
     // set default base url

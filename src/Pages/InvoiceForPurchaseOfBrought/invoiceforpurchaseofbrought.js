@@ -9,7 +9,7 @@ import ButtonComponent from '../../Components/Common/ButtonComponent';
 import DateAndTime from '../../Components/Common/PickData';
 import { toast } from 'react-toastify';
 import axios from 'axios';
-
+import {jwtDecode} from 'jwt-decode';
 import { useDispatch, useSelector } from 'react-redux';
 import { setInvoiceData } from '../../redux/sales/actions';
 import { setClearData } from '../../redux/sales/actions';
@@ -87,10 +87,11 @@ const InvoicePurchaseOfBrought = () => {
         position: 'relative'
     };
 
-    const userStoreName = localStorage.getItem('storename');
-    const userId = localStorage.getItem('userId');
-    const username = localStorage.getItem('fullname');
-    // const role = localStorage.getItem('role')
+    const token = localStorage.getItem('token');
+    const decodedToken = jwtDecode(token);
+    const userStoreName = decodedToken.storename;
+    const userId = decodedToken.userId;
+    const username = decodedToken.fullname;
 
     const [users, setUsers] = useState([]);
     // Fetch user data

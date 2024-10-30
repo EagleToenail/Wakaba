@@ -1,22 +1,21 @@
-
 import React, { useState, useEffect, useRef } from 'react'
 import InputComponent from '../../Components/Common/InputComponent';
 import LabelComponent from '../../Components/Common/LabelComponent';
 import WithdrawalApplyAccordion from '../../Components/WithdrawalApplyAccordion';
 import axios from 'axios';
+import {jwtDecode} from 'jwt-decode';
 
 export default function TODOList() {
-    const now = new Date();
 
-    // Format the date as YYYY-MM-DD
+    const token = localStorage.getItem('token');
+    const decodedToken = jwtDecode(token);
+    const userId = decodedToken.userId;
+    
+    const now = new Date();
     const optionsDate = { year: 'numeric', month: '2-digit', day: '2-digit', timeZone: 'Asia/Tokyo' };
     const currentDay = new Intl.DateTimeFormat('ja-JP', optionsDate).format(now).replace(/\//g, '-');
-
-    // Format the time as HH:mm:ss
     const optionsTime = { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false, timeZone: 'Asia/Tokyo' };
     const currentTime = new Intl.DateTimeFormat('ja-JP', optionsTime).format(now);
-
-    // Combine date and time
     const currentDateTime = `${currentDay} ${currentTime}`;
 
     //input tag color change function================
@@ -89,8 +88,6 @@ export default function TODOList() {
     };
 
     //==============post function=========
-    const userId = localStorage.getItem('userId');
-    // const [messages, setMessages] = useState([]);
     const [reply, setReply] = useState({
         time: currentDateTime,
         title: '',
@@ -132,9 +129,6 @@ export default function TODOList() {
         if (!wakabaBaseUrl) {
           throw new Error('API base URL is not defined');
         }
-  
-        // console.log(`${wakabaBaseUrl}/customer/getCustomerList`);
-        const userId = localStorage.getItem('userId');
         axios.get(`${wakabaBaseUrl}/withdrawalapplymessages/${userId}`)
           .then(response => {
             // console.log("all message",response.data)
@@ -205,7 +199,6 @@ export default function TODOList() {
 
     // Callback function to handle data from child
     const handleDataFromChildAccordion = (data1, data2, data3) => {
-        const userId = localStorage.getItem('userId');
         if (data3 === userId) {
             users.forEach(user => {
                 if (user.id === parseInt(data2)) {
