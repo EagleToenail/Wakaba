@@ -34,24 +34,23 @@ const Login = () => {
             if (!wakabaBaseUrl) {
                 throw new Error('API base URL is not defined');
             }
-            console.log(`${wakabaBaseUrl}/auth/login`);
             const response = await axios.post(`${wakabaBaseUrl}/auth/login`, payload);
             
-            console.log(response.data);
+            // console.log(response.data);
             // store jwt token on localStorage
             localStorage.setItem('token', response.data.payload.token);
             
-            localStorage.setItem('userId', response.data.payload.userId);
-            localStorage.setItem('username', response.data.payload.username);
-            localStorage.setItem('storename', response.data.payload.storename);
-            localStorage.setItem('role', response.data.payload.role);
-            localStorage.setItem('fullname',response.data.payload.fullname);
-            localStorage.setItem(
-                'cache',
-                JSON.stringify({
-                me: payload.ID,
-                })
-            );
+            // localStorage.setItem('userId', response.data.payload.userId);
+            // localStorage.setItem('username', response.data.payload.username);
+            // localStorage.setItem('storename', response.data.payload.storename);
+            // localStorage.setItem('role', response.data.payload.role);
+            // localStorage.setItem('fullname',response.data.payload.fullname);
+            // localStorage.setItem(
+            //     'cache',
+            //     JSON.stringify({
+            //     me: payload.ID,
+            //     })
+            // );
 
             if(response.data.success) {
                 navigate("/logintimecard");

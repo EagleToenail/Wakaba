@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { Link,useNavigate } from 'react-router-dom'
+import {useNavigate } from 'react-router-dom'
 import axios from 'axios';
-
+import {jwtDecode} from 'jwt-decode';
 
 export default function TabContent1() {
     const navigate = useNavigate(); // Use useNavigate instead of useHistory
-    const userStoreName = localStorage.getItem('storename');
+
+    const token = localStorage.getItem('token');
+    const decodedToken = jwtDecode(token);
+    const userId = decodedToken.userId;
+    const userStoreName = decodedToken.storename;
 
     useEffect(() => {
 
@@ -45,7 +49,6 @@ export default function TabContent1() {
             throw new Error('API base URL is not defined');
         }
 
-        const userId = localStorage.getItem('userId');
         await axios.post(`${wakabaBaseUrl}/generalchat/alerts`, { userId: userId })
             .then(response => {
                 const threadName = response.data;
@@ -91,8 +94,6 @@ export default function TabContent1() {
             throw new Error('API base URL is not defined');
         }
 
-        const userId = localStorage.getItem('userId');
-        const userStoreName = localStorage.getItem('storename');
         await axios.post(`${wakabaBaseUrl}/storechat/alerts`, { userId: userId, storeName: userStoreName })
             .then(response => {
                 const threadName = response.data;
@@ -125,8 +126,6 @@ export default function TabContent1() {
             throw new Error('API base URL is not defined');
         }
 
-        const userId = localStorage.getItem('userId');
-        const userStoreName = localStorage.getItem('storename');
         await axios.post(`${wakabaBaseUrl}/todochat/alerts`, { userId: userId })
             .then(response => {
                 const unreadCount = response.data;
@@ -145,8 +144,6 @@ export default function TabContent1() {
             throw new Error('API base URL is not defined');
         }
 
-        const userId = localStorage.getItem('userId');
-        const userStoreName = localStorage.getItem('storename');
         await axios.post(`${wakabaBaseUrl}/withdrawvariouspurchaseapproval/alerts`, { userId: userId })
             .then(response => {
                 const unreadCount = response.data;
@@ -165,8 +162,6 @@ export default function TabContent1() {
             throw new Error('API base URL is not defined');
         }
 
-        const userId = localStorage.getItem('userId');
-        const userStoreName = localStorage.getItem('storename');
         await axios.post(`${wakabaBaseUrl}/withdrawbankatmmessage/alerts`, { userId: userId })
             .then(response => {
                 const unreadCount = response.data;
@@ -185,8 +180,6 @@ export default function TabContent1() {
             throw new Error('API base URL is not defined');
         }
 
-        const userId = localStorage.getItem('userId');
-        const userStoreName = localStorage.getItem('storename');
         await axios.post(`${wakabaBaseUrl}/onsitepurchasemessages/alerts`, { userId: userId })
             .then(response => {
                 const unreadCount = response.data;

@@ -76,10 +76,10 @@ export default function Header() {
   const formattedTime = formatTime(dateTime);
 
   const [userData, setUserData] = useState([]);
-  const userId = localStorage.getItem('userId');
 
   const token = localStorage.getItem('token');
   const decodedToken = jwtDecode(token);
+  const userId = decodedToken.userId;
   // console.log('token-----------------',token,decodedToken.username)
   
   useEffect(() => {

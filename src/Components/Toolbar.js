@@ -1,12 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import {jwtDecode} from 'jwt-decode';
+
 export default function Toolbar() {
 
   const [isOpen, setIsOpen] = useState(false);
   const [inquiryphoneCount, setInquiryPhoneCount] = useState(0); // initial count is 0
   const [inquiryvisitCount, setInquiryVisitCount] = useState(0); // initial count is 0
-  const userId = localStorage.getItem('userId');
+
+  const token = localStorage.getItem('token');
+  const decodedToken = jwtDecode(token);
+  const userId = decodedToken.userId;
+
   const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
   useEffect(() => {
     handleReadInquiry(); // call the function when the component mounts

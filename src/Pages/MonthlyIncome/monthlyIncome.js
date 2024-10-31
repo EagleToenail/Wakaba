@@ -4,11 +4,16 @@ import {Link ,useNavigate} from 'react-router-dom';
 import '../../Assets/css/showtable.css';
 import dateimage from '../../Assets/img/datepicker.png';
 import InputComponent from '../../Components/Common/InputComponent';
-
+import {jwtDecode} from 'jwt-decode';
 import axios from 'axios';
 
 const MonthlyIncome = () => {
     // const title = 'タイトルタイトル';
+
+    const token = localStorage.getItem('token');
+    const decodedToken = jwtDecode(token);
+    const userId = decodedToken.userId;
+
     const navigate = useNavigate(); // Use useNavigate instead of useHistory
     const Table = {
         borderCollapse: 'collapse',
@@ -121,7 +126,6 @@ const MonthlyIncome = () => {
     };
 
     const [userData, setUserData] = useState([]);
-    const userId = localStorage.getItem('userId');
     if (!userId) {
       navigate('/');
     }

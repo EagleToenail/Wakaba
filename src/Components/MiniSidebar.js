@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom'
 import '../Assets/css/scrollbar.css';
 import axios from 'axios';
-
+import {jwtDecode} from 'jwt-decode';
 // const Tooltip = ({ text, children }) => {
 //      return (
 //           <div className="relative inline-block group z-[100]">
@@ -16,6 +16,12 @@ import axios from 'axios';
 
 export default function MiniSidebar() {
      const navigate = useNavigate(); // Use useNavigate instead of useHistory
+
+     const token = localStorage.getItem('token');
+     const decodedToken = jwtDecode(token);
+     const userId = decodedToken.userId;
+     const userStoreName = decodedToken.storename;
+
      useEffect(() => {
 
           fetchGeneralChatAlerts();
@@ -52,7 +58,6 @@ export default function MiniSidebar() {
                throw new Error('API base URL is not defined');
           }
 
-          const userId = localStorage.getItem('userId');
           await axios.post(`${wakabaBaseUrl}/generalchat/alerts`, { userId: userId })
                .then(response => {
                     const threadName = response.data;
@@ -99,8 +104,6 @@ export default function MiniSidebar() {
                throw new Error('API base URL is not defined');
           }
 
-          const userId = localStorage.getItem('userId');
-          const userStoreName = localStorage.getItem('storename');
           await axios.post(`${wakabaBaseUrl}/storechat/alerts`, { userId: userId, storeName: userStoreName })
                .then(response => {
                     const threadName = response.data;
@@ -132,7 +135,6 @@ export default function MiniSidebar() {
                throw new Error('API base URL is not defined');
           }
 
-          const userId = localStorage.getItem('userId');
           await axios.post(`${wakabaBaseUrl}/withdrawvariouspurchaseapproval/alerts`, { userId: userId })
                .then(response => {
                     const unreadCount = response.data;
@@ -151,7 +153,6 @@ export default function MiniSidebar() {
                throw new Error('API base URL is not defined');
           }
 
-          const userId = localStorage.getItem('userId');
           await axios.post(`${wakabaBaseUrl}/withdrawbankatmmessage/alerts`, { userId: userId })
                .then(response => {
                     const unreadCount = response.data;
@@ -170,7 +171,6 @@ export default function MiniSidebar() {
                throw new Error('API base URL is not defined');
           }
 
-          const userId = localStorage.getItem('userId');
           await axios.post(`${wakabaBaseUrl}/onsitepurchasemessages/alerts`, { userId: userId })
                .then(response => {
                     const unreadCount = response.data;
