@@ -1605,7 +1605,7 @@ const InvoicePurchaseOfBroughtBlankDetail = () => {
                                     <div className=" h-full">
                                         {/* Text area */}
                                         <div className='w-full'>
-                                            <label className="text-[#70685a] text-[20px] font-bold mb-2 block text-left mr-10 py-1 !mb-0">全体ヒアリング</label>
+                                            <label className="text-[#70685a] text-[20px] font-bold mb-2 block text-left mr-10 py-1 !mb-0">アンケート</label>
                                         </div>
                                         <div className="w-full h-[300px]">
                                             <div>
@@ -1821,8 +1821,8 @@ const InvoicePurchaseOfBroughtBlankDetail = () => {
                                 {isDetailShow ? <th style={Th} >金種</th> : <th style={{ display: 'none' }}></th>}
                                 {isDetailShow ? <th style={Th} >総重量</th> : <th style={{ display: 'none' }}></th>}
                                 {isDetailShow ? <th style={Th} >g/額面</th> : <th style={{ display: 'none' }}></th>}
-                                {isDetailShow ? <th style={Th} >シリアル</th> : <th style={{ display: 'none' }}></th>}
                                 {isDetailShow ? <th style={Th} >型番 </th> : <th style={{ display: 'none' }}></th>}
+                                {isDetailShow ? <th style={Th} >シリアル</th> : <th style={{ display: 'none' }}></th>}
                                 {isDetailShow ? <th style={Th} >駆動方式</th> : <th style={{ display: 'none' }}></th>}
                                 {isDetailShow ? <th style={Th} >可動 </th> : <th style={{ display: 'none' }}></th>}
                                 {isDetailShow ? <th style={Th} >テスター</th> : <th style={{ display: 'none' }}></th>}
@@ -1950,15 +1950,15 @@ const InvoicePurchaseOfBroughtBlankDetail = () => {
                                                 </td> : <td style={Td}></td>
                                                 : <td style={{ display: 'none' }}></td>}
                                             {isDetailShow ? (salesSlipData.product_type_one === '時計' || salesSlipData.product_type_one === 'バッグ'
-                                                || salesSlipData.product_type_one === '財布' || salesSlipData.product_type_one === 'カメラ' || salesSlipData.product_type_one === '楽器' || salesSlipData.product_type_one === 'スマホタブレット') ?
-                                                <td style={Td}>
-                                                    <InputComponent name='serial_number' type='text' onChange={handleChange} value={salesSlipData.serial_number || ''} className='w-20 h-8 text-[#70685a]' />
-                                                </td> : <td style={Td}></td>
-                                                : <td style={{ display: 'none' }}></td>}
-                                            {isDetailShow ? (salesSlipData.product_type_one === '時計' || salesSlipData.product_type_one === 'バッグ'
                                                 || salesSlipData.product_type_one === '財布' || salesSlipData.product_type_one === 'アクセサリー' || salesSlipData.product_type_one === 'カメラ') ?
                                                 <td style={Td}>
                                                     <InputComponent name='model_number_one' type='text' onChange={handleChange} value={salesSlipData.model_number_one || ''} className='w-20 h-8 text-[#70685a]' />
+                                                </td> : <td style={Td}></td>
+                                                : <td style={{ display: 'none' }}></td>}
+                                            {isDetailShow ? (salesSlipData.product_type_one === '時計' || salesSlipData.product_type_one === 'バッグ'
+                                                || salesSlipData.product_type_one === '財布' || salesSlipData.product_type_one === 'カメラ' || salesSlipData.product_type_one === '楽器' || salesSlipData.product_type_one === 'スマホタブレット') ?
+                                                <td style={Td}>
+                                                    <InputComponent name='serial_number' type='text' onChange={handleChange} value={salesSlipData.serial_number || ''} className='w-20 h-8 text-[#70685a]' />
                                                 </td> : <td style={Td}></td>
                                                 : <td style={{ display: 'none' }}></td>}
                                             {isDetailShow ? salesSlipData.product_type_one === '時計' ?

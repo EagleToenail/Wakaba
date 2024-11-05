@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import {jwtDecode} from 'jwt-decode';
+// import {jwtDecode} from 'jwt-decode';
 export default function Header() {
 
   const [isOpen, setIsOpen] = useState(false);
@@ -77,9 +77,10 @@ export default function Header() {
 
   const [userData, setUserData] = useState([]);
 
-  const token = localStorage.getItem('token');
-  const decodedToken = jwtDecode(token);
-  const userId = decodedToken.userId;
+  // const token = localStorage.getItem('token');
+  // const decodedToken = jwtDecode(token);
+  // const userId = decodedToken.userId;
+  const userId = localStorage.getItem('userId');
   // console.log('token-----------------',token,decodedToken.username)
   
   useEffect(() => {

@@ -93,7 +93,7 @@ const PreciousMetalsPrices = () => {
                                     <tbody>
 
                                         {data?.length>0 && desiredKeys.map((item,Index) => (
-                                            <tr key={item}>
+                                            <tr key={Index}>
                                                 <td style={Td}>{item}</td>
                                                 {data.map((content,index) => (
                                                     <td style={index === 0 ? Td_today : Td}>{data[index][item]}</td>

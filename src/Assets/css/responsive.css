@@ -345,6 +345,21 @@
         justify-content: center;
     }
   }
+  @media screen and (max-width: 1300px) {
+    .purchase-confirm-width-one {
+        width: 30% !important;
+    }
+    .purchase-confirm-width-two {
+        width: 70% !important;
+    }
+    .sign-part {
+      display: block !important;
+    }
+    .sign-width-one {
+      width: 100% !important;
+    }
+  }
+  
   /* //------------------------------------------admin----------------------------------------------- */
   @media screen and (max-width: 1040px) {
     .owner-top {

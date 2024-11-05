@@ -1121,8 +1121,8 @@ const SalesSlip = () => {
                                             {isDetailShow ? <th style={Th} rowSpan={2}>金種</th> : <th style={{ display: 'none' }}></th>}
                                             {isDetailShow ? <th style={Th} rowSpan={2}>総重量</th> : <th style={{ display: 'none' }}></th>}
                                             {isDetailShow ? <th style={Th} rowSpan={2}>g/額面</th> : <th style={{ display: 'none' }}></th>}
-                                            {isDetailShow ? <th style={Th} rowSpan={2}>シリアル</th> : <th style={{ display: 'none' }}></th>}
                                             {isDetailShow ? <th style={Th} rowSpan={2}>型番 </th> : <th style={{ display: 'none' }}></th>}
+                                            {isDetailShow ? <th style={Th} rowSpan={2}>シリアル</th> : <th style={{ display: 'none' }}></th>}
                                             {isDetailShow ? <th style={Th} rowSpan={2}>駆動方式</th> : <th style={{ display: 'none' }}></th>}
                                             {isDetailShow ? <th style={Th} rowSpan={2}>可動 </th> : <th style={{ display: 'none' }}></th>}
                                             {isDetailShow ? <th style={Th} rowSpan={2}>テスター</th> : <th style={{ display: 'none' }}></th>}
@@ -1311,8 +1311,8 @@ const SalesSlip = () => {
                                                 {isDetailShow ? <td style={Td} >{sale.gold_type || ''}</td> : <td style={{ display: 'none' }}></td>}
                                                 {isDetailShow ? <td style={Td} >{sale.gross_weight || ''}</td> : <td style={{ display: 'none' }}></td>}
                                                 {isDetailShow ? <td style={Td} >{sale.price_gram || ''}</td> : <td style={{ display: 'none' }}></td>}
-                                                {isDetailShow ? <td style={Td} >{sale.serial_number || ''}</td> : <td style={{ display: 'none' }}></td>}
                                                 {isDetailShow ? <td style={Td} >{sale.model_number_one || ''}</td> : <td style={{ display: 'none' }}></td>}
+                                                {isDetailShow ? <td style={Td} >{sale.serial_number || ''}</td> : <td style={{ display: 'none' }}></td>}
                                                 {isDetailShow ? <td style={Td} >{sale.action_type || ''}</td> : <td style={{ display: 'none' }}></td>}
                                                 {isDetailShow ? <td style={Td} >{sale.movable || ''}</td> : <td style={{ display: 'none' }}></td>}
                                                 {isDetailShow ? <td style={Td} >{sale.tester || ''}</td> : <td style={{ display: 'none' }}></td>}

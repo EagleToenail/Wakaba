@@ -1034,34 +1034,55 @@ const VendorAssementSheet = () => {
                                                     </div>
                                                 </div>
                                             </th> */}
-                                            <th style={Th} rowSpan={2}>カテゴリ2</th>
-                                            <th style={Th} rowSpan={2}>カテゴリ3</th>
-                                            <th style={Th} rowSpan={2}>カテゴリ4</th>
-                                            <th style={Th} rowSpan={2} >画像</th>
-                                            <th rowSpan={2} style={Th} className='px-1'>わかばNo</th>
-                                            <th style={Th} rowSpan={2} >
+                                            <th style={Th} rowSpan={2}> 
                                                 <div className='flex justify-center'>
-                                                    商品名
+                                                    カテゴリ2
                                                     <div className='flex flex-col justify-center'>
                                                         {isDetailShow ? <button><img src={rightArrow} className='h-4' alt='' onClick={openItemDetailShow} ></img></button> : <button><img src={leftArrow} className='h-4' alt='' onClick={openItemDetailShow}></img></button>}
                                                     </div>
                                                 </div>
                                             </th>
-                                            {isDetailShow ? <th style={Th} rowSpan={2}>金種</th> : <th style={{ display: 'none' }}></th>}
-                                            {isDetailShow ? <th style={Th} rowSpan={2}>総重量</th> : <th style={{ display: 'none' }}></th>}
-                                            {isDetailShow ? <th style={Th} rowSpan={2}>g/額面</th> : <th style={{ display: 'none' }}></th>}
-                                            {isDetailShow ? <th style={Th} rowSpan={2}>シリアル</th> : <th style={{ display: 'none' }}></th>}
-                                            {isDetailShow ? <th style={Th} rowSpan={2}>型番 </th> : <th style={{ display: 'none' }}></th>}
-                                            {isDetailShow ? <th style={Th} rowSpan={2}>駆動方式</th> : <th style={{ display: 'none' }}></th>}
-                                            {isDetailShow ? <th style={Th} rowSpan={2}>可動 </th> : <th style={{ display: 'none' }}></th>}
-                                            {isDetailShow ? <th style={Th} rowSpan={2}>テスター</th> : <th style={{ display: 'none' }}></th>}
-                                            {isDetailShow ? <th style={Th} rowSpan={2}>箱ギャラ</th> : <th style={{ display: 'none' }}></th>}
-                                            {isDetailShow ? <th style={Th} rowSpan={2}>ランク</th> : <th style={{ display: 'none' }}></th>}
-                                            {isDetailShow ? <th style={Th} rowSpan={2}>銘柄</th> : <th style={{ display: 'none' }}></th>}
-                                            {isDetailShow ? <th style={Th} rowSpan={2}>容量</th> : <th style={{ display: 'none' }}></th>}
-                                            {isDetailShow ? <th style={Th} rowSpan={2}>度数</th> : <th style={{ display: 'none' }}></th>}
-                                            {isDetailShow ? <th style={Th} rowSpan={2}>備考</th> : <th style={{ display: 'none' }}></th>}
-                                            <th style={Th} rowSpan={2} ><span className='!px-1'>個数</span></th>
+                                            {isDetailShow ? 
+                                                <th style={Th} rowSpan={2}>カテゴリ3</th> : <th style={{ display: 'none' }}></th>}
+                                            {isDetailShow ? 
+                                                <th style={Th} rowSpan={2}>カテゴリ4</th> : <th style={{ display: 'none' }}></th>}
+                                            <th style={Th} rowSpan={2} >画像</th>
+                                            <th rowSpan={2} style={Th} className='px-1'>わかばNo</th>
+                                            <th style={Th} rowSpan={2} >
+                                                <div className='flex justify-center'>
+                                                    商品名
+                                                </div>
+                                            </th>
+                                            {category1 === '貴金属' ? 
+                                                <th style={Th} rowSpan={2}>金種</th> : <th style={{ display: 'none' }}></th>}
+                                            {category1 === '貴金属' ? 
+                                                <th style={Th} rowSpan={2}>総重量</th> : <th style={{ display: 'none' }}></th>}
+                                            {category1 === '貴金属' ? 
+                                                <th style={Th} rowSpan={2}>g/額面</th> : <th style={{ display: 'none' }}></th>}
+                                            {(category1 === '時計' || category1 === 'バッグ'
+                                                || category1 === '財布' || category1 === 'アクセサリー' || category1 === 'カメラ') ? 
+                                                <th style={Th} rowSpan={2}>型番 </th> : <th style={{ display: 'none' }}></th>}
+                                            {(category1 === '時計' || category1 === 'バッグ'
+                                                || category1 === '財布' || category1 === 'カメラ' || category1 === '楽器' || category1 === 'スマホタブレット') ? 
+                                                <th style={Th} rowSpan={2}>シリアル</th> : <th style={{ display: 'none' }}></th>}
+                                            {category1 === '時計' ? 
+                                                <th style={Th} rowSpan={2}>駆動方式</th> : <th style={{ display: 'none' }}></th>}
+                                            {category1 === '時計' ? 
+                                                <th style={Th} rowSpan={2}>可動 </th> : <th style={{ display: 'none' }}></th>}
+                                            {category1 === '時計' ? 
+                                                <th style={Th} rowSpan={2}>テスター</th> : <th style={{ display: 'none' }}></th>}
+                                            {category1 === '時計' ? 
+                                                <th style={Th} rowSpan={2}>箱ギャラ</th> : <th style={{ display: 'none' }}></th>}
+                                            {(category1 === '時計' || category1 === 'アクセサリー' || category1 === 'カメラ') ? 
+                                                <th style={Th} rowSpan={2}>ランク</th> : <th style={{ display: 'none' }}></th>}
+                                            {category1 === '洋酒' ? 
+                                                <th style={Th} rowSpan={2}>銘柄</th> : <th style={{ display: 'none' }}></th>}
+                                            {category1 === '洋酒' ? 
+                                                <th style={Th} rowSpan={2}>容量</th> : <th style={{ display: 'none' }}></th>}
+                                            {category1 === '洋酒' ? 
+                                                <th style={Th} rowSpan={2}>度数</th> : <th style={{ display: 'none' }}></th>}
+                                            <th style={Th} rowSpan={2}>備考</th>
+                                            <th style={Th} rowSpan={2}>個数</th> 
                                             <th style={Th} rowSpan={2} ><span className='!px-1'>最高査定額</span></th>
                                             <th style={Th} rowSpan={2} ><span className='!px-1'>最高査定業者</span></th>
                                             {/* <th style={Th} rowSpan={2} ><span className='!px-1'>その他の査定額</span></th> */}
@@ -1177,7 +1198,7 @@ const VendorAssementSheet = () => {
                                                         </select>
                                                     </td>
                                                 : <td style={Td}>{sale.product_type_two || ''}</td>}
-                                                {role !== '1' ? 
+                                                {isDetailShow ? role !== '1' ? 
                                                     <td style={Td}>
                                                         <select name='product_type_three' value={sale.product_type_three || ''} onChange={(e) => handleValueChange(sale.id, Index, e)} className="w-[80px] h-8 text-[#70685a] font-bold px-4 py-1 outline-[#70685a]">
                                                             <option value=''></option>
@@ -1186,8 +1207,9 @@ const VendorAssementSheet = () => {
                                                             ))}
                                                         </select>
                                                     </td>
-                                                : <td style={Td}>{sale.product_type_three || ''}</td>}
-                                                {role !== '1' ? 
+                                                : <td style={Td}>{sale.product_type_three || ''}</td>
+                                                : <td style={{display:'none'}}></td>}
+                                                {isDetailShow ? role !== '1' ? 
                                                     <td style={Td}>
                                                         <select name='product_type_four' value={sale.product_type_four || ''} onChange={(e) => handleValueChange(sale.id, Index, e)} className="w-[80px] h-8 text-[#70685a] font-bold px-4 py-1 outline-[#70685a]">
                                                             <option value=''></option>
@@ -1196,7 +1218,8 @@ const VendorAssementSheet = () => {
                                                             ))}
                                                         </select>
                                                     </td>
-                                                : <td style={Td}>{sale.product_type_four || ''}</td>}
+                                                : <td style={Td}>{sale.product_type_four || ''}</td>
+                                                : <td style={{display:'none'}}></td>}
                                                 <td style={Td}>
                                                     {sale.product_photo != '' ?
                                                         <button onClick={() => openProductImageModal(sale.product_photo)} name='photo' className='w-max'>
@@ -1206,21 +1229,36 @@ const VendorAssementSheet = () => {
                                                 </td>
                                                 <td style={Td}>{sale.wakaba_number || ''}</td>
                                                 <td style={Td}>{sale.product_name || ''}</td>
-                                                {isDetailShow ? <td style={Td} >{sale.gold_type || ''}</td> : <td style={{ display: 'none' }}></td>}
-                                                {isDetailShow ? <td style={Td} >{sale.gross_weight || ''}</td> : <td style={{ display: 'none' }}></td>}
-                                                {isDetailShow ? <td style={Td} >{sale.price_gram || ''}</td> : <td style={{ display: 'none' }}></td>}
-                                                {isDetailShow ? <td style={Td} >{sale.serial_number || ''}</td> : <td style={{ display: 'none' }}></td>}
-                                                {isDetailShow ? <td style={Td} >{sale.model_number_one || ''}</td> : <td style={{ display: 'none' }}></td>}
-                                                {isDetailShow ? <td style={Td} >{sale.action_type || ''}</td> : <td style={{ display: 'none' }}></td>}
-                                                {isDetailShow ? <td style={Td} >{sale.movable || ''}</td> : <td style={{ display: 'none' }}></td>}
-                                                {isDetailShow ? <td style={Td} >{sale.tester || ''}</td> : <td style={{ display: 'none' }}></td>}
-                                                {isDetailShow ? <td style={Td} >{sale.box_guarantee || ''}</td> : <td style={{ display: 'none' }}></td>}
-                                                {isDetailShow ? <td style={Td} >{sale.rank || ''}</td> : <td style={{ display: 'none' }}></td>}
-                                                {isDetailShow ? <td style={Td} >{sale.brand || ''}</td> : <td style={{ display: 'none' }}></td>}
-                                                {isDetailShow ? <td style={Td} >{sale.capacity || ''}</td> : <td style={{ display: 'none' }}></td>}
-                                                {isDetailShow ? <td style={Td} >{sale.percent || ''}</td> : <td style={{ display: 'none' }}></td>}
-                                                {isDetailShow ? <td style={Td} >{sale.notes || ''}</td> : <td style={{ display: 'none' }}></td>}
-                                                <td style={Td}>{sale.quantity}</td>
+                                                {category1 === '貴金属' ? 
+                                                    <td style={Td} >{sale.gold_type || ''}</td> : <td style={{ display: 'none' }}></td>}
+                                                {category1 === '貴金属' ?
+                                                     <td style={Td} >{sale.gross_weight || ''}</td> : <td style={{ display: 'none' }}></td>}
+                                                {category1 === '貴金属' ?
+                                                     <td style={Td} >{sale.price_gram || ''}</td> : <td style={{ display: 'none' }}></td>}
+                                                {(category1 === '時計' || category1 === 'バッグ'
+                                                    || category1 === '財布' || category1 === 'カメラ' || category1 === '楽器' || category1 === 'スマホタブレット') ?  
+                                                    <td style={Td} >{sale.serial_number || ''}</td> : <td style={{ display: 'none' }}></td>}
+                                                {(category1 === '時計' || category1 === 'バッグ'
+                                                    || category1 === '財布' || category1 === 'アクセサリー' || category1 === 'カメラ') ? 
+                                                    <td style={Td} >{sale.model_number_one || ''}</td> : <td style={{ display: 'none' }}></td>}
+                                                {category1 === '時計' ?
+                                                     <td style={Td} >{sale.action_type || ''}</td> : <td style={{ display: 'none' }}></td>}
+                                                {category1 === '時計' ?
+                                                     <td style={Td} >{sale.movable || ''}</td> : <td style={{ display: 'none' }}></td>}
+                                                {category1 === '時計' ? 
+                                                    <td style={Td} >{sale.tester || ''}</td> : <td style={{ display: 'none' }}></td>}
+                                                {category1 === '時計' ? 
+                                                    <td style={Td} >{sale.box_guarantee || ''}</td> : <td style={{ display: 'none' }}></td>}
+                                                {(category1 === '時計' || category1 === 'アクセサリー' || category1 === 'カメラ') ? 
+                                                     <td style={Td} >{sale.rank || ''}</td> : <td style={{ display: 'none' }}></td>}
+                                                {category1 === '洋酒' ?
+                                                     <td style={Td} >{sale.brand || ''}</td> : <td style={{ display: 'none' }}></td>}
+                                                {category1 === '洋酒' ?
+                                                     <td style={Td} >{sale.capacity || ''}</td> : <td style={{ display: 'none' }}></td>}
+                                                {category1 === '洋酒'?
+                                                     <td style={Td} >{sale.percent || ''}</td> : <td style={{ display: 'none' }}></td>}
+                                                <td style={Td} >{sale.notes || ''}</td>
+                                                <td style={Td} >{sale.quantity || ''}</td>
                                                 <td style={Td}>
                                                     {(sale.highest_estimate_price || 0).toLocaleString()}
                                                 </td>
