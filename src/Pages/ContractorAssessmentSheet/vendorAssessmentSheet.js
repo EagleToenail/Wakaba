@@ -1058,7 +1058,7 @@ const VendorAssementSheet = () => {
                                             {category1 === '貴金属' ? 
                                                 <th style={Th} rowSpan={2}>総重量</th> : <th style={{ display: 'none' }}></th>}
                                             {category1 === '貴金属' ? 
-                                                <th style={Th} rowSpan={2}>g/額面</th> : <th style={{ display: 'none' }}></th>}
+                                                <th style={Th} rowSpan={2}>地金重さ</th> : <th style={{ display: 'none' }}></th>}
                                             {(category1 === '時計' || category1 === 'バッグ'
                                                 || category1 === '財布' || category1 === 'アクセサリー' || category1 === 'カメラ') ? 
                                                 <th style={Th} rowSpan={2}>型番 </th> : <th style={{ display: 'none' }}></th>}

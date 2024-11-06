@@ -112,6 +112,7 @@ export default function Header() {
 //------------------------------auto log out function----------------------------------
 const clearStorage = () => {
   localStorage.clear();
+  navigate('/');
 };
 
 const now = new Date();

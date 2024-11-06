@@ -243,7 +243,7 @@ const CustomerList = () => {
                             <label className="text-[#70685a] mb-2 block text-center pb-13">(and条件)</label>
                         </div>
                         <div className='text-[#70685a] px-2 mr-2 flex flex-col justify-end'>
-                            <button children={'新規顧客登銀'} className='flex align-end w-40 h-11 px-3 py-2 font-bold rounded-md tracking-wide text-[#655b4d] justify-center bg-[#ebe6e0] hover:bg-[#524c3b] hover:text-white transition-all duration-300' ><Link to="/customerindividualcreate">新規顧客登録</Link></button>
+                            <button children={'新規顧客情報登録'} className='flex align-end w-40 h-11 px-3 py-2 font-bold rounded-md tracking-wide text-[#655b4d] justify-center bg-[#ebe6e0] hover:bg-[#524c3b] hover:text-white transition-all duration-300' ><Link to="/customerindividualcreate">新規顧客登録</Link></button>
                         </div>
                     </div>
 

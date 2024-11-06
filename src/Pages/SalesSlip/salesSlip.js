@@ -664,8 +664,24 @@ const SalesSlip = () => {
                                         <LabelComponent value={'行を選択してください'} />
                                     </div>
                                 </div>
-                                <ButtonComponent children={'売上表'} className='!px-5 text-2xl ml-5 whitespace-nowrap' style={{ backgroundColor: '#424242', height: '40px' }} />
+                                <button onClick={showAll} className='h-10  px-5 text-2xl font-bold rounded-md bg-[transparent] text-[#424242] border border-[#424242] hover:bg-[#524c3b] hover:text-white transition-all duration-300' >
+                                    すべて表示
+                                </button>
                             </div>
+                            <div className='sales-slip-next-button2 flex mt-2 w-max gap-5' >
+                                <div>
+                                    <select name="category1" value={category1} onChange={(e) => handleCategory1Change(e, product1s)} className='w-max h-11 text-[#70685a] font-bold border border-[#70685a] px-4 py-1 outline-[#70685a]' >
+                                        <option value="aaa" disabled>商品タイプ1</option>
+                                        <option value="">すべて表示</option>
+                                        {product1s.map((option, index) => (
+                                            <option key={`option-product1-${index}`} value={option.category || ''}>
+                                                {option.category || ''}
+                                            </option>
+                                        ))}
+                                    </select>
+                                </div>
+                                <ButtonComponent children={'売上表'} className='!px-5 text-2xl ml-5 whitespace-nowrap' style={{ backgroundColor: '#424242', height: '40px' }} />
+                            </div>    
                             <div className='sales-slip-next-button2 flex mt-2 w-max gap-5' >
                                 <button className='h-10 px-5 text-2xl font-bold rounded-md border border-[#424242] bg-[transparent] text-[#424242] hover:bg-[#524c3b] hover:text-white transition-all duration-300 whitespace-nowrap' >
                                     <Link to='/vendorassessmentsheet'>業者査定シート</Link></button>
@@ -673,14 +689,12 @@ const SalesSlip = () => {
                                     style={{ backgroundColor: showYahoo === true ? '#424242' : 'transparent', color: showYahoo === true ? 'white' : 'black' }} >
                                     オークション
                                 </button>
-                                <button onClick={showAll} className='h-10  px-5 text-2xl font-bold rounded-md bg-[transparent] text-[#424242] border border-[#424242] hover:bg-[#524c3b] hover:text-white transition-all duration-300' >
-                                    すべて表示
-                                </button>
+
                             </div>
                         </div>
 
                         {/* second selectbox line  */}
-                        <div className='w-full flex justify-center mt-2'>
+                        {/* <div className='w-full flex justify-center mt-2'>
                             <select name="category1" value={category1} onChange={(e) => handleCategory1Change(e, product1s)} className='w-max h-11 text-[#70685a] font-bold border border-[#70685a] px-4 py-1 outline-[#70685a]' >
                                 <option value="aaa" disabled>商品タイプ1</option>
                                 <option value="">すべて表示</option>
@@ -690,7 +704,7 @@ const SalesSlip = () => {
                                     </option>
                                 ))}
                             </select>
-                        </div>
+                        </div> */}
 
                         {/*  Table*/}
                         <div className='mt-3 w-full flex'>

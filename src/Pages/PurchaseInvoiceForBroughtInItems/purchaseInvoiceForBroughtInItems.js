@@ -544,13 +544,13 @@ const PurchaseInvoiceForBroughtInItems = () => {
                             <div className='flex w-full'>
                                 {/* ------first part------ */}
                                 <div className='purchase-confirm-width-one w-[20%] flex-justify-center mt-5'>
-                                    <div >
-                                        <div className='flex'>
-                                            <div>
-                                                <label className="text-[#70685a] font-bold block text-right mr-3 ">会員番号</label>
-                                            </div>
+                                    <div className='w-[70%]'>
+                                        <div className='flex justify-between'>
                                             <div className='flex'>
+                                                <label className="text-[#70685a] font-bold block text-right mr-3 ">会員番号</label>
                                                 <label className="text-[#70685a]  block text-left ">{customer.id}</label>
+                                            </div>
+                                            <div className='flex justify-around'>
                                                 <label className="text-[#70685a] font-bold block text-left">VIP</label>
                                                 <label className="text-[#70685a] font-bold block text-left">{customer.gender}</label>
                                             </div>
@@ -813,13 +813,13 @@ const PurchaseInvoiceForBroughtInItems = () => {
                                                 </div>
                                             </div>
                                         </div>
-                                        <div className='sign-part flex'>
-                                            <div className='sign-width-one w-1/2'>
+                                        <div className='sign-part w-full flex'>
+                                            <div className='sign-width-one w-[60%]'>
                                                 <div className='w-full flex'>
                                                     <label className="text-[#70685a] text-[18px] mb-2 block text-left mr-10 py-1">Q1</label>
                                                     <label className="text-[#70685a] text-[18px] mb-2 block text-left mr-10 py-1 !mb-0">次回お持ちいただくご予定の商品はございますか？</label>
                                                 </div>
-                                                <div className='ml-20 text-[17px]'>
+                                                <div className='ml-20 flex text-[17px]'>
                                                     <div className='flex flex-wrap'>
                                                         {[
                                                             'ダイヤモンド',
@@ -854,28 +854,28 @@ const PurchaseInvoiceForBroughtInItems = () => {
                                                                 </div>
                                                             );
                                                         })}
-                                                    </div>
 
-                                                    <div className='flex items-center ml-3'>
-                                                        <input
-                                                            type="checkbox"
-                                                            id="pair-checkbox-3"
-                                                            checked={pairs[3].checked}
-                                                            onChange={() => handlePairCheckboxChange(3)}
-                                                            className="w-4 h-4 mr-3"
-                                                        />
-                                                        <label htmlFor="pair-checkbox-3" className="text-[#70685a] mr-3">その他</label>
-                                                        <InputComponent
-                                                            value={pairs[3].value}
-                                                            onChange={(e) => handleInputChange(3, e.target.value)}
-                                                            disabled={!pairs[3].checked}
-                                                            className="w-40 text-[#70685a] mb-2 block text-left mr-10 py-1 !mb-0 !h-8"
-                                                            placeholder={'その他詳細'}
-                                                        />
+                                                        <div className='flex items-center ml-3'>
+                                                            <input
+                                                                type="checkbox"
+                                                                id="pair-checkbox-3"
+                                                                checked={pairs[3].checked}
+                                                                onChange={() => handlePairCheckboxChange(3)}
+                                                                className="w-4 h-4 mr-3"
+                                                            />
+                                                            <label htmlFor="pair-checkbox-3" className="text-[#70685a] mr-3">その他</label>
+                                                            <InputComponent
+                                                                value={pairs[3].value}
+                                                                onChange={(e) => handleInputChange(3, e.target.value)}
+                                                                disabled={!pairs[3].checked}
+                                                                className="w-40 text-[#70685a] mb-2 block text-left mr-10 py-1 !mb-0 !h-8"
+                                                                placeholder={'その他詳細'}
+                                                            />
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div className='sign-width-one w-1/2'>
+                                            <div className='sign-width-one w-[40%]'>
                                                 <div className='w-full flex'>
                                                     <label className="text-[#70685a] text-[18px] mb-2 block text-left mr-10 py-1">Q2</label>
                                                     <label className="text-[#70685a] text-[18px] mb-2 block text-left mr-10 py-1 !mb-0">DM等、各種ご案内をお送りしてもよろしいですか？</label>
@@ -939,13 +939,15 @@ const PurchaseInvoiceForBroughtInItems = () => {
 
                                     <div className='w-full flex'>
                                         <div className='w-full h-full flex justify-center'>
+                                            {checked === 'agree' ? 
                                             <SignatureCanvas
                                                 ref={sigCanvas}
                                                 penColor='black'
-                                                // canvasProps={{ width: 1000, height: 200, className: 'signature-canvas,pt-2 border border-[black]' }}
                                                 canvasProps={{ className: 'w-full h-40 signature-canvas,pt-2 border border-[black]' }}
                                                 backgroundColor='white'
                                             />
+                                            : <div className='w-full h-40 signature-canvas,pt-2 border border-[black]'></div>
+                                            }
                                         </div>
                                     </div>
                                 </div>
@@ -954,7 +956,7 @@ const PurchaseInvoiceForBroughtInItems = () => {
                             <div className="flex justify-center pt-1" >
                                 <div className='w-full pt-1 flex justify-center' style={{ maxWidth: '80em' }}>
                                     {purchaseInformation.totalSalesSlipData?.length > 0 && (purchaseInformation.totalSalesSlipData[0].product_status === '承認待ち' || purchaseInformation.totalSalesSlipData[0].product_status === '承認された') &&
-                                        <ButtonComponent children={'買取を了承します'} className="!py-2" onClick={confirmAgree} />
+                                        <ButtonComponent children={'誓約する'} className="!py-2" onClick={confirmAgree} />
                                     }
                                 </div>
                             </div>

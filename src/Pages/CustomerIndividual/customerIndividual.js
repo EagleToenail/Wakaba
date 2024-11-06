@@ -569,7 +569,7 @@ const CustomerIndividual = () => {
                                     <InputComponent name="trigger" value={customer.trigger || ''} onChange={handleCustomerChange} type='text' required />
                                 </div>
                                 <div style={{ width: '20%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">ブランドタイプ</label>
+                                    <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">銘柄</label>
                                 </div>
                                 <div style={{ width: '30%', flexDirection: 'column', }} className='flex align-center justify-around'>
                                     <InputComponent name="brand_type" value={customer.brand_type || ''} onChange={handleCustomerChange} type='text' required />
@@ -754,7 +754,7 @@ const CustomerIndividual = () => {
                                                     <th className='whitespace-nowrap' width='5%'>来店日</th>
                                                     <th className='whitespace-nowrap' width='5%'>適用</th>
                                                     <th className='whitespace-nowrap' width='5%'>合計金額</th>
-                                                    <th className='whitespace-nowrap' width='5%'>カテゴリ-1</th>
+                                                    <th className='whitespace-nowrap' width='5%'>カテゴリ1</th>
                                                     <th className='whitespace-nowrap' width='5%'>商品名</th>
                                                     <th className='whitespace-nowrap' width='5%'>売上総額</th>
                                                     <th className='whitespace-nowrap' width='5%'>粗利総額</th>
