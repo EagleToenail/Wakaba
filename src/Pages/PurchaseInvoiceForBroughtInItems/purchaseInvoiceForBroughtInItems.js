@@ -4,15 +4,12 @@ import Titlebar from '../../Components/Common/Titlebar';
 import '../../Assets/css/showtable.css';
 import '../../Assets/css/firstTd.css';
 import axios from 'axios';
-// import InputComponent from '../../Components/Common/InputComponent';
 import ButtonComponent from '../../Components/Common/ButtonComponent';
-// import LabelComponent from '../../Components/Common/LabelComponent';
 import { useDispatch, useSelector } from 'react-redux';
 import { setClearData } from '../../redux/sales/actions';
 import SignatureCanvas from 'react-signature-canvas';
 import html2canvas from 'html2canvas';
 import { jsPDF } from 'jspdf';
-
 
 import StampSheet from '../../Assets/img/stampsheet.png'
 import LetterPack from '../../Assets/img/letterpack.png'
@@ -26,10 +23,7 @@ const PurchaseInvoiceForBroughtInItems = () => {
     const title = 'タイトルタイトル';
 
     useEffect(() => {
-        // Set overflow to hidden when the component mounts
         document.body.style.overflow = 'auto';
-
-        // Cleanup function to reset overflow when component unmounts
         return () => {
             document.body.style.overflow = 'hidden';
         };
@@ -544,18 +538,18 @@ const PurchaseInvoiceForBroughtInItems = () => {
                             <div className='flex w-full'>
                                 {/* ------first part------ */}
                                 <div className='purchase-confirm-width-one w-[20%] flex-justify-center mt-5'>
-                                    <div className='w-[70%]'>
+                                    <div className='w-[85%]'>
                                         <div className='flex justify-between'>
                                             <div className='flex'>
                                                 <label className="text-[#70685a] font-bold block text-right mr-3 ">会員番号</label>
                                                 <label className="text-[#70685a]  block text-left ">{customer.id}</label>
                                             </div>
                                             <div className='flex justify-around'>
-                                                <label className="text-[#70685a] font-bold block text-left">VIP</label>
+                                                <label className="text-[#70685a] font-bold block text-left mr-10">VIP</label>
                                                 <label className="text-[#70685a] font-bold block text-left">{customer.gender}</label>
                                             </div>
                                         </div>
-                                        <div className='flex'>
+                                        <div className='flex justify-between'>
                                             <div>
                                                 <label className="text-[#70685a] font-bold block text-right mr-3 ">お名前</label>
                                             </div>
@@ -563,7 +557,7 @@ const PurchaseInvoiceForBroughtInItems = () => {
                                                 <label className="text-[#70685a]  block text-left ">{customer.full_name}</label>
                                             </div>
                                         </div>
-                                        <div className='flex'>
+                                        <div className='flex justify-between'>
                                             <div>
                                                 <label className="text-[#70685a] font-bold block text-right mr-3 ">カ夕力ナ名</label>
                                             </div>
@@ -571,7 +565,7 @@ const PurchaseInvoiceForBroughtInItems = () => {
                                                 <label className="text-[#70685a]  block text-left ">{customer.katakana_name}</label>
                                             </div>
                                         </div>
-                                        <div className='flex'>
+                                        <div className='flex justify-between'>
                                             <div>
                                                 <label className="text-[#70685a] font-bold block text-right mr-3 ">生年月日</label>
                                             </div>
@@ -579,7 +573,7 @@ const PurchaseInvoiceForBroughtInItems = () => {
                                                 <label className="text-[#70685a]  block text-left ">{customer.birthday}</label>
                                             </div>
                                         </div>
-                                        <div className='flex'>
+                                        <div className='flex justify-between'>
                                             <div>
                                                 <label className="text-[#70685a] font-bold block text-right mr-3 ">お電話番号</label>
                                             </div>
@@ -587,7 +581,7 @@ const PurchaseInvoiceForBroughtInItems = () => {
                                                 <label className="text-[#70685a]  block text-left ">{customer.phone_number}</label>
                                             </div>
                                         </div>
-                                        <div className='flex'>
+                                        <div className='flex justify-between'>
                                             <div>
                                                 <label className="text-[#70685a] font-bold block text-right mr-3 ">E-mail</label>
                                             </div>
@@ -595,7 +589,7 @@ const PurchaseInvoiceForBroughtInItems = () => {
                                                 <label className="text-[#70685a]  block text-left ">{customer.email}</label>
                                             </div>
                                         </div>
-                                        <div className='flex'>
+                                        <div className='flex justify-between'>
                                             <div>
                                                 <label className="text-[#70685a] font-bold block text-right mr-3 ">ご職業</label>
                                             </div>
@@ -603,7 +597,7 @@ const PurchaseInvoiceForBroughtInItems = () => {
                                                 <label className="text-[#70685a]  block text-left ">{customer.opportunity}</label>
                                             </div>
                                         </div>
-                                        <div className='flex'>
+                                        <div className='flex justify-between'>
                                             <div>
                                                 <label className="text-[#70685a] font-bold block text-right mr-3 ">ご住所</label>
                                             </div>
@@ -611,7 +605,7 @@ const PurchaseInvoiceForBroughtInItems = () => {
                                                 <label className="text-[#70685a]  block text-left ">{customer.address}</label>
                                             </div>
                                         </div>
-                                        <div className='flex'>
+                                        <div className='flex justify-between'>
                                             <div>
                                                 <label className="text-[#70685a] font-bold block text-right mr-3 ">本人確認書類</label>
                                             </div>
@@ -619,7 +613,7 @@ const PurchaseInvoiceForBroughtInItems = () => {
                                                 <label className="text-[#70685a]  block text-left ">マイナンバーカード</label>
                                             </div>
                                         </div>
-                                        <div className='flex'>
+                                        <div className='flex justify-between'>
                                             <div>
                                                 <label className="text-[#70685a] font-bold block text-right mr-3 ">ク一ポンの使用</label>
                                             </div>
@@ -627,7 +621,7 @@ const PurchaseInvoiceForBroughtInItems = () => {
                                                 <label className="text-[#70685a]  block text-left ">OOO OOO</label>
                                             </div>
                                         </div>
-                                        <div className='flex'>
+                                        <div className='flex justify-between'>
                                             <div>
                                                 <label className="text-[#70685a] font-bold block text-right mr-3 ">次回のポイント還元額</label>
                                             </div>
