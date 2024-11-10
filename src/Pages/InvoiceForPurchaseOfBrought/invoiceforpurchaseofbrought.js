@@ -1996,7 +1996,7 @@ const InvoicePurchaseOfBrought = () => {
                         <div className='w-full flex justify-center'>
                             <div className=" h-full w-full mt-5">
                                 {/* Text area */}
-                                <label className="text-[#70685a] text-[20px] font-bold mb-2 block text-left mr-10 py-1 !mb-0">アンケート</label>
+                                <label className="text-[#70685a] text-[20px] font-bold mb-2 block text-left mr-10 py-1 !mb-0">来店契機　に</label>
                                 <div className="px-3 w-full h-[170px]">
                                     <div>
                                         <div className='flex'>
@@ -2343,7 +2343,7 @@ const InvoicePurchaseOfBrought = () => {
                                     </td> : <td style={Td}></td>
                                     : <td style={{ display: 'none' }}></td>}
                                 {isDetailShow ? (salesSlipData.product_type_one === '時計' || salesSlipData.product_type_one === 'バッグ'
-                                    || salesSlipData.product_type_one === '財布' || salesSlipData.product_type_one === 'カメラ' || salesSlipData.product_type_one === '楽器' || salesSlipData.product_type_one === 'スマホタブレット') ?
+                                    || salesSlipData.product_type_one === '財布' || salesSlipData.product_type_one === 'カメラ' || salesSlipData.product_type_one === '楽器' || salesSlipData.product_type_one === 'スマホ・タブレット') ?
                                     <td style={Td}>
                                         <InputComponent name='serial_number' type='text' onChange={handleChange} value={salesSlipData.serial_number || ''} className='w-20 h-8 text-[#70685a]' />
                                     </td> : <td style={Td}></td>

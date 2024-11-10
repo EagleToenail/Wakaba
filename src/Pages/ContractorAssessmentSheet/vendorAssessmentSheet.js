@@ -98,6 +98,8 @@ const VendorAssementSheet = () => {
                         // comment: JSON.parse(data.comment),
                     }));
                     setSales(updatedData111);
+                } else {
+                    setSales([]);
                 }
             })
             .catch(error => {
@@ -129,6 +131,7 @@ const VendorAssementSheet = () => {
     const [showYahoo, setShowYahoo] = useState(false);
     //  -------------------------------select box-------------------------------
     const [product1s, setProduct1s] = useState([]);
+    // const product1s = ['貴金属','古銭等','バッグ','時計','財布','アクセサリ一','骨董品','洋酒','カメラ','楽器','着物','スマホ・タブレット'];
     // Fetch product1 data
     useEffect(() => {
         const fetchCategory1 = async () => {
@@ -137,7 +140,7 @@ const VendorAssementSheet = () => {
                 throw new Error('API base URL is not defined');
             }
 
-            axios.get(`${wakabaBaseUrl}/ProductType1s`)
+            axios.get(`${wakabaBaseUrl}/ProductType1s1`)
                 .then(response => {
                     setProduct1s(response.data);
                 })
@@ -153,6 +156,7 @@ const VendorAssementSheet = () => {
     const handleCategory1Change = (e, productList) => {
         const selectedCategory = e.target.value; // Get the selected category
         const selectedResult = productList.find(product => product.category === selectedCategory);//need id
+        getVendorList(selectedResult.id);
         setCategory1(selectedCategory);
         handleCategory(selectedCategory);
     };
@@ -174,7 +178,7 @@ const VendorAssementSheet = () => {
     //----------------------estimate------------------------------
     //get  vendor list form vendor table
     const [vendors, setVendors] = useState([]);
-    const [allVendors, setAllVendors] = useState([]);
+    // const [allVendors, setAllVendors] = useState([]);
 
     const getVendorList = async (id) => {
         const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
@@ -189,48 +193,28 @@ const VendorAssementSheet = () => {
                 console.error("There was an error fetching the customer data!", error);
             });
     }
-
     useEffect(() => {
-        const fetchAllVendor = async () => {
-            const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
-            if (!wakabaBaseUrl) {
-                throw new Error('API base URL is not defined');
-            }
-            await axios.get(`${wakabaBaseUrl}/vendor/getVendorListAll`)
-                .then(response => {
-                    setAllVendors(response.data);
-                    // console.log('vendrListAll',response.data)
-                })
-                .catch(error => {
-                    console.error("There was an error fetching the customer data!", error);
-                });
-        }
-        fetchAllVendor();
+        getVendorList(1);
+    }, []);
+    // useEffect(() => {
+    //     const fetchAllVendor = async () => {
+    //         const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+    //         if (!wakabaBaseUrl) {
+    //             throw new Error('API base URL is not defined');
+    //         }
+    //         await axios.get(`${wakabaBaseUrl}/vendor/getVendorListAll`)
+    //             .then(response => {
+    //                 setAllVendors(response.data);
+    //                 // console.log('vendrListAll',response.data)
+    //             })
+    //             .catch(error => {
+    //                 console.error("There was an error fetching the customer data!", error);
+    //             });
+    //     }
+    //     fetchAllVendor();
 
-    }, [sales]);
+    // }, [sales]);
 
-    const [estimateValues, setEstimateValues] = useState({});
-
-    const [showEstimate, setShowEstimate] = useState(false);
-    const openEstimate = (index) => {
-        setShowEstimate(true);
-
-        //setShowInputPurchase(!showInputPurchase);
-        // setEditIndex(index);
-        console.log('selectedtotalSalesData', sales[index])
-        // setSalesSlipData(sales[index]); // Populate the input fields with the selected row's data
-        setEstimateValues(sales[index].estimate_wholesaler);
-        if (sales[index].product_type_one) {
-            const selectedResult = product1s.find(product => product.category === sales[index].product_type_one);
-            console.log('selectedResult', selectedResult)
-            getVendorList(selectedResult.id);
-        }
-
-    }
-
-    const saveEstimate = () => {
-        setShowEstimate(false);
-    }
     //--------------------------filter function----------------------------------
     const now = new Date();
     // Format the date as YYYY-MM-DD
@@ -587,6 +571,13 @@ const VendorAssementSheet = () => {
     const gotoSalesSlip = () => {
         navigate('/salesslip');
     }
+    //-----------------show all detail and close all detail---------------------------
+    const showall = () => {
+        setBooleanArray(new Array(30).fill(true));
+    }
+    const closeall = () => {
+        setBooleanArray(new Array(30).fill(false));
+    }
      
     return (
         <>
@@ -614,13 +605,15 @@ const VendorAssementSheet = () => {
                                         </select>
                                     </div>
                                 </div>
-                                <div className='flex justify-center mt-2 w-full' >
+                                <div className='flex justify-center mt-2 w-full gap-3' >
                                     <div>
                                         <button onClick={handleSendCheckedValues} className='h-11 font-bold rounded-md bg-[#9bd195] text-2xl text-[white] !px-10 hover:bg-[#524c3b] hover:text-white transition-all duration-300' >業者への買取依書へ</button>
                                         <div className='text-center'>
                                             <LabelComponent value={'行を選択してくだをい'} className="text-center" />
                                         </div>
                                     </div>
+                                    <button onClick={showall} className='w-[130px] font-bold bg-[transparent] rounded-md border border-[#424242] text-[#424242] h-11 !text-xl !px-0 hover:bg-[#524c3b] hover:text-white transition-all duration-300' >すべて表示</button>
+                                    <button onClick={closeall} className='w-[130px] font-bold bg-[transparent] rounded-md border border-[#424242] text-[#424242] h-11 !text-xl !px-0 hover:bg-[#524c3b] hover:text-white transition-all duration-300' >すべて閉じる</button>
                                 </div>
                             </div>
                         </div>
@@ -1053,6 +1046,7 @@ const VendorAssementSheet = () => {
                                                     商品名
                                                 </div>
                                             </th>
+                                            <th style={Th} rowSpan={2}>個数</th> 
                                             {category1 === '貴金属' ? 
                                                 <th style={Th} rowSpan={2}>金種</th> : <th style={{ display: 'none' }}></th>}
                                             {category1 === '貴金属' ? 
@@ -1062,8 +1056,8 @@ const VendorAssementSheet = () => {
                                             {(category1 === '時計' || category1 === 'バッグ'
                                                 || category1 === '財布' || category1 === 'アクセサリー' || category1 === 'カメラ') ? 
                                                 <th style={Th} rowSpan={2}>型番 </th> : <th style={{ display: 'none' }}></th>}
-                                            {(category1 === '時計' || category1 === 'バッグ'
-                                                || category1 === '財布' || category1 === 'カメラ' || category1 === '楽器' || category1 === 'スマホタブレット') ? 
+                                            {(category1 === '時計' || category1 === 'バッグ' || category1 === 'アクセサリー'
+                                                || category1 === '財布' || category1 === 'カメラ' || category1 === '楽器' || category1 === 'スマホ・タブレット') ? 
                                                 <th style={Th} rowSpan={2}>シリアル</th> : <th style={{ display: 'none' }}></th>}
                                             {category1 === '時計' ? 
                                                 <th style={Th} rowSpan={2}>駆動方式</th> : <th style={{ display: 'none' }}></th>}
@@ -1073,7 +1067,7 @@ const VendorAssementSheet = () => {
                                                 <th style={Th} rowSpan={2}>テスター</th> : <th style={{ display: 'none' }}></th>}
                                             {category1 === '時計' ? 
                                                 <th style={Th} rowSpan={2}>箱ギャラ</th> : <th style={{ display: 'none' }}></th>}
-                                            {(category1 === '時計' || category1 === 'アクセサリー' || category1 === 'カメラ') ? 
+                                            {(category1 === '時計' || category1 === 'アクセサリー' || category1 === 'カメラ' || category1 === 'バッグ' || category1 === '財布') ? 
                                                 <th style={Th} rowSpan={2}>ランク</th> : <th style={{ display: 'none' }}></th>}
                                             {category1 === '洋酒' ? 
                                                 <th style={Th} rowSpan={2}>銘柄</th> : <th style={{ display: 'none' }}></th>}
@@ -1082,18 +1076,17 @@ const VendorAssementSheet = () => {
                                             {category1 === '洋酒' ? 
                                                 <th style={Th} rowSpan={2}>度数</th> : <th style={{ display: 'none' }}></th>}
                                             <th style={Th} rowSpan={2}>備考</th>
-                                            <th style={Th} rowSpan={2}>個数</th> 
+                                            <th style={Th} rowSpan={2} ><span className='!px-1'>買取額</span></th>
                                             <th style={Th} rowSpan={2} ><span className='!px-1'>最高査定額</span></th>
                                             <th style={Th} rowSpan={2} ><span className='!px-1'>最高査定業者</span></th>
                                             {/* <th style={Th} rowSpan={2} ><span className='!px-1'>その他の査定額</span></th> */}
-                                            <th style={Th} rowSpan={2} ><span className='!px-1'>買取額</span></th>
                                             <th style={Th} rowSpan={2} ><span className='!px-1'>真贋</span></th>
                                             <th style={Th} rowSpan={2}>
                                                 <div>
                                                     {isvendorshow ? <button className='!w-10 flex justify-center'><img src={rightArrow} className='h-5 w-10' alt='' onClick={openVendortable} ></img></button> : <button className='!w-10 flex justify-center'><img src={leftArrow} className='h-5 w-10' alt='' onClick={closeVendortable}></img></button>}
                                                 </div>
                                             </th>
-                                            {(isvendorshow && allVendors?.length > 0) && allVendors.map((vendor, index) => (
+                                            {(isvendorshow && vendors?.length > 0) && vendors.map((vendor, index) => (
                                                 <th key={vendor.id} style={Th} colSpan={booleanArray[index] ? 4 : 1} className='relative w-max group mx-auto'>
                                                     <div className='w-full flex justify-center px-6 tracking-wider'>
                                                         <div className='flex justify-center'>
@@ -1115,7 +1108,7 @@ const VendorAssementSheet = () => {
                                             ))}
                                         </tr>
                                         <tr>
-                                            {(isvendorshow && allVendors?.length > 0) && allVendors.map((vendor, index) => (
+                                            {(isvendorshow && vendors?.length > 0) && vendors.map((vendor, index) => (
                                                 <>
                                                     {booleanArray[index] ? (
                                                         <>
@@ -1229,13 +1222,14 @@ const VendorAssementSheet = () => {
                                                 </td>
                                                 <td style={Td}>{sale.wakaba_number || ''}</td>
                                                 <td style={Td}>{sale.product_name || ''}</td>
+                                                <td style={Td} >{sale.quantity || ''}</td>
                                                 {category1 === '貴金属' ? 
                                                     <td style={Td} >{sale.gold_type || ''}</td> : <td style={{ display: 'none' }}></td>}
                                                 {category1 === '貴金属' ?
                                                      <td style={Td} >{sale.gross_weight || ''}</td> : <td style={{ display: 'none' }}></td>}
                                                 {category1 === '貴金属' ?
                                                      <td style={Td} >{sale.price_gram || ''}</td> : <td style={{ display: 'none' }}></td>}
-                                                {(category1 === '時計' || category1 === 'バッグ'
+                                                {(category1 === '時計' || category1 === 'バッグ' || category1 === 'アクセサリー'
                                                     || category1 === '財布' || category1 === 'カメラ' || category1 === '楽器' || category1 === 'スマホタブレット') ?  
                                                     <td style={Td} >{sale.serial_number || ''}</td> : <td style={{ display: 'none' }}></td>}
                                                 {(category1 === '時計' || category1 === 'バッグ'
@@ -1249,7 +1243,7 @@ const VendorAssementSheet = () => {
                                                     <td style={Td} >{sale.tester || ''}</td> : <td style={{ display: 'none' }}></td>}
                                                 {category1 === '時計' ? 
                                                     <td style={Td} >{sale.box_guarantee || ''}</td> : <td style={{ display: 'none' }}></td>}
-                                                {(category1 === '時計' || category1 === 'アクセサリー' || category1 === 'カメラ') ? 
+                                                {(category1 === '時計' || category1 === 'アクセサリー' || category1 === 'カメラ'  || category1 === 'バッグ' || category1 === '財布') ? 
                                                      <td style={Td} >{sale.rank || ''}</td> : <td style={{ display: 'none' }}></td>}
                                                 {category1 === '洋酒' ?
                                                      <td style={Td} >{sale.brand || ''}</td> : <td style={{ display: 'none' }}></td>}
@@ -1258,12 +1252,14 @@ const VendorAssementSheet = () => {
                                                 {category1 === '洋酒'?
                                                      <td style={Td} >{sale.percent || ''}</td> : <td style={{ display: 'none' }}></td>}
                                                 <td style={Td} >{sale.notes || ''}</td>
-                                                <td style={Td} >{sale.quantity || ''}</td>
-                                                <td style={Td}>
-                                                    {(sale.highest_estimate_price || 0).toLocaleString()}
-                                                </td>
-                                                <td style={Td}>{sale.highest_estimate_vendor || ''}</td>
                                                 <td style={Td} className='text-right'>{(sale.purchase_price || '').toLocaleString()}</td>
+                                                {sale.highest_estimate_price && sale.highest_estimate_price !== '' ?
+                                                    <td style={Td} className='text-right'>
+                                                        {(sale.highest_estimate_price || 0).toLocaleString()}
+                                                    </td>
+                                                    : <td style={Td}></td>
+                                                }
+                                                <td style={Td}>{sale.highest_estimate_vendor || ''}</td>
                                                 <td style={Td} className='w-5'>
                                                     {sale.fixed_checkout === 'real' ?
                                                         <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSvgIcon-root MuiSvgIcon-fontSizeMedium svg-icon css-kry165" fill='#626373' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="FiberManualRecordOutlinedIcon" title="FiberManualRecordOutlined"><path d="M12 6c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6 2.69-6 6-6m0-2c-4.42 0-8 3.58-8 8s3.58 8 8 8 8-3.58 8-8-3.58-8-8-8"></path></svg>
@@ -1271,7 +1267,7 @@ const VendorAssementSheet = () => {
                                                     }
                                                 </td>
                                                 <td style={Td} className='w-10'>{sale.number_of_vendor || ''}</td>
-                                                {(isvendorshow && allVendors?.length > 0) && allVendors.map((vendor, index) => (
+                                                {(isvendorshow && vendors?.length > 0) && vendors.map((vendor, index) => (
                                                     <>
                                                         {booleanArray[index] ? (
                                                             <>
@@ -1303,42 +1299,6 @@ const VendorAssementSheet = () => {
             </div>
             {/* ---------show product photo-------- */}
             {showProductImage && <ImageShowModal itemsImagePreview={itemImagePreview} onClose={closeProductImageModal} />}
-            {/* -------------show estimate------------- */}
-            {showEstimate &&
-                <div
-                    className="fixed inset-0 p-4 flex flex-wrap justify-center items-center w-full h-full z-[1000] before:fixed before:inset-0 before:w-full before:h-full before:bg-[rgba(0,0,0,0.5)] overflow-auto font-[sans-serif]">
-                    <div className="w-full max-w-md bg-white shadow-lg rounded-2xl p-8 relative">
-                        <div className="text-center">
-                            <div className='flex justify-center w-full'>
-                                <table className='text-center w-full' style={Table}>
-                                    <thead className='bg-white z-10 h-11 w-full'>
-                                        <tr>
-                                            <th style={Th}>ベンダー名</th>
-                                            <th style={Th}>見積もり</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {vendors?.length > 0 && vendors.map((vendor, index) => (
-                                            <tr key={vendor.id} className='!h-8'>
-                                                <td style={Td}>{vendor.vendor_name || ''}</td>
-                                                <td style={Td}>
-                                                    {estimateValues[vendor.vendor_name] || ''}
-                                                </td>
-                                            </tr>
-                                        ))}
-                                    </tbody>
-
-                                </table>
-                            </div>
-                        </div>
-
-                        <div className="flex justify-center w-full mt-5">
-                            <button type="button" onClick={saveEstimate}
-                                className="px-5 py-1 rounded-full w-1/2 font-bold text-white border-none outline-none bg-[#524c3b] hover:bg-[#524c3b] hover:text-white transition-all duration-300">閉じる</button>
-                        </div>
-                    </div>
-                </div>
-            }
         </>
     );
 };

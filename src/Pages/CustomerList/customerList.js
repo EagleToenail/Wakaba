@@ -243,7 +243,7 @@ const CustomerList = () => {
                             <label className="text-[#70685a] mb-2 block text-center pb-13">(and条件)</label>
                         </div>
                         <div className='text-[#70685a] px-2 mr-2 flex flex-col justify-end'>
-                            <button children={'新規顧客情報登録'} className='flex align-end w-40 h-11 px-3 py-2 font-bold rounded-md tracking-wide text-[#655b4d] justify-center bg-[#ebe6e0] hover:bg-[#524c3b] hover:text-white transition-all duration-300' ><Link to="/customerindividualcreate">新規顧客登録</Link></button>
+                            <button className='flex align-end w-max h-11 px-3 py-2 font-bold rounded-md tracking-wide text-[#655b4d] justify-center bg-[#ebe6e0] hover:bg-[#524c3b] hover:text-white transition-all duration-300' ><Link to="/customerindividualcreate">新規顧客情報登録</Link></button>
                         </div>
                     </div>
 
@@ -294,16 +294,16 @@ const CustomerList = () => {
                                 <th style={Th}>
                                     <div className='w-ful1 flex justify-center'>
                                         <div className={`flex justify-center w-max`}>
-                                                訪問タイプ
+                                                種別①
                                             <div className='flex flex-col justify-center'>
                                                 {isshow2 ? <button><img src={rightArrow} className='h-4' alt='' onClick={openSubtable2} ></img></button> : <button><img src={leftArrow} className='h-4' alt='' onClick={closeSubtable2}></img></button>}
                                             </div>
                                         </div>
                                     </div>
                                 </th>
-                                {isshow2 ? <th style={Th} >ブランドタイプ</th> : <th style={{ display: 'none' }}></th>}
+                                {isshow2 ? <th style={Th} >種別②</th> : <th style={{ display: 'none' }}></th>}
                                 {isshow2 ? <th style={Th} >Email</th> : <th style={{ display: 'none' }}></th>}
-                                {isshow2 ? <th style={Th} >トリガー</th> : <th style={{ display: 'none' }}></th>}
+                                {/* {isshow2 ? <th style={Th} >トリガー</th> : <th style={{ display: 'none' }}></th>} */}
                                 <th style={Th} width='2%'></th>
                             </tr>
                         </thead>
@@ -344,7 +344,7 @@ const CustomerList = () => {
                                     <td style={Td}>{customer.visit_type || ''}</td>
                                     {isshow2 ? <td style={Td} >{customer.brand_type || ''}</td> : <td style={{ display: 'none' }}></td>}
                                     {isshow2 ? <td style={Td} >{customer.email || ''}</td> : <td style={{ display: 'none' }}></td>}
-                                    {isshow2 ? <td style={Td} >{customer.trigger || ''}</td> : <td style={{ display: 'none' }}></td>}
+                                    {/* {isshow2 ? <td style={Td} >{customer.trigger || ''}</td> : <td style={{ display: 'none' }}></td>} */}
                                     <td onClick={() => handleCustomerClick(customer.id)}>
                                         <svg className="w-5 h-5 ml-5" fill='#70685a' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="ContentCopyIcon" title="ContentCopy">
                                             <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2m0 16H8V7h11z"></path>

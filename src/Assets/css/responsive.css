@@ -346,11 +346,20 @@
     }
   }
   @media screen and (max-width: 1300px) {
+    .purchase-confirm-width {
+       display: block !important;
+    }
     .purchase-confirm-width-one {
-        width: 30% !important;
+        width: 40% !important;
     }
     .purchase-confirm-width-two {
-        width: 70% !important;
+        width: 60% !important;
+    }
+    .purchase-confirm-width-three {
+        width: 100% !important;
+    }
+    .purchase-confirm-width-four {
+        width: 100% !important;
     }
     .sign-part {
       display: block !important;

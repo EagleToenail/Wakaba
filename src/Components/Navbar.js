@@ -102,11 +102,11 @@ export default function Navbar({ sendURL }) {
                 { label: 'WAKABA', route: '#' },
                 { label: '終業', route: '/closingwork' },
               ].map((item, index) => (
-                <li key={index} className='max-lg:border-b border-gray-300 max-lg:py-4 px-4'>
+                <li key={index} className='max-lg:border-b border-gray-300 max-lg:py-4 px-3'>
                   <button
                     type="button"
                     onClick={() => handleLinkClick(index, item.route)}
-                    className={`block font-semibold text-[#655b4a] text-[15px] inline-block whitespace-nowrap overflow-hidden text-ellipsis px-5 text-sm tracking-wider outline-none bg-white ${activeIndex === index ? '!bg-[#222] text-white' : 'hover:bg-[#222] active:bg-[#333]'
+                    className={`block font-semibold text-[#655b4a] !text-[15px] inline-block whitespace-nowrap overflow-hidden text-ellipsis px-5 text-sm tracking-wider outline-none bg-white ${activeIndex === index ? '!bg-[#222] text-white' : 'hover:bg-[#222] active:bg-[#333]'
                       }`}
                   >
                     {item.label}

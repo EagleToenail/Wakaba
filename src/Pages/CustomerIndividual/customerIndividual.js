@@ -426,28 +426,27 @@ const CustomerIndividual = () => {
     return (<>
         <div className="bg-[trasparent] font-[sans-serif]">
             <div className='flex justify-center'>
-                <div className="w-full" style={{ maxWidth: '90em' }}>
-                    <div className="w-full" style={{ maxWidth: '40em' }}>
+                <div className="w-full" >
+                    <div className="w-full" >
                         {/* new */}
                         <div className='flex'>
-                            <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
+                            <div style={{flexDirection: 'column', }} className='flex align-center justify-around'>
                                 <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 !mb-0">来店時間</label>
                             </div>
-                            <div style={{ width: '50%', flexDirection: 'column', }} className='flex align-center justify-around'>
+                            <div style={{flexDirection: 'column', }} className='flex align-center justify-around'>
                                 <label className="text-[#70685a] font-bold block text-left mr-10 py-1 !mb-0">{formattedDateTime || ''}</label>
                             </div>
                         </div>
                         {/* new */}
                         <div className='flex'>
-                            <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
+                            <div style={{flexDirection: 'column', }} className='flex align-center justify-around'>
                                 <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">顧客番号</label>
                             </div>
-                            <div style={{ width: '50%', flexDirection: 'column', }} className='flex align-center justify-around'>
+                            <div style={{flexDirection: 'column', }} className='flex align-center justify-around'>
                                 <label className="text-[#70685a] font-bold mb-2 block text-left mr-10 py-1 !mb-0">{customer.id || ''}</label>
                             </div>
                         </div>
                     </div>
-                    {/* <button onClick={handleSubmit}>AAA</button> */}
                     <h2 className="text-[#70685a] text-center text-2xl font-bold flex justify-center !mt-0">顧客 個別情報(編集画面)</h2>
                     <div className='customer-edit w-full flex justify-center mt-3 gap-10' >
                         <div className='customer-edit-center flex gap-10'>
@@ -456,13 +455,12 @@ const CustomerIndividual = () => {
                         </div>
                         <div className=' customer-edit-center flex gap-10'>
                             <ButtonComponent name="onsitepurchase" children="出張買取" className='px-5' style={{ border: '1px solid #838383', backgroundColor: 'transparent', color: '#838383', }} ><Link to='/onsitepurchase'>キャンセル</Link></ButtonComponent>
-                            <label className="text-[#70685a] font-bold mb-2 block text-left flex justify-end" style={{ flexDirection: 'column' }}><u> <Link to='/customerlist'>キャンセル</Link></u></label>
                         </div>
                     </div>
                 </div>
             </div>
             <div className="customer-edit flex  justify-center ">
-                <div className="w-full pt-1">
+                <div className="w-full">
                     <div className=" rounded-2xl w-full">
                         <form className=" space-y-2 pt-2">
                             {/* new */}
@@ -472,20 +470,6 @@ const CustomerIndividual = () => {
                                 </div>
                                 <div style={{ width: '30%', flexDirection: 'column', }} className='flex align-center justify-around'>
                                     <label name="storename" className="text-[#70685a] font-bold mb-2 block text-left mr-10 py-2 !mb-0">{customer.shop || ''}</label>
-                                </div>
-                                <div style={{ width: '20%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-3 !mb-0">訪問タイプ</label>
-                                </div>
-                                <div style={{ width: '30%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <select id="visit_type" name="visit_type" value={customer.visit_type || ''} required onChange={handleCustomerChange} className="w-full text-[#70685a] font-bold border border-[#70685a] px-4 py-2 outline-[#70685a]">
-                                        <option value="" disabled></option>
-                                        <option value="折りたたまれた">折りたたまれた</option>
-                                        <option value="店の前で">店の前で</option>
-                                        <option value="顧客">顧客</option>
-                                        <option value="投稿">投稿</option>
-                                        <option value="紹介">紹介</option>
-                                        <option value="他の人">他の人</option>
-                                    </select>
                                 </div>
                             </div>
                             {/* new */}
@@ -563,13 +547,21 @@ const CustomerIndividual = () => {
                             {/* new */}
                             <div className='flex'>
                                 <div style={{ width: '20%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <label className="text-[#70685a] font-bold mb-2 block text-center mr-10 py-1 !mb-0">トリガー</label>
+                                    <label className="text-[#70685a] font-bold mb-2 block text-center mr-10 py-3 !mb-0">種別①</label>
                                 </div>
                                 <div style={{ width: '30%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <InputComponent name="trigger" value={customer.trigger || ''} onChange={handleCustomerChange} type='text' required />
+                                    <select id="visit_type" name="visit_type" value={customer.visit_type || ''} required onChange={handleCustomerChange} className="w-full text-[#70685a] font-bold border border-[#70685a] px-4 py-2 outline-[#70685a]">
+                                        <option value="" disabled></option>
+                                        <option value="折りたたまれた">折りたたまれた</option>
+                                        <option value="店の前で">店の前で</option>
+                                        <option value="顧客">顧客</option>
+                                        <option value="投稿">投稿</option>
+                                        <option value="紹介">紹介</option>
+                                        <option value="他の人">他の人</option>
+                                    </select>
                                 </div>
                                 <div style={{ width: '20%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">銘柄</label>
+                                    <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">種別②</label>
                                 </div>
                                 <div style={{ width: '30%', flexDirection: 'column', }} className='flex align-center justify-around'>
                                     <InputComponent name="brand_type" value={customer.brand_type || ''} onChange={handleCustomerChange} type='text' required />
@@ -718,13 +710,13 @@ const CustomerIndividual = () => {
                     </div>
                 </div>
                 {/* Detail area*/}
-                <div className="customer-pasting-view w-full h-full mt-5 ml-10" style={{ maxWidth: '60em' }}>
+                <div className="customer-pasting-view w-full h-full mt-1 ml-10" style={{ maxWidth: '60em' }}>
                     {/* Detail area First*/}
                     <div style={{ width: '100%', }} className='flex'>
                         <div className=" h-full w-full">
                             {/*Past visit history of Table area */}
-                            <div className="border border-[#70685a] rounded px-3 w-full mb-5" style={{ height: '358px', overflowX: 'scroll', overflowY: 'scroll' }}>
-                                <div className='flex justify-between mt-5'>
+                            <div className="border border-[#70685a] rounded px-3 w-full mb-2" style={{ height: '160px', overflowY: 'scroll' }}>
+                                <div className='flex justify-between mt-2'>
                                     <label className="text-[#70685a] text-[20px] font-bold mb-2 block text-left mr-10 py-1 !mb-0">過去の訪問履歴</label>
                                     <button type="button" onClick={gotoInvoiceForPurchase}
                                         className="flex px-5 py-1 rounded-lg  text-[#70685a] text-[18px] bg-[transparent] tracking-wider font-bold border border-[#70685a] outline-none transition-all duration-300">
@@ -813,16 +805,16 @@ const CustomerIndividual = () => {
                             </div>
                             {/* Text area */}
                             <div className='w-full flex justify-center'>
-                                <div className=" h-full w-full mt-3">
+                                <div className=" h-full w-full mt-1">
                                     {/* Text area */}
-                                    <div className="border border-[#70685a] rounded px-3 w-full" style={{ height: '220px', overflow: 'auto' }}>
-                                        <label className="text-[#70685a] text-[20px] font-bold mb-2 block text-left mr-10 py-1 !mb-0">全体ヒアリング</label>
+                                    <div className="border border-[#70685a] rounded px-3 w-full" style={{ height: '160px', overflow: 'auto' }}>
+                                        <label className="text-[#70685a] text-[20px] font-bold mb-2 block text-left mr-10 py-1 !mb-0">来店契機</label>
                                         <div>
                                             <div className='flex'>
-                                                <label className="text-[#70685a] text-[18px] mb-2 block text-left mr-10 py-1">項目1</label>
-                                                <label className="text-[#70685a] text-[18px] mb-2 block text-left mr-10 py-1 !mb-0">何を見てご来店いただきましたか？</label>
+                                                {/* <label className="text-[#70685a] text-[18px] mb-2 block text-left mr-10 py-1"></label> */}
+                                                <label className="text-[#70685a] text-[16px] mb-2 block text-left mr-10 py-1 !mb-0">何を見てご来店いただきましたか？</label>
                                             </div>
-                                            <div className='ml-20 text-[17px]'>
+                                            <div className='ml-3 text-[13px]'>
                                                 <div className='flex justify-between'>
                                                     {['以前も利用したことがある', '店舗を見て', 'インターネットを見て', '紹介されて'].map((label, index) => {
                                                         const id = `additional-checkbox-${index}`; // Unique ID for each checkbox
@@ -853,11 +845,9 @@ const CustomerIndividual = () => {
                                                         value={pairs[0].value || ''}
                                                         onChange={(e) => handleInputChange(0, e.target.value)}
                                                         disabled={!pairs[0].checked}
-                                                        className="w-40 text-[#70685a] mb-2 block text-left mr-10 py-1 !mb-0 !h-8"
+                                                        className="w-[100px] text-[#70685a]block text-left mr-3 py-1 !h-8"
                                                         placeholder={'広告を見た場所'}
                                                     />
-                                                </div>
-                                                <div className='flex gap-10'>
                                                     {[
                                                         { label: '折込チラシを見て', placeholder: '新聞銘柄' },
                                                         { label: 'その他', placeholder: 'その他詳細' }
@@ -877,16 +867,19 @@ const CustomerIndividual = () => {
                                                                     value={pairs[index + 1].value || ''}
                                                                     onChange={(e) => handleInputChange(index + 1, e.target.value)}
                                                                     disabled={!pairs[index + 1].checked}
-                                                                    className="w-40 text-[#70685a] mb-2 block text-left mr-10 py-1 !mb-0 !h-8"
+                                                                    className="w-[100px] text-[#70685a] block text-left mr-3 py-1 !h-8"
                                                                     placeholder={item.placeholder}
                                                                 />
                                                             </div>
                                                         );
                                                     })}
                                                 </div>
+                                                <div className='flex gap-10'>
+
+                                                </div>
                                             </div>
                                         </div>
-                                        <div style={{display:'none'}}>
+                                        <div style={{ display: 'none' }}>
                                             <div className='flex'>
                                                 <label className="text-[#70685a] text-[18px] mb-2 block text-left mr-10 py-1">項目2</label>
                                                 <label className="text-[#70685a] text-[18px] mb-2 block text-left mr-10 py-1 !mb-0">次回お持ちいただくご予定の商品はございますか？</label>
@@ -947,7 +940,7 @@ const CustomerIndividual = () => {
                                                 </div>
                                             </div>
                                         </div>
-                                        <div style={{display:'none'}}>
+                                        <div style={{ display: 'none' }}>
                                             <div className='flex'>
                                                 <label className="text-[#70685a] text-[18px] mb-2 block text-left mr-10 py-1">項目3</label>
                                                 <label className="text-[#70685a] text-[18px] mb-2 block text-left mr-10 py-1 !mb-0">(各種ご案内)の送付は  可/不可</label>
@@ -975,6 +968,126 @@ const CustomerIndividual = () => {
                                                 </div>
                                             </div>
 
+                                        </div>
+                                    </div>
+                                    {/* -------question------- */}
+                                    <div className="px-3 w-full mt-5">
+                                        <div>
+                                            <div className='flex'>
+                                                <label className="text-[#70685a] text-[16px] block text-left mr-10">Q1</label>
+                                                <label className="text-[#70685a] text-[15px] block text-left mr-10">ご職業</label>
+                                            </div>
+                                            <div className='ml-5 text-[13px]'>
+                                                <div className='flex justify-between'>
+                                                    {['自営業', '自由業', '会社員', 'パート・アルバイト', '主婦', '学生', '無色'].map((label, index) => {
+                                                        const id = `additional-checkbox-${index}`; // Unique ID for each checkbox
+                                                        return (
+                                                            <div className="flex items-center" key={index}>
+                                                                <input
+                                                                    type="checkbox"
+                                                                    id={id}
+                                                                    checked={additionalCheckboxes[index]}
+                                                                    onChange={() => handleAdditionalCheckboxChange(index)}
+                                                                    className="w-4 h-4 mr-3"
+                                                                />
+                                                                <label htmlFor={id} className="text-[#70685a]">{label}</label>
+                                                            </div>
+                                                        );
+                                                    })}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className='sign-part w-full'>
+                                            <div className='sign-width-one'>
+                                                <div className='w-full flex'>
+                                                    <label className="text-[#70685a] text-[16px] block text-left mr-10">Q2</label>
+                                                    <label className="text-[#70685a] text-[15px] block text-left mr-10">次回お持ちいただくご予定の商品はございますか？</label>
+                                                </div>
+                                                <div className='ml-2 flex text-[13px]'>
+                                                    <div className='flex flex-wrap'>
+                                                        {[
+                                                            'ダイヤモンド',
+                                                            '色石',
+                                                            'ネックレス',
+                                                            '指輪',
+                                                            '時計',
+                                                            'ブランド品',
+                                                            '切手',
+                                                            '中国切手',
+                                                            '古銭',
+                                                            '金券',
+                                                            'テレカ',
+                                                            'カメラ',
+                                                            'スマートフォン',
+                                                            '食器',
+                                                            'ホビー',
+                                                            '楽器'
+                                                        ].map((item, index) => {
+                                                            const checkboxIndex = index + 4; // Adjust the index for additionalCheckboxes
+                                                            const id = `checkbox-${checkboxIndex}`; // Unique ID for each checkbox
+                                                            return (
+                                                                <div className="flex items-center ml-3" key={id}>
+                                                                    <input
+                                                                        type="checkbox"
+                                                                        id={id}
+                                                                        className="w-4 h-4 mr-3"
+                                                                        checked={additionalCheckboxes[checkboxIndex] || false}
+                                                                        onChange={() => handleAdditionalCheckboxChange(checkboxIndex)}
+                                                                    />
+                                                                    <label htmlFor={id} className="text-[#70685a]">{item}</label>
+                                                                </div>
+                                                            );
+                                                        })}
+
+                                                        <div className='flex items-center ml-3'>
+                                                            <input
+                                                                type="checkbox"
+                                                                id="pair-checkbox-3"
+                                                                checked={pairs[3].checked}
+                                                                onChange={() => handlePairCheckboxChange(3)}
+                                                                className="w-4 h-4 mr-3"
+                                                            />
+                                                            <label htmlFor="pair-checkbox-3" className="text-[#70685a] mr-3">その他</label>
+                                                            <InputComponent
+                                                                value={pairs[3].value}
+                                                                onChange={(e) => handleInputChange(3, e.target.value)}
+                                                                disabled={!pairs[3].checked}
+                                                                className="w-[100px] text-[#70685a] mb-2 block text-left mr-10 py-1 !mb-0 !h-8"
+                                                                placeholder={'その他詳細'}
+                                                            />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div className='sign-width-one'>
+                                                <div className='w-full flex'>
+                                                    <label className="text-[#70685a] text-[16px] block text-left mr-10">Q3</label>
+                                                    <label className="text-[#70685a] text-[15px] block text-left mr-10">DM等、各種ご案内をお送りしてもよろしいですか？</label>
+                                                </div>
+                                                <div className='ml-5'>
+                                                    <div className='flex gap-10 text-[13px]'>
+                                                        {[
+                                                            { label: '可', index: 20 },
+                                                            { label: '不可', index: 21 }
+                                                        ].map(({ label, index }) => {
+                                                            const id = `checkbox-${index}`;
+                                                            return (
+                                                                <div className="flex items-center" key={id}>
+                                                                    <input
+                                                                        type="checkbox"
+                                                                        id={id}
+                                                                        className="w-4 h-4 mr-3"
+                                                                        checked={additionalCheckboxes[index] || false}
+                                                                        onChange={() => handleAdditionalCheckboxChange(index)}
+                                                                    />
+                                                                    <label htmlFor={id} className="text-[#70685a]">{label}</label>
+                                                                </div>
+                                                            );
+                                                        })}
+                                                    </div>
+                                                </div>
+
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

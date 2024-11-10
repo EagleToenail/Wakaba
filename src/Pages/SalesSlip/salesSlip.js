@@ -115,6 +115,8 @@ const SalesSlip = () => {
                         comment: JSON.parse(data.comment),
                     }));
                     setSales(updatedData111);
+                } else {
+                    setSales([]);
                 }
             })
             .catch(error => {
@@ -743,18 +745,20 @@ const SalesSlip = () => {
                                                                     />
                                                                 </div>
                                                             </div>
-                                                            <ul className="h-48 px-3 pb-3 overflow-y-auto text-sm text-gray-700">
+                                                            <ul className="h-max px-1 text-sm text-gray-700">
                                                                 {filteredStatuses.map((status) => (
                                                                     <li key={`status-${status}`}>
-                                                                        <div className="flex pr-2 p-2 rounded hover:bg-gray-100">
-                                                                            <input
-                                                                                id={`checkbox-${status}`}
-                                                                                type="checkbox"
-                                                                                checked={selectedStatuses.includes(status)}
-                                                                                onChange={() => handleStatusCheckboxChange(status)}
-                                                                                className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
-                                                                            />
-                                                                            <label htmlFor={`checkbox-${status}`} className="w-full ms-2 text-sm font-medium text-gray-900">{status}</label>
+                                                                        <div className="flex h-6 pr-2 rounded hover:bg-gray-100">
+                                                                            <div className='flex flex-col justify-center'>
+                                                                                <input
+                                                                                    id={`checkbox-${status}`}
+                                                                                    type="checkbox"
+                                                                                    checked={selectedStatuses.includes(status)}
+                                                                                    onChange={() => handleStatusCheckboxChange(status)}
+                                                                                    className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded pb-2 focus:ring-blue-500"
+                                                                                />
+                                                                            </div>
+                                                                            <label htmlFor={`checkbox-${status}`} className="w-full ms-2 text-sm font-medium text-gray-900 text-left">{status}</label>
                                                                         </div>
                                                                     </li>
                                                                 ))}
@@ -783,20 +787,22 @@ const SalesSlip = () => {
                                                             <div className="p-3">
                                                                 <label htmlFor="input-group-search" className="sr-only">Search</label>
                                                                 <div className="relative">
-                                                                    <input
-                                                                        type="text"
-                                                                        id="input-group-search"
-                                                                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                                                                        placeholder="検索..."
-                                                                        value={searchTerm}
-                                                                        onChange={(e) => setSearchUserTerm(e.target.value)}
-                                                                    />
+                                                                    <div className='flex flex-col justify-center'>
+                                                                        <input
+                                                                            type="text"
+                                                                            id="input-group-search"
+                                                                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                                                            placeholder="検索..."
+                                                                            value={searchTerm}
+                                                                            onChange={(e) => setSearchUserTerm(e.target.value)}
+                                                                        />
+                                                                    </div>    
                                                                 </div>
                                                             </div>
-                                                            <ul className="h-48 px-3 pb-3 overflow-y-auto text-sm text-gray-700">
+                                                            <ul className="h-max px-1 text-sm text-gray-700">
                                                                 {filteredUsers.map((user) => (
                                                                     <li key={`option-product1-${user.id}`}>
-                                                                        <div className="flex items-center p-2 rounded hover:bg-gray-100">
+                                                                        <div className="flex h-6 items-center p-2 rounded hover:bg-gray-100">
                                                                             <input
                                                                                 id={`checkbox-${user.full_name}`}
                                                                                 type="checkbox"
@@ -804,7 +810,7 @@ const SalesSlip = () => {
                                                                                 onChange={() => handleUserCheckboxChange(user.full_name)}
                                                                                 className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
                                                                             />
-                                                                            <label htmlFor={`checkbox-${user.full_name}`} className="w-full ms-2 text-sm font-medium text-gray-900">{user.full_name}</label>
+                                                                            <label htmlFor={`checkbox-${user.full_name}`} className="w-full ms-2 text-sm font-medium text-gray-900 text-left">{user.full_name}</label>
                                                                         </div>
                                                                     </li>
                                                                 ))}
@@ -827,7 +833,7 @@ const SalesSlip = () => {
 
                                                     {isDateOpen1 && (
                                                         <div className="absolute z-10 bg-white rounded-lg shadow w-100">
-                                                            <ul className="h-48 px-3 pb-3 overflow-y-auto text-sm text-gray-700">
+                                                            <ul className="h-max px-1 text-sm text-gray-700">
                                                                 <li>
                                                                     <div className="flex items-center p-2 rounded hover:bg-gray-100">
                                                                         <input
@@ -925,7 +931,7 @@ const SalesSlip = () => {
 
                                                     {isDateOpen2 && (
                                                         <div className="absolute z-10 bg-white rounded-lg shadow w-100">
-                                                            <ul className="h-48 px-3 pb-3 overflow-y-auto text-sm text-gray-700">
+                                                            <ul className="h-max px-1 text-sm text-gray-700">
                                                                 <li>
                                                                     <div className="flex items-center p-2 rounded hover:bg-gray-100">
                                                                         <input
@@ -1023,7 +1029,7 @@ const SalesSlip = () => {
 
                                                     {isDateOpen3 && (
                                                         <div className="absolute z-10 bg-white rounded-lg shadow w-100">
-                                                            <ul className="h-48 px-3 pb-3 overflow-y-auto text-sm text-gray-700">
+                                                            <ul className="h-max px-1 text-sm text-gray-700">
                                                                 <li>
                                                                     <div className="flex items-center p-2 rounded hover:bg-gray-100">
                                                                         <input
@@ -1337,7 +1343,12 @@ const SalesSlip = () => {
                                                 {isDetailShow ? <td style={Td} >{sale.percent || ''}</td> : <td style={{ display: 'none' }}></td>}
                                                 {isDetailShow ? <td style={Td} >{sale.notes || ''}</td> : <td style={{ display: 'none' }}></td>}
                                                 <td style={Td}>{sale.quantity}</td>
-                                                <td style={Td} className='text-right'>{(sale.highest_estimate_price || 0).toLocaleString()}</td>
+                                                {sale.highest_estimate_price && sale.highest_estimate_price !== '' ?
+                                                    <td style={Td} className='text-right'>
+                                                        {(sale.highest_estimate_price || 0).toLocaleString()}
+                                                    </td>
+                                                    : <td style={Td}></td>
+                                                }
                                                 <td style={Td}>{sale.highest_estimate_vendor || ''}</td>
                                                 <td style={Td} className='text-right'>{(sale.purchase_price || 0).toLocaleString()}</td>
                                                 <td style={Td} className='text-right'>{(sale.sales_amount || 0).toLocaleString()}</td>

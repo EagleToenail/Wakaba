@@ -28,7 +28,6 @@ const InvoicePurchaseOfDetail = () => {
     const decodedToken = jwtDecode(token);
     const userStoreName = decodedToken.storename;
     const userId = decodedToken.userId;
-    const username = decodedToken.fullname;
     const role = decodedToken.role;
 
     const now = new Date();
@@ -1525,7 +1524,7 @@ const InvoicePurchaseOfDetail = () => {
                                         totalSalesSlipData?.length > 0 &&
                                         !['査定中', 'お預かり', '承認待ち'].includes(totalSalesSlipData[0].product_status) && (
                                             <button
-                                                className="w-max text-[red] font-bold rounded-md border border-[red] h-11 !px-5 hover:bg-green-600 hover:text-white transition-all duration-300"
+                                                className="w-max text-[red] font-bold rounded-md border border-[red] h-11 !px-5"
                                             >
                                                 許可済
                                             </button>
@@ -1715,7 +1714,7 @@ const InvoicePurchaseOfDetail = () => {
                         <div className='w-full flex justify-center'>
                             <div className=" h-full w-full mt-5">
                                 {/* Text area */}
-                                <label className="text-[#70685a] text-[20px] font-bold mb-2 block text-left mr-10 py-1 !mb-0">アンケート</label>
+                                <label className="text-[#70685a] text-[20px] font-bold mb-2 block text-left mr-10 py-1 !mb-0">来店契機　に</label>
                                 <div className="px-3 w-full h-[170px]">
                                     <div>
                                         <div className='flex'>
@@ -1786,6 +1785,7 @@ const InvoicePurchaseOfDetail = () => {
                                             </div>
                                         </div>
                                     </div>
+                                    
                                     <div style={{display:'none'}}>
                                         <div className='flex'>
                                             <label className="text-[#70685a] text-[18px] mb-2 block text-left mr-10 py-1">項目2</label>
@@ -2066,7 +2066,7 @@ const InvoicePurchaseOfDetail = () => {
                                         </td> : <td style={Td}></td>
                                         : <td style={{ display: 'none' }}></td>}
                                     {isDetailShow ? (salesSlipData.product_type_one === '時計' || salesSlipData.product_type_one === 'バッグ'
-                                        || salesSlipData.product_type_one === '財布' || salesSlipData.product_type_one === 'カメラ' || salesSlipData.product_type_one === '楽器' || salesSlipData.product_type_one === 'スマホタブレット') ?
+                                        || salesSlipData.product_type_one === '財布' || salesSlipData.product_type_one === 'カメラ' || salesSlipData.product_type_one === '楽器' || salesSlipData.product_type_one === 'スマホ・タブレット') ?
                                         <td style={Td}>
                                             <InputComponent name='serial_number' type='text' onChange={handleChange} value={salesSlipData.serial_number || ''} className='w-20 h-8 text-[#70685a]' />
                                         </td> : <td style={Td}></td>
