@@ -166,14 +166,14 @@ const GeneralAccordionItem = ({ messageId, time, title, content, fileUrl, sender
           {/* <p>{content}</p> */}
           {fileUrl && isImageFile(fileUrl) ? (<div className='w-full h-[150px] flex justify-center' >
             <div>
-              <img src={`${wakabaBaseUrl}/uploads/todoList/${fileUrl}`} alt="Uploaded" style={styles.imagePreview} />
-              <a href={`${wakabaBaseUrl}/uploads/todoList/${fileUrl}`} target="_blank">
+              <img src={`${wakabaBaseUrl}/uploads/generalchat/${fileUrl}`} alt="Uploaded" style={styles.imagePreview} />
+              <a href={`${wakabaBaseUrl}/uploads/generalchat/${fileUrl}`} target="_blank">
                   Open in Brosewer 
               </a>
             </div>
           </div>
           ) : (<div className='w-full h-10 flex justify-center'>
-            <a href={`${wakabaBaseUrl}/uploads/todoList/${fileUrl}`} download={fileUrl} target="_blank" rel="noopener noreferrer">
+            <a href={`${wakabaBaseUrl}/uploads/generalchat/${fileUrl}`} download={fileUrl} target="_blank" rel="noopener noreferrer">
                 {fileUrl}
             </a>
           </div>

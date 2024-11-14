@@ -66,7 +66,7 @@ export default function TODOList() {
         }
         fetchStoreSuperViosr();
 
-    }, []);
+    }, [userStoreName]);
     // Filter the options based on the query
     useEffect(() => {
         setFilteredOptions(
@@ -122,11 +122,11 @@ export default function TODOList() {
     const sendInputRef = useRef(null);
     const handleFileChange = (event) => {
         const file = event.target.files[0];
-        if (file) {
-            // Create a URL for the file to display as a preview
-            const fileURL = URL.createObjectURL(file);
-        }
-        setSendFile(event.target.files[0]);
+        // if (file) {
+        //     // Create a URL for the file to display as a preview
+        //     const fileURL = URL.createObjectURL(file);
+        // }
+        setSendFile(file);
     };
 
     const handleButtonClick = (sendInputRef) => {

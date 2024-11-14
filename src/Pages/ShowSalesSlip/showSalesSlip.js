@@ -1,15 +1,9 @@
 import React,{ useState, useEffect } from 'react';
-import {Link ,useNavigate} from 'react-router-dom';
+import { useNavigate} from 'react-router-dom';
 import axios from 'axios';
 
 import { useDispatch } from 'react-redux';
 import { setRShopShippingData } from '../../redux/sales/actions';
-
-// import Titlebar from '../../Components/Common/Titlebar';
-// import InputComponent from '../../Components/Common/InputComponent';
-import ButtonComponent from '../../Components/Common/ButtonComponent';
-import LabelComponent from '../../Components/Common/LabelComponent';
-
 
 const ShowSalesSlip = () => {
     // const title = 'タイトルタイトル';
@@ -38,10 +32,6 @@ const ShowSalesSlip = () => {
     };
 
     const dispatch = useDispatch();
-
-    const updateData = (data) => {
-    dispatch(setRShopShippingData(data));
-    };
 
     const [sales, setSales] = useState([]);
     // Fetch sales data
@@ -78,55 +68,6 @@ const ShowSalesSlip = () => {
             });
     };
 
-    const handleSalesEditClick = (id) => {
-        // navigate(`/salesslipupdate/${id}`); // Use navigate for routing
-        navigate(`/invoiceforpurchasedetail/${id}`)
-    };
-
-    //checked event
-    const [checkedValues, setCheckedValues] = useState([]);
-    // Handle checkbox change
-    const handleCheckboxChange = (event) => {
-        const value = event.target.value;
-        setCheckedValues((prevValues) => 
-        prevValues.includes(value)
-            ? prevValues.filter((v) => v !== value) // Uncheck
-            : [...prevValues, value] // Check
-        );
-    };
-    const handleSendCheckedValues = () => {
-        updateData(checkedValues);
-        // console.log('checked values',checkedValues);
-        if(checkedValues && checkedValues.length !==0){
-            navigate('/purchaserequest');
-        }
-
-    };
-    //go to disposal permission
-    const sendToDisposalPermission = () => {
-        // updateData(checkedValues);
-        // navigate('/applicationfordisposalpermission');
-    }
-
-    //filter yahoo auction
-    const handleYahooAuction =()=> {
-        setShowYahoo(true);
-        const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
-        if (!wakabaBaseUrl) {
-            throw new Error('API base URL is not defined');
-        }
-
-        // console.log(`${wakabaBaseUrl}/sales/filter`);
-        axios.post(`${wakabaBaseUrl}/sales/vendorfilter`,{ value: 'オークション' })
-            .then(response => {
-                // console.log(response.data)
-                setSales(response.data);
-            })
-            .catch(error => {
-                console.error("There was an error fetching the customer data!", error);
-        });
-    }
-
     const [showYahoo,setShowYahoo] = useState(false);
      //  -------------------------------select box-------------------------------
      const [product1s, setProduct1s] = useState([]);
@@ -153,7 +94,6 @@ const ShowSalesSlip = () => {
  
      const handleCategory1Change = (e, productList) => {
          const selectedCategory = e.target.value; // Get the selected category
-         const selectedResult = productList.find(product => product.category === selectedCategory);//need id
          setCategory1(selectedCategory);
          handleCategory(selectedCategory);
      };

@@ -1,5 +1,5 @@
 import React,{ useState, useEffect } from 'react';
-import {Link ,useNavigate} from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 import axios from 'axios';
 // import Titlebar from '../../Components/Common/Titlebar';
 import '../../Assets/css/showtable.css'
@@ -104,50 +104,12 @@ const SafeMoney = () => {
                 });
         }, []);
 
-    //fetch data to backend
-    const getCashRegisterData = (date) =>{
-        const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
-        if (!wakabaBaseUrl) {
-            throw new Error('API base URL is not defined');
-        }
-        axios.post(`${wakabaBaseUrl}/cashregister`, {payload:date})
-        .then(response => {
-
-        })
-        .catch(error => {
-            console.error("There was an error fetching the customer data!", error);
-        });
-    }
     // Current year, month, and day
     const date = new Date();
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const day = String(date.getDate()).padStart(2, '0');
 
     // Calculate last month
     const lastMonthDate = new Date(date);
     lastMonthDate.setMonth(lastMonthDate.getMonth() - 1); // Go to the last month
-    const lastYear = lastMonthDate.getFullYear();
-    const lastMonth = String(lastMonthDate.getMonth() + 1).padStart(2, '0');
-
-    // Formatted strings
-    const yearFormat = `${year}`;                    // Format: Y
-    const yearMonthFormat = `${year}-${month}`;      // Format: Y-M
-    const yearMonthDayFormat = `${year}-${month}-${day}`; // Format: Y-M-D
-    const lastYearMonthFormat = `${lastYear}-${lastMonth}`; // Last month: Y-M
-
-    const getTodayData = ()=> {
-        getCashRegisterData(yearMonthDayFormat);
-    }
-    const getThisMonthData = ()=> {
-        getCashRegisterData(yearMonthFormat);
-    }
-    const getLastMonthData = ()=> {
-        getCashRegisterData(lastYearMonthFormat);
-    }
-    const getThisYearData = ()=> {
-        getCashRegisterData(yearFormat);
-    }
 
     const [searchParams, setSearchParams] = useState({
         status: '',
@@ -163,20 +125,6 @@ const SafeMoney = () => {
             [name]: value
         });
     };
-    //get data from start date to end date
-    const getPeriodCashRegister = () => {
-        const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
-        if (!wakabaBaseUrl) {
-            throw new Error('API base URL is not defined');
-        }
-        axios.post(`${wakabaBaseUrl}/cashregisterperiod`, {params: searchParams})
-        .then(response => {
-
-        })
-        .catch(error => {
-            console.error("There was an error fetching the customer data!", error);
-        });
-    }
 
     return (
         <>

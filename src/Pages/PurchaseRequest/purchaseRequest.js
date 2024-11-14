@@ -52,8 +52,7 @@ const PurchaseRequest = () => {
         }
         fetch();
 
-    }, [data.data]);
-    console.log('rShopShippingIds---------', shippingIds);
+    }, [data.data, shippingIds]);
 
     const [rShopPurchase, setRShopPurchase] = useState([]);
     // Fetch purchae request to rshop data

@@ -53,7 +53,7 @@ const InvoiceForPurchaseList = () => {
                 });
         }
         fetchInvoiceList();
-    }, []);
+    }, [userId,userStoreName]);
 
     const setInvoiceStatus = async(data) => {
         const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;

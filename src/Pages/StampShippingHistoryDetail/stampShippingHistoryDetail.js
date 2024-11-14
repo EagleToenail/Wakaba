@@ -356,58 +356,59 @@ const StampShippingDetail = () => {
     }
 
     //calculate second table
-    const calculateCardTotal = () => {
-        // Calculate the sum
-        const totalnumberofcard1 = cardRows.reduce((sum, item) => {
-            if (item.stampValue >= 50) {
-                return parseInt(sum) + parseInt(item.numberOfSheets);
-            }
-            return sum;
-        }, 0);
-        setTotalNumberofCard1(totalnumberofcard1);
-        const totalnumberofcard2 = cardRows.reduce((sum, item) => {
-            if (item.stampValue < 50) {
-                return parseInt(sum) + parseInt(item.numberOfSheets);
-            }
-            return sum;
-        }, 0);
-        setTotalNumberofCard2(totalnumberofcard2);
-        const cardfacevalue1 = cardRows.reduce((sum, item) => {
-            if (item.stampValue >= 50) {
-                return parseInt(sum) + parseInt(item.totalFaceValue);
-            }
-            return sum;
-        }, 0);
-        setCardFaceValue1(cardfacevalue1);
-        const cardfacevalue2 = cardRows.reduce((sum, item) => {
-            if (item.stampValue < 50) {
-                return parseInt(sum) + parseInt(item.totalFaceValue);
-            }
-            return sum;
-        }, 0);
-        setCardFacevalue2(cardfacevalue2);
-    }
     useEffect(() => {
+        const calculateCardTotal = () => {
+            // Calculate the sum
+            const totalnumberofcard1 = cardRows.reduce((sum, item) => {
+                if (item.stampValue >= 50) {
+                    return parseInt(sum) + parseInt(item.numberOfSheets);
+                }
+                return sum;
+            }, 0);
+            setTotalNumberofCard1(totalnumberofcard1);
+            const totalnumberofcard2 = cardRows.reduce((sum, item) => {
+                if (item.stampValue < 50) {
+                    return parseInt(sum) + parseInt(item.numberOfSheets);
+                }
+                return sum;
+            }, 0);
+            setTotalNumberofCard2(totalnumberofcard2);
+            const cardfacevalue1 = cardRows.reduce((sum, item) => {
+                if (item.stampValue >= 50) {
+                    return parseInt(sum) + parseInt(item.totalFaceValue);
+                }
+                return sum;
+            }, 0);
+            setCardFaceValue1(cardfacevalue1);
+            const cardfacevalue2 = cardRows.reduce((sum, item) => {
+                if (item.stampValue < 50) {
+                    return parseInt(sum) + parseInt(item.totalFaceValue);
+                }
+                return sum;
+            }, 0);
+            setCardFacevalue2(cardfacevalue2);
+        }
         calculateCardTotal();
     }, [cardRows]);
     //-----------------------------cosntrol checkbox--------------------------------
     const [totalNumberOfStamp, setTotalNumberOfStamp] = useState('');
     const [totalStampFaceValue, setTotalStampFaceValue] = useState('');
-    const calculateTotalResult =()=>{
-        setTotalNumberOfStamp(parseInt(totalNumberOfSheet1) + parseInt(totalNumberOfSheet2) 
-         +parseInt(totalNumberOfPasting1) + parseInt(totalNumberOfPasting2)
-         +parseInt(totalNumberOfRose1) + parseInt(totalNumberOfRose2)
-         +parseInt(totalNumberOfPack1) + parseInt(totalNumberOfPack2)
-         +parseInt(totalNumberOfCard1) + parseInt(totalNumberOfCard2)
-        );
-        setTotalStampFaceValue(parseInt(totalFaceValue1) + parseInt(totalFaceValue2) 
-         +parseInt(totalPastingFaceValue1) + parseInt(totalPastingFaceValue2)
-         +parseInt(totalRoseFaceValue1) + parseInt(totalRoseFaceValue2)
-         +parseInt(totalPackFaceValue1) + parseInt(totalPackFaceValue2)
-         +parseInt(totalCardFaceValue1) + parseInt(totalCardFaceValue2)
-        );
-    }
+
     useEffect(() => {
+        const calculateTotalResult =()=>{
+            setTotalNumberOfStamp(parseInt(totalNumberOfSheet1) + parseInt(totalNumberOfSheet2) 
+             +parseInt(totalNumberOfPasting1) + parseInt(totalNumberOfPasting2)
+             +parseInt(totalNumberOfRose1) + parseInt(totalNumberOfRose2)
+             +parseInt(totalNumberOfPack1) + parseInt(totalNumberOfPack2)
+             +parseInt(totalNumberOfCard1) + parseInt(totalNumberOfCard2)
+            );
+            setTotalStampFaceValue(parseInt(totalFaceValue1) + parseInt(totalFaceValue2) 
+             +parseInt(totalPastingFaceValue1) + parseInt(totalPastingFaceValue2)
+             +parseInt(totalRoseFaceValue1) + parseInt(totalRoseFaceValue2)
+             +parseInt(totalPackFaceValue1) + parseInt(totalPackFaceValue2)
+             +parseInt(totalCardFaceValue1) + parseInt(totalCardFaceValue2)
+            );
+        }
         calculateTotalResult();
     }, [totalNumberOfSheet1,totalNumberOfSheet2,totalNumberOfPasting1,totalNumberOfPasting2,totalNumberOfRose1,totalNumberOfRose2,totalNumberOfPack1,totalNumberOfPack2,totalNumberOfCard1,totalNumberOfCard2
         ,totalFaceValue1,totalFaceValue2,totalPastingFaceValue1,totalPastingFaceValue2,totalRoseFaceValue1,totalRoseFaceValue2,totalPackFaceValue1,totalPackFaceValue2,totalCardFaceValue1,totalCardFaceValue2
@@ -437,21 +438,6 @@ const StampShippingDetail = () => {
                 console.error('Error adding row:', error);
               }
     }
-
-    const [outBound, setOutBound] = useState({
-        letterPack: { pack1: 370, pack2: 520, pack11: 0, pack22: 0 },
-        looseStamps: { stamp1: 0, stamp2: 0, stamp3: 0, stamp4: 0, stamp5: 0, stamp6: 0, stamp7: 0 },
-      });
-    
-      const handleOutBoundChange = (category, item, value) => {
-        setOutBound(prevState => ({
-          ...prevState,
-          [category]: {
-            ...prevState[category],
-            [item]: value,
-          },
-        }));
-      };
 
     return (
         <>

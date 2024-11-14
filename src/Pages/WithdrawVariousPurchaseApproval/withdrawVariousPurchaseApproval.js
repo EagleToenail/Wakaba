@@ -41,7 +41,7 @@ export default function WithdrawVariousPurchaseApproval() {
     const [users, setUsers] = useState([]);
     const [query, setQuery] = useState('');
     const [isOpen, setIsOpen] = useState(false);
-    const [selectedCustomerId, setSelectedCustomerId] = useState(null);
+    // const [selectedCustomerId, setSelectedCustomerId] = useState(null);
     const [filteredOptions, setFilteredOptions] = useState([]);
     const dropdownRef = useRef(null);
     // Fetch user data(supervisor of this shop)
@@ -64,7 +64,7 @@ export default function WithdrawVariousPurchaseApproval() {
         }
         fetchStoreSuperViosr();
 
-    }, []);
+    }, [userStoreName]);
     // Filter the options based on the query
     useEffect(() => {
         setFilteredOptions(
@@ -93,7 +93,7 @@ export default function WithdrawVariousPurchaseApproval() {
     const handleOptionClick = (user) => {
         setQuery(user.username); // Set the input field's value to the selected option's full_name
         setIsOpen(false);
-        setSelectedCustomerId(user.id); // Update state with the selected customer's ID
+        // setSelectedCustomerId(user.id); // Update state with the selected customer's ID
         setReply({ receiverId: user.id, senderId: userId, time: currentDateTime });
         // console.log('Selected Customer ID:', user.id);
     };

@@ -1,5 +1,5 @@
 import {React, useState , useEffect} from 'react';
-import {Link ,useNavigate} from 'react-router-dom';
+import { useNavigate} from 'react-router-dom';
 // import Titlebar from '../../Components/Common/Titlebar';
 import '../../Assets/css/showtable.css';
 import dateimage from '../../Assets/img/datepicker.png';
@@ -149,7 +149,7 @@ const MonthlyIncome = () => {
         .catch(error => {
           console.error("There was an error fetching the customer data!", error);
         });
-    }, [userId]);
+    }, [userId, navigate]);
   const getMonthlyData = (storename) => {
     // useEffect( () => {
         const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;

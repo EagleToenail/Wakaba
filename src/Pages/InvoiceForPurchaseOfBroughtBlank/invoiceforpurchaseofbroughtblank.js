@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import {useNavigate} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 // import Titlebar from '../../Components/Common/Titlebar';
 import '../../Assets/css/showtable.css'
 import '../../Assets/css/firstTd.css'
@@ -8,7 +8,7 @@ import ButtonComponent from '../../Components/Common/ButtonComponent';
 // import dateimage from '../../Assets/img/datepicker.png';
 import DateAndTime from '../../Components/Common/PickData';
 import axios from 'axios';
-import {jwtDecode} from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode';
 import CustomerRegister from './customerregister';
 import ConfirmationModal from '../../Components/Modal/SuccessModal';
 import ImageShowModal from '../../Components/Modal/ImageShowModal';
@@ -97,7 +97,7 @@ const InvoicePurchaseOfBroughtBlank = () => {
                 throw new Error('API base URL is not defined');
             }
 
-            await axios.post(`${wakabaBaseUrl}/purchaseinvoice/getregistereddatablank`, {userStoreName: userStoreName, userId: userId })
+            await axios.post(`${wakabaBaseUrl}/purchaseinvoice/getregistereddatablank`, { userStoreName: userStoreName, userId: userId })
                 .then(response => {
                     const invoiceData = response.data;
                     if (invoiceData?.length > 0) {
@@ -134,7 +134,7 @@ const InvoicePurchaseOfBroughtBlank = () => {
             await axios.get(`${wakabaBaseUrl}/purchaseinvoice/getinvoicenumber`)
                 .then(response => {
                     setInvoiceID(response.data.invoiceID);
-                    console.log('invoiceID',response.data)
+                    console.log('invoiceID', response.data)
                 })
                 .catch(error => {
                     console.error("There was an error fetching the customer data!", error);
@@ -270,7 +270,7 @@ const InvoicePurchaseOfBroughtBlank = () => {
 
     const [staffData, setStaffData] = useState({
         purchase_staff: username,
-        payment_staff: '',
+        payment_staff: username,
     });
     //select pruchase staff name and payment staff name
     useEffect(() => {
@@ -281,7 +281,8 @@ const InvoicePurchaseOfBroughtBlank = () => {
             });
         } else {
             setStaffData({
-                purchase_staff: username
+                purchase_staff: username,
+                payment_staff: username
             });
         }
     }, [totalSalesSlipData]);
@@ -546,7 +547,7 @@ const InvoicePurchaseOfBroughtBlank = () => {
         formData.append('purchase_staff', salesSlipData.purchase_staff);
         formData.append('payment_staff', staffData.payment_staff);
         formData.append('purchase_staff_id', salesSlipData.purchase_staff_id);
-       // formData.append('customer_id', salesSlipData.customer_id);
+        // formData.append('customer_id', salesSlipData.customer_id);
         formData.append('customer_id', customerid);
         formData.append('store_name', salesSlipData.store_name);
         formData.append('product_type_one', salesSlipData.product_type_one);
@@ -1331,7 +1332,7 @@ const InvoicePurchaseOfBroughtBlank = () => {
         });
 
         // Set additionalChecked in the customer state
-       // updatedCustomer.item1 = additionalChecked.map(item => item.label);
+        // updatedCustomer.item1 = additionalChecked.map(item => item.label);
         updatedCustomer.item1 = additionalChecked.map(item => item.index);
 
         // Finally, set the updated customer state
@@ -1388,20 +1389,20 @@ const InvoicePurchaseOfBroughtBlank = () => {
 
     // Save function
     const itemsSave = () => {
-        if(childData === '0') {
+        if (childData === '0') {
             const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
             if (!wakabaBaseUrl) {
                 throw new Error('API base URL is not defined');
             }
             axios.post(`${wakabaBaseUrl}/customer/updatecustomeritem`, customer)
-            .then(response => {
-                console.log('Customer data updated successfully:', response.data);
-                setChildData(response.data.id);
-                addSlesItem(response.data.id);
-            })
-            .catch(error => {
-                console.error("There was an error fetching the customer data!", error);
-            });
+                .then(response => {
+                    console.log('Customer data updated successfully:', response.data);
+                    setChildData(response.data.id);
+                    addSlesItem(response.data.id);
+                })
+                .catch(error => {
+                    console.error("There was an error fetching the customer data!", error);
+                });
         }
 
     };
@@ -1412,8 +1413,8 @@ const InvoicePurchaseOfBroughtBlank = () => {
     //go to stamps related page #62(stamp related purchase statement)
     const gotoStampsPurchase = () => {
         sendCustomerId(childData);//send customerId
-       // navigate(`/stamprelatedpurchasestatement/${childData}`);
-       navigate(`/stamprelatedpurchasestatement/${childData}?invoiceID=${invoiceID}`);
+        // navigate(`/stamprelatedpurchasestatement/${childData}`);
+        navigate(`/stamprelatedpurchasestatement/${childData}?invoiceID=${invoiceID}`);
     }
     //--------------------show  product photo---------------------
     const [showProductImage, setShowProductImage] = useState(false);
@@ -1626,7 +1627,7 @@ const InvoicePurchaseOfBroughtBlank = () => {
             saveSalesItem();
 
         } else {
-            if(childData === '0') {
+            if (childData === '0') {
                 itemsSave();
             } else {
                 addSlesItem(childData);
@@ -1680,6 +1681,13 @@ const InvoicePurchaseOfBroughtBlank = () => {
     const capacityValues = ['700', '750'];
     const percentValues = ['40%', '43%'];
     //---------------------------------------------------------------------------------------
+    const childRef = useRef();
+    const handleChildFunction = () => {
+        if (childRef.current) {
+            childRef.current.openCreateCustomerCheckModal(); // Call the child function
+        }
+    };
+
     return (<>
         {/* <Titlebar title={title} /> */}
         <div className="bg-[trasparent] font-[sans-serif] w-full">
@@ -1713,8 +1721,9 @@ const InvoicePurchaseOfBroughtBlank = () => {
                                         <ButtonComponent children="預り証発行済" onClick={sendPurchaseDataToReceipt} className='w-max h-11 !px-5 bg-[transparent] !text-[#7fe374]' style={{ border: '1px solid #7fe374' }} />
                                         : <ButtonComponent children="預り証発行" onClick={sendPurchaseDataToReceipt} className='w-max h-11 !px-5 bg-[transparent] !text-[#e87a00]' style={{ border: '1px solid #e87a00' }} />
                                     }
-                                    <ButtonComponent onClick={openItemsImageModal} children="全体撮影" className='w-max h-11 !px-5' style={{ border: '1px solid #e87a00', backgroundColor: 'transparent', color: '#e87a00' }} />
-                                    <ButtonComponent onClick={openItemsDocModal} children="紙書類撮影" className='w-max h-11 !px-5' style={{ border: '1px solid #e87a00', backgroundColor: 'transparent', color: '#e87a00' }} />
+                                     <ButtonComponent onClick={handleChildFunction} children="作成する" className='w-max h-11 !px-5 bg-[transparent] !text-[#e87a00]' style={{ border: '1px solid #e87a00'}} />
+                                    <ButtonComponent onClick={openItemsImageModal} children="全体撮影" className='w-max h-11 !px-5  bg-[transparent] !text-[#e87a00]' style={{ border: '1px solid #e87a00'}} />
+                                    <ButtonComponent onClick={openItemsDocModal} children="紙書類撮影" className='w-max h-11 !px-5  bg-[transparent] !text-[#e87a00]' style={{ border: '1px solid #e87a00'}} />
                                 </div>
                                 <div className='invoice-purchase-brought-buttons w-[50%] pl-10 flex justify-around'>
                                     <ButtonComponent children="許可申請" onClick={handleApproveWaiting} className='w-max h-11 !px-5' style={{ color: 'white', }} />
@@ -1731,7 +1740,7 @@ const InvoicePurchaseOfBroughtBlank = () => {
                                     <div className='flex justify-center'>
                                         <button type="button" onClick={sendPurchaseData}
                                             className="h-11 min-w-[160px] text-[#e87a00] rounded-full tracking-wider font-bold outline-none border border-[2px] border-[#e87a00] ">
-                                                お客様へ提示
+                                            お客様へ提示
                                         </button>
                                     </div>
                                     <div>
@@ -1764,7 +1773,7 @@ const InvoicePurchaseOfBroughtBlank = () => {
                 <div className="w-full flex justify-center mt-2" >
                     <div className=" w-full pr-5">
                         {/* -------customer register--------- */}
-                        <CustomerRegister id={childData} />
+                        <CustomerRegister id={childData} ref={childRef}/>
                     </div>
                 </div>
                 {/* textarea*/}
@@ -1784,15 +1793,15 @@ const InvoicePurchaseOfBroughtBlank = () => {
                                     <div className=" h-full">
                                         {/* Text area */}
                                         <div className='w-full'>
-                                            <label className="text-[#70685a] text-[20px] font-bold mb-2 block text-left mr-10 py-1 !mb-0">来店契機　に</label>
+                                            <label className="text-[#70685a] text-[20px] font-bold mb-2 block text-left mr-10 py-1 !mb-0">来店契機</label>
                                         </div>
                                         <div className="w-full h-[450px]">
                                             <div>
                                                 <div className='flex'>
-                                                    <label className="text-[#70685a] text-[20px] mb-2 block text-left mr-10 py-1">項目1</label>
-                                                    <label className="text-[#70685a] text-[20px] mb-2 block text-left mr-10 py-1 !mb-0">何を見てご来店いただきましたか？</label>
+                                                    {/* <label className="text-[#70685a] text-[20px] mb-2 block text-left mr-10 py-1">項目1</label> */}
+                                                    <label className="text-[#70685a] text-[18px] mb-2 block text-left mr-10 py-1 !mb-0">何を見てご来店いただきましたか？</label>
                                                 </div>
-                                                <div className='ml-20 text-[18px]'>
+                                                <div className='ml-5 text-[13px]'>
                                                     <div className='flex justify-between'>
                                                         {['以前も利用したことがある', '店舗を見て', 'インターネットを見て', '紹介されて'].map((label, index) => {
                                                             const id = `additional-checkbox-${index}`; // Unique ID for each checkbox
@@ -1803,57 +1812,54 @@ const InvoicePurchaseOfBroughtBlank = () => {
                                                                         id={id}
                                                                         checked={additionalCheckboxes[index]}
                                                                         onChange={() => handleAdditionalCheckboxChange(index)}
-                                                                        className="w-4 h-4 mr-3"
+                                                                        className="w-4 h-4 mr-1"
                                                                     />
                                                                     <label htmlFor={id} className="text-[#70685a]">{label}</label>
                                                                 </div>
                                                             );
                                                         })}
                                                     </div>
-                                                    <div className="flex items-center">
+                                                    <div className='flex items-center'>
                                                         <input
-                                                            type="checkbox"
-                                                            id="pair-checkbox-0"
-                                                            checked={pairs[0].checked}
-                                                            onChange={() => handlePairCheckboxChange(0)}
-                                                            className="w-4 h-4 mr-3"
-                                                        />
-                                                        <label htmlFor="pair-checkbox-0" className="text-[#70685a] mr-3">店舗以外の看板・広告を見て</label>
-                                                        <InputComponent
-                                                            value={pairs[0].value || ''}
-                                                            onChange={(e) => handleInputChange(0, e.target.value)}
-                                                            disabled={!pairs[0].checked}
-                                                            className="w-40 text-[#70685a] mb-2 block text-left mr-10 py-1 !mb-0 !h-8"
-                                                            placeholder={'広告を見た場所'}
-                                                        />
-                                                    </div>
-                                                    <div className='flex gap-10'>
-                                                        {[
-                                                            { label: '折込チラシを見て', placeholder: '新聞銘柄' },
-                                                            { label: 'その他', placeholder: 'その他詳細' }
-                                                        ].map((item, index) => {
-                                                            const id = `pair-checkbox-${index + 1}`; // Unique ID for each checkbox
-                                                            return (
-                                                                <div className="flex items-center" key={index}>
-                                                                    <input
-                                                                        type="checkbox"
-                                                                        id={id}
-                                                                        checked={pairs[index + 1].checked}
-                                                                        onChange={() => handlePairCheckboxChange(index + 1)}
-                                                                        className="w-4 h-4 mr-3"
-                                                                    />
-                                                                    <label htmlFor={id} className="text-[#70685a] mr-3">{item.label}</label>
-                                                                    <InputComponent
-                                                                        value={pairs[index + 1].value || ''}
-                                                                        onChange={(e) => handleInputChange(index + 1, e.target.value)}
-                                                                        disabled={!pairs[index + 1].checked}
-                                                                        className="w-40 text-[#70685a] mb-2 block text-left mr-10 py-1 !mb-0 !h-8"
-                                                                        placeholder={item.placeholder}
-                                                                    />
-                                                                </div>
-                                                            );
-                                                        })}
-                                                    </div>
+                                                                type="checkbox"
+                                                                id="pair-checkbox-0"
+                                                                checked={pairs[0].checked}
+                                                                onChange={() => handlePairCheckboxChange(0)}
+                                                                className="w-4 h-4 mr-3"
+                                                            />
+                                                            <label htmlFor="pair-checkbox-0" className="text-[#70685a] mr-3">店舗以外の看板・広告を見て</label>
+                                                            <InputComponent
+                                                                value={pairs[0].value || ''}
+                                                                onChange={(e) => handleInputChange(0, e.target.value)}
+                                                                disabled={!pairs[0].checked}
+                                                                className="w-[100px] text-[#70685a] mb-2 block text-left mr-3 py-1 !mb-0 !h-8"
+                                                                placeholder={'広告を見た場所'}
+                                                            />                                                        {[
+                                                                { label: '折込チラシを見て', placeholder: '新聞銘柄' },
+                                                                { label: 'その他', placeholder: 'その他詳細' }
+                                                            ].map((item, index) => {
+                                                                const id = `pair-checkbox-${index + 1}`; // Unique ID for each checkbox
+                                                                return (
+                                                                    <div className="flex items-center" key={index}>
+                                                                        <input
+                                                                            type="checkbox"
+                                                                            id={id}
+                                                                            checked={pairs[index + 1].checked}
+                                                                            onChange={() => handlePairCheckboxChange(index + 1)}
+                                                                            className="w-4 h-4 mr-3"
+                                                                        />
+                                                                        <label htmlFor={id} className="text-[#70685a] mr-3">{item.label}</label>
+                                                                        <InputComponent
+                                                                            value={pairs[index + 1].value || ''}
+                                                                            onChange={(e) => handleInputChange(index + 1, e.target.value)}
+                                                                            disabled={!pairs[index + 1].checked}
+                                                                            className="w-[100px] text-[#70685a] mr-3 mb-2 block text-left py-1 !mb-0 !h-8"
+                                                                            placeholder={item.placeholder}
+                                                                        />
+                                                                    </div>
+                                                                );
+                                                            })}
+                                                        </div>
                                                 </div>
                                             </div>
 
@@ -2406,40 +2412,40 @@ const InvoicePurchaseOfBroughtBlank = () => {
                                 )
                             })}
                             <tr>
-                                <td></td>     
-                                <td></td> 
-                                <td></td> 
-                                {isshow ? <td></td> : <td style={{ display: 'none' }}></td>}         
-                                {isshow ? <td></td> : <td style={{ display: 'none' }}></td>}         
-                                {isshow ? <td></td> : <td style={{ display: 'none' }}></td>}              
-                                <td></td>     
-                                <td></td> 
-                                {isDetailShow ? <td></td> : <td style={{ display: 'none' }}></td>}      
-                                {isDetailShow ? <td></td> : <td style={{ display: 'none' }}></td>}      
-                                {isDetailShow ? <td></td> : <td style={{ display: 'none' }}></td>}      
-                                {isDetailShow ? <td></td> : <td style={{ display: 'none' }}></td>}      
-                                {isDetailShow ? <td></td> : <td style={{ display: 'none' }}></td>}      
-                                {isDetailShow ? <td></td> : <td style={{ display: 'none' }}></td>}      
-                                {isDetailShow ? <td></td> : <td style={{ display: 'none' }}></td>}      
-                                {isDetailShow ? <td></td> : <td style={{ display: 'none' }}></td>}      
-                                {isDetailShow ? <td></td> : <td style={{ display: 'none' }}></td>}      
-                                {isDetailShow ? <td></td> : <td style={{ display: 'none' }}></td>}      
-                                {isDetailShow ? <td></td> : <td style={{ display: 'none' }}></td>}               
-                                {isDetailShow ? <td></td> : <td style={{ display: 'none' }}></td>}                   
-                                {isDetailShow ? <td></td> : <td style={{ display: 'none' }}></td>}               
-                                {isDetailShow ? <td></td> : <td style={{ display: 'none' }}></td>}                   
-                                <td></td>     
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                {isshow ? <td></td> : <td style={{ display: 'none' }}></td>}
+                                {isshow ? <td></td> : <td style={{ display: 'none' }}></td>}
+                                {isshow ? <td></td> : <td style={{ display: 'none' }}></td>}
+                                <td></td>
+                                <td></td>
+                                {isDetailShow ? <td></td> : <td style={{ display: 'none' }}></td>}
+                                {isDetailShow ? <td></td> : <td style={{ display: 'none' }}></td>}
+                                {isDetailShow ? <td></td> : <td style={{ display: 'none' }}></td>}
+                                {isDetailShow ? <td></td> : <td style={{ display: 'none' }}></td>}
+                                {isDetailShow ? <td></td> : <td style={{ display: 'none' }}></td>}
+                                {isDetailShow ? <td></td> : <td style={{ display: 'none' }}></td>}
+                                {isDetailShow ? <td></td> : <td style={{ display: 'none' }}></td>}
+                                {isDetailShow ? <td></td> : <td style={{ display: 'none' }}></td>}
+                                {isDetailShow ? <td></td> : <td style={{ display: 'none' }}></td>}
+                                {isDetailShow ? <td></td> : <td style={{ display: 'none' }}></td>}
+                                {isDetailShow ? <td></td> : <td style={{ display: 'none' }}></td>}
+                                {isDetailShow ? <td></td> : <td style={{ display: 'none' }}></td>}
+                                {isDetailShow ? <td></td> : <td style={{ display: 'none' }}></td>}
+                                {isDetailShow ? <td></td> : <td style={{ display: 'none' }}></td>}
+                                <td></td>
                                 <td colSpan={3}>
                                     <div className='flex justify-end text-right mt-2'>
                                         <span className='text-[#70685a] font-bold'>買取点数&nbsp;{totalQuantity || ''}点</span>
                                         <span className='text-[#70685a] font-bold ml-5'>買取合計&nbsp;&nbsp;{(totalPrice || 0).toLocaleString()}円</span>
                                     </div>
-                                </td>         
-                                <td></td>     
-                                <td></td>     
-                                <td></td>     
-                                <td></td>     
-                                <td></td>        
+                                </td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
                             </tr>
                         </tbody>
 

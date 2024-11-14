@@ -15,7 +15,7 @@ const ClockedOut = () => {
     const handleAction = async (action) => {
         setLoading(true);
         setError(null);
-        if(action =='clock-out' ){
+        if(action ==='clock-out' ){
             try {
 
                 const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;

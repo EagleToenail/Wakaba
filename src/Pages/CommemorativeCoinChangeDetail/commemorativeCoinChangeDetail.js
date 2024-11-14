@@ -1,13 +1,11 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Link, useNavigate, useParams, useLocation } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import LabelComponent from '../../Components/Common/LabelComponent';
 import ButtonComponent from '../../Components/Common/ButtonComponent';
 import InputComponent from '../../Components/Common/InputComponent';
 import DateAndTime from '../../Components/Common/PickData';
-import dateimage from '../../Assets/img/datepicker.png';
 import axios from 'axios';
-import user from '../../redux/features/user';
 
 const CommemorativeCoinchangeDetail = () => {
     // const title = 'タイトルタイトル';
@@ -21,12 +19,6 @@ const CommemorativeCoinchangeDetail = () => {
         alignItem: 'center'
     };
 
-    // const Th = {
-    //     border: '1px solid #70685a',
-    //     borderCollapse: 'collapse',
-    //     color: '#70685a',
-    //     fontSize: '15px'
-    // };
     const Td = {
         border: '1px solid #70685a',
         borderCollapse: 'collapse',

@@ -1,13 +1,12 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, forwardRef, useImperativeHandle } from 'react';
 import axios from 'axios';
 import '../../Assets/css/showtable.css'
 import dateimage from '../../Assets/img/datepicker.png';
 import InputComponent from '../../Components/Common/InputComponent';
-import ButtonComponent from '../../Components/Common/ButtonComponent';
 import { toast } from 'react-toastify';
 
 
-const CustomerUpdateForPurchase = ({ id }) => {
+const CustomerUpdateForPurchase = forwardRef((id, ref) => {
 
     const userStoreName = localStorage.getItem('storename');
 
@@ -57,10 +56,10 @@ const CustomerUpdateForPurchase = ({ id }) => {
     }, [id]);
 
     // //file upload
-    const [avatarimageFile, setAvatarImageFile] = useState(null);
+    // const [avatarimageFile, setAvatarImageFile] = useState(null);
     const [idcardFile, setIdcardFile] = useState(null);
 
-    const avatarImageInputRef = useRef(null);
+    // const avatarImageInputRef = useRef(null);
     const idcardInputRef = useRef(null);
 
     const handleCustomerChange = (e) => {
@@ -94,18 +93,23 @@ const CustomerUpdateForPurchase = ({ id }) => {
     const [isCreateCustomerModalOpen, setIsCreateCustomerModalOpen] = useState(false); // For modal visibility
 
     const openCreateCustomerCheckModal = () => {
+        console.log(id, 'id')
         setIsCreateCustomerModalOpen(true);
     }
+    useImperativeHandle(ref, () => ({
+        openCreateCustomerCheckModal
+    }));
+
     const onCloseCustomerCreateModal = () => {
         setIsCreateCustomerModalOpen(false);
     }
 
     const handleCreateCustomerSubmit = async () => {
-        console.log(id,'id')
+        console.log(id, 'id')
         setIsCreateCustomerModalOpen(false);
 
         const formDataObj = new FormData();
-        if(id !== '0') {
+        if (id !== '0') {
             formDataObj.append('id', id);
         }
         formDataObj.append('shop', userStoreName);
@@ -127,7 +131,7 @@ const CustomerUpdateForPurchase = ({ id }) => {
         formDataObj.append('brand_type', customer.brand_type);
         formDataObj.append('special_note', customer.special_note);
 
-        if (avatarimageFile) formDataObj.append('avatarimage', avatarimageFile);
+        // if (avatarimageFile) formDataObj.append('avatarimage', avatarimageFile);
         if (idcardFile) formDataObj.append('idcard', idcardFile);
         console.log('cutomerData', customer)
 
@@ -137,7 +141,7 @@ const CustomerUpdateForPurchase = ({ id }) => {
             if (!wakabaBaseUrl) {
                 throw new Error('API base URL is not defined');
             }
-            if(id !== '0') {
+            if (id !== '0') {
                 const response = await axios.post(`${wakabaBaseUrl}/customer/updateCustomer`, formDataObj,
                     {
                         headers: {
@@ -166,31 +170,11 @@ const CustomerUpdateForPurchase = ({ id }) => {
                         <form className=" space-y-2">
                             {/* new */}
                             <div className='flex'>
-                                {/* <div style={{ width: '25%', flexDirection: 'column', }} className='!mb-0 flex align-center justify-around'>
-                                    <label className="text-[#70685a] font-bold mb-2 block text-right mr-10 py-1 !mb-0">店舗名</label>
-                                </div>
-                                <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <input name="shop" value={customer.shop} onChange={handleCustomerChange} type="text" required className="w-full text-[#70685a] border border-[#70685a] px-4 py-2 outline-[#70685a]" />
-                                </div> */}
                                 <div style={{ width: '20%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <label className="text-[#70685a] font-bold mb-2 block text-center mr-10 py-3 !mb-0">訪問タイプ</label>
+                                    <label className="text-[#70685a] font-bold mb-2 block text-center mr-10 py-1 !mb-0">カタカナ名</label>
                                 </div>
                                 <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <select id="visit_type" name="visit_type" value={customer.visit_type || ''} required onChange={handleCustomerChange} className="w-full text-[#70685a] font-bold border border-[#70685a] px-4 py-2 outline-[#70685a]">
-                                        <option value="" disabled></option>
-                                        <option value="折りたたまれた">折りたたまれた</option>
-                                        <option value="店の前で">店の前で</option>
-                                        <option value="顧客">顧客</option>
-                                        <option value="投稿">投稿</option>
-                                        <option value="紹介">紹介</option>
-                                        <option value="他の人">他の人</option>
-                                    </select>
-                                </div>
-                                <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <label className="text-[#70685a] font-bold mb-2 block text-center mr-10 py-1 !mb-0">身分証No.</label>
-                                </div>
-                                <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <input name="idcard_number" value={customer.idcard_number} onChange={handleCustomerChange} type='number' required className="w-full text-[#70685a] border border-[#70685a] px-4 py-2 outline-[#70685a]" />
+                                    <input name="katakana_name" value={customer.katakana_name || ''} onChange={handleCustomerChange} type="text" required className="w-full text-[#70685a] border border-[#70685a] px-4 py-2 outline-[#70685a]" />
                                 </div>
                             </div>
                             {/* new */}
@@ -202,25 +186,10 @@ const CustomerUpdateForPurchase = ({ id }) => {
                                     <input name="full_name" value={customer.full_name || ''} onChange={handleCustomerChange} type="text" required className="w-full text-[#70685a] border border-[#70685a] px-4 py-2 outline-[#70685a]" />
                                 </div>
                                 <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <label className="text-[#70685a] font-bold mb-2 block text-center mr-10 py-1 !mb-0">カタカナ名</label>
-                                </div>
-                                <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <input name="katakana_name" value={customer.katakana_name || ''} onChange={handleCustomerChange} type="text" required className="w-full text-[#70685a] border border-[#70685a] px-4 py-2 outline-[#70685a]" />
-                                </div>
-                            </div>
-                            {/* new */}
-                            <div className='flex'>
-                                <div style={{ width: '20%', flexDirection: 'column', }} className='flex align-center justify-around'>
                                     <label className="text-[#70685a] font-bold mb-2 block text-center mr-10 py-1 !mb-0">電話番号</label>
                                 </div>
                                 <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
                                     <InputComponent name="phone_number" value={customer.phone_number || ''} onChange={handleCustomerChange} type='tel' pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" placeholder="123-4567-7890" required />
-                                </div>
-                                <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <label className="text-[#70685a] font-bold mb-2 block text-center mr-10 py-1 !mb-0">ご職業</label>
-                                </div>
-                                <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <InputComponent name="job" value={customer.job || ''} onChange={handleCustomerChange} type='text' required />
                                 </div>
                             </div>
                             {/* new */}
@@ -237,7 +206,6 @@ const CustomerUpdateForPurchase = ({ id }) => {
                                         <div style={{ position: 'relative' }}>
                                             <img src={dateimage} style={{ width: '40px', height: '30px', position: 'absolute', cursor: 'pointer' }} alt='calendar'></img>
                                             <input type="date" name="birthday" onChange={handleCustomerBirthdayChange} style={{ position: 'absolute', left: '0', width: '40px', height: '30px', background: 'transparent', border: 'none', opacity: '0', cursor: 'pointer' }} />
-                                            {/* <input type="date" id="birthday" name="birthday" style={{position: 'absolute', width:'30px', height:'30px', background:'transparent', border:'none', opacity:'0'}}/> */}
                                         </div>
                                     </div>
                                 </div>
@@ -259,30 +227,47 @@ const CustomerUpdateForPurchase = ({ id }) => {
                             {/* new */}
                             <div className='flex'>
                                 <div style={{ width: '20%', flexDirection: 'column', }} className='flex align-center justify-around'>
+                                    <label className="text-[#70685a] font-bold mb-2 block text-center mr-10 py-1 !mb-0">ご職業</label>
+                                </div>
+                                <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
+                                    <InputComponent name="job" value={customer.job || ''} onChange={handleCustomerChange} type='text' required />
+                                </div>
+                                <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
                                     <label className="text-[#70685a] font-bold mb-2 block text-center mr-10 py-1 !mb-0">Email</label>
                                 </div>
                                 <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
                                     <InputComponent name="email" value={customer.email || ''} onChange={handleCustomerChange} type="email" required />
                                 </div>
-                                <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <label className="text-[#70685a] font-bold mb-2 block text-center mr-10 py-1 !mb-0">トリガー</label>
+                            </div>
+                            {/* new */}
+                            <div className='flex'>
+                                <div style={{ width: '20%', flexDirection: 'column', }} className='flex align-center justify-around'>
+                                    <label className="text-[#70685a] font-bold mb-2 block text-center mr-10 py-3 !mb-0">種別①</label>
                                 </div>
                                 <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <InputComponent name="trigger" value={customer.trigger || ''} onChange={handleCustomerChange} type='text' required />
+                                    <select id="visit_type" name="visit_type" value={customer.visit_type || ''} required onChange={handleCustomerChange} className="w-full text-[#70685a] font-bold border border-[#70685a] px-4 py-2 outline-[#70685a]">
+                                        <option value="" disabled></option>
+                                        <option value="折りたたまれた">折りたたまれた</option>
+                                        <option value="店の前で">店の前で</option>
+                                        <option value="顧客">顧客</option>
+                                        <option value="投稿">投稿</option>
+                                        <option value="紹介">紹介</option>
+                                        <option value="他の人">他の人</option>
+                                    </select>
+                                </div>
+                                <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
+                                    <label className="text-[#70685a] font-bold mb-2 block text-center mr-10 py-1 !mb-0">種別②</label>
+                                </div>
+                                <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
+                                    <InputComponent name="brand_type" value={customer.brand_type || ''} onChange={handleCustomerChange} type='text' required />
                                 </div>
                             </div>
                             {/* new */}
                             <div className='flex'>
                                 <div style={{ width: '20%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <label className="text-[#70685a] font-bold mb-2 block text-center mr-10 py-1 !mb-0">銘柄</label>
+                                    <label className="text-[#70685a] font-bold mb-2 mr-10 block text-center mr-2 py-1 !mb-0">本人確認書類</label>
                                 </div>
-                                <div style={{ width: '20%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <InputComponent name="brand_type" value={customer.brand_type || ''} onChange={handleCustomerChange} type='text' required />
-                                </div>
-                                <div style={{ width: '20%', flexDirection: 'column', }} className='flex align-center justify-around'>
-                                    <label className="text-[#70685a] font-bold mb-2 block text-right mr-2 py-1 !mb-0">本人確認書類</label>
-                                </div>
-                                <div style={{ width: '10%', flexDirection: 'column', }} className='flex align-center justify-around'>
+                                <div style={{ width: '5%', flexDirection: 'column', }} className='flex align-center justify-around'>
                                     <button type="button" onClick={() => handleCusotmerFileButtonClick(idcardInputRef)}
                                         className="w-9 h-9 inline-flex items-center justify-center text-[#70685a] border border-[#70685a] outline-none hover:bg-purple-700 active:bg-purple-600">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="14px" fill="black" className="inline" viewBox="0 0 512 512">
@@ -294,7 +279,7 @@ const CustomerUpdateForPurchase = ({ id }) => {
                                     <input type="file" name='idcardUpload' ref={idcardInputRef} style={{ display: 'none' }} onChange={(e) => handleCustomerFileChange(e, setIdcardFile)} />
                                     {/* {idcardFile && <p>{idcardFile.name}</p>} */}
                                 </div>
-                                <div style={{ width: '25%', flexDirection: 'column' }} className='flex align-center justify-around'>
+                                <div style={{ width: '20%', flexDirection: 'column' }} className='flex align-center justify-around'>
                                     <select name="cardType" value={customer.cardType || ''} required onChange={handleCustomerChange} className="w-full h-9 text-[#70685a] text-[15px] font-bold border border-[#70685a] px-4 py-2 outline-[#70685a]">
                                         <option value="" disabled></option>
                                         <option value="運転免許証">運転免許証</option>
@@ -303,6 +288,12 @@ const CustomerUpdateForPurchase = ({ id }) => {
                                         <option value="個人番号カード（マイナンバーカード）在留カード・特別永住者証明書">個人番号カード（マイナンバーカード）在留カード・特別永住者証明書</option>
                                         <option value="各種福祉手帳（身体障害者手帳等）">各種福祉手帳（身体障害者手帳等）</option>
                                     </select>
+                                </div>
+                                <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
+                                    <label className="text-[#70685a] font-bold mb-2 block text-center mr-10 py-1 !mb-0">身分証No.</label>
+                                </div>
+                                <div style={{ width: '25%', flexDirection: 'column', }} className='flex align-center justify-around'>
+                                    <input name="idcard_number" value={customer.idcard_number} onChange={handleCustomerChange} type='number' required className="w-full text-[#70685a] border border-[#70685a] px-4 py-2 outline-[#70685a]" />
                                 </div>
                             </div>
                             {/* new */}
@@ -390,13 +381,13 @@ const CustomerUpdateForPurchase = ({ id }) => {
 
                         </form>
                     </div>
-                    <div className='flex justify-center'>
+                    {/* <div className='flex justify-center'>
                         <div className="w-full" style={{ maxWidth: '80em' }}>
                             <div className='w-full flex justify-center gap-20 mt-3 mb-1'>
                                 <ButtonComponent children="作成する" onClick={openCreateCustomerCheckModal} className='w-max h-11 !px-5' style={{ border: '1px solid #e87a00', backgroundColor: 'transparent', color: '#e87a00' }} />
                             </div>
                         </div>
-                    </div>
+                    </div> */}
                 </div>
             </div>
         </div>
@@ -420,6 +411,6 @@ const CustomerUpdateForPurchase = ({ id }) => {
         )}
     </>
     );
-};
+});
 
 export default CustomerUpdateForPurchase;

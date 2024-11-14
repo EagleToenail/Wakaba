@@ -436,38 +436,38 @@ const SalesSlip = () => {
 
     const filteredUsers = users?.length > 0 ? users.filter((user) => user.full_name.toLowerCase().includes(searchUserTerm.toLowerCase())) : [];
 
-    const searchStaffInformation = async () => {
-        const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
-        if (!wakabaBaseUrl) {
-            throw new Error('API base URL is not defined');
-        }
-        console.log(category1, 'category1');
-        await axios.post(`${wakabaBaseUrl}/sales/getSalesListByCategory1`, { cat1: category1 })
-            .then(response => {
-                const salesData = response.data;
-                if (salesData?.length > 0) {
-                    const updatedData111 = salesData.map((data, Index) => ({
-                        ...data,
-                        estimate_wholesaler: JSON.parse(data.estimate_wholesaler),
-                        comment: JSON.parse(data.comment),
-                    }));
-                    if (selectedUsers?.length > 0) {
-                        const filteredSales = updatedData111.filter(sale =>
-                            selectedUsers.includes(sale.purchase_staff)
-                        );
-                        setSales(filteredSales);
-                    } else {
-                        setSales(updatedData111);
-                    }
-                }
-            })
-            .catch(error => {
-                console.error("There was an error fetching the customer data!", error);
-            });
-    }
     useEffect(() => {
+        const searchStaffInformation = async () => {
+            const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+            if (!wakabaBaseUrl) {
+                throw new Error('API base URL is not defined');
+            }
+            console.log(category1, 'category1');
+            await axios.post(`${wakabaBaseUrl}/sales/getSalesListByCategory1`, { cat1: category1 })
+                .then(response => {
+                    const salesData = response.data;
+                    if (salesData?.length > 0) {
+                        const updatedData111 = salesData.map((data, Index) => ({
+                            ...data,
+                            estimate_wholesaler: JSON.parse(data.estimate_wholesaler),
+                            comment: JSON.parse(data.comment),
+                        }));
+                        if (selectedUsers?.length > 0) {
+                            const filteredSales = updatedData111.filter(sale =>
+                                selectedUsers.includes(sale.purchase_staff)
+                            );
+                            setSales(filteredSales);
+                        } else {
+                            setSales(updatedData111);
+                        }
+                    }
+                })
+                .catch(error => {
+                    console.error("There was an error fetching the customer data!", error);
+                });
+        }
         searchStaffInformation();
-    }, [selectedUsers]);
+    }, [selectedUsers, category1]);
     //filter by state
     const productStatuses = ['査定中', 'お預かり', '承認待ち', '承認された', '買取済', '発送中', '約定済', 'オークション出品済', 'オークション発送済', '廃棄', '基準外', '返品・返金'];
     const [isOpen, setIsOpen] = useState(false);
@@ -485,41 +485,40 @@ const SalesSlip = () => {
     const filteredStatuses = productStatuses.filter((status) =>
         status.toLowerCase().includes(searchTerm.toLowerCase())
     );
-
-    const searchStatusInformation = async () => {
-        // const clientsToFind = ["Client A", "Client C"];
-        const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
-        if (!wakabaBaseUrl) {
-            throw new Error('API base URL is not defined');
-        }
-        // console.log(`${wakabaBaseUrl}/sales/getSalesList`);
-        await axios.post(`${wakabaBaseUrl}/sales/getSalesListByCategory1`, { cat1: category1 })
-            .then(response => {
-                const salesData = response.data;
-                if (salesData?.length > 0) {
-                    const updatedData111 = salesData.map((data, Index) => ({
-                        ...data,
-                        estimate_wholesaler: JSON.parse(data.estimate_wholesaler),
-                        comment: JSON.parse(data.comment),
-                    }));
-                    if (selectedStatuses?.length > 0) {
-                        const filteredSales = updatedData111.filter(sale =>
-                            selectedStatuses.includes(sale.product_status)
-                        );
-                        setSales(filteredSales);
-                    } else {
-                        setSales(updatedData111);
-                    }
-
-                }
-            })
-            .catch(error => {
-                console.error("There was an error fetching the customer data!", error);
-            });
-    }
     useEffect(() => {
+        const searchStatusInformation = async () => {
+            // const clientsToFind = ["Client A", "Client C"];
+            const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+            if (!wakabaBaseUrl) {
+                throw new Error('API base URL is not defined');
+            }
+            // console.log(`${wakabaBaseUrl}/sales/getSalesList`);
+            await axios.post(`${wakabaBaseUrl}/sales/getSalesListByCategory1`, { cat1: category1 })
+                .then(response => {
+                    const salesData = response.data;
+                    if (salesData?.length > 0) {
+                        const updatedData111 = salesData.map((data, Index) => ({
+                            ...data,
+                            estimate_wholesaler: JSON.parse(data.estimate_wholesaler),
+                            comment: JSON.parse(data.comment),
+                        }));
+                        if (selectedStatuses?.length > 0) {
+                            const filteredSales = updatedData111.filter(sale =>
+                                selectedStatuses.includes(sale.product_status)
+                            );
+                            setSales(filteredSales);
+                        } else {
+                            setSales(updatedData111);
+                        }
+    
+                    }
+                })
+                .catch(error => {
+                    console.error("There was an error fetching the customer data!", error);
+                });
+        }
         searchStatusInformation();
-    }, [selectedStatuses]);
+    }, [selectedStatuses, category1]);
     //--------------------------------------hanlde edit some value in sales Slip-------------------------------------
     const [product2s, setProduct2s] = useState([]);
     // Fetch product1 data
@@ -1432,7 +1431,7 @@ const SalesSlip = () => {
                                                 <td style={Td}>
                                                     {estimateValues[vendor.vendor_name] || ''}
                                                 </td>
-                                                <td style={Td}>{estimateValues[vendor.vendor_name] && assessmentDate || ''}</td>
+                                                <td style={Td}>{(estimateValues[vendor.vendor_name] && assessmentDate) || ''}</td>
                                             </tr>
                                         ))}
                                     </tbody>

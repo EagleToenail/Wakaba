@@ -265,7 +265,7 @@ const InvoicePurchaseOfDetail = () => {
                 });
         }
         fetchUserData();
-    }, [userId]);
+    }, [userId, navigate]);
 
     //salesSlipData
     const [salesSlipData, setSalesSlipData] = useState({
@@ -843,18 +843,17 @@ const InvoicePurchaseOfDetail = () => {
     const [totalPrice, setTotalPrice] = useState('');
 
     // Calculate total quantity
-    const calculateTotalQuantity = () => {
-        const total = totalSalesSlipData.reduce((sum, item) => parseInt(sum) + (parseInt(item.quantity) || 0), 0);
-        setTotalQuantity(total);
-    };
-
-    // Calculate total price
-    const calculateTotalPrice = () => {
-        const total = totalSalesSlipData.reduce((sum, item) => parseInt(sum) + (parseInt(parseInt(item.purchase_price) * parseInt(item.quantity)) || 0), 0);
-        setTotalPrice(total);
-    };
-
     useEffect(() => {
+        const calculateTotalQuantity = () => {
+            const total = totalSalesSlipData.reduce((sum, item) => parseInt(sum) + (parseInt(item.quantity) || 0), 0);
+            setTotalQuantity(total);
+        };
+    
+        // Calculate total price
+        const calculateTotalPrice = () => {
+            const total = totalSalesSlipData.reduce((sum, item) => parseInt(sum) + (parseInt(parseInt(item.purchase_price) * parseInt(item.quantity)) || 0), 0);
+            setTotalPrice(total);
+        };
         calculateTotalQuantity();
         calculateTotalPrice();
     }, [totalSalesSlipData]);
@@ -863,31 +862,31 @@ const InvoicePurchaseOfDetail = () => {
     const [totalPurchasePrice, setTotalPurchasePrice] = useState('');
     const [totalGrossProfit, setTotalGrossProfit] = useState('');
     // calculate total sales
-    const calculateTotalSales = () => {
-        const total = customerPastVisitHistory.reduce((sum, item) => parseInt(sum) + (parseInt(item.total_sales) || 0), 0);
-        setTotalSales(total);
-    };
-
-    // Calculate total purchase price
-    const calculateTotalpurchasePrice = () => {
-        const total = customerPastVisitHistory.reduce((sum, item) => parseInt(sum) + (parseInt(item.total_purchase_price) || 0), 0);
-        setTotalPurchasePrice(total);
-    };
-
-    // Calculate total purchase price
-    const calculateTotalGrossProfit = () => {
-        const total = customerPastVisitHistory.reduce((sum, item) => parseInt(sum) + (parseInt(item.total_gross_profit) || 0), 0);
-        setTotalGrossProfit(total);
-    };
-
     useEffect(() => {
+        const calculateTotalSales = () => {
+            const total = customerPastVisitHistory.reduce((sum, item) => parseInt(sum) + (parseInt(item.total_sales) || 0), 0);
+            setTotalSales(total);
+        };
+    
+        // Calculate total purchase price
+        const calculateTotalpurchasePrice = () => {
+            const total = customerPastVisitHistory.reduce((sum, item) => parseInt(sum) + (parseInt(item.total_purchase_price) || 0), 0);
+            setTotalPurchasePrice(total);
+        };
+    
+        // Calculate total purchase price
+        const calculateTotalGrossProfit = () => {
+            const total = customerPastVisitHistory.reduce((sum, item) => parseInt(sum) + (parseInt(item.total_gross_profit) || 0), 0);
+            setTotalGrossProfit(total);
+        };
+
         calculateTotalSales();
         calculateTotalpurchasePrice();
         calculateTotalGrossProfit();
     }, [customerPastVisitHistory]);
 
     //---------product comment related content--------------------
-    const [selectedProduct, setSelectedProduct] = useState(null);
+    // const [selectedProduct, setSelectedProduct] = useState(null);
     const [showModal, setShowModal] = useState(false);
     const [editRow, setEditRow] = useState({ comment: '' });
     const [modalValue, setModalValue] = useState({
@@ -903,7 +902,7 @@ const InvoicePurchaseOfDetail = () => {
     });
 
     const handleProductClick = (item) => {
-        setSelectedProduct(item);
+        // setSelectedProduct(item);
         // setModalValue(item);
         setShowModal(true);
         setEditRow(totalSalesSlipData[item]);
@@ -1085,38 +1084,38 @@ const InvoicePurchaseOfDetail = () => {
         setAdditionalCheckboxes(newCheckboxes);
     };
 
-    const handleSubmit = () => {
-        const updatedCustomer = { ...customer };
-        const checkedValues = [];
-
-        // Collect values for each pair
-        pairs.forEach((pair, i) => {
-            if (pair.checked) {
-                checkedValues.push({ label: additionalLabels[i], value: pair.value });
-
-                // Update customer state based on index
-                updatedCustomer[`item${i + 2}`] = pair.value; // item2 to item5
-            }
-        });
-
-        // Collect additional checked checkboxes
-        const additionalChecked = [];
-        additionalCheckboxes.forEach((isChecked, i) => {
-            if (isChecked) {
-                additionalChecked.push({ label: additionalLabels[i], index: i + 1 });
-            }
-        });
-
-        // Set additionalChecked in the customer state
-        updatedCustomer.item1 = additionalChecked.map(item => item.label);
-
-        // Finally, set the updated customer state
-        setCustomer(updatedCustomer);
-    };
-
     useEffect(() => {
+        const handleSubmit = () => {
+            const updatedCustomer = { ...customer };
+            const checkedValues = [];
+    
+            // Collect values for each pair
+            pairs.forEach((pair, i) => {
+                if (pair.checked) {
+                    checkedValues.push({ label: additionalLabels[i], value: pair.value });
+    
+                    // Update customer state based on index
+                    updatedCustomer[`item${i + 2}`] = pair.value; // item2 to item5
+                }
+            });
+    
+            // Collect additional checked checkboxes
+            const additionalChecked = [];
+            additionalCheckboxes.forEach((isChecked, i) => {
+                if (isChecked) {
+                    additionalChecked.push({ label: additionalLabels[i], index: i + 1 });
+                }
+            });
+    
+            // Set additionalChecked in the customer state
+            updatedCustomer.item1 = additionalChecked.map(item => item.label);
+    
+            // Finally, set the updated customer state
+            setCustomer(updatedCustomer);
+        };
+    
         handleSubmit();
-    }, [pairs, additionalCheckboxes]);
+    }, [pairs]);
     const [wholeHearingData, setWholeHearingData] = useState([]);
 
     const checkedFunction = (item1, item2, item3, item4, item5) => {
@@ -2844,7 +2843,7 @@ const InvoicePurchaseOfDetail = () => {
                     <div className="h-40 flex flex-col bg-gray-50 p-4 rounded-lg mt-4">
                         <div style={{ flexDirection: 'column', }} className='flex h-full felx-col justify-center'>
                             <div className='flex justify-center w-full'>
-                                {itemsImageDocPreview === `${wakabaBaseUrl}/uploads/product/` ? "" : <img src={itemsImageDocPreview} alt="Image Preview" className='h-[100px] p-1 rounded-lg' />}
+                                {itemsImageDocPreview === `${wakabaBaseUrl}/uploads/product/` ? "" : <img src={itemsImageDocPreview} alt="Preview of the product" className='h-[100px] p-1 rounded-lg' />}
                             </div>
 
                         </div>

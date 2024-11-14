@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
-import {useLocation } from 'react-router-dom';
+// import {useLocation } from 'react-router-dom';
 import InputComponent from '../../Components/Common/InputComponent';
 import LabelComponent from '../../Components/Common/LabelComponent';
 import WithdrawalVariousPurchaseAccordion from '../../Components/WithdrawalVariousPurchaseAccordion';
@@ -11,9 +11,9 @@ import {jwtDecode} from 'jwt-decode';
 
 export default function WithdrawVariousPurchase() {
 
-    const location = useLocation();
-    const pathname = location.pathname; // Just the path
-    const parts = pathname.split('/'); // Split the path by "/"
+    // const location = useLocation();
+    // const pathname = location.pathname; // Just the path
+    // const parts = pathname.split('/'); // Split the path by "/"
 
     const data = useSelector(state => state.data);
     const totalData = data.data;//invoiceID
@@ -53,7 +53,7 @@ export default function WithdrawVariousPurchase() {
     const [users, setUsers] = useState([]);
     const [query, setQuery] = useState('');
     const [isOpen, setIsOpen] = useState(false);
-    const [selectedCustomerId, setSelectedCustomerId] = useState(null);
+    // const [selectedCustomerId, setSelectedCustomerId] = useState(null);
     const [filteredOptions, setFilteredOptions] = useState([]);
     const dropdownRef = useRef(null);
     // Fetch user data(supervisor of this shop)
@@ -76,7 +76,7 @@ export default function WithdrawVariousPurchase() {
         }
         fetchStoreSuperViosr();
 
-    }, []);
+    }, [userStoreName]);
     // Filter the options based on the query
     useEffect(() => {
         setFilteredOptions(
@@ -105,7 +105,7 @@ export default function WithdrawVariousPurchase() {
     const handleOptionClick = (user) => {
         setQuery(user.username); // Set the input field's value to the selected option's full_name
         setIsOpen(false);
-        setSelectedCustomerId(user.id); // Update state with the selected customer's ID
+        // setSelectedCustomerId(user.id); // Update state with the selected customer's ID
         setReply({ receiverId: user.id, senderId: userId, time: currentDateTime });
         // console.log('Selected Customer ID:', user.id);
     };
@@ -138,11 +138,11 @@ export default function WithdrawVariousPurchase() {
     const sendInputRef = useRef(null);
     const handleFileChange = (event) => {
         const file = event.target.files[0];
-        if (file) {
-            // Create a URL for the file to display as a preview
-            const fileURL = URL.createObjectURL(file);
-        }
-        setSendFile(event.target.files[0]);
+        // if (file) {
+        //     // Create a URL for the file to display as a preview
+        //     const fileURL = URL.createObjectURL(file);
+        // }
+        setSendFile(file);
     };
 
     const handleButtonClick = (sendInputRef) => {

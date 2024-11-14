@@ -42,9 +42,6 @@ const ToMoveInputForm = () => {
                 me: response.data.payload.username,
                 })
             );
-            const cache = JSON.parse(localStorage.getItem('cache'));
-            const token = localStorage.getItem('token');
-            const userId = localStorage.getItem('userId');
             
             if(response.data.success){
                 setSuccess('データは正常に送信されました。.');//Data submitted successfully.

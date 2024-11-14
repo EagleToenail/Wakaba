@@ -50,7 +50,7 @@ function MainChatPage() {
     }
   };
 
-  const { setting } = useSelector((state) => state.user);
+  // const { setting } = useSelector((state) => state.user);
 
   useEffect(() => {
     const abortCtrl = new AbortController();
@@ -71,7 +71,7 @@ function MainChatPage() {
       abortCtrl.abort();
       socket.off('user/inactivate');
     };
-  }, []);
+  }, [dispatch, handleGetMaster, inactive]);
 
   useEffect(() => {
     document.onvisibilitychange = (e) => {
