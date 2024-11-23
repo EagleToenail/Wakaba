@@ -12,7 +12,7 @@ import axios from 'axios';
 import {jwtDecode} from 'jwt-decode';
 import { useDispatch, useSelector } from 'react-redux';
 import { setInvoiceData } from '../../redux/sales/actions';
-import { setClearData } from '../../redux/sales/actions';
+// import { setClearData } from '../../redux/sales/actions';
 import { setCustomerID } from '../../redux/sales/actions';
 
 import leftArrow from '../../Assets/img/right-arrow.png';
@@ -109,7 +109,7 @@ const InvoicePurchaseOfBrought = () => {
             .catch(error => {
                 console.error("There was an error fetching the customer data!", error);
             });
-    }, []);
+    }, [userStoreName]);
     // fetch registered product item
     useEffect(() => {
         const fetch = async () => {
@@ -139,7 +139,7 @@ const InvoicePurchaseOfBrought = () => {
                 });
         }
         fetch();
-    }, []);
+    }, [id, userStoreName]);
 
 
     const [invoiceID, setInvoiceID] = useState('');
@@ -195,7 +195,7 @@ const InvoicePurchaseOfBrought = () => {
         }
         fetch();
 
-    }, []);
+    }, [id]);
 
     const [customer, setCustomer] = useState({
         id: '',
@@ -1067,7 +1067,7 @@ const InvoicePurchaseOfBrought = () => {
         if (totalSalesSlipData?.length > 0) {
             const numberOfInvoice = invoiceID;
 
-            if (totalSalesSlipData.length != 0 && totalSalesSlipData != null) {
+            if (totalSalesSlipData.length !== '0' && totalSalesSlipData !== null) {
                 itemsSave();
                 const purchaseData = { customerID, numberOfInvoice, totalSalesSlipData, stampData };
                 //console.log('send purchase data', purchaseData, id);
@@ -1093,26 +1093,11 @@ const InvoicePurchaseOfBrought = () => {
     };
     //   const [isOpen, setIsOpen] = useState(false);
     const [isvendorshow, setIsVendorShow] = useState(false);
-
-    const openVendortable = () => {
-        // setIsOpen(true);
-        setIsVendorShow(false);
-    };
-
-    const closeVendortable = () => {
-        // setIsOpen(false);
-        setIsVendorShow(true);
-    };
-
     // file upload
     const [sendFile, setSendFile] = useState(null);
     const sendInputRef = useRef(null);
     const handleFileChange = (event) => {
         const file = event.target.files[0];
-        if (file) {
-            // Create a URL for the file to display as a preview
-            const fileURL = URL.createObjectURL(file);
-        }
         setSendFile(event.target.files[0]);
         setSalesSlipData({
             ...salesSlipData,
@@ -1130,19 +1115,18 @@ const InvoicePurchaseOfBrought = () => {
     const [totalQuantity, setTotalQuantity] = useState('');
     const [totalPrice, setTotalPrice] = useState('');
 
-    // Calculate total quantity
-    const calculateTotalQuantity = () => {
-        const total = totalSalesSlipData.reduce((sum, item) => parseInt(sum) + (parseInt(item.quantity) || 0), 0);
-        setTotalQuantity(total);
-    };
-
-    // Calculate total price
-    const calculateTotalPrice = () => {
-        const total = totalSalesSlipData.reduce((sum, item) => parseInt(sum) + (parseInt(parseInt(item.purchase_price) * parseInt(item.quantity)) || 0), 0);
-        setTotalPrice(total);
-    };
-
     useEffect(() => {
+        // Calculate total quantity
+        const calculateTotalQuantity = () => {
+            const total = totalSalesSlipData.reduce((sum, item) => parseInt(sum) + (parseInt(item.quantity) || 0), 0);
+            setTotalQuantity(total);
+        };
+
+        // Calculate total price
+        const calculateTotalPrice = () => {
+            const total = totalSalesSlipData.reduce((sum, item) => parseInt(sum) + (parseInt(parseInt(item.purchase_price) * parseInt(item.quantity)) || 0), 0);
+            setTotalPrice(total);
+        };
         calculateTotalQuantity();
         calculateTotalPrice();
     }, [totalSalesSlipData]);
@@ -1151,31 +1135,30 @@ const InvoicePurchaseOfBrought = () => {
     const [totalPurchasePrice, setTotalPurchasePrice] = useState('');
     const [totalGrossProfit, setTotalGrossProfit] = useState('');
     // calculate total sales
-    const calculateTotalSales = () => {
-        const total = customerPastVisitHistory.reduce((sum, item) => parseInt(sum) + (parseInt(item.total_sales) || 0), 0);
-        setTotalSales(total);
-    };
-
-    // Calculate total purchase price
-    const calculateTotalpurchasePrice = () => {
-        const total = customerPastVisitHistory.reduce((sum, item) => parseInt(sum) + (parseInt(item.total_purchase_price) || 0), 0);
-        setTotalPurchasePrice(total);
-    };
-
-    // Calculate total purchase price
-    const calculateTotalGrossProfit = () => {
-        const total = customerPastVisitHistory.reduce((sum, item) => parseInt(sum) + (parseInt(item.total_gross_profit) || 0), 0);
-        setTotalGrossProfit(total);
-    };
-
     useEffect(() => {
+        const calculateTotalSales = () => {
+            const total = customerPastVisitHistory.reduce((sum, item) => parseInt(sum) + (parseInt(item.total_sales) || 0), 0);
+            setTotalSales(total);
+        };
+    
+        // Calculate total purchase price
+        const calculateTotalpurchasePrice = () => {
+            const total = customerPastVisitHistory.reduce((sum, item) => parseInt(sum) + (parseInt(item.total_purchase_price) || 0), 0);
+            setTotalPurchasePrice(total);
+        };
+    
+        // Calculate total purchase price
+        const calculateTotalGrossProfit = () => {
+            const total = customerPastVisitHistory.reduce((sum, item) => parseInt(sum) + (parseInt(item.total_gross_profit) || 0), 0);
+            setTotalGrossProfit(total);
+        };
         calculateTotalSales();
         calculateTotalpurchasePrice();
         calculateTotalGrossProfit();
     }, [customerPastVisitHistory]);
 
     //---------product comment related content-----------------------------
-    const [selectedProduct, setSelectedProduct] = useState(null);
+    // const [selectedProduct, setSelectedProduct] = useState(null);
     const [showModal, setShowModal] = useState(false);
     const [editRow, setEditRow] = useState({ comment: '' });
     const [modalValue, setModalValue] = useState({
@@ -1190,10 +1173,8 @@ const InvoicePurchaseOfBrought = () => {
         comment4: '',
     });
 
-    const modalRef = useRef(null);
-
     const handleProductClick = (item) => {
-        setSelectedProduct(item);
+        // setSelectedProduct(item);
         // setModalValue(item);
         setShowModal(true);
         setEditRow(totalSalesSlipData[item]);
@@ -1318,16 +1299,6 @@ const InvoicePurchaseOfBrought = () => {
 
     };
 
-    const handleKeyDown = (e) => {
-        if (e.key === 'Enter') {
-            // e.preventDefault(); // Prevent the default behavior (form submission)
-            setEditRow((prev) => ({
-                ...prev,
-                comment: prev.comment // Add a newline character
-            }));
-            return;
-        }
-    };
     //---------------whole hearing control part---------------
     const [pairs, setPairs] = useState([
         { checked: false, value: '' },
@@ -1632,37 +1603,7 @@ const InvoicePurchaseOfBrought = () => {
             console.error('Error adding row:', error);
         }
     }
-    //permission click status change to send signature
-    const purchasePermission = async () => {
-        try {
-            const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
-            if (!wakabaBaseUrl) {
-                throw new Error('API base URL is not defined');
-            }
-            const ids = totalSalesSlipData.map(obj => obj.id);
-            await axios.post(`${wakabaBaseUrl}/purchaseinvoice/purchasepermit`, { ids: ids, id: id, userId: userId, userStoreName: userStoreName })
-                .then(response => {
-                    const invoiceData = response.data;
-                    if (invoiceData?.length > 0) {
-                        const updatedData111 = invoiceData.map((data, Index) => ({
-                            ...data,
-                            estimate_wholesaler: JSON.parse(data.estimate_wholesaler),
-                            comment: JSON.parse(data.comment),
-                        }));
-                        setTotalSalesSlipData(updatedData111);
 
-                        setItemsImagePreview(`${wakabaBaseUrl}/uploads/product/${response.data[0].entire_items_url}`);
-                        setItemsDocPreview(`${wakabaBaseUrl}/uploads/product/${response.data[0].document_url}`);
-                    }
-                    setPermissionSuccess(true);
-                })
-                .catch(error => {
-                    console.error("There was an error fetching the customer data!", error);
-                }); // Send newRow data to the server
-        } catch (error) {
-            console.error('Error adding row:', error);
-        }
-    }
     //permission success modal
     const [pemissionSuccess, setPermissionSuccess] = useState(false);
     const closePermissionSuccess = () => {
@@ -2477,7 +2418,7 @@ const InvoicePurchaseOfBrought = () => {
                                         {isshow ? <td style={Td} >{salesData.product_type_three || ''}</td> : <td style={{ display: 'none' }}></td>}
                                         {isshow ? <td style={Td} >{salesData.product_type_four || ''}</td> : <td style={{ display: 'none' }}></td>}
                                         <td style={Td}>
-                                            {salesData.product_photo != '' ?
+                                            {salesData.product_photo !== '' ?
                                                 <button onClick={() => openProductImageModal(salesData.product_photo)} name='photo' className='w-max'>
                                                     <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSvgIcon-root MuiSvgIcon-fontSizeMedium svg-icon css-kry165 w-7" fill='#524c3b' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="PhotoOutlinedIcon" title="PhotoOutlined"><path d="M19 5v14H5V5zm0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2m-4.86 8.86-3 3.87L9 13.14 6 17h12z"></path></svg>
                                                 </button>
@@ -2540,7 +2481,13 @@ const InvoicePurchaseOfBrought = () => {
                                                 }
                                                 <div className="text-center">
                                                     <div className='flex justify-center w-full'>
-                                                        {!salesData.product_photo ? "" : <img src={`${wakabaBaseUrl}/uploads/product/${salesData.product_photo}`} alt="Image Preview" className='h-[100px] p-1 rounded-lg' />}
+                                                        {!salesData.product_photo ? "" : 
+                                                            <img 
+                                                                src={`${wakabaBaseUrl}/uploads/product/${salesData.product_photo}`} 
+                                                                alt={salesData.product_name || "Product"} // Use a relevant description
+                                                                className='h-[100px] p-1 rounded-lg' 
+                                                            />
+                                                        }
                                                     </div>
                                                 </div>
                                             </div>

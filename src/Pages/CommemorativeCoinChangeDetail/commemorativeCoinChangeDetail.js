@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 import LabelComponent from '../../Components/Common/LabelComponent';
 import ButtonComponent from '../../Components/Common/ButtonComponent';
@@ -8,8 +8,6 @@ import DateAndTime from '../../Components/Common/PickData';
 import axios from 'axios';
 
 const CommemorativeCoinchangeDetail = () => {
-    // const title = 'タイトルタイトル';
-    const navigate = useNavigate();
     const { id } = useParams();
     const Table = {
         borderCollapse: 'collapse',
@@ -26,6 +24,21 @@ const CommemorativeCoinchangeDetail = () => {
         fontSize: '15px'
     };
 
+    const initialHistoryData = (data) => {
+        const coinIds = data.coinids.split(',').map(Number);
+        const coinValues = data.coinvalues.split(',').map(Number);
+        const billIds = data.billids.split(',').map(Number);
+        const billValues = data.billvalues.split(',').map(Number);
+            fetchCoinData(coinIds,coinValues);
+            fetchBillData(billIds,billValues);
+
+        setOtherData({
+            ...otherData,
+            bank_name: data.bank_name,
+            exchange_date:data.exchange_date,
+            description:data.description
+        })
+}
     //fetch sheet data
     useEffect(() => {
         const fetchData = async () => {
@@ -38,23 +51,7 @@ const CommemorativeCoinchangeDetail = () => {
             initialHistoryData(response.data);
         };
         fetchData();
-    }, []);
-
-    const initialHistoryData = (data) => {
-            const coinIds = data.coinids.split(',').map(Number);
-            const coinValues = data.coinvalues.split(',').map(Number);
-            const billIds = data.billids.split(',').map(Number);
-            const billValues = data.billvalues.split(',').map(Number);
-                fetchCoinData(coinIds,coinValues);
-                fetchBillData(billIds,billValues);
-
-            setOtherData({
-                ...otherData,
-                bank_name: data.bank_name,
-                exchange_date:data.exchange_date,
-                description:data.description
-            })
-    }
+    }, [id, initialHistoryData]);
     //dynamic Table operation
     //------------Sheet---------------------------------
     const [coinRows, setCoinRows] = useState([]);
@@ -83,24 +80,24 @@ const CommemorativeCoinchangeDetail = () => {
     }
 
     //calculate second table
-    const calculateCoinTotal = () => {
-        // Calculate the sum
-        const totalnumberofCoin = coinRows.reduce((sum, item) => {
-            if (item.coinValue) {
-                return parseInt(sum) + parseInt(item.numberOfCoins);
-            }
-            return sum;
-        }, 0);
-        setTotalNumberofCoin(totalnumberofCoin);
-        const facevalue1 = coinRows.reduce((sum, item) => {
-            if (item.coinValue) {
-                return parseInt(sum) + parseInt(item.totalCoinValue);
-            }
-            return sum;
-        }, 0);
-        setTotalCoinValue(facevalue1);
-    }
     useEffect(() => {
+        const calculateCoinTotal = () => {
+            // Calculate the sum
+            const totalnumberofCoin = coinRows.reduce((sum, item) => {
+                if (item.coinValue) {
+                    return parseInt(sum) + parseInt(item.numberOfCoins);
+                }
+                return sum;
+            }, 0);
+            setTotalNumberofCoin(totalnumberofCoin);
+            const facevalue1 = coinRows.reduce((sum, item) => {
+                if (item.coinValue) {
+                    return parseInt(sum) + parseInt(item.totalCoinValue);
+                }
+                return sum;
+            }, 0);
+            setTotalCoinValue(facevalue1);
+        }
         calculateCoinTotal();
     }, [coinRows]);
     //-------------------------------------bill----------------------------------------------
@@ -130,24 +127,24 @@ const CommemorativeCoinchangeDetail = () => {
     }
 
     //calculate second table
-    const calculateBillTotal = () => {
-        // Calculate the sum
-        const totalnumberofBill = billRows.reduce((sum, item) => {
-            if (item.billValue) {
-                return parseInt(sum) + parseInt(item.numberOfBills);
-            }
-            return sum;
-        }, 0);
-        setTotalNumberofBill(totalnumberofBill);
-        const facevalue1 = billRows.reduce((sum, item) => {
-            if (item.billValue) {
-                return parseInt(sum) + parseInt(item.totalBillValue);
-            }
-            return sum;
-        }, 0);
-        setTotalBillValue(facevalue1);
-    }
     useEffect(() => {
+        const calculateBillTotal = () => {
+            // Calculate the sum
+            const totalnumberofBill = billRows.reduce((sum, item) => {
+                if (item.billValue) {
+                    return parseInt(sum) + parseInt(item.numberOfBills);
+                }
+                return sum;
+            }, 0);
+            setTotalNumberofBill(totalnumberofBill);
+            const facevalue1 = billRows.reduce((sum, item) => {
+                if (item.billValue) {
+                    return parseInt(sum) + parseInt(item.totalBillValue);
+                }
+                return sum;
+            }, 0);
+            setTotalBillValue(facevalue1);
+        }
         calculateBillTotal();
     }, [billRows]);
     //-----------------------------------------------------------------------------------
@@ -170,12 +167,6 @@ const CommemorativeCoinchangeDetail = () => {
           console.error("There was an error fetching the customer data!", error);
         });
     }, [userId]);
-
-    const now = new Date();
-
-    // Format the date as YYYY-MM-DD
-    const optionsDate = { year: 'numeric', month: '2-digit', day: '2-digit', timeZone: 'Asia/Tokyo' };
-    const currentDay = new Intl.DateTimeFormat('ja-JP', optionsDate).format(now).replace(/\//g, '-');
 
     const [otherData, setOtherData] = useState({
         exchange_date: '',

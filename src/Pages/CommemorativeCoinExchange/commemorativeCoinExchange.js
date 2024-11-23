@@ -167,24 +167,24 @@ const CommemorativeCoinExchange = () => {
         }
     };
     //calculate second table
-    const calculateCoinTotal = () => {
-        // Calculate the sum
-        const totalnumberofCoin = coinRows.reduce((sum, item) => {
-            if (item.coinValue) {
-                return parseInt(sum) + parseInt(item.numberOfCoins) || 0;
-            }
-            return sum;
-        }, 0);
-        setTotalNumberofCoin(totalnumberofCoin);
-        const facevalue1 = coinRows.reduce((sum, item) => {
-            if (item.coinValue) {
-                return parseInt(sum) + parseInt(item.totalCoinValue);
-            }
-            return sum;
-        }, 0);
-        setTotalCoinValue(facevalue1);
-    }
     useEffect(() => {
+        const calculateCoinTotal = () => {
+            // Calculate the sum
+            const totalnumberofCoin = coinRows.reduce((sum, item) => {
+                if (item.coinValue) {
+                    return parseInt(sum) + parseInt(item.numberOfCoins) || 0;
+                }
+                return sum;
+            }, 0);
+            setTotalNumberofCoin(totalnumberofCoin);
+            const facevalue1 = coinRows.reduce((sum, item) => {
+                if (item.coinValue) {
+                    return parseInt(sum) + parseInt(item.totalCoinValue);
+                }
+                return sum;
+            }, 0);
+            setTotalCoinValue(facevalue1);
+        }
         calculateCoinTotal();
     }, [coinRows]);
     //-------------------------------------bill----------------------------------------------
@@ -300,11 +300,6 @@ const CommemorativeCoinExchange = () => {
             totalBillValue: '0'
         }); // Reset editedRow state
     };
-
-    //delete one of tatalsaleSlipdata
-    const handleBillDeleteClick = (index) => {
-        setBillRows(billRows.filter((_, i) => i !== index));
-    };
     //calculate
     const calculateBill = (numberofBills) => {
         const { billValue } = editedBillRow;
@@ -329,24 +324,24 @@ const CommemorativeCoinExchange = () => {
         }
     };
     //calculate second table
-    const calculateBillTotal = () => {
-        // Calculate the sum
-        const totalnumberofBill = billRows.reduce((sum, item) => {
-            if (item.billValue) {
-                return parseInt(sum) + parseInt(item.numberOfBills);
-            }
-            return sum;
-        }, 0);
-        setTotalNumberofBill(totalnumberofBill);
-        const facevalue1 = billRows.reduce((sum, item) => {
-            if (item.billValue) {
-                return parseInt(sum) + parseInt(item.totalBillValue);
-            }
-            return sum;
-        }, 0);
-        setTotalBillValue(facevalue1);
-    }
     useEffect(() => {
+        const calculateBillTotal = () => {
+            // Calculate the sum
+            const totalnumberofBill = billRows.reduce((sum, item) => {
+                if (item.billValue) {
+                    return parseInt(sum) + parseInt(item.numberOfBills);
+                }
+                return sum;
+            }, 0);
+            setTotalNumberofBill(totalnumberofBill);
+            const facevalue1 = billRows.reduce((sum, item) => {
+                if (item.billValue) {
+                    return parseInt(sum) + parseInt(item.totalBillValue);
+                }
+                return sum;
+            }, 0);
+            setTotalBillValue(facevalue1);
+        }
         calculateBillTotal();
     }, [billRows]);
     //-----------------------------------------------------------------------------------

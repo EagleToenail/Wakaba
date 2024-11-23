@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import {jwtDecode} from 'jwt-decode';
 import { useDispatch } from 'react-redux';
@@ -82,7 +82,6 @@ const VendorAssementSheet = () => {
         fetchUser();
     }, []);
     const handleCategory = async (value) => {
-        setShowYahoo(false);
         const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
         if (!wakabaBaseUrl) {
             throw new Error('API base URL is not defined');
@@ -127,8 +126,6 @@ const VendorAssementSheet = () => {
         }
 
     };
-
-    const [showYahoo, setShowYahoo] = useState(false);
     //  -------------------------------select box-------------------------------
     const [product1s, setProduct1s] = useState([]);
     // const product1s = ['貴金属','古銭等','バッグ','時計','財布','アクセサリ一','骨董品','洋酒','カメラ','楽器','着物','スマホ・タブレット'];
@@ -221,7 +218,7 @@ const VendorAssementSheet = () => {
     const optionsDate = { year: 'numeric', month: '2-digit', day: '2-digit', timeZone: 'Asia/Tokyo' };
     const formattedDate = new Intl.DateTimeFormat('ja-JP', optionsDate).format(now).replace(/\//g, '-');
     // Split the formatted date to get year and month
-    const [currentyear, currentmonth, currentday] = formattedDate.split('-').map(part => part.trim());
+    const [currentyear, currentmonth] = formattedDate.split('-').map(part => part.trim());
 
     const [isDateOpen1, setIsDateOpen1] = useState(false);
     const [isDateOpen2, setIsDateOpen2] = useState(false);
@@ -368,36 +365,36 @@ const VendorAssementSheet = () => {
 
     const filteredUsers = users?.length > 0 ? users.filter((user) => user.full_name.toLowerCase().includes(searchUserTerm.toLowerCase())) : [];
 
-    const searchStaffInformation = async () => {
-        const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
-        if (!wakabaBaseUrl) {
-            throw new Error('API base URL is not defined');
-        }
-        console.log(category1, 'category1');
-        await axios.post(`${wakabaBaseUrl}/sales/getSalesListByCategory1`, { cat1: category1 })
-            .then(response => {
-                const salesData = response.data;
-                if (salesData?.length > 0) {
-                    const updatedData111 = salesData.map((data, Index) => ({
-                        ...data,
-                        estimate_wholesaler: JSON.parse(data.estimate_wholesaler),
-                        comment: JSON.parse(data.comment),
-                    }));
-                    if (selectedUsers?.length > 0) {
-                        const filteredSales = updatedData111.filter(sale =>
-                            selectedUsers.includes(sale.purchase_staff)
-                        );
-                        setSales(filteredSales);
-                    } else {
-                        setSales(updatedData111);
-                    }
-                }
-            })
-            .catch(error => {
-                console.error("There was an error fetching the customer data!", error);
-            });
-    }
     useEffect(() => {
+        const searchStaffInformation = async () => {
+            const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+            if (!wakabaBaseUrl) {
+                throw new Error('API base URL is not defined');
+            }
+            console.log(category1, 'category1');
+            await axios.post(`${wakabaBaseUrl}/sales/getSalesListByCategory1`, { cat1: category1 })
+                .then(response => {
+                    const salesData = response.data;
+                    if (salesData?.length > 0) {
+                        const updatedData111 = salesData.map((data, Index) => ({
+                            ...data,
+                            estimate_wholesaler: JSON.parse(data.estimate_wholesaler),
+                            comment: JSON.parse(data.comment),
+                        }));
+                        if (selectedUsers?.length > 0) {
+                            const filteredSales = updatedData111.filter(sale =>
+                                selectedUsers.includes(sale.purchase_staff)
+                            );
+                            setSales(filteredSales);
+                        } else {
+                            setSales(updatedData111);
+                        }
+                    }
+                })
+                .catch(error => {
+                    console.error("There was an error fetching the customer data!", error);
+                });
+        }
         searchStaffInformation();
     }, [selectedUsers]);
     //filter by state
@@ -418,38 +415,38 @@ const VendorAssementSheet = () => {
         status.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
-    const searchStatusInformation = async () => {
-        // const clientsToFind = ["Client A", "Client C"];
-        const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
-        if (!wakabaBaseUrl) {
-            throw new Error('API base URL is not defined');
-        }
-        // console.log(`${wakabaBaseUrl}/sales/getSalesList`);
-        await axios.post(`${wakabaBaseUrl}/sales/getSalesListByCategory1`, { cat1: category1 })
-            .then(response => {
-                const salesData = response.data;
-                if (salesData?.length > 0) {
-                    const updatedData111 = salesData.map((data, Index) => ({
-                        ...data,
-                        estimate_wholesaler: JSON.parse(data.estimate_wholesaler),
-                        comment: JSON.parse(data.comment),
-                    }));
-                    if (selectedStatuses?.length > 0) {
-                        const filteredSales = updatedData111.filter(sale =>
-                            selectedStatuses.includes(sale.product_status)
-                        );
-                        setSales(filteredSales);
-                    } else {
-                        setSales(updatedData111);
-                    }
-
-                }
-            })
-            .catch(error => {
-                console.error("There was an error fetching the customer data!", error);
-            });
-    }
     useEffect(() => {
+        const searchStatusInformation = async () => {
+            // const clientsToFind = ["Client A", "Client C"];
+            const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+            if (!wakabaBaseUrl) {
+                throw new Error('API base URL is not defined');
+            }
+            // console.log(`${wakabaBaseUrl}/sales/getSalesList`);
+            await axios.post(`${wakabaBaseUrl}/sales/getSalesListByCategory1`, { cat1: category1 })
+                .then(response => {
+                    const salesData = response.data;
+                    if (salesData?.length > 0) {
+                        const updatedData111 = salesData.map((data, Index) => ({
+                            ...data,
+                            estimate_wholesaler: JSON.parse(data.estimate_wholesaler),
+                            comment: JSON.parse(data.comment),
+                        }));
+                        if (selectedStatuses?.length > 0) {
+                            const filteredSales = updatedData111.filter(sale =>
+                                selectedStatuses.includes(sale.product_status)
+                            );
+                            setSales(filteredSales);
+                        } else {
+                            setSales(updatedData111);
+                        }
+    
+                    }
+                })
+                .catch(error => {
+                    console.error("There was an error fetching the customer data!", error);
+                });
+        }
         searchStatusInformation();
     }, [selectedStatuses]);
     //--------------------------------------hanlde edit some value in sales Slip-------------------------------------
@@ -1214,7 +1211,7 @@ const VendorAssementSheet = () => {
                                                 : <td style={Td}>{sale.product_type_four || ''}</td>
                                                 : <td style={{display:'none'}}></td>}
                                                 <td style={Td}>
-                                                    {sale.product_photo != '' ?
+                                                    {sale.product_photo !== '' ?
                                                         <button onClick={() => openProductImageModal(sale.product_photo)} name='photo' className='w-max'>
                                                             <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSvgIcon-root MuiSvgIcon-fontSizeMedium svg-icon css-kry165 w-7" fill='#524c3b' focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="PhotoOutlinedIcon" title="PhotoOutlined"><path d="M19 5v14H5V5zm0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2m-4.86 8.86-3 3.87L9 13.14 6 17h12z"></path></svg>
                                                         </button>

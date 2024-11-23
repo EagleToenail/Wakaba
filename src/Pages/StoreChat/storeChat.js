@@ -51,7 +51,7 @@ export default function StoreChat() {
         default:
           setGeneralTitle('一般');
       }
-    }, [location.pathname]); // Update effect to listen for pathname changes
+    }, [location.pathname, destinationURL]); // Update effect to listen for pathname changes
 
     const token = localStorage.getItem('token');
     const decodedToken = jwtDecode(token);
@@ -77,11 +77,11 @@ export default function StoreChat() {
     const handleColorChange = (color) => {
         setTextColor(color);
     };
-    const [textMessageColor, setTextMessageColor] = useState('black');
-    // Handle button click
-    const handleMessageColorChange = (color) => {
-        setTextMessageColor(color);
-    };
+    // const [textMessageColor, setTextMessageColor] = useState('black');
+    // // Handle button click
+    // const handleMessageColorChange = (color) => {
+    //     setTextMessageColor(color);
+    // };
     //==============post function=========
     // const [messages, setMessages] = useState([]);
     const [reply, setReply] = useState({
@@ -106,11 +106,7 @@ export default function StoreChat() {
     const sendInputRef = useRef(null);
     const handleFileChange = (event) => {
         const file = event.target.files[0];
-        if (file) {
-            // Create a URL for the file to display as a preview
-            const fileURL = URL.createObjectURL(file);
-        }
-        setSendFile(event.target.files[0]);
+        setSendFile(file);
     };
 
     const handleButtonClick = (sendInputRef) => {
@@ -168,7 +164,7 @@ export default function StoreChat() {
       };
   
       fetchStoreUsers();
-    }, []);
+    }, [userId, userStoreName]);
     // send message and file to other user 
     const sendStoreChatMessage = async () => {
         // console.log('sendstorechatdata', reply,users);

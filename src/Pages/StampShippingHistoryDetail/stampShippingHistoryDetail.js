@@ -1,12 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-// import Titlebar from '../../Components/Common/Titlebar';
-// import StampSheet from '../../Assets/img/stampsheet.png'
-// import LetterPack from '../../Assets/img/letterpack.png'
-// import StampRose from '../../Assets/img/stamprose.png'
-// import PostCard from '../../Assets/img/postcard.png'
-// import LabelComponent from '../../Components/Common/LabelComponent';
-// import InputComponent from '../../Components/Common/InputComponent';
 import DateAndTime from '../../Components/Common/PickData';
 import axios from 'axios';
 
@@ -70,7 +63,7 @@ const StampShippingDetail = () => {
             initialHistoryData(response.data);
         };
         fetchData();
-    }, [id,initialHistoryData]);
+    }, [id, initialHistoryData]);
     //dynamic Table operation
     //------------Sheet---------------------------------
     const [sheetRows, setSheetRows] = useState([]);
@@ -102,39 +95,39 @@ const StampShippingDetail = () => {
     }
 
     //calculate second table
-    const calculateSheetTotal = () => {
-        // Calculate the sum
-        const totalnumberofsheet1 = sheetRows.reduce((sum, item) => {
-            if (item.stampValue >= 50) {
-                return parseInt(sum) + parseInt(item.numberOfSheets);
-            }
-            return sum;
-        }, 0);
-        setTotalNumberofSheet1(totalnumberofsheet1);
-        const totalnumberofsheet2 = sheetRows.reduce((sum, item) => {
-            if (item.stampValue < 50) {
-                return parseInt(sum) + parseInt(item.numberOfSheets);
-            }
-            return sum;
-        }, 0);
-        // console.log('sum of totalnumberofsheet',totalnumberofsheet2)
-        setTotalNumberofSheet2(totalnumberofsheet2);
-        const facevalue1 = sheetRows.reduce((sum, item) => {
-            if (item.stampValue >= 50) {
-                return parseInt(sum) + parseInt(item.totalFaceValue);
-            }
-            return sum;
-        }, 0);
-        setFaceValue1(facevalue1);
-        const facevalue2 = sheetRows.reduce((sum, item) => {
-            if (item.stampValue < 50) {
-                return parseInt(sum) + parseInt(item.totalFaceValue);
-            }
-            return sum;
-        }, 0);
-        setFacevalue2(facevalue2);
-    }
     useEffect(() => {
+        const calculateSheetTotal = () => {
+            // Calculate the sum
+            const totalnumberofsheet1 = sheetRows.reduce((sum, item) => {
+                if (item.stampValue >= 50) {
+                    return parseInt(sum) + parseInt(item.numberOfSheets);
+                }
+                return sum;
+            }, 0);
+            setTotalNumberofSheet1(totalnumberofsheet1);
+            const totalnumberofsheet2 = sheetRows.reduce((sum, item) => {
+                if (item.stampValue < 50) {
+                    return parseInt(sum) + parseInt(item.numberOfSheets);
+                }
+                return sum;
+            }, 0);
+            // console.log('sum of totalnumberofsheet',totalnumberofsheet2)
+            setTotalNumberofSheet2(totalnumberofsheet2);
+            const facevalue1 = sheetRows.reduce((sum, item) => {
+                if (item.stampValue >= 50) {
+                    return parseInt(sum) + parseInt(item.totalFaceValue);
+                }
+                return sum;
+            }, 0);
+            setFaceValue1(facevalue1);
+            const facevalue2 = sheetRows.reduce((sum, item) => {
+                if (item.stampValue < 50) {
+                    return parseInt(sum) + parseInt(item.totalFaceValue);
+                }
+                return sum;
+            }, 0);
+            setFacevalue2(facevalue2);
+        }
         calculateSheetTotal();
     }, [sheetRows]);
     //------------pasting---------------------------------
@@ -169,39 +162,39 @@ const StampShippingDetail = () => {
     }
 
     //calculate second table
-    const calculatePastingTotal = () => {
-        // Calculate the sum
-        const totalnumberofsheet1 = pastingRows.reduce((sum, item) => {
-            if (item.stampValue >= 50) {
-                return parseInt(sum) + parseInt(item.numberOfMounts);
-            }
-            return sum;
-        }, 0);
-        setTotalNumberofPasting1(totalnumberofsheet1);
-        const totalnumberofsheet2 = pastingRows.reduce((sum, item) => {
-            if (item.stampValue < 50) {
-                return parseInt(sum) + parseInt(item.numberOfMounts);
-            }
-            return sum;
-        }, 0);
-        // console.log('sum of totalnumberofsheet',totalnumberofsheet2)
-        setTotalNumberofPasting2(totalnumberofsheet2);
-        const facevalue1 = pastingRows.reduce((sum, item) => {
-            if (item.stampValue >= 50) {
-                return parseInt(sum) + parseInt(item.totalFaceValue);
-            }
-            return sum;
-        }, 0);
-        setPastingFaceValue1(facevalue1);
-        const facevalue2 = pastingRows.reduce((sum, item) => {
-            if (item.stampValue < 50) {
-                return parseInt(sum) + parseInt(item.totalFaceValue);
-            }
-            return sum;
-        }, 0);
-        setPastingFacevalue2(facevalue2);
-    }
     useEffect(() => {
+        const calculatePastingTotal = () => {
+            // Calculate the sum
+            const totalnumberofsheet1 = pastingRows.reduce((sum, item) => {
+                if (item.stampValue >= 50) {
+                    return parseInt(sum) + parseInt(item.numberOfMounts);
+                }
+                return sum;
+            }, 0);
+            setTotalNumberofPasting1(totalnumberofsheet1);
+            const totalnumberofsheet2 = pastingRows.reduce((sum, item) => {
+                if (item.stampValue < 50) {
+                    return parseInt(sum) + parseInt(item.numberOfMounts);
+                }
+                return sum;
+            }, 0);
+            // console.log('sum of totalnumberofsheet',totalnumberofsheet2)
+            setTotalNumberofPasting2(totalnumberofsheet2);
+            const facevalue1 = pastingRows.reduce((sum, item) => {
+                if (item.stampValue >= 50) {
+                    return parseInt(sum) + parseInt(item.totalFaceValue);
+                }
+                return sum;
+            }, 0);
+            setPastingFaceValue1(facevalue1);
+            const facevalue2 = pastingRows.reduce((sum, item) => {
+                if (item.stampValue < 50) {
+                    return parseInt(sum) + parseInt(item.totalFaceValue);
+                }
+                return sum;
+            }, 0);
+            setPastingFacevalue2(facevalue2);
+        }
         calculatePastingTotal();
     }, [pastingRows]);
     //------------Rose---------------------------------
@@ -231,38 +224,38 @@ const StampShippingDetail = () => {
         setRoseRows(updatedData);
     }
     //      //calculate second table
-    const calculateRoseTotal = () => {
-        // Calculate the sum
-        const totalnumberofrose1 = roseRows.reduce((sum, item) => {
-            if (item.stampValue >= 50) {
-                return parseInt(sum) + parseInt(item.numberOfSheets);
-            }
-            return sum;
-        }, 0);
-        setTotalNumberofRose1(totalnumberofrose1);
-        const totalnumberofrose2 = roseRows.reduce((sum, item) => {
-            if (item.stampValue < 50) {
-                return parseInt(sum) + parseInt(item.numberOfSheets);
-            }
-            return sum;
-        }, 0);
-        setTotalNumberofRose2(totalnumberofrose2);
-        const rosefacevalue1 = roseRows.reduce((sum, item) => {
-            if (item.stampValue >= 50) {
-                return parseInt(sum) + parseInt(item.totalFaceValue);
-            }
-            return sum;
-        }, 0);
-        setRoseFaceValue1(rosefacevalue1);
-        const rosefacevalue2 = roseRows.reduce((sum, item) => {
-            if (item.stampValue < 50) {
-                return parseInt(sum) + parseInt(item.totalFaceValue);
-            }
-            return sum;
-        }, 0);
-        setRoseFacevalue2(rosefacevalue2);
-    }
     useEffect(() => {
+        const calculateRoseTotal = () => {
+            // Calculate the sum
+            const totalnumberofrose1 = roseRows.reduce((sum, item) => {
+                if (item.stampValue >= 50) {
+                    return parseInt(sum) + parseInt(item.numberOfSheets);
+                }
+                return sum;
+            }, 0);
+            setTotalNumberofRose1(totalnumberofrose1);
+            const totalnumberofrose2 = roseRows.reduce((sum, item) => {
+                if (item.stampValue < 50) {
+                    return parseInt(sum) + parseInt(item.numberOfSheets);
+                }
+                return sum;
+            }, 0);
+            setTotalNumberofRose2(totalnumberofrose2);
+            const rosefacevalue1 = roseRows.reduce((sum, item) => {
+                if (item.stampValue >= 50) {
+                    return parseInt(sum) + parseInt(item.totalFaceValue);
+                }
+                return sum;
+            }, 0);
+            setRoseFaceValue1(rosefacevalue1);
+            const rosefacevalue2 = roseRows.reduce((sum, item) => {
+                if (item.stampValue < 50) {
+                    return parseInt(sum) + parseInt(item.totalFaceValue);
+                }
+                return sum;
+            }, 0);
+            setRoseFacevalue2(rosefacevalue2);
+        }
         calculateRoseTotal();
     }, [roseRows]);
     //------------Pack---------------------------------
@@ -293,38 +286,38 @@ const StampShippingDetail = () => {
         // console.log('updated data',updatedData)
     }
     //calculate second table
-    const calculatePackTotal = () => {
-        // Calculate the sum
-        const totalnumberofpack1 = packRows.reduce((sum, item) => {
-            if (item.stampValue >= 50) {
-                return parseInt(sum) + parseInt(item.numberOfSheets);
-            }
-            return sum;
-        }, 0);
-        setTotalNumberofPack1(totalnumberofpack1);
-        const totalnumberofpack2 = packRows.reduce((sum, item) => {
-            if (item.stampValue < 50) {
-                return parseInt(sum) + parseInt(item.numberOfSheets);
-            }
-            return sum;
-        }, 0);
-        setTotalNumberofPack2(totalnumberofpack2);
-        const packfacevalue1 = packRows.reduce((sum, item) => {
-            if (item.stampValue >= 50) {
-                return parseInt(sum) + parseInt(item.totalFaceValue);
-            }
-            return sum;
-        }, 0);
-        setPackFaceValue1(packfacevalue1);
-        const packfacevalue2 = packRows.reduce((sum, item) => {
-            if (item.stampValue < 50) {
-                return parseInt(sum) + parseInt(item.totalFaceValue);
-            }
-            return sum;
-        }, 0);
-        setPackFacevalue2(packfacevalue2);
-    }
     useEffect(() => {
+        const calculatePackTotal = () => {
+            // Calculate the sum
+            const totalnumberofpack1 = packRows.reduce((sum, item) => {
+                if (item.stampValue >= 50) {
+                    return parseInt(sum) + parseInt(item.numberOfSheets);
+                }
+                return sum;
+            }, 0);
+            setTotalNumberofPack1(totalnumberofpack1);
+            const totalnumberofpack2 = packRows.reduce((sum, item) => {
+                if (item.stampValue < 50) {
+                    return parseInt(sum) + parseInt(item.numberOfSheets);
+                }
+                return sum;
+            }, 0);
+            setTotalNumberofPack2(totalnumberofpack2);
+            const packfacevalue1 = packRows.reduce((sum, item) => {
+                if (item.stampValue >= 50) {
+                    return parseInt(sum) + parseInt(item.totalFaceValue);
+                }
+                return sum;
+            }, 0);
+            setPackFaceValue1(packfacevalue1);
+            const packfacevalue2 = packRows.reduce((sum, item) => {
+                if (item.stampValue < 50) {
+                    return parseInt(sum) + parseInt(item.totalFaceValue);
+                }
+                return sum;
+            }, 0);
+            setPackFacevalue2(packfacevalue2);
+        }
         calculatePackTotal();
     }, [packRows]);
     //------------Card---------------------------------

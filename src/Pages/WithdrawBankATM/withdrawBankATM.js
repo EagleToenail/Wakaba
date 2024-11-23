@@ -156,7 +156,7 @@ export default function WithdrawalBankATM() {
   
       // // Clean up on unmount
       // return () => clearInterval(intervalId);
-    }, []);
+    }, [fetchMessages]);
     
     // send message and file to other user 
     const sendWithdrawalBankATMMessage = async () => {

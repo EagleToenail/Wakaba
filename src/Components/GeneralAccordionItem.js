@@ -12,7 +12,7 @@ const GeneralAccordionItem = ({ messageId, time, title, content, fileUrl, sender
   const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
   const [isOpen, setIsOpen] = useState(false);
 
-  const [receivedTime, setReceivedTime] = useState('');
+  // const [receivedTime, setReceivedTime] = useState('');
   const [senderName, setSenderName] = useState('');
 //   const [receiverName, setReceiverName] = useState('');
 
@@ -23,12 +23,8 @@ const GeneralAccordionItem = ({ messageId, time, title, content, fileUrl, sender
       if (user.id === parseInt(sender)) {
         setSenderName(user.username); // Assuming 'username' is a property in the message object
       }
-    //   if (user.id === parseInt(receiver)) {
-    //     setReceiverName(user.username); // Assuming 'username' is a property in the message object
-    //     // console.log('ReceiverName')
-    //   }
     });
-  }, []);
+  }, [users, sender]);
 
 
   const toggleAccordion = () => {

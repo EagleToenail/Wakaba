@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 // import Titlebar from '../../Components/Common/Titlebar';
 // import InputComponent from '../../Components/Common/InputComponent';
 import ButtonComponent from '../../Components/Common/ButtonComponent';
 import LabelComponent from '../../Components/Common/LabelComponent';
 import axios from 'axios';
 
-import { useDispatch,useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { setShippingData } from '../../redux/sales/actions';
 import { setClearData } from '../../redux/sales/actions';
 
@@ -250,7 +250,7 @@ const VendorAssementSheet = () => {
             const category = data[index].product_type_one;
             const otherData = data[index];
             console.log('payload and category',payload,category);
-            const response = await axios.post(`${wakabaBaseUrl}/vendor/updateestimate`, {id:id,category:category,payload:payload,otherData:otherData})
+            await axios.post(`${wakabaBaseUrl}/vendor/updateestimate`, {id:id,category:category,payload:payload,otherData:otherData})
             .then(response => {
                 const purchaseData = response.data;
                 const updatedData111 = purchaseData.map((data,Index) => ({

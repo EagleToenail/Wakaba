@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Link, useNavigate, useParams, useLocation } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 // import { Link } from 'react-router-dom';
 // import Titlebar from '../../Components/Common/Titlebar';
 import '../../Assets/css/showtable.css';
@@ -48,7 +48,7 @@ const CommemorativeCoinHistoryList = () => {
             .catch(error => {
                 console.error("There was an error fetching the customer data!", error);
             });
-    }, []);
+    }, [userStoreName]);
 
     const [coinHistory, setCoinHistory] = useState([]);
     //fetch sheet data from database

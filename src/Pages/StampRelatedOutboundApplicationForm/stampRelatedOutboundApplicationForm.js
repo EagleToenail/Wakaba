@@ -1,7 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Link, useNavigate, useParams, useLocation } from 'react-router-dom';
-// import { Link } from 'react-router-dom';
-// import Titlebar from '../../Components/Common/Titlebar';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import StampSheet from '../../Assets/img/stampsheet.png'
 import LetterPack from '../../Assets/img/letterpack.png'
 import StampRose from '../../Assets/img/stamprose.png'
@@ -15,7 +13,6 @@ import { useDispatch,useSelector} from 'react-redux';
 import { setClearData } from '../../redux/sales/actions';
 
 const StampRelatedOutventoryApplicationForm = () => {
-    // const title = 'タイトルタイトル';
     const navigate = useNavigate();
 
     const Table = {
@@ -1000,19 +997,19 @@ const StampRelatedOutventoryApplicationForm = () => {
     const currentDay = new Intl.DateTimeFormat('ja-JP', optionsDate).format(now).replace(/\//g, '-');
     const [totalNumberOfStamp, setTotalNumberOfStamp] = useState('');
     const [totalStampFaceValue, setTotalStampFaceValue] = useState('');
-    const calculateTotalResult =()=>{
-        setTotalNumberOfStamp(parseInt(totalNumberOfSheet1) + parseInt(totalNumberOfSheet2) 
-         +parseInt(totalNumberOfRose1) + parseInt(totalNumberOfRose2)
-         +parseInt(totalNumberOfPack1) + parseInt(totalNumberOfPack2)
-         +parseInt(totalNumberOfCard1) + parseInt(totalNumberOfCard2)
-        );
-        setTotalStampFaceValue(parseInt(totalFaceValue1) + parseInt(totalFaceValue2) 
-         +parseInt(totalRoseFaceValue1) + parseInt(totalRoseFaceValue2)
-         +parseInt(totalPackFaceValue1) + parseInt(totalPackFaceValue2)
-         +parseInt(totalCardFaceValue1) + parseInt(totalCardFaceValue2)
-        );
-    }
     useEffect(() => {
+        const calculateTotalResult =()=>{
+            setTotalNumberOfStamp(parseInt(totalNumberOfSheet1) + parseInt(totalNumberOfSheet2) 
+             +parseInt(totalNumberOfRose1) + parseInt(totalNumberOfRose2)
+             +parseInt(totalNumberOfPack1) + parseInt(totalNumberOfPack2)
+             +parseInt(totalNumberOfCard1) + parseInt(totalNumberOfCard2)
+            );
+            setTotalStampFaceValue(parseInt(totalFaceValue1) + parseInt(totalFaceValue2) 
+             +parseInt(totalRoseFaceValue1) + parseInt(totalRoseFaceValue2)
+             +parseInt(totalPackFaceValue1) + parseInt(totalPackFaceValue2)
+             +parseInt(totalCardFaceValue1) + parseInt(totalCardFaceValue2)
+            );
+        }
         calculateTotalResult();
     }, [totalNumberOfSheet1,totalNumberOfSheet2,totalNumberOfRose1,totalNumberOfRose2,totalNumberOfPack1,totalNumberOfPack2,totalNumberOfCard1,totalNumberOfCard2
         ,totalFaceValue1,totalFaceValue2,totalRoseFaceValue1,totalRoseFaceValue2,totalPackFaceValue1,totalPackFaceValue2,totalCardFaceValue1,totalCardFaceValue2

@@ -51,23 +51,23 @@ const StampRelatedPurchaseStatement = () => {
 
     const [customer, setCustomer] = useState({});
 
-    const fetchCustomerData = async (customerID) => {
-        if (!wakabaBaseUrl) {
-            throw new Error('API base URL is not defined');
-        }
-        if (customerID) {
-            await axios.get(`${wakabaBaseUrl}/customer/getCustomerById/${customerID}`)
-                .then(response => {
-                    setCustomer(response.data);
-                })
-                .catch(error => {
-                    console.error("There was an error fetching the customer data!", error);
-                });
-        }
-    }
     useEffect(() => {
+        const fetchCustomerData = async (customerID) => {
+            if (!wakabaBaseUrl) {
+                throw new Error('API base URL is not defined');
+            }
+            if (customerID) {
+                await axios.get(`${wakabaBaseUrl}/customer/getCustomerById/${customerID}`)
+                    .then(response => {
+                        setCustomer(response.data);
+                    })
+                    .catch(error => {
+                        console.error("There was an error fetching the customer data!", error);
+                    });
+            }
+        }
         fetchCustomerData(customerId);
-    }, [customerId]);
+    }, [customerId, wakabaBaseUrl]);
 
     const [userData, setUserData] = useState([]);
     useEffect(() => {
@@ -212,13 +212,6 @@ const StampRelatedPurchaseStatement = () => {
         totalFaceValue: '0',
         purchasePrice: '0'
     });
-    const handleSheetInputChange = (e) => {
-        const { name, value } = e.target;
-        setEditedSheetRow({ ...editedSheetRow, [name]: value });
-        if(name === 'numberOfSheets') {
-            calculateSheet(value);
-        }
-    };
 
     const handleSheetEditClick = (index) => {
         setEditSheetIndex(index);
@@ -226,7 +219,6 @@ const StampRelatedPurchaseStatement = () => {
     };
 
     const handleSheetSaveClick = async() => {
-        calculateSheetTotal();
         const updatedData = sheetRows.map((row, index) =>
             index === editSheetIndex ? { ...row, ...editedSheetRow } : row
         );
@@ -254,20 +246,6 @@ const StampRelatedPurchaseStatement = () => {
         }); // Reset editedRow state
     };
 
-    //calculate
-    const calculateSheet = (numberofsheets) => {
-        const { sheetValue } = editedSheetRow;
-        // console.log('shetValue',sheetValue)
-        if (sheetValue) {
-            const calculatedProduct = parseInt(sheetValue) * parseInt(numberofsheets);
-            setEditedSheetRow((prev) => ({ ...prev, totalFaceValue: calculatedProduct }));
-            const caluclatePruchase =  parseInt(parseInt(calculatedProduct) * (1 - (stampRate[0].percent)/100));
-            setEditedSheetRow((prev) => ({ ...prev, purchasePrice: caluclatePruchase }));
-            // console.log('multiply---------', calculatedProduct,caluclatePruchase)              
-        } else {
-            setNewSheetRow((prev) => ({ ...prev, sheetValue: '' }));
-        }
-    }
     //newcalculatesheet
     const calculateSheetNew = (index,data) => {
         if (index !== undefined) {
@@ -282,7 +260,8 @@ const StampRelatedPurchaseStatement = () => {
         }
     };
      //calculate second table
-     const calculateSheetTotal = ()=>{
+    useEffect(() => {
+        const calculateSheetTotal = ()=>{
             // Calculate the sum
             const totalnumberofsheet1 = sheetRows.reduce((sum, item) => {
                 if (item.stampValue >= 50) { 
@@ -328,7 +307,6 @@ const StampRelatedPurchaseStatement = () => {
             }, 0);
             setTotalPurchaseOfSheet2(purchaseprice2);
      }
-    useEffect(() => {
         calculateSheetTotal();
     }, [sheetRows]);
     //------------Rose---------------------------------
@@ -417,13 +395,6 @@ const StampRelatedPurchaseStatement = () => {
         totalFaceValue: '0',
         purchasePrice: '0'
     });
-    const handleRoseInputChange = (e) => {
-        const { name, value } = e.target;
-        setEditedRoseRow({ ...editedRoseRow, [name]: value });
-        if(name === 'numberOfSheets') {
-            calculateRose(value);
-        }
-    };
 
     const handleRoseEditClick = (index) => {
         setEditRoseIndex(index);
@@ -454,24 +425,6 @@ const StampRelatedPurchaseStatement = () => {
         }); // Reset editedRow state
     };
 
-    //delete one of tatalsaleSlipdata
-    // const handleRoseDeleteClick = (index) => {
-    //     setRoseRows(roseRows.filter((_, i) => i !== index));
-    // };
-    //calculate
-    const calculateRose = (numberofsheets) => {
-        const { stampValue } = editedRoseRow;
-        // console.log('shetValue',sheetValue)
-        if (stampValue) {
-            const calculatedProduct = parseInt(stampValue) * parseInt(numberofsheets);
-            setEditedRoseRow((prev) => ({ ...prev, totalFaceValue: calculatedProduct }));
-            const caluclatePruchase =  parseInt(parseInt(calculatedProduct) * (1 - parseInt(stampRate[2].percent)/100));
-            setEditedRoseRow((prev) => ({ ...prev, purchasePrice: caluclatePruchase }));
-            // console.log('multiply---------', calculatedProduct,caluclatePruchase)              
-        } else {
-            setNewRoseRow((prev) => ({ ...prev, stampValue: '' }));
-        }
-    }
     //calculateRoseNew
     const calculateRoseNew = (index,data) => {
         if (index !== undefined) {
@@ -486,7 +439,8 @@ const StampRelatedPurchaseStatement = () => {
         }
     };
        //calculate second table
-         const calculateRoseTotal = ()=>{
+    useEffect(() => {
+        const calculateRoseTotal = ()=>{
             // Calculate the sum
             const totalnumberofrose1 = roseRows.reduce((sum, item) => {
                 if (item.stampValue >= 50) { 
@@ -531,7 +485,6 @@ const StampRelatedPurchaseStatement = () => {
             }, 0);
             setTotalPurchaseOfRose2(rosepurchaseprice2);
      }
-    useEffect(() => {
         calculateRoseTotal();
     }, [roseRows]);
     //------------Pack---------------------------------
@@ -624,13 +577,6 @@ const StampRelatedPurchaseStatement = () => {
         totalFaceValue: '0',
         purchasePrice: '0'
     });
-    const handlePackInputChange = (e) => {
-        const { name, value } = e.target;
-        setEditedPackRow({ ...editedPackRow, [name]: value });
-        if(name === 'numberOfSheets') {
-            calculatePack(value);
-        }
-    };
 
     const handlePackEditClick = (index) => {
         setEditPackIndex(index);
@@ -662,25 +608,6 @@ const StampRelatedPurchaseStatement = () => {
             purchasePrice: '0'
         }); // Reset editedRow state
     };
-
-    //delete one of tatalsaleSlipdata
-    // const handlePackDeleteClick = (index) => {
-    //     setPackRows(packRows.filter((_, i) => i !== index));
-    // };
-    //calculate
-    const calculatePack = (numberofsheets) => {
-        const { stampValue } = editedPackRow;
-        // console.log('shetValue',sheetValue)
-        if (stampValue) {
-            const calculatedProduct = parseInt(stampValue) * parseInt(numberofsheets);
-            setEditedPackRow((prev) => ({ ...prev, totalFaceValue: calculatedProduct }));
-            const caluclatePruchase =  parseInt(parseInt(calculatedProduct) * (1 - parseInt(stampRate[2].percent)/100));
-            setEditedPackRow((prev) => ({ ...prev, purchasePrice: caluclatePruchase }));
-            // console.log('multiply---------', calculatedProduct,caluclatePruchase)              
-        } else {
-            setNewPackRow((prev) => ({ ...prev, stampValue: '' }));
-        }
-    }
     //calculatePackNew
     const calculatePackNew = (index,data) => {
         if (index !== undefined) {
@@ -695,7 +622,8 @@ const StampRelatedPurchaseStatement = () => {
         }
     };
     //calculate second table
-    const calculatePackTotal = ()=>{
+    useEffect(() => {
+        const calculatePackTotal = ()=>{
             // Calculate the sum
             const totalnumberofpack1 = packRows.reduce((sum, item) => {
                 if (item.stampValue >= 50) { 
@@ -740,7 +668,6 @@ const StampRelatedPurchaseStatement = () => {
             }, 0);
             setTotalPurchaseOfPack2(packpurchaseprice2);
      }
-    useEffect(() => {
         calculatePackTotal();
     }, [packRows]);
     //------------Card---------------------------------
@@ -777,7 +704,7 @@ const StampRelatedPurchaseStatement = () => {
         // console.log('updated data',updatedData)
     }
 
-    const [inputCardShow, setInputCardShow] = useState(false);
+    const inputCardShow = false;
     const [newCardRow, setNewCardRow] = useState({
         stampValue: '',
         numberOfSheets: '0',
@@ -829,13 +756,6 @@ const StampRelatedPurchaseStatement = () => {
         totalFaceValue: '0',
         purchasePrice: '0'
     });
-    const handleCardInputChange = (e) => {
-        const { name, value } = e.target;
-        setEditedCardRow({ ...editedCardRow, [name]: value });
-        if(name === 'numberOfSheets') {
-            calculateCard(value);
-        }
-    };
 
     const handleCardEditClick = (index) => {
         setEditCardIndex(index);
@@ -866,24 +786,6 @@ const StampRelatedPurchaseStatement = () => {
         }); // Reset editedRow state
     };
 
-    //delete one of tatalsaleSlipdata
-    // const handleCardDeleteClick = (index) => {
-    //     setCardRows(cardRows.filter((_, i) => i !== index));
-    // };
-    //calculate
-    const calculateCard = (numberofsheets) => {
-        const { stampValue } = editedCardRow;
-        // console.log('shetValue',sheetValue)
-        if (stampValue) {
-            const calculatedProduct = parseInt(stampValue) * parseInt(numberofsheets);
-            setEditedCardRow((prev) => ({ ...prev, totalFaceValue: calculatedProduct }));
-            const caluclatePruchase =  parseInt(parseInt(calculatedProduct) * (1 - parseInt(stampRate[3].percent)/100));
-            setEditedCardRow((prev) => ({ ...prev, purchasePrice: caluclatePruchase }));
-            // console.log('multiply---------', calculatedProduct,caluclatePruchase)              
-        } else {
-            setNewPackRow((prev) => ({ ...prev, stampValue: '' }));
-        }
-    }
     //calculateCardNew
     const calculateCardNew = (index,data) => {
         if (index !== undefined) {
@@ -899,7 +801,8 @@ const StampRelatedPurchaseStatement = () => {
     };
 
         //calculate second table
-         const calculateCardTotal = ()=>{
+        useEffect(() => {
+            const calculateCardTotal = ()=>{
                 // Calculate the sum
                 const totalnumberofcard1 = cardRows.reduce((sum, item) => {
                     if (item.stampValue >= 50) { 
@@ -944,31 +847,31 @@ const StampRelatedPurchaseStatement = () => {
                 }, 0);
                 setTotalPurchaseOfCard2(cardpurchaseprice2);
          }
-        useEffect(() => {
             calculateCardTotal();
         }, [cardRows]);
     //-------------------------Total Calculation------------------------------------
     const [totalNumberOfStamp, setTotalNumberOfStamp] = useState('');
     const [totalStampFaceValue, setTotalStampFaceValue] = useState('');
     const [totalStampPurchasePrice, setTotalStampPurchasePrice] = useState('');
-    const calculateTotalResult =()=>{
-        setTotalNumberOfStamp(parseInt(totalNumberOfSheet1) + parseInt(totalNumberOfSheet2) 
-         +parseInt(totalNumberOfRose1) + parseInt(totalNumberOfRose2)
-         +parseInt(totalNumberOfPack1) + parseInt(totalNumberOfPack2)
-         +parseInt(totalNumberOfCard1) + parseInt(totalNumberOfCard2)
-        );
-        setTotalStampFaceValue(parseInt(totalFaceValue1) + parseInt(totalFaceValue2) 
-         +parseInt(totalRoseFaceValue1) + parseInt(totalRoseFaceValue2)
-         +parseInt(totalPackFaceValue1) + parseInt(totalPackFaceValue2)
-         +parseInt(totalCardFaceValue1) + parseInt(totalCardFaceValue2)
-        );
-        setTotalStampPurchasePrice((parseInt(totalPurchaseOfSheet1) + parseInt(totalPurchaseOfSheet2) 
-         +parseInt(totalPurchaseOfRose1) + parseInt(totalPurchaseOfRose2)
-         +parseInt(totalPurchaseOfPack1) + parseInt(totalPurchaseOfPack2)
-         +parseInt(totalPurchaseOfCard1) + parseInt(totalPurchaseOfCard2))
-        );
-    }
+
     useEffect(() => {
+        const calculateTotalResult =()=>{
+            setTotalNumberOfStamp(parseInt(totalNumberOfSheet1) + parseInt(totalNumberOfSheet2) 
+             +parseInt(totalNumberOfRose1) + parseInt(totalNumberOfRose2)
+             +parseInt(totalNumberOfPack1) + parseInt(totalNumberOfPack2)
+             +parseInt(totalNumberOfCard1) + parseInt(totalNumberOfCard2)
+            );
+            setTotalStampFaceValue(parseInt(totalFaceValue1) + parseInt(totalFaceValue2) 
+             +parseInt(totalRoseFaceValue1) + parseInt(totalRoseFaceValue2)
+             +parseInt(totalPackFaceValue1) + parseInt(totalPackFaceValue2)
+             +parseInt(totalCardFaceValue1) + parseInt(totalCardFaceValue2)
+            );
+            setTotalStampPurchasePrice((parseInt(totalPurchaseOfSheet1) + parseInt(totalPurchaseOfSheet2) 
+             +parseInt(totalPurchaseOfRose1) + parseInt(totalPurchaseOfRose2)
+             +parseInt(totalPurchaseOfPack1) + parseInt(totalPurchaseOfPack2)
+             +parseInt(totalPurchaseOfCard1) + parseInt(totalPurchaseOfCard2))
+            );
+        }
         calculateTotalResult();
     }, [totalNumberOfSheet1,totalNumberOfSheet2,totalNumberOfRose1,totalNumberOfRose2,totalNumberOfPack1,totalNumberOfPack2,totalNumberOfCard1,totalNumberOfCard2
         ,totalFaceValue1,totalFaceValue2,totalRoseFaceValue1,totalRoseFaceValue2,totalPackFaceValue1,totalPackFaceValue2,totalCardFaceValue1,totalCardFaceValue2
