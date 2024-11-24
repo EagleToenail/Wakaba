@@ -645,7 +645,7 @@ const SalesSlip = () => {
                                 <div className='flex justify-center'>
                                     <div>
                                         <button onClick={handleSendCheckedValues}
-                                            className='w-max h-10 px-5 text-2xl font-bold rounded-md bg-[#9bd195] text-[white] hover:bg-[#524c3b] hover:text-white transition-all duration-300'>
+                                            className='w-max h-10 px-3 text-2xl font-bold rounded-md bg-[#9bd195] text-[white] hover:bg-[#524c3b] hover:text-white transition-all duration-300'>
                                             リサイクルショップへの買取依頼
                                         </button>
                                         <div className='flex justify-center'>
@@ -657,7 +657,7 @@ const SalesSlip = () => {
                             <div className='sales-slip-next-button2 flex justify-between w-max mt-2'>
                                 <div className=''>
                                     <div className='flex justify-center'>
-                                        <button onClick={sendToDisposalPermission} className='h-10  px-5 text-2xl font-bold rounded-md bg-[#9bd195] text-[white] hover:bg-[#524c3b] hover:text-white transition-all duration-300' >
+                                        <button onClick={sendToDisposalPermission} className='h-10  px-3 text-2xl font-bold rounded-md bg-[#9bd195] text-[white] hover:bg-[#524c3b] hover:text-white transition-all duration-300' >
                                             廃棄申請
                                         </button>
                                     </div>
@@ -665,7 +665,7 @@ const SalesSlip = () => {
                                         <LabelComponent value={'行を選択してください'} />
                                     </div>
                                 </div>
-                                <button onClick={showAll} className='h-10  px-5 text-2xl font-bold rounded-md bg-[transparent] text-[#424242] border border-[#424242] hover:bg-[#524c3b] hover:text-white transition-all duration-300' >
+                                <button onClick={showAll} className='h-10  px-3 text-2xl font-bold rounded-md bg-[transparent] text-[#424242] border border-[#424242] hover:bg-[#524c3b] hover:text-white transition-all duration-300' >
                                     すべて表示
                                 </button>
                             </div>
@@ -681,12 +681,12 @@ const SalesSlip = () => {
                                         ))}
                                     </select>
                                 </div>
-                                <ButtonComponent children={'売上表'} className='!px-5 text-2xl ml-5 whitespace-nowrap' style={{ backgroundColor: '#424242', height: '40px' }} />
+                                <ButtonComponent children={'売上表'} className='!px-3 text-2xl ml-5 whitespace-nowrap' style={{ backgroundColor: '#424242', height: '40px' }} />
                             </div>    
                             <div className='sales-slip-next-button2 flex mt-2 w-max gap-5' >
-                                <button className='h-10 px-5 text-2xl font-bold rounded-md border border-[#424242] bg-[transparent] text-[#424242] hover:bg-[#524c3b] hover:text-white transition-all duration-300 whitespace-nowrap' >
+                                <button className='h-10 px-3 text-2xl font-bold rounded-md border border-[#424242] bg-[transparent] text-[#424242] hover:bg-[#524c3b] hover:text-white transition-all duration-300 whitespace-nowrap' >
                                     <Link to='/vendorassessmentsheet'>業者査定シート</Link></button>
-                                <button onClick={handleYahooAuction} className='h-10 px-5 text-2xl font-bold rounded-md border border-[#424242] bg-[transparent] text-[#424242] hover:bg-[#524c3b] hover:text-white transition-all duration-300 whitespace-nowrap'
+                                <button onClick={handleYahooAuction} className='h-10 px-3 text-2xl font-bold rounded-md border border-[#424242] bg-[transparent] text-[#424242] hover:bg-[#524c3b] hover:text-white transition-all duration-300 whitespace-nowrap'
                                     style={{ backgroundColor: showYahoo === true ? '#424242' : 'transparent', color: showYahoo === true ? 'white' : 'black' }} >
                                     オークション
                                 </button>

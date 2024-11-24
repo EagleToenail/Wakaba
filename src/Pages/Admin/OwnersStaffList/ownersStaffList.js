@@ -56,7 +56,7 @@ const OwnersStaffList = () => {
                 const stafflist =[];
                  response.data.map((item) => {
                     console.log(item.User.role_flag)
-                    if (item.User.role_flag == 4) {
+                    if (item.User.role_flag == 1|| item.User.role_flag == 2 || item.User.role_flag == 3 || item.User.role_flag == 4) {
                         stafflist.push(item);
                     } else {
                       return null;

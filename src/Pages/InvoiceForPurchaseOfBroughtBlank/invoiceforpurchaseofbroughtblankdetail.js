@@ -92,6 +92,7 @@ const InvoicePurchaseOfBroughtBlankDetail = () => {
     const userStoreName = decodedToken.storename;
     const userId = decodedToken.userId;
     const username = decodedToken.fullname;
+    const role = decodedToken.role;
 
     const { invoiceid } = useParams();
     const [invoiceID, setInvoiceID] = useState('');
@@ -1481,7 +1482,17 @@ const InvoicePurchaseOfBroughtBlankDetail = () => {
                                     <ButtonComponent onClick={openItemsDocModal} children="紙書類撮影" className='w-max h-11 !px-5' style={{ border: '1px solid #e87a00', backgroundColor: 'transparent', color: '#e87a00' }} />
                                 </div>
                                 <div className='invoice-purchase-brought-buttons w-[50%] pl-10 flex justify-around'>
-                                    <ButtonComponent children="許可申請" onClick={handleApproveWaiting} className='w-max h-11 !px-5' style={{ color: 'white', }} />
+                                    {
+                                        role === '2' &&
+                                        totalSalesSlipData?.length > 0 &&
+                                        ['査定中', 'お預かり'].includes(totalSalesSlipData[0].product_status) && (
+                                            <ButtonComponent onClick={handleApproveWaiting}
+                                                children="許可申請"
+                                                className="w-max h-11 !px-5"
+                                                style={{ color: 'white' }}
+                                            />
+                                        )
+                                    }
                                     {
                                         totalSalesSlipData?.length > 0 &&
                                         !['査定中', 'お預かり', '承認待ち'].includes(totalSalesSlipData[0].product_status) && (

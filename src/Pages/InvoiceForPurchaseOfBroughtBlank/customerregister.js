@@ -9,7 +9,7 @@ import { toast } from 'react-toastify';
 const CustomerUpdateForPurchase = forwardRef((id, ref) => {
 
     const userStoreName = localStorage.getItem('storename');
-    console.log('id--------------',id);
+    // console.log('id--------------',id);
     const customerID = id.id;
     const [customer, setCustomer] = useState({
         id: '',
@@ -106,12 +106,12 @@ const CustomerUpdateForPurchase = forwardRef((id, ref) => {
     }
 
     const handleCreateCustomerSubmit = async () => {
-        console.log(id, 'id')
+        console.log(customerID, 'id')
         setIsCreateCustomerModalOpen(false);
 
         const formDataObj = new FormData();
-        if (id !== '0') {
-            formDataObj.append('id', id);
+        if (customerID !== '0') {
+            formDataObj.append('id', customerID);
         }
         formDataObj.append('shop', userStoreName);
         formDataObj.append('visit_type', customer.visit_type);
@@ -142,7 +142,7 @@ const CustomerUpdateForPurchase = forwardRef((id, ref) => {
             if (!wakabaBaseUrl) {
                 throw new Error('API base URL is not defined');
             }
-            if (id !== '0') {
+            if (customerID !== '0') {
                 const response = await axios.post(`${wakabaBaseUrl}/customer/updateCustomer`, formDataObj,
                     {
                         headers: {
