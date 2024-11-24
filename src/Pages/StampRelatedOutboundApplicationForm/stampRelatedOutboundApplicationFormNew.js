@@ -1,18 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import {useNavigate } from 'react-router-dom';
-// import { Link } from 'react-router-dom';
-// import Titlebar from '../../Components/Common/Titlebar';
-// import StampSheet from '../../Assets/img/stampsheet.png'
-// import LetterPack from '../../Assets/img/letterpack.png'
-// import StampRose from '../../Assets/img/stamprose.png'
-// import PostCard from '../../Assets/img/postcard.png'
 import LabelComponent from '../../Components/Common/LabelComponent';
 import InputComponent from '../../Components/Common/InputComponent';
 import DateAndTime from '../../Components/Common/PickData';
 import axios from 'axios';
 
-import { useDispatch,useSelector} from 'react-redux';
-import { setClearData } from '../../redux/sales/actions';
+import { useSelector} from 'react-redux';
 
 const StampRelatedOutventoryApplicationFormNew = () => {
     // const title = 'タイトルタイトル';
@@ -41,11 +34,7 @@ const StampRelatedOutventoryApplicationFormNew = () => {
     };
 
     const data = useSelector(state => state.data);
-    const stampData = data.data;
-    const dispatch = useDispatch();
-    const clearReduxData = () => {
-        dispatch(setClearData());
-    }
+    const stampData = data.outboundStamp;
     // console.log('receive data',stampData)
     //dynamic Table operation
     //------------Sheet---------------------------------
@@ -54,35 +43,34 @@ const StampRelatedOutventoryApplicationFormNew = () => {
     const [totalNumberOfSheet2, setTotalNumberofSheet2 ] = useState('');
     const [totalFaceValue1, setFaceValue1 ] = useState('');
     const [totalFaceValue2, setFacevalue2 ] = useState('');
-
-    //fetch sheet data
-    useEffect(() => {
-        const fetchData = async () => {
     
+    useEffect(() => {
+        const initialSheetData = (sheetData) => {
+            const idsArray = stampData.checkedValues1;
+            if (idsArray?.length > 0) {
+                const objData = sheetData.filter(obj => idsArray.includes(obj.id.toString()));
+                const updatedData = objData.map(data => ({
+                    ...data,
+                    numberOfSheets: 0,
+                    totalFaceValue: 0,
+                    purchasePrice: 0, // Replace with your desired value or logic
+                }));
+                setSheetRows(updatedData);
+            }
+        };
+
+        const fetchData = async () => {
             const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
             if (!wakabaBaseUrl) {
                 throw new Error('API base URL is not defined');
             }
             const response = await axios.get(`${wakabaBaseUrl}/stampsheet`);
             initialSheetData(response.data);
-            // console.log('setSheetRows',response.data);
         };
+
         fetchData();
-        }, []);
-    // clear other three data 
-    const initialSheetData =(sheetData) => {
-        const idsArray = stampData.checkedValues1;
-        if(idsArray?.length>0) {
-            const objData = sheetData.filter(obj => idsArray.includes(obj.id.toString()));
-            const updatedData = objData.map(data => ({
-                ...data,
-                numberOfSheets: 0,
-                totalFaceValue: 0,
-                purchasePrice: 0, // Replace with your desired value or logic
-            })); 
-            setSheetRows(updatedData);
-        }
-    }  
+    }, [stampData.checkedValues1]); // Add dependencies as needed
+
 
     const calculateSheet = (index,data) => {
         if (index !== undefined) {
@@ -97,39 +85,39 @@ const StampRelatedOutventoryApplicationFormNew = () => {
     };
 
     //calculate second table
-    const calculateSheetTotal = ()=>{
-        // Calculate the sum
-        const totalnumberofsheet1 = sheetRows.reduce((sum, item) => {
-            if (item.stampValue >= 50) { 
-                return parseInt(sum) + parseInt(item.numberOfSheets);
-            }
-            return sum; 
-        }, 0);
-        setTotalNumberofSheet1(totalnumberofsheet1);
-        const totalnumberofsheet2 = sheetRows.reduce((sum, item) => {
-            if (item.stampValue < 50) { 
-                return parseInt(sum) + parseInt(item.numberOfSheets);
-            }
-            return sum; 
-        }, 0);
-        // console.log('sum of totalnumberofsheet',totalnumberofsheet2)
-        setTotalNumberofSheet2(totalnumberofsheet2);
-        const facevalue1 = sheetRows.reduce((sum, item) => {
-            if (item.stampValue >= 50) { 
-                return parseInt(sum) + parseInt(item.totalFaceValue);
-            }
-            return sum; 
-        }, 0);
-        setFaceValue1(facevalue1);
-        const facevalue2 = sheetRows.reduce((sum, item) => {
-            if (item.stampValue < 50) { 
-                return parseInt(sum) + parseInt(item.totalFaceValue);
-            }
-            return sum; 
-        }, 0);
-        setFacevalue2(facevalue2);
-    }
     useEffect(() => {
+        const calculateSheetTotal = ()=>{
+            // Calculate the sum
+            const totalnumberofsheet1 = sheetRows.reduce((sum, item) => {
+                if (item.stampValue >= 50) { 
+                    return parseInt(sum) + parseInt(item.numberOfSheets);
+                }
+                return sum; 
+            }, 0);
+            setTotalNumberofSheet1(totalnumberofsheet1);
+            const totalnumberofsheet2 = sheetRows.reduce((sum, item) => {
+                if (item.stampValue < 50) { 
+                    return parseInt(sum) + parseInt(item.numberOfSheets);
+                }
+                return sum; 
+            }, 0);
+            // console.log('sum of totalnumberofsheet',totalnumberofsheet2)
+            setTotalNumberofSheet2(totalnumberofsheet2);
+            const facevalue1 = sheetRows.reduce((sum, item) => {
+                if (item.stampValue >= 50) { 
+                    return parseInt(sum) + parseInt(item.totalFaceValue);
+                }
+                return sum; 
+            }, 0);
+            setFaceValue1(facevalue1);
+            const facevalue2 = sheetRows.reduce((sum, item) => {
+                if (item.stampValue < 50) { 
+                    return parseInt(sum) + parseInt(item.totalFaceValue);
+                }
+                return sum; 
+            }, 0);
+            setFacevalue2(facevalue2);
+        }
         calculateSheetTotal();
     }, [sheetRows]);
     //------------pasting---------------------------------
@@ -139,35 +127,32 @@ const StampRelatedOutventoryApplicationFormNew = () => {
     const [totalPastingFaceValue1, setPastingFaceValue1 ] = useState('');
     const [totalPastingFaceValue2, setPastingFacevalue2 ] = useState('');
 
-    //fetch sheet data
     useEffect(() => {
+        const initialPastingData = (pastingData) => {
+            const idsArray = stampData.checkedValues2;
+            if (idsArray?.length > 0) {
+                const objData = pastingData.filter(obj => idsArray.includes(obj.id.toString()));
+                const updatedData = objData.map(data => ({
+                    ...data,
+                    numberOfMounts: 0,
+                    totalFaceValue: 0,
+                    purchasePrice: 0, // Replace with your desired value or logic
+                }));
+                setPastingRows(updatedData);
+            }
+        };
+
         const fetchData = async () => {
-    
             const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
             if (!wakabaBaseUrl) {
                 throw new Error('API base URL is not defined');
             }
             const response = await axios.get(`${wakabaBaseUrl}/stamppasting`);
             initialPastingData(response.data);
-            //console.log('setPastingRows',response.data);
         };
+
         fetchData();
-        }, []);
-    // clear other three data 
-    const initialPastingData =(pastingData) => {
-        const idsArray = stampData.checkedValues2;
-        if(idsArray?.length>0) {
-            const objData = pastingData.filter(obj => idsArray.includes(obj.id.toString()));
-            const updatedData = objData.map(data => ({
-                ...data,
-                numberOfMounts: 0,
-                totalFaceValue: 0,
-                purchasePrice: 0, // Replace with your desired value or logic
-            })); 
-            setPastingRows(updatedData);
-        }
-        // console.log('updated data',updatedData)
-    } 
+    }, [stampData.checkedValues2]); // Add dependencies as needed
 
     const calculatePasting = (index,data) => {
         if (index !== undefined) {
@@ -182,39 +167,39 @@ const StampRelatedOutventoryApplicationFormNew = () => {
     };
 
     //calculate second table
-    const calculatePastingTotal = ()=>{
-    // Calculate the sum
-        const totalnumberofsheet1 = pastingRows.reduce((sum, item) => {
-            if (item.stampValue >= 50) { 
-                return parseInt(sum) + parseInt(item.numberOfMounts);
-            }
-            return sum; 
-        }, 0);
-        setTotalNumberofPasting1(totalnumberofsheet1);
-        const totalnumberofsheet2 = pastingRows.reduce((sum, item) => {
-            if (item.stampValue < 50) { 
-                return parseInt(sum) + parseInt(item.numberOfMounts);
-            }
-            return sum; 
-        }, 0);
-        // console.log('sum of totalnumberofsheet',totalnumberofsheet2)
-        setTotalNumberofPasting2(totalnumberofsheet2);
-        const facevalue1 = pastingRows.reduce((sum, item) => {
-            if (item.stampValue >= 50) { 
-                return parseInt(sum) + parseInt(item.totalFaceValue);
-            }
-            return sum; 
-        }, 0);
-        setPastingFaceValue1(facevalue1);
-        const facevalue2 = pastingRows.reduce((sum, item) => {
-            if (item.stampValue < 50) { 
-                return parseInt(sum) + parseInt(item.totalFaceValue);
-            }
-            return sum; 
-        }, 0);
-        setPastingFacevalue2(facevalue2);
-    }
     useEffect(() => {
+        const calculatePastingTotal = ()=>{
+            // Calculate the sum
+                const totalnumberofsheet1 = pastingRows.reduce((sum, item) => {
+                    if (item.stampValue >= 50) { 
+                        return parseInt(sum) + parseInt(item.numberOfMounts);
+                    }
+                    return sum; 
+                }, 0);
+                setTotalNumberofPasting1(totalnumberofsheet1);
+                const totalnumberofsheet2 = pastingRows.reduce((sum, item) => {
+                    if (item.stampValue < 50) { 
+                        return parseInt(sum) + parseInt(item.numberOfMounts);
+                    }
+                    return sum; 
+                }, 0);
+                // console.log('sum of totalnumberofsheet',totalnumberofsheet2)
+                setTotalNumberofPasting2(totalnumberofsheet2);
+                const facevalue1 = pastingRows.reduce((sum, item) => {
+                    if (item.stampValue >= 50) { 
+                        return parseInt(sum) + parseInt(item.totalFaceValue);
+                    }
+                    return sum; 
+                }, 0);
+                setPastingFaceValue1(facevalue1);
+                const facevalue2 = pastingRows.reduce((sum, item) => {
+                    if (item.stampValue < 50) { 
+                        return parseInt(sum) + parseInt(item.totalFaceValue);
+                    }
+                    return sum; 
+                }, 0);
+                setPastingFacevalue2(facevalue2);
+            }
         calculatePastingTotal();
     }, [pastingRows]);
     //------------Rose---------------------------------
@@ -223,33 +208,33 @@ const StampRelatedOutventoryApplicationFormNew = () => {
     const [totalNumberOfRose2, setTotalNumberofRose2 ] = useState('');
     const [totalRoseFaceValue1, setRoseFaceValue1 ] = useState('');
     const [totalRoseFaceValue2, setRoseFacevalue2 ] = useState('');
-    //fetch Rose data
+
     useEffect(() => {
+        const initialRoseData = (roseData) => {
+            const idsArray = stampData.checkedValues3;
+            if (idsArray?.length > 0) {
+                const objData = roseData.filter(obj => idsArray.includes(obj.id.toString()));
+                const updatedData = objData.map(data => ({
+                    ...data,
+                    numberOfSheets: 0,
+                    totalFaceValue: 0,
+                    purchasePrice: 0, // Replace with your desired value or logic
+                }));
+                setRoseRows(updatedData);
+            }
+        };
+
         const fetchData = async () => {
-  
-          const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
-          if (!wakabaBaseUrl) {
-              throw new Error('API base URL is not defined');
-          }
+            const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+            if (!wakabaBaseUrl) {
+                throw new Error('API base URL is not defined');
+            }
             const response = await axios.get(`${wakabaBaseUrl}/stamprose`);
             initialRoseData(response.data);
         };
+
         fetchData();
-      }, []);
-    // clear other three data 
-    const initialRoseData =(roseData) => {
-        const idsArray = stampData.checkedValues3;
-        if(idsArray?.length>0) {
-            const objData = roseData.filter(obj => idsArray.includes(obj.id.toString()));
-            const updatedData = objData.map(data => ({
-                ...data,
-                numberOfSheets: 0,
-                totalFaceValue: 0,
-                purchasePrice: 0, // Replace with your desired value or logic
-            })); 
-            setRoseRows(updatedData);
-        }
-    }
+    }, [stampData.checkedValues3]); // Add dependencies as needed
 
     const calculateRose = (index,data) => {
         if (index !== undefined) {
@@ -263,38 +248,38 @@ const StampRelatedOutventoryApplicationFormNew = () => {
         }
     };
 
-    const calculateRoseTotal = ()=>{
-        // Calculate the sum
-        const totalnumberofrose1 = roseRows.reduce((sum, item) => {
-            if (item.stampValue >= 50) { 
-                return parseInt(sum) + parseInt(item.numberOfSheets);
-            }
-            return sum; 
-        }, 0);
-        setTotalNumberofRose1(totalnumberofrose1);
-        const totalnumberofrose2 = roseRows.reduce((sum, item) => {
-            if (item.stampValue < 50) { 
-                return parseInt(sum) + parseInt(item.numberOfSheets);
-            }
-            return sum; 
-        }, 0);
-        setTotalNumberofRose2(totalnumberofrose2);
-        const rosefacevalue1 = roseRows.reduce((sum, item) => {
-            if (item.stampValue >= 50) { 
-                return parseInt(sum) + parseInt(item.totalFaceValue);
-            }
-            return sum; 
-        }, 0);
-        setRoseFaceValue1(rosefacevalue1);
-        const rosefacevalue2 = roseRows.reduce((sum, item) => {
-            if (item.stampValue < 50) { 
-                return parseInt(sum) + parseInt(item.totalFaceValue);
-            }
-            return sum; 
-        }, 0);
-        setRoseFacevalue2(rosefacevalue2);
-    }
     useEffect(() => {
+        const calculateRoseTotal = ()=>{
+            // Calculate the sum
+            const totalnumberofrose1 = roseRows.reduce((sum, item) => {
+                if (item.stampValue >= 50) { 
+                    return parseInt(sum) + parseInt(item.numberOfSheets);
+                }
+                return sum; 
+            }, 0);
+            setTotalNumberofRose1(totalnumberofrose1);
+            const totalnumberofrose2 = roseRows.reduce((sum, item) => {
+                if (item.stampValue < 50) { 
+                    return parseInt(sum) + parseInt(item.numberOfSheets);
+                }
+                return sum; 
+            }, 0);
+            setTotalNumberofRose2(totalnumberofrose2);
+            const rosefacevalue1 = roseRows.reduce((sum, item) => {
+                if (item.stampValue >= 50) { 
+                    return parseInt(sum) + parseInt(item.totalFaceValue);
+                }
+                return sum; 
+            }, 0);
+            setRoseFaceValue1(rosefacevalue1);
+            const rosefacevalue2 = roseRows.reduce((sum, item) => {
+                if (item.stampValue < 50) { 
+                    return parseInt(sum) + parseInt(item.totalFaceValue);
+                }
+                return sum; 
+            }, 0);
+            setRoseFacevalue2(rosefacevalue2);
+        }
         calculateRoseTotal();
     }, [roseRows]);    
     //------------Pack---------------------------------
@@ -303,10 +288,22 @@ const StampRelatedOutventoryApplicationFormNew = () => {
     const [totalNumberOfPack2, setTotalNumberofPack2 ] = useState('');
     const [totalPackFaceValue1, setPackFaceValue1 ] = useState('');
     const [totalPackFaceValue2, setPackFacevalue2 ] = useState('');
-    //fetch Rose data
     useEffect(() => {
+        const initialPackData = (packData) => {
+            const idsArray = stampData.checkedValues4;
+            if (idsArray?.length > 0) {
+                const objData = packData.filter(obj => idsArray.includes(obj.id.toString()));
+                const updatedData = objData.map(data => ({
+                    ...data,
+                    numberOfSheets: 0,
+                    totalFaceValue: 0,
+                    purchasePrice: 0, // Replace with your desired value or logic
+                }));
+                setPackRows(updatedData);
+            }
+        };
+
         const fetchData = async () => {
-    
             const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
             if (!wakabaBaseUrl) {
                 throw new Error('API base URL is not defined');
@@ -314,22 +311,9 @@ const StampRelatedOutventoryApplicationFormNew = () => {
             const response = await axios.get(`${wakabaBaseUrl}/stamppack`);
             initialPackData(response.data);
         };
+
         fetchData();
-        }, []);
-    // clear other three data 
-    const initialPackData =(packData) => {
-        const idsArray = stampData.checkedValues4;
-        if(idsArray?.length>0) {
-            const objData = packData.filter(obj => idsArray.includes(obj.id.toString()));
-            const updatedData = objData.map(data => ({
-                ...data,
-                numberOfSheets: 0,
-                totalFaceValue: 0,
-                purchasePrice: 0, // Replace with your desired value or logic
-            })); 
-            setPackRows(updatedData);
-        }
-    }
+    }, [stampData.checkedValues4]); 
 
     const calculatePack = (index,data) => {
         if (index !== undefined) {
@@ -343,38 +327,38 @@ const StampRelatedOutventoryApplicationFormNew = () => {
         }
     };
     //calculate second table
-    const calculatePackTotal = ()=>{
-        // Calculate the sum
-        const totalnumberofpack1 = packRows.reduce((sum, item) => {
-            if (item.stampValue >= 50) { 
-                return parseInt(sum) + parseInt(item.numberOfSheets);
-            }
-            return sum; 
-        }, 0);
-        setTotalNumberofPack1(totalnumberofpack1);
-        const totalnumberofpack2 = packRows.reduce((sum, item) => {
-            if (item.stampValue < 50) { 
-                return parseInt(sum) + parseInt(item.numberOfSheets);
-            }
-            return sum; 
-        }, 0);
-        setTotalNumberofPack2(totalnumberofpack2);
-        const packfacevalue1 = packRows.reduce((sum, item) => {
-            if (item.stampValue >= 50) { 
-                return parseInt(sum) + parseInt(item.totalFaceValue);
-            }
-            return sum; 
-        }, 0);
-        setPackFaceValue1(packfacevalue1);
-        const packfacevalue2 = packRows.reduce((sum, item) => {
-            if (item.stampValue < 50) { 
-                return parseInt(sum) + parseInt(item.totalFaceValue);
-            }
-            return sum; 
-        }, 0);
-        setPackFacevalue2(packfacevalue2);
-    }
     useEffect(() => {
+        const calculatePackTotal = ()=>{
+            // Calculate the sum
+            const totalnumberofpack1 = packRows.reduce((sum, item) => {
+                if (item.stampValue >= 50) { 
+                    return parseInt(sum) + parseInt(item.numberOfSheets);
+                }
+                return sum; 
+            }, 0);
+            setTotalNumberofPack1(totalnumberofpack1);
+            const totalnumberofpack2 = packRows.reduce((sum, item) => {
+                if (item.stampValue < 50) { 
+                    return parseInt(sum) + parseInt(item.numberOfSheets);
+                }
+                return sum; 
+            }, 0);
+            setTotalNumberofPack2(totalnumberofpack2);
+            const packfacevalue1 = packRows.reduce((sum, item) => {
+                if (item.stampValue >= 50) { 
+                    return parseInt(sum) + parseInt(item.totalFaceValue);
+                }
+                return sum; 
+            }, 0);
+            setPackFaceValue1(packfacevalue1);
+            const packfacevalue2 = packRows.reduce((sum, item) => {
+                if (item.stampValue < 50) { 
+                    return parseInt(sum) + parseInt(item.totalFaceValue);
+                }
+                return sum; 
+            }, 0);
+            setPackFacevalue2(packfacevalue2);
+        }
         calculatePackTotal();
     }, [packRows]);
     //------------Card---------------------------------
@@ -383,34 +367,34 @@ const StampRelatedOutventoryApplicationFormNew = () => {
     const [totalNumberOfCard2, setTotalNumberofCard2 ] = useState('');
     const [totalCardFaceValue1, setCardFaceValue1 ] = useState('');
     const [totalCardFaceValue2, setCardFacevalue2 ] = useState('');
-    //fetch Rose data
-    useEffect(() => {
-    const fetchData = async () => {
-
-        const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
-        if (!wakabaBaseUrl) {
-            throw new Error('API base URL is not defined');
-        }
-        const response = await axios.get(`${wakabaBaseUrl}/stampcard`);
-        initialCardData(response.data);
-    };
-    fetchData();
-    }, []); 
 
     // clear other three data 
-    const initialCardData =(cardData) => {
-        const idsArray = stampData.checkedValues5;
-        if(idsArray?.length>0) {
-            const objData = cardData.filter(obj => idsArray.includes(obj.id.toString()));
-            const updatedData = objData.map(data => ({
-                ...data,
-                numberOfSheets: 0,
-                totalFaceValue: 0,
-                purchasePrice: 0, // Replace with your desired value or logic
-            })); 
-            setCardRows(updatedData);
-        }
-    }
+    useEffect(() => {
+        const initialCardData = (cardData) => {
+            const idsArray = stampData.checkedValues5;
+            if (idsArray?.length > 0) {
+                const objData = cardData.filter(obj => idsArray.includes(obj.id.toString()));
+                const updatedData = objData.map(data => ({
+                    ...data,
+                    numberOfSheets: 0,
+                    totalFaceValue: 0,
+                    purchasePrice: 0, // Replace with your desired value or logic
+                }));
+                setCardRows(updatedData);
+            }
+        };
+    
+        const fetchData = async () => {
+            const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
+            if (!wakabaBaseUrl) {
+                throw new Error('API base URL is not defined');
+            }
+            const response = await axios.get(`${wakabaBaseUrl}/stampcard`);
+            initialCardData(response.data);
+        };
+    
+        fetchData();
+    }, [stampData.checkedValues5]); // Add dependencies as needed
 
     const calculateCard = (index,data) => {
         if (index !== undefined) {
@@ -425,38 +409,38 @@ const StampRelatedOutventoryApplicationFormNew = () => {
     };
 
     //calculate second table
-    const calculateCardTotal = ()=>{
-        // Calculate the sum
-        const totalnumberofcard1 = cardRows.reduce((sum, item) => {
-            if (item.stampValue >= 50) { 
-                return parseInt(sum) + parseInt(item.numberOfSheets);
-            }
-            return sum; 
-        }, 0);
-        setTotalNumberofCard1(totalnumberofcard1);
-        const totalnumberofcard2 = cardRows.reduce((sum, item) => {
-            if (item.stampValue < 50) { 
-                return parseInt(sum) + parseInt(item.numberOfSheets);
-            }
-            return sum; 
-        }, 0);
-        setTotalNumberofCard2(totalnumberofcard2);
-        const cardfacevalue1 = cardRows.reduce((sum, item) => {
-            if (item.stampValue >= 50) { 
-                return parseInt(sum) + parseInt(item.totalFaceValue);
-            }
-            return sum; 
-        }, 0);
-        setCardFaceValue1(cardfacevalue1);
-        const cardfacevalue2 = cardRows.reduce((sum, item) => {
-            if (item.stampValue < 50) { 
-                return parseInt(sum) + parseInt(item.totalFaceValue);
-            }
-            return sum; 
-        }, 0);
-        setCardFacevalue2(cardfacevalue2);
-    }
     useEffect(() => {
+        const calculateCardTotal = ()=>{
+            // Calculate the sum
+            const totalnumberofcard1 = cardRows.reduce((sum, item) => {
+                if (item.stampValue >= 50) { 
+                    return parseInt(sum) + parseInt(item.numberOfSheets);
+                }
+                return sum; 
+            }, 0);
+            setTotalNumberofCard1(totalnumberofcard1);
+            const totalnumberofcard2 = cardRows.reduce((sum, item) => {
+                if (item.stampValue < 50) { 
+                    return parseInt(sum) + parseInt(item.numberOfSheets);
+                }
+                return sum; 
+            }, 0);
+            setTotalNumberofCard2(totalnumberofcard2);
+            const cardfacevalue1 = cardRows.reduce((sum, item) => {
+                if (item.stampValue >= 50) { 
+                    return parseInt(sum) + parseInt(item.totalFaceValue);
+                }
+                return sum; 
+            }, 0);
+            setCardFaceValue1(cardfacevalue1);
+            const cardfacevalue2 = cardRows.reduce((sum, item) => {
+                if (item.stampValue < 50) { 
+                    return parseInt(sum) + parseInt(item.totalFaceValue);
+                }
+                return sum; 
+            }, 0);
+            setCardFacevalue2(cardfacevalue2);
+        }
         calculateCardTotal();
     }, [cardRows]);
     //------------------------------------------------- 
@@ -467,7 +451,6 @@ const StampRelatedOutventoryApplicationFormNew = () => {
     }
     //got to the stamp inventory list page
     const gotoStampsInventoryList = ()=> {
-        clearReduxData();
         navigate('/stamprelatedinventorylist')
     }
     const [userData, setUserData] = useState([]);
@@ -496,24 +479,24 @@ const StampRelatedOutventoryApplicationFormNew = () => {
     const currentDay = new Intl.DateTimeFormat('ja-JP', optionsDate).format(now).replace(/\//g, '-');
     const [totalNumberOfStamp, setTotalNumberOfStamp] = useState('');
     const [totalStampFaceValue, setTotalStampFaceValue] = useState('');
-    const calculateTotalResult =()=>{
-        setTotalNumberOfStamp(parseInt(totalNumberOfSheet1 || 0) + parseInt(totalNumberOfSheet2 || 0) 
-         +parseInt(totalNumberOfPasting1 || 0) + parseInt(totalNumberOfPasting2 || 0)
-         +parseInt(totalNumberOfRose1 || 0) + parseInt(totalNumberOfRose2 || 0)
-         +parseInt(totalNumberOfPack1 || 0) + parseInt(totalNumberOfPack2 || 0)
-         +parseInt(totalNumberOfCard1 || 0) + parseInt(totalNumberOfCard2 || 0)
-        );
-        setTotalStampFaceValue(parseInt(totalFaceValue1 || 0) + parseInt(totalFaceValue2 || 0) 
-         +parseInt(totalPastingFaceValue1 || 0) + parseInt(totalPastingFaceValue2 || 0)
-         +parseInt(totalRoseFaceValue1 || 0) + parseInt(totalRoseFaceValue2 || 0)
-         +parseInt(totalPackFaceValue1 || 0) + parseInt(totalPackFaceValue2 || 0)
-         +parseInt(totalCardFaceValue1 || 0) + parseInt(totalCardFaceValue2 || 0)
-        );
-    }
     useEffect(() => {
+        const calculateTotalResult =()=>{
+            setTotalNumberOfStamp(parseInt(totalNumberOfSheet1 || 0) + parseInt(totalNumberOfSheet2 || 0) 
+             +parseInt(totalNumberOfPasting1 || 0) + parseInt(totalNumberOfPasting2 || 0)
+             +parseInt(totalNumberOfRose1 || 0) + parseInt(totalNumberOfRose2 || 0)
+             +parseInt(totalNumberOfPack1 || 0) + parseInt(totalNumberOfPack2 || 0)
+             +parseInt(totalNumberOfCard1 || 0) + parseInt(totalNumberOfCard2 || 0)
+            );
+            setTotalStampFaceValue(parseInt(totalFaceValue1 || 0) + parseInt(totalFaceValue2 || 0) 
+             +parseInt(totalPastingFaceValue1 || 0) + parseInt(totalPastingFaceValue2 || 0)
+             +parseInt(totalRoseFaceValue1 || 0) + parseInt(totalRoseFaceValue2 || 0)
+             +parseInt(totalPackFaceValue1 || 0) + parseInt(totalPackFaceValue2 || 0)
+             +parseInt(totalCardFaceValue1 || 0) + parseInt(totalCardFaceValue2 || 0)
+            );
+        }
         calculateTotalResult();
-    }, [totalNumberOfSheet1,totalNumberOfSheet2,totalNumberOfRose1,totalNumberOfRose2,totalNumberOfPack1,totalNumberOfPack2,totalNumberOfCard1,totalNumberOfCard2
-        ,totalFaceValue1,totalFaceValue2,totalRoseFaceValue1,totalRoseFaceValue2,totalPackFaceValue1,totalPackFaceValue2,totalCardFaceValue1,totalCardFaceValue2
+    }, [totalNumberOfSheet1,totalNumberOfSheet2,totalNumberOfPasting1,totalNumberOfPasting2,totalNumberOfRose1,totalNumberOfRose2,totalNumberOfPack1,totalNumberOfPack2,totalNumberOfCard1,totalNumberOfCard2
+        ,totalFaceValue1,totalFaceValue2,totalPastingFaceValue1,totalPastingFaceValue2,totalRoseFaceValue1,totalRoseFaceValue2,totalPackFaceValue1,totalPackFaceValue2,totalCardFaceValue1,totalCardFaceValue2
     ]);
     //---------------------- send data--------------------
     const sendStampsOutboundData = async() => {  
@@ -551,7 +534,6 @@ const StampRelatedOutventoryApplicationFormNew = () => {
             await axios.post(`${wakabaBaseUrl}/stampoutbound/create`, outboundData)
                 .then(response => {
                     // console.log('success',response.data)
-                     clearReduxData();
                     navigate('/stamprelatedinventorylist');
                 })
                 .catch(error => {

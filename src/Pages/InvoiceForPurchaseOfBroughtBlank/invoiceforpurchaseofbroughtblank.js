@@ -1,11 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-// import Titlebar from '../../Components/Common/Titlebar';
 import '../../Assets/css/showtable.css'
 import '../../Assets/css/firstTd.css'
 import InputComponent from '../../Components/Common/InputComponent';
 import ButtonComponent from '../../Components/Common/ButtonComponent';
-// import dateimage from '../../Assets/img/datepicker.png';
 import DateAndTime from '../../Components/Common/PickData';
 import axios from 'axios';
 import { jwtDecode } from 'jwt-decode';
@@ -16,7 +14,7 @@ import { toast } from 'react-toastify';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { setInvoiceData } from '../../redux/sales/actions';
-import { setClearData } from '../../redux/sales/actions';
+import { setInvoiceId } from '../../redux/sales/actions';
 import { setCustomerID } from '../../redux/sales/actions';
 
 import leftArrow from '../../Assets/img/right-arrow.png';
@@ -68,7 +66,10 @@ const InvoicePurchaseOfBroughtBlank = () => {
 
     const dispatch = useDispatch();
 
-    const updateData = (data) => {
+    const updateInvoiceId = (data) => {
+        dispatch(setInvoiceId(data));
+    };
+    const updateInvoiceData = (data) => {
         dispatch(setInvoiceData(data));
     };
     const sendCustomerId = (data) => {
@@ -76,10 +77,7 @@ const InvoicePurchaseOfBroughtBlank = () => {
     };
     //received data using redux
     const data = useSelector((state) => state.data);
-    const StampData = data.data;
-    const clearReduxData = () => {
-        dispatch(setClearData());
-    }
+    const StampData = data.stampData;
 
     const token = localStorage.getItem('token');
     const decodedToken = jwtDecode(token);
@@ -89,7 +87,6 @@ const InvoicePurchaseOfBroughtBlank = () => {
 
     // fetch registered product item
     useEffect(() => {
-        clearReduxData();
         const fetch = async () => {
             const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;
 
@@ -348,7 +345,7 @@ const InvoicePurchaseOfBroughtBlank = () => {
 
     //set redux totalsalesslipdata
     useEffect(() => {
-        updateData(invoiceID);
+        updateInvoiceId(invoiceID);
     }, [invoiceID]);
 
     const [editIndex, setEditIndex] = useState(-1);
@@ -965,10 +962,10 @@ const InvoicePurchaseOfBroughtBlank = () => {
 
     const customerID = childData;
     const sendPurchaseDataToReceipt = () => {
-        const numberOfInvoice = 1;
+        const numberOfInvoice = invoiceID;
         const purchaseData = { customerID, numberOfInvoice, totalSalesSlipData };
         // console.log('send purchase data',purchaseData,id);
-        updateData(purchaseData);
+        updateInvoiceData(purchaseData);
         navigate('/customerreceipt');
 
     }
@@ -985,7 +982,7 @@ const InvoicePurchaseOfBroughtBlank = () => {
             if (totalSalesSlipData.length !== 0 && totalSalesSlipData !== null) {
                 const purchaseData = { customerID, numberOfInvoice, totalSalesSlipData, StampData };
                 //console.log('send purchase data', purchaseData, customerID);
-                updateData(purchaseData);// to sign page using redux
+                updateInvoiceData(purchaseData);// to sign page using redux
                 navigate('/purchaseinvoiceforbroughtinitems');
             }
 

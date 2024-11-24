@@ -159,16 +159,17 @@ const StampRelatedPurchaseStatement = () => {
     };
     // multiply
     useEffect(() => {
-        // Calculate product when sheetValue and numberOfSides are both filled
+        // Destructure stampValue and numberOfSides from newSheetRow
         const { stampValue, numberOfSides } = newSheetRow;
+    
+        // Check if both values are present
         if (stampValue && numberOfSides) {
             const calculatedProduct = parseInt(stampValue) * parseInt(numberOfSides);
             setNewSheetRow((prev) => ({ ...prev, sheetValue: calculatedProduct }));
-            // console.log('multiply', calculatedProduct)
         } else {
             setNewSheetRow((prev) => ({ ...prev, sheetValue: '' }));
         }
-    }, [newSheetRow,newSheetRow.stampValue, newSheetRow.numberOfSides]);
+    }, [newSheetRow.stampValue, newSheetRow.numberOfSides]);
 
     // Add a new row to the table
     const handleAddSheetRow = async() => {

@@ -8,7 +8,6 @@ import axios from 'axios';
 
 import { useDispatch } from 'react-redux';
 import { setShippingData } from '../../redux/sales/actions';
-import { setClearData } from '../../redux/sales/actions';
 
 const VendorAssementSheet = () => {
     // const title = 'タイトルタイトル';
@@ -41,9 +40,6 @@ const VendorAssementSheet = () => {
     const updateData = (data) => {
         dispatch(setShippingData(data));
     };
-    const clearReduxData = () => {
-        dispatch(setClearData());
-    }
     //checked event
     const [checkedValues, setCheckedValues] = useState([]);
     // Handle checkbox change
@@ -56,7 +52,6 @@ const VendorAssementSheet = () => {
         );
     };
     const handleSendCheckedValues = () => {
-        clearReduxData();
         updateData(checkedValues);
         // console.log('checked values',checkedValues);
         navigate('/purchaserequestformforwholesaler');

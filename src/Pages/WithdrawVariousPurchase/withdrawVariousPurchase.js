@@ -16,7 +16,7 @@ export default function WithdrawVariousPurchase() {
     // const parts = pathname.split('/'); // Split the path by "/"
 
     const data = useSelector(state => state.data);
-    const totalData = data.data;//invoiceID
+    const totalData = data.invoiceId;//invoiceID
     console.log('totalData',totalData)
 
     const token = localStorage.getItem('token');

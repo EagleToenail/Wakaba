@@ -1,10 +1,7 @@
 import { React, useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import InputComponent from '../../../Components/Common/InputComponent';
-import axios from 'axios';
-// import { Link } from 'react-router-dom';
-// import Titlebar from '../../../Components/Common/Titlebar';
-import ButtonComponent from '../../../Components/Common/ButtonComponent';
+// import { useNavigate } from 'react-router-dom';
+// import InputComponent from '../../../Components/Common/InputComponent';
+// import axios from 'axios';
 import DateAndTime from '../../../Components/Common/PickData';
 import LineChart1 from '../../../Components/Chart/LineChart1';
 

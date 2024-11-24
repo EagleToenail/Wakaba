@@ -15,8 +15,8 @@ import ImageShowModal from '../../Components/Modal/ImageShowModal';
 import { toast } from 'react-toastify';
 
 import { useDispatch, useSelector } from 'react-redux';
+import { setInvoiceId } from '../../redux/sales/actions';
 import { setInvoiceData } from '../../redux/sales/actions';
-import { setClearData } from '../../redux/sales/actions';
 import { setCustomerID } from '../../redux/sales/actions';
 
 import leftArrow from '../../Assets/img/right-arrow.png';
@@ -70,7 +70,11 @@ const InvoicePurchaseOfBroughtBlankDetail = () => {
 
     const dispatch = useDispatch();
 
-    const updateData = (data) => {
+    const updateInvoiceId = (data) => {
+        dispatch(setInvoiceId(data));
+    };
+
+    const updateInvoiceData = (data) => {
         dispatch(setInvoiceData(data));
     };
     const sendCustomerId = (data) => {
@@ -221,7 +225,7 @@ const InvoicePurchaseOfBroughtBlankDetail = () => {
                 });
         }
         fetchInvoiceData();
-    }, [fetchCustomerData, invoiceid]);// eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [invoiceid]);// eslint-disable-next-line react-hooks/exhaustive-deps
 
     //fetch customer data
     const fetchCustomerData = async (customerId) => {
@@ -334,7 +338,7 @@ const InvoicePurchaseOfBroughtBlankDetail = () => {
 
     //set redux totalsalesslipdata
     useEffect(() => {
-        updateData(invoiceID);
+        updateInvoiceId(invoiceID);
     }, [invoiceID]);
 
     const [editIndex, setEditIndex] = useState(-1);
@@ -796,10 +800,10 @@ const InvoicePurchaseOfBroughtBlankDetail = () => {
 
     const customerID = childData;
     const sendPurchaseDataToReceipt = () => {
-        const numberOfInvoice = 1;
+        const numberOfInvoice = invoiceID;
         const purchaseData = { customerID, numberOfInvoice, totalSalesSlipData };
         // console.log('send purchase data',purchaseData,id);
-        updateData(purchaseData);
+        updateInvoiceData(purchaseData);
         navigate('/customerreceipt');
 
     }
@@ -815,7 +819,7 @@ const InvoicePurchaseOfBroughtBlankDetail = () => {
             if (totalSalesSlipData.length !== 0 && totalSalesSlipData !== null) {
                 const purchaseData = { customerID, numberOfInvoice, totalSalesSlipData, StampData };
                 //console.log('send purchase data', purchaseData, customerID);
-                updateData(purchaseData);// to sign page using redux
+                updateInvoiceData(purchaseData);// to sign page using redux
                 navigate('/purchaseinvoiceforbroughtinitems');
             }
 
@@ -1432,6 +1436,13 @@ const InvoicePurchaseOfBroughtBlankDetail = () => {
     const capacityValues = ['700', '750'];
     const percentValues = ['40%', '43%'];
     //---------------------------------------------------------------------------------------
+    const childRef = useRef();
+    const handleChildFunction = () => {
+        if (childRef.current) {
+            childRef.current.openCreateCustomerCheckModal(); // Call the child function
+        }
+    };
+
     return (<>
         {/* <Titlebar title={title} /> */}
         <div className="bg-[trasparent] font-[sans-serif] w-full">
@@ -1465,6 +1476,7 @@ const InvoicePurchaseOfBroughtBlankDetail = () => {
                                         <ButtonComponent children="預り証発行済" onClick={sendPurchaseDataToReceipt} className='w-max h-11 !px-5 bg-[transparent] !text-[#7fe374]' style={{ border: '1px solid #7fe374' }} />
                                         : <ButtonComponent children="預り証発行" onClick={sendPurchaseDataToReceipt} className='w-max h-11 !px-5 bg-[transparent] !text-[#e87a00]' style={{ border: '1px solid #e87a00' }} />
                                     }
+                                    <ButtonComponent onClick={handleChildFunction} children="作成する" className='w-max h-11 !px-5 bg-[transparent] !text-[#e87a00]' style={{ border: '1px solid #e87a00'}} />
                                     <ButtonComponent onClick={openItemsImageModal} children="全体撮影" className='w-max h-11 !px-5' style={{ border: '1px solid #e87a00', backgroundColor: 'transparent', color: '#e87a00' }} />
                                     <ButtonComponent onClick={openItemsDocModal} children="紙書類撮影" className='w-max h-11 !px-5' style={{ border: '1px solid #e87a00', backgroundColor: 'transparent', color: '#e87a00' }} />
                                 </div>
@@ -1516,7 +1528,7 @@ const InvoicePurchaseOfBroughtBlankDetail = () => {
                 <div className="w-full flex justify-center mt-2" >
                     <div className=" w-full pr-5">
                         {/* -------customer register--------- */}
-                        <CustomerRegister id={childData}/>
+                        <CustomerRegister id={childData} ref={childRef}/>
                     </div>
                 </div>
                 {/* textarea*/}

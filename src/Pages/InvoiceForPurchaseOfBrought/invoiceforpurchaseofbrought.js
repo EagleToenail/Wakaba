@@ -12,6 +12,7 @@ import axios from 'axios';
 import {jwtDecode} from 'jwt-decode';
 import { useDispatch, useSelector } from 'react-redux';
 import { setInvoiceData } from '../../redux/sales/actions';
+import { setInvoiceId } from '../../redux/sales/actions';
 // import { setClearData } from '../../redux/sales/actions';
 import { setCustomerID } from '../../redux/sales/actions';
 
@@ -41,7 +42,10 @@ const InvoicePurchaseOfBrought = () => {
     //send data using redux
     const dispatch = useDispatch();
 
-    const updateData = (data) => {
+    const updateInvoiceId = (data) => {
+        dispatch(setInvoiceId(data));
+    };
+    const updateInvoiceData = (data) => {
         dispatch(setInvoiceData(data));
     };
 
@@ -410,7 +414,7 @@ const InvoicePurchaseOfBrought = () => {
 
     //set redux invoiceID
     useEffect(() => {
-        updateData(invoiceID);
+        updateInvoiceId(invoiceID);
     }, [invoiceID]);
 
     const [editIndex, setEditIndex] = useState(-1);
@@ -1057,7 +1061,7 @@ const InvoicePurchaseOfBrought = () => {
         const numberOfInvoice = invoiceID;
         const purchaseData = { numberOfInvoice, totalSalesSlipData, customerID };
         // console.log('send purchase data',purchaseData,id);
-        updateData(purchaseData);
+        updateInvoiceData(purchaseData);
         navigate('/customerreceipt');
 
     }
@@ -1071,7 +1075,7 @@ const InvoicePurchaseOfBrought = () => {
                 itemsSave();
                 const purchaseData = { customerID, numberOfInvoice, totalSalesSlipData, stampData };
                 //console.log('send purchase data', purchaseData, id);
-                updateData(purchaseData);// to sign page using redux
+                updateInvoiceData(purchaseData);// to sign page using redux
                 navigate('/purchaseinvoiceforbroughtinitems');
             }
         }

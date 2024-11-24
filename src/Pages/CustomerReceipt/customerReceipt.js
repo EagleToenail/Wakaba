@@ -8,8 +8,7 @@ import DateAndTime from '../../Components/Common/PickData';
 import dateimage from '../../Assets/img/datepicker.png';
 import html2canvas from 'html2canvas';
 import { jsPDF } from 'jspdf';
-import {useDispatch, useSelector } from 'react-redux';
-import { setClearData } from '../../redux/sales/actions';
+import { useSelector } from 'react-redux';
 
 import ConfirmationModal from '../../Components/Modal/SuccessModal';
 
@@ -36,7 +35,7 @@ const CustomerReceipt = () => {
     };
     const navigate = useNavigate();
     const data = useSelector(state => state.data);
-    const purchaseData = data.data;
+    const purchaseData = data.customerId;
     const customerId = purchaseData.customerID;
     console.log('purchase data',purchaseData)
 
@@ -147,10 +146,6 @@ const CustomerReceipt = () => {
     }
     };
     //---------------------
-    const dispatch = useDispatch();
-    const clearReduxData = () => {
-        dispatch(setClearData());
-    }
     const clickConfirm = async() => {
         // handleSavePageAsPDF();
         try {

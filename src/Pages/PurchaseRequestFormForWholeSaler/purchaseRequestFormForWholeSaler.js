@@ -3,8 +3,7 @@ import { useNavigate} from 'react-router-dom';
 import axios from 'axios';
 import '../../Assets/css/showtable.css';
 import InputComponent from '../../Components/Common/InputComponent';
-import {useDispatch, useSelector } from 'react-redux';
-import { setClearData } from '../../redux/sales/actions';
+import { useSelector } from 'react-redux';
 import html2canvas from 'html2canvas';
 import { jsPDF } from 'jspdf';
 import ImageShowModal from '../../Components/Modal/ImageShowModal';
@@ -37,11 +36,6 @@ const PurchaseRequestFormForWholeSaler = () => {
     const data = useSelector(state => state.data);
     const salesDataIds = data.data;
     // console.log('salesDataIds',salesDataIds);
-
-    const dispatch = useDispatch();
-    const clearReduxData = () => {
-        dispatch(setClearData());
-    }
 
     //fetch data from master database
     const [wholeSalesPurchase, setWholeSalesPurchase] = useState([]);
@@ -264,7 +258,6 @@ const PurchaseRequestFormForWholeSaler = () => {
     };
     //------------------------------------------------------------------------------
     const sendShippingData = async() =>{
-        clearReduxData();
         console.log('wholeSalesPurchase',wholeSalesPurchase)
         handleSavePageAsPDF();
         const wakabaBaseUrl = process.env.REACT_APP_WAKABA_API_BASE_URL;

@@ -4,7 +4,6 @@ import axios from 'axios';
 import {jwtDecode} from 'jwt-decode';
 import { useDispatch } from 'react-redux';
 import { setShippingData } from '../../redux/sales/actions';
-import { setClearData } from '../../redux/sales/actions';
 
 import leftArrow from '../../Assets/img/right-arrow.png';
 import rightArrow from '../../Assets/img/left-arrow.png';
@@ -51,9 +50,6 @@ const VendorAssementSheet = () => {
     const updateData = (data) => {
         dispatch(setShippingData(data));
     };
-    const clearReduxData = () => {
-        dispatch(setClearData());
-    }
 
     const [sales, setSales] = useState([]);
     // Fetch sales data
@@ -118,7 +114,6 @@ const VendorAssementSheet = () => {
     };
     //send shipping data
     const handleSendCheckedValues = () => {
-        clearReduxData();
         updateData(checkedValues);
         // console.log('checked values',checkedValues);
         if (checkedValues && checkedValues.length !== 0) {

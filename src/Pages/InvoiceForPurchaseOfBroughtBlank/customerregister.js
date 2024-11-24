@@ -9,7 +9,8 @@ import { toast } from 'react-toastify';
 const CustomerUpdateForPurchase = forwardRef((id, ref) => {
 
     const userStoreName = localStorage.getItem('storename');
-
+    console.log('id--------------',id);
+    const customerID = id.id;
     const [customer, setCustomer] = useState({
         id: '',
         full_name: '',
@@ -41,8 +42,8 @@ const CustomerUpdateForPurchase = forwardRef((id, ref) => {
             if (!wakabaBaseUrl) {
                 throw new Error('API base URL is not defined');
             }
-            if (id !== '0') {
-                await axios.get(`${wakabaBaseUrl}/customer/getCustomerById/${id}`)
+            if (customerID !== '0') {
+                await axios.get(`${wakabaBaseUrl}/customer/getCustomerById/${customerID}`)
                     .then(response => {
                         // console.log("data", response.data)
                         setCustomer(response.data);
@@ -53,7 +54,7 @@ const CustomerUpdateForPurchase = forwardRef((id, ref) => {
             }
         }
         fetchCustomerData();
-    }, [id]);
+    }, [customerID]);
 
     // //file upload
     // const [avatarimageFile, setAvatarImageFile] = useState(null);

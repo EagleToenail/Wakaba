@@ -10,7 +10,7 @@ import {jwtDecode} from 'jwt-decode';
 import { toast } from 'react-toastify';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { setData } from '../../redux/sales/actions';
+import { setInvoiceData } from '../../redux/sales/actions';
 // import { setClearData } from '../../redux/sales/actions';
 // import { setCustomerID } from '../../redux/sales/actions';
 
@@ -47,14 +47,14 @@ const InvoicePurchaseOfDetail = () => {
     const dispatch = useDispatch();
 
     const updateData = (data) => {
-        dispatch(setData(data));
+        dispatch(setInvoiceData(data));
     };
     // const sendCustomerId = (data) => {
     //     dispatch(setCustomerID(data));
     // };
     //received data using redux
     const data = useSelector((state) => state.data);
-    const stampData = data.data;
+    const stampData = data.stampData;
     // const clearReduxData = () => {
     //     dispatch(setClearData());
     // }

@@ -8,8 +8,7 @@ import DateAndTime from '../../Components/Common/PickData';
 // import ButtonComponent from '../../Components/Common/ButtonComponent';
 // import LabelComponent from '../../Components/Common/LabelComponent';
 import InputComponent from '../../Components/Common/InputComponent';
-import { useDispatch, useSelector } from 'react-redux';
-import { setClearData } from '../../redux/sales/actions';
+import { useSelector } from 'react-redux';
 
 
 const PurchaseRequest = () => {
@@ -23,12 +22,6 @@ const PurchaseRequest = () => {
         alignItem: 'center'
     };
 
-    // const Th = {
-    //     border: '1px solid #70685a',
-    //     borderCollapse: 'collapse',
-    //     color: '#70685a',
-    //     fontSize: '15px'
-    // };
     const Td = {
         border: '1px solid #6e6e7c',
         borderCollapse: 'collapse',
@@ -38,16 +31,11 @@ const PurchaseRequest = () => {
 
     const data = useSelector(state => state.data);
     const shippingIds = data.data;
-    const dispatch = useDispatch();
-    const clearReduxData = () => {
-        dispatch(setClearData());
-    }
     const [rShopShippingIds, setRShopShippingIds] = useState({});
     useEffect(() => {
         const fetch = async () => {
             if (data.data !== 'Initial Data') {
                 setRShopShippingIds(shippingIds);
-                // clearReduxData();
             }
         }
         fetch();
@@ -106,7 +94,6 @@ const PurchaseRequest = () => {
             }
             const payload = rShopPurchase;
             if(rShopPurchase?.length>0) {
-                clearReduxData();
                 const ids = payload.map(obj => obj.id);
                 console.log('rShopPurchase', rShopPurchase, ids)
                 await axios.post(`${wakabaBaseUrl}/rshopshipping/confirm`, { ids: ids, payload: payload })

@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-// import { Link } from 'react-router-dom';
-// import Titlebar from '../../Components/Common/Titlebar';
 import StampSheet from '../../Assets/img/stampsheet.png'
 import LetterPack from '../../Assets/img/letterpack.png'
 import StampRose from '../../Assets/img/stamprose.png'

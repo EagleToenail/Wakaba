@@ -5,8 +5,7 @@ import '../../Assets/css/showtable.css';
 import '../../Assets/css/firstTd.css';
 import axios from 'axios';
 import ButtonComponent from '../../Components/Common/ButtonComponent';
-import { useDispatch, useSelector } from 'react-redux';
-import { setClearData } from '../../redux/sales/actions';
+import { useSelector } from 'react-redux';
 import SignatureCanvas from 'react-signature-canvas';
 import html2canvas from 'html2canvas';
 import { jsPDF } from 'jspdf';
@@ -33,22 +32,18 @@ const PurchaseInvoiceForBroughtInItems = () => {
     const navigate = useNavigate();
 
     const data = useSelector(state => state.data);
-    const purchaseData = data.data;
-    const dispatch = useDispatch();
-    const clearReduxData = () => {
-        dispatch(setClearData());
-    }
+    const purchaseData = data.invoiceData;
+    console.log('purchaseData',purchaseData,data)
     const [purchaseInformation, setPurchaseInformation] = useState({});
     useEffect(() => {
         const fetch = async () => {
-            if (data.data !== 'Initial Data') {
+            if (purchaseData !== '') {
                 setPurchaseInformation(purchaseData);
-                clearReduxData();
             }
         }
         fetch();
 
-    }, [data.data]);
+    }, [purchaseData]);
 
     // console.log('purchasedata---------',purchaseData);
     // if(data.data !== 'Initial Data') {

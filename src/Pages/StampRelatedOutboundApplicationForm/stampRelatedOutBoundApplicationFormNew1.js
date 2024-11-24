@@ -1,18 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import {useNavigate } from 'react-router-dom';
-// import { Link } from 'react-router-dom';
-// import Titlebar from '../../Components/Common/Titlebar';
-// import StampSheet from '../../Assets/img/stampsheet.png'
-// import LetterPack from '../../Assets/img/letterpack.png'
-// import StampRose from '../../Assets/img/stamprose.png'
-// import PostCard from '../../Assets/img/postcard.png'
 import LabelComponent from '../../Components/Common/LabelComponent';
 import InputComponent from '../../Components/Common/InputComponent';
 import DateAndTime from '../../Components/Common/PickData';
 import axios from 'axios';
-
-import { useDispatch,useSelector} from 'react-redux';
-import { setClearData } from '../../redux/sales/actions';
+import { useSelector} from 'react-redux';
 
 const StampRelatedOutventoryApplicationFormNew1 = () => {
     // const title = 'タイトルタイトル';
@@ -41,11 +33,7 @@ const StampRelatedOutventoryApplicationFormNew1 = () => {
     };
 
     const data = useSelector(state => state.data);
-    const stampData = data.data;
-    const dispatch = useDispatch();
-    const clearReduxData = () => {
-        dispatch(setClearData());
-    }
+    const stampData = data.outboundStamp;
     // console.log('receive data',stampData)
     //dynamic Table operation
     //------------Sheet---------------------------------
@@ -467,7 +455,6 @@ const StampRelatedOutventoryApplicationFormNew1 = () => {
     }
     //got to the stamp inventory list page
     const gotoStampsInventoryList = ()=> {
-        clearReduxData();
         navigate('/stamprelatedinventorylist')
     }
     const [userData, setUserData] = useState([]);
@@ -551,7 +538,6 @@ const StampRelatedOutventoryApplicationFormNew1 = () => {
             await axios.post(`${wakabaBaseUrl}/stampoutbound/create`, outboundData)
                 .then(response => {
                     // console.log('success',response.data)
-                     clearReduxData();
                     navigate('/stamprelatedinventorylist');
                 })
                 .catch(error => {
