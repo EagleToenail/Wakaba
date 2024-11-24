@@ -30,11 +30,11 @@ const PurchaseRequest = () => {
     };
 
     const data = useSelector(state => state.data);
-    const shippingIds = data.data;
+    const shippingIds = data.rshopShippingData;
     const [rShopShippingIds, setRShopShippingIds] = useState({});
     useEffect(() => {
         const fetch = async () => {
-            if (data.data !== 'Initial Data') {
+            if (shippingIds !== '') {
                 setRShopShippingIds(shippingIds);
             }
         }

@@ -9,7 +9,7 @@ import {useSelector } from 'react-redux';
 export default function TODOList() {
 
     const data = useSelector(state => state.data);
-    const shippingIds = data.data;
+    const shippingIds = data.rshopShippingData;
 
     // console.log('chatshippingIds',shippingIds)
 

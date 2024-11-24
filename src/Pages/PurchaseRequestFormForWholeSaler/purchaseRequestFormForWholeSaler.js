@@ -34,7 +34,7 @@ const PurchaseRequestFormForWholeSaler = () => {
     const navigate = useNavigate();
 
     const data = useSelector(state => state.data);
-    const salesDataIds = data.data;
+    const salesDataIds = data.shippingData;
     // console.log('salesDataIds',salesDataIds);
 
     //fetch data from master database

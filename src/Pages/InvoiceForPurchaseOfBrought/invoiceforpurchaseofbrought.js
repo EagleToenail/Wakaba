@@ -54,7 +54,7 @@ const InvoicePurchaseOfBrought = () => {
     };
     //received data using redux
     const data = useSelector((state) => state.data);
-    const stampData = data.data;
+    const stampData = data.stampData;
     // console.log('stampData',stampData);
     // const clearReduxData = () => {
     //     dispatch(setClearData());
